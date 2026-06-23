@@ -1,3 +1,5 @@
+using System.Linq;
+
 using NationalInstruments.SemiconductorTestLibrary.Common;
 
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
@@ -10,18 +12,24 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
     public static class Measurement
     {
         /// <summary>
-        /// Reads waveform data from the specified channel.
+        /// Reads waveform data from all channels in the bundle.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
         /// <param name="timeout">The maximum time to wait for the data.</param>
         /// <param name="recordLength">The number of samples to read.</param>
-        /// <returns>An array of waveforms containing the measurement data.</returns>
-        public static AnalogWaveformCollection<double>[] ReadWaveform(this ScopeSessionsBundle sessionsBundle, PrecisionTimeSpan timeout, long recordLength)
+        /// <returns>An array of waveforms, where each element corresponds to one channel in the bundle.</returns>
+        public static AnalogWaveform<double>[] ReadWaveform(this ScopeSessionsBundle sessionsBundle, PrecisionTimeSpan timeout, long recordLength)
         {
-            return sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo =>
-            {
-                return sessionInfo.Session.Channels[sessionInfo.AllChannelsString].Measurement.Read(timeout, recordLength, null);
-            });
+            return sessionsBundle
+                .DoAndReturnPerInstrumentPerChannelResults((sessionInfo, sitePinInfo) =>
+                {
+                    return sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString]
+                        .Measurement
+                        .Read(timeout, recordLength, null)
+                        .First();
+                })
+                .SelectMany(perSessionResults => perSessionResults)
+                .ToArray();
         }
 
         /// <summary>
@@ -30,13 +38,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
         /// <param name="timeout">The maximum time to wait for the data.</param>
         /// <param name="pointsToFetch">The number of points to fetch. Use -1 to fetch all available points.</param>
-        /// <returns>An array of waveforms containing the fetched data.</returns>
-        public static AnalogWaveformCollection<double>[] FetchWaveform(this ScopeSessionsBundle sessionsBundle, PrecisionTimeSpan timeout, int pointsToFetch)
+        /// <returns>An array of waveforms, where each element corresponds to one channel in the bundle.</returns>
+        public static AnalogWaveform<double>[] FetchWaveform(this ScopeSessionsBundle sessionsBundle, PrecisionTimeSpan timeout, int pointsToFetch)
         {
-            return sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo =>
+            return sessionsBundle.DoAndReturnPerInstrumentPerChannelResults((sessionInfo, sitePinInfo) =>
             {
-                return sessionInfo.Session.Channels[sessionInfo.AllChannelsString].Measurement.FetchDouble(timeout, pointsToFetch, null);
-            });
+                return sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString].Measurement.FetchDouble(timeout, pointsToFetch, null).First();
+            }).SelectMany(perSessionResults => perSessionResults)
+              .ToArray();
         }
     }
 }
