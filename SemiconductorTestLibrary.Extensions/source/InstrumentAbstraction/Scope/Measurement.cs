@@ -1,12 +1,7 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using NationalInstruments.SemiconductorTestLibrary.Common;
-
-using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
-using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
+using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope
 {
