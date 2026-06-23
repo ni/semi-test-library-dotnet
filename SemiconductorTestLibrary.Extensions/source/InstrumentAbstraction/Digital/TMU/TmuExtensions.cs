@@ -35,7 +35,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 {
                     SetDigitalHighZState(sessionInfo);
                     string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).Initiate();
+                    DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+                    tmu.Initiate();
                 }
             });
         }
@@ -58,7 +59,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
                     string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).Enabled = true;
+                    DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+                    tmu.Enabled = true;
                 }
             });
         }
@@ -82,7 +84,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
                     string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).Enabled = false;
+                    DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+                    tmu.Enabled = false;
                 }
             });
         }
@@ -105,7 +108,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
                     string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).Abort();
+                    DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+                    tmu.Abort();
                 }
             });
         }
@@ -241,7 +245,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
                     string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    return GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).FetchAveragedMeasurement(timeoutInSeconds);
+                    DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+                    return tmu.FetchAveragedMeasurement(timeoutInSeconds);
                 }
                 return double.NaN;
             });
@@ -262,7 +267,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
                     string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).Start.Source = sitePinInfo.IndividualChannelString;
+                    DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+                    tmu.Start.Source = sitePinInfo.IndividualChannelString;
                 }
             });
         }
@@ -284,7 +290,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
                     string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).Stop.Source = sitePinInfo.IndividualChannelString;
+                    DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+                    tmu.Stop.Source = sitePinInfo.IndividualChannelString;
                 }
             });
         }
@@ -307,7 +314,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
                     string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).Start.SourceEvent = sourceEvent;
+                    DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+                    tmu.Start.SourceEvent = sourceEvent;
                 }
             });
         }
@@ -330,7 +338,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
                     string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).Stop.SourceEvent = sourceEvent;
+                    DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+                    tmu.Stop.SourceEvent = sourceEvent;
                 }
             });
         }
@@ -353,7 +362,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
                     string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).Start.SourcePolarity = polarity;
+                    DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+                    tmu.Start.SourcePolarity = polarity;
                 }
             });
         }
@@ -376,7 +386,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
                     string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).Stop.SourcePolarity = polarity;
+                    DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+                    tmu.Stop.SourcePolarity = polarity;
                 }
             });
         }
@@ -399,7 +410,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
                     string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).ArmType = armType;
+                    DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+                    tmu.ArmType = armType;
                 }
             });
         }
@@ -422,7 +434,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
                     string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).EdgeArm.Source = sitePinInfo.IndividualChannelString;
+                    DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+                    tmu.EdgeArm.Source = sitePinInfo.IndividualChannelString;
                 }
             });
         }
@@ -446,7 +459,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
                     string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).EdgeArm.SourceEvent = sourceEvent;
+                    DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+                    tmu.EdgeArm.SourceEvent = sourceEvent;
                 }
             });
         }
@@ -470,7 +484,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
                     string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).EdgeArm.SourcePolarity = polarity;
+                    DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+                    tmu.EdgeArm.SourcePolarity = polarity;
                 }
             });
         }
@@ -493,7 +508,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
                     string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).SamplesToAcquire = samplesToAcquire;
+                    DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+                    tmu.SamplesToAcquire = samplesToAcquire;
                 }
             });
         }
@@ -517,7 +533,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
                     string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext).SampleTimeout = timeoutInSeconds;
+                    DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+                    tmu.SampleTimeout = timeoutInSeconds;
                 }
             });
         }
