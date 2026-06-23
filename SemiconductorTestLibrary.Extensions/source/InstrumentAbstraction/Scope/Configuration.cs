@@ -16,7 +16,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
         /// <param name="settings">The channel settings object.</param>
-        public static void ConfigureChannel(this ScopeSessionsBundle sessionsBundle, ScopeChannelSettings settings)
+        public static void ConfigureChannel(this ScopeSessionsBundle sessionsBundle, ChannelSettings settings)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -24,8 +24,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
             });
         }
 
-        /// <inheritdoc cref="ConfigureChannel(ScopeSessionsBundle, ScopeChannelSettings)"/>
-        public static void ConfigureChannel(this ScopeSessionsBundle sessionsBundle, SiteData<ScopeChannelSettings> settings)
+        /// <inheritdoc cref="ConfigureChannel(ScopeSessionsBundle, ChannelSettings)"/>
+        public static void ConfigureChannel(this ScopeSessionsBundle sessionsBundle, SiteData<ChannelSettings> settings)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -33,8 +33,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
             });
         }
 
-        /// <inheritdoc cref="ConfigureChannel(ScopeSessionsBundle, ScopeChannelSettings)"/>
-        public static void ConfigureChannelSettings(this ScopeSessionsBundle sessionsBundle, PinSiteData<ScopeChannelSettings> settings)
+        /// <inheritdoc cref="ConfigureChannel(ScopeSessionsBundle, ChannelSettings)"/>
+        public static void ConfigureChannelSettings(this ScopeSessionsBundle sessionsBundle, PinSiteData<ChannelSettings> settings)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -73,7 +73,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
             });
         }
 
-        internal static void ConfigureChannel(this ScopeSessionInformation sessionInfo, ScopeChannelSettings settings, SitePinInfo sitePinInfo)
+        internal static void ConfigureChannel(this ScopeSessionInformation sessionInfo, ChannelSettings settings, SitePinInfo sitePinInfo)
         {
             var channel = sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString];
             channel.Configure(settings.Range, settings.Offset, (ScopeVerticalCoupling)settings.Coupling, settings.ProbeAttenuation, settings.Enabled);

@@ -12,11 +12,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
         /// <param name="timingSettings">The timing settings for the acquisition.</param>
-        public static void ConfigureTiming(this ScopeSessionsBundle sessionsBundle, ScopeTimingSettings timingSettings)
+        public static void ConfigureTiming(this ScopeSessionsBundle sessionsBundle, TimingSettings timingSettings)
         {
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Session.Timing.ConfigureTiming(timingSettings.SampleRateMin.Value, timingSettings.RecordLengthMin.Value, timingSettings.ReferencePosition.Value, timingSettings.NumberOfRecords.Value, timingSettings.EnforceRealTime.Value);
+                sessionInfo.Session.Timing.ConfigureTiming(timingSettings.SampleRateMin, timingSettings.RecordLengthMin, timingSettings.ReferencePosition, timingSettings.NumberOfRecords, timingSettings.EnforceRealTime);
             });
         }
     }

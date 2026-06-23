@@ -13,7 +13,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
         /// <param name="triggerSettings">The trigger settings.</param>
-        public static void ConfigureEdgeTrigger(this ScopeSessionsBundle sessionsBundle, ScopeTriggerSettings triggerSettings)
+        public static void ConfigureEdgeTrigger(this ScopeSessionsBundle sessionsBundle, TriggerSettings triggerSettings)
         {
             sessionsBundle.Do(sessionInfo =>
             {
@@ -26,7 +26,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
         /// <param name="triggerSettings">The trigger settings.</param>
-        public static void ConfigureTriggerHysteresis(this ScopeSessionsBundle sessionsBundle, ScopeTriggerSettings triggerSettings)
+        public static void ConfigureTriggerHysteresis(this ScopeSessionsBundle sessionsBundle, TriggerSettings triggerSettings)
         {
             sessionsBundle.Do(sessionInfo =>
             {
@@ -51,7 +51,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
         /// <param name="triggerSettings">The trigger settings.</param>
-        public static void ConfigureTriggerDigital(this ScopeSessionsBundle sessionsBundle, ScopeTriggerSettings triggerSettings)
+        public static void ConfigureTriggerDigital(this ScopeSessionsBundle sessionsBundle, TriggerSettings triggerSettings)
         {
             sessionsBundle.Do(sessionInfo =>
             {
@@ -64,7 +64,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
         /// <param name="triggerSettings">The trigger settings.</param>
-        public static void ConfigureTriggerWindow(this ScopeSessionsBundle sessionsBundle, ScopeTriggerSettings triggerSettings)
+        public static void ConfigureTriggerWindow(this ScopeSessionsBundle sessionsBundle, TriggerSettings triggerSettings)
         {
             sessionsBundle.Do(sessionInfo =>
             {
