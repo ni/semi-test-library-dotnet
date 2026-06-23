@@ -19,7 +19,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class ResourceStrings {
@@ -61,7 +61,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number of points must be greater than one..
+        ///   Looks up a localized string similar to Number of points must be greater than one. .
         /// </summary>
         internal static string CreateRamp_InvalidNumberOfPoints {
             get {
@@ -124,16 +124,16 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Inconsistent advanced sequence properties. The following properties must be specified or omitted for all steps in the sequence: {0}.
+        ///   Looks up a localized string similar to Inconsistent advanced sequence properties. The following properties must be either specified or omitted for all steps in the sequence: {0}.
         /// </summary>
         internal static string DCPower_InconsistentAdvancedSequenceProperties {
             get {
                 return ResourceManager.GetString("DCPower_InconsistentAdvancedSequenceProperties", resourceCulture);
             }
         }
-        
+
         /// <summary>
-        ///   Looks up a localized string similar to The channelOutput contains more than one channel ({0}). This method overload only supports single-channel operation when a valid SitePinInfo object is passed..
+        ///   Looks up a localized string similar to The channelOutput contains more than one channel &quot;{0}&quot;. This method overload only supports single channel operation when a valid SitePinInfo object is passed.&quot;.
         /// </summary>
         internal static string DCPower_MultipleChannelOutputsDetected {
             get {
