@@ -19,8 +19,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
     [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
     public sealed class TmuExtensionsTests : IDisposable
     {
-        private const string PinMapFileName = @"Mixed Signal Tests.pinmap";
-        private const string DigitalProjectFileName = @"Mixed Signal Tests.digiproj";
+        private const string PinMapFileName = @"NIDigitalTMUTest.pinmap";
+        private const string DigitalProjectFileName = @"NIDigitalTMUTest.digiproj";
         private ISemiconductorModuleContext _tsmContext = CreateTSMContext(PinMapFileName, DigitalProjectFileName);
 
         public TSMSessionManager InitializeSessionsAndCreateSessionManager()
