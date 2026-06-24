@@ -2,6 +2,7 @@
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU;
+using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.InitializeAndClose;
@@ -14,9 +15,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
     /// These tests require TMU to be configured in NIDigital hardware.
     /// </summary>
     [Collection("NonParallelizable")]
+    [Trait(nameof(Feature), nameof(Feature.TMU))]
+    [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
     public sealed class TmuExtensionsTests : IDisposable
     {
-        private const string PinMapFileName = @"NIDigitalTestPinmap.pinmap";
+        private const string PinMapFileName = @"NIDigitalTMUTest.pinmap";
         private const string DigitalProjectFileName = @"NIDigitalTMUTest.digiproj";
         private ISemiconductorModuleContext _tsmContext = CreateTSMContext(PinMapFileName, DigitalProjectFileName);
 
