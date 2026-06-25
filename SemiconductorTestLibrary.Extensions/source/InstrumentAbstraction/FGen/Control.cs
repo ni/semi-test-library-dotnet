@@ -1,4 +1,5 @@
-﻿using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
+﻿using NationalInstruments.SemiconductorTestLibrary.Common;
+using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGen
@@ -13,7 +14,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
         /// </summary>
         /// <param name="sessionsBundle">The FGen sessionsBundle.</param>
         public static void Commit(this FgenSessionsBundle sessionsBundle)
-        { }
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                // Enable only those channels associated with the FGen Session.
+                var associatedChannels = sessionInfo.AllChannelsString;
+                sessionInfo.ConfigureChannels(associatedChannels);
+
+                sessionInfo.Session.Commit();
+            });
+        }
 
         /// <summary>
         /// Initiate.
