@@ -17,7 +17,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         {
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Session.Trigger.EdgeTrigger.Configure(triggerSettings.TriggerSource, triggerSettings.TriggerLevel.Value, (ScopeTriggerSlope)triggerSettings.TriggerSlope.Value, (ScopeTriggerCoupling)triggerSettings.TriggerCoupling.Value, triggerSettings.HoldOff.Value, triggerSettings.Delay.Value);
+                sessionInfo.Session.Trigger.EdgeTrigger.Configure(triggerSettings.TriggerSource, triggerSettings.TriggerLevel, triggerSettings.TriggerSlope, triggerSettings.TriggerCoupling, triggerSettings.HoldOff, triggerSettings.Delay);
             });
         }
 
@@ -30,7 +30,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         {
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Session.Trigger.ConfigureTriggerHysteresis(triggerSettings.TriggerSource, triggerSettings.TriggerLevel.Value, triggerSettings.TriggerHysteresis.Value, (ScopeTriggerSlope)triggerSettings.TriggerSlope.Value, (ScopeTriggerCoupling)triggerSettings.TriggerCoupling.Value, triggerSettings.HoldOff.Value, triggerSettings.Delay.Value);
+                sessionInfo.Session.Trigger.ConfigureTriggerHysteresis(triggerSettings.TriggerSource, triggerSettings.TriggerLevel, triggerSettings.TriggerHysteresis, triggerSettings.TriggerSlope, triggerSettings.TriggerCoupling, triggerSettings.HoldOff, triggerSettings.Delay);
             });
         }
 
@@ -55,7 +55,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         {
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Session.Trigger.ConfigureTriggerDigital(triggerSettings.TriggerSource, (ScopeTriggerSlope)triggerSettings.TriggerSlope.Value, triggerSettings.HoldOff.Value, triggerSettings.Delay.Value);
+                sessionInfo.Session.Trigger.ConfigureTriggerDigital(triggerSettings.TriggerSource, triggerSettings.TriggerSlope, triggerSettings.HoldOff, triggerSettings.Delay);
             });
         }
 
@@ -68,7 +68,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         {
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Session.Trigger.ConfigureTriggerWindow(triggerSettings.TriggerSource, triggerSettings.TriggerLevel.Value, triggerSettings.TriggerHysteresis.Value, (ScopeWindowTriggerMode)triggerSettings.TriggerSlope.Value, (ScopeTriggerCoupling)triggerSettings.TriggerCoupling.Value, triggerSettings.HoldOff.Value, triggerSettings.Delay.Value);
+                sessionInfo.Session.Trigger.ConfigureTriggerWindow(triggerSettings.TriggerSource, triggerSettings.TriggerLevel, triggerSettings.TriggerHysteresis, triggerSettings.TriggerWindowMode, triggerSettings.TriggerCoupling, triggerSettings.HoldOff, triggerSettings.Delay);
             });
         }
     }
