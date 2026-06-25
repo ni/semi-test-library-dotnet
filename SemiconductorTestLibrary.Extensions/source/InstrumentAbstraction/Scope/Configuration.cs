@@ -12,33 +12,33 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
     public static class Configuration
     {
         /// <summary>
-        /// Configures the vertical settings of the specified channel.
+        /// Configures the vertical verticalSettings of the specified channel.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
-        /// <param name="settings">The channel settings object.</param>
-        public static void ConfigureChannel(this ScopeSessionsBundle sessionsBundle, ChannelSettings settings)
+        /// <param name="verticalSettings">The channel verticalSettings object.</param>
+        public static void ConfigureChannel(this ScopeSessionsBundle sessionsBundle, VerticalSettings verticalSettings)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.ConfigureChannel(settings, sitePinInfo);
+                sessionInfo.ConfigureChannel(verticalSettings, sitePinInfo);
             });
         }
 
-        /// <inheritdoc cref="ConfigureChannel(ScopeSessionsBundle, ChannelSettings)"/>
-        public static void ConfigureChannel(this ScopeSessionsBundle sessionsBundle, SiteData<ChannelSettings> settings)
+        /// <inheritdoc cref="ConfigureChannel(ScopeSessionsBundle, VerticalSettings)"/>
+        public static void ConfigureChannel(this ScopeSessionsBundle sessionsBundle, SiteData<VerticalSettings> verticalSettings)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.ConfigureChannel(settings.GetValue(sitePinInfo.SiteNumber), sitePinInfo);
+                sessionInfo.ConfigureChannel(verticalSettings.GetValue(sitePinInfo.SiteNumber), sitePinInfo);
             });
         }
 
-        /// <inheritdoc cref="ConfigureChannel(ScopeSessionsBundle, ChannelSettings)"/>
-        public static void ConfigureChannelSettings(this ScopeSessionsBundle sessionsBundle, PinSiteData<ChannelSettings> settings)
+        /// <inheritdoc cref="ConfigureChannel(ScopeSessionsBundle, VerticalSettings)"/>
+        public static void ConfigureChannelSettings(this ScopeSessionsBundle sessionsBundle, PinSiteData<VerticalSettings> verticalSettings)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.ConfigureChannel(settings.GetValue(sitePinInfo), sitePinInfo);
+                sessionInfo.ConfigureChannel(verticalSettings.GetValue(sitePinInfo), sitePinInfo);
             });
         }
 
@@ -46,47 +46,47 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// Configures the electrical characteristics of the specified channel.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
-        /// <param name="channelCharacteristics">The electrical characteristics of the channel.</param>
-        public static void ConfigureCharacteristics(this ScopeSessionsBundle sessionsBundle, ChannelCharacteristics channelCharacteristics)
+        /// <param name="electricalCharacteristics">The electrical characteristics of the channel.</param>
+        public static void ConfigureCharacteristics(this ScopeSessionsBundle sessionsBundle, ElectricalCharacteristics electricalCharacteristics)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.ConfigureCharacteristics(channelCharacteristics, sitePinInfo);
+                sessionInfo.ConfigureCharacteristics(electricalCharacteristics, sitePinInfo);
             });
         }
 
-        /// <inheritdoc cref="ConfigureCharacteristics(ScopeSessionsBundle, ChannelCharacteristics)"/>
-        public static void ConfigureCharacteristics(this ScopeSessionsBundle sessionsBundle, SiteData<ChannelCharacteristics> channelCharacteristics)
+        /// <inheritdoc cref="ConfigureCharacteristics(ScopeSessionsBundle, ElectricalCharacteristics)"/>
+        public static void ConfigureCharacteristics(this ScopeSessionsBundle sessionsBundle, SiteData<ElectricalCharacteristics> electricalCharacteristics)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.ConfigureCharacteristics(channelCharacteristics.GetValue(sitePinInfo.SiteNumber), sitePinInfo);
+                sessionInfo.ConfigureCharacteristics(electricalCharacteristics.GetValue(sitePinInfo.SiteNumber), sitePinInfo);
             });
         }
 
-        /// <inheritdoc cref="ConfigureCharacteristics(ScopeSessionsBundle, ChannelCharacteristics)"/>
-        public static void ConfigureCharacteristics(this ScopeSessionsBundle sessionsBundle, PinSiteData<ChannelCharacteristics> channelCharacteristics)
+        /// <inheritdoc cref="ConfigureCharacteristics(ScopeSessionsBundle, ElectricalCharacteristics)"/>
+        public static void ConfigureCharacteristics(this ScopeSessionsBundle sessionsBundle, PinSiteData<ElectricalCharacteristics> electricalCharacteristics)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.ConfigureCharacteristics(channelCharacteristics.GetValue(sitePinInfo), sitePinInfo);
+                sessionInfo.ConfigureCharacteristics(electricalCharacteristics.GetValue(sitePinInfo), sitePinInfo);
             });
         }
 
-        internal static void ConfigureChannel(this ScopeSessionInformation sessionInfo, ChannelSettings settings, SitePinInfo sitePinInfo)
+        internal static void ConfigureChannel(this ScopeSessionInformation sessionInfo, VerticalSettings verticalSettings, SitePinInfo sitePinInfo)
         {
             var channel = sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString];
-            channel.Configure(settings.Range, settings.Offset, (ScopeVerticalCoupling)settings.Coupling, settings.ProbeAttenuation, settings.Enabled);
-            if (settings.EnableTimeInterleavedSampling.HasValue)
+            channel.Configure(verticalSettings.Range, verticalSettings.Offset, (ScopeVerticalCoupling)verticalSettings.Coupling, verticalSettings.ProbeAttenuation, verticalSettings.Enabled);
+            if (verticalSettings.EnableTimeInterleavedSampling.HasValue)
             {
-                channel.EnableTimeInterleavedSampling = settings.EnableTimeInterleavedSampling.Value;
+                channel.EnableTimeInterleavedSampling = verticalSettings.EnableTimeInterleavedSampling.Value;
             }
         }
 
-        internal static void ConfigureCharacteristics(this ScopeSessionInformation sessionInfo, ChannelCharacteristics channelCharacteristics, SitePinInfo sitePinInfo)
+        internal static void ConfigureCharacteristics(this ScopeSessionInformation sessionInfo, ElectricalCharacteristics electricalCharacteristics, SitePinInfo sitePinInfo)
         {
             var channel = sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString];
-            channel.ConfigureCharacteristics(channelCharacteristics.InputImpedance, channelCharacteristics.InputFrequencyMax);
+            channel.ConfigureCharacteristics(electricalCharacteristics.InputImpedance, electricalCharacteristics.InputFrequencyMax);
         }
     }
 }
