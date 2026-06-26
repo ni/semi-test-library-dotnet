@@ -26,6 +26,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         }
 
         /// <summary>
+        /// Gets the acquisition status for the oscilloscope.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
+        /// <returns>A per-session array of acquisition statuses.</returns>
+        public static ScopeAcquisitionStatus[] GetAcquisitionStatus(this ScopeSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo =>
+            {
+                return sessionInfo.Session.Measurement.Status();
+            });
+        }
+
+        /// <summary>
         /// Gets the configured record length for the acquisition.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
@@ -35,6 +48,32 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
             return sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo =>
             {
                 return sessionInfo.Session.Acquisition.RecordLength;
+            });
+        }
+
+        /// <summary>
+        /// Gets the configured resolution for the acquisition.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
+        /// <returns>A per-session array of resolutions.</returns>
+        public static long[] GetResolution(this ScopeSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo =>
+            {
+                return sessionInfo.Session.Acquisition.Resolution;
+            });
+        }
+
+        /// <summary>
+        /// Gets the configured sample mode for the acquisition.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
+        /// <returns>A per-session array of sample modes.</returns>
+        public static ScopeSampleMode[] GetSampleMode(this ScopeSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo =>
+            {
+                return sessionInfo.Session.Acquisition.SampleMode;
             });
         }
 
