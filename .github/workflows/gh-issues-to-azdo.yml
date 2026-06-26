@@ -9,13 +9,8 @@ on:
 env:
   AZDO_API_VERSION: "6.0"
   AZDO_BASE_URL: "https://dev.azure.com/${{ secrets.AZDO_ORG }}/${{ secrets.AZDO_PROJECT }}"
-  # Tag applied to every work item created by this workflow
-  WORK_ITEM_TAG: "CommentOnGitHub"
-  # Max characters of issue body shown in the Teams card (read by the Teams step's Python)
-  TEAMS_MAX_BODY_CHARS: "1500"
 
 jobs:
-  # JOB 1: New issue -> create AzDO work item, upload images, link, acknowledge, notify Teams.
   handle-new-issue:
     if: github.event_name == 'issues'
     runs-on: ubuntu-latest
@@ -34,7 +29,6 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            // Label -> work item type mapping (checked in order of priority)
             const LABEL_TO_WORK_ITEM_TYPE = { "bug": "Bug", "enhancement": "User Story" };
             const DEFAULT_WORK_ITEM_TYPE = "Customer Escalation";
             const labels = context.payload.issue.labels.map(label => label.name.toLowerCase());
@@ -54,17 +48,14 @@ jobs:
         run: |
           echo "Creating Azure DevOps work item for GitHub Issue: $ISSUE_TITLE"
 
-          # --- 2a. Clean the issue title (strip any "[AzDO Work Item: N]" suffix) ---
           CLEAN_TITLE=$(echo "$ISSUE_TITLE" | sed -E 's/\s*\[AzDO Work Item:[^\]]*\]//g' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//')
           echo "Cleaned title: $CLEAN_TITLE"
 
-          # --- 2b. Convert Markdown body to AzDO-safe HTML ---
           printf '%s' "$ISSUE_BODY" > /tmp/issue_body.md
 
           cat << 'PYEOF' > /tmp/convert_md.py
           import markdown, re, html, bleach
 
-          # Allowed tags and attributes for bleach sanitization
           ALLOWED_TAGS = ['p', 'br', 'strong', 'em', 'ul', 'ol', 'li', 'a', 'img',
                           'code', 'pre', 'blockquote', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6']
           ALLOWED_ATTRS = {'a': ['href', 'title'], 'img': ['src', 'alt', 'title']}
@@ -72,71 +63,51 @@ jobs:
           with open("/tmp/issue_body.md", "r") as f:
               raw = f.read()
 
-          # GFM-compatibility fence normalization: python-markdown's fenced_code needs
-          # fences at column 0 (GFM allows up to 3 spaces of indent) and a closing fence
-          # (GFM treats an unclosed fence as code-to-end; an unpaired ``` would
-          # otherwise render as literal backticks).
           raw = re.sub(r'^[ ]{1,3}(`{3,})', r'\1', raw, flags=re.MULTILINE)
           if len(re.findall(r'^`{3,}', raw, flags=re.MULTILINE)) % 2 == 1:
               raw = raw.rstrip('\n') + '\n```\n'
 
-          # Protect fenced code block content from the blank-line preprocessing below
           fenced_blocks = []
           def stash_fence(match):
               fenced_blocks.append(match.group(0))
               return '\n\x00FENCED_BLOCK_{}\x00\n'.format(len(fenced_blocks) - 1)
           raw = re.sub(r'^`{3,}[^\n]*\n.*?\n?^`{3,}[ ]*$', stash_fence, raw, flags=re.MULTILINE | re.DOTALL)
 
-          # Insert blank line BEFORE **bold** headings
           raw = re.sub(r'\n(\*\*[^\n]+\*\*\n)', r'\n\n\1', raw)
 
-          # Insert blank line AFTER **bold** headings
           raw = re.sub(r'(\*\*[^\n]+\*\*)\n(?!\n)', r'\1\n\n', raw)
 
-          # Insert blank line before numbered list blocks so markdown recognises them as <ol>
-          # (intro lines like "Steps to reproduce:" directly before "1." cause inline rendering)
           raw = re.sub(r'([^\n])\n(1\. )', r'\1\n\n\2', raw)
 
-          # Insert blank line before unordered list blocks for the same reason
           raw = re.sub(r'([^\n])\n([-*] )', r'\1\n\n\2', raw)
 
-          # Restore the protected fenced code blocks
           for i, block in enumerate(fenced_blocks):
               raw = raw.replace('\x00FENCED_BLOCK_{}\x00'.format(i), block)
 
           html_out = markdown.markdown(raw, extensions=['sane_lists', 'fenced_code'])
 
-          # Sanitize: strip disallowed tags/attributes (removes <script>, <iframe>, etc.)
           html_out = bleach.clean(html_out, tags=ALLOWED_TAGS, attributes=ALLOWED_ATTRS, strip=True)
 
-          # Strip <p> tags inside <li> elements (caused when blank lines exist between items)
           html_out = re.sub(r'<li>\s*<p>(.*?)</p>\s*</li>', r'<li>\1</li>', html_out, flags=re.DOTALL)
 
-          # Convert bold headings to block-safe HTML
           html_out = re.sub(r'<strong>([^<]+)</strong>', r'<br/><strong>\1</strong>', html_out)
 
-          # Convert ordered lists - one line per item, no extra spacing
           def replace_ol(match):
               items = re.findall(r'<li>(.*?)</li>', match.group(0), re.DOTALL)
               return ''.join(f'{i}. {item.strip()}<br/>' for i, item in enumerate(items, 1)) + '<br/>'
 
           html_out = re.sub(r'<ol>(.*?)</ol>', replace_ol, html_out, flags=re.DOTALL)
 
-          # Convert unordered lists - one line per item, no extra spacing
           def replace_ul(match):
               items = re.findall(r'<li>(.*?)</li>', match.group(0), re.DOTALL)
               return ''.join(f'&bull; {item.strip()}<br/>' for item in items) + '<br/>'
 
           html_out = re.sub(r'<ul>(.*?)</ul>', replace_ul, html_out, flags=re.DOTALL)
 
-          # Convert paragraphs
           html_out = re.sub(r'<p>(.*?)</p>', r'\1<br/><br/>', html_out, flags=re.DOTALL)
 
-          # Clean up excessive line breaks
           html_out = re.sub(r'(<br/>){3,}', '<br/><br/>', html_out)
 
-          # Block code -> explicitly styled <div> with <br/> line breaks: AzDO keeps the
-          # monospace styling of <pre> but does not reliably treat it as a block element.
           def replace_pre(match):
               code = match.group(1).strip('\n').replace('\n', '<br/>')
               return ('<br/><div style="background-color:#f4f4f4;font-family:Consolas,monospace;'
@@ -144,8 +115,6 @@ jobs:
 
           html_out = re.sub(r'<pre><code[^>]*>(.*?)</code></pre>', replace_pre, html_out, flags=re.DOTALL)
 
-          # Inline code -> styled <span> (AzDO renders bare <code> with no background).
-          # Must run AFTER replace_pre so block code is not double-wrapped.
           html_out = re.sub(
               r'<code>(.*?)</code>',
               r'<span style="background-color:#f4f4f4;font-family:Consolas,monospace;padding:1px 4px;border:1px solid #e0e0e0;border-radius:3px;">\1</span>',
@@ -161,17 +130,15 @@ jobs:
           print(re.sub(r"<img[^>]*>", replace_img, html_out), end="")
           PYEOF
 
-          # Build the base work item payload
           FORMATTED_ISSUE_BODY=$(python3 /tmp/convert_md.py)
 
-          # --- 2c. Build the base JSON Patch document ---
           PATCH_DOC=$(jq -n \
             --arg title "GitHub Issue #$ISSUE_NUMBER: $CLEAN_TITLE" \
             --arg issueNumber "$ISSUE_NUMBER" \
             --arg issueUrl "$ISSUE_URL" \
             --arg bodyHtml "$FORMATTED_ISSUE_BODY" \
             --arg areaPath "$AZDO_AREA_PATH" \
-            --arg tag "$WORK_ITEM_TAG" \
+            --arg tag "CommentOnGitHub" \
             '"<div><p><strong>ISSUE DETAILS:</strong></p><p>Issue Number: \($issueNumber)</p><p><a href=\"\($issueUrl)\">View Issue on GitHub</a></p><div>\($bodyHtml)</div><p style=\"color:red;\"><strong>NOTE:</strong> Please ensure to remove the &quot;\($tag)&quot; tag <u>if no action is required</u> for the work item.</p></div>" as $description |
             [
               {"op": "add", "path": "/fields/System.Title",       "value": $title},
@@ -180,9 +147,6 @@ jobs:
               {"op": "add", "path": "/fields/System.Tags",        "value": $tag}
             ]')
 
-          # --- 2d. Append type-specific custom fields ---
-
-          # Adding additional custom fields if the work item type is "Customer Escalation"
           if [[ "$WORK_ITEM_TYPE" == "Customer%20Escalation" ]]; then
             PATCH_DOC=$(echo "$PATCH_DOC" | jq '. + [
               {"op": "add", "path": "/fields/Custom.EscalationPriority", "value": "Priority 3 - Medium"},
@@ -191,12 +155,9 @@ jobs:
             ]')
           fi
 
-          # Adding additional custom fields if the work item type is "Bug"
           if [[ "$WORK_ITEM_TYPE" == "Bug" ]]; then
-            # Prefix for the Custom.ReportedIn field (local to this step)
             REPORTED_IN_PREFIX="STS Software Bundle"
             STS_VERSION=$(echo "$ISSUE_BODY" | sed -n '/System Setup/,$p' | grep -oP '(?<=STS Software Version )\d+\.\d+(\.\w+)?' | head -n 1 | tr -d '\r')
-            # Check if STS_VERSION matches expected format
             if [[ -n "$STS_VERSION" ]]; then
               REPORTED_IN="$REPORTED_IN_PREFIX $STS_VERSION"
             else
@@ -238,9 +199,6 @@ jobs:
         run: |
           echo "Processing images for Work Item #$WORK_ITEM_ID"
 
-          # --- 3a. Image validation/replacement helper ---
-          # Write the image-processing logic to a standalone Python script.
-          # This avoids nested PYEOF heredoc conflicts and shell interpolation inside Python.
           cat << 'IMG_SCRIPT_EOF' > /tmp/process_image.py
           import sys, html
           from PIL import Image
@@ -249,7 +207,6 @@ jobs:
               (b'\xff\xd8\xff', 'JPEG'), (b'\x89PNG\r\n\x1a\n', 'PNG'), (b'GIF87a', 'GIF'),
               (b'GIF89a', 'GIF'), (b'RIFF', 'WEBP'), (b'BM', 'BMP'),
               (b'II\x2a\x00', 'TIFF'), (b'MM\x00\x2a', 'TIFF'),
-              # SVG is explicitly NOT in this list — it can contain <script> tags
           ]
 
           def fallback_link(src, alt):
@@ -263,7 +220,6 @@ jobs:
           def check_magic_bytes(img_file):
               with open(img_file, 'rb') as f:
                   header = f.read(16)
-              # Explicitly reject SVG (starts with XML or <svg)
               try:
                   text_header = header.decode('utf-8', errors='ignore').lstrip()
                   if text_header.startswith('<?xml') or text_header.lower().startswith('<svg'):
@@ -287,7 +243,6 @@ jobs:
                   raise ValueError(f'Rejected format: {img.format}')
               return img.format, img.size
 
-          # Args: action src alt [img_file] [attachment_url]
           action, src, alt = sys.argv[1], sys.argv[2], sys.argv[3]
           img_file   = sys.argv[4] if len(sys.argv) > 4 else None
           attach_url = sys.argv[5] if len(sys.argv) > 5 else None
@@ -316,11 +271,9 @@ jobs:
               print(f'Embedded image: {attach_url}')
           IMG_SCRIPT_EOF
 
-          # --- 3b. Validate, download, and upload each embedded image ---
           IMG_INDEX=0
           echo "0" > /tmp/img_index.txt
 
-          # Extract all placeholders from the body file and process each
           grep -oP '__IMG_PLACEHOLDER__\K.+?(?=__END__)' formatted_body.txt > /tmp/img_tokens.txt || true
 
           while IFS= read -r token; do
@@ -336,7 +289,6 @@ jobs:
             IMG_FILE="image_$IMG_INDEX.png"
             echo "--- Image $IMG_INDEX: $SRC (alt: $ALT)"
 
-            # 1. Block internal/private URLs (SSRF) — also decode percent-encoding to catch bypasses
             DECODED_SRC=$(python3 -c "import sys, urllib.parse; print(urllib.parse.unquote(sys.argv[1]))" "$SRC")
             if echo "$DECODED_SRC" | grep -qP '^https?://(169\.254\.|10\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[01])\.|127\.|0\.0\.0\.0|localhost)'; then
               echo "BLOCKED: internal URL"
@@ -344,15 +296,12 @@ jobs:
               continue
             fi
 
-            # 2. Block dangerous URL schemes (also on decoded URL)
             if echo "$DECODED_SRC" | grep -qiP '^(javascript|data|vbscript|file|blob)\s*:'; then
               echo "BLOCKED: dangerous URL scheme"
               python3 /tmp/process_image.py fallback "$SRC" "$ALT"
               continue
             fi
 
-            # 3. Download - no redirects allowed (--max-redirs 0) to prevent open-redirect SSRF.
-            # We resolve the final IP ourselves and re-validate it before downloading.
             echo "Resolving host for $SRC..."
             IMG_HOST=$(python3 -c "import sys, urllib.parse; print(urllib.parse.urlparse(sys.argv[1]).hostname or '')" "$SRC")
             RESOLVED_IP=$(getent hosts "$IMG_HOST" 2>/dev/null | awk '{print $1}' | head -1)
@@ -365,10 +314,6 @@ jobs:
               fi
             fi
 
-            # 3b. Download with size limit (10MB) - follow redirects (-L), then check magic bytes
-            # NOTE: We skip the HEAD Content-Type pre-check because GitHub image URLs redirect
-            # and may return application/octet-stream on HEAD requests, causing false negatives.
-            # Magic-byte and PIL validation (steps 4 & 5) are sufficient to reject non-images.
             echo "Downloading image $IMG_INDEX..."
             HTTP_STATUS=$(curl -sL --max-time 30 -o "$IMG_FILE" -w "%{http_code}" --max-filesize 10485760 \
               -H "User-Agent: Mozilla/5.0" \
@@ -380,21 +325,18 @@ jobs:
               continue
             fi
 
-            # 4. Magic bytes check
             echo "Checking magic bytes..."
             if ! python3 /tmp/process_image.py magic "$SRC" "$ALT" "$IMG_FILE"; then
               echo "FAILED: magic bytes check"
-              continue  # process_image.py already wrote fallback
+              continue
             fi
 
-            # 5. PIL format + decompression bomb check
             echo "Running PIL validation..."
             if ! python3 /tmp/process_image.py pil "$SRC" "$ALT" "$IMG_FILE"; then
               echo "FAILED: PIL validation"
-              continue  # process_image.py already wrote fallback
+              continue 
             fi
 
-            # 6. Upload to AzDO
             echo "Uploading image $IMG_INDEX to AzDO..."
             UPLOAD_RESPONSE=$(curl -s -u :$AZURE_DEVOPS_TOKEN \
               -X POST \
@@ -417,12 +359,11 @@ jobs:
           UPDATED_DESCRIPTION=$(cat formatted_body.txt)
           echo "Image processing complete. Processed $IMG_INDEX image(s)."
 
-          # --- 3c. PATCH the work item description with the final HTML ---
           UPDATE_PATCH=$(jq -n \
             --arg issueNumber "$ISSUE_NUMBER" \
             --arg issueUrl "$ISSUE_URL" \
             --arg bodyHtml "$UPDATED_DESCRIPTION" \
-            --arg tag "$WORK_ITEM_TAG" \
+            --arg tag "CommentOnGitHub" \
             '"<div><p><strong>ISSUE DETAILS:</strong></p><p>Issue Number: \($issueNumber)</p><p><a href=\"\($issueUrl)\">View Issue on GitHub</a></p><div>\($bodyHtml)</div><p style=\"color:red;\"><strong>NOTE:</strong> Please ensure to remove the &quot;\($tag)&quot; tag <u>if no action is required</u> for the work item.</p></div>" as $description |
             [{"op": "replace", "path": "/fields/System.Description", "value": $description}]')
 
@@ -463,8 +404,6 @@ jobs:
             --data @patch-relation.json \
             "$AZDO_BASE_URL/_apis/wit/workitems/$WORK_ITEM_ID?api-version=$AZDO_API_VERSION")
 
-      # NOTE: The [work item](url) link in this comment is what the comment-sync
-      # job (JOB 2) parses to find the linked work item — it must remain.
       - name: Add comment on GitHub Issue
         uses: actions/github-script@v6
         env:
@@ -490,10 +429,8 @@ jobs:
           WORK_ITEM_TYPE: ${{ steps.determine-work-item-type.outputs.display_type }}
           CLEAN_TITLE: ${{ steps.create-work-item.outputs.clean_title }}
         run: |
-          # Write body to file so Python can read it safely (avoids env var quoting issues)
           printf '%s' "$ISSUE_BODY" > /tmp/teams_body.txt
 
-          # Build the complete card body array with images inline
           CARD_BODY=$(python3 << 'PYEOF'
           import json, re, os
 
@@ -510,7 +447,6 @@ jobs:
           def clean_text(text):
               text = re.sub(r'^#{1,6}\s+(.+)$', r'**\1**', text, flags=re.MULTILINE)
               text = re.sub(r'^[-*]\s+(?!\*)', '• ', text, flags=re.MULTILINE)
-              # Preserve inline code: convert <code>...</code> back to backticks before stripping HTML
               text = re.sub(r'<code>([^<]*)</code>', r'`\1`', text)
               text = re.sub(r'<[^>]+>', '', text)
               text = re.sub(r'\n{3,}', '\n\n', text)
@@ -527,7 +463,6 @@ jobs:
               re.IGNORECASE
           )
 
-          # Build header blocks
           blocks = [
               {"type": "TextBlock", "text": f"**New GitHub Issue (#{issue_number}): {issue_title}**", "wrap": True, "size": "Medium"},
               {"type": "TextBlock", "text": f"**Title:** [{issue_title}]({issue_url})", "wrap": True, "spacing": "Medium"},
@@ -536,10 +471,9 @@ jobs:
               {"type": "TextBlock", "text": "**Description:**", "wrap": True, "spacing": "Medium"}
           ]
 
-          # Split the body around images and interleave TextBlocks and Image blocks
           pos = 0
           text_segments = []
-          MAX_CHARS = int(os.environ.get("TEAMS_MAX_BODY_CHARS", "1500"))
+          MAX_CHARS = 1500
 
           for match in image_pattern.finditer(body):
               text_segments.append(('text', body[pos:match.start()]))
@@ -601,8 +535,6 @@ jobs:
           fi
           echo "Teams notification sent successfully."
 
-  # JOB 2: Sync new GitHub comments to the linked AzDO work item.
-  # Skips bot comments (including this workflow's own acknowledgment) to avoid sync loops.
   sync-comment-to-azdo:
     if: >
       github.event_name == 'issue_comment' &&
@@ -612,9 +544,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      # Primary: parse the work item ID out of the workflow's own acknowledgment
-      # comment (links to ".../_workitems/edit/<id>") — keeps the issue title clean.
-      # Fallback: the legacy "[AzDO Work Item: N]" title tag for older issues.
       - name: Find Linked Work Item
         id: extract-work-item
         uses: actions/github-script@v6
@@ -658,10 +587,8 @@ jobs:
           with open("/tmp/comment_body.md", "r") as f:
               raw = f.read()
 
-          # Escape HTML special characters
           raw = raw.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;').replace('"', '&quot;')
 
-          # Convert newlines to <br/>
           raw = raw.replace('\n', '<br/>')
 
           print(raw, end="")
