@@ -47,29 +47,29 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
         /// <param name="electricalCharacteristics">The electrical characteristics of the channel.</param>
-        public static void ConfigureCharacteristics(this ScopeSessionsBundle sessionsBundle, ElectricalCharacteristics electricalCharacteristics)
+        public static void ConfigureElectricalCharacteristics(this ScopeSessionsBundle sessionsBundle, ElectricalCharacteristics electricalCharacteristics)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.ConfigureCharacteristics(electricalCharacteristics, sitePinInfo);
+                sessionInfo.ConfigureElectricalCharacteristics(electricalCharacteristics, sitePinInfo);
             });
         }
 
-        /// <inheritdoc cref="ConfigureCharacteristics(ScopeSessionsBundle, ElectricalCharacteristics)"/>
-        public static void ConfigureCharacteristics(this ScopeSessionsBundle sessionsBundle, SiteData<ElectricalCharacteristics> electricalCharacteristics)
+        /// <inheritdoc cref="ConfigureElectricalCharacteristics(ScopeSessionsBundle, ElectricalCharacteristics)"/>
+        public static void ConfigureElectricalCharacteristics(this ScopeSessionsBundle sessionsBundle, SiteData<ElectricalCharacteristics> electricalCharacteristics)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.ConfigureCharacteristics(electricalCharacteristics.GetValue(sitePinInfo.SiteNumber), sitePinInfo);
+                sessionInfo.ConfigureElectricalCharacteristics(electricalCharacteristics.GetValue(sitePinInfo.SiteNumber), sitePinInfo);
             });
         }
 
-        /// <inheritdoc cref="ConfigureCharacteristics(ScopeSessionsBundle, ElectricalCharacteristics)"/>
-        public static void ConfigureCharacteristics(this ScopeSessionsBundle sessionsBundle, PinSiteData<ElectricalCharacteristics> electricalCharacteristics)
+        /// <inheritdoc cref="ConfigureElectricalCharacteristics(ScopeSessionsBundle, ElectricalCharacteristics)"/>
+        public static void ConfigureElectricalCharacteristics(this ScopeSessionsBundle sessionsBundle, PinSiteData<ElectricalCharacteristics> electricalCharacteristics)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.ConfigureCharacteristics(electricalCharacteristics.GetValue(sitePinInfo), sitePinInfo);
+                sessionInfo.ConfigureElectricalCharacteristics(electricalCharacteristics.GetValue(sitePinInfo), sitePinInfo);
             });
         }
 
@@ -83,7 +83,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
             }
         }
 
-        internal static void ConfigureCharacteristics(this ScopeSessionInformation sessionInfo, ElectricalCharacteristics electricalCharacteristics, SitePinInfo sitePinInfo)
+        internal static void ConfigureElectricalCharacteristics(this ScopeSessionInformation sessionInfo, ElectricalCharacteristics electricalCharacteristics, SitePinInfo sitePinInfo)
         {
             var channel = sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString];
             channel.ConfigureCharacteristics(electricalCharacteristics.InputImpedance, electricalCharacteristics.InputFrequencyMax);
