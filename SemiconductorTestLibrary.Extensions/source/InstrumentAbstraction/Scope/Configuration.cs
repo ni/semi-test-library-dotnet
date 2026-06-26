@@ -16,29 +16,29 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
         /// <param name="verticalSettings">The channel verticalSettings object.</param>
-        public static void ConfigureChannel(this ScopeSessionsBundle sessionsBundle, VerticalSettings verticalSettings)
+        public static void ConfigureVertical(this ScopeSessionsBundle sessionsBundle, VerticalSettings verticalSettings)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.ConfigureChannel(verticalSettings, sitePinInfo);
+                sessionInfo.ConfigureVertical(verticalSettings, sitePinInfo);
             });
         }
 
-        /// <inheritdoc cref="ConfigureChannel(ScopeSessionsBundle, VerticalSettings)"/>
-        public static void ConfigureChannel(this ScopeSessionsBundle sessionsBundle, SiteData<VerticalSettings> verticalSettings)
+        /// <inheritdoc cref="ConfigureVertical(ScopeSessionsBundle, VerticalSettings)"/>
+        public static void ConfigureVertical(this ScopeSessionsBundle sessionsBundle, SiteData<VerticalSettings> verticalSettings)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.ConfigureChannel(verticalSettings.GetValue(sitePinInfo.SiteNumber), sitePinInfo);
+                sessionInfo.ConfigureVertical(verticalSettings.GetValue(sitePinInfo.SiteNumber), sitePinInfo);
             });
         }
 
-        /// <inheritdoc cref="ConfigureChannel(ScopeSessionsBundle, VerticalSettings)"/>
-        public static void ConfigureChannelSettings(this ScopeSessionsBundle sessionsBundle, PinSiteData<VerticalSettings> verticalSettings)
+        /// <inheritdoc cref="ConfigureVertical(ScopeSessionsBundle, VerticalSettings)"/>
+        public static void ConfigureVertical(this ScopeSessionsBundle sessionsBundle, PinSiteData<VerticalSettings> verticalSettings)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.ConfigureChannel(verticalSettings.GetValue(sitePinInfo), sitePinInfo);
+                sessionInfo.ConfigureVertical(verticalSettings.GetValue(sitePinInfo), sitePinInfo);
             });
         }
 
@@ -73,7 +73,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
             });
         }
 
-        internal static void ConfigureChannel(this ScopeSessionInformation sessionInfo, VerticalSettings verticalSettings, SitePinInfo sitePinInfo)
+        internal static void ConfigureVertical(this ScopeSessionInformation sessionInfo, VerticalSettings verticalSettings, SitePinInfo sitePinInfo)
         {
             var channel = sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString];
             channel.Configure(verticalSettings.Range, verticalSettings.Offset, (ScopeVerticalCoupling)verticalSettings.Coupling, verticalSettings.ProbeAttenuation, verticalSettings.Enabled);
