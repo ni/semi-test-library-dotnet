@@ -5244,12 +5244,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.GangPinGroup(AllPinsGangedGroup);
 
             var subsetBundle = sessionManager.DCPower(TwoPinsGangedGroup);
-            void ConfigureCurrentLimitHigh()
+            void ConfigureLimitSymmetry()
             {
                 subsetBundle.ConfigureLimitSymmetry(DCPowerComplianceLimitSymmetry.Asymmetric);
             }
 
-            var exception = Assert.Throws<AggregateException>(ConfigureCurrentLimitHigh);
+            var exception = Assert.Throws<AggregateException>(ConfigureLimitSymmetry);
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
             Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
         }
