@@ -1,6 +1,7 @@
 ﻿using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen;
+using System.Threading.Tasks;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGen
 {
@@ -26,10 +27,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
 
                 // Configure at channel level. This needs to be sequencial, these are not atomic operations,
                 // internally it sets given channel as ative channel and then configures it.
-                foreach (var sitePininfo in sessionInfo.AssociatedSitePinList)
+                Parallel.ForEach(sessionInfo.AssociatedSitePinList, sitePinInfo =>
                 {
-                    session.Output.SetEnabled(sitePininfo.IndividualChannelString, enable);
-                }
+                    session.Output.SetEnabled(sitePinInfo.IndividualChannelString, enable);
+                });
             });
         }
 
@@ -50,10 +51,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
 
                 // Configure at channel level. This needs to be sequencial, these are not atomic operations,
                 // internally it sets given channel as ative channel and then configures it.
-                foreach (var sitePininfo in sessionInfo.AssociatedSitePinList)
+                Parallel.ForEach(sessionInfo.AssociatedSitePinList, sitePinInfo =>
                 {
-                    session.Output.SetEnabled(sitePininfo.IndividualChannelString, enable.GetValue(sitePininfo.SiteNumber));
-                }
+                    session.Output.SetEnabled(sitePinInfo.IndividualChannelString, enable.GetValue(sitePinInfo.SiteNumber));
+                });
             });
         }
 
@@ -72,12 +73,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
 
                 var session = sessionInfo.Session;
 
-                // Configure at channel level. This needs to be sequencial, these are not atomic operations,
-                // internally it sets given channel as ative channel and then configures it.
-                foreach (var sitePininfo in sessionInfo.AssociatedSitePinList)
+                // Configure at channel level. Use parallel for each to speed up the configuration.
+                // Internally Driver APIs are using session level locks to serialize the calls..
+                Parallel.ForEach(sessionInfo.AssociatedSitePinList, sitePinInfo =>
                 {
-                    session.Output.SetEnabled(sitePininfo.IndividualChannelString, enable.GetValue(sitePininfo.SiteNumber, sitePininfo.PinName));
-                }
+                    session.Output.SetEnabled(sitePinInfo.IndividualChannelString, enable.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName));
+                });
             });
         }
 
