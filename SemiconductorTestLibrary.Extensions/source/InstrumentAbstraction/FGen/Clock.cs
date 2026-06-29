@@ -13,7 +13,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
         /// </summary>
         /// <param name="sessionsBundle">The FGen sessionsBundle.</param>
         /// <param name="clockMode">The clock mode to configure.</param>
-        public static void ConfigureClockMode(this FgenSessionsBundle sessionsBundle, ClockMode clockMode)
+        public static void ConfigureClockMode(this FgenSessionsBundle sessionsBundle, string clockMode)
         { }
 
         /// <summary>
