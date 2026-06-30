@@ -242,11 +242,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
-        public void SessionsInitialized_CommitSucceeds(string pinMap, string digitalProject)
+        public void SessionsInitialized_Commit_Succeeds(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
-
             var sessionsBundle = sessionManager.Digital("C0");
+
             sessionsBundle.Commit();
         }
 
@@ -256,10 +256,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void SessionsInitialized_CommitAndInitiateAndAbortPattern_Succeeds(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
-
             var sessionsBundle = sessionManager.Digital("C0");
             const string expectedStartLabel = "TX_RF";
             sessionsBundle.ConfigurePattern(expectedStartLabel);
+
             sessionsBundle.Commit();
             sessionsBundle.Initiate();
             sessionsBundle.AbortPattern();
@@ -287,13 +287,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void SessionsInitialized_ConfigurePatternWithEmptyLabel_GetPatternStartLabelReturnsEmptyLabel(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
-
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             const string expectedStartLabel = "";
+
             sessionsBundle.ConfigurePattern(expectedStartLabel);
 
             var patternStartLabel = sessionsBundle.GetPatternStartLabel();
-
             Assert.All(patternStartLabel, label => Assert.Equal(expectedStartLabel, label));
         }
         [Theory]
@@ -302,13 +301,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void SessionsInitialized_ConfigurePatternWithNullLabel_GetPatternStartLabelReturnsEmptyLabel(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
-
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             const string expectedStartLabel = null;
+
             sessionsBundle.ConfigurePattern(expectedStartLabel);
 
             var patternStartLabel = sessionsBundle.GetPatternStartLabel();
-
             Assert.All(patternStartLabel, label => Assert.Equal(string.Empty, label));
         }
 
@@ -318,13 +316,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void SessionsInitialized_ConfigurePatternWithSiteNumbers_GetPatternStartLabelReturnsConfiguredLabel(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
-
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             const string expectedStartLabel = "TX_RF";
+
             sessionsBundle.ConfigurePattern(expectedStartLabel, new int[] { 0, 1 });
 
             var patternStartLabel = sessionsBundle.GetPatternStartLabel();
-
             Assert.All(patternStartLabel, label => Assert.Equal(expectedStartLabel, label));
         }
 
