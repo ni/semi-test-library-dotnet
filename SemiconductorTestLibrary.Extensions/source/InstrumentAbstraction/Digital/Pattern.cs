@@ -123,11 +123,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.PatternControl.StartLabel = startLabel;
-
                 if (siteNumbers != null && siteNumbers.Length > 0)
                 {
-                    string siteList = string.Join(",", siteNumbers.Select(sn => $"site{sn}"));
-                    sessionInfo.Session.PatternControl.ConfigurePatternBurstSites(siteList);
+                    var filteredSites = siteNumbers
+                        .Distinct()
+                        .Where(sn => sessionInfo.AssociatedSiteList.Contains(sn))
+                        .ToArray();
+
+                    if (filteredSites.Length > 0)
+                    {
+                        string siteList = string.Join(",", filteredSites.Select(sn => $"site{sn}"));
+                        sessionInfo.Session.PatternControl.ConfigurePatternBurstSites(siteList);
+                    }
                 }
             });
         }
