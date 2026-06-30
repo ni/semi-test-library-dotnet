@@ -47,6 +47,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
 
             sessionsBundle.ConfigureTMUStartSource(pinNames);
+            sessionsBundle.ClearTMUAssignment();
         }
 
         #endregion
@@ -62,6 +63,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
 
             sessionsBundle.ConfigureTMUStopSource(pinNames);
+            sessionsBundle.ClearTMUAssignment();
         }
 
         #endregion
@@ -79,6 +81,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
 
             sessionsBundle.ConfigureTMUStartSourceEvent(sourceEvent, pinNames);
+            sessionsBundle.ClearTMUAssignment();
         }
 
         #endregion
@@ -96,6 +99,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
 
             sessionsBundle.ConfigureTMUStopSourceEvent(sourceEvent, pinNames);
+            sessionsBundle.ClearTMUAssignment();
         }
 
         #endregion
@@ -115,6 +119,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
 
             sessionsBundle.ConfigureTMUStartSourceEventPolarity(polarity, pinNames);
+            sessionsBundle.ClearTMUAssignment();
         }
 
         #endregion
@@ -134,6 +139,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
 
             sessionsBundle.ConfigureTMUStopSourceEventPolarity(polarity, pinNames);
+            sessionsBundle.ClearTMUAssignment();
         }
 
         #endregion
@@ -149,8 +155,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
+            sessionsBundle.ConfigureTMUStartSource(pinNames);
+            sessionsBundle.ConfigureTMUEdgeArmSource(pinNames);
+            sessionsBundle.ConfigureTMUEdgeArmPolarity(TmuSourcePolarity.RisingEdge, pinNames);
 
             sessionsBundle.ConfigureTMUArmType(armType, pinNames);
+            sessionsBundle.ClearTMUAssignment();
         }
 
         #endregion
@@ -166,6 +176,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
 
             sessionsBundle.ConfigureTMUEdgeArmSource(pinNames);
+            sessionsBundle.ClearTMUAssignment();
         }
 
         #endregion
@@ -183,6 +194,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
 
             sessionsBundle.ConfigureTMUEdgeArmSourceEvent(sourceEvent, pinNames);
+            sessionsBundle.ClearTMUAssignment();
         }
 
         #endregion
@@ -200,6 +212,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
 
             sessionsBundle.ConfigureTMUEdgeArmPolarity(polarity, pinNames);
+            sessionsBundle.ClearTMUAssignment();
         }
 
         #endregion
@@ -216,6 +229,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
 
             sessionsBundle.ConfigureTMUSamplesToAcquire(sampleNumber, pinNames);
+            sessionsBundle.ClearTMUAssignment();
         }
 
         #endregion
@@ -232,6 +246,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
 
             sessionsBundle.ConfigureTMUSampleTimeout(timeout, pinNames);
+            sessionsBundle.ClearTMUAssignment();
         }
 
         #endregion
@@ -241,7 +256,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         private DigitalSessionsBundle InititalzeAndCreateBundle()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager();
-            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "PA_EN", "C1" });
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             sessionsBundle.AssignTMUResources();
             return sessionsBundle;
         }
