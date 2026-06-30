@@ -168,4 +168,7 @@
   <data name="DCPower_GangedPinGroupDetected" xml:space="preserve">
     <value>This feature is not supported on a ganged pin group.</value>
   </data>
+  <data name="Digital_InvalidSites" xml:space="preserve">
+    <value>The specified sites are not present in the bundle.</value>
+  </data>
 </root>

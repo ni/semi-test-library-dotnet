@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
+
 using Ivi.Driver;
+
 using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
@@ -120,21 +123,21 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="siteNumbers">The site numbers to configure the pattern for.</param>
         public static void ConfigurePattern(this DigitalSessionsBundle sessionsBundle, string startLabel, int[] siteNumbers = null)
         {
+            var sitePinList = sessionsBundle.AggregateSitePinList;
+            var listOfSiteNumbers = sitePinList.Select(spi => spi.SiteNumber).Distinct().ToArray();
+            var invalidSites = siteNumbers?.Except(listOfSiteNumbers).ToArray();
+            if (invalidSites != null && invalidSites.Length > 0)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_InvalidSites, string.Join(", ", invalidSites)));
+            }
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.PatternControl.StartLabel = startLabel;
                 if (siteNumbers != null && siteNumbers.Length > 0)
                 {
-                    var filteredSites = siteNumbers
-                        .Distinct()
-                        .Where(sn => sessionInfo.AssociatedSiteList.Contains(sn))
-                        .ToArray();
-
-                    if (filteredSites.Length > 0)
-                    {
-                        string siteList = string.Join(",", filteredSites.Select(sn => $"site{sn}"));
+                    var filteredSites = sessionInfo.AssociatedSiteList.Where(sn => siteNumbers.Contains(sn)).ToArray();
+                    string siteList = string.Join(",", filteredSites.Select(sn => $"site{sn}"));
                         sessionInfo.Session.PatternControl.ConfigurePatternBurstSites(siteList);
-                    }
                 }
             });
         }

@@ -328,15 +328,28 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
-        public void SessionsInitialized_ConfigurePatternWithDuplicateSiteNumbers_ThrowsException(string pinMap, string digitalProject)
+        public void SessionsInitialized_ConfigurePatternWithDuplicateSiteNumbers_Succeeds(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
-
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             const string expectedStartLabel = "TX_RF";
-            void ConfigurePatternTest() => sessionsBundle.ConfigurePattern(expectedStartLabel, new int[] { 0, 1, 1, 0 });
 
-            Assert.Throws<NISemiconductorTestException>(ConfigurePatternTest);
+            sessionsBundle.ConfigurePattern(expectedStartLabel, new int[] { 0, 1, 1, 0 });
+        }
+
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitialized_ConfigurePatternWithInvalidSiteNumbers_ThrowsException(string pinMap, string digitalProject)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            const string expectedStartLabel = "TX_RF";
+
+            void ConfigurePatternWithInvalidSites() => sessionsBundle.ConfigurePattern(expectedStartLabel, new int[] { 0, 1, 2 });
+
+            var exception = Assert.Throws<NISemiconductorTestException>(ConfigurePatternWithInvalidSites);
+            Assert.Contains("The specified sites are not present in the bundle.", exception.Message);
         }
     }
 }

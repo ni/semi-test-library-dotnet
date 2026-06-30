@@ -61,7 +61,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number of points must be greater than one. .
+        ///   Looks up a localized string similar to Number of points must be greater than one..
         /// </summary>
         internal static string CreateRamp_InvalidNumberOfPoints {
             get {
@@ -124,7 +124,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Inconsistent advanced sequence properties. The following properties must be either specified or omitted for all steps in the sequence: {0}.
+        ///   Looks up a localized string similar to Inconsistent advanced sequence properties. The following properties must be specified or omitted for all steps in the sequence: {0}.
         /// </summary>
         internal static string DCPower_InconsistentAdvancedSequenceProperties {
             get {
@@ -133,7 +133,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The channelOutput contains more than one channel &quot;{0}&quot;. This method overload only supports single channel operation when a valid SitePinInfo object is passed.&quot;.
+        ///   Looks up a localized string similar to The channelOutput contains more than one channel ({0}). This method overload only supports single-channel operation when a valid SitePinInfo object is passed..
         /// </summary>
         internal static string DCPower_MultipleChannelOutputsDetected {
             get {
@@ -147,6 +147,15 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         internal static string DCPowerDeviceNotSupported {
             get {
                 return ResourceManager.GetString("DCPowerDeviceNotSupported", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The specified sites are not present in the bundle..
+        /// </summary>
+        internal static string Digital_InvalidSites {
+            get {
+                return ResourceManager.GetString("Digital_InvalidSites", resourceCulture);
             }
         }
         
