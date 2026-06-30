@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using NationalInstruments.ModularInstruments.NIFgen;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
@@ -27,7 +28,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
                 var session = sessionInfo.Session;
                 Parallel.ForEach(sessionInfo.AssociatedSitePinList, sitePinInfo =>
                 {
-                    session.Output.SetEnabled(sitePinInfo.IndividualChannelString, enable);
+                    session.Output.SetEnabled(sitePinInfo.IndividualChannelString.Split('/').Last(), enable);
                 });
             });
         }
@@ -96,7 +97,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
                 var session = sessionInfo.Session;
                 Parallel.ForEach(sessionInfo.AssociatedSitePinList, sitePinInfo =>
                 {
-                    session.Output.SetImpedance(sitePinInfo.IndividualChannelString, impedance);
+                    session.Output.SetImpedance(sitePinInfo.IndividualChannelString.Split('/').Last(), impedance);
                 });
             });
         }

@@ -94,7 +94,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
         internal static void ConfigureChannels(this FgenSessionInformation sessionsInfo, string channelNames)
         {
             // Implementation for configuring channels. `channelNames` is a comma-separated string of channel names to configure.
-            sessionsInfo.ConfigureChannels(channelNames);
+            sessionsInfo.Session.ConfigureChannels(channelNames);
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using NationalInstruments.ModularInstruments.NIFgen;
-using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
-
+using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGen
 {
     /// <summary>
@@ -11,7 +10,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
         /// <summary>
         /// Example method to show generation of sinewaveform
         /// </summary>
-        public static void GenerateSineWaveform()
+        /// <param name="tsmContext">tsmcontext</param>
+        public static void GenerateSineWaveform(ISemiconductorModuleContext tsmContext)
         {
             // Set the output mode to Function for generating standard waveforms.
             OutputMode outputMode = OutputMode.Function;
@@ -25,8 +25,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
             var standardWaveformSettings = new StandardWaveformSettings(function, frequency, amplitude, dcOffset, startPhase);
 
             // Create a TSMContext for the test session. The pinmap file path is specified in the TSMContext.
-            var tsmContext = TSMContext.CreateTSMContext("FgenTests.pinmap");
-            string path = tsmContext.PinMapFilePath;
+            // var tsmContext = TSMContext.CreateTSMContext("FgenTests.pinmap");
+            // string path = tsmContext.PinMapFilePath;
 
             // Create a session manager and get the FGen sessions bundle for the specified pin group "A".
             var sessionManager = new TSMSessionManager(tsmContext);
