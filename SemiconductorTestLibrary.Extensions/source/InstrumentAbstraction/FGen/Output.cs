@@ -52,7 +52,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
                 // internally it sets given channel as ative channel and then configures it.
                 Parallel.ForEach(sessionInfo.AssociatedSitePinList, sitePinInfo =>
                 {
-                    session.Output.SetEnabled(sitePinInfo.IndividualChannelString, enable.GetValue(sitePinInfo.SiteNumber));
+                    session.Output.SetEnabled(sitePinInfo.IndividualChannelString.Split('/').Last(), enable.GetValue(sitePinInfo.SiteNumber));
                 });
             });
         }
@@ -76,7 +76,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
                 // Internally Driver APIs are using session level locks to serialize the calls..
                 Parallel.ForEach(sessionInfo.AssociatedSitePinList, sitePinInfo =>
                 {
-                    session.Output.SetEnabled(sitePinInfo.IndividualChannelString, enable.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName));
+                    session.Output.SetEnabled(sitePinInfo.IndividualChannelString.Split('/').Last(), enable.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName));
                 });
             });
         }
