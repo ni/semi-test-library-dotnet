@@ -327,5 +327,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             Assert.All(patternStartLabel, label => Assert.Equal(expectedStartLabel, label));
         }
+
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitialized_ConfigurePatternWithDuplicateSiteNumbers_ThrowsException(string pinMap, string digitalProject)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            const string expectedStartLabel = "TX_RF";
+            void ConfigurePatternTest() => sessionsBundle.ConfigurePattern(expectedStartLabel, new int[] { 0, 1, 1, 0 });
+
+            Assert.Throws<NISemiconductorTestException>(ConfigurePatternTest);
+        }
     }
 }
