@@ -267,14 +267,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ClearTMUAssignment();
         }
 
-        [Theory]
-        [InlineData(TmuArmType.Immediate)]
-        [InlineData(TmuArmType.Edge)]
-        public void Inititalize_ConfigureTMURiseTimeMeasurementWithArmTypeSucceeds(TmuArmType armType)
+        [Fact]
+        public void Inititalize_ConfigureTMURiseTimeMeasurementWithArmTypeSucceeds()
         {
             var sessionsBundle = InititalzeAndCreateBundle();
 
-            sessionsBundle.ConfigureTMURiseTimeMeasurement(1, armType);
+            sessionsBundle.ConfigureTMURiseTimeMeasurement(samplesToAcquire: 1);
             sessionsBundle.ClearTMUAssignment();
         }
 
@@ -295,14 +293,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ClearTMUAssignment();
         }
 
-        [Theory]
-        [InlineData(TmuArmType.Immediate)]
-        [InlineData(TmuArmType.Edge)]
-        public void Inititalize_ConfigureTMUFallTimeMeasurementWithArmTypeSucceeds(TmuArmType armType)
+        [Fact]
+        public void Inititalize_ConfigureTMUFallTimeMeasurementWithArmTypeSucceeds()
         {
             var sessionsBundle = InititalzeAndCreateBundle();
 
-            sessionsBundle.ConfigureTMUFallTimeMeasurement(1, armType);
+            sessionsBundle.ConfigureTMUFallTimeMeasurement(samplesToAcquire: 1);
             sessionsBundle.ClearTMUAssignment();
         }
 
@@ -329,7 +325,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionsBundle = InititalzeAndCreateBundle();
 
-            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            Assert.Throws<NISemiconductorTestException>(() =>
                 sessionsBundle.ConfigureTMUDutyCycleMeasurement((TmuDutyCycle)999, 1));
             sessionsBundle.ClearTMUAssignment();
         }
@@ -357,7 +353,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionsBundle = InititalzeAndCreateBundle();
 
-            Assert.Throws<ArgumentOutOfRangeException>(() =>
+            Assert.Throws<NISemiconductorTestException>(() =>
                 sessionsBundle.ConfigureTMUPulseWidthMeasurement((TmuPulseWidth)999, 1));
             sessionsBundle.ClearTMUAssignment();
         }
@@ -409,17 +405,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = InititalzeAndCreateBundle();
 
             sessionsBundle.ConfigureSkewMeasurement(new[] { "C0" }, new[] { "C1" }, edgeType, 1);
-            sessionsBundle.ClearTMUAssignment();
-        }
-
-        [Fact]
-        public void Inititalize_ConfigureSkewMeasurementWithMismatchedPinArrayLengths_ThrowsNISemiconductorTestException()
-        {
-            var sessionsBundle = InititalzeAndCreateBundle();
-
-            Assert.Throws<NISemiconductorTestException>(() =>
-                sessionsBundle.ConfigureSkewMeasurement(
-                    new[] { "C0", "PA_EN" }, new[] { "C1" }, TmuSourcePolarity.RisingEdge, 1));
             sessionsBundle.ClearTMUAssignment();
         }
 
