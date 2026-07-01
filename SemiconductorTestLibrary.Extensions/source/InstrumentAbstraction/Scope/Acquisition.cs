@@ -96,7 +96,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
         /// <param name="timeout">The maximum time to wait for the data.</param>
         /// <param name="numberOfSamples">The number of samples to read.</param>
-        /// <returns>An array of waveforms, where each element corresponds to one channel in the bundle.</returns>
+        /// <returns>PinSiteData of an array of samples, where each element corresponds to one channel in the bundle.</returns>
         public static PinSiteData<double[]> Read(this ScopeSessionsBundle sessionsBundle, PrecisionTimeSpan timeout, long numberOfSamples)
         {
             return sessionsBundle
@@ -126,6 +126,22 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
                         .Read(timeout, numberOfSamples, null)
                         .First();
                 });
+        }
+
+        /// <summary>
+        /// Fetches waveform data from the specified channel without initiating a new acquisition.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
+        /// <param name="timeout">The maximum time to wait for the data.</param>
+        /// <param name="pointsToFetch">The number of points to fetch. Use -1 to fetch all available points.</param>
+        /// <returns>PinSiteData of an array of samples, where each element corresponds to one channel in the bundle.</returns>
+        public static PinSiteData<double[]> Fetch(this ScopeSessionsBundle sessionsBundle, PrecisionTimeSpan timeout, int pointsToFetch)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                var waveform = sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString].Measurement.FetchDouble(timeout, pointsToFetch, null).First();
+                return waveform.Samples.Select(sample => sample.Value).ToArray();
+            });
         }
 
         /// <summary>
