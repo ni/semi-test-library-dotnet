@@ -95,16 +95,35 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
         /// <param name="timeout">The maximum time to wait for the data.</param>
-        /// <param name="recordLength">The number of samples to read.</param>
+        /// <param name="numberOfSamples">The number of samples to read.</param>
         /// <returns>An array of waveforms, where each element corresponds to one channel in the bundle.</returns>
-        public static PinSiteData<AnalogWaveform<double>> ReadWaveform(this ScopeSessionsBundle sessionsBundle, PrecisionTimeSpan timeout, long recordLength)
+        public static PinSiteData<double[]> Read(this ScopeSessionsBundle sessionsBundle, PrecisionTimeSpan timeout, long numberOfSamples)
+        {
+            return sessionsBundle
+                .DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+                {
+                    var waveform = sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString].Measurement
+                        .Read(timeout, numberOfSamples, null)
+                        .First();
+                    return waveform.Samples.Select(sample => sample.Value).ToArray();
+                });
+        }
+
+        /// <summary>
+        /// Reads waveform data from all channels in the bundle.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
+        /// <param name="timeout">The maximum time to wait for the data.</param>
+        /// <param name="numberOfSamples">The number of samples to read.</param>
+        /// <returns>An array of waveforms, where each element corresponds to one channel in the bundle.</returns>
+        public static PinSiteData<AnalogWaveform<double>> ReadWaveform(this ScopeSessionsBundle sessionsBundle, PrecisionTimeSpan timeout, long numberOfSamples)
         {
             return sessionsBundle
                 .DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
                 {
                     return sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString]
                         .Measurement
-                        .Read(timeout, recordLength, null)
+                        .Read(timeout, numberOfSamples, null)
                         .First();
                 });
         }
