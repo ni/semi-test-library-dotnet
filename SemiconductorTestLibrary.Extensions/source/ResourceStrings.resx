@@ -169,6 +169,6 @@
     <value>This feature is not supported on a ganged pin group.</value>
   </data>
   <data name="Digital_InvalidSites" xml:space="preserve">
-    <value>The specified sites are not present in the bundle.</value>
+    <value>The specified sites are not present in the bundle. Invalid site(s): {0}.</value>
   </data>
 </root>

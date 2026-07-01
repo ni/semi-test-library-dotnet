@@ -151,7 +151,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The specified sites are not present in the bundle..
+        ///   Looks up a localized string similar to The specified sites are not present in the bundle. Invalid site(s): {0}..
         /// </summary>
         internal static string Digital_InvalidSites {
             get {

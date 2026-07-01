@@ -349,7 +349,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             void ConfigurePatternWithInvalidSites() => sessionsBundle.ConfigurePattern(expectedStartLabel, new int[] { 0, 1, 2 });
 
             var exception = Assert.Throws<NISemiconductorTestException>(ConfigurePatternWithInvalidSites);
-            Assert.Contains("The specified sites are not present in the bundle.", exception.Message);
+            Assert.Contains("The specified sites are not present in the bundle. Invalid site(s):", exception.Message);
         }
     }
 }

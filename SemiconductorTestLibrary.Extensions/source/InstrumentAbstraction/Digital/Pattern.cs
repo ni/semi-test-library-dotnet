@@ -125,8 +125,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         {
             var sitePinList = sessionsBundle.AggregateSitePinList;
             var listOfSiteNumbers = sitePinList.Select(spi => spi.SiteNumber).Distinct().ToArray();
-            var invalidSites = siteNumbers?.Except(listOfSiteNumbers).ToArray();
-            if (invalidSites != null && invalidSites.Length > 0)
+            var invalidSites = siteNumbers?.Except(listOfSiteNumbers).Distinct().ToArray();
+            if (invalidSites?.Length > 0)
             {
                 throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_InvalidSites, string.Join(", ", invalidSites)));
             }
@@ -136,8 +136,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 if (siteNumbers != null && siteNumbers.Length > 0)
                 {
                     var filteredSites = sessionInfo.AssociatedSiteList.Where(sn => siteNumbers.Contains(sn)).ToArray();
-                    string siteList = string.Join(",", filteredSites.Select(sn => $"site{sn}"));
+                    if (filteredSites.Length > 0)
+                    {
+                        var siteList = string.Join(",", filteredSites.Select(sn => $"site{sn}"));
                         sessionInfo.Session.PatternControl.ConfigurePatternBurstSites(siteList);
+                    }
                 }
             });
         }
