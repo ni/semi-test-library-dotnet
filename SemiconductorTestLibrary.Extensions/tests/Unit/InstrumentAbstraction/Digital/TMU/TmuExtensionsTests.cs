@@ -47,7 +47,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
 
             sessionsBundle.ConfigureTMUStartSource(pinNames);
-
             sessionsBundle.ClearTMUAssignment();
         }
 
@@ -64,7 +63,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
 
             sessionsBundle.ConfigureTMUStopSource(pinNames);
-
             sessionsBundle.ClearTMUAssignment();
         }
 
@@ -83,7 +81,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
 
             sessionsBundle.ConfigureTMUStartSourceEvent(sourceEvent, pinNames);
-
             sessionsBundle.ClearTMUAssignment();
         }
 
@@ -102,7 +99,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
 
             sessionsBundle.ConfigureTMUStopSourceEvent(sourceEvent, pinNames);
-
             sessionsBundle.ClearTMUAssignment();
         }
 
@@ -123,7 +119,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
 
             sessionsBundle.ConfigureTMUStartSourceEventPolarity(polarity, pinNames);
-
             sessionsBundle.ClearTMUAssignment();
         }
 
@@ -144,7 +139,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
 
             sessionsBundle.ConfigureTMUStopSourceEventPolarity(polarity, pinNames);
-
             sessionsBundle.ClearTMUAssignment();
         }
 
@@ -166,7 +160,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ConfigureTMUEdgeArmPolarity(TmuSourcePolarity.RisingEdge, pinNames);
 
             sessionsBundle.ConfigureTMUArmType(armType, pinNames);
-
             sessionsBundle.ClearTMUAssignment();
         }
 
@@ -183,7 +176,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
 
             sessionsBundle.ConfigureTMUEdgeArmSource(pinNames);
-
             sessionsBundle.ClearTMUAssignment();
         }
 
@@ -202,7 +194,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
 
             sessionsBundle.ConfigureTMUEdgeArmSourceEvent(sourceEvent, pinNames);
-
             sessionsBundle.ClearTMUAssignment();
         }
 
@@ -221,7 +212,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
 
             sessionsBundle.ConfigureTMUEdgeArmPolarity(polarity, pinNames);
-
             sessionsBundle.ClearTMUAssignment();
         }
 
@@ -239,7 +229,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
 
             sessionsBundle.ConfigureTMUSamplesToAcquire(sampleNumber, pinNames);
-
             sessionsBundle.ClearTMUAssignment();
         }
 
@@ -257,7 +246,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
 
             sessionsBundle.ConfigureTMUSampleTimeout(timeout, pinNames);
-
             sessionsBundle.ClearTMUAssignment();
         }
 
