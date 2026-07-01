@@ -123,6 +123,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="siteNumbers">The site numbers to configure the pattern for.</param>
         public static void ConfigurePattern(this DigitalSessionsBundle sessionsBundle, string startLabel, int[] siteNumbers = null)
         {
+            startLabel = startLabel ?? string.Empty;
             var sitePinList = sessionsBundle.AggregateSitePinList;
             var listOfSiteNumbers = sitePinList.Select(spi => spi.SiteNumber).Distinct().ToArray();
             var invalidSites = siteNumbers?.Except(listOfSiteNumbers).Distinct().ToArray();
@@ -167,7 +168,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         {
             return sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo =>
             {
-                return sessionInfo.Session.PatternControl.StartLabel;
+                return sessionInfo.Session.PatternControl.StartLabel ?? string.Empty;
             });
         }
 
