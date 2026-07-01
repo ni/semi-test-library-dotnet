@@ -1,4 +1,5 @@
 ﻿using NationalInstruments.ModularInstruments.NIFgen;
+using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGen
 {
@@ -17,12 +18,26 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
             OutputMode outputMode = OutputMode.Function;
 
             // Define parameters for the waveform generation.
-            StandardWaveform function = StandardWaveform.Sine;
-            double frequency = 1000; // 1 KHz
-            double amplitude = 2.0; // 2 Volts
-            double dcOffset = 0;
-            double startPhase = 0;
-            var standardWaveformSettings = new StandardWaveformSettings(function, frequency, amplitude, dcOffset, startPhase);
+            StandardWaveform function1 = StandardWaveform.Sine;
+            double frequency1 = 1000; // 1 KHz
+            double amplitude1 = 2.0; // 2 Volts
+            double dcOffset1 = 0;
+            double startPhase1 = 0;
+            var standardWaveformSettings1 = new StandardWaveformSettings(function1, frequency1, amplitude1, dcOffset1, startPhase1);
+
+            // Define parameters for the waveform generation.
+            StandardWaveform function2 = StandardWaveform.Square;
+            double frequency2 = 2000; // 1 KHz
+            double amplitude2 = 4.0; // 2 Volts
+            double dcOffset2 = 1;
+            double startPhase2 = 0;
+            var standardWaveformSettings2 = new StandardWaveformSettings(function2, frequency2, amplitude2, dcOffset2, startPhase2);
+
+            int[] siteData = new int[] { 0, 1 };
+            string[] pinNames = new string[] { "A" };
+            StandardWaveformSettings[] pinsiteData = new StandardWaveformSettings[] { standardWaveformSettings1, standardWaveformSettings2 };
+
+            var standardWaveformSettings = new PinSiteData<StandardWaveformSettings>(siteData, pinNames, pinsiteData);
 
             // Create a TSMContext for the test session. The pinmap file path is specified in the TSMContext.
             // var tsmContext = TSMContext.CreateTSMContext("FgenTests.pinmap");

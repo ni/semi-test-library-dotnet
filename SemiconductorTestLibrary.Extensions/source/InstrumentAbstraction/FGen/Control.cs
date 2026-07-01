@@ -38,6 +38,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.FGe
                 sessionInfo.ConfigureChannels(associatedChannels);
 
                 sessionInfo.Session.InitiateGeneration();
+                var serialNumber = sessionInfo.Session.Identity.SerialNumber;
             });
         }
 
