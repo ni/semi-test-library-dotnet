@@ -263,61 +263,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// If the <paramref name="edgeType"/> parameter is set to <see cref="TmuSourcePolarity.EitherEdge"/>, an exception will be thrown.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <param name="referencePinName">The pin to use as the reference (start) source for the skew measurement.</param>
-        /// <param name="targetPinName">The pin to use as the target (stop) source for the skew measurement.</param>
+        /// <param name="referencePinNames">The pins to use as the reference (start) source for the skew measurement.</param>
+        /// <param name="targetPinNames">The pins to use as the target (stop) source for the skew measurement.</param>
         /// <param name="edgeType">The type of edge to detect. Only accepts <see cref="TmuSourcePolarity.RisingEdge"/> or <see cref="TmuSourcePolarity.FallingEdge"/>.</param>
         /// <param name="samplesToAcquire">The number of samples to acquire for the TMU measurement.</param>
         /// <param name="armType">
         /// The type of signal used to arm the TMU measurement.<br/>
         /// The TMU's arm input is used to frame, or select, the start and stop events of interest for each TMU sample.
         /// </param>
-        public static void ConfigureSkewMeasurement(
-            this DigitalSessionsBundle sessionsBundle,
-            string referencePinName,
-            string targetPinName,
-            TmuSourcePolarity edgeType,
-            long samplesToAcquire,
-            TmuArmType armType = TmuArmType.Immediate)
-        {
-            ValidatePinsOfTMU(sessionsBundle.Pins, new[] { referencePinName, targetPinName });
-            ValidateSkewPins(new[] { referencePinName }, new[] { targetPinName });
-
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                // Configure only for the target pin
-                if (sitePinInfo.PinName == targetPinName)
-                {
-                    // Find the reference pin's channel string for the same site
-                    var referenceSitePinInfo = sessionInfo.AssociatedSitePinList
-                        .FirstOrDefault(sp => sp.PinName == referencePinName && sp.SiteNumber == sitePinInfo.SiteNumber);
-
-                    ConfigureSkewMeasurementForSitePin(
-                        sessionInfo,
-                        sitePinInfo,
-                        referenceSitePinInfo.IndividualChannelString,
-                        edgeType,
-                        samplesToAcquire,
-                        armType);
-                }
-            });
-        }
-
-        /// <summary>
-        /// Configures the TMU for skew measurement between multiple reference pins and target pins.
-        /// </summary>
-        /// <inheritdoc cref="ConfigureSkewMeasurement(DigitalSessionsBundle, string, string, TmuSourcePolarity, long, TmuArmType)"/>
-        /// <param name="sessionsBundle"/>
-        /// <param name="referencePinNames">
-        /// The pins to use as the reference (start) sources for the skew measurements.<br/>
-        /// Each reference pin at index <c>i</c> pairs with the target pin at the same index <c>i</c>.
-        /// </param>
-        /// <param name="targetPinNames">
-        /// The pins to use as the target (stop) sources for the skew measurements.<br/>
-        /// Each target pin at index <c>i</c> pairs with the reference pin at the same index <c>i</c>.
-        /// </param>
-        /// <param name="edgeType"/>
-        /// <param name="samplesToAcquire"/>
-        /// <param name="armType"/>
         public static void ConfigureSkewMeasurement(
             this DigitalSessionsBundle sessionsBundle,
             string[] referencePinNames,
@@ -340,30 +293,35 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             // Validate reference and target pins are not the same
             ValidateSkewPins(referencePinNames, targetPinNames);
 
-            // Create a mapping from target pin to reference pin
-            var targetToReferenceMap = new Dictionary<string, string>();
-            for (int i = 0; i < targetPinNames.Length; i++)
+            // Create a mapping from reference pin to target pin
+            var referenceToTargetMap = new Dictionary<string, string>();
+            for (int i = 0; i < referencePinNames.Length; i++)
             {
-                targetToReferenceMap[targetPinNames[i]] = referencePinNames[i];
+                referenceToTargetMap[referencePinNames[i]] = targetPinNames[i];
             }
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-            // Configure only for target pins (which have the TMU assigned)
-            if (targetToReferenceMap.TryGetValue(sitePinInfo.PinName, out string referencePinName))
-            {
-                // Find the reference pin's channel string for the same site
-                var referenceSitePinInfo = sessionInfo.AssociatedSitePinList
-                    .FirstOrDefault(sp => sp.PinName == referencePinName && sp.SiteNumber == sitePinInfo.SiteNumber);
+                // Configure only for reference pins (which have the TMU assigned)
+                if (referenceToTargetMap.TryGetValue(sitePinInfo.PinName, out string targetPinName))
+                {
+                    // Find the target pin's channel string for the same site
+                    var targetSitePinInfo = sessionInfo.AssociatedSitePinList
+                        .FirstOrDefault(sp => sp.PinName == targetPinName && sp.SiteNumber == sitePinInfo.SiteNumber);
+                    if (targetSitePinInfo == null)
+                    {
+                        throw new NISemiconductorTestException(
+                            $"Target pin '{targetPinName}' not found for site {sitePinInfo.SiteNumber}.");
+                    }
 
-                ConfigureSkewMeasurementForSitePin(
-                    sessionInfo,
-                    sitePinInfo,
-                    referenceSitePinInfo.IndividualChannelString,
-                    edgeType,
-                    samplesToAcquire,
-                    armType);
-            }
+                    ConfigureSkewMeasurementForSitePin(
+                        sessionInfo,
+                        sitePinInfo,
+                        targetSitePinInfo,
+                        edgeType,
+                        samplesToAcquire,
+                        armType);
+                }
             });
         }
 
@@ -965,7 +923,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                     return false;
                 }
             }
-            return true; // It is safe to release only when all the assigned TMUs are free, resources not reservered at driver level.
+            return true; // It is safe to release only when all the assigned TMUs are free, resources not reserved at driver level.
         }
 
         private static void ConfigurePeriodMeasurementForSitePin(DigitalSessionInformation sessionInfo, SitePinInfo sitePinInfo, TmuSourcePolarity edgeType, long samplesToAcquire, TmuArmType armSourcetype)
@@ -1003,7 +961,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         private static void ConfigureSkewMeasurementForSitePin(
             DigitalSessionInformation sessionInfo,
             SitePinInfo targetSitePinInfo,
-            string referenceChannelString,
+            SitePinInfo referenceSitePinInfo,
             TmuSourcePolarity edgeType,
             long samplesToAcquire,
             TmuArmType armType)
@@ -1020,8 +978,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                     sourceEvent = TmuSourceEvent.Vol;
                     break;
                 default:
-                    throw new NISemiconductorTestException(
-                        "Skew measurement only supports RisingEdge or FallingEdge polarity. EitherEdge is not supported.");
+                    throw new ArgumentOutOfRangeException(nameof(edgeType), edgeType, string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedPolarity));
             }
             DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
             // Configure TMU Start Source (Reference Channel)
@@ -1030,7 +987,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             tmu.Start.SourcePolarity = edgeType;
 
             // Configure TMU Stop Source (Target Channel)
-            tmu.Stop.Source = referenceChannelString;
+            tmu.Stop.Source = referenceSitePinInfo.IndividualChannelString;
             tmu.Stop.SourceEvent = sourceEvent;
             tmu.Stop.SourcePolarity = edgeType;
 
@@ -1140,7 +1097,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         {
             // Check that no target pin appears in the reference pins array
             var referencePinSet = new HashSet<string>(referencePinNames, StringComparer.OrdinalIgnoreCase);
-            var overlappingPins = targetPinNames.Where(t => referencePinSet.Contains(t)).Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
+            // Check that no target pin appears in the reference pins array.
+            var overlappingPins = targetPinNames.Intersect(referencePinNames, StringComparer.OrdinalIgnoreCase).ToArray();
 
             if (overlappingPins.Any())
             {
