@@ -282,8 +282,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             // Validate array lengths match
             if (referencePinNames.Length != targetPinNames.Length)
             {
-                throw new NISemiconductorTestException(
-                    $"The number of reference pins ({referencePinNames.Length}) must match the number of target pins ({targetPinNames.Length}).");
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUSkewPinCountMismatch, referencePinNames.Length, targetPinNames.Length));
             }
 
             // Validate all pins exist in the bundle
@@ -310,8 +309,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                         .FirstOrDefault(sp => sp.PinName == targetPinName && sp.SiteNumber == sitePinInfo.SiteNumber);
                     if (targetSitePinInfo == null)
                     {
-                        throw new NISemiconductorTestException(
-                            $"Target pin '{targetPinName}' not found for site {sitePinInfo.SiteNumber}.");
+                        throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUSkewTargetPinNotFound, targetPinName, sitePinInfo.SiteNumber));
                     }
 
                     ConfigureSkewMeasurementForSitePin(
@@ -1102,9 +1100,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
 
             if (overlappingPins.Any())
             {
-                throw new NISemiconductorTestException(
-                    $"A pin cannot be used as both a reference and a target in the same skew measurement configuration. " +
-                    $"The following pin(s) appear in both reference and target arrays: {string.Join(", ", overlappingPins.Select(p => $"\"{p}\""))}.");
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUSkewOverlappingPins, string.Join(", ", overlappingPins.Select(p => $"\"{p}\""))));
             }
         }
 

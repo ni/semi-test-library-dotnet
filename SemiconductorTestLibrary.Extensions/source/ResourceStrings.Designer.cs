@@ -61,7 +61,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number of points must be greater than one. .
+        ///   Looks up a localized string similar to Number of points must be greater than one..
         /// </summary>
         internal static string CreateRamp_InvalidNumberOfPoints {
             get {
@@ -124,16 +124,16 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Inconsistent advanced sequence properties. The following properties must be either specified or omitted for all steps in the sequence: {0}.
+        ///   Looks up a localized string similar to Inconsistent advanced sequence properties. The following properties must be specified or omitted for all steps in the sequence: {0}.
         /// </summary>
         internal static string DCPower_InconsistentAdvancedSequenceProperties {
             get {
                 return ResourceManager.GetString("DCPower_InconsistentAdvancedSequenceProperties", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to The channelOutput contains more than one channel &quot;{0}&quot;. This method overload only supports single channel operation when a valid SitePinInfo object is passed.&quot;.
+        ///   Looks up a localized string similar to The channelOutput contains more than one channel ({0}). This method overload only supports single-channel operation when a valid SitePinInfo object is passed..
         /// </summary>
         internal static string DCPower_MultipleChannelOutputsDetected {
             get {
@@ -237,6 +237,33 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         internal static string Digital_TMUResourcesInUse {
             get {
                 return ResourceManager.GetString("Digital_TMUResourcesInUse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A pin cannot be used as both a reference and a target in the same skew measurement configuration. The following pin(s) appear in both reference and target arrays: {0}.
+        /// </summary>
+        internal static string Digital_TMUSkewOverlappingPins {
+            get {
+                return ResourceManager.GetString("Digital_TMUSkewOverlappingPins", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The number of reference pins ({0}) must match the number of target pins ({1})..
+        /// </summary>
+        internal static string Digital_TMUSkewPinCountMismatch {
+            get {
+                return ResourceManager.GetString("Digital_TMUSkewPinCountMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Target pin &apos;{0}&apos; was not found in the session for site {1}..
+        /// </summary>
+        internal static string Digital_TMUSkewTargetPinNotFound {
+            get {
+                return ResourceManager.GetString("Digital_TMUSkewTargetPinNotFound", resourceCulture);
             }
         }
         
