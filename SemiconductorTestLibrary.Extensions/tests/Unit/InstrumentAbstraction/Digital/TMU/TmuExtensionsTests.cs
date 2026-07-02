@@ -108,13 +108,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         #region Configure TMU Start Source Event Polarity Tests
 
         [Theory]
-        [InlineData(TmuPolarity.RisingEdge, false)]
-        [InlineData(TmuPolarity.RisingEdge, true)]
-        [InlineData(TmuPolarity.FallingEdge, false)]
-        [InlineData(TmuPolarity.FallingEdge, true)]
-        [InlineData(TmuPolarity.EitherEdge, false)]
-        [InlineData(TmuPolarity.EitherEdge, true)]
-        public void Inititalize_ConfigureTMUStartSourceEventPolaritySucceeds(TmuPolarity polarity, bool useSpecificPins)
+        [InlineData(TmuSourcePolarity.RisingEdge, false)]
+        [InlineData(TmuSourcePolarity.RisingEdge, true)]
+        [InlineData(TmuSourcePolarity.FallingEdge, false)]
+        [InlineData(TmuSourcePolarity.FallingEdge, true)]
+        [InlineData(TmuSourcePolarity.EitherEdge, false)]
+        [InlineData(TmuSourcePolarity.EitherEdge, true)]
+        public void Inititalize_ConfigureTMUStartSourceEventPolaritySucceeds(TmuSourcePolarity polarity, bool useSpecificPins)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -128,13 +128,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         #region Configure TMU Stop Source Event Polarity Tests
 
         [Theory]
-        [InlineData(TmuPolarity.RisingEdge, false)]
-        [InlineData(TmuPolarity.RisingEdge, true)]
-        [InlineData(TmuPolarity.FallingEdge, false)]
-        [InlineData(TmuPolarity.FallingEdge, true)]
-        [InlineData(TmuPolarity.EitherEdge, false)]
-        [InlineData(TmuPolarity.EitherEdge, true)]
-        public void Inititalize_ConfigureTMUStopSourceEventPolaritySucceeds(TmuPolarity polarity, bool useSpecificPins)
+        [InlineData(TmuSourcePolarity.RisingEdge, false)]
+        [InlineData(TmuSourcePolarity.RisingEdge, true)]
+        [InlineData(TmuSourcePolarity.FallingEdge, false)]
+        [InlineData(TmuSourcePolarity.FallingEdge, true)]
+        [InlineData(TmuSourcePolarity.EitherEdge, false)]
+        [InlineData(TmuSourcePolarity.EitherEdge, true)]
+        public void Inititalize_ConfigureTMUStopSourceEventPolaritySucceeds(TmuSourcePolarity polarity, bool useSpecificPins)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -158,7 +158,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
             sessionsBundle.ConfigureTMUStartSource(pinNames);
             sessionsBundle.ConfigureTMUEdgeArmSource(pinNames);
-            sessionsBundle.ConfigureTMUEdgeArmPolarity(TmuPolarity.RisingEdge, pinNames);
+            sessionsBundle.ConfigureTMUEdgeArmPolarity(TmuSourcePolarity.RisingEdge, pinNames);
 
             sessionsBundle.ConfigureTMUArmType(armType, pinNames);
             sessionsBundle.ClearTMUAssignment();
@@ -203,11 +203,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         #region Configure TMU Edge Arm Polarity Tests
 
         [Theory]
-        [InlineData(TmuPolarity.RisingEdge, false)]
-        [InlineData(TmuPolarity.RisingEdge, true)]
-        [InlineData(TmuPolarity.FallingEdge, false)]
-        [InlineData(TmuPolarity.FallingEdge, true)]
-        public void Inititalize_ConfigureTMUEdgeArmPolaritySucceeds(TmuPolarity polarity, bool useSpecificPins)
+        [InlineData(TmuSourcePolarity.RisingEdge, false)]
+        [InlineData(TmuSourcePolarity.RisingEdge, true)]
+        [InlineData(TmuSourcePolarity.FallingEdge, false)]
+        [InlineData(TmuSourcePolarity.FallingEdge, true)]
+        public void Inititalize_ConfigureTMUEdgeArmPolaritySucceeds(TmuSourcePolarity polarity, bool useSpecificPins)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -372,35 +372,35 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         #region Configure Skew Measurement (Single Pin Pair) Tests
 
         [Theory]
-        [InlineData(TmuPolarity.RisingEdge)]
-        [InlineData(TmuPolarity.FallingEdge)]
-        public void Inititalize_ConfigureSkewMeasurementSucceeds(TmuPolarity edgeType)
+        [InlineData(TmuSourcePolarity.RisingEdge)]
+        [InlineData(TmuSourcePolarity.FallingEdge)]
+        public void Inititalize_ConfigureSkewMeasurementSucceeds(TmuSourcePolarity edgeType)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
 
-            sessionsBundle.ConfigureSkewMeasurement(new string[] { "C0" }, new string[] { "C1" }, edgeType, 1);
+            sessionsBundle.ConfigureSkewMeasurement("C0", "C1", edgeType, 1);
             sessionsBundle.DisableTMU();
             sessionsBundle.ClearTMUAssignment();
         }
 
         [Fact]
-        public void Inititalize_ConfigureSkewMeasurementWithEitherEdgeThrowsNISemiconductorTestException()
+        public void Inititalize_ConfigureSkewMeasurementWithEitherEdge_ThrowsNISemiconductorTestException()
         {
             var sessionsBundle = InititalzeAndCreateBundle();
 
             Assert.Throws<NISemiconductorTestException>(() =>
-                sessionsBundle.ConfigureSkewMeasurement(new string[] { "C0" }, new string[] { "C1" }, TmuPolarity.EitherEdge, 1));
+                sessionsBundle.ConfigureSkewMeasurement("C0", "C1", TmuSourcePolarity.EitherEdge, 1));
             sessionsBundle.DisableTMU();
             sessionsBundle.ClearTMUAssignment();
         }
 
         [Fact]
-        public void Inititalize_ConfigureSkewMeasurementWithSamePinAsReferenceAndTargetThrowsNISemiconductorTestException()
+        public void Inititalize_ConfigureSkewMeasurementWithSamePinAsReferenceAndTarget_ThrowsNISemiconductorTestException()
         {
             var sessionsBundle = InititalzeAndCreateBundle();
 
             Assert.Throws<NISemiconductorTestException>(() =>
-                sessionsBundle.ConfigureSkewMeasurement(new string[] { "C0" }, new string[] { "C0" }, TmuPolarity.RisingEdge, 1));
+                sessionsBundle.ConfigureSkewMeasurement("C0", "C0", TmuSourcePolarity.RisingEdge, 1));
             sessionsBundle.DisableTMU();
             sessionsBundle.ClearTMUAssignment();
         }
@@ -410,9 +410,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         #region Configure Skew Measurement (Multiple Pin Pairs) Tests
 
         [Theory]
-        [InlineData(TmuPolarity.RisingEdge)]
-        [InlineData(TmuPolarity.FallingEdge)]
-        public void Inititalize_ConfigureSkewMeasurementWithMultiplePinsSucceeds(TmuPolarity edgeType)
+        [InlineData(TmuSourcePolarity.RisingEdge)]
+        [InlineData(TmuSourcePolarity.FallingEdge)]
+        public void Inititalize_ConfigureSkewMeasurementWithMultiplePinsSucceeds(TmuSourcePolarity edgeType)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
 
@@ -428,7 +428,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             Assert.Throws<NISemiconductorTestException>(() =>
                 sessionsBundle.ConfigureSkewMeasurement(
-                    new[] { "C0" }, new[] { "C0" }, TmuPolarity.RisingEdge, 1));
+                    new[] { "C0" }, new[] { "C0" }, TmuSourcePolarity.RisingEdge, 1));
             sessionsBundle.DisableTMU();
             sessionsBundle.ClearTMUAssignment();
         }
@@ -440,7 +440,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             Assert.Throws<NISemiconductorTestException>(() =>
                 sessionsBundle.ConfigureSkewMeasurement(
-                    new[] { "C0" }, new[] { "C1" }, TmuPolarity.EitherEdge, 1));
+                    new[] { "C0" }, new[] { "C1" }, TmuSourcePolarity.EitherEdge, 1));
             sessionsBundle.DisableTMU();
             sessionsBundle.ClearTMUAssignment();
         }
