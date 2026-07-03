@@ -673,7 +673,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
 
         private static DigitalTmu GetAssignedTmu(DigitalSessionInformation sessionInfo, SitePinInfo sitePinInfo)
         {
-            string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
+            string tmuContext = (sitePinInfo as DigitalSitePinInfo)?.AssignedTmuContext;
             return GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
         }
 
