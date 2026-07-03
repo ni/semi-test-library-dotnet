@@ -1752,14 +1752,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Configures the current level, in amps, that the device attempts to generate on the smu channels in the bundle.
+        /// Configures the current level.
         /// </summary>
-        /// <remarks>
-        /// When the <paramref name="currentLevel"/> value is associated with a ganged pingroup name, it applies to the total ganged current.
-        /// When the value is associated with individual pin names, it applies to each pin in the ganged pingroup.
-        /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="currentLevel">The double value of the current level.</param>
+        /// <param name="currentLevel">The current level to set, in Amps.</param>
         public static void ConfigureCurrentLevel(this DCPowerSessionsBundle sessionsBundle, double currentLevel)
         {
             sessionsBundle.DoPerChannelIfGangedElsePerSession(
@@ -1786,6 +1782,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <inheritdoc cref="ConfigureCurrentLevel(DCPowerSessionsBundle, double)"/>
+        /// <remarks>
+        /// When the <paramref name="currentLevel"/> value is associated with a ganged pingroup name, it applies to the total ganged current.
+        /// When the value is associated with individual pin names, it applies to each pin in the ganged pingroup.
+        /// </remarks>
         public static void ConfigureCurrentLevel(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> currentLevel)
         {
             var hasGangedChannels = sessionsBundle.HasGangedChannels;
