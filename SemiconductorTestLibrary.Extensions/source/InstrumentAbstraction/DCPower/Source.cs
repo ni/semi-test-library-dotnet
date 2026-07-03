@@ -1765,8 +1765,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.DoPerChannelIfGangedElsePerSession(
                perChannelAction: (sessionInfo, sitePinInfo) =>
                {
-                   var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                   SetCurrentLimitHigh(channelOutput, sitePinInfo, currentLimitHigh);
+                   SetCurrentLimitHigh(sessionInfo, sitePinInfo, currentLimitHigh);
                },
                perSessionAction: sessionInfo =>
                {
@@ -1782,8 +1781,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                SetCurrentLimitHigh(channelOutput, sitePinInfo, currentLimitHigh.GetValue(sitePinInfo.SiteNumber));
+                SetCurrentLimitHigh(sessionInfo, sitePinInfo, currentLimitHigh.GetValue(sitePinInfo.SiteNumber));
             });
         }
 
@@ -1794,8 +1792,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                SetCurrentLimitHigh(channelOutput, sitePinInfo, currentLimitHigh.GetValue(sitePinInfo, out bool isGroupData), isGroupData);
+                SetCurrentLimitHigh(sessionInfo, sitePinInfo, currentLimitHigh.GetValue(sitePinInfo, out bool isGroupData), isGroupData);
             });
         }
 
@@ -3091,8 +3088,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        private static void SetCurrentLimitHigh(DCPowerOutput channelOutput, SitePinInfo sitePinInfo, double currentLimitHigh, bool isGroupData = true)
+        private static void SetCurrentLimitHigh(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double currentLimitHigh, bool isGroupData = true)
         {
+            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
             var currentLimitHighToSet = currentLimitHigh;
 
             if (isGroupData && sitePinInfo?.CascadingInfo is GangingInfo gangingInfo)
