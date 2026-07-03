@@ -1765,8 +1765,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.DoPerChannelIfGangedElsePerSession(
                perChannelAction: (sessionInfo, sitePinInfo) =>
                {
-                   var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                   SetCurrentLevel(channelOutput, sitePinInfo, currentLevel);
+                   SetCurrentLevel(sessionInfo, sitePinInfo, currentLevel);
                },
                perSessionAction: sessionInfo =>
                {
@@ -1782,8 +1781,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                SetCurrentLevel(channelOutput, sitePinInfo, currentLevel.GetValue(sitePinInfo.SiteNumber));
+                SetCurrentLevel(sessionInfo, sitePinInfo, currentLevel.GetValue(sitePinInfo.SiteNumber));
             });
         }
 
@@ -1794,8 +1792,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                SetCurrentLevel(channelOutput, sitePinInfo, currentLevel.GetValue(sitePinInfo, out bool isGroupData), isGroupData);
+                SetCurrentLevel(sessionInfo, sitePinInfo, currentLevel.GetValue(sitePinInfo, out bool isGroupData), isGroupData);
             });
         }
 
@@ -3083,8 +3080,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger });
         }
 
-        private static void SetCurrentLevel(DCPowerOutput channelOutput, SitePinInfo sitePinInfo, double currentLevel, bool isGroupData = true)
+        private static void SetCurrentLevel(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double currentLevel, bool isGroupData = true)
         {
+            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
             var currentLevelToSet = currentLevel;
 
             if (isGroupData && sitePinInfo?.CascadingInfo is GangingInfo gangingInfo)
