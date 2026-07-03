@@ -1752,14 +1752,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Configures the low current limit, in amps, for all SMU channels in the bundle.
+        /// Configures the low current limit.
         /// </summary>
-        /// <remarks>
-        /// When the <paramref name="currentLimitLow"/> value is associated with a ganged pingroup name, it applies to the total ganged current limit.
-        /// When the value is associated with individual pin names, it applies to each pin in the ganged pingroup.
-        /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="currentLimitLow">The current limit low to set.</param>
+        /// <param name="currentLimitLow">The current limit low to set, in Amps.</param>
         public static void ConfigureCurrentLimitLow(this DCPowerSessionsBundle sessionsBundle, double currentLimitLow)
         {
             sessionsBundle.DoPerChannelIfGangedElsePerSession(
@@ -1786,6 +1782,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <inheritdoc cref="ConfigureCurrentLimitLow(DCPowerSessionsBundle, double)"/>
+        /// <remarks>
+        /// When the <paramref name="currentLimitLow"/> value is associated with a ganged pingroup name, it applies to the total ganged current limit.
+        /// When the value is associated with individual pin names, it applies to each pin in the ganged pingroup.
+        /// </remarks>
         public static void ConfigureCurrentLimitLow(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> currentLimitLow)
         {
             var hasGangedChannels = sessionsBundle.HasGangedChannels;
