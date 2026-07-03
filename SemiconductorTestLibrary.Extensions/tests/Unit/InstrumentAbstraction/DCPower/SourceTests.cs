@@ -5301,6 +5301,108 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
         }
 
+        [Fact]
+        public void SMUDevicesMerged_GetCurrentLimitLow_ValuesAreReturnedInPrimaryPinName()
+        {
+            var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
+            var primaryPin = "VCCPrimary";
+            var allPinsMergedGroup = "AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin";
+            var sessionsBundle = sessionManager.DCPower(allPinsMergedGroup);
+            sessionsBundle.MergePinGroup(allPinsMergedGroup);
+            var expectedCurrentLimitLow = -3E-1;
+            sessionsBundle.ConfigureCurrentLimitLow(expectedCurrentLimitLow);
+
+            var currentLimitLows = sessionsBundle.GetCurrentLimitLow();
+
+            Assert.Single(currentLimitLows.PinNames);
+            Assert.Equal(primaryPin, currentLimitLows.PinNames[0]);
+            Assert.DoesNotContain(allPinsMergedGroup, currentLimitLows.PinNames);
+            Assert.Equal(expectedCurrentLimitLow, currentLimitLows.GetValue(0, primaryPin));
+        }
+
+        [Fact]
+        public void SMUDevicesGanged_GetCurrentLimitLow_ValuesDontHavePinGroupName()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var allPinsGangedGroup = "AllPinsGangedGroup";
+            var expectedCurrentLimitLow = -4E-1;
+            var sessionsBundle = sessionManager.DCPower(allPinsGangedGroup);
+            sessionsBundle.GangPinGroup(allPinsGangedGroup);
+            sessionsBundle.ConfigureCurrentLimitLow(expectedCurrentLimitLow);
+
+            var currentLimitLows = sessionsBundle.GetCurrentLimitLow();
+
+            Assert.Equal(5, currentLimitLows.PinNames.Length);
+            Assert.DoesNotContain(allPinsGangedGroup, currentLimitLows.PinNames);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                Assert.Equal(expectedCurrentLimitLow / currentLimitLows.PinNames.Length, currentLimitLows.GetValue(sitePinInfo));
+            });
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevicesSetSameCurrentLimitLow_GetCurrentLimitLow_GetTheSameValue(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var pinName = "VDD";
+            var expectedCurrentLimitLow = -2E-1;
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            sessionsBundle.ConfigureCurrentLimitLow(expectedCurrentLimitLow);
+
+            var values = sessionsBundle.GetCurrentLimitLow();
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                Assert.Equal(expectedCurrentLimitLow, values.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesSetPerPinCurrentLimitLow_GetCurrentLimitLow_GetPerDeviceValues()
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var pinNames = new string[] { "VCC1", "VCC2", "VDET" };
+            var sessionsBundle = sessionManager.DCPower(pinNames);
+            var activeSites = GetActiveSites(sessionsBundle);
+            var currentLimitLow = new PinSiteData<double>(activeSites, new Dictionary<string, double>()
+            {
+                [pinNames[0]] = -1E-1,
+                [pinNames[1]] = -1E-3,
+                [pinNames[2]] = -1E-2
+            });
+            sessionsBundle.ConfigureCurrentLimitLow(currentLimitLow);
+
+            var values = sessionsBundle.GetCurrentLimitLow();
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLimitLow = currentLimitLow.GetValue(sitePinInfo);
+                var actualCurrentLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitLow;
+                Assert.Equal(expectedCurrentLimitLow, actualCurrentLimitLow);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevices_SharedPin_GetCurrentLimitLow_ReturnsSameValueOnFullBundleAfterConfiguringFilteredSiteBundle()
+        {
+            var sessionManager = Initialize("SharedPinTests.pinmap");
+            var pinName = "VDD";
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            var filteredBySite0Bundle = sessionsBundle.FilterBySite(0);
+            var expectedCurrentLimitLow = -25E-2;
+
+            filteredBySite0Bundle.ConfigureCurrentLimitLow(expectedCurrentLimitLow);
+
+            var values = sessionsBundle.GetCurrentLimitLow();
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                Assert.Equal(expectedCurrentLimitLow, values.GetValue(sitePinInfo));
+            });
+        }
+
         private void AssertVoltageSettings(DCPowerOutput channelOutput, double expectedVoltageLevel, double expectedCurrentLimit, int precision = 6)
         {
             Assert.Equal(expectedVoltageLevel, channelOutput.Source.Voltage.VoltageLevel, precision);

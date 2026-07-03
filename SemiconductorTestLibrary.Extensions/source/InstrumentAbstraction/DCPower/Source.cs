@@ -2037,6 +2037,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
+        /// Gets the configured lower current limit for all targeted pins. Only applicable when sourcing with asymmetrical limits.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin lower current limits.</returns>
+        public static PinSiteData<double> GetCurrentLimitLow(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitLow;
+            });
+        }
+
+        /// <summary>
         /// Checks if the output function is set to DCVoltage and the level(s) are set to the expected values.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
