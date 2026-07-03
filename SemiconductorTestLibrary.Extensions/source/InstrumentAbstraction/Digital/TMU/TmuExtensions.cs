@@ -677,9 +677,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             return GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
         }
 
-        private static DigitalTmuCollection GetDigitalTmus(NIDigital session)
+        private static DigitalTmuCollections GetDigitalTmus(NIDigital session)
         {
-            return new DigitalTmuCollection(session);
+            return new DigitalTmuCollections(session);
         }
     }
 }
