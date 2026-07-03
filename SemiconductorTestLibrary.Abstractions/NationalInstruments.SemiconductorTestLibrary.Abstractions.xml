@@ -1800,6 +1800,18 @@
             The values are returned in ascending order according to site number.
             </remarks>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.#ctor">
+            <summary>
+            Initializes an empty SiteData object. Sites and their corresponding values should be added using <see cref="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.AddSite(System.Int32[])"/> and <see cref="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.SetValue(`0)"/> methods respectively.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.#ctor(System.Int32)">
+            <summary>
+            Initializes a SiteData object with a single site and default value of SiteData's data type.
+            For example, if T is of type int, the site value would be initialized to default(int) which is 0.
+            </summary>
+            <param name="siteNumber">The site number.</param>
+        </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.#ctor(`0[])">
             <summary>
             Initializes a SiteData object with multiple sites data array. The array index represents site number.
@@ -1836,6 +1848,40 @@
             Array of site unique data, where each element represents the data for the specific site,
             located at the same index within the siteNumbers array.
             </param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.AddSite(System.Int32[])">
+            <summary>
+            Adds the specified sites to the SiteData object along with the default value of SiteData object's data type.
+            For example, if T is of type int, the site value would be initialized to default(int) which is 0.
+            If a site already exists in the SiteData object, that site is skipped while adding.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if <paramref name="siteNumbers"/> parameter is null, an empty array or not provided.
+            </summary>
+            <param name="siteNumbers">The site numbers to be added to SiteData object.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.RemoveSite(System.Int32[])">
+            <summary>
+            Removes the specified sites from the SiteData object.
+            If one or more specified sites are not present in the SiteData object, they are skipped.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if <paramref name="siteNumbers"/> parameter is null, an empty array or not provided.
+            </summary>
+            <param name="siteNumbers">The site numbers to be removed from SiteData object.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.SetValue(`0)">
+            <summary>
+            Sets the value provided as input to all the sites in the SiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
+            </summary>
+            <param name="value">The value to be set for all sites.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.SetValue(`0,System.Int32[])">
+            <summary>
+            Sets the provided value to the sites passed as input. Any existing value for the specified sites is overwritten.
+            If the sites are not present in the SiteData object, they are added to the SiteData object and assigned the provided value.
+            If  <paramref name="siteNumbers"/> specified as input is null or an empty array, sets the provided value to all existing site numbers.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty in this case.
+            </summary>
+            <param name="value">The value to be set.</param>
+            <param name="siteNumbers">The site numbers to which the value is being set.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.GetValue(System.Int32)">
             <summary>
@@ -5542,6 +5588,11 @@
               Looks up a localized string similar to The size of the data array parameter ({0}) must be equal to the length of the site numbers parameter ({1})..
             </summary>
         </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_NullOrEmptySiteNumbers">
+            <summary>
+              Looks up a localized string similar to The SiteNumbers array provided as input is either null or empty. Please provide site number(s)..
+            </summary>
+        </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_PinNamesNotUnique">
             <summary>
               Looks up a localized string similar to The values of the pin names parameter must be unique..
@@ -5550,6 +5601,11 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_PinNotFound">
             <summary>
               Looks up a localized string similar to The pin name {0} does not exist..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_SiteDataEmpty">
+            <summary>
+              Looks up a localized string similar to The SiteData object is empty and does not contain any site number. Cannot set value..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_SiteNumberNotFound">
