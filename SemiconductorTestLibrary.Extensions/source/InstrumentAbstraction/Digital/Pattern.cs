@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+
 using Ivi.Driver;
+
 using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
@@ -118,7 +121,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="startLabel">The pattern name or exported pattern label to configure.</param>
         /// <param name="siteNumbers">The site numbers to configure the pattern for.</param>
-        public static void ConfigurePattern(this DigitalSessionsBundle sessionsBundle, string startLabel, int[] siteNumbers = null)
+        public static void ConfigurePattern(this DigitalSessionsBundle sessionsBundle, string startLabel, ICollection<int> siteNumbers = null)
         {
             startLabel = startLabel ?? string.Empty;
             var sitePinList = sessionsBundle.AggregateSitePinList;
@@ -131,14 +134,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.PatternControl.StartLabel = startLabel;
-                if (siteNumbers != null && siteNumbers.Length > 0)
+                if (siteNumbers != null)
                 {
                     var filteredSites = sessionInfo.AssociatedSiteList.Where(sn => siteNumbers.Contains(sn)).ToArray();
-                    if (filteredSites.Length > 0)
-                    {
-                        var siteList = string.Join(",", filteredSites.Select(sn => $"site{sn}"));
-                        sessionInfo.Session.PatternControl.ConfigurePatternBurstSites(siteList);
-                    }
+                    var siteList = string.Join(",", filteredSites.Select(sn => $"site{sn}"));
+                    sessionInfo.Session.PatternControl.ConfigurePatternBurstSites(siteList);
                 }
             });
         }
