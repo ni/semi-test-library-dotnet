@@ -2027,7 +2027,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Gets the configured upper current limit for all targeted pin(s). Only applicable when sourcing with asymmetrical limits.
+        /// Gets the configured upper current limit for all targeted pins. Only applicable when sourcing with asymmetrical limits.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <returns>The per-site per-pin upper current limits.</returns>
