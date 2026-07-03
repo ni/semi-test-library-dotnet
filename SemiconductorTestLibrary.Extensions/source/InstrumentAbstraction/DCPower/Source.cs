@@ -1783,8 +1783,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         /// <inheritdoc cref="ConfigureCurrentLevelRange(DCPowerSessionsBundle, double)"/>
         /// <remarks>
-        /// When the <paramref name="currentLevelRange"/> value is associated with a ganged pingroup name, it applies to the total ganged current limit.
-        /// When the value is associated with individual pin names, it applies to each pin in the ganged pingroup.
+        /// When the session bundle contains a ganged pin group and the <paramref name="currentLevelRange"/> value is associated with the ganged pin group name,
+        /// the current range for each pin in the group is selected as the nearest range to the specified value divided by the number of pins in the group.
+        /// Otherwise, when the value is associated with individual pin names, the current range for each pin is selected as the nearest range to the specified value.
         /// </remarks>
         public static void ConfigureCurrentLevelRange(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> currentLevelRange)
         {
