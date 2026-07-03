@@ -1761,8 +1761,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.DoPerChannelIfGangedElsePerSession(
                perChannelAction: (sessionInfo, sitePinInfo) =>
                {
-                   var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                   SetLimitSymmetry(channelOutput, complianceLimitSymmetry);
+                   SetLimitSymmetry(sessionInfo, sitePinInfo, complianceLimitSymmetry);
                },
                perSessionAction: sessionInfo =>
                {
@@ -1778,8 +1777,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                SetLimitSymmetry(channelOutput, complianceLimitSymmetry.GetValue(sitePinInfo.SiteNumber));
+                SetLimitSymmetry(sessionInfo, sitePinInfo, complianceLimitSymmetry.GetValue(sitePinInfo.SiteNumber));
             });
         }
 
@@ -1790,8 +1788,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                SetLimitSymmetry(channelOutput, complianceLimitSymmetry.GetValue(sitePinInfo));
+                SetLimitSymmetry(sessionInfo, sitePinInfo, complianceLimitSymmetry.GetValue(sitePinInfo));
             });
         }
 
@@ -3079,8 +3076,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger });
         }
 
-        private static void SetLimitSymmetry(DCPowerOutput channelOutput, DCPowerComplianceLimitSymmetry complianceLimitSymmetry)
+        private static void SetLimitSymmetry(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, DCPowerComplianceLimitSymmetry complianceLimitSymmetry)
         {
+            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
             channelOutput.Control.Abort();
             channelOutput.Source.ComplianceLimitSymmetry = complianceLimitSymmetry;
         }
