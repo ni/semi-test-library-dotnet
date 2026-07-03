@@ -4111,7 +4111,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevices_SharedPin_ConfigureCurrentLimitHighOnFilteredSiteBundle_GetCurrentLimitHighReturnsSameValueOnFullBundle()
+        public void DifferentSMUDevices_SharedPin_GetCurrentLimitHigh_ReturnsSameValueOnFullBundleAfterConfiguringFilteredSiteBundle()
         {
             var sessionManager = Initialize("SharedPinTests.pinmap");
             var pinName = "VDD";
