@@ -1782,7 +1782,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <inheritdoc cref="ConfigureCurrentLevelRange(DCPowerSessionsBundle, double)"/>
-        /// /// <remarks>
+        /// <remarks>
         /// When the <paramref name="currentLevelRange"/> value is associated with a ganged pingroup name, it applies to the total ganged current limit.
         /// When the value is associated with individual pin names, it applies to each pin in the ganged pingroup.
         /// </remarks>
