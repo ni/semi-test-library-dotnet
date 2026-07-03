@@ -1752,16 +1752,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Configures the current limit range, in amps, for the smu channels in the bundle.
+        /// Configures the current limit range.
         /// </summary>
-        /// <remarks>
-        /// The range defines the valid values to which the current limit can be set.
-        /// Use the <see cref="DCPowerOutputSourceVoltage.CurrentLimitAutorange"/> property to enable automatic selection of the current limit range.
-        /// When the <paramref name="currentLimitRange"/> value is associated with a ganged pingroup name, it applies to the total ganged current limit.
-        /// When the value is associated with individual pin names, it applies to each pin in the ganged pingroup.
-        /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="currentLimitRange">The current limit range to set.</param>
+        /// <param name="currentLimitRange">The current limit range to set, in Amps.</param>
         public static void ConfigureCurrentLimitRange(this DCPowerSessionsBundle sessionsBundle, double currentLimitRange)
         {
             sessionsBundle.DoPerChannelIfGangedElsePerSession(
@@ -1788,6 +1782,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <inheritdoc cref="ConfigureCurrentLimitRange(DCPowerSessionsBundle, double)"/>
+        /// <remarks>
+        /// The range defines the valid values to which the current limit can be set.
+        /// Use the <see cref="DCPowerOutputSourceVoltage.CurrentLimitAutorange"/> property to enable automatic selection of the current limit range.
+        /// When the <paramref name="currentLimitRange"/> value is associated with a ganged pingroup name, it applies to the total ganged current limit.
+        /// When the value is associated with individual pin names, it applies to each pin in the ganged pingroup.
+        /// </remarks>
         public static void ConfigureCurrentLimitRange(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> currentLimitRange)
         {
             var hasGangedChannels = sessionsBundle.HasGangedChannels;
