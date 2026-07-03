@@ -1767,8 +1767,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.DoPerChannelIfGangedElsePerSession(
                perChannelAction: (sessionInfo, sitePinInfo) =>
                {
-                   var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                   SetCurrentLimitRange(channelOutput, sitePinInfo, currentLimitRange);
+                   SetCurrentLimitRange(sessionInfo, sitePinInfo, currentLimitRange);
                },
                perSessionAction: sessionInfo =>
                {
@@ -1784,8 +1783,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                SetCurrentLimitRange(channelOutput, sitePinInfo, currentLimitRange.GetValue(sitePinInfo.SiteNumber));
+                SetCurrentLimitRange(sessionInfo, sitePinInfo, currentLimitRange.GetValue(sitePinInfo.SiteNumber));
             });
         }
 
@@ -1796,8 +1794,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                SetCurrentLimitRange(channelOutput, sitePinInfo, currentLimitRange.GetValue(sitePinInfo, out bool isGroupData), isGroupData);
+                SetCurrentLimitRange(sessionInfo, sitePinInfo, currentLimitRange.GetValue(sitePinInfo, out bool isGroupData), isGroupData);
             });
         }
 
@@ -3085,8 +3082,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger });
         }
 
-        private static void SetCurrentLimitRange(DCPowerOutput channelOutput, SitePinInfo sitePinInfo, double currentLimitRange, bool isGroupData = true)
+        private static void SetCurrentLimitRange(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double currentLimitRange, bool isGroupData = true)
         {
+            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
             var currentLimitRangeToSet = currentLimitRange;
 
             if (isGroupData && sitePinInfo?.CascadingInfo is GangingInfo gangingInfo)
