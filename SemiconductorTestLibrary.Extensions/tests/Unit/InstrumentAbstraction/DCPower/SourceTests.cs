@@ -5376,11 +5376,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var values = sessionsBundle.GetCurrentLimitLow();
 
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            sessionsBundle.Do((_, sitePinInfo) =>
             {
-                var expectedCurrentLimitLow = currentLimitLow.GetValue(sitePinInfo);
-                var actualCurrentLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitLow;
-                Assert.Equal(expectedCurrentLimitLow, actualCurrentLimitLow);
+                Assert.Equal(currentLimitLow.GetValue(sitePinInfo), values.GetValue(sitePinInfo));
             });
         }
 
