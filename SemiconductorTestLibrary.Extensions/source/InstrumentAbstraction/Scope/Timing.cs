@@ -26,15 +26,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// Configures the clock settings for the oscilloscope.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
-        /// <param name="inputClockSource">The input clock source.</param>
-        /// <param name="outputClockSource">The output clock source.</param>
-        /// <param name="clockSynchronizationPulseSource">The clock synchronization pulse source.</param>
-        /// <param name="masterEnabled">Indicates whether the master clock is enabled.</param>
-        public static void ConfigureClock(this ScopeSessionsBundle sessionsBundle, ScopeInputClockSource inputClockSource, ScopeOutputClockSource outputClockSource, ScopeClockSynchronizationPulseSource clockSynchronizationPulseSource, bool masterEnabled)
+        /// <param name="clockSettings">The clock settings for the oscilloscope.</param>
+        public static void ConfigureClock(this ScopeSessionsBundle sessionsBundle, ClockSettings clockSettings)
         {
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Session.Timing.ConfigureClock(inputClockSource, outputClockSource, clockSynchronizationPulseSource, masterEnabled);
+                sessionInfo.Session.Timing.ConfigureClock(clockSettings.InputClockSource, clockSettings.OutputClockSource, clockSettings.ClockSynchronizationPulseSource, clockSettings.MasterEnabled);
             });
         }
 
