@@ -1784,8 +1784,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <inheritdoc cref="ConfigureCurrentLimitHigh(DCPowerSessionsBundle, double)"/>
         /// <remarks>
         /// When the session bundle contains a ganged pin group and the <paramref name="currentLimitHigh"/> value is associated with the ganged pin group name,
-        /// the current limit high for each pin in the group is selected as the nearest current limit high to the specified value divided by the number of pins in the group.
-        /// Otherwise, when the value is associated with individual pin names, the current limit high for each pin is selected as the nearest current limit high to the specified value.
+        /// the current limit high for each pin in the group is set to the specified value divided by the number of pins in the group.
+        /// Otherwise, when the value is associated with individual pin names, the current limit high for each pin is set to the specified value.
         /// </remarks>
         public static void ConfigureCurrentLimitHigh(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> currentLimitHigh)
         {
