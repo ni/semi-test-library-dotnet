@@ -8,9 +8,9 @@ using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecuti
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope
 {
     /// <summary>
-     /// Defines methods for Acquisition on oscilloscope sessions.
+     /// Defines methods for Acquire on oscilloscope sessions.
      /// </summary>
-    public static class Acquisition
+    public static class Acquire
     {
         /// <summary>
         /// Configures the acquisition type for the oscilloscope.

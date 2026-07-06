@@ -9,7 +9,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
     /// <summary>
     /// Defines methods for configuring oscilloscope instruments.
     /// </summary>
-    public static class Configuration
+    public static class Configure
     {
         /// <summary>
         /// Configures the vertical verticalSettings of the specified channel.
