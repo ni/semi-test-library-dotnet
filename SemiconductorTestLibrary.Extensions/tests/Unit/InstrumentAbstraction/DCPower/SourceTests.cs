@@ -5307,8 +5307,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
             var primaryPin = "VCCPrimary";
             var allPinsMergedGroup = "AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin";
-            var sessionsBundle = sessionManager.DCPower(allPinsMergedGroup);
             var expectedCurrentLimitHigh = 3E-1;
+            var sessionsBundle = sessionManager.DCPower(allPinsMergedGroup);
             sessionsBundle.MergePinGroup(allPinsMergedGroup);
             sessionsBundle.ConfigureCurrentLimitHigh(expectedCurrentLimitHigh);
 
@@ -5384,7 +5384,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SharedPinConfigureCurrentLimitHighOnFilteredSites_GetCurrentLimitHigh_ReturnsSameValueForAllPrimaryAndShadowSites()
+        public void SharedPinsConfigureCurrentLimitHighOnFilteredSites_GetCurrentLimitHigh_ReturnsSameValueForAllPrimaryAndShadowSites()
         {
             var sessionManager = Initialize("SharedPinTests.pinmap");
             var pinName = "VDD";
