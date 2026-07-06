@@ -5336,7 +5336,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.DoesNotContain(allPinsGangedGroup, currentLimitHighs.PinNames);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                Assert.Equal(expectedCurrentLimitHigh / currentLimitHighs.PinNames.Length, currentLimitHighs.GetValue(sitePinInfo));
+                var currentLimitHighDivisor = sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                Assert.Equal(expectedCurrentLimitHigh / currentLimitHighDivisor, currentLimitHighs.GetValue(sitePinInfo), 6);
             });
         }
 
