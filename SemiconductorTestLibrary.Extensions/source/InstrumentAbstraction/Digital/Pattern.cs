@@ -118,16 +118,21 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="startLabel">The pattern name or exported pattern label to configure.</param>
-        /// <param name="siteNumbers">The site numbers to configure the pattern for.</param>
+        /// <param name="siteNumbers">The site numbers to configure the pattern for.
+        /// Passing an empty collection will configure the pattern for all sites.
+        /// Default is null, which preserves the current configuration for all sites.</param>
         public static void ConfigurePattern(this DigitalSessionsBundle sessionsBundle, string startLabel, ICollection<int> siteNumbers = null)
         {
             startLabel = startLabel ?? string.Empty;
             var sitePinList = sessionsBundle.AggregateSitePinList;
-            var listOfSiteNumbers = sitePinList.Select(spi => spi.SiteNumber).Distinct().ToArray();
-            var invalidSites = siteNumbers?.Except(listOfSiteNumbers).Distinct().ToArray();
-            if (invalidSites?.Length > 0)
+            if (sitePinList != null)
             {
-                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_InvalidSites, string.Join(", ", invalidSites)));
+                var listOfSiteNumbers = sitePinList.Select(spi => spi.SiteNumber).Distinct().ToArray();
+                var invalidSites = siteNumbers?.Except(listOfSiteNumbers).Distinct().ToArray();
+                if (invalidSites?.Length > 0)
+                {
+                    throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_InvalidSites, string.Join(", ", invalidSites)));
+                }
             }
             sessionsBundle.Do(sessionInfo =>
             {
