@@ -5307,8 +5307,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
             var primaryPin = "VCCPrimary";
             var allPinsMergedGroup = "AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin";
-            var sessionsBundle = sessionManager.DCPower(allPinsMergedGroup);
             var expectedCurrentLimitLow = -3E-1;
+            var sessionsBundle = sessionManager.DCPower(allPinsMergedGroup);
             sessionsBundle.MergePinGroup(allPinsMergedGroup);
             sessionsBundle.ConfigureCurrentLimitLow(expectedCurrentLimitLow);
 
@@ -5344,12 +5344,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void DifferentSMUDevicesConfigureCurrentLimitLow_GetCurrentLimitLow_ReturnsTheCurrentLimitLow(bool pinMapWithChannelGroup)
+        public void DifferentSMUDevicesConfigureCurrentLimitLow_GetCurrentLimitLow_ReturnCorrectValue(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
-            var pinName = "VDD";
             var expectedCurrentLimitLow = -2E-1;
-            var sessionsBundle = sessionManager.DCPower(pinName);
+            var sessionsBundle = sessionManager.DCPower("VDD");
             sessionsBundle.ConfigureCurrentLimitLow(expectedCurrentLimitLow);
 
             var currentLimitLow = sessionsBundle.GetCurrentLimitLow();
