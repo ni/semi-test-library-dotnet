@@ -1752,6 +1752,52 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
+        /// Configures the current level range.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="currentLevelRange">The current level range to set, in Amps.</param>
+        public static void ConfigureCurrentLevelRange(this DCPowerSessionsBundle sessionsBundle, double currentLevelRange)
+        {
+            sessionsBundle.DoPerChannelIfGangedElsePerSession(
+               perChannelAction: (sessionInfo, sitePinInfo) =>
+               {
+                   SetCurrentLevelRange(sessionInfo, sitePinInfo, currentLevelRange);
+               },
+               perSessionAction: sessionInfo =>
+               {
+                   sessionInfo.AllChannelsOutput.Control.Abort();
+                   sessionInfo.AllChannelsOutput.Source.Current.CurrentLevelRange = currentLevelRange;
+               });
+        }
+
+        /// <inheritdoc cref="ConfigureCurrentLevelRange(DCPowerSessionsBundle, double)"/>
+        public static void ConfigureCurrentLevelRange(this DCPowerSessionsBundle sessionsBundle, SiteData<double> currentLevelRange)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetCurrentLevelRange(sessionInfo, sitePinInfo, currentLevelRange.GetValue(sitePinInfo.SiteNumber));
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureCurrentLevelRange(DCPowerSessionsBundle, double)"/>
+        /// <remarks>
+        /// When the session bundle contains a ganged pin group and the <paramref name="currentLevelRange"/> value is associated with the ganged pin group name,
+        /// the current range for each pin in the group is selected as the nearest range to the specified value divided by the number of pins in the group.
+        /// Otherwise, when the value is associated with individual pin names, the current range for each pin is selected as the nearest range to the specified value.
+        /// </remarks>
+        public static void ConfigureCurrentLevelRange(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> currentLevelRange)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetCurrentLevelRange(sessionInfo, sitePinInfo, currentLevelRange.GetValue(sitePinInfo, out bool isGroupData), isGroupData);
+            });
+        }
+
+        /// <summary>
         /// Configures a hardware-timed sequence of values.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
@@ -3033,6 +3079,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
             // The start trigger must be set to None before any subsequent SinglePoint operations can be performed.
             sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger });
+        }
+
+        private static void SetCurrentLevelRange(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double currentLevelRange, bool isGroupData = true)
+        {
+            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+            var currentLevelRangeToSet = currentLevelRange;
+
+            if (isGroupData && sitePinInfo?.CascadingInfo is GangingInfo gangingInfo)
+            {
+                currentLevelRangeToSet = currentLevelRange / gangingInfo.ChannelsCount;
+            }
+
+            channelOutput.Control.Abort();
+            channelOutput.Source.Current.CurrentLevelRange = currentLevelRangeToSet;
         }
 
         internal static void ValidateNoChannelGanged(this DCPowerSessionsBundle sessionsBundle)
