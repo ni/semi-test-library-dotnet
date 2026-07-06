@@ -1752,10 +1752,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Configures whether the compliance limits for current generation and voltage generation for the device are applied symmetrically or asymmetrically.
+        /// Configures whether compliance limits for current generation and voltage generation are applied symmetrically about 0 V and 0 A or asymmetrically with respect to 0 V and 0 A.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="complianceLimitSymmetry">The compliance limit symmetry value to set.</param>
+        /// <param name="complianceLimitSymmetry">The compliance limit symmetry value to set, either <see cref="DCPowerComplianceLimitSymmetry.Symmetric"/> or <see cref="DCPowerComplianceLimitSymmetry.Asymmetric"/></param>
         public static void ConfigureLimitSymmetry(this DCPowerSessionsBundle sessionsBundle, DCPowerComplianceLimitSymmetry complianceLimitSymmetry)
         {
             sessionsBundle.DoPerChannelIfGangedElsePerSession(
