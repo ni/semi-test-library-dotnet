@@ -121,10 +121,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
             return sessionsBundle
                 .DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
                 {
-                    return sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString]
-                        .Measurement
-                        .Read(timeout, numberOfSamples, null)
-                        .First();
+                    return sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString].Measurement.Read(timeout, numberOfSamples, null).First();
                 });
         }
 

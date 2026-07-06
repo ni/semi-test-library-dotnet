@@ -30,29 +30,35 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             InitializeAndClose.Close(_tsmContext);
         }
 
-        [Fact]
-        public void Abort_OnScopeBundle_Succeeds()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void Abort_OnScopeBundle_Succeeds(bool pinMapWithChannelGroup)
         {
-            var sessionManager = Initialize();
-            var sessionsBundle = sessionManager.Scope("DUTPin1");
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.Scope("Vosc1");
 
             sessionsBundle.Abort();
         }
 
-        [Fact]
-        public void Commit_OnScopeBundle_Succeeds()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void Commit_OnScopeBundle_Succeeds(bool pinMapWithChannelGroup)
         {
-            var sessionManager = Initialize();
-            var sessionsBundle = sessionManager.Scope("DUTPin1");
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.Scope("Vosc1");
 
             sessionsBundle.Commit();
         }
 
-        [Fact]
-        public void InitiateAndAbort_OnScopeBundle_Succeeds()
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void InitiateAndAbort_OnScopeBundle_Succeeds(bool pinMapWithChannelGroup)
         {
-            var sessionManager = Initialize();
-            var sessionsBundle = sessionManager.Scope("DUTPin1");
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.Scope("Vosc1");
 
             sessionsBundle.Initiate();
             sessionsBundle.Abort();
