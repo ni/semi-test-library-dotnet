@@ -17,9 +17,4 @@
     {
         Performance
     }
-
-    public enum Feature
-    {
-        TMU
-    }
 }
