@@ -2991,6 +2991,157 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureSourceSettingsWithScalarAndUpdateMode_CorrectValuesAreSet(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(false);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            var settings = new DCPowerSourceSettings
+            {
+                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                Level = 1.8,
+                Limit = 0.05
+            };
+
+            sessionsBundle.ConfigureSourceSettings(settings, updateMode);
+
+            sessionsBundle.Do(sessionInfo =>
+            {
+                Assert.Equal(1.8, sessionInfo.AllChannelsOutput.Source.Voltage.VoltageLevel);
+                Assert.Equal(0.05, sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimit);
+            });
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureSourceSettingsWithPerSiteAndUpdateMode_CorrectValuesAreSet(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("DifferentSMUDevices.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            var settings = new SiteData<DCPowerSourceSettings>(new[]
+            {
+                new DCPowerSourceSettings { OutputFunction = DCPowerSourceOutputFunction.DCVoltage, LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric, Level = 1.1, Limit = 0.1 },
+                new DCPowerSourceSettings { OutputFunction = DCPowerSourceOutputFunction.DCVoltage, LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric, Level = 1.2, Limit = 0.1 },
+                new DCPowerSourceSettings { OutputFunction = DCPowerSourceOutputFunction.DCVoltage, LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric, Level = 1.3, Limit = 0.1 },
+                new DCPowerSourceSettings { OutputFunction = DCPowerSourceOutputFunction.DCVoltage, LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric, Level = 1.4, Limit = 0.1 }
+            });
+
+            sessionsBundle.ConfigureSourceSettings(settings, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                Assert.Equal(settings.GetValue(sitePinInfo.SiteNumber).Level, sessionInfo.AllChannelsOutput.Source.Voltage.VoltageLevel);
+                Assert.Equal(settings.GetValue(sitePinInfo.SiteNumber).Limit, sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimit);
+            });
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureSourceSettingsWithPerPinPerSiteAndUpdateMode_CorrectValuesAreSet(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(false);
+            var sessionsBundle = sessionManager.DCPower(new[] { "VCC", "VDET" });
+            var settings = new PinSiteData<DCPowerSourceSettings>(new Dictionary<string, IDictionary<int, DCPowerSourceSettings>>
+            {
+                ["VCC"] = new Dictionary<int, DCPowerSourceSettings>
+                {
+                    [0] = new DCPowerSourceSettings { OutputFunction = DCPowerSourceOutputFunction.DCVoltage, LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric, Level = 1.0, Limit = 0.1 },
+                    [1] = new DCPowerSourceSettings { OutputFunction = DCPowerSourceOutputFunction.DCVoltage, LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric, Level = 1.1, Limit = 0.1 },
+                    [2] = new DCPowerSourceSettings { OutputFunction = DCPowerSourceOutputFunction.DCVoltage, LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric, Level = 1.2, Limit = 0.1 },
+                    [3] = new DCPowerSourceSettings { OutputFunction = DCPowerSourceOutputFunction.DCVoltage, LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric, Level = 1.3, Limit = 0.1 }
+                },
+                ["VDET"] = new Dictionary<int, DCPowerSourceSettings>
+                {
+                    [0] = new DCPowerSourceSettings { OutputFunction = DCPowerSourceOutputFunction.DCVoltage, LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric, Level = 2.0, Limit = 0.2 },
+                    [1] = new DCPowerSourceSettings { OutputFunction = DCPowerSourceOutputFunction.DCVoltage, LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric, Level = 2.1, Limit = 0.2 },
+                    [2] = new DCPowerSourceSettings { OutputFunction = DCPowerSourceOutputFunction.DCVoltage, LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric, Level = 2.2, Limit = 0.2 },
+                    [3] = new DCPowerSourceSettings { OutputFunction = DCPowerSourceOutputFunction.DCVoltage, LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric, Level = 2.3, Limit = 0.2 }
+                }
+            });
+
+            sessionsBundle.ConfigureSourceSettings(settings, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expected = settings.GetValue(sitePinInfo, out _);
+                Assert.Equal(expected.Level, sessionInfo.AllChannelsOutput.Source.Voltage.VoltageLevel);
+                Assert.Equal(expected.Limit, sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimit);
+            });
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureSourceSettingsWithPerPinAndUpdateMode_CorrectValuesAreSet(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(false);
+            var sessionsBundle = sessionManager.DCPower(new[] { "VCC", "VDET" });
+            var settings = new Dictionary<string, DCPowerSourceSettings>
+            {
+                ["VCC"] = new DCPowerSourceSettings { OutputFunction = DCPowerSourceOutputFunction.DCVoltage, LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric, Level = 1.6, Limit = 0.11 },
+                ["VDET"] = new DCPowerSourceSettings { OutputFunction = DCPowerSourceOutputFunction.DCVoltage, LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric, Level = 2.6, Limit = 0.21 }
+            };
+
+            sessionsBundle.ConfigureSourceSettings(settings, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expected = settings[sitePinInfo.PinName];
+                Assert.Equal(expected.Level, sessionInfo.AllChannelsOutput.Source.Voltage.VoltageLevel);
+                Assert.Equal(expected.Limit, sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimit);
+            });
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureCurrentLimitWithUpdateMode_CorrectValuesAreSet(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(false);
+            var sessionsBundle = sessionManager.DCPower("VCC");
+
+            sessionsBundle.ConfigureCurrentLimit(0.123, updateMode: updateMode);
+
+            sessionsBundle.Do(sessionInfo =>
+            {
+                Assert.Equal(0.123, sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimit);
+                Assert.Equal(0.123, sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimitRange);
+            });
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureCurrentLimitsWithUpdateMode_CorrectValuesAreSet(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(false);
+            var sessionsBundle = sessionManager.DCPower(new[] { "VCC", "VDD", "VDET" });
+            var currentLimits = new Dictionary<string, double>
+            {
+                ["VCC"] = 0.1,
+                ["VDD"] = 0.2,
+                ["VDET"] = 0.3
+            };
+
+            sessionsBundle.ConfigureCurrentLimits(currentLimits, updateMode: updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                Assert.Equal(currentLimits[sitePinInfo.PinName], sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimit);
+            });
+        }
+
+        [Theory]
         [InlineData(false)]
         [InlineData(true)]
         public void DifferentSMUDevices_ConfigureSourceSettings_CorrectValuesAreSetWithPerPinValues(bool pinMapWithChannelGroup)

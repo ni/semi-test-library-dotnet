@@ -116,5 +116,22 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
         #endregion methods on DCPowerSessionsBundle
-    }
+
+        internal static void AttributeUpdate(
+            this DCPowerSessionsBundle sessionsBundle, UpdateMode updateMode)
+        {
+            switch (updateMode)
+            {
+                case UpdateMode.Commit:
+                    sessionsBundle.Commit();
+                    break;
+                case UpdateMode.Immediate:
+                    sessionsBundle.Initiate();
+                    break;
+                case UpdateMode.Deferred:
+                default:
+                    break;
+            }
+        }
+}
 }
