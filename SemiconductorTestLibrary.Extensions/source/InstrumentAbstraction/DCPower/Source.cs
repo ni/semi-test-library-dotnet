@@ -2038,10 +2038,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Gets the configured current level for all targeted pins.
+        /// Gets the current level.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <returns>The per-site per-pin current levels.</returns>
+        /// <returns>The per-site per-pin current level, in Amps.</returns>
         public static PinSiteData<double> GetCurrentLevel(this DCPowerSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
