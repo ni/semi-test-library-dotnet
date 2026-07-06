@@ -2027,10 +2027,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Gets the configured upper current limit for all targeted pins. Only applicable when sourcing with asymmetrical limits.
+        /// Gets the current limit high.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <returns>The per-site per-pin upper current limits.</returns>
+        /// <returns>The per-site per-pin upper current limit, in Amps.</returns>
         public static PinSiteData<double> GetCurrentLimitHigh(this DCPowerSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
