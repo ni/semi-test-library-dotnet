@@ -1784,7 +1784,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <inheritdoc cref="ConfigureCurrentLimitRange(DCPowerSessionsBundle, double)"/>
         /// <remarks>
         /// The range defines the valid values to which the current limit can be set.
-        /// Use the <see cref="DCPowerOutputSourceVoltage.CurrentLimitAutorange"/> property to enable automatic selection of the current limit range.
         /// When the session bundle contains a ganged pin group and the <paramref name="currentLimitRange"/> value is associated with the ganged pin group name,
         /// the current limit range for each pin in the group is selected as the nearest range to the specified value divided by the number of pins in the group.
         /// Otherwise, when the value is associated with individual pin names, the current limit range for each pin is selected as the nearest range to the specified value.
