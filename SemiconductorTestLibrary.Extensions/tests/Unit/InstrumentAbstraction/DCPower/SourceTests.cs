@@ -5344,7 +5344,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void DifferentSMUDevicesConfigureCurrentLevel_GetCurrentLevel_ReturnsTheCurrentLevel(bool pinMapWithChannelGroup)
+        public void DifferentSMUDevicesConfigureCurrentLevel_GetCurrentLevel_ReturnsCorrectValue(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var expectedCurrentLevel = 2E-1;
