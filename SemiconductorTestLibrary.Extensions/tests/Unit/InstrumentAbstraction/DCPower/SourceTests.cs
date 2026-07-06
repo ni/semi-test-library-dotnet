@@ -5307,8 +5307,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
             var primaryPin = "VCCPrimary";
             var allPinsMergedGroup = "AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin";
-            var sessionsBundle = sessionManager.DCPower(allPinsMergedGroup);
             var expectedCurrentLevel = 3E-1;
+            var sessionsBundle = sessionManager.DCPower(allPinsMergedGroup);
             sessionsBundle.MergePinGroup(allPinsMergedGroup);
             sessionsBundle.ConfigureCurrentLevel(expectedCurrentLevel);
 
@@ -5347,9 +5347,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevicesConfigureCurrentLevel_GetCurrentLevel_ReturnsTheCurrentLevel(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
-            var pinName = "VDD";
             var expectedCurrentLevel = 2E-1;
-            var sessionsBundle = sessionManager.DCPower(pinName);
+            var sessionsBundle = sessionManager.DCPower("VDD");
             sessionsBundle.ConfigureCurrentLevel(expectedCurrentLevel);
 
             var currentLevel = sessionsBundle.GetCurrentLevel();
@@ -5384,7 +5383,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SharedPinConfigureCurrentLevelOnFilteredSites_GetCurrentLevel_ReturnsSameValueForAllPrimaryAndShadowSites()
+        public void SharedPinsConfigureCurrentLevelOnFilteredSites_GetCurrentLevel_ReturnsSameValueForAllPrimaryAndShadowSites()
         {
             var sessionManager = Initialize("SharedPinTests.pinmap");
             var pinName = "VDD";
