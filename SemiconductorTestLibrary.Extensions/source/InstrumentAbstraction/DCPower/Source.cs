@@ -2039,6 +2039,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
+        /// Gets the current limit range.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin current limit range, in Amps.</returns>
+        public static PinSiteData<double> GetCurrentLimitRange(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitRange;
+            });
+        }
+
+        /// <summary>
         /// Checks if the output function is set to DCVoltage and the level(s) are set to the expected values.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
@@ -3080,6 +3093,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
             // The start trigger must be set to None before any subsequent SinglePoint operations can be performed.
             sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger });
+        }
+
+        private static void SetCurrentLevelRange(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double currentLevelRange, bool isGroupData = true)
+        {
+            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+            var currentLevelRangeToSet = currentLevelRange;
+
+            if (isGroupData && sitePinInfo?.CascadingInfo is GangingInfo gangingInfo)
+            {
+                currentLevelRangeToSet = currentLevelRange / gangingInfo.ChannelsCount;
+            }
+
+            channelOutput.Control.Abort();
+            channelOutput.Source.Current.CurrentLevelRange = currentLevelRangeToSet;
         }
 
         private static void SetCurrentLimitRange(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double currentLimitRange, bool isGroupData = true)
