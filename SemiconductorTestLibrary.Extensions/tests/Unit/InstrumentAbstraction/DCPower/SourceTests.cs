@@ -5434,9 +5434,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
             sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
 
-            void ConfigureVoltageLevelRangeTest() => sessionsBundle.ConfigureVoltageLevelRange(voltageLevelRanges);
+            void ConfigureVoltageLevelRange() => sessionsBundle.ConfigureVoltageLevelRange(voltageLevelRanges);
 
-            var exception = Assert.Throws<AggregateException>(ConfigureVoltageLevelRangeTest);
+            var exception = Assert.Throws<AggregateException>(ConfigureVoltageLevelRange);
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
             Assert.Contains("The parameter contains different values for cascaded pins", exception.InnerException.Message);
         }
