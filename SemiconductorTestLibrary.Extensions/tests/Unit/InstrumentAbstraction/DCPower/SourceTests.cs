@@ -5307,8 +5307,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
             var primaryPin = "VCCPrimary";
             var allPinsMergedGroup = "AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin";
+            var expectedCurrentLevelRange = 4E-1;
             var sessionsBundle = sessionManager.DCPower(allPinsMergedGroup);
-            var expectedCurrentLevelRange = 3E-1;
             sessionsBundle.MergePinGroup(allPinsMergedGroup);
             sessionsBundle.ConfigureCurrentLevelRange(expectedCurrentLevelRange);
 
@@ -5325,7 +5325,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var allPinsGangedGroup = "AllPinsGangedGroup";
-            var expectedCurrentLevelRange = 4E-1;
+            var expectedCurrentLevelRange = 5E-1;
             var sessionsBundle = sessionManager.DCPower(allPinsGangedGroup);
             sessionsBundle.GangPinGroup(allPinsGangedGroup);
             sessionsBundle.ConfigureCurrentLevelRange(expectedCurrentLevelRange);
@@ -5342,13 +5342,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public void DifferentSMUDevicesConfigureCurrentLevelRange_GetCurrentLevelRange_ReturnsTheCurrentLevelRange(bool pinMapWithChannelGroup)
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevicesConfigureCurrentLevelRange_GetCurrentLevelRange_ReturnsTheCurrentLevelRange(string pinMap)
         {
-            var sessionManager = Initialize(pinMapWithChannelGroup);
-            var expectedCurrentLevelRange = 2E-1;
-            var sessionsBundle = sessionManager.DCPower("VDD");
+            var sessionManager = Initialize(pinMap);
+            var expectedCurrentLevelRange = 1E-3;
+            var sessionsBundle = sessionManager.DCPower("VCC2");
             sessionsBundle.ConfigureCurrentLevelRange(expectedCurrentLevelRange);
 
             var currentLevelRange = sessionsBundle.GetCurrentLevelRange();
@@ -5386,15 +5386,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void SharedPinConfigureCurrentLevelRangeOnFilteredSites_GetCurrentLevelRange_ReturnsSameValueForAllPrimaryAndShadowSites()
         {
             var sessionManager = Initialize("SharedPinTests.pinmap");
-            var pinName = "VDD";
+            var pinName = "VCC2";
+            var expectedCurrentLevelRange = 1E-3;
             var sessionsBundle = sessionManager.DCPower(pinName);
-            var filteredBySite0Bundle = sessionsBundle.FilterBySite(0);
-            var expectedCurrentLevelRange = 25E-2;
-            filteredBySite0Bundle.ConfigureCurrentLevelRange(expectedCurrentLevelRange);
+            var sharedSitesBundle = sessionsBundle.FilterBySite(new[] { 1, 2 });
+            sharedSitesBundle.ConfigureCurrentLevelRange(new SiteData<double>(new[] { 1, 2 }, expectedCurrentLevelRange));
 
-            var currentLevelRange = sessionsBundle.GetCurrentLevelRange();
+            var currentLevelRange = sharedSitesBundle.GetCurrentLevelRange();
 
-            sessionsBundle.Do((_, sitePinInfo) =>
+            sharedSitesBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedCurrentLevelRange, currentLevelRange.GetValue(sitePinInfo));
             });
