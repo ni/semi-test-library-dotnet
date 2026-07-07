@@ -188,7 +188,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// - <see cref="TmuAttributes.TmuEnabled"/> = <c>true</c>
         /// </para>
         /// <para>
-        /// For falling edge period (<see cref="TmuSourcePolarity.Falling"/>):<br/>
+        /// For falling edge period (<see cref="TmuSourcePolarity.FallingEdge"/>):<br/>
         /// - <see cref="TmuAttributes.TmuStartSource"/> = the associated pin<br/>
         /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
         /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuSourcePolarity.FallingEdge"/><br/>
