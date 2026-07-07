@@ -18,7 +18,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         {
             SetupNIDigitalPatternInstrumentation(_tsmContext);
 
-            TmuMeasurePeriod.MeasurePeriodWithSTL(_tsmContext);
+            MeasurePeriodTMU.MeasurePeriodWithSTL(_tsmContext);
             CleanupInstrumentation(_tsmContext);
         }
     }
