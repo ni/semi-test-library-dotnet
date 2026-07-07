@@ -70,7 +70,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.AttributeUpdate(updateMode);
         }
 
-        /// <inheritdoc cref="ConfigureSourceSettings(DCPowerSessionsBundle, DCPowerSourceSettings)"/>
+        /// <inheritdoc cref="ConfigureSourceSettings(DCPowerSessionsBundle, DCPowerSourceSettings, UpdateMode)"/>
         public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, SiteData<DCPowerSourceSettings> settings, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
@@ -83,7 +83,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.AttributeUpdate(updateMode);
         }
 
-        /// <inheritdoc cref="ConfigureSourceSettings(DCPowerSessionsBundle, DCPowerSourceSettings)"/>
+        /// <inheritdoc cref="ConfigureSourceSettings(DCPowerSessionsBundle, DCPowerSourceSettings, UpdateMode)"/>
         public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, PinSiteData<DCPowerSourceSettings> settings, UpdateMode updateMode = UpdateMode.Deferred)
         {
             var hasGangedChannels = sessionsBundle.HasGangedChannels;
