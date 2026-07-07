@@ -107,13 +107,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         #region Configure TMU Start Source Event Polarity Tests
 
         [Theory]
-        [InlineData(TmuSourcePolarity.RisingEdge, false)]
-        [InlineData(TmuSourcePolarity.RisingEdge, true)]
-        [InlineData(TmuSourcePolarity.FallingEdge, false)]
-        [InlineData(TmuSourcePolarity.FallingEdge, true)]
-        [InlineData(TmuSourcePolarity.EitherEdge, false)]
-        [InlineData(TmuSourcePolarity.EitherEdge, true)]
-        public void Inititalize_ConfigureTMUStartSourceEventPolaritySucceeds(TmuSourcePolarity polarity, bool useSpecificPins)
+        [InlineData(TmuPolarity.RisingEdge, false)]
+        [InlineData(TmuPolarity.RisingEdge, true)]
+        [InlineData(TmuPolarity.FallingEdge, false)]
+        [InlineData(TmuPolarity.FallingEdge, true)]
+        [InlineData(TmuPolarity.EitherEdge, false)]
+        [InlineData(TmuPolarity.EitherEdge, true)]
+        public void Inititalize_ConfigureTMUStartSourceEventPolaritySucceeds(TmuPolarity polarity, bool useSpecificPins)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -127,13 +127,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         #region Configure TMU Stop Source Event Polarity Tests
 
         [Theory]
-        [InlineData(TmuSourcePolarity.RisingEdge, false)]
-        [InlineData(TmuSourcePolarity.RisingEdge, true)]
-        [InlineData(TmuSourcePolarity.FallingEdge, false)]
-        [InlineData(TmuSourcePolarity.FallingEdge, true)]
-        [InlineData(TmuSourcePolarity.EitherEdge, false)]
-        [InlineData(TmuSourcePolarity.EitherEdge, true)]
-        public void Inititalize_ConfigureTMUStopSourceEventPolaritySucceeds(TmuSourcePolarity polarity, bool useSpecificPins)
+        [InlineData(TmuPolarity.RisingEdge, false)]
+        [InlineData(TmuPolarity.RisingEdge, true)]
+        [InlineData(TmuPolarity.FallingEdge, false)]
+        [InlineData(TmuPolarity.FallingEdge, true)]
+        [InlineData(TmuPolarity.EitherEdge, false)]
+        [InlineData(TmuPolarity.EitherEdge, true)]
+        public void Inititalize_ConfigureTMUStopSourceEventPolaritySucceeds(TmuPolarity polarity, bool useSpecificPins)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -157,7 +157,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
             sessionsBundle.ConfigureTMUStartSource(pinNames);
             sessionsBundle.ConfigureTMUEdgeArmSource(pinNames);
-            sessionsBundle.ConfigureTMUEdgeArmPolarity(TmuSourcePolarity.RisingEdge, pinNames);
+            sessionsBundle.ConfigureTMUEdgeArmPolarity(TmuPolarity.RisingEdge, pinNames);
 
             sessionsBundle.ConfigureTMUArmType(armType, pinNames);
             sessionsBundle.ClearTMUAssignment();
@@ -202,11 +202,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         #region Configure TMU Edge Arm Polarity Tests
 
         [Theory]
-        [InlineData(TmuSourcePolarity.RisingEdge, false)]
-        [InlineData(TmuSourcePolarity.RisingEdge, true)]
-        [InlineData(TmuSourcePolarity.FallingEdge, false)]
-        [InlineData(TmuSourcePolarity.FallingEdge, true)]
-        public void Inititalize_ConfigureTMUEdgeArmPolaritySucceeds(TmuSourcePolarity polarity, bool useSpecificPins)
+        [InlineData(TmuPolarity.RisingEdge, false)]
+        [InlineData(TmuPolarity.RisingEdge, true)]
+        [InlineData(TmuPolarity.FallingEdge, false)]
+        [InlineData(TmuPolarity.FallingEdge, true)]
+        public void Inititalize_ConfigureTMUEdgeArmPolaritySucceeds(TmuPolarity polarity, bool useSpecificPins)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
