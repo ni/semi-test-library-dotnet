@@ -1752,7 +1752,53 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Configures the low current limit.
+        /// Configures the current level range.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="currentLevelRange">The current level range to set, in Amps.</param>
+        public static void ConfigureCurrentLevelRange(this DCPowerSessionsBundle sessionsBundle, double currentLevelRange)
+        {
+            sessionsBundle.DoPerChannelIfGangedElsePerSession(
+               perChannelAction: (sessionInfo, sitePinInfo) =>
+               {
+                   SetCurrentLevelRange(sessionInfo, sitePinInfo, currentLevelRange);
+               },
+               perSessionAction: sessionInfo =>
+               {
+                   sessionInfo.AllChannelsOutput.Control.Abort();
+                   sessionInfo.AllChannelsOutput.Source.Current.CurrentLevelRange = currentLevelRange;
+               });
+        }
+
+        /// <inheritdoc cref="ConfigureCurrentLevelRange(DCPowerSessionsBundle, double)"/>
+        public static void ConfigureCurrentLevelRange(this DCPowerSessionsBundle sessionsBundle, SiteData<double> currentLevelRange)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetCurrentLevelRange(sessionInfo, sitePinInfo, currentLevelRange.GetValue(sitePinInfo.SiteNumber));
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureCurrentLevelRange(DCPowerSessionsBundle, double)"/>
+        /// <remarks>
+        /// When the session bundle contains a ganged pin group and the <paramref name="currentLevelRange"/> value is associated with the ganged pin group name,
+        /// the current range for each pin in the group is selected as the nearest range to the specified value divided by the number of pins in the group.
+        /// Otherwise, when the value is associated with individual pin names, the current range for each pin is selected as the nearest range to the specified value.
+        /// </remarks>
+        public static void ConfigureCurrentLevelRange(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> currentLevelRange)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetCurrentLevelRange(sessionInfo, sitePinInfo, currentLevelRange.GetValue(sitePinInfo, out bool isGroupData), isGroupData);
+            });
+        }
+
+        /// <summary>
+        /// Configures the current limit low.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentLimitLow">The current limit low to set, in Amps.</param>
@@ -1783,8 +1829,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         /// <inheritdoc cref="ConfigureCurrentLimitLow(DCPowerSessionsBundle, double)"/>
         /// <remarks>
-        /// When the <paramref name="currentLimitLow"/> value is associated with a ganged pingroup name, it applies to the total ganged current limit.
-        /// When the value is associated with individual pin names, it applies to each pin in the ganged pingroup.
+        /// When the session bundle contains a ganged pin group and the <paramref name="currentLimitLow"/> value is associated with the ganged pin group name,
+        /// the current limit low for each pin in the group is set to the specified value divided by the number of pins in the group.
+        /// Otherwise, when the value is associated with individual pin names, the current limit low for each pin is set to the specified value.
         /// </remarks>
         public static void ConfigureCurrentLimitLow(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> currentLimitLow)
         {
@@ -3091,6 +3138,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
             // The start trigger must be set to None before any subsequent SinglePoint operations can be performed.
             sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger });
+        }
+
+        private static void SetCurrentLevelRange(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double currentLevelRange, bool isGroupData = true)
+        {
+            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+            var currentLevelRangeToSet = currentLevelRange;
+
+            if (isGroupData && sitePinInfo?.CascadingInfo is GangingInfo gangingInfo)
+            {
+                currentLevelRangeToSet = currentLevelRange / gangingInfo.ChannelsCount;
+            }
+
+            channelOutput.Control.Abort();
+            channelOutput.Source.Current.CurrentLevelRange = currentLevelRangeToSet;
         }
 
         internal static void ValidateNoChannelGanged(this DCPowerSessionsBundle sessionsBundle)
