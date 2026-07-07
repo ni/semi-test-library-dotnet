@@ -3095,20 +3095,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.DisableTriggers(new[] { TriggerType.StartTrigger });
         }
 
-        private static void SetCurrentLevelRange(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double currentLevelRange, bool isGroupData = true)
-        {
-            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-            var currentLevelRangeToSet = currentLevelRange;
-
-            if (isGroupData && sitePinInfo?.CascadingInfo is GangingInfo gangingInfo)
-            {
-                currentLevelRangeToSet = currentLevelRange / gangingInfo.ChannelsCount;
-            }
-
-            channelOutput.Control.Abort();
-            channelOutput.Source.Current.CurrentLevelRange = currentLevelRangeToSet;
-        }
-
         private static void SetCurrentLimitRange(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double currentLimitRange, bool isGroupData = true)
         {
             var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
