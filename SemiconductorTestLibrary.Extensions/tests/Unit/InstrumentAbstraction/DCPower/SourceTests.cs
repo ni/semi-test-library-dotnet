@@ -5276,6 +5276,102 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
         }
 
+        [Fact]
+        public void SMUDevicesMerged_GetLimitSymmetry_ReturnsPrimaryPinValue()
+        {
+            var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
+            var primaryPin = "VCCPrimary";
+            var allPinsMergedGroup = "AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin";
+            var expectedLimitSymmetry = DCPowerComplianceLimitSymmetry.Asymmetric;
+            var sessionsBundle = sessionManager.DCPower(allPinsMergedGroup);
+            sessionsBundle.MergePinGroup(allPinsMergedGroup);
+            sessionsBundle.ConfigureLimitSymmetry(expectedLimitSymmetry);
+
+            var limitSymmetry = sessionsBundle.GetLimitSymmetry();
+
+            Assert.Single(limitSymmetry.PinNames);
+            Assert.Equal(primaryPin, limitSymmetry.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(allPinsMergedGroup, limitSymmetry.PinNames);
+            Assert.Equal(expectedLimitSymmetry, limitSymmetry.GetValue(0, primaryPin));
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGangedConfigureLimitSymmetry_GetLimitSymmetry_ReturnsCorrectValue()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var allPinsGangedGroup = "AllPinsGangedGroup";
+            var expectedLimitSymmetry = DCPowerComplianceLimitSymmetry.Asymmetric;
+            var sessionsBundle = sessionManager.DCPower(allPinsGangedGroup);
+            sessionsBundle.GangPinGroup(allPinsGangedGroup);
+            sessionsBundle.ConfigureLimitSymmetry(expectedLimitSymmetry);
+
+            var limitSymmetry = sessionsBundle.GetLimitSymmetry();
+
+            Assert.Equal(5, limitSymmetry.PinNames.Length);
+            Assert.DoesNotContain(allPinsGangedGroup, limitSymmetry.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedLimitSymmetry, limitSymmetry.GetValue(sitePinInfo));
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevicesConfigureLimitSymmetry_GetLimitSymmetry_ReturnsTheLimitSymmetry(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var expectedLimitSymmetry = DCPowerComplianceLimitSymmetry.Asymmetric;
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            sessionsBundle.ConfigureLimitSymmetry(expectedLimitSymmetry);
+
+            var limitSymmetry = sessionsBundle.GetLimitSymmetry();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedLimitSymmetry, limitSymmetry.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesSetPerPinPerSiteLimitSymmetry_GetLimitSymmetry_ReturnsCorrectValue()
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var pinNames = new string[] { "VCC1", "VCC2" };
+            var sessionsBundle = sessionManager.DCPower(pinNames);
+            var limitSymmetry = new PinSiteData<DCPowerComplianceLimitSymmetry>(new Dictionary<string, IDictionary<int, DCPowerComplianceLimitSymmetry>>()
+            {
+                [pinNames[0]] = new Dictionary<int, DCPowerComplianceLimitSymmetry>() { [0] = DCPowerComplianceLimitSymmetry.Symmetric, [1] = DCPowerComplianceLimitSymmetry.Asymmetric },
+                [pinNames[1]] = new Dictionary<int, DCPowerComplianceLimitSymmetry>() { [0] = DCPowerComplianceLimitSymmetry.Asymmetric, [1] = DCPowerComplianceLimitSymmetry.Symmetric }
+            });
+            sessionsBundle.ConfigureLimitSymmetry(limitSymmetry);
+
+            var values = sessionsBundle.GetLimitSymmetry();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(limitSymmetry.GetValue(sitePinInfo), values.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void SharedPinConfigureLimitSymmetryOnFilteredSites_GetLimitSymmetry_ReturnsSameValueForAllPrimaryAndShadowSites()
+        {
+            var sessionManager = Initialize("SharedPinTests.pinmap");
+            var pinName = "VCC2";
+            var expectedLimitSymmetry = DCPowerComplianceLimitSymmetry.Asymmetric;
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            var sharedSitesBundle = sessionsBundle.FilterBySite(new[] { 1, 2 });
+            sharedSitesBundle.ConfigureLimitSymmetry(new SiteData<DCPowerComplianceLimitSymmetry>(new[] { 1, 2 }, expectedLimitSymmetry));
+
+            var limitSymmetry = sharedSitesBundle.GetLimitSymmetry();
+
+            sharedSitesBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedLimitSymmetry, limitSymmetry.GetValue(sitePinInfo));
+            });
+        }
+
         private void AssertVoltageSettings(DCPowerOutput channelOutput, double expectedVoltageLevel, double expectedCurrentLimit, int precision = 6)
         {
             Assert.Equal(expectedVoltageLevel, channelOutput.Source.Voltage.VoltageLevel, precision);

@@ -2033,6 +2033,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
+        /// Gets the limit symmetry.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-pin per-site limit symmetry.</returns>
+        public static PinSiteData<DCPowerComplianceLimitSymmetry> GetLimitSymmetry(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
+            });
+        }
+
+        /// <summary>
         /// Checks if the output function is set to DCVoltage and the level(s) are set to the expected values.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
