@@ -271,7 +271,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             this DigitalSessionsBundle sessionsBundle,
             string[] referencePinNames,
             string[] targetPinNames,
-            TmuSourcePolarity edgeType,
+            TmuPolarity edgeType,
             long samplesToAcquire,
             TmuArmType armType = TmuArmType.Immediate)
         {
@@ -942,7 +942,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             DigitalSessionInformation sessionInfo,
             SitePinInfo targetSitePinInfo,
             SitePinInfo referenceSitePinInfo,
-            TmuSourcePolarity edgeType,
+            TmuPolarity edgeType,
             long samplesToAcquire,
             TmuArmType armType)
         {
@@ -964,12 +964,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             // Configure TMU Start Source (Reference Channel)
             tmu.Start.Source = targetSitePinInfo.IndividualChannelString;
             tmu.Start.SourceEvent = sourceEvent;
-            tmu.Start.SourcePolarity = edgeType;
+            tmu.Start.SourceEventPolarity = edgeType;
 
             // Configure TMU Stop Source (Target Channel)
             tmu.Stop.Source = referenceSitePinInfo.IndividualChannelString;
             tmu.Stop.SourceEvent = sourceEvent;
-            tmu.Stop.SourcePolarity = edgeType;
+            tmu.Stop.SourceEventPolarity = edgeType;
 
             // Configure samples and arm type
             tmu.SamplesToAcquire = samplesToAcquire;
@@ -985,10 +985,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
             tmu.Start.Source = sitePinInfo.IndividualChannelString;
             tmu.Start.SourceEvent = TmuSourceEvent.Vol;
-            tmu.Start.SourcePolarity = TmuSourcePolarity.RisingEdge;
+            tmu.Start.SourceEventPolarity = TmuPolarity.RisingEdge;
             tmu.Stop.Source = sitePinInfo.IndividualChannelString;
             tmu.Stop.SourceEvent = TmuSourceEvent.Voh;
-            tmu.Stop.SourcePolarity = TmuSourcePolarity.RisingEdge;
+            tmu.Stop.SourceEventPolarity = TmuPolarity.RisingEdge;
             tmu.SamplesToAcquire = samplesToAcquire;
             tmu.ArmType = armType;
             // Enable the TMU (reserve it)
@@ -1001,10 +1001,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
             tmu.Start.Source = sitePinInfo.IndividualChannelString;
             tmu.Start.SourceEvent = TmuSourceEvent.Voh;
-            tmu.Start.SourcePolarity = TmuSourcePolarity.FallingEdge;
+            tmu.Start.SourceEventPolarity = TmuPolarity.FallingEdge;
             tmu.Stop.Source = sitePinInfo.IndividualChannelString;
             tmu.Stop.SourceEvent = TmuSourceEvent.Vol;
-            tmu.Stop.SourcePolarity = TmuSourcePolarity.FallingEdge;
+            tmu.Stop.SourceEventPolarity = TmuPolarity.FallingEdge;
             tmu.SamplesToAcquire = samplesToAcquire;
             tmu.ArmType = armType;
             // Enable the TMU (reserve it)
@@ -1020,18 +1020,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 case TmuDutyCycle.High:
                     tmu.Start.Source = sitePinInfo.IndividualChannelString;
                     tmu.Start.SourceEvent = TmuSourceEvent.Voh;
-                    tmu.Start.SourcePolarity = TmuSourcePolarity.RisingEdge;
+                    tmu.Start.SourceEventPolarity = TmuPolarity.RisingEdge;
                     tmu.Stop.Source = sitePinInfo.IndividualChannelString;
                     tmu.Stop.SourceEvent = TmuSourceEvent.Voh;
-                    tmu.Stop.SourcePolarity = TmuSourcePolarity.FallingEdge;
+                    tmu.Stop.SourceEventPolarity = TmuPolarity.FallingEdge;
                     break;
                 case TmuDutyCycle.Low:
                     tmu.Start.Source = sitePinInfo.IndividualChannelString;
                     tmu.Start.SourceEvent = TmuSourceEvent.Vol;
-                    tmu.Start.SourcePolarity = TmuSourcePolarity.FallingEdge;
+                    tmu.Start.SourceEventPolarity = TmuPolarity.FallingEdge;
                     tmu.Stop.Source = sitePinInfo.IndividualChannelString;
                     tmu.Stop.SourceEvent = TmuSourceEvent.Vol;
-                    tmu.Stop.SourcePolarity = TmuSourcePolarity.RisingEdge;
+                    tmu.Stop.SourceEventPolarity = TmuPolarity.RisingEdge;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(dutyCycleType), dutyCycleType, string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedPolarity));
@@ -1051,18 +1051,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 case TmuPulseWidth.High:
                     tmu.Start.Source = sitePinInfo.IndividualChannelString;
                     tmu.Start.SourceEvent = TmuSourceEvent.Voh;
-                    tmu.Start.SourcePolarity = TmuSourcePolarity.RisingEdge;
+                    tmu.Start.SourceEventPolarity = TmuPolarity.RisingEdge;
                     tmu.Stop.Source = sitePinInfo.IndividualChannelString;
                     tmu.Stop.SourceEvent = TmuSourceEvent.Voh;
-                    tmu.Stop.SourcePolarity = TmuSourcePolarity.FallingEdge;
+                    tmu.Stop.SourceEventPolarity = TmuPolarity.FallingEdge;
                     break;
                 case TmuPulseWidth.Low:
                     tmu.Start.Source = sitePinInfo.IndividualChannelString;
                     tmu.Start.SourceEvent = TmuSourceEvent.Vol;
-                    tmu.Start.SourcePolarity = TmuSourcePolarity.FallingEdge;
+                    tmu.Start.SourceEventPolarity = TmuPolarity.FallingEdge;
                     tmu.Stop.Source = sitePinInfo.IndividualChannelString;
                     tmu.Stop.SourceEvent = TmuSourceEvent.Vol;
-                    tmu.Stop.SourcePolarity = TmuSourcePolarity.RisingEdge;
+                    tmu.Stop.SourceEventPolarity = TmuPolarity.RisingEdge;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(pulseWidthType), pulseWidthType, string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedPolarity));
