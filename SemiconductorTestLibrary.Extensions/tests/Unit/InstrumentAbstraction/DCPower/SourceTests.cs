@@ -5903,6 +5903,105 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
         }
 
+        [Fact]
+        public void SMUDevicesMerged_GetVoltageLimitHigh_ReturnsPrimaryPinValue()
+        {
+            var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
+            var primaryPin = "VCCPrimary";
+            var allPinsMergedGroup = "AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin";
+            var expectedVoltageLimitHigh = 5.0;
+            var sessionsBundle = sessionManager.DCPower(allPinsMergedGroup);
+            sessionsBundle.MergePinGroup(allPinsMergedGroup);
+            sessionsBundle.ConfigureVoltageLimitHigh(expectedVoltageLimitHigh);
+
+            var voltageLimitHigh = sessionsBundle.GetVoltageLimitHigh();
+
+            Assert.Single(voltageLimitHigh.PinNames);
+            Assert.Equal(primaryPin, voltageLimitHigh.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(allPinsMergedGroup, voltageLimitHigh.PinNames);
+            Assert.Equal(expectedVoltageLimitHigh, voltageLimitHigh.GetValue(0, primaryPin));
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGangedConfigureVoltageLimitHigh_GetVoltageLimitHigh_ReturnsCorrectValue()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var allPinsGangedGroup = "AllPinsGangedGroup";
+            var expectedVoltageLimitHigh = 15.0;
+            var sessionsBundle = sessionManager.DCPower(allPinsGangedGroup);
+            sessionsBundle.GangPinGroup(allPinsGangedGroup);
+            sessionsBundle.ConfigureVoltageLimitHigh(expectedVoltageLimitHigh);
+
+            var voltageLimitHigh = sessionsBundle.GetVoltageLimitHigh();
+
+            Assert.Equal(5, voltageLimitHigh.PinNames.Length);
+            Assert.DoesNotContain(allPinsGangedGroup, voltageLimitHigh.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                var voltageLimitHighDivisor = sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                Assert.Equal(expectedVoltageLimitHigh / voltageLimitHighDivisor, voltageLimitHigh.GetValue(sitePinInfo), 4);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevicesConfigureVoltageLimitHigh_GetVoltageLimitHigh_ReturnsTheVoltageLimitHigh(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var expectedVoltageLimitHigh = 3.0;
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            sessionsBundle.ConfigureVoltageLimitHigh(expectedVoltageLimitHigh);
+
+            var voltageLimitHigh = sessionsBundle.GetVoltageLimitHigh();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLimitHigh, voltageLimitHigh.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesSetPerPinPerSiteVoltageLimitHigh_GetVoltageLimitHigh_ReturnsCorrectValue()
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var pinNames = new string[] { "VCC1", "VCC2", "VDET" };
+            var sessionsBundle = sessionManager.DCPower(pinNames);
+            var activeSites = GetActiveSites(sessionsBundle);
+            var expectedVoltageLimitHigh = new PinSiteData<double>(activeSites, new Dictionary<string, double>()
+            {
+                [pinNames[0]] = 3.0,
+                [pinNames[1]] = 5.0,
+                [pinNames[2]] = 10.0
+            });
+            sessionsBundle.ConfigureVoltageLimitHigh(expectedVoltageLimitHigh);
+
+            var values = sessionsBundle.GetVoltageLimitHigh();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLimitHigh.GetValue(sitePinInfo), values.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void SharedPinConfigureVoltageLimitHighOnFilteredSites_GetVoltageLimitHigh_ReturnsSameValueForAllPrimaryAndShadowSites()
+        {
+            var sessionManager = Initialize("SharedPinTests.pinmap");
+            var pinName = "VCC2";
+            var expectedVoltageLimitHigh = 3.0;
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            var sharedSitesBundle = sessionsBundle.FilterBySite(new[] { 1, 2 });
+            sharedSitesBundle.ConfigureVoltageLimitHigh(new SiteData<double>(new[] { 1, 2 }, expectedVoltageLimitHigh));
+
+            var voltageLimitHigh = sharedSitesBundle.GetVoltageLimitHigh();
+
+            sharedSitesBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLimitHigh, voltageLimitHigh.GetValue(sitePinInfo));
+            });
+        }
+
         private void AssertVoltageSettings(DCPowerOutput channelOutput, double expectedVoltageLevel, double expectedCurrentLimit, int precision = 6)
         {
             Assert.Equal(expectedVoltageLevel, channelOutput.Source.Voltage.VoltageLevel, precision);
