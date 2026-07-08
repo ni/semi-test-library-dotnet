@@ -129,8 +129,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     sessionsBundle.Initiate();
                     break;
                 case UpdateMode.Deferred:
-                default:
                     break;
+                default:
+                    throw new System.ArgumentOutOfRangeException(nameof(updateMode), updateMode, "Unknown update mode.");
             }
         }
 }
