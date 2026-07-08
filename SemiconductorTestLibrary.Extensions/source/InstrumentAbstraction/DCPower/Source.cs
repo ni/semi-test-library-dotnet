@@ -67,7 +67,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionInfo.Session.Control.Abort();
                 sessionInfo.ConfigureSourceSettings(settings);
             });
-            sessionsBundle.AttributeUpdate(updateMode);
+            sessionsBundle.UpdateProperties(updateMode);
         }
 
         /// <inheritdoc cref="ConfigureSourceSettings(DCPowerSessionsBundle, DCPowerSourceSettings, UpdateMode)"/>
@@ -80,7 +80,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 channelOutput.Control.Abort();
                 sessionInfo.ConfigureSourceSettings(settings.GetValue(sitePinInfo.SiteNumber), channelOutput, sitePinInfo);
             });
-            sessionsBundle.AttributeUpdate(updateMode);
+            sessionsBundle.UpdateProperties(updateMode);
         }
 
         /// <inheritdoc cref="ConfigureSourceSettings(DCPowerSessionsBundle, DCPowerSourceSettings, UpdateMode)"/>
@@ -96,7 +96,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 channelOutput.Control.Abort();
                 sessionInfo.ConfigureSourceSettings(settings.GetValue(sitePinInfo, out bool isGroupData), channelOutput, sitePinInfo, isGroupData);
             });
-            sessionsBundle.AttributeUpdate(updateMode);
+            sessionsBundle.UpdateProperties(updateMode);
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 channelOutput.Control.Abort();
                 sessionInfo.ConfigureSourceSettings(settings.GetValue(sitePinInfo, out bool isGroupData), channelOutput, sitePinInfo, isGroupData);
             });
-            sessionsBundle.AttributeUpdate(updateMode);
+            sessionsBundle.UpdateProperties(updateMode);
         }
 
         /// <summary>
@@ -1740,7 +1740,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionInfo.Session.Control.Abort();
                 sessionInfo.AllChannelsOutput.ConfigureCurrentLimit(currentLimit, currentLimitRange);
             });
-            sessionsBundle.AttributeUpdate(updateMode);
+            sessionsBundle.UpdateProperties(updateMode);
         }
 
         /// <summary>
@@ -1758,7 +1758,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 channelOutput.Control.Abort();
                 channelOutput.ConfigureCurrentLimit(currentLimits[sitePinInfo.PinName], currentLimitRanges?[sitePinInfo.PinName]);
             });
-            sessionsBundle.AttributeUpdate(updateMode);
+            sessionsBundle.UpdateProperties(updateMode);
         }
 
         /// <summary>

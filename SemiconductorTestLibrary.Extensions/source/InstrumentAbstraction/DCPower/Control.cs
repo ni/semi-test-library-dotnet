@@ -117,7 +117,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
         #endregion methods on DCPowerSessionsBundle
 
-        internal static void AttributeUpdate(
+        internal static void UpdateProperties(
             this DCPowerSessionsBundle sessionsBundle, UpdateMode updateMode)
         {
             switch (updateMode)
@@ -134,5 +134,5 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     throw new System.ArgumentOutOfRangeException(nameof(updateMode), updateMode, "Unknown update mode.");
             }
         }
-}
+    }
 }
