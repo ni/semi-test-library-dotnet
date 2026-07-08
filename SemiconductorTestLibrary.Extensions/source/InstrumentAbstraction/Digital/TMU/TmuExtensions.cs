@@ -235,33 +235,33 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// This method sets the necessary attributes to configure skew measurement for the assigned TMU resource.<br/>
         /// </para>
         /// <para>
-        /// For rising edge skew (<see cref="TmuSourcePolarity.RisingEdge"/>):<br/>
+        /// For rising edge skew (<see cref="TmuPolarity.RisingEdge"/>):<br/>
         /// - <see cref="TmuAttributes.TmuStartSource"/> = Reference channel<br/>
         /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuSourcePolarity.RisingEdge"/><br/>
+        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
         /// - <see cref="TmuAttributes.TmuStopSource"/> = Target channel<br/>
         /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuSourcePolarity.RisingEdge"/><br/>
+        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
         /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
         /// - <see cref="TmuAttributes.TmuArmType"/> = value of <paramref name="armType"/> parameter.
         /// </para>
         /// <para>
-        /// For falling edge skew (<see cref="TmuSourcePolarity.FallingEdge"/>):<br/>
+        /// For falling edge skew (<see cref="TmuPolarity.FallingEdge"/>):<br/>
         /// - <see cref="TmuAttributes.TmuStartSource"/> = Reference channel<br/>
         /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuSourcePolarity.FallingEdge"/><br/>
+        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
         /// - <see cref="TmuAttributes.TmuStopSource"/> = Target channel<br/>
         /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuSourcePolarity.FallingEdge"/><br/>
+        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
         /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
         /// - <see cref="TmuAttributes.TmuArmType"/> = value of <paramref name="armType"/> parameter.
         /// </para>
-        /// If the <paramref name="edgeType"/> parameter is set to <see cref="TmuSourcePolarity.EitherEdge"/>, an exception will be thrown.
+        /// If the <paramref name="edgeType"/> parameter is set to <see cref="TmuPolarity.EitherEdge"/>, an exception will be thrown.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="referencePinNames">The pins to use as the reference (start) source for the skew measurement.</param>
         /// <param name="targetPinNames">The pins to use as the target (stop) source for the skew measurement.</param>
-        /// <param name="edgeType">The type of edge to detect. Only accepts <see cref="TmuSourcePolarity.RisingEdge"/> or <see cref="TmuSourcePolarity.FallingEdge"/>.</param>
+        /// <param name="edgeType">The type of edge to detect. Only accepts <see cref="TmuPolarity.RisingEdge"/> or <see cref="TmuPolarity.FallingEdge"/>.</param>
         /// <param name="samplesToAcquire">The number of samples to acquire for the TMU measurement.</param>
         /// <param name="armType">
         /// The type of signal used to arm the TMU measurement.<br/>
@@ -330,10 +330,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <para>
         /// - <see cref="TmuAttributes.TmuStartSource"/> = the associated pin<br/>
         /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuSourcePolarity.RisingEdge"/><br/>
+        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
         /// - <see cref="TmuAttributes.TmuStopSource"/> = same pin as start source<br/>
         /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuSourcePolarity.RisingEdge"/><br/>
+        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
         /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
         /// - <see cref="TmuAttributes.TmuArmType"/> = value of <paramref name="armType"/> parameter.
         /// </para>
@@ -373,10 +373,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <para>
         /// - <see cref="TmuAttributes.TmuStartSource"/> = the associated pin<br/>
         /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuSourcePolarity.FallingEdge"/><br/>
+        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
         /// - <see cref="TmuAttributes.TmuStopSource"/> = same pin as start source<br/>
         /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuSourcePolarity.FallingEdge"/><br/>
+        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
         /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
         /// - <see cref="TmuAttributes.TmuArmType"/> = value of <paramref name="armType"/> parameter.
         /// </para>
@@ -416,19 +416,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// For duty cycle high (<see cref="TmuDutyCycle.High"/>):<br/>
         /// - <see cref="TmuAttributes.TmuStartSource"/> = the associated pin<br/>
         /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuSourcePolarity.RisingEdge"/><br/>
+        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
         /// - <see cref="TmuAttributes.TmuStopSource"/> = same pin as start source<br/>
         /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuSourcePolarity.FallingEdge"/><br/>
+        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
         /// </para>
         /// <para>
         /// For duty cycle low (<see cref="TmuDutyCycle.Low"/>):<br/>
         /// - <see cref="TmuAttributes.TmuStartSource"/> = the associated pin<br/>
         /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuSourcePolarity.FallingEdge"/><br/>
+        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
         /// - <see cref="TmuAttributes.TmuStopSource"/> = same pin as start source<br/>
         /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuSourcePolarity.RisingEdge"/><br/>
+        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
         /// </para>
         /// <para>
         /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
@@ -473,19 +473,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// For pulse width high (<see cref="TmuPulseWidth.High"/>):<br/>
         /// - <see cref="TmuAttributes.TmuStartSource"/> = the associated pin<br/>
         /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuSourcePolarity.RisingEdge"/><br/>
+        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
         /// - <see cref="TmuAttributes.TmuStopSource"/> = same pin as start source<br/>
         /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuSourcePolarity.FallingEdge"/><br/>
+        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
         /// </para>
         /// <para>
         /// For pulse width low (<see cref="TmuPulseWidth.Low"/>):<br/>
         /// - <see cref="TmuAttributes.TmuStartSource"/> = the associated pin<br/>
         /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuSourcePolarity.FallingEdge"/><br/>
+        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
         /// - <see cref="TmuAttributes.TmuStopSource"/> = same pin as start source<br/>
         /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuSourcePolarity.RisingEdge"/><br/>
+        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
         /// </para>
         /// <para>
         /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
