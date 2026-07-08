@@ -372,13 +372,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         #region Configure Skew Measurement (Single Pin Pair) Tests
 
         [Theory]
-        [InlineData(TmuSourcePolarity.RisingEdge)]
-        [InlineData(TmuSourcePolarity.FallingEdge)]
-        public void Inititalize_ConfigureSkewMeasurementSucceeds(TmuSourcePolarity edgeType)
+        [InlineData(TmuPolarity.RisingEdge)]
+        [InlineData(TmuPolarity.FallingEdge)]
+        public void Inititalize_ConfigureSkewMeasurementSucceeds(TmuPolarity edgeType)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
 
-            sessionsBundle.ConfigureSkewMeasurement("C0", "C1", edgeType, 1);
+            sessionsBundle.ConfigureSkewMeasurement(new string[] { "C0" }, new string[] { "C1" }, edgeType, 1);
             sessionsBundle.DisableTMU();
             sessionsBundle.ClearTMUAssignment();
         }
@@ -389,7 +389,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = InititalzeAndCreateBundle();
 
             Assert.Throws<NISemiconductorTestException>(() =>
-                sessionsBundle.ConfigureSkewMeasurement("C0", "C1", TmuSourcePolarity.EitherEdge, 1));
+                sessionsBundle.ConfigureSkewMeasurement(new string[] { "C0" }, new string[] { "C1" }, TmuPolarity.EitherEdge, 1));
             sessionsBundle.DisableTMU();
             sessionsBundle.ClearTMUAssignment();
         }
@@ -400,7 +400,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = InititalzeAndCreateBundle();
 
             Assert.Throws<NISemiconductorTestException>(() =>
-                sessionsBundle.ConfigureSkewMeasurement("C0", "C0", TmuSourcePolarity.RisingEdge, 1));
+                sessionsBundle.ConfigureSkewMeasurement(new string[] { "C0" }, new string[] { "C0" }, TmuPolarity.RisingEdge, 1));
             sessionsBundle.DisableTMU();
             sessionsBundle.ClearTMUAssignment();
         }
@@ -410,9 +410,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         #region Configure Skew Measurement (Multiple Pin Pairs) Tests
 
         [Theory]
-        [InlineData(TmuSourcePolarity.RisingEdge)]
-        [InlineData(TmuSourcePolarity.FallingEdge)]
-        public void Inititalize_ConfigureSkewMeasurementWithMultiplePinsSucceeds(TmuSourcePolarity edgeType)
+        [InlineData(TmuPolarity.RisingEdge)]
+        [InlineData(TmuPolarity.FallingEdge)]
+        public void Inititalize_ConfigureSkewMeasurementWithMultiplePinsSucceeds(TmuPolarity edgeType)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
 
@@ -428,7 +428,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             Assert.Throws<NISemiconductorTestException>(() =>
                 sessionsBundle.ConfigureSkewMeasurement(
-                    new[] { "C0" }, new[] { "C0" }, TmuSourcePolarity.RisingEdge, 1));
+                    new[] { "C0" }, new[] { "C0" }, TmuPolarity.RisingEdge, 1));
             sessionsBundle.DisableTMU();
             sessionsBundle.ClearTMUAssignment();
         }
@@ -440,7 +440,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             Assert.Throws<NISemiconductorTestException>(() =>
                 sessionsBundle.ConfigureSkewMeasurement(
-                    new[] { "C0" }, new[] { "C1" }, TmuSourcePolarity.EitherEdge, 1));
+                    new[] { "C0" }, new[] { "C1" }, TmuPolarity.EitherEdge, 1));
             sessionsBundle.DisableTMU();
             sessionsBundle.ClearTMUAssignment();
         }
