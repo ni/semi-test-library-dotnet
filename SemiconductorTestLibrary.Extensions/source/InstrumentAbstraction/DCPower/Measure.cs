@@ -434,6 +434,32 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
+        /// <summary>
+        /// Clears any pending fetch data from the buffer for all non-shared/primary channels in the sessions bundle.
+        /// </summary>
+        /// <remarks>
+        /// Iterates over each filtered channel, checks the <see cref="DCPowerMeasurement.FetchBacklog"/> property,
+        /// and if greater than zero, fetches and discards the backlog data.
+        /// Channels configured to measure on demand are skipped, since they do not accumulate pending fetch data
+        /// and the FetchBacklog property is not valid unless the channel is running.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        public static void ClearFetchBacklog(this DCPowerSessionsBundle sessionsBundle)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                foreach (var sitePinInfo in sessionInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations))
+                {
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    int fetchBacklog = channelOutput.Measurement.FetchBacklog;
+                    if (fetchBacklog > 0)
+                    {
+                        sessionInfo.Session.Measurement.Fetch(sitePinInfo.IndividualChannelString, new PrecisionTimeSpan(20), fetchBacklog);
+                    }
+                }
+            });
+        }
+
         private static void ClearBacklogIfSoftwareEdgeTrigger(this DCPowerSessionsBundle sessionsBundle)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
