@@ -55,7 +55,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             // - samplesToAcquire: Number of period measurements to collect.
             // - armType: Start measurement immediately without waiting for an arm event.
             digitalPins.ConfigurePeriodMeasurement(
-                edgeType: TmuSourcePolarity.RisingEdge,
+                edgeType: TmuPolarity.RisingEdge,
                 samplesToAcquire: numberOfSamples,
                 armType: TmuArmType.Immediate);
 
