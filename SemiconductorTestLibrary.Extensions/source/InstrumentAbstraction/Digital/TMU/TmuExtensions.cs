@@ -951,10 +951,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             TmuSourceEvent sourceEvent;
             switch (edgeType)
             {
-                case TmuSourcePolarity.RisingEdge:
+                case TmuPolarity.RisingEdge:
                     sourceEvent = TmuSourceEvent.Voh;
                     break;
-                case TmuSourcePolarity.FallingEdge:
+                case TmuPolarity.FallingEdge:
                     sourceEvent = TmuSourceEvent.Vol;
                     break;
                 default:
