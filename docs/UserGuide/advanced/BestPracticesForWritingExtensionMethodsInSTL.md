@@ -204,7 +204,7 @@ The decision to use Scalar, SiteData, or PinSiteData depends on the level of req
 **Example**:
 
 - ***Input Parameter***: `PinSiteData` object that specifies the value for each pin-site combination.
-  - [public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, PinSiteData\<DCPowerSourceSettings> settings, UpdateMode updateMode = UpdateMode.Deferred)](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs#L46)
+  - [public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, PinSiteData\<DCPowerSourceSettings> settings, UpdateMode updateMode = UpdateMode.Deferred)](../../../SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs#L87)
 - ***Return Type***: `PinSiteData<T>` object that contains measurements for each pin-site combination.
   - [public static PinSiteData\<double> GetSourceDelayInSeconds(this DCPowerSessionsBundle sessionsBundle)](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs#L803)
 
