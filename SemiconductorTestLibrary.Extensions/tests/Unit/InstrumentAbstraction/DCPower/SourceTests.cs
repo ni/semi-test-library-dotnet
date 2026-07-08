@@ -5503,6 +5503,204 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
         }
 
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureVoltageLimitWithScalarValues_CorrectVoltageLimitSet(string pinmap)
+        {
+            var sessionManager = Initialize(pinmap);
+            var sessionsBundle = sessionManager.DCPower("VCC1");
+            var expectedVoltageLimit = 1E-1;
+
+            sessionsBundle.ConfigureVoltageLimit(expectedVoltageLimit);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualVoltageLimit = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimit;
+                Assert.Equal(expectedVoltageLimit, actualVoltageLimit);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitWithScalarValue_VoltageLimitDividedByGangSizeSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var expectedVoltageLimit = 24.0;
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureVoltageLimit(expectedVoltageLimit);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var voltageLimitDivisor = sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                var actualVoltageLimit = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimit;
+                Assert.Equal(expectedVoltageLimit / voltageLimitDivisor, actualVoltageLimit, 4);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureVoltageLimitWithPerSiteValues_CorrectVoltageLimitSet(string pinmap)
+        {
+            var sessionManager = Initialize(pinmap);
+            var sessionsBundle = sessionManager.DCPower("VCC1");
+            var voltageLimit = new SiteData<double>(new[] { 1E-1, 2E-1 });
+
+            sessionsBundle.ConfigureVoltageLimit(voltageLimit);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLimit = voltageLimit.GetValue(sitePinInfo.SiteNumber);
+                var actualVoltageLimit = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimit;
+                Assert.Equal(expectedVoltageLimit, actualVoltageLimit);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitWithPerSiteValues_VoltageLimitDividedByGangSizeSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var voltageLimit = new SiteData<double>(new[] { 3.0, 9.0 });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureVoltageLimit(voltageLimit);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var voltageLimitDivisor = sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                var expectedVoltageLimit = voltageLimit.GetValue(sitePinInfo.SiteNumber) / voltageLimitDivisor;
+                var actualVoltageLimit = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimit;
+                Assert.Equal(expectedVoltageLimit, actualVoltageLimit, 4);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureVoltageLimitWithPerPinPerSiteValues_CorrectVoltageLimitSet(string pinmap)
+        {
+            var sessionManager = Initialize(pinmap);
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
+            var voltageLimit = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 1E-1, [1] = 3.0 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 2E-1, [1] = 2.0 }
+            });
+
+            sessionsBundle.ConfigureVoltageLimit(voltageLimit);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLimit = voltageLimit.GetValue(sitePinInfo);
+                var actualVoltageLimit = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimit;
+                Assert.Equal(expectedVoltageLimit, actualVoltageLimit);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitWithSamePerPinPerSiteValues_VoltageLimitDividedByGangSizeSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(new string[] { ThreePinsGangedGroup, "VCC4" });
+            var voltageLimit = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                [ThreePinsGangedGroup] = new Dictionary<int, double>() { [0] = 3.3, [1] = 6.6 },
+                ["VCC4"] = new Dictionary<int, double>() { [0] = 3E-1, [1] = 4 }
+            });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureVoltageLimit(voltageLimit);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLimit = voltageLimit.GetValue(sitePinInfo, out bool isGroupData);
+                var voltageLimitDivisor = isGroupData && sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                var actualVoltageLimit = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimit;
+                Assert.Equal(expectedVoltageLimit / voltageLimitDivisor, actualVoltageLimit, 4);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitWithDifferentPerPinPerSiteValues_CorrectVoltageLimitSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var voltageLimit = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 1E-1, [1] = 2E-1 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 2E-1, [1] = 2E-1 },
+                ["VCC3"] = new Dictionary<int, double>() { [0] = 1E-1, [1] = 2E-1 },
+            });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            void ConfigureVoltageLimit() => sessionsBundle.ConfigureVoltageLimit(voltageLimit);
+
+            var exception = Assert.Throws<AggregateException>(ConfigureVoltageLimit);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("The parameter contains different values for cascaded pins", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitOnFilteredBundleWithFewPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            void ConfigureVoltageLimit()
+            {
+                filteredBundle.ConfigureVoltageLimit(1E-2);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureVoltageLimit);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitOnSubsetBundleWithTwoPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var subsetBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            void ConfigureVoltageLimit()
+            {
+                subsetBundle.ConfigureVoltageLimit(1E-2);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureVoltageLimit);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_FilterBundleWithFewPinsAndUngangThenConfigureVoltageLimit_CorrectVoltageLimitSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            var expectedVoltageLimit = 1E-1;
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
+            filteredBundle.ConfigureVoltageLimit(expectedVoltageLimit);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (sitePinInfo.PinName == "VCC1" || sitePinInfo.PinName == "VCC2")
+                {
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    Assert.Equal(expectedVoltageLimit, channelOutput.Source.Voltage.CurrentLimit);
+                }
+            });
+        }
+
         private void AssertVoltageSettings(DCPowerOutput channelOutput, double expectedVoltageLevel, double expectedCurrentLimit, int precision = 6)
         {
             Assert.Equal(expectedVoltageLevel, channelOutput.Source.Voltage.VoltageLevel, precision);
