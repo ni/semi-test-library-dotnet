@@ -1921,9 +1921,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         /// <inheritdoc cref="ConfigureVoltageLimitHigh(DCPowerSessionsBundle, double)"/>
         /// <remarks>
-        /// When the session bundle contains a ganged pin group and the <paramref name="voltageLimitHigh"/> value is associated with the ganged pin group name,
-        /// the voltage limit high for each channel in the group is set to the specified value.
-        /// When ganged pins are configured using individual pin names, all pins in the ganged group must have the same value; otherwise an exception is thrown. When pins are not ganged, the voltage limit high for each pin is set to the specified value.
+        /// When the session bundle contains a ganged pin group and the <paramref name="voltageLimitHigh"/> value is applied to the entire pin group.
+        /// When ganged pins are configured using individual pin names, all pins in the ganged group must have the same value; otherwise an exception is thrown.
+        /// Otherwise, when the value is associated with individual pin names, the voltage limit high for each pin is set to the specified value.
         /// </remarks>
         public static void ConfigureVoltageLimitHigh(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> voltageLimitHigh)
         {
