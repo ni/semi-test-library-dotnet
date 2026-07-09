@@ -1875,8 +1875,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         /// <inheritdoc cref="ConfigureVoltageLimitLow(DCPowerSessionsBundle, double)"/>
         /// <remarks>
-        /// When the session bundle contains a ganged pin group and the <paramref name="voltageLimitLow"/> value is associated with the ganged pin group name,
-        /// the voltage limit low for each channel in the group is set to the specified value.
+        /// When the session bundle contains a ganged pin group and the <paramref name="voltageLimitLow"/> value is applied to the entire pin group.
+        /// When ganged pins are configured using individual pin names, all pins in the ganged group must have the same value; otherwise an exception is thrown.
         /// Otherwise, when the value is associated with individual pin names, the voltage limit low for each pin is set to the specified value.
         /// </remarks>
         public static void ConfigureVoltageLimitLow(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> voltageLimitLow)
