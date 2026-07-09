@@ -5624,7 +5624,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitWithDifferentPerPinPerSiteValues_CorrectVoltageLimitSet()
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitWithDifferentPerPinPerSiteValues_ThrowsException()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
