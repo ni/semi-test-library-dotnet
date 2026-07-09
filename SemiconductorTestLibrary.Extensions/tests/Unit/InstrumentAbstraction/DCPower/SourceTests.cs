@@ -5526,7 +5526,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
-            var expectedVoltageLimit = 24.0;
+            var expectedVoltageLimit = 8.0;
             sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
 
             sessionsBundle.ConfigureVoltageLimit(expectedVoltageLimit);
@@ -5562,7 +5562,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
-            var voltageLimit = new SiteData<double>(new[] { 3.0, 9.0 });
+            var voltageLimit = new SiteData<double>(new[] { 1.0, 3.0 });
             sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
 
             sessionsBundle.ConfigureVoltageLimit(voltageLimit);
