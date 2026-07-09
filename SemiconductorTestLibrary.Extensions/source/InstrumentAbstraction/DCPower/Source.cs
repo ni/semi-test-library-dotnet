@@ -1844,7 +1844,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Configures the voltage limit (symmetric current limit in voltage mode).
+        /// Configures the voltage limit.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="voltageLimit">The voltage limit to set, in Volts.</param>

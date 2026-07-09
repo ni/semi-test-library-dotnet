@@ -5696,7 +5696,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 if (sitePinInfo.PinName == "VCC1" || sitePinInfo.PinName == "VCC2")
                 {
                     var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                    Assert.Equal(expectedVoltageLimit, channelOutput.Source.Voltage.CurrentLimit);
+                    Assert.Equal(expectedVoltageLimit, channelOutput.Source.Current.VoltageLimit);
                 }
             });
         }
