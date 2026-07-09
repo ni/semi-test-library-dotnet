@@ -5331,9 +5331,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var voltageLevelDivisor = sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
                 var actualVoltageLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevelRange;
-                Assert.Equal(voltageLevelRange / voltageLevelDivisor, actualVoltageLevelRange, 4);
+                Assert.Equal(voltageLevelRange, actualVoltageLevelRange, 4);
             });
         }
 
@@ -5368,8 +5367,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var voltageLevelRangeDivisor = sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
-                var expectedVoltageLevelRange = voltageLevelRanges.GetValue(sitePinInfo.SiteNumber) / voltageLevelRangeDivisor;
+                var expectedVoltageLevelRange = voltageLevelRanges.GetValue(sitePinInfo.SiteNumber);
                 var actualVoltageLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevelRange;
                 Assert.Equal(expectedVoltageLevelRange, actualVoltageLevelRange, 4);
             });
@@ -5415,9 +5413,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var expectedVoltageLevelRange = voltageLevelRanges.GetValue(sitePinInfo, out bool isGroupData);
-                var voltageLevelRangeDivisor = isGroupData && sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
                 var actualVoltageLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevelRange;
-                Assert.Equal(expectedVoltageLevelRange / voltageLevelRangeDivisor, actualVoltageLevelRange, 4);
+                Assert.Equal(expectedVoltageLevelRange, actualVoltageLevelRange, 4);
             });
         }
 
