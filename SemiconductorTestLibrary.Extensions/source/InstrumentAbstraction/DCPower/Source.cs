@@ -1922,8 +1922,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <inheritdoc cref="ConfigureVoltageLimitHigh(DCPowerSessionsBundle, double)"/>
         /// <remarks>
         /// When the session bundle contains a ganged pin group and the <paramref name="voltageLimitHigh"/> value is associated with the ganged pin group name,
-        /// the voltage limit high for each pin in the group is set to the specified value divided by the number of pins in the group.
-        /// Otherwise, when the value is associated with individual pin names, the voltage limit high for each pin is set to the specified value.
+        /// the voltage limit high for each channel in the group is set to the specified value.
+        /// When ganged pins are configured using individual pin names, all pins in the ganged group must have the same value; otherwise an exception is thrown. When pins are not ganged, the voltage limit high for each pin is set to the specified value.
         /// </remarks>
         public static void ConfigureVoltageLimitHigh(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> voltageLimitHigh)
         {
@@ -1932,7 +1932,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, voltageLimitHigh);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                SetVoltageLimitHigh(sessionInfo, sitePinInfo, voltageLimitHigh.GetValue(sitePinInfo, out bool isGroupData), isGroupData);
+                SetVoltageLimitHigh(sessionInfo, sitePinInfo, voltageLimitHigh.GetValue(sitePinInfo));
             });
         }
 
@@ -3270,18 +3270,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             channelOutput.Source.Voltage.CurrentLimitHigh = currentLimitHighToSet;
         }
 
-        private static void SetVoltageLimitHigh(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double voltageLimitHigh, bool isGroupData = true)
+        private static void SetVoltageLimitHigh(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double voltageLimitHigh)
         {
             var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-            var voltageLimitHighToSet = voltageLimitHigh;
-
-            if (isGroupData && sitePinInfo?.CascadingInfo is GangingInfo gangingInfo)
-            {
-                voltageLimitHighToSet = voltageLimitHigh / gangingInfo.ChannelsCount;
-            }
-
             channelOutput.Control.Abort();
-            channelOutput.Source.Current.VoltageLimitHigh = voltageLimitHighToSet;
+            channelOutput.Source.Current.VoltageLimitHigh = voltageLimitHigh;
         }
 
         internal static void DoPerChannelIfGangedElsePerSession(this DCPowerSessionsBundle sessionsBundle, Action<DCPowerSessionInformation, SitePinInfo> perChannelAction, Action<DCPowerSessionInformation> perSessionAction)
