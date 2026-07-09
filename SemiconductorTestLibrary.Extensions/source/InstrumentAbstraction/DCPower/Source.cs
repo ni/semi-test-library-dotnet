@@ -3218,7 +3218,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             channelOutput.Source.Voltage.CurrentLimitLow = currentLimitLowToSet;
         }
 
-        internal static void DoPerChannelIfGangedElsePerSession(this DCPowerSessionsBundle sessionsBundle, Action<DCPowerSessionInformation, SitePinInfo> perChannelAction, Action<DCPowerSessionInformation> perSessionAction, bool isVoltageConfiguration = false)
+        internal static void DoPerChannelIfGangedElsePerSession(this DCPowerSessionsBundle sessionsBundle, Action<DCPowerSessionInformation, SitePinInfo> perChannelAction, Action<DCPowerSessionInformation> perSessionAction)
         {
             var hasGangedChannels = sessionsBundle.HasGangedChannels;
             if (hasGangedChannels)
