@@ -1875,8 +1875,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         /// <inheritdoc cref="ConfigureVoltageLimit(DCPowerSessionsBundle, double)"/>
         /// <remarks>
-        /// When the session bundle contains a ganged pin group and the <paramref name="voltageLimit"/> value is associated with the ganged pin group name,
-        /// the voltage limit for each pin in the group is set to the specified value divided by the number of pins in the group.
+        /// When the session bundle contains a ganged pin group and the <paramref name="voltageLimit"/> value is applied to the entire pin group.
+        /// When ganged pins are configured using individual pin names, all pins in the ganged group must have the same value; otherwise an exception is thrown.
         /// Otherwise, when the value is associated with individual pin names, the voltage limit for each pin is set to the specified value.
         /// </remarks>
         public static void ConfigureVoltageLimit(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> voltageLimit)
@@ -1886,7 +1886,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, voltageLimit);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                SetVoltageLimit(sessionInfo, sitePinInfo, voltageLimit.GetValue(sitePinInfo, out bool isGroupData), isGroupData);
+                SetVoltageLimit(sessionInfo, sitePinInfo, voltageLimit.GetValue(sitePinInfo));
             });
         }
 
@@ -3210,18 +3210,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             channelOutput.Source.Voltage.CurrentLimitLow = currentLimitLowToSet;
         }
 
-        private static void SetVoltageLimit(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double voltageLimit, bool isGroupData = true)
+        private static void SetVoltageLimit(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double voltageLimit)
         {
             var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-            var voltageLimitToSet = voltageLimit;
-
-            if (isGroupData && sitePinInfo?.CascadingInfo is GangingInfo gangingInfo)
-            {
-                voltageLimitToSet = voltageLimit / gangingInfo.ChannelsCount;
-            }
-
             channelOutput.Control.Abort();
-            channelOutput.Source.Current.VoltageLimit = voltageLimitToSet;
+            channelOutput.Source.Current.VoltageLimit = voltageLimit;
         }
 
         internal static void DoPerChannelIfGangedElsePerSession(this DCPowerSessionsBundle sessionsBundle, Action<DCPowerSessionInformation, SitePinInfo> perChannelAction, Action<DCPowerSessionInformation> perSessionAction)
