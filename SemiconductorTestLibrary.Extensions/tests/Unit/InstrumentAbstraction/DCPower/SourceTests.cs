@@ -5522,7 +5522,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitLowWithScalarValue_VoltageLimitLowDividedByGangSizeSet()
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitLowWithScalarValue_CorrectVoltageLimitLowSet()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
@@ -5534,8 +5534,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var actualVoltageLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitLow;
-                var voltageLimitLowDivisor = sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
-                Assert.Equal(expectedVoltageLimitLow / voltageLimitLowDivisor, actualVoltageLimitLow, 4);
+                Assert.Equal(expectedVoltageLimitLow, actualVoltageLimitLow, 4);
             });
         }
 
@@ -5559,7 +5558,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitLowWithPerSiteValues_VoltageLimitLowDividedByGangSizeSet()
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitLowWithPerSiteValues_CorrectVoltageLimitLowSet()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
@@ -5570,8 +5569,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var voltageLimitLowDivisor = sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
-                var expectedVoltageLimitLow = voltageLimitLow.GetValue(sitePinInfo.SiteNumber) / voltageLimitLowDivisor;
+                var expectedVoltageLimitLow = voltageLimitLow.GetValue(sitePinInfo.SiteNumber);
                 var actualVoltageLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitLow;
                 Assert.Equal(expectedVoltageLimitLow, actualVoltageLimitLow, 4);
             });
@@ -5601,7 +5599,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitLowWithSamePerPinPerSiteValues_VoltageLimitLowDividedByGangSizeSet()
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitLowWithSamePerPinPerSiteValues_CorrectVoltageLimitLowSet()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(new string[] { ThreePinsGangedGroup, "VCC4" });
@@ -5616,10 +5614,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var expectedVoltageLimitLow = voltageLimitLow.GetValue(sitePinInfo, out bool isGroupData);
-                var voltageLimitLowDivisor = isGroupData && sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                var expectedVoltageLimitLow = voltageLimitLow.GetValue(sitePinInfo);
                 var actualVoltageLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitLow;
-                Assert.Equal(expectedVoltageLimitLow / voltageLimitLowDivisor, actualVoltageLimitLow, 4);
+                Assert.Equal(expectedVoltageLimitLow, actualVoltageLimitLow, 4);
             });
         }
 
