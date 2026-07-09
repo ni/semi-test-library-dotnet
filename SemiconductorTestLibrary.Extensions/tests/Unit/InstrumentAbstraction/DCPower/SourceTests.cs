@@ -5506,9 +5506,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SharedPinTests.pinmap")]
-        public void DifferentSMUDevices_ConfigureVoltageLimitWithScalarValues_CorrectVoltageLimitSet(string pinmap)
+        public void DifferentSMUDevices_ConfigureVoltageLimitWithScalarValues_CorrectVoltageLimitSet(string pinMap)
         {
-            var sessionManager = Initialize(pinmap);
+            var sessionManager = Initialize(pinMap);
             var sessionsBundle = sessionManager.DCPower("VCC1");
             var expectedVoltageLimit = 1E-1;
 
@@ -5541,9 +5541,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SharedPinTests.pinmap")]
-        public void DifferentSMUDevices_ConfigureVoltageLimitWithPerSiteValues_CorrectVoltageLimitSet(string pinmap)
+        public void DifferentSMUDevices_ConfigureVoltageLimitWithPerSiteValues_CorrectVoltageLimitSet(string pinMap)
         {
-            var sessionManager = Initialize(pinmap);
+            var sessionManager = Initialize(pinMap);
             var sessionsBundle = sessionManager.DCPower("VCC1");
             var voltageLimit = new SiteData<double>(new[] { 1E-1, 2E-1 });
 
@@ -5578,9 +5578,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SharedPinTests.pinmap")]
-        public void DifferentSMUDevices_ConfigureVoltageLimitWithPerPinPerSiteValues_CorrectVoltageLimitSet(string pinmap)
+        public void DifferentSMUDevices_ConfigureVoltageLimitWithPerPinPerSiteValues_CorrectVoltageLimitSet(string pinMap)
         {
-            var sessionManager = Initialize(pinmap);
+            var sessionManager = Initialize(pinMap);
             var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
             var voltageLimit = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
