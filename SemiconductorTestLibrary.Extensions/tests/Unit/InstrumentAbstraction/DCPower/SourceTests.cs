@@ -5324,7 +5324,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(TwoPinsGangedGroup);
-            var voltageLevelRange = 16.0;
+            var voltageLevelRange = 8.0;
             sessionsBundle.GangPinGroup(TwoPinsGangedGroup);
 
             sessionsBundle.ConfigureVoltageLevelRange(voltageLevelRange);
@@ -5360,7 +5360,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(TwoPinsGangedGroup);
-            var voltageLevelRanges = new SiteData<double>(new[] { 2.0, 16.0 });
+            var voltageLevelRanges = new SiteData<double>(new[] { 1.0, 8.0 });
             sessionsBundle.GangPinGroup(TwoPinsGangedGroup);
 
             sessionsBundle.ConfigureVoltageLevelRange(voltageLevelRanges);
@@ -5403,7 +5403,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower(new string[] { TwoPinsGangedGroup, "VCC2" });
             var voltageLevelRanges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
-                [TwoPinsGangedGroup] = new Dictionary<int, double>() { [0] = 2.0, [1] = 16.0 },
+                [TwoPinsGangedGroup] = new Dictionary<int, double>() { [0] = 1.0, [1] = 8.0 },
                 ["VCC2"] = new Dictionary<int, double>() { [0] = 1.0, [1] = 8.0 }
             });
             sessionsBundle.GangPinGroup(TwoPinsGangedGroup);
