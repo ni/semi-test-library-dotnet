@@ -5708,7 +5708,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SharedPinTests.pinmap")]
-        public void DifferentSMUDevices_ConfigureVoltageLimitHighWithScalarValues_CorrectVoltageLimitHighSet(string pinMap)
+        public void DifferentSMUDevices_ConfigureVoltageLimitHighWithScalarValue_CorrectVoltageLimitHighSet(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
             var sessionsBundle = sessionManager.DCPower("VCC2");
