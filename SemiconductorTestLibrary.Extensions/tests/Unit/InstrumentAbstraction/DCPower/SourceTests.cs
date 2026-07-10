@@ -5575,7 +5575,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SharedPinsConfigureVoltageLevelOnFilteredSites_GetVoltageLevel_ReturnsCorrectValue()
+        public void SharedPinsConfigureVoltageLevelOnFilteredSites_GetVoltageLevel_ReturnsSameValueForAllPrimaryAndShadowSites()
         {
             var sessionManager = Initialize("SharedPinTests.pinmap");
             var pinName = "VCC2";
