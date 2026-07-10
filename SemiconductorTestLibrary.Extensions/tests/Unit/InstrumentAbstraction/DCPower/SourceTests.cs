@@ -5946,7 +5946,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SharedPinTests.pinmap")]
-        public void DifferentSMUDevicesConfigureVoltageLimitHigh_GetVoltageLimitHigh_ReturnsTheVoltageLimitHigh(string pinMap)
+        public void DifferentSMUDevicesConfigureVoltageLimitHigh_GetVoltageLimitHigh_ReturnsCorrectValue(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
             var expectedVoltageLimitHigh = 3.0;
@@ -5985,7 +5985,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SharedPinConfigureVoltageLimitHighOnFilteredSites_GetVoltageLimitHigh_ReturnsSameValueForAllPrimaryAndShadowSites()
+        public void SharedPinsConfigureVoltageLimitHighOnFilteredSites_GetVoltageLimitHigh_ReturnsSameValueForAllPrimaryAndShadowSites()
         {
             var sessionManager = Initialize("SharedPinTests.pinmap");
             var pinName = "VCC2";
