@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
+using System;
 using System.Linq;
 using Ivi.Driver;
 using NationalInstruments.ModularInstruments.NIDigital;
