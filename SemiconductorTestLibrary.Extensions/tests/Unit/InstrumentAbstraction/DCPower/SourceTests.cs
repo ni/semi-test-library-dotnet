@@ -5698,6 +5698,102 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
         }
 
+        [Fact]
+        public void SMUDevicesMerged_GetVoltageLimit_ReturnsPrimaryPinValue()
+        {
+            var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
+            var primaryPin = "VCCPrimary";
+            var allPinsMergedGroup = "AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin";
+            var expectedVoltageLimit = 3.0;
+            var sessionsBundle = sessionManager.DCPower(allPinsMergedGroup);
+            sessionsBundle.MergePinGroup(allPinsMergedGroup);
+            sessionsBundle.ConfigureVoltageLimit(expectedVoltageLimit);
+
+            var voltageLimit = sessionsBundle.GetVoltageLimit();
+
+            Assert.Single(voltageLimit.PinNames);
+            Assert.Equal(primaryPin, voltageLimit.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(allPinsMergedGroup, voltageLimit.PinNames);
+            Assert.Equal(expectedVoltageLimit, voltageLimit.GetValue(0, primaryPin));
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGangedConfigureVoltageLimit_GetVoltageLimit_ReturnsCorrectValue()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var expectedVoltageLimit = 8.0;
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+            sessionsBundle.ConfigureVoltageLimit(expectedVoltageLimit);
+
+            var voltageLimit = sessionsBundle.GetVoltageLimit();
+
+            Assert.Equal(3, voltageLimit.PinNames.Length);
+            Assert.DoesNotContain(ThreePinsGangedGroup, voltageLimit.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLimit, voltageLimit.GetValue(sitePinInfo), 4);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevicesConfigureVoltageLimit_GetVoltageLimit_ReturnsCorrectValue(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var expectedVoltageLimit = 1E-1;
+            var sessionsBundle = sessionManager.DCPower("VCC1");
+            sessionsBundle.ConfigureVoltageLimit(expectedVoltageLimit);
+
+            var voltageLimit = sessionsBundle.GetVoltageLimit();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLimit, voltageLimit.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesSetPerPinPerSiteVoltageLimit_GetVoltageLimit_ReturnsCorrectValue()
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var pinNames = new string[] { "VCC1", "VCC2" };
+            var sessionsBundle = sessionManager.DCPower(pinNames);
+            var activeSites = GetActiveSites(sessionsBundle);
+            var expectedVoltageLimit = new PinSiteData<double>(activeSites, new Dictionary<string, double>()
+            {
+                [pinNames[0]] = 1E-1,
+                [pinNames[1]] = 3.0
+            });
+            sessionsBundle.ConfigureVoltageLimit(expectedVoltageLimit);
+
+            var values = sessionsBundle.GetVoltageLimit();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLimit.GetValue(sitePinInfo), values.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void SharedPinsConfigureVoltageLimitOnFilteredSites_GetVoltageLimit_ReturnsSameValueForAllPrimaryAndShadowSites()
+        {
+            var sessionManager = Initialize("SharedPinTests.pinmap");
+            var pinName = "VCC1";
+            var expectedVoltageLimit = 1E-1;
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            var sharedSitesBundle = sessionsBundle.FilterBySite(new[] { 1, 2 });
+            sharedSitesBundle.ConfigureVoltageLimit(new SiteData<double>(new[] { 1, 2 }, expectedVoltageLimit));
+
+            var voltageLimit = sharedSitesBundle.GetVoltageLimit();
+
+            sharedSitesBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLimit, voltageLimit.GetValue(sitePinInfo));
+            });
+        }
+
         private void AssertVoltageSettings(DCPowerOutput channelOutput, double expectedVoltageLevel, double expectedCurrentLimit, int precision = 6)
         {
             Assert.Equal(expectedVoltageLevel, channelOutput.Source.Voltage.VoltageLevel, precision);
