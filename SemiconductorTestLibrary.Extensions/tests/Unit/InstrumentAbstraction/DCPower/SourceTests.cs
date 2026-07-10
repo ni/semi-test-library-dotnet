@@ -5537,7 +5537,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SharedPinTests.pinmap")]
-        public void DifferentSMUDevicesConfigureVoltageLevelRange_GetVoltageLevelRange_ReturnsTheVoltageLevelRange(string pinMap)
+        public void DifferentSMUDevicesConfigureVoltageLevelRange_GetVoltageLevelRange_ReturnsCorrectValue(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
             var expectedVoltageLevelRange = 8.0;
@@ -5576,7 +5576,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SharedPinConfigureVoltageLevelRangeOnFilteredSites_GetVoltageLevelRange_ReturnsSameValueForAllPrimaryAndShadowSites()
+        public void SharedPinsConfigureVoltageLevelRangeOnFilteredSites_GetVoltageLevelRange_ReturnsSameValueForAllPrimaryAndShadowSites()
         {
             var sessionManager = Initialize("SharedPinTests.pinmap");
             var pinName = "VCC2";
