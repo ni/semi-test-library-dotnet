@@ -122,7 +122,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
                 return ResourceManager.GetString("DCPower_GangedPinGroupDetected", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Inconsistent advanced sequence properties. The following properties must be either specified or omitted for all steps in the sequence: {0}.
         /// </summary>
