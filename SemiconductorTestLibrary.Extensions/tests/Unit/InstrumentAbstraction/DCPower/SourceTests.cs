@@ -5292,7 +5292,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Single(limitSymmetry.PinNames);
             Assert.Equal(primaryPin, limitSymmetry.PinNames.FirstOrDefault());
             Assert.DoesNotContain(allPinsMergedGroup, limitSymmetry.PinNames);
-            Assert.Equal(expectedLimitSymmetry, limitSymmetry.GetValue(0, primaryPin));
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedLimitSymmetry, limitSymmetry.GetValue(sitePinInfo));
+            });
         }
 
         [Fact]

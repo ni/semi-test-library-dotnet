@@ -2033,10 +2033,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Gets the limit symmetry.
+        /// Gets the compliance limit symmetry.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <returns>The per-pin per-site limit symmetry.</returns>
+        /// <returns>The per-pin per-site compliance limit symmetry.</returns>
         public static PinSiteData<DCPowerComplianceLimitSymmetry> GetLimitSymmetry(this DCPowerSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
