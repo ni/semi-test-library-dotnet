@@ -5344,7 +5344,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SharedPinTests.pinmap")]
-        public void DifferentSMUDevicesConfigureCurrentLevelRange_GetCurrentLevelRange_ReturnsTheCurrentLevelRange(string pinMap)
+        public void DifferentSMUDevicesConfigureCurrentLevelRange_GetCurrentLevelRange_ReturnsCorrectValue(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
             var expectedCurrentLevelRange = 1E-3;
