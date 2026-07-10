@@ -5744,7 +5744,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SharedPinTests.pinmap")]
-        public void DifferentSMUDevicesConfigureVoltageLimitLow_GetVoltageLimitLow_ReturnsTheVoltageLimitLow(string pinMap)
+        public void DifferentSMUDevicesConfigureVoltageLimitLow_GetVoltageLimitLow_ReturnsCorrectValue(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
             var expectedVoltageLimitLow = -3.0;
@@ -5783,7 +5783,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SharedPinConfigureVoltageLimitLowOnFilteredSites_GetVoltageLimitLow_ReturnsSameValueForAllPrimaryAndShadowSites()
+        public void SharedPinsConfigureVoltageLimitLowOnFilteredSites_GetVoltageLimitLow_ReturnsSameValueForAllPrimaryAndShadowSites()
         {
             var sessionManager = Initialize("SharedPinTests.pinmap");
             var pinName = "VCC2";
