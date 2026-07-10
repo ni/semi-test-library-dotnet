@@ -118,31 +118,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="startLabel">The pattern name or exported pattern label to configure.</param>
-        /// <param name="siteNumbers">The site numbers to configure the pattern for.
-        /// Passing an empty collection will configure the pattern for all sites.
-        /// Default is null, which preserves the current configuration for all sites.</param>
-        public static void ConfigurePattern(this DigitalSessionsBundle sessionsBundle, string startLabel, ICollection<int> siteNumbers = null)
+        public static void ConfigurePattern(this DigitalSessionsBundle sessionsBundle, string startLabel)
         {
             startLabel = startLabel ?? string.Empty;
-            var sitePinList = sessionsBundle.AggregateSitePinList;
-            if (sitePinList != null)
-            {
-                var listOfSiteNumbers = sitePinList.Select(spi => spi.SiteNumber).Distinct().ToArray();
-                var invalidSites = siteNumbers?.Except(listOfSiteNumbers).Distinct().ToArray();
-                if (invalidSites?.Length > 0)
-                {
-                    throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_InvalidSites, string.Join(", ", invalidSites)));
-                }
-            }
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.PatternControl.StartLabel = startLabel;
-                if (siteNumbers != null)
-                {
-                    var filteredSites = sessionInfo.AssociatedSiteList.Where(sn => siteNumbers.Contains(sn)).ToArray();
-                    var siteList = string.Join(",", filteredSites.Select(sn => $"site{sn}"));
-                    sessionInfo.Session.PatternControl.ConfigurePatternBurstSites(siteList);
-                }
+                var siteList = string.Join(",", sessionInfo.AssociatedSiteList.Select(sn => $"site{sn}"));
+                sessionInfo.Session.PatternControl.ConfigurePatternBurstSites(siteList);
             });
         }
 

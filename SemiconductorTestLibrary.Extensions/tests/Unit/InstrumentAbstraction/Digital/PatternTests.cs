@@ -268,22 +268,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
-        public void SessionsInitialized_ConfigurePatternWithoutSpecifyingSites_GetPatternStartLabelReturnsConfiguredLabel(string pinMap, string digitalProject)
-        {
-            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
-
-            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            const string expectedStartLabel = "TX_RF";
-            sessionsBundle.ConfigurePattern(expectedStartLabel);
-
-            var patternStartLabel = sessionsBundle.GetPatternStartLabel();
-
-            Assert.All(patternStartLabel, label => Assert.Equal(expectedStartLabel, label));
-        }
-
-        [Theory]
-        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
-        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
         public void SessionsInitialized_ConfigurePatternWithEmptyLabel_GetPatternStartLabelReturnsEmptyLabel(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
@@ -313,13 +297,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
-        public void SessionsInitialized_ConfigurePatternWithSiteNumbers_GetPatternStartLabelReturnsConfiguredLabel(string pinMap, string digitalProject)
+        public void SessionsInitialized_ConfigurePattern_GetPatternStartLabelReturnsConfiguredLabel(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             const string expectedStartLabel = "TX_RF";
 
-            sessionsBundle.ConfigurePattern(expectedStartLabel, new int[] { 0, 1 });
+            sessionsBundle.ConfigurePattern(expectedStartLabel);
 
             var patternStartLabel = sessionsBundle.GetPatternStartLabel();
             Assert.All(patternStartLabel, label => Assert.Equal(expectedStartLabel, label));
@@ -328,28 +312,61 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
-        public void SessionsInitialized_ConfigurePatternWithDuplicateSiteNumbers_Succeeds(string pinMap, string digitalProject)
+        public void SessionsInitializedSite_ConfigurePatternAndInitiate_Succeeds(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             const string expectedStartLabel = "TX_RF";
 
-            sessionsBundle.ConfigurePattern(expectedStartLabel, new int[] { 0, 1, 1, 0 });
+            sessionsBundle.ConfigurePattern(expectedStartLabel);
+            sessionsBundle.Initiate();
+
+            var results = sessionsBundle.GetFailCount();
+            Assert.Equal(2, results.SiteNumbers.Length);
+            Assert.Equal(2, results.ExtractSite(0).Count);
+            Assert.Contains("C0", results.ExtractSite(0).Keys);
+            Assert.Contains("C1", results.ExtractSite(0).Keys);
+            Assert.Equal(2, results.ExtractSite(1).Count);
+            Assert.Contains("C0", results.ExtractSite(1).Keys);
+            Assert.Contains("C1", results.ExtractSite(1).Keys);
         }
 
         [Theory]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
-        public void SessionsInitialized_ConfigurePatternWithInvalidSiteNumbers_ThrowsException(string pinMap, string digitalProject)
+        public void SessionsInitializedSiteFiltered_ConfigurePatternAndInitiateOnFilteredSite_Succeeds(string pinMap, string digitalProject)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            const string expectedStartLabel = "TX_RF";
+            var bundleWithSite0 = sessionsBundle.FilterBySite(0);
+
+            bundleWithSite0.ConfigurePattern(expectedStartLabel);
+            bundleWithSite0.Initiate();
+
+            var results = bundleWithSite0.GetFailCount();
+            Assert.Single(results.SiteNumbers);
+            Assert.Equal(2, results.ExtractSite(0).Count);
+            Assert.Contains("C0", results.ExtractSite(0).Keys);
+            Assert.Contains("C1", results.ExtractSite(0).Keys);
+        }
+
+        [Theory]
+        [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
+        [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
+        public void SessionsInitialized_ConfigurePatternAndInitiateOnFilteredSite_GetFailCountOnAllSitesThrowsException(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             const string expectedStartLabel = "TX_RF";
 
-            void ConfigurePatternWithInvalidSites() => sessionsBundle.ConfigurePattern(expectedStartLabel, new int[] { 0, 1, 2 });
+            var bundleWithSite0 = sessionsBundle.FilterBySite(0);
+            bundleWithSite0.ConfigurePattern(expectedStartLabel);
+            bundleWithSite0.Initiate();
+            void GetFailCountOnAllSites() => sessionsBundle.GetFailCount();
 
-            var exception = Assert.Throws<NISemiconductorTestException>(ConfigurePatternWithInvalidSites);
-            Assert.Contains("The specified sites are not present in the bundle. Invalid site(s):", exception.Message);
+            var exception = Assert.Throws<NISemiconductorTestException>(GetFailCountOnAllSites);
+            Assert.Contains("An exception occurred while processing pins/sites:", exception.Message);
         }
     }
 }
