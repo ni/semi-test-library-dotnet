@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Linq;
 using Ivi.Driver;
-using NationalInstruments.Restricted;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
