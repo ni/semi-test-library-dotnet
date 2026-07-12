@@ -5099,6 +5099,410 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
         }
 
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureCurrentLevelRangeWithScalarValue_CorrectCurrentLevelRangeSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var expectedCurrentLevelRange = 0.1;
+
+            sessionsBundle.ConfigureCurrentLevelRange(expectedCurrentLevelRange);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualCurrentLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange;
+                Assert.Equal(expectedCurrentLevelRange, actualCurrentLevelRange);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLevelRangeWithScalarValue_CorrectCurrentLevelRangeSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var currentLevelRange = 0.3;
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureCurrentLevelRange(currentLevelRange);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var currentLevelDivisor = sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                var actualCurrentLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange;
+                Assert.Equal(currentLevelRange / currentLevelDivisor, actualCurrentLevelRange, 4);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureCurrentLevelRangeWithPerSiteValues_CorrectCurrentLevelRangesSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var currentLevelRanges = new SiteData<double>(new[] { 1E-2, 1E-3 });
+
+            sessionsBundle.ConfigureCurrentLevelRange(currentLevelRanges);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLevelRange = currentLevelRanges.GetValue(sitePinInfo.SiteNumber);
+                var actualCurrentLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange;
+                Assert.Equal(expectedCurrentLevelRange, actualCurrentLevelRange);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLevelRangeWithPerSiteValues_CorrectCurrentLevelRangesSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var currentLevelRanges = new SiteData<double>(new[] { 3E-2, 3E-3 });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureCurrentLevelRange(currentLevelRanges);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var currentLevelRangeDivisor = sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                var expectedCurrentLevelRange = currentLevelRanges.GetValue(sitePinInfo.SiteNumber) / currentLevelRangeDivisor;
+                var actualCurrentLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange;
+                Assert.Equal(expectedCurrentLevelRange, actualCurrentLevelRange, 4);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureCurrentLevelRangeWithPerPinPerSiteValues_CorrectCurrentLevelRangesSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
+            var currentLevelRanges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 1E-2, [1] = 1E-3 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 1E-3, [1] = 1E-2 }
+            });
+
+            sessionsBundle.ConfigureCurrentLevelRange(currentLevelRanges);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLevelRange = currentLevelRanges.GetValue(sitePinInfo);
+                var actualCurrentLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange;
+                Assert.Equal(expectedCurrentLevelRange, actualCurrentLevelRange);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLevelRangeWithSamePerPinPerSiteValues_CorrectCurrentLevelRangesSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(new string[] { ThreePinsGangedGroup, "VCC4" });
+            var currentLevelRanges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                [ThreePinsGangedGroup] = new Dictionary<int, double>() { [0] = 3E-2, [1] = 3E-3 },
+                ["VCC4"] = new Dictionary<int, double>() { [0] = 1E-2, [1] = 1E-3 }
+            });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureCurrentLevelRange(currentLevelRanges);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLevelRange = currentLevelRanges.GetValue(sitePinInfo, out bool isGroupData);
+                var currentLevelRangeDivisor = isGroupData && sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                var actualCurrentLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange;
+                Assert.Equal(expectedCurrentLevelRange / currentLevelRangeDivisor, actualCurrentLevelRange, 4);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLevelRangeWithDifferentPerPinPerSiteValues_CorrectCurrentLevelRangesSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var currentLevelRanges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 1E-2, [1] = 1E-3 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 1E-3, [1] = 1E-3 },
+                ["VCC3"] = new Dictionary<int, double>() { [0] = 1E-2, [1] = 1E-3 }
+            });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureCurrentLevelRange(currentLevelRanges);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLevelRange = currentLevelRanges.GetValue(sitePinInfo, out bool isGroupData);
+                var currentLevelRangeDivisor = isGroupData && sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                var actualCurrentLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange;
+                Assert.Equal(expectedCurrentLevelRange / currentLevelRangeDivisor, actualCurrentLevelRange, 4);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLevelRangeOnFilteredBundleWithFewPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            void ConfigureCurrentLevelRange()
+            {
+                filteredBundle.ConfigureCurrentLevelRange(1E-2);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureCurrentLevelRange);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLevelRangeOnSubsetBundleWithTwoPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var subsetBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            void ConfigureCurrentLevelRange()
+            {
+                subsetBundle.ConfigureCurrentLevelRange(1E-2);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureCurrentLevelRange);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_FilterBundleWithFewPinsAndUngangThenConfigureCurrentLevelRange_CorrectCurrentLevelRangeSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            var expectedCurrentLevelRange = 1E-2;
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
+            filteredBundle.ConfigureCurrentLevelRange(expectedCurrentLevelRange);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (sitePinInfo.PinName == "VCC1" || sitePinInfo.PinName == "VCC2")
+                {
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    Assert.Equal(expectedCurrentLevelRange, channelOutput.Source.Current.CurrentLevelRange);
+                }
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureCurrentLimitLowWithScalarValues_CorrectCurrentLimitLowSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var expectedCurrentLimitLow = -1E-3;
+
+            sessionsBundle.ConfigureCurrentLimitLow(expectedCurrentLimitLow);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualCurrentLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitLow;
+                Assert.Equal(expectedCurrentLimitLow, actualCurrentLimitLow);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitLowWithScalarValue_CurrentLimitLowDividedByGangSizeSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var expectedCurrentLimitLow = -1E-2;
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureCurrentLimitLow(expectedCurrentLimitLow);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualCurrentLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitLow;
+                var currentLimitLowDivisor = sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                Assert.Equal(expectedCurrentLimitLow / currentLimitLowDivisor, actualCurrentLimitLow, 4);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureCurrentLimitLowWithPerSiteValues_CorrectCurrentLimitLowSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var currentLimitLow = new SiteData<double>(new[] { -1E-2, -1E-3 });
+
+            sessionsBundle.ConfigureCurrentLimitLow(currentLimitLow);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLimitLow = currentLimitLow.GetValue(sitePinInfo.SiteNumber);
+                var actualCurrentLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitLow;
+                Assert.Equal(expectedCurrentLimitLow, actualCurrentLimitLow);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitLowWithPerSiteValues_CurrentLimitLowDividedByGangSizeSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var currentLimitLow = new SiteData<double>(new[] { -1E-2, -2E-2 });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureCurrentLimitLow(currentLimitLow);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var currentLimitLowDivisor = sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                var expectedCurrentLimitLow = currentLimitLow.GetValue(sitePinInfo.SiteNumber) / currentLimitLowDivisor;
+                var actualCurrentLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitLow;
+                Assert.Equal(expectedCurrentLimitLow, actualCurrentLimitLow, 4);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureCurrentLimitLowWithPerPinPerSiteValues_CorrectCurrentLimitLowSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
+            var currentLimitLow = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = -1E-2, [1] = -1E-3 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = -1E-2, [1] = -1E-3 }
+            });
+
+            sessionsBundle.ConfigureCurrentLimitLow(currentLimitLow);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLimitLow = currentLimitLow.GetValue(sitePinInfo);
+                var actualCurrentLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitLow;
+                Assert.Equal(expectedCurrentLimitLow, actualCurrentLimitLow);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitLowWithSamePerPinPerSiteValues_CurrentLimitLowDividedByGangSizeSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(new string[] { ThreePinsGangedGroup, "VCC4" });
+            var currentLimitLow = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                [ThreePinsGangedGroup] = new Dictionary<int, double>() { [0] = -1E-2, [1] = -2E-2 },
+                ["VCC4"] = new Dictionary<int, double>() { [0] = -1E-2, [1] = -2E-2 }
+            });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureCurrentLimitLow(currentLimitLow);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLimitLow = currentLimitLow.GetValue(sitePinInfo, out bool isGroupData);
+                var currentLimitLowDivisor = isGroupData && sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                var actualCurrentLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitLow;
+                Assert.Equal(expectedCurrentLimitLow / currentLimitLowDivisor, actualCurrentLimitLow, 4);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitLowWithDifferentPerPinPerSiteValues_CorrectCurrentLimitLowSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var currentLimitLow = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = -1E-2, [1] = -1E-3 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = -1E-2, [1] = -1E-2 },
+                ["VCC3"] = new Dictionary<int, double>() { [0] = -1E-2, [1] = -1E-2 },
+            });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureCurrentLimitLow(currentLimitLow);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLimitLow = currentLimitLow.GetValue(sitePinInfo, out bool isGroupData);
+                var currentLimitLowDivisor = isGroupData && sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                var actualCurrentLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitLow;
+                Assert.Equal(expectedCurrentLimitLow / currentLimitLowDivisor, actualCurrentLimitLow, 4);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitLowOnFilteredBundleWithFewPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            void ConfigureCurrentLimitLow()
+            {
+                filteredBundle.ConfigureCurrentLimitLow(1E-2);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureCurrentLimitLow);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitLowOnSubsetBundleWithTwoPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var subsetBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            void ConfigureCurrentLimitLow()
+            {
+                subsetBundle.ConfigureCurrentLimitLow(1E-2);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureCurrentLimitLow);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_FilterBundleWithFewPinsAndUngangThenConfigureCurrentLimitLow_CorrectCurrentLimitLowSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            var expectedCurrentLimitLow = -1E-2;
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
+            filteredBundle.ConfigureCurrentLimitLow(expectedCurrentLimitLow);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (sitePinInfo.PinName == "VCC1" || sitePinInfo.PinName == "VCC2")
+                {
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    Assert.Equal(expectedCurrentLimitLow, channelOutput.Source.Voltage.CurrentLimitLow);
+                }
+            });
+        }
+
         private void AssertVoltageSettings(DCPowerOutput channelOutput, double expectedVoltageLevel, double expectedCurrentLimit, int precision = 6)
         {
             Assert.Equal(expectedVoltageLevel, channelOutput.Source.Voltage.VoltageLevel, precision);

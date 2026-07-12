@@ -196,7 +196,25 @@ Refer to the [Custom Instrument Example - `FunctionalTest` Method in TestStep.cs
 
 ## Examples
 
-There is a sequence style example available that showcases the implementation of a Custom Instrument.
+The following Sequence Style examples are available:
+
+- Custom Instrument Example
+- Custom Instrument RSeries Example
+
+### Custom Instrument Example
+
+The Custom Instrument example showcases the implementation of a custom instrument.
 This example can also be used as a template starting point for creating your own Custom Instrument.
 Refer to the [Custom Instrument Example README](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/CustomInstrument/README.md) for more details.
 This example is also installed on any system using STS Software 25.5 or later, under the following directory, `C:\Users\Public\Documents\National Instruments\NI_SemiconductorTestLibrary\Examples\Sequence\CustomInstrument`.
+
+### Custom Instrument RSeries Example
+
+Custom Instrument RSeries example showcases how to use the Custom Instrument feature of the Semiconductor Test Library (STL) to programmatically control an R Series device.
+Refer to the [CustomInstrument RSeries Example README](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/CustomInstrument.RSeries/README.md) for more details.
+This example is also installed on any system using STS Software 26.0 or later, under the following directory, `C:\Users\Public\Documents\National Instruments\NI_SemiconductorTestLibrary\Examples\Sequence\CustomInstrument.RSeries`.
+
+**Related Information:**
+
+- [NI R Series Multifunction RIO Device Drivers User Manual: Overview](https://www.ni.com/docs/en-US/bundle/ni-r-series-multifunction-rio-device-drivers/page/overview.html)
+- [NI Multifunction RIO Frequently Asked Questions (FAQ)](https://www.ni.com/en/support/documentation/supplemental/06/ni-r-series-multifunction-rio-frequently-asked-questions--faq-.html)
