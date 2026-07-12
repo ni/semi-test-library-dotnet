@@ -1937,6 +1937,47 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
+        /// Configures whether compliance limits for current generation and voltage generation are applied symmetrically about 0 V and 0 A or asymmetrically with respect to 0 V and 0 A.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="complianceLimitSymmetry">The compliance limit symmetry value to set, either <see cref="DCPowerComplianceLimitSymmetry.Symmetric"/> or <see cref="DCPowerComplianceLimitSymmetry.Asymmetric"/></param>
+        public static void ConfigureLimitSymmetry(this DCPowerSessionsBundle sessionsBundle, DCPowerComplianceLimitSymmetry complianceLimitSymmetry)
+        {
+            sessionsBundle.DoPerChannelIfGangedElsePerSession(
+               perChannelAction: (sessionInfo, sitePinInfo) =>
+               {
+                   SetLimitSymmetry(sessionInfo, sitePinInfo, complianceLimitSymmetry);
+               },
+               perSessionAction: sessionInfo =>
+               {
+                   sessionInfo.AllChannelsOutput.Control.Abort();
+                   sessionInfo.AllChannelsOutput.Source.ComplianceLimitSymmetry = complianceLimitSymmetry;
+               });
+        }
+
+        /// <inheritdoc cref="ConfigureLimitSymmetry(DCPowerSessionsBundle, DCPowerComplianceLimitSymmetry)"/>
+        public static void ConfigureLimitSymmetry(this DCPowerSessionsBundle sessionsBundle, SiteData<DCPowerComplianceLimitSymmetry> complianceLimitSymmetry)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetLimitSymmetry(sessionInfo, sitePinInfo, complianceLimitSymmetry.GetValue(sitePinInfo.SiteNumber));
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureLimitSymmetry(DCPowerSessionsBundle, DCPowerComplianceLimitSymmetry)"/>
+        public static void ConfigureLimitSymmetry(this DCPowerSessionsBundle sessionsBundle, PinSiteData<DCPowerComplianceLimitSymmetry> complianceLimitSymmetry)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetLimitSymmetry(sessionInfo, sitePinInfo, complianceLimitSymmetry.GetValue(sitePinInfo));
+            });
+        }
+
+        /// <summary>
         /// Configures a hardware-timed sequence of values.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
@@ -3246,6 +3287,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
             channelOutput.Control.Abort();
             channelOutput.Source.Voltage.CurrentLimitRange = currentLimitRangeToSet;
+        }
+
+        private static void SetLimitSymmetry(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, DCPowerComplianceLimitSymmetry complianceLimitSymmetry)
+        {
+            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+            channelOutput.Control.Abort();
+            channelOutput.Source.ComplianceLimitSymmetry = complianceLimitSymmetry;
         }
 
         internal static void ValidateNoChannelGanged(this DCPowerSessionsBundle sessionsBundle)
