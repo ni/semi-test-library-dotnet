@@ -1844,6 +1844,52 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
+        /// Configures the current limit high.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="currentLimitHigh">The current limit high to set, in Amps.</param>
+        public static void ConfigureCurrentLimitHigh(this DCPowerSessionsBundle sessionsBundle, double currentLimitHigh)
+        {
+            sessionsBundle.DoPerChannelIfGangedElsePerSession(
+               perChannelAction: (sessionInfo, sitePinInfo) =>
+               {
+                   SetCurrentLimitHigh(sessionInfo, sitePinInfo, currentLimitHigh);
+               },
+               perSessionAction: sessionInfo =>
+               {
+                   sessionInfo.AllChannelsOutput.Control.Abort();
+                   sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimitHigh = currentLimitHigh;
+               });
+        }
+
+        /// <inheritdoc cref="ConfigureCurrentLimitHigh(DCPowerSessionsBundle, double)"/>
+        public static void ConfigureCurrentLimitHigh(this DCPowerSessionsBundle sessionsBundle, SiteData<double> currentLimitHigh)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetCurrentLimitHigh(sessionInfo, sitePinInfo, currentLimitHigh.GetValue(sitePinInfo.SiteNumber));
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureCurrentLimitHigh(DCPowerSessionsBundle, double)"/>
+        /// <remarks>
+        /// When the session bundle contains a ganged pin group and the <paramref name="currentLimitHigh"/> value is applied to the entire pin group.
+        /// the current limit high for each pin in the group is set to the specified value divided by the number of pins in the group.
+        /// Otherwise, when the value is associated with individual pin names, the current limit high for each pin is set to the specified value.
+        /// </remarks>
+        public static void ConfigureCurrentLimitHigh(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> currentLimitHigh)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetCurrentLimitHigh(sessionInfo, sitePinInfo, currentLimitHigh.GetValue(sitePinInfo, out bool isGroupData), isGroupData);
+            });
+        }
+
+        /// <summary>
         /// Configures a hardware-timed sequence of values.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
@@ -3161,6 +3207,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
             channelOutput.Control.Abort();
             channelOutput.Source.Voltage.CurrentLimitLow = currentLimitLowToSet;
+        }
+
+        private static void SetCurrentLimitHigh(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double currentLimitHigh, bool isGroupData = true)
+        {
+            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+            var currentLimitHighToSet = currentLimitHigh;
+
+            if (isGroupData && sitePinInfo?.CascadingInfo is GangingInfo gangingInfo)
+            {
+                currentLimitHighToSet = currentLimitHigh / gangingInfo.ChannelsCount;
+            }
+
+            channelOutput.Control.Abort();
+            channelOutput.Source.Voltage.CurrentLimitHigh = currentLimitHighToSet;
         }
 
         internal static void DoPerChannelIfGangedElsePerSession(this DCPowerSessionsBundle sessionsBundle, Action<DCPowerSessionInformation, SitePinInfo> perChannelAction, Action<DCPowerSessionInformation> perSessionAction)
