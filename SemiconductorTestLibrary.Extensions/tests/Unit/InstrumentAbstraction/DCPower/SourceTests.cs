@@ -5320,7 +5320,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-            public void DifferentSMUDevicesGanged_ConfigureVoltageLimitRangeWithScalarValue_CorrectVoltageLimitRangeSet()
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitRangeWithScalarValue_CorrectVoltageLimitRangeSet()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(TwoPinsGangedGroup);

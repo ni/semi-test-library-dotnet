@@ -1831,7 +1831,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <inheritdoc cref="ConfigureVoltageLimitRange(DCPowerSessionsBundle, double)"/>
         /// <remarks>
         /// The range defines the valid values to which the voltage limit can be set.
-        /// When the session bundle contains a ganged pin group and the <paramref name="voltageLimitRange"/> value is associated with the ganged pin group name,
+        /// When the session bundle contains a ganged pin group and the <paramref name="voltageLimitRange"/> value is associated with the ganged pin group name, the voltage limit range is applied to all channels in the pin group.
         /// When ganged pins are configured using individual pin names, all pins in the ganged group must have the same value; otherwise an exception is thrown.
         /// Otherwise, when the value is associated with individual pin names, the voltage limit range for each pin is selected as the nearest range to the specified value.
         /// </remarks>
