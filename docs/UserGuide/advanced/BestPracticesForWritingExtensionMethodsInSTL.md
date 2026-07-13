@@ -181,7 +181,7 @@ The decision to use Scalar, SiteData, or PinSiteData depends on the level of req
 **Example**:
 
 - ***Input Parameter***: `DCPowerSourceSettings settings` Represents a single value (such as voltage level) applied to all sessions.
-  - [public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, DCPowerSourceSettings settings, UpdateMode updateMode = UpdateMode.Deferred)](../../../SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs#L62)
+  - [public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, DCPowerSourceSettings settings, UpdateMode updateMode = UpdateMode.Deferred)](https://github.com/ni/semi-test-library-dotnet/blob/main/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs#L62)
 
 - ***Return Type***:`List<TResult> or TResult[]` Each value indicates the result of the specified function for an individual session.
   - [public static bool[] ReadSequencerFlag(this DigitalSessionsBundle sessionsBundle, string flag)](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/SequencerFlagsAndRegisters.cs#L20)
@@ -193,7 +193,7 @@ The decision to use Scalar, SiteData, or PinSiteData depends on the level of req
 **Example**:
 
 - ***Input Parameter***: `SiteData` object represents the value for each site.
-  - [public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, SiteData\<DCPowerSourceSettings> settings, UpdateMode updateMode = UpdateMode.Deferred)](../../../SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs#L74)
+  - [public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, SiteData\<DCPowerSourceSettings> settings, UpdateMode updateMode = UpdateMode.Deferred)](https://github.com/ni/semi-test-library-dotnet/blob/main/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs#L74)
 - ***Return Type***: `SiteData<T>` object containing measurements for each site.
   - [public static SiteData\<bool> GetSitePassFail(this DigitalSessionsBundle sessionsBundle)](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/Digital/Pattern.cs#L95)
 
@@ -204,7 +204,7 @@ The decision to use Scalar, SiteData, or PinSiteData depends on the level of req
 **Example**:
 
 - ***Input Parameter***: `PinSiteData` object that specifies the value for each pin-site combination.
-  - [public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, PinSiteData\<DCPowerSourceSettings> settings, UpdateMode updateMode = UpdateMode.Deferred)](../../../SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs#L87)
+  - [public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, PinSiteData\<DCPowerSourceSettings> settings, UpdateMode updateMode = UpdateMode.Deferred)](https://github.com/ni/semi-test-library-dotnet/blob/main/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs#L87)
 - ***Return Type***: `PinSiteData<T>` object that contains measurements for each pin-site combination.
   - [public static PinSiteData\<double> GetSourceDelayInSeconds(this DCPowerSessionsBundle sessionsBundle)](https://github.com/ni/semi-test-library-dotnet/blob/87f9ebe52c1eba721fda454b5c1712bb6bdae77d/SemiconductorTestLibrary.Extensions/source/InstrumentAbstraction/DCPower/Source.cs#L803)
 
