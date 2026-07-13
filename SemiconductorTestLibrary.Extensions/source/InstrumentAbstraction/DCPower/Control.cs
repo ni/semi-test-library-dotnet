@@ -117,7 +117,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
         #endregion methods on DCPowerSessionsBundle
 
-        internal static void UpdateProperties(
+        internal static void ApplyUpdateMode(
             this DCPowerSessionsBundle sessionsBundle, UpdateMode updateMode)
         {
             switch (updateMode)
