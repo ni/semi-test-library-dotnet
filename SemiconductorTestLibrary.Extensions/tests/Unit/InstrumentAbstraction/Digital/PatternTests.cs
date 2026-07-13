@@ -310,7 +310,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
-        public void SessionsInitializedSite_ConfigurePatternAndInitiate_Succeeds(string pinMap, string digitalProject)
+        public void SessionsInitialized_ConfigurePatternAndInitiate_Succeeds(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
@@ -332,7 +332,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj")]
         [InlineData("OneDeviceWorksForOnePinOnTwoSites.pinmap", "OneDeviceWorksForOnePinOnTwoSites.digiproj")]
-        public void SessionsInitializedSiteFiltered_ConfigurePatternAndInitiateOnFilteredSite_Succeeds(string pinMap, string digitalProject)
+        public void SessionsInitialized_ConfigurePatternAndInitiateOnFilteredSite_Succeeds(string pinMap, string digitalProject)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
