@@ -337,8 +337,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager(pinMap, digitalProject);
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             const string expectedStartLabel = "TX_RF";
-            var bundleWithSite0 = sessionsBundle.FilterBySite(0);
 
+            var bundleWithSite0 = sessionsBundle.FilterBySite(0);
             bundleWithSite0.ConfigurePattern(expectedStartLabel);
             bundleWithSite0.Initiate();
 
@@ -361,8 +361,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var bundleWithSite0 = sessionsBundle.FilterBySite(0);
             bundleWithSite0.ConfigurePattern(expectedStartLabel);
             bundleWithSite0.Initiate();
-            void GetFailCountOnAllSites() => sessionsBundle.GetFailCount();
 
+            void GetFailCountOnAllSites() => sessionsBundle.GetFailCount();
             var exception = Assert.Throws<NISemiconductorTestException>(GetFailCountOnAllSites);
             Assert.Contains("An exception occurred while processing pins/sites:", exception.Message);
         }
