@@ -520,7 +520,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var exception = Assert.Throws<AggregateException>(ConfigureMeasureSettings);
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
-            Assert.Contains("not present in the DCPowerSessionsBundle", exception.InnerException.Message);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
         }
 
         [Fact]
@@ -538,7 +538,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var exception = Assert.Throws<AggregateException>(ConfigureMeasureSettings);
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
-            Assert.Contains("not present in the DCPowerSessionsBundle", exception.InnerException.Message);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
         }
 
         [Theory]
@@ -873,7 +873,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var exception = Assert.Throws<AggregateException>(ConfigureMeasureWhen);
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
-            Assert.Contains("not present in the DCPowerSessionsBundle", exception.InnerException.Message);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
         }
 
         [Fact]
@@ -891,7 +891,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var exception = Assert.Throws<AggregateException>(ConfigureMeasureWhen);
             Assert.IsType<NISemiconductorTestException>(exception.InnerException);
-            Assert.Contains("not present in the DCPowerSessionsBundle", exception.InnerException.Message);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
         }
 
         [Theory]
@@ -1107,6 +1107,43 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 AssertMeasureWhenSettings(sitePinInfo, channelOutput, measureWhen);
             });
+            dcPower.UngangPinGroup("MergedPowerPins");
+        }
+
+        [Theory(Skip = "Manual Test until the issue is fixed")]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementWhen.OnDemand)]
+        [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementWhen.OnMeasureTrigger)]
+        [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        [InlineData("Mixed Signal Tests Common Session.pinmap", DCPowerMeasurementWhen.OnDemand)]
+        [InlineData("Mixed Signal Tests Common Session.pinmap", DCPowerMeasurementWhen.OnMeasureTrigger)]
+        [InlineData("Mixed Signal Tests Common Session.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        [InlineData("Mixed Signal Tests Instrument Session.pinmap", DCPowerMeasurementWhen.OnDemand)]
+        [InlineData("Mixed Signal Tests Instrument Session.pinmap", DCPowerMeasurementWhen.OnMeasureTrigger)]
+        [InlineData("Mixed Signal Tests Instrument Session.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        public void GangedPinGroupConfigureMeasureWhenAndInitiate_Measure_TimeOutOccurs(string pinmap, DCPowerMeasurementWhen measureWhen)
+        {
+            var sessionManager = Initialize(pinmap);
+            var dcPower = sessionManager.DCPower(new[] { "PowerPins" });
+            dcPower.GangPinGroup("MergedPowerPins");
+            dcPower.ConfigureMeasureWhen(measureWhen);
+            if (measureWhen == DCPowerMeasurementWhen.OnMeasureTrigger)
+            {
+                dcPower.ConfigureTriggerSoftwareEdge(TriggerType.MeasureTrigger);
+            }
+            dcPower.Initiate();
+
+            void MeasureTest()
+            {
+                dcPower.MeasureVoltage();
+            }
+
+            var startTime = DateTime.Now;
+            var exception = Assert.Throws<NISemiconductorTestException>(MeasureTest);
+            var elapsedTime = (DateTime.Now - startTime).TotalSeconds;
+            Assert.Contains("Fetch timed out while attempting to retrieve measurements", exception.Message);
+            Assert.InRange(elapsedTime, 20, 25);
             dcPower.UngangPinGroup("MergedPowerPins");
         }
 

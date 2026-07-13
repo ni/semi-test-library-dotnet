@@ -1,12 +1,12 @@
-﻿using NationalInstruments.ModularInstruments.NIDCPower;
+﻿using System.Linq;
+using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
-using System.Linq;
 
-namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUHardwareLevelSequencing
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUHardwareLevelSequence
 {
     /// <summary>
     /// This class provides example methods demonstrating how to perform Hardware Level Sequencing with SMUs
@@ -24,7 +24,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUHardwareLevel
         /// <param name="startVoltage">The starting value of a voltage ramp.</param>
         /// <param name="stopVoltage">The ending value of a voltage ramp.</param>
         /// <param name="numberOfSteps">The number of steps in the voltage ramp sequence.</param>
-        public static void ConfigureVoltageRampSequenceInitiateAndFetchCurrentMeasurements(ISemiconductorModuleContext tsmContext, string[] smuPinNames, double startVoltage = 0, double stopVoltage = 3, int numberOfSteps = 10)
+        public static void ConfigureVoltageRampInitiateAndMeasureCurrent(ISemiconductorModuleContext tsmContext, string[] smuPinNames, double startVoltage = 0, double stopVoltage = 3, int numberOfSteps = 10)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
             DCPowerSessionsBundle dcPowerPins = sessionManager.DCPower(smuPinNames);
