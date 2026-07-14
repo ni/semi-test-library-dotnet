@@ -2043,7 +2043,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionInfo.Session.Control.Abort();
                 sessionInfo.AllChannelsOutput.Source.Output.Connected = connectOutput;
             });
-            sessionsBundle.UpdateProperties(updateMode);
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <inheritdoc cref="ConfigureOutputConnected(DCPowerSessionsBundle, bool)"/>
@@ -2054,7 +2054,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
                 sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Source.Output.Connected = connectOutput.GetValue(pinSiteInfo.SiteNumber);
             });
-            sessionsBundle.UpdateProperties(updateMode);
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <inheritdoc cref="ConfigureOutputConnected(DCPowerSessionsBundle, bool)"/>
@@ -2065,7 +2065,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
                 sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Source.Output.Connected = connectOutput.GetValue(pinSiteInfo);
             });
-            sessionsBundle.UpdateProperties(updateMode);
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
@@ -2084,7 +2084,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionInfo.AllChannelsOutput.Control.Abort();
                 sessionInfo.AllChannelsOutput.Source.Output.Enabled = enableOutput;
             });
-            sessionsBundle.UpdateProperties(updateMode);
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <inheritdoc cref="ConfigureOutputEnabled(DCPowerSessionsBundle, bool)"/>
@@ -2095,7 +2095,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
                 sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Source.Output.Enabled = enableOutput.GetValue(pinSiteInfo.SiteNumber);
             });
-            sessionsBundle.UpdateProperties(updateMode);
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <inheritdoc cref="ConfigureOutputEnabled(DCPowerSessionsBundle, bool)"/>
@@ -2106,7 +2106,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
                 sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Source.Output.Enabled = enableOutput.GetValue(pinSiteInfo);
             });
-            sessionsBundle.UpdateProperties(updateMode);
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
@@ -2123,7 +2123,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionInfo.AllChannelsOutput.Control.Abort();
                 sessionInfo.AllChannelsOutput.Source.SourceDelay = PrecisionTimeSpan.FromSeconds(sourceDelayInSeconds);
             });
-            sessionsBundle.UpdateProperties(updateMode);
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <inheritdoc cref="ConfigureSourceDelay(DCPowerSessionsBundle, double)"/>
@@ -2134,7 +2134,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
                 sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Source.SourceDelay = PrecisionTimeSpan.FromSeconds(sourceDelayInSeconds.GetValue(pinSiteInfo.SiteNumber));
             });
-            sessionsBundle.UpdateProperties(updateMode);
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <inheritdoc cref="ConfigureSourceDelay(DCPowerSessionsBundle, double)"/>
@@ -2145,7 +2145,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
                 sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Source.SourceDelay = PrecisionTimeSpan.FromSeconds(sourceDelayInSeconds.GetValue(pinSiteInfo));
             });
-            sessionsBundle.UpdateProperties(updateMode);
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
