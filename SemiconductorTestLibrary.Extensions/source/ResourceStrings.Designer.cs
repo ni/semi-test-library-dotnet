@@ -241,6 +241,24 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; cannot be empty..
+        /// </summary>
+        internal static string Digital_TMUSkewEmptyReferenceOrTargetPins {
+            get {
+                return ResourceManager.GetString("Digital_TMUSkewEmptyReferenceOrTargetPins", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; cannot be null for skew measurement. Please provide valid &apos;{0}&apos; values..
+        /// </summary>
+        internal static string Digital_TMUSkewMeasurementNullReferencePinsOrTargetPins {
+            get {
+                return ResourceManager.GetString("Digital_TMUSkewMeasurementNullReferencePinsOrTargetPins", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A pin cannot be used as both a reference and a target in the same skew measurement configuration. The following pin(s) appear in both reference and target arrays: {0}.
         /// </summary>
         internal static string Digital_TMUSkewOverlappingPins {
@@ -264,6 +282,15 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         internal static string Digital_TMUSkewTargetPinNotFound {
             get {
                 return ResourceManager.GetString("Digital_TMUSkewTargetPinNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Given arm type is not supported for TMU measurements..
+        /// </summary>
+        internal static string Digital_TMUUnsupportedArmType {
+            get {
+                return ResourceManager.GetString("Digital_TMUUnsupportedArmType", resourceCulture);
             }
         }
         

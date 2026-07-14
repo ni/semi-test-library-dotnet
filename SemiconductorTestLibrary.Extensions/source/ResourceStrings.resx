@@ -189,4 +189,13 @@
   <data name="Digital_TMUSkewTargetPinNotFound" xml:space="preserve">
     <value>Target pin '{0}' was not found in the session for site {1}.</value>
   </data>
+  <data name="Digital_TMUSkewMeasurementNullReferencePinsOrTargetPins" xml:space="preserve">
+    <value>'{0}' cannot be null for skew measurement. Please provide valid '{0}' values.</value>
+  </data>
+  <data name="Digital_TMUUnsupportedArmType" xml:space="preserve">
+    <value>Given arm type is not supported for TMU measurements.</value>
+  </data>
+  <data name="Digital_TMUSkewEmptyReferenceOrTargetPins" xml:space="preserve">
+    <value>'{0}' cannot be empty.</value>
+  </data>
 </root>

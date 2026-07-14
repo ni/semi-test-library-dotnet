@@ -275,18 +275,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             long samplesToAcquire,
             TmuArmType armType = TmuArmType.Immediate)
         {
-            // Validate array lengths match
-            if (referencePinNames.Length != targetPinNames.Length)
-            {
-                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUSkewPinCountMismatch, referencePinNames.Length, targetPinNames.Length));
-            }
-
-            // Validate all pins exist in the bundle
-            var allPins = referencePinNames.Concat(targetPinNames).Distinct().ToArray();
-            ValidatePinsOfTMU(sessionsBundle.Pins, allPins);
-
-            // Validate reference and target pins are not the same
-            ValidateSkewPins(referencePinNames, targetPinNames);
+            ValidateSkewParameters(referencePinNames, targetPinNames, armType, sessionsBundle.Pins);
 
             // Create a mapping from reference pin to target pin
             var referenceToTargetMap = new Dictionary<string, string>();
@@ -1075,8 +1064,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
 
         private static void ValidateSkewPins(string[] referencePinNames, string[] targetPinNames)
         {
-            // Check that no target pin appears in the reference pins array
-            var referencePinSet = new HashSet<string>(referencePinNames, StringComparer.OrdinalIgnoreCase);
             // Check that no target pin appears in the reference pins array.
             var overlappingPins = targetPinNames.Intersect(referencePinNames, StringComparer.OrdinalIgnoreCase).ToArray();
 
@@ -1124,6 +1111,41 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         private static DigitalTmuCollections GetDigitalTmus(NIDigital session)
         {
             return new DigitalTmuCollections(session);
+        }
+
+        private static void ValidateSkewParameters(string[] referencePinNames, string[] targetPinNames, TmuArmType armType, IEnumerable<string> bundlePins)
+        {
+            if (referencePinNames == null)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUSkewMeasurementNullReferencePinsOrTargetPins, nameof(referencePinNames)));
+            }
+            if (targetPinNames == null)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUSkewMeasurementNullReferencePinsOrTargetPins, nameof(targetPinNames)));
+            }
+            if (armType != TmuArmType.None && armType != TmuArmType.Immediate && armType != TmuArmType.Edge)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedArmType), new ArgumentOutOfRangeException(nameof(armType)));
+            }
+            if (referencePinNames.Length == 0)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUSkewEmptyReferenceOrTargetPins, nameof(referencePinNames)));
+            }
+            if (targetPinNames.Length == 0)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUSkewEmptyReferenceOrTargetPins, nameof(targetPinNames)));
+            }
+            // Validate array lengths match
+            if (referencePinNames.Length != targetPinNames.Length)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUSkewPinCountMismatch, referencePinNames.Length, targetPinNames.Length));
+            }
+            // Validate all pins exist in the bundle
+            var allPins = referencePinNames.Concat(targetPinNames).Distinct().ToArray();
+            ValidatePinsOfTMU(bundlePins, allPins);
+
+            // Validate reference and target pins are not the same
+            ValidateSkewPins(referencePinNames, targetPinNames);
         }
     }
 }
