@@ -2994,7 +2994,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureSourceSettingsWithScalarAndUpdateMode_CorrectValuesAreSet(UpdateMode updateMode)
+        public void DifferentSMUDevices_ConfigureSourceSettingsWithScalarAndUpdateMode_CorrectValuesAreSetAndMatchUpdateMode(UpdateMode updateMode)
         {
             var sessionManager = Initialize(false);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -3032,7 +3032,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureSourceSettingsWithPerSiteAndUpdateMode_CorrectValuesAreSet(UpdateMode updateMode)
+        public void DifferentSMUDevices_ConfigureSourceSettingsWithPerSiteAndUpdateMode_CorrectValuesAreSetAndMatchUpdateMode(UpdateMode updateMode)
         {
             var sessionManager = Initialize("DifferentSMUDevices.pinmap");
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -3070,7 +3070,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureSourceSettingsWithPerPinPerSiteAndUpdateMode_CorrectValuesAreSet(UpdateMode updateMode)
+        public void DifferentSMUDevices_ConfigureSourceSettingsWithPerPinPerSiteAndUpdateMode_CorrectValuesAreSetAndMatchUpdateMode(UpdateMode updateMode)
         {
             var sessionManager = Initialize(false);
             var sessionsBundle = sessionManager.DCPower(new[] { "VCC", "VDET" });
@@ -3119,7 +3119,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureSourceSettingsWithPerPinAndUpdateMode_CorrectValuesAreSet(UpdateMode updateMode)
+        public void DifferentSMUDevices_ConfigureSourceSettingsWithPerPinAndUpdateMode_CorrectValuesAreSetAndMatchUpdateMode(UpdateMode updateMode)
         {
             var sessionManager = Initialize(false);
             var sessionsBundle = sessionManager.DCPower(new[] { "VCC", "VDET" });
@@ -3156,7 +3156,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureCurrentLimitWithUpdateMode_CorrectValuesAreSet(UpdateMode updateMode)
+        public void DifferentSMUDevices_ConfigureCurrentLimitWithUpdateMode_CorrectValuesAreSetAndMatchUpdateMode(UpdateMode updateMode)
         {
             var sessionManager = Initialize(false);
             var sessionsBundle = sessionManager.DCPower("VCC");
@@ -3186,7 +3186,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureCurrentLimitsWithUpdateMode_CorrectValuesAreSet(UpdateMode updateMode)
+        public void DifferentSMUDevices_ConfigureCurrentLimitsWithUpdateMode_CorrectValuesAreSetAndMatchUpdateMode(UpdateMode updateMode)
         {
             var sessionManager = Initialize(false);
             var sessionsBundle = sessionManager.DCPower(new[] { "VCC", "VDD", "VDET" });
