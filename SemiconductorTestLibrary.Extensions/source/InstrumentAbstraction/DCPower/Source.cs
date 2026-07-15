@@ -1829,7 +1829,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         /// <inheritdoc cref="ConfigureVoltageLevel(DCPowerSessionsBundle, double)"/>
         /// <remarks>
-        /// When the session bundle contains a ganged pin group, the <paramref name="voltageLevel"/> value is associated with the ganged pin group name, the voltage limit range is applied to all channels in the pin group.
+        /// When the session bundle contains a ganged pin group, the <paramref name="voltageLevel"/> value is associated with the ganged pin group name, the voltage level is applied to all channels in the pin group.
         /// When ganged pins are configured using individual pin names, all pins in the ganged group must have the same value; otherwise an exception is thrown.
         /// Otherwise, when the value is associated with individual pin names, the voltage level for each pin is set to the specified value.
         /// </remarks>
