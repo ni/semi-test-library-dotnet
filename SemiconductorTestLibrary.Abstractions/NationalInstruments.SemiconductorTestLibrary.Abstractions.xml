@@ -4464,6 +4464,32 @@
             Performs the ungang operation.
             </summary>
         </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.UpdateMode">
+            <summary>
+            Specifies the type of update operation to perform when DCPower session properties are updated.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.UpdateMode.Deferred">
+            <summary>
+            Default (existing) behavior.
+            The session will be aborted and the driver property will be set.
+            The property update will be deferred until the next commit or initiate operation,
+            but the result may not be reflected in the output of the device until the session has been initiated.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.UpdateMode.Immediate">
+            <summary>
+            The session will be aborted and the driver property will be set.
+            Additionally, the session will be initiated.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.UpdateMode.Commit">
+            <summary>
+            The session will be aborted and the driver property will be set.
+            The property update will be committed to the instrument,
+            but the result may not be reflected in the output of the device until the session has been initiated.
+            </summary>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities">
             <summary>
             Provides general helper methods.
@@ -4703,6 +4729,133 @@
             </summary>
             <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
             <param name="resetDevice">Whether to perform a hard reset on the device.</param>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu">
+            <summary>
+            Provides access to the configuration and operation of a single TMU (Time Measurement Unit) context within an <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu.Enabled">
+            <summary>
+            Gets or sets a value indicating whether the TMU is enabled.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu.SamplesToAcquire">
+            <summary>
+            Gets or sets the number of samples to acquire.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu.SampleTimeout">
+            <summary>
+            Gets or sets the maximum time, in seconds, to wait for the start and stop events.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu.ArmType">
+            <summary>
+            Gets or sets the type of signal used to arm the TMU measurement.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu.Start">
+            <summary>
+            Gets the configuration for the TMU start source.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu.Stop">
+            <summary>
+            Gets the configuration for the TMU stop source.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu.EdgeArm">
+            <summary>
+            Gets the configuration for the TMU edge-sensitive arm source.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu.Initiate">
+            <summary>
+            Initiates the TMU measurement.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu.Abort">
+            <summary>
+            Aborts the TMU measurement.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu.FetchAveragedMeasurement(System.Double)">
+            <summary>
+            Fetches the averaged measurement result.
+            </summary>
+            <param name="timeout">The maximum time, in seconds, to wait for the measurement to complete.</param>
+            <returns>The averaged measurement value.</returns>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuCollections">
+            <summary>
+            Provides session-level access to all TMU resources available across all instruments in an <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.
+            Acts as the entry point for discovering and obtaining <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu"/> objects by TMU context string.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuCollections.#ctor(NationalInstruments.ModularInstruments.NIDigital.NIDigital)">
+            <summary>
+            Initializes a new instance of the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuCollections"/> class with the specified <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.
+            </summary>
+            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuCollections.GetDisabledTmuContexts">
+            <summary>
+            Gets a list of all disabled TMU context strings available within the session.
+            </summary>
+            <returns>A list of disabled TMU context strings.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuCollections.GetTmu(System.String)">
+            <summary>
+            Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu"/> object for the specified TMU context string.
+            </summary>
+            <param name="tmuContext">The TMU context string (e.g., "PXI1Slot2/tmu0").</param>
+            <returns>The <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu"/> object associated with the specified context.</returns>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuEdgeArm">
+            <summary>
+            Provides access to the configuration of the TMU edge-sensitive arm source for a TMU context.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuEdgeArm.Source">
+            <summary>
+            Gets or sets the arm source terminal.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuEdgeArm.SourceEvent">
+            <summary>
+            Gets or sets the digital event used to arm the TMU.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuEdgeArm.Polarity">
+            <summary>
+            Gets or sets the edge polarity of the arm input.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuSource">
+            <summary>
+            Provides access to the configuration of a single TMU source (start or stop) for a TMU context.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuSource.Source">
+            <summary>
+            Gets or sets the source terminal for this TMU source.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuSource.SourceEvent">
+            <summary>
+            Gets or sets the digital event used by this TMU source.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuSource.SourceEventPolarity">
+            <summary>
+            Gets or sets the edge polarity of the event used by this TMU source.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuSource.InputDebounceTime">
+            <summary>
+            Gets or sets the input debounce time, in seconds, for this TMU source.
+            </summary>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NativeMethods">
             <summary>
@@ -4960,21 +5113,21 @@
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuSourceEvent.Voh">
             <summary>VOH event.</summary>
         </member>
-        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuSourcePolarity">
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuPolarity">
             <summary>
             TMU source polarity values.
             </summary>
         </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuSourcePolarity.None">
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuPolarity.None">
             <summary>No polarity specified.</summary>
         </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuSourcePolarity.RisingEdge">
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuPolarity.RisingEdge">
             <summary>Rising edge.</summary>
         </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuSourcePolarity.FallingEdge">
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuPolarity.FallingEdge">
             <summary>Falling edge.</summary>
         </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuSourcePolarity.EitherEdge">
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuPolarity.EitherEdge">
             <summary>Either edge.</summary>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuArmType">
@@ -5004,6 +5157,21 @@
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuDutyCycle.Low">
             <summary>
             Measure duty cycle low (time at VOL level between falling and rising edges).
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuPulseWidth">
+            <summary>
+            TMU Pulse Width measurement type values.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuPulseWidth.High">
+            <summary>
+            Measure pulse width high (time at VOH level between rising and falling edges).
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuPulseWidth.Low">
+            <summary>
+            Measure pulse width low (time at VOL level between falling and rising edges).
             </summary>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionInformation">
@@ -6109,6 +6277,11 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Digital_SheetDoesNotExist">
             <summary>
               Looks up a localized string similar to The specified {0} sheet &quot;{1}&quot; does not exist in the associated digital pattern project..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Digital_TMUEmptyOrNullTMUContext">
+            <summary>
+              Looks up a localized string similar to TMU context must not be null or empty..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.ExceptionCollector_MessageWithCaseDescription">
