@@ -5332,7 +5332,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var actualVoltageLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevel;
-                Assert.Equal(expectedVoltageLevel, actualVoltageLevel, 4);
+                Assert.Equal(expectedVoltageLevel, actualVoltageLevel);
             });
         }
 
@@ -5369,7 +5369,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var actualVoltageLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevel;
                 var expectedVoltageLevel = voltageLevel.GetValue(sitePinInfo.SiteNumber);
-                Assert.Equal(expectedVoltageLevel, actualVoltageLevel, 4);
+                Assert.Equal(expectedVoltageLevel, actualVoltageLevel);
             });
         }
 
@@ -5414,7 +5414,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var expectedVoltageLevel = voltageLevel.GetValue(sitePinInfo, out _);
                 var actualVoltageLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevel;
-                Assert.Equal(expectedVoltageLevel, actualVoltageLevel, 4);
+                Assert.Equal(expectedVoltageLevel, actualVoltageLevel);
             });
         }
 
@@ -5488,10 +5488,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 if (sitePinInfo.PinName == "VCC1" || sitePinInfo.PinName == "VCC2")
                 {
-                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                     Assert.Equal(expectedVoltageLevel, channelOutput.Source.Voltage.VoltageLevel);
+                }
+                else
+                {
+                    Assert.NotEqual(expectedVoltageLevel, channelOutput.Source.Voltage.VoltageLevel);
                 }
             });
         }

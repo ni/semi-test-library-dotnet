@@ -1829,7 +1829,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         /// <inheritdoc cref="ConfigureVoltageLevel(DCPowerSessionsBundle, double)"/>
         /// <remarks>
-        /// When the session bundle contains a ganged pin group and the <paramref name="voltageLevel"/> value is applied to the entire pin group.
+        /// When the session bundle contains a ganged pin group, the <paramref name="voltageLevel"/> value is applied to the entire pin group.
         /// When ganged pins are configured using individual pin names, all pins in the ganged group must have the same value; otherwise an exception is thrown.
         /// Otherwise, when the value is associated with individual pin names, the voltage level for each pin is set to the specified value.
         /// </remarks>
@@ -3142,13 +3142,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             channelOutput.Source.Current.CurrentLevel = currentLevelToSet;
         }
 
-        private static void SetVoltageLevel(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double voltageLevel)
-        {
-            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-            channelOutput.Control.Abort();
-            channelOutput.Source.Voltage.VoltageLevel = voltageLevel;
-        }
-
         internal static void ValidateNoChannelGanged(this DCPowerSessionsBundle sessionsBundle)
         {
             if (sessionsBundle.HasGangedChannels)
@@ -3169,6 +3162,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 sessionsBundle.Do(perSessionAction);
             }
+        }
+
+        private static void SetVoltageLevel(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double voltageLevel)
+        {
+            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+            channelOutput.Control.Abort();
+            channelOutput.Source.Voltage.VoltageLevel = voltageLevel;
         }
 
         #endregion private and internal methods
