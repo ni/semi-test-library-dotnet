@@ -5547,10 +5547,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
         }
 
-        [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureVoltageLevelRangeWithScalarValue_CorrectVoltageLevelRangeSet()
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLevelRangeWithScalarValue_CorrectVoltageLevelRangeSet(string pinMap)
         {
-            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionManager = Initialize(pinMap);
             var sessionsBundle = sessionManager.DCPower(TwoPinsGangedGroup);
             var voltageLevelRange = 8.0;
             sessionsBundle.GangPinGroup(TwoPinsGangedGroup);
@@ -5583,10 +5586,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
         }
 
-        [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureVoltageLevelRangeWithPerSiteValues_CorrectVoltageLevelRangesSet()
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLevelRangeWithPerSiteValues_CorrectVoltageLevelRangesSet(string pinMap)
         {
-            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionManager = Initialize(pinMap);
             var sessionsBundle = sessionManager.DCPower(TwoPinsGangedGroup);
             var voltageLevelRanges = new SiteData<double>(new[] { 1.0, 8.0 });
             sessionsBundle.GangPinGroup(TwoPinsGangedGroup);
@@ -5624,10 +5630,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
         }
 
-        [Fact]
-        public void DifferentSMUDevicesGanged_ConfigureVoltageLevelRangeWithSamePerPinPerSiteValues_CorrectVoltageLevelRangesSet()
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLevelRangeWithSamePerPinPerSiteValues_CorrectVoltageLevelRangesSet(string pinMap)
         {
-            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionManager = Initialize(pinMap);
             var sessionsBundle = sessionManager.DCPower(new string[] { TwoPinsGangedGroup, "VCC2" });
             var voltageLevelRanges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
