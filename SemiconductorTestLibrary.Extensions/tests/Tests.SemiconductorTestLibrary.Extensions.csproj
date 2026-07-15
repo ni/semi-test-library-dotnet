@@ -38,6 +38,9 @@
     <Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions">
       <HintPath>..\..\SemiconductorTestLibrary.Abstractions\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
     </Reference>
+    <Reference Include="NationalInstruments.Tests.SemiconductorTestLibrary.Utilities">
+      <HintPath>..\..\SemiconductorTestLibrary.Utilities\NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.dll</HintPath>
+    </Reference>
     <Reference Include="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -60,7 +63,6 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="C:\Repos\srd-sebu-mixed-signal-apt\SemiconductorTestLibraryDotNET\SemiconductorTestLibraryAbstractions\Tests.SemiconductorTestLibrary.Utilities\Tests.SemiconductorTestLibrary.Utilities.csproj" />
     <ProjectReference Include="..\source\SemiconductorTestLibrary.Extensions.csproj" />
   </ItemGroup>
 </Project>
