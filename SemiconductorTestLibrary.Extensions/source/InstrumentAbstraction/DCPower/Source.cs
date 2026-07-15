@@ -1875,7 +1875,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         /// <inheritdoc cref="ConfigureVoltageLevelRange(DCPowerSessionsBundle, double)"/>
         /// <remarks>
-        /// When the session bundle contains a ganged pin group and the <paramref name="voltageLevelRange"/> value is applied to the entire pin group.
+        /// When the session bundle contains a ganged pin group, the <paramref name="voltageLevelRange"/> value is associated with the ganged pin group name, the voltage level range is applied to all channels in the pin group.
         /// When ganged pins are configured using individual pin names, all pins in the ganged group must have the same value; otherwise an exception is thrown.
         /// Otherwise, when the value is associated with individual pin names, the voltage range for each pin is selected as the nearest range to the specified value.
         /// </remarks>
@@ -3188,13 +3188,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             channelOutput.Source.Current.CurrentLevelRange = currentLevelRangeToSet;
         }
 
-        private static void SetVoltageLevelRange(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double voltageLevelRange)
-        {
-            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-            channelOutput.Control.Abort();
-            channelOutput.Source.Voltage.VoltageLevelRange = voltageLevelRange;
-        }
-
         internal static void ValidateNoChannelGanged(this DCPowerSessionsBundle sessionsBundle)
         {
             if (sessionsBundle.HasGangedChannels)
@@ -3229,6 +3222,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 sessionsBundle.Do(perSessionAction);
             }
+        }
+
+        private static void SetVoltageLevelRange(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double voltageLevelRange)
+        {
+            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+            channelOutput.Control.Abort();
+            channelOutput.Source.Voltage.VoltageLevelRange = voltageLevelRange;
         }
 
         #endregion private and internal methods

@@ -5332,7 +5332,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var actualVoltageLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevelRange;
-                Assert.Equal(voltageLevelRange, actualVoltageLevelRange, 4);
+                Assert.Equal(voltageLevelRange, actualVoltageLevelRange);
             });
         }
 
@@ -5369,7 +5369,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var expectedVoltageLevelRange = voltageLevelRanges.GetValue(sitePinInfo.SiteNumber);
                 var actualVoltageLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevelRange;
-                Assert.Equal(expectedVoltageLevelRange, actualVoltageLevelRange, 4);
+                Assert.Equal(expectedVoltageLevelRange, actualVoltageLevelRange);
             });
         }
 
@@ -5412,9 +5412,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                var expectedVoltageLevelRange = voltageLevelRanges.GetValue(sitePinInfo, out bool isGroupData);
+                var expectedVoltageLevelRange = voltageLevelRanges.GetValue(sitePinInfo);
                 var actualVoltageLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevelRange;
-                Assert.Equal(expectedVoltageLevelRange, actualVoltageLevelRange, 4);
+                Assert.Equal(expectedVoltageLevelRange, actualVoltageLevelRange);
             });
         }
 
@@ -5479,7 +5479,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
-            var expectedVoltageLevelRange = 8.0;
+            var expectedVoltageLevelRange = 1.0;
             sessionsBundle.GangPinGroup(AllPinsGangedGroup);
 
             var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC2", "VCC3" });
@@ -5488,10 +5488,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 if (sitePinInfo.PinName == "VCC2" || sitePinInfo.PinName == "VCC3")
                 {
-                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                     Assert.Equal(expectedVoltageLevelRange, channelOutput.Source.Voltage.VoltageLevelRange);
+                }
+                else
+                {
+                    Assert.NotEqual(expectedVoltageLevelRange, channelOutput.Source.Voltage.VoltageLevelRange);
                 }
             });
         }
