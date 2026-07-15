@@ -1875,7 +1875,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         /// <inheritdoc cref="ConfigureVoltageLimit(DCPowerSessionsBundle, double)"/>
         /// <remarks>
-        /// When the session bundle contains a ganged pin group and the <paramref name="voltageLimit"/> value is applied to the entire pin group.
+        /// When the session bundle contains a ganged pin group and the <paramref name="voltageLimit"/> value is associated with the ganged pin group name, the voltage limit is applied to all channels in the pin group.
         /// When ganged pins are configured using individual pin names, all pins in the ganged group must have the same value; otherwise an exception is thrown.
         /// Otherwise, when the value is associated with individual pin names, the voltage limit for each pin is set to the specified value.
         /// </remarks>
@@ -3210,13 +3210,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             channelOutput.Source.Voltage.CurrentLimitLow = currentLimitLowToSet;
         }
 
-        private static void SetVoltageLimit(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double voltageLimit)
-        {
-            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-            channelOutput.Control.Abort();
-            channelOutput.Source.Current.VoltageLimit = voltageLimit;
-        }
-
         internal static void DoPerChannelIfGangedElsePerSession(this DCPowerSessionsBundle sessionsBundle, Action<DCPowerSessionInformation, SitePinInfo> perChannelAction, Action<DCPowerSessionInformation> perSessionAction)
         {
             var hasGangedChannels = sessionsBundle.HasGangedChannels;
@@ -3231,6 +3224,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
+        private static void SetVoltageLimit(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double voltageLimit)
+        {
+            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+            channelOutput.Control.Abort();
+            // Note: Voltage limits are NOT divided across ganged channels. Each channel maintains the full specified voltage limit.
+            channelOutput.Source.Current.VoltageLimit = voltageLimit;
+        }
         #endregion private and internal methods
     }
 }
