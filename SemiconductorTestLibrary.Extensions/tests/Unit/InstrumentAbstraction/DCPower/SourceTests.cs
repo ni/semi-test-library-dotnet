@@ -5736,7 +5736,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var actualVoltageLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitHigh;
-                Assert.Equal(expectedVoltageLimitHigh, actualVoltageLimitHigh, 4);
+                Assert.Equal(expectedVoltageLimitHigh, actualVoltageLimitHigh);
             });
         }
 
@@ -5773,7 +5773,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var expectedVoltageLimitHigh = voltageLimitHigh.GetValue(sitePinInfo.SiteNumber);
                 var actualVoltageLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitHigh;
-                Assert.Equal(expectedVoltageLimitHigh, actualVoltageLimitHigh, 4);
+                Assert.Equal(expectedVoltageLimitHigh, actualVoltageLimitHigh);
             });
         }
 
@@ -5818,7 +5818,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var expectedVoltageLimitHigh = voltageLimitHigh.GetValue(sitePinInfo);
                 var actualVoltageLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitHigh;
-                Assert.Equal(expectedVoltageLimitHigh, actualVoltageLimitHigh, 4);
+                Assert.Equal(expectedVoltageLimitHigh, actualVoltageLimitHigh);
             });
         }
 
@@ -5883,7 +5883,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
-            var expectedVoltageLimitHigh = 5.0;
+            var expectedVoltageLimitHigh = 1.0;
             sessionsBundle.GangPinGroup(AllPinsGangedGroup);
 
             var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
@@ -5892,10 +5892,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                 if (sitePinInfo.PinName == "VCC1" || sitePinInfo.PinName == "VCC2")
                 {
-                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
                     Assert.Equal(expectedVoltageLimitHigh, channelOutput.Source.Current.VoltageLimitHigh);
+                }
+                else
+                {
+                    Assert.NotEqual(expectedVoltageLimitHigh, channelOutput.Source.Current.VoltageLimitHigh);
                 }
             });
         }
