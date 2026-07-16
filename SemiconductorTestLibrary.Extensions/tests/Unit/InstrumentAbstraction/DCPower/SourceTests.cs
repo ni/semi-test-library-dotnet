@@ -6533,10 +6533,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(expectedCurrentLevelRange, currentLevelRange.GetValue(0, primaryPin));
         }
 
-        [Fact]
-        public void DifferentSMUDevicesGangedConfigureCurrentLevelRange_GetCurrentLevelRange_ReturnsCorrectValue()
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGangedConfigureCurrentLevelRange_GetCurrentLevelRange_ReturnsCorrectValue(string pinMap)
         {
-            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionManager = Initialize(pinMap);
             var allPinsGangedGroup = "AllPinsGangedGroup";
             var expectedCurrentLevelRange = 5E-1;
             var sessionsBundle = sessionManager.DCPower(allPinsGangedGroup);
