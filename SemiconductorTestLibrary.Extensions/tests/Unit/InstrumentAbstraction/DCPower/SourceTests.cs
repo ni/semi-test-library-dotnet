@@ -6536,10 +6536,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
         }
 
-        [Fact]
-        public void DifferentSMUDevicesGangedConfigureLimitSymmetry_GetLimitSymmetry_ReturnsCorrectValue()
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGangedConfigureLimitSymmetry_GetLimitSymmetry_ReturnsCorrectValue(string pinMap)
         {
-            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionManager = Initialize(pinMap);
             var allPinsGangedGroup = "AllPinsGangedGroup";
             var expectedLimitSymmetry = DCPowerComplianceLimitSymmetry.Asymmetric;
             var sessionsBundle = sessionManager.DCPower(allPinsGangedGroup);
