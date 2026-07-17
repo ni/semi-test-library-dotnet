@@ -6722,10 +6722,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
         }
 
-        [Fact]
-        public void DifferentSMUDevicesGangedConfigureVoltageLevel_GetVoltageLevel_ReturnsCorrectValue()
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGangedConfigureVoltageLevel_GetVoltageLevel_ReturnsCorrectValue(string pinMap)
         {
-            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionManager = Initialize(pinMap);
             var expectedVoltageLevel = 3.3;
             var sessionsBundle = sessionManager.DCPower(TwoPinsGangedGroup);
             sessionsBundle.GangPinGroup(TwoPinsGangedGroup);
