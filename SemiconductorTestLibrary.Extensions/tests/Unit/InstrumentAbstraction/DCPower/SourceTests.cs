@@ -6582,19 +6582,20 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize("Mixed Signal Tests.pinmap");
             var pinNames = new string[] { "VCC1", "VCC2", "VDET" };
             var sessionsBundle = sessionManager.DCPower(pinNames);
+            var activeSites = GetActiveSites(sessionsBundle);
             var expectedTransientResponse = new PinSiteData<DCPowerSourceTransientResponse>(
-                new Dictionary<string, IDictionary<int, DCPowerSourceTransientResponse>>()
+                new Dictionary<string, IDictionary<int, DCPowerSourceTransientResponse>>
                 {
-                    [pinNames[0]] = new Dictionary<int, DCPowerSourceTransientResponse>() { [0] = DCPowerSourceTransientResponse.Normal, [1] = DCPowerSourceTransientResponse.Fast },
-                    [pinNames[1]] = new Dictionary<int, DCPowerSourceTransientResponse>() { [0] = DCPowerSourceTransientResponse.Fast, [1] = DCPowerSourceTransientResponse.Slow },
-                    [pinNames[2]] = new Dictionary<int, DCPowerSourceTransientResponse>() { [0] = DCPowerSourceTransientResponse.Slow, [1] = DCPowerSourceTransientResponse.Normal }
+                    [pinNames[0]] = activeSites.ToDictionary(site => site, site => site % 3 == 0 ? DCPowerSourceTransientResponse.Normal : DCPowerSourceTransientResponse.Fast),
+                    [pinNames[1]] = activeSites.ToDictionary(site => site, site => site % 3 == 1 ? DCPowerSourceTransientResponse.Fast : DCPowerSourceTransientResponse.Slow),
+                    [pinNames[2]] = activeSites.ToDictionary(site => site, site => site % 3 == 2 ? DCPowerSourceTransientResponse.Slow : DCPowerSourceTransientResponse.Normal)
                 });
             sessionsBundle.ConfigureSourceSettings(new PinSiteData<DCPowerSourceSettings>(
-                new Dictionary<string, IDictionary<int, DCPowerSourceSettings>>()
+                new Dictionary<string, IDictionary<int, DCPowerSourceSettings>>
                 {
-                    [pinNames[0]] = new Dictionary<int, DCPowerSourceSettings>() { [0] = new DCPowerSourceSettings { TransientResponse = DCPowerSourceTransientResponse.Normal }, [1] = new DCPowerSourceSettings { TransientResponse = DCPowerSourceTransientResponse.Fast } },
-                    [pinNames[1]] = new Dictionary<int, DCPowerSourceSettings>() { [0] = new DCPowerSourceSettings { TransientResponse = DCPowerSourceTransientResponse.Fast }, [1] = new DCPowerSourceSettings { TransientResponse = DCPowerSourceTransientResponse.Slow } },
-                    [pinNames[2]] = new Dictionary<int, DCPowerSourceSettings>() { [0] = new DCPowerSourceSettings { TransientResponse = DCPowerSourceTransientResponse.Slow }, [1] = new DCPowerSourceSettings { TransientResponse = DCPowerSourceTransientResponse.Normal } }
+                    [pinNames[0]] = activeSites.ToDictionary(site => site, site => new DCPowerSourceSettings { TransientResponse = expectedTransientResponse.GetValue(site, pinNames[0]) }),
+                    [pinNames[1]] = activeSites.ToDictionary(site => site, site => new DCPowerSourceSettings { TransientResponse = expectedTransientResponse.GetValue(site, pinNames[1]) }),
+                    [pinNames[2]] = activeSites.ToDictionary(site => site, site => new DCPowerSourceSettings { TransientResponse = expectedTransientResponse.GetValue(site, pinNames[2]) })
                 }));
 
             var transientResponse = sessionsBundle.GetTransientResponse();
