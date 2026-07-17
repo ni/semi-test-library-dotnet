@@ -6778,7 +6778,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Single(voltageLevel.PinNames);
             Assert.Equal(primaryPin, voltageLevel.PinNames.FirstOrDefault());
             Assert.DoesNotContain(allPinsMergedGroup, voltageLevel.PinNames);
-            Assert.Equal(expectedVoltageLevel, voltageLevel.GetValue(0, primaryPin));
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLevel, voltageLevel.GetValue(sitePinInfo));
+            });
         }
 
         [Fact]
@@ -6810,12 +6813,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinName = "VCC2";
             var expectedVoltageLevel = 3.3;
             var sessionsBundle = sessionManager.DCPower(pinName);
-            var sharedSitesBundle = sessionsBundle.FilterBySite(new[] { 1, 2 });
-            sharedSitesBundle.ConfigureVoltageLevel(new SiteData<double>(new[] { 1, 2 }, expectedVoltageLevel));
+            var nonSharedAndPrimaryBundle = sessionsBundle.FilterBySite(new[] { 0, 1 });
+            nonSharedAndPrimaryBundle.ConfigureVoltageLevel(expectedVoltageLevel);
 
-            var voltageLevel = sharedSitesBundle.GetVoltageLevel();
+            var voltageLevel = nonSharedAndPrimaryBundle.GetVoltageLevel();
 
-            sharedSitesBundle.Do((_, sitePinInfo) =>
+            nonSharedAndPrimaryBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedVoltageLevel, voltageLevel.GetValue(sitePinInfo));
             });
