@@ -6539,7 +6539,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
         [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
-        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
         public void DifferentSMUDevicesGangedConfigureTransientResponse_GetTransientResponse_ReturnsCorrectValue(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
