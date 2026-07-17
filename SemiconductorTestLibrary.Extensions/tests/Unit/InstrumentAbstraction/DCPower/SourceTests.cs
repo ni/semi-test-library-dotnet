@@ -6734,7 +6734,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Single(voltageLimit.PinNames);
             Assert.Equal(primaryPin, voltageLimit.PinNames.FirstOrDefault());
             Assert.DoesNotContain(allPinsMergedGroup, voltageLimit.PinNames);
-            Assert.Equal(expectedVoltageLimit, voltageLimit.GetValue(0, primaryPin));
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLimit, voltageLimit.GetValue(sitePinInfo));
+            });
         }
 
         [Theory]
@@ -6806,12 +6809,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinName = "VCC1";
             var expectedVoltageLimit = 1E-1;
             var sessionsBundle = sessionManager.DCPower(pinName);
-            var sharedSitesBundle = sessionsBundle.FilterBySite(new[] { 1, 2 });
-            sharedSitesBundle.ConfigureVoltageLimit(new SiteData<double>(new[] { 1, 2 }, expectedVoltageLimit));
+            var nonSharedAndPrimaryBundle = sessionsBundle.FilterBySite(new[] { 0, 1 });
+            nonSharedAndPrimaryBundle.ConfigureVoltageLimit(expectedVoltageLimit);
 
-            var voltageLimit = sharedSitesBundle.GetVoltageLimit();
+            var voltageLimit = nonSharedAndPrimaryBundle.GetVoltageLimit();
 
-            sharedSitesBundle.Do((_, sitePinInfo) =>
+            nonSharedAndPrimaryBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedVoltageLimit, voltageLimit.GetValue(sitePinInfo));
             });
