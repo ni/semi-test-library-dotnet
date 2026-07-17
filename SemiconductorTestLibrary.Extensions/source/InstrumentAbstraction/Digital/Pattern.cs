@@ -1,10 +1,9 @@
-﻿using System;
+using System;
 using System.Linq;
 using Ivi.Driver;
 using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
-using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
 {
@@ -101,6 +100,34 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
+        /// Applies previously configured settings to the digital instrument.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        public static void Commit(this DigitalSessionsBundle sessionsBundle)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.Session.PatternControl.Commit();
+            });
+        }
+
+        /// <summary>
+        /// Configures the pattern start label for subsequent pattern execution.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="startLabel">The pattern name or exported pattern label to configure.</param>
+        public static void ConfigurePattern(this DigitalSessionsBundle sessionsBundle, string startLabel)
+        {
+            startLabel = startLabel ?? string.Empty;
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.Session.PatternControl.StartLabel = startLabel;
+                var siteList = string.Join(",", sessionInfo.AssociatedSiteList.Select(sn => $"site{sn}"));
+                sessionInfo.Session.PatternControl.ConfigurePatternBurstSites(siteList);
+            });
+        }
+
+        /// <summary>
         /// Gets fail count on a per-pin per-site basis of last burst pattern (long).
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
@@ -110,6 +137,31 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo =>
             {
                 return sessionInfo.PinSet.GetFailCount();
+            });
+        }
+
+        /// <summary>
+        /// Gets the currently configured pattern name or exported pattern label.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <returns>An array of the currently configured pattern start labels, one value per instrument per channel in the bundle.</returns>
+        public static string[] GetPatternStartLabel(this DigitalSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo =>
+            {
+                return sessionInfo.Session.PatternControl.StartLabel ?? string.Empty;
+            });
+        }
+
+        /// <summary>
+        /// Starts pattern execution, moving the digital instrument to the running state.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        public static void Initiate(this DigitalSessionsBundle sessionsBundle)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.Session.PatternControl.Initiate();
             });
         }
 
