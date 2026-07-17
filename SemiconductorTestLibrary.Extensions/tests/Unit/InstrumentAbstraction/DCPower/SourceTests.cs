@@ -6737,10 +6737,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(expectedVoltageLimit, voltageLimit.GetValue(0, primaryPin));
         }
 
-        [Fact]
-        public void DifferentSMUDevicesGangedConfigureVoltageLimit_GetVoltageLimit_ReturnsCorrectValue()
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGangedConfigureVoltageLimit_GetVoltageLimit_ReturnsCorrectValue(string pinMap)
         {
-            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionManager = Initialize(pinMap);
             var expectedVoltageLimit = 8.0;
             var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
             sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
