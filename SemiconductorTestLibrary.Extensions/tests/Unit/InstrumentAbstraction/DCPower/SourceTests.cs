@@ -6761,7 +6761,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 var voltageLimitHighDivisor = sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
-                Assert.Equal(expectedVoltageLimitHigh / voltageLimitHighDivisor, voltageLimitHigh.GetValue(sitePinInfo), 4);
+                Assert.Equal(expectedVoltageLimitHigh, voltageLimitHigh.GetValue(sitePinInfo), 4);
             });
         }
 
