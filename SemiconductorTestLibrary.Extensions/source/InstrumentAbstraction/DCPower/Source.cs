@@ -2324,7 +2324,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Gets the voltage level range.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <returns>The per-pin per-site voltage level range.</returns>
+        /// <returns>The per-site per-pin voltage level range.</returns>
         public static PinSiteData<double> GetVoltageLevelRange(this DCPowerSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
