@@ -924,10 +924,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             long samplesToAcquire,
             TmuArmType armType)
         {
-            string tmuContext = (referenceSitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-
             TmuSourceEvent sourceEvent = GetSourceEventForEdge(edgeType);
-            DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+            DigitalTmu tmu = GetAssignedTmu(sessionInfo, referenceSitePinInfo);
             // Configure TMU Start Source (Reference Channel)
             tmu.Start.Source = referenceSitePinInfo.IndividualChannelString;
             tmu.Start.SourceEvent = sourceEvent;
