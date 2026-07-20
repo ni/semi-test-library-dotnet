@@ -267,7 +267,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// The type of signal used to arm the TMU measurement.<br/>
         /// The TMU's arm input is used to frame, or select, the start and stop events of interest for each TMU sample.
         /// </param>
-        public static void ConfigureSkewMeasurement(
+        public static void ConfigureTMUSkewMeasurement(
             this DigitalSessionsBundle sessionsBundle,
             string[] referencePinNames,
             string[] targetPinNames,
@@ -297,7 +297,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                         throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUSkewTargetPinNotFound, targetPinName, sitePinInfo.SiteNumber));
                     }
 
-                    ConfigureSkewMeasurementForSitePin(
+                    ConfigureTMUSkewMeasurementForSitePin(
                         sessionInfo,
                         sitePinInfo,
                         targetSitePinInfo,
@@ -916,7 +916,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             tmu.Enabled = true;
         }
 
-        private static void ConfigureSkewMeasurementForSitePin(
+        private static void ConfigureTMUSkewMeasurementForSitePin(
             DigitalSessionInformation sessionInfo,
             SitePinInfo referenceSitePinInfo,
             SitePinInfo targetSitePinInfo,
