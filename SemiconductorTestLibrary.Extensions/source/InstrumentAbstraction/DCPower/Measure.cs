@@ -132,6 +132,49 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
+        /// Configures the measurement aperture time in seconds.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="apertureTime">The measurement aperture time in seconds to set.</param>
+        /// <remarks>
+        /// For the PXI-4110, PXI-4130, and PXIe-4154 models, the aperture time is converted to the equivalent SamplesToAverage value
+        /// using the model's fixed sample rate (3 kHz for the PXI-4110 and PXI-4130, 300 kHz for the PXIe-4154).
+        /// </remarks>
+        public static void ConfigureApertureTimeInSeconds(this DCPowerSessionsBundle sessionsBundle, double apertureTime)
+        {
+            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.AbortAndConfigure((channelString, modelString) =>
+                {
+                    sessionInfo.Session.SetApertureTimeInSeconds(channelString, modelString, apertureTime);
+                });
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureApertureTimeInSeconds(DCPowerSessionsBundle, double)"/>
+        public static void ConfigureApertureTimeInSeconds(this DCPowerSessionsBundle sessionsBundle, SiteData<double> apertureTime)
+        {
+            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
+                sessionInfo.Session.SetApertureTimeInSeconds(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, apertureTime.GetValue(sitePinInfo.SiteNumber));
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureApertureTimeInSeconds(DCPowerSessionsBundle, double)"/>
+        public static void ConfigureApertureTimeInSeconds(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> apertureTime)
+        {
+            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
+                sessionInfo.Session.SetApertureTimeInSeconds(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, apertureTime.GetValue(sitePinInfo));
+            });
+        }
+
+        /// <summary>
         /// Gets aperture time in seconds.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
@@ -440,8 +483,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <remarks>
         /// Iterates over each filtered channel, checks the <see cref="DCPowerMeasurement.FetchBacklog"/> property,
         /// and if greater than zero, fetches and discards the backlog data.
-        /// Channels configured to measure on demand are skipped, since they do not accumulate pending fetch data
-        /// and the FetchBacklog property is not valid unless the channel is running.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         public static void ClearFetchBacklog(this DCPowerSessionsBundle sessionsBundle)
@@ -798,6 +839,27 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             int pointsToFetch = fetchWaveformLength == 0 ? channelOutput.Measurement.FetchBacklog : Convert.ToInt32(Math.Round(fetchWaveformLength / deltaTime));
             var result = session.Measurement.Fetch(channelString, timeout: PrecisionTimeSpan.FromSeconds(fetchWaveformLength + 1), pointsToFetch);
             return new DCPowerWaveformResults(result, deltaTime);
+        }
+
+        private static void SetApertureTimeInSeconds(this NIDCPower session, string channelString, string modelString, double apertureTimeInSeconds)
+        {
+            var channelOutput = session.Outputs[channelString];
+            switch (modelString)
+            {
+                case DCPowerModelStrings.PXI_4110:
+                case DCPowerModelStrings.PXI_4130:
+                case DCPowerModelStrings.PXIe_4154:
+                    // The 4154 has a fixed sample rate of 300 kHz, while the 4110 and 4130 have a fixed sample rate of 3 kHz.
+                    // These models use samples to average instead of aperture time.
+                    double sampleRate = modelString == DCPowerModelStrings.PXIe_4154 ? 300000.0 : 3000.0;
+                    channelOutput.Measurement.SamplesToAverage = Convert.ToInt32(sampleRate * apertureTimeInSeconds);
+                    break;
+
+                default:
+                    channelOutput.Measurement.ApertureTimeUnits = DCPowerMeasureApertureTimeUnits.Seconds;
+                    channelOutput.Measurement.ApertureTime = apertureTimeInSeconds;
+                    break;
+            }
         }
 
         #endregion private methods

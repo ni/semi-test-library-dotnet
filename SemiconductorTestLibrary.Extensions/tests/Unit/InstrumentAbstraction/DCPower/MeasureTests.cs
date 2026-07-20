@@ -1256,6 +1256,116 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             InitializeAndClose.Initialize(_tsmContext);
         }
 
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ConfigureApertureTimeInSeconds_CorrectValuesAreSet(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VCC");
+            var expectedApertureTimeInSeconds = 0.05;
+
+            sessionsBundle.ConfigureApertureTimeInSeconds(expectedApertureTimeInSeconds);
+
+            var apertureTimes = sessionsBundle.GetApertureTimeInSeconds(out _);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedApertureTimeInSeconds, apertureTimes.GetValue(sitePinInfo), 4);
+            });
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ConfigureApertureTimeInSecondsWithPerSiteValues_CorrectValuesAreSet(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VCC");
+            var apertureTimesToSet = new SiteData<double>(new[] { 0.001, 0.002, 0.003, 0.004 });
+
+            sessionsBundle.ConfigureApertureTimeInSeconds(apertureTimesToSet);
+
+            var apertureTimes = sessionsBundle.GetApertureTimeInSeconds(out _);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(apertureTimesToSet.GetValue(sitePinInfo.SiteNumber), apertureTimes.GetValue(sitePinInfo), 4);
+            });
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ConfigureApertureTimeInSecondsWithPerPinPerSiteValues_CorrectValuesAreSet(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC", "VDET" });
+            var apertureTimesToSet = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC"] = new Dictionary<int, double>() { [0] = 0.001, [1] = 0.002, [2] = 0.003, [3] = 0.004 },
+                ["VDET"] = new Dictionary<int, double>() { [0] = 0.005, [1] = 0.006, [2] = 0.007, [3] = 0.008 }
+            });
+
+            sessionsBundle.ConfigureApertureTimeInSeconds(apertureTimesToSet);
+
+            var apertureTimes = sessionsBundle.GetApertureTimeInSeconds(out _);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(apertureTimesToSet.GetValue(sitePinInfo), apertureTimes.GetValue(sitePinInfo), 4);
+            });
+        }
+
+        [Fact]
+        public void GangedPinGroup_ConfigureApertureTimeInSeconds_CorrectValuesAreSet()
+        {
+            var sessionsBundle = GangAndForceCurrent("AllPinsGangedGroup", out _);
+            var expectedApertureTimeInSeconds = 0.005;
+
+            sessionsBundle.ConfigureApertureTimeInSeconds(expectedApertureTimeInSeconds);
+
+            var apertureTimes = sessionsBundle.GetApertureTimeInSeconds(out _);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedApertureTimeInSeconds, apertureTimes.GetValue(sitePinInfo), 4);
+            });
+        }
+
+        [Theory]
+        [InlineData("G1_1mA")]
+        [InlineData("G1_2mA")]
+        [InlineData("G1_4mA")]
+        public void MergedPinGroup_ConfigureApertureTimeInSeconds_CorrectValuesAreSet(string pinGroupName)
+        {
+            var sessionsBundle = MergeAndForceVoltage(pinGroupName, out _);
+            var expectedApertureTimeInSeconds = 0.005;
+
+            sessionsBundle.ConfigureApertureTimeInSeconds(expectedApertureTimeInSeconds);
+
+            var apertureTimes = sessionsBundle.GetApertureTimeInSeconds(out _);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedApertureTimeInSeconds, apertureTimes.GetValue(sitePinInfo), 4);
+            });
+        }
+
+        [Theory]
+        [InlineData("VCC1")]
+        [InlineData("VCC2")]
+        [InlineData("VDET")]
+        public void SharedPinConfiguration_ConfigureApertureTimeInSeconds_OnlyNonSharedChannelsAreProcessed(string pinName)
+        {
+            var sessionManager = Initialize("SharedPinTests_MultiSite.pinmap");
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            var expectedApertureTimeInSeconds = 0.005;
+
+            sessionsBundle.ConfigureApertureTimeInSeconds(expectedApertureTimeInSeconds);
+
+            var apertureTimes = sessionsBundle.GetApertureTimeInSeconds(out _);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedApertureTimeInSeconds, apertureTimes.GetValue(sitePinInfo), 4);
+            });
+        }
+
         private static int GetTotalFetchBacklog(DCPowerSessionsBundle sessionsBundle)
         {
             int totalBacklog = 0;
@@ -1273,6 +1383,28 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 }
             });
             return totalBacklog;
+        }
+
+        private static void AssertApertureTimeInSecondsForLegacyModels(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, double expectedApertureTimeInSeconds)
+        {
+            switch (sitePinInfo.ModelString)
+            {
+                case DCPowerModelStrings.PXI_4110:
+                case DCPowerModelStrings.PXI_4130:
+                    // These models use samples to average with a fixed 3 kHz sample rate instead of an aperture time.
+                    Assert.Equal(Convert.ToInt32(3000.0 * expectedApertureTimeInSeconds), channelOutput.Measurement.SamplesToAverage);
+                    break;
+
+                case DCPowerModelStrings.PXIe_4154:
+                    // This model uses samples to average with a fixed 300 kHz sample rate instead of an aperture time.
+                    Assert.Equal(Convert.ToInt32(300000.0 * expectedApertureTimeInSeconds), channelOutput.Measurement.SamplesToAverage);
+                    break;
+
+                default:
+                    Assert.Equal(DCPowerMeasureApertureTimeUnits.Seconds, channelOutput.Measurement.ApertureTimeUnits);
+                    Assert.Equal(expectedApertureTimeInSeconds, channelOutput.Measurement.ApertureTime, 6);
+                    break;
+            }
         }
 
         private void AssertMeasureWhenSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, DCPowerMeasurementWhen measureWhen)
