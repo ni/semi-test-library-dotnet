@@ -36,10 +36,25 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Utilities
 
         internal static void AssertPublishedDataCountPerPins(int expectedCount, IPublishedDataReader publishedDataReader, params string[] pins)
         {
-            var publishedData = publishedDataReader.GetAndClearPublishedData();
+            AssertPublishedDataCountPerPins(expectedCount, publishedDataReader.GetAndClearPublishedData(), pins);
+        }
+
+        internal static void AssertPublishedDataCountPerPins(int expectedCount, IPublishedData[] publishedData, params string[] pins)
+        {
             foreach (var pinName in pins)
             {
                 Assert.Equal(expectedCount, publishedData.Where(d => d.Pin == pinName).Count());
+            }
+        }
+
+        internal static void AssertPublishedDataValue(double expectedValue, IPublishedData[] publishedData, params string[] pins)
+        {
+            foreach (var pinName in pins)
+            {
+                foreach (var data in publishedData.Where(d => d.Pin == pinName))
+                {
+                    Assert.Equal(expectedValue, data.DoubleValue);
+                }
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using NationalInstruments.ModularInstruments.NIDCPower;
@@ -432,6 +433,64 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 }
                 return samples;
             });
+        }
+
+        /// <summary>
+        /// Fetches <paramref name="pointsToFetch"/> voltage measurements in a single bulk fetch and publishes each sample individually.
+        /// </summary>
+        /// <remarks>
+        /// This method should not be used when the MeasureWhen property is configured to OnDemand.
+        /// The workflow performs a single bulk fetch of all requested points, then publishes each fetched sample individually
+        /// using a data ID generated via <c>string.Format(CultureInfo.InvariantCulture, publishDataIdFormatter, i)</c>,
+        /// where <c>i</c> is the zero-based sample index.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="publishDataIdFormatter">A .NET composite format string used to build the unique published data ID for each fetched sample. It must contain a single format item, <c>{0}</c>, which is replaced with the zero-based sample index (for example, "Voltage{0}" produces "Voltage0", "Voltage1", and so on).</param>
+        /// <param name="pointsToFetch">The number of points to fetch. This also determines the length of each returned <see cref="double"/> array.</param>
+        /// <param name="timeoutInSeconds">The maximum time, in seconds, to wait for the fetch to complete before the operation is aborted.</param>
+        /// <returns>The pin-site aware voltage measurements, where each <see cref="double"/> array contains all fetched samples for that pin-site and has a length equal to <paramref name="pointsToFetch"/>.</returns>
+        public static PinSiteData<double[]> FetchAndPublishVoltage(this DCPowerSessionsBundle sessionsBundle, string publishDataIdFormatter, int pointsToFetch = 1, double timeoutInSeconds = 10)
+        {
+            var fetchResults = sessionsBundle.FetchMeasurement(pointsToFetch, timeoutInSeconds);
+            var voltageMeasurements = fetchResults.Select(samples => samples.Select(sample => sample.VoltageMeasurement).ToArray());
+
+            for (int i = 0; i < pointsToFetch; i++)
+            {
+                var voltageMeasurement = voltageMeasurements.Select(samples => samples[i]);
+                string publishedDataId = string.Format(CultureInfo.InvariantCulture, publishDataIdFormatter, i);
+                sessionsBundle.TSMContext.PublishResults(voltageMeasurement, publishedDataId);
+            }
+
+            return voltageMeasurements;
+        }
+
+        /// <summary>
+        /// Fetches <paramref name="pointsToFetch"/> current measurements in a single bulk fetch and publishes each sample individually.
+        /// </summary>
+        /// <remarks>
+        /// This method should not be used when the MeasureWhen property is configured to OnDemand.
+        /// The workflow performs a single bulk fetch of all requested points, then publishes each fetched sample individually
+        /// using a data ID generated via <c>string.Format(CultureInfo.InvariantCulture, publishDataIdFormatter, i)</c>,
+        /// where <c>i</c> is the zero-based sample index.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="publishDataIdFormatter">A .NET composite format string used to build the unique published data ID for each fetched sample. It must contain a single format item, <c>{0}</c>, which is replaced with the zero-based sample index (for example, "Current{0}" produces "Current0", "Current1", and so on).</param>
+        /// <param name="pointsToFetch">The number of points to fetch. This also determines the length of each returned <see cref="double"/> array.</param>
+        /// <param name="timeoutInSeconds">The maximum time, in seconds, to wait for the fetch to complete before the operation is aborted.</param>
+        /// <returns>The pin-site aware current measurements, where each <see cref="double"/> array contains all fetched samples for that pin-site and has a length equal to <paramref name="pointsToFetch"/>.</returns>
+        public static PinSiteData<double[]> FetchAndPublishCurrent(this DCPowerSessionsBundle sessionsBundle, string publishDataIdFormatter, int pointsToFetch = 1, double timeoutInSeconds = 10)
+        {
+            var fetchResults = sessionsBundle.FetchMeasurement(pointsToFetch, timeoutInSeconds);
+            var currentMeasurements = fetchResults.Select(samples => samples.Select(sample => sample.CurrentMeasurement).ToArray());
+
+            for (int i = 0; i < pointsToFetch; i++)
+            {
+                var currentMeasurement = currentMeasurements.Select(samples => samples[i]);
+                string publishedDataId = string.Format(CultureInfo.InvariantCulture, publishDataIdFormatter, i);
+                sessionsBundle.TSMContext.PublishResults(currentMeasurement, publishedDataId);
+            }
+
+            return currentMeasurements;
         }
 
         private static void ClearBacklogIfSoftwareEdgeTrigger(this DCPowerSessionsBundle sessionsBundle)

@@ -8,6 +8,7 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
+using NationalInstruments.TestStand.SemiconductorModule.Restricted;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
@@ -32,6 +33,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public TSMSessionManager Initialize(string pinMapFileName)
         {
             _tsmContext = CreateTSMContext(pinMapFileName);
+            InitializeAndClose.Initialize(_tsmContext);
+            return new TSMSessionManager(_tsmContext);
+        }
+
+        public TSMSessionManager Initialize(string pinMapFileName, out IPublishedDataReader publishedDataReader)
+        {
+            _tsmContext = CreateTSMContext(pinMapFileName, out publishedDataReader);
             InitializeAndClose.Initialize(_tsmContext);
             return new TSMSessionManager(_tsmContext);
         }
@@ -1147,6 +1155,86 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             dcPower.UngangPinGroup("MergedPowerPins");
         }
 
+        [Theory]
+        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap")]
+        public void DifferentSMUDevice_FetchAndPublishVoltageWithMultiplePoints_ReturnsArrayWithLengthEqualToPointsToFetch(string pinMapFileName)
+        {
+            var pointsToFetch = 5;
+            var expectedVoltageLevel = 2;
+            var sessionManager = Initialize(pinMapFileName, out var publishedDataReader);
+            var pinName = "VDD";
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            sessionsBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
+            sessionsBundle.ForceVoltage(voltageLevel: expectedVoltageLevel, currentLimit: 0.1, waitForSourceCompletion: true);
+
+            var results = sessionsBundle.FetchAndPublishVoltage("Voltage{0}", pointsToFetch);
+
+            AssertPublishedValues(sessionsBundle, publishedDataReader, pointsToFetch, expectedVoltageLevel, pinName, results);
+        }
+
+        [Theory]
+        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap")]
+        public void DifferentSMUDevice_FetchAndPublishVoltage_ThrowsExceptionForUnsupportedPins(string pinMapFileName)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.DCPower("VCC");
+            var expectedPhrases = new string[] { "An exception occurred while processing pins/sites:", "Function or method not supported." };
+            sessionsBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
+            sessionsBundle.ForceVoltage(voltageLevel: 1, currentLimit: 0.1, waitForSourceCompletion: true);
+
+            void FetchAndPublishVoltage() => sessionsBundle.FetchAndPublishVoltage("Voltage{0}");
+
+            var exception = Assert.Throws<NISemiconductorTestException>(FetchAndPublishVoltage);
+            foreach (var expectedPhrase in expectedPhrases)
+            {
+                Assert.Contains(expectedPhrase, exception.Message);
+            }
+        }
+
+        [Theory]
+        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap")]
+        public void DifferentSMUDevice_FetchAndPublishCurrentWithMultiplePoints_ReturnsArrayWithLengthEqualToPointsToFetch(string pinMapFileName)
+        {
+            var pointsToFetch = 5;
+            var expectedCurrentLevel = 0.01;
+            var sessionManager = Initialize(pinMapFileName, out var publishedDataReader);
+            var pinName = "VDD";
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            sessionsBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
+            sessionsBundle.ForceCurrent(currentLevel: expectedCurrentLevel, waitForSourceCompletion: true);
+
+            var results = sessionsBundle.FetchAndPublishCurrent("Current{0}", pointsToFetch);
+
+            AssertPublishedValues(sessionsBundle, publishedDataReader, pointsToFetch, expectedCurrentLevel, pinName, results);
+        }
+
+        [Theory]
+        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap")]
+        public void DifferentSMUDevice_FetchAndPublishCurrent_ThrowsExceptionForUnsupportedPins(string pinMapFileName)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.DCPower("VCC");
+            var expectedPhrases = new string[] { "An exception occurred while processing pins/sites:", "Function or method not supported." };
+            sessionsBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
+            sessionsBundle.ForceVoltage(voltageLevel: 1, currentLimit: 0.1, waitForSourceCompletion: true);
+
+            void FetchAndPublishCurrent() => sessionsBundle.FetchAndPublishCurrent("Current{0}");
+
+            var exception = Assert.Throws<NISemiconductorTestException>(FetchAndPublishCurrent);
+            foreach (var expectedPhrase in expectedPhrases)
+            {
+                Assert.Contains(expectedPhrase, exception.Message);
+            }
+        }
+
         private void AssertMeasureWhenSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, DCPowerMeasurementWhen measureWhen)
         {
             if (sitePinInfo.CascadingInfo is GangingInfo gangingInfo && gangingInfo.IsFollower)
@@ -1227,6 +1315,25 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.True(results.TryGetValue(siteNumber, pinGroup, out _));
                 Assert.False(results.TryGetValue(siteNumber, primaryPin, out _));
+            }
+        }
+
+        private void AssertPublishedValues(DCPowerSessionsBundle sessionsBundle, IPublishedDataReader publishedDataReader, int expectedCount, double expectedValue, string pinName, PinSiteData<double[]> results)
+        {
+            var expectedPublishedDataCount = GetActiveSites(sessionsBundle).Length * expectedCount;
+            var publishedData = publishedDataReader.GetAndClearPublishedData();
+            Utilities.Utilities.AssertPublishedDataCountPerPins(expectedPublishedDataCount, publishedData, pinName);
+
+            if (!_tsmContext.IsSemiconductorModuleInOfflineMode)
+            {
+                Utilities.Utilities.AssertPublishedDataValue(expectedValue, publishedData, pinName);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    foreach (var voltage in results.GetValue(sitePinInfo))
+                    {
+                        Assert.Equal(expectedValue, voltage);
+                    }
+                });
             }
         }
     }
