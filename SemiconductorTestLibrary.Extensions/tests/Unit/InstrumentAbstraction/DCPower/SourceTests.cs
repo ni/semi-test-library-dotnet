@@ -5555,15 +5555,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinMap);
             var sessionsBundle = sessionManager.DCPower(TwoPinsGangedGroup);
-            var voltageLevelRange = 8.0;
+            var expectedVoltageLevelRange = 8.0;
             sessionsBundle.GangPinGroup(TwoPinsGangedGroup);
 
-            sessionsBundle.ConfigureVoltageLevelRange(voltageLevelRange);
+            sessionsBundle.ConfigureVoltageLevelRange(expectedVoltageLevelRange);
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var actualVoltageLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevelRange;
-                Assert.Equal(voltageLevelRange, actualVoltageLevelRange);
+                Assert.Equal(expectedVoltageLevelRange, actualVoltageLevelRange);
             });
         }
 
@@ -5651,6 +5651,28 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var expectedVoltageLevelRange = voltageLevelRanges.GetValue(sitePinInfo);
                 var actualVoltageLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevelRange;
+                Assert.Equal(expectedVoltageLevelRange, actualVoltageLevelRange);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLevelRangeWithSameValuesForIndividualGangedPins_CorrectVoltageLevelRangesSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            var voltageLevelRanges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC4"] = new Dictionary<int, double>() { [0] = 1.0, [1] = 8.0 },
+                ["VCC5"] = new Dictionary<int, double>() { [0] = 1.0, [1] = 8.0 }
+            });
+            sessionsBundle.GangPinGroup(TwoPinsGangedGroup);
+
+            sessionsBundle.ConfigureVoltageLevelRange(voltageLevelRanges);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualVoltageLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevelRange;
+                var expectedVoltageLevelRange = voltageLevelRanges.GetValue(sitePinInfo);
                 Assert.Equal(expectedVoltageLevelRange, actualVoltageLevelRange);
             });
         }
