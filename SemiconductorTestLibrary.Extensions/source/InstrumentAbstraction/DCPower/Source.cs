@@ -2316,7 +2316,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="connectOutput">The boolean value to either connect (true) or disconnect (false) the output terminal.</param>
-        /// <param name="updateMode">The <see cref="UpdateMode"/> object.</param>
+        /// <param name="updateMode">The <see cref="UpdateMode"/> value.</param>
         public static void ConfigureOutputConnected(this DCPowerSessionsBundle sessionsBundle, bool connectOutput, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do(sessionInfo =>
