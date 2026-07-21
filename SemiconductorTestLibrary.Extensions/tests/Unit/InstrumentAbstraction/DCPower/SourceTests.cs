@@ -3153,7 +3153,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(true, UpdateMode.Deferred)]
         [InlineData(true, UpdateMode.Commit)]
         [InlineData(true, UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureSourceDelayWithScalarValueAndUpdateMode_CorrectSourceDelaySet(bool pinMapWithChannelGroup, UpdateMode updateMode)
+        public void DifferentSMUDevices_ConfigureSourceDelayWithScalarValueAndUpdateMode_CorrectValuesAreSetAndMatchUpdateMode(bool pinMapWithChannelGroup, UpdateMode updateMode)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -3176,7 +3176,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(true, UpdateMode.Deferred)]
         [InlineData(true, UpdateMode.Commit)]
         [InlineData(true, UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureSourceDelayWithPerSiteValuesAndUpdateMode_CorrectSourceDelaysSet(bool pinMapWithChannelGroup, UpdateMode updateMode)
+        public void DifferentSMUDevices_ConfigureSourceDelayWithPerSiteValuesAndUpdateMode_CorrectValuesAreSetAndMatchUpdateMode(bool pinMapWithChannelGroup, UpdateMode updateMode)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -3200,7 +3200,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(true, UpdateMode.Deferred)]
         [InlineData(true, UpdateMode.Commit)]
         [InlineData(true, UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureSourceDelayWithPerPinPerSiteValuesAndUpdateMode_CorrectSourceDelaysSet(bool pinMapWithChannelGroup, UpdateMode updateMode)
+        public void DifferentSMUDevices_ConfigureSourceDelayWithPerPinPerSiteValuesAndUpdateMode_CorrectValuesAreSetAndMatchUpdateMode(bool pinMapWithChannelGroup, UpdateMode updateMode)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower(new string[] { "VCC", "VDD", "VDET" });
