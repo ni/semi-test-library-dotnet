@@ -2407,7 +2407,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
-        /// <inheritdoc cref="ConfigureSourceDelay(DCPowerSessionsBundle, double)"/>
+        /// <inheritdoc cref="ConfigureSourceDelay(DCPowerSessionsBundle, double, UpdateMode)"/>
         public static void ConfigureSourceDelay(this DCPowerSessionsBundle sessionsBundle, SiteData<double> sourceDelayInSeconds, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
