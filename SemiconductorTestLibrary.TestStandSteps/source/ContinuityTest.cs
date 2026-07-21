@@ -164,11 +164,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
             DutPowerDown(tsmContext, supplyPinsOrPinGroups.Concat(continuityPinsOrPinGroups).ToArray(), settlingTime, forceLowestCurrentLimit: false);
         }
 
-        private static PinSiteData<double> GetVoltageLimitRange(this DCPowerSessionsBundle dcPower)
-        {
-            return dcPower.DoAndReturnPerSitePerPinResults((sessionInfo, pinSiteInfo) => sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Source.Current.VoltageLimitRange);
-        }
-
         private static IDictionary<string, DCPowerSourceSettings> BuildDCPowerSourceSettings(IList<string[]> pins, IList<int> pinIndexes, double[] currentLimits)
         {
             var settings = new Dictionary<string, DCPowerSourceSettings>();
