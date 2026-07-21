@@ -3296,7 +3296,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        private static void ReleaseAdvancedSequenceResources(this DCPowerSessionsBundle sessionsBundle, string advancedSequenceName, UpdateMode updateMode = UpdateMode.Deferred)
+        private static void ReleaseAdvancedSequenceResources(this DCPowerSessionsBundle sessionsBundle, string advancedSequenceName)
         {
             // Clearing the active advanced sequence after use.
             sessionsBundle.ClearActiveAdvancedSequence();
@@ -3318,7 +3318,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        private static void ReleaseSynchronizedAdvancedSequenceResources(this DCPowerSessionsBundle sessionsBundle, string advancedSequenceName, UpdateMode updateMode = UpdateMode.Deferred)
+        private static void ReleaseSynchronizedAdvancedSequenceResources(this DCPowerSessionsBundle sessionsBundle, string advancedSequenceName)
         {
             // Clearing the active advanced sequence after use.
             sessionsBundle.ClearActiveAdvancedSequence();
