@@ -17,7 +17,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         {
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Session.Trigger.EdgeTrigger.Configure(triggerSettings.TriggerSource, triggerSettings.TriggerLevel, triggerSettings.TriggerSlope, triggerSettings.TriggerCoupling, triggerSettings.HoldOff, triggerSettings.Delay);
+                var channelName = sessionInfo.AssociatedSitePinList[0].IndividualChannelString;
+                sessionInfo.Session.Trigger.EdgeTrigger.Configure(channelName, triggerSettings.TriggerLevel, triggerSettings.TriggerSlope, triggerSettings.TriggerCoupling, triggerSettings.HoldOff, triggerSettings.Delay);
             });
         }
 
@@ -30,7 +31,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         {
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Session.Trigger.ConfigureTriggerHysteresis(triggerSettings.TriggerSource, triggerSettings.TriggerLevel, triggerSettings.TriggerHysteresis, triggerSettings.TriggerSlope, triggerSettings.TriggerCoupling, triggerSettings.HoldOff, triggerSettings.Delay);
+                var channelName = sessionInfo.AssociatedSitePinList[0].IndividualChannelString;
+                sessionInfo.Session.Trigger.ConfigureTriggerHysteresis(channelName, triggerSettings.TriggerLevel, triggerSettings.TriggerHysteresis, triggerSettings.TriggerSlope, triggerSettings.TriggerCoupling, triggerSettings.HoldOff, triggerSettings.Delay);
             });
         }
 
@@ -55,7 +57,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         {
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Session.Trigger.ConfigureTriggerDigital(triggerSettings.TriggerSource, triggerSettings.TriggerSlope, triggerSettings.HoldOff, triggerSettings.Delay);
+                var channelName = sessionInfo.AssociatedSitePinList[0].IndividualChannelString;
+                sessionInfo.Session.Trigger.ConfigureTriggerDigital(channelName, triggerSettings.TriggerSlope, triggerSettings.HoldOff, triggerSettings.Delay);
             });
         }
 
@@ -68,7 +71,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         {
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Session.Trigger.ConfigureTriggerWindow(triggerSettings.TriggerSource, triggerSettings.TriggerLevel, triggerSettings.TriggerHysteresis, triggerSettings.TriggerWindowMode, triggerSettings.TriggerCoupling, triggerSettings.HoldOff, triggerSettings.Delay);
+                var channelName = sessionInfo.AssociatedSitePinList[0].IndividualChannelString;
+                sessionInfo.Session.Trigger.ConfigureTriggerWindow(channelName, triggerSettings.TriggerLevel, triggerSettings.TriggerHysteresis, triggerSettings.TriggerWindowMode, triggerSettings.TriggerCoupling, triggerSettings.HoldOff, triggerSettings.Delay);
             });
         }
     }
