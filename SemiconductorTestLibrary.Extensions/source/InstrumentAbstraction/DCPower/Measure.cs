@@ -168,6 +168,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
+        /// Gets the aperture time units for all targeted pins.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin aperture time units.</returns>
+        public static PinSiteData<DCPowerMeasureApertureTimeUnits> GetApertureTimeUnits(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Measurement.ApertureTimeUnits);
+        }
+
+        /// <summary>
         /// Gets the power line frequency.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>

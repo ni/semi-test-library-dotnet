@@ -637,6 +637,109 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.DoesNotContain("AllPinsGangedGroup", apertureTimes.PinNames);
         }
 
+        [Fact]
+        public void SMUDevicesMerged_GetApertureTimeUnits_ReturnsPrimaryPinValue()
+        {
+            var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
+            var primaryPin = "VCCPrimary";
+            var allPinsMergedGroup = "AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin";
+            var sessionsBundle = sessionManager.DCPower(allPinsMergedGroup);
+            sessionsBundle.MergePinGroup(allPinsMergedGroup);
+            sessionsBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings() { ApertureTimeUnits = DCPowerMeasureApertureTimeUnits.Seconds });
+
+            var apertureTimeUnits = sessionsBundle.GetApertureTimeUnits();
+
+            Assert.Single(apertureTimeUnits.PinNames);
+            Assert.Equal(primaryPin, apertureTimeUnits.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(allPinsMergedGroup, apertureTimeUnits.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(DCPowerMeasureApertureTimeUnits.Seconds, apertureTimeUnits.GetValue(sitePinInfo));
+            });
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGangedConfigureApertureTimeUnits_GetApertureTimeUnits_ReturnsCorrectValue(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var expectedUnits = DCPowerMeasureApertureTimeUnits.Seconds;
+            var sessionsBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            sessionsBundle.GangPinGroup(TwoPinsGangedGroup);
+            sessionsBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings() { ApertureTimeUnits = expectedUnits });
+
+            var apertureTimeUnits = sessionsBundle.GetApertureTimeUnits();
+
+            Assert.Equal(2, apertureTimeUnits.PinNames.Length);
+            Assert.DoesNotContain(TwoPinsGangedGroup, apertureTimeUnits.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedUnits, apertureTimeUnits.GetValue(sitePinInfo));
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevicesConfigureApertureTimeUnits_GetApertureTimeUnits_ReturnsCorrectValue(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var expectedUnits = DCPowerMeasureApertureTimeUnits.PowerLineCycles;
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            sessionsBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings() { ApertureTimeUnits = expectedUnits });
+
+            var apertureTimeUnits = sessionsBundle.GetApertureTimeUnits();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedUnits, apertureTimeUnits.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesConfigurePerPinPerSiteApertureTimeUnits_GetApertureTimeUnits_ReturnsCorrectValue()
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var pinNames = new string[] { "VCC1", "VCC2" };
+            var sessionsBundle = sessionManager.DCPower(pinNames);
+            var activeSites = GetActiveSites(sessionsBundle);
+            var expectedUnits = new PinSiteData<DCPowerMeasureApertureTimeUnits>(activeSites, new Dictionary<string, DCPowerMeasureApertureTimeUnits>()
+            {
+                [pinNames[0]] = DCPowerMeasureApertureTimeUnits.PowerLineCycles,
+                [pinNames[1]] = DCPowerMeasureApertureTimeUnits.PowerLineCycles
+            });
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Measurement.ApertureTimeUnits = expectedUnits.GetValue(sitePinInfo);
+            });
+
+            var values = sessionsBundle.GetApertureTimeUnits();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedUnits.GetValue(sitePinInfo), values.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void SharedPinsConfigureApertureTimeUnitsOnFilteredSites_GetApertureTimeUnits_ReturnsSameValueForAllSites()
+        {
+            var sessionManager = Initialize("SharedPinTests.pinmap");
+            var expectedUnits = DCPowerMeasureApertureTimeUnits.PowerLineCycles;
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var filteredBundle = sessionsBundle.FilterBySite(new[] { 0, 1 });
+            filteredBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings() { ApertureTimeUnits = expectedUnits });
+
+            var apertureTimeUnits = filteredBundle.GetApertureTimeUnits();
+
+            filteredBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedUnits, apertureTimeUnits.GetValue(sitePinInfo));
+            });
+        }
+
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
