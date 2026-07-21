@@ -645,7 +645,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var allPinsMergedGroup = "AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin";
             var sessionsBundle = sessionManager.DCPower(allPinsMergedGroup);
             sessionsBundle.MergePinGroup(allPinsMergedGroup);
-            sessionsBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings() { ApertureTimeUnits = DCPowerMeasureApertureTimeUnits.Seconds });
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.Session.ConfigureApertureTimeUnits(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, DCPowerMeasureApertureTimeUnits.Seconds);
+            });
 
             var apertureTimeUnits = sessionsBundle.GetApertureTimeUnits();
 
@@ -668,7 +671,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var expectedUnits = DCPowerMeasureApertureTimeUnits.Seconds;
             var sessionsBundle = sessionManager.DCPower(TwoPinsGangedGroup);
             sessionsBundle.GangPinGroup(TwoPinsGangedGroup);
-            sessionsBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings() { ApertureTimeUnits = expectedUnits });
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.Session.ConfigureApertureTimeUnits(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, expectedUnits);
+            });
 
             var apertureTimeUnits = sessionsBundle.GetApertureTimeUnits();
 
@@ -688,7 +694,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinMap);
             var expectedUnits = DCPowerMeasureApertureTimeUnits.PowerLineCycles;
             var sessionsBundle = sessionManager.DCPower("VCC2");
-            sessionsBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings() { ApertureTimeUnits = expectedUnits });
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.Session.ConfigureApertureTimeUnits(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, expectedUnits);
+            });
 
             var apertureTimeUnits = sessionsBundle.GetApertureTimeUnits();
 
@@ -712,7 +721,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Measurement.ApertureTimeUnits = expectedUnits.GetValue(sitePinInfo);
+                sessionInfo.Session.ConfigureApertureTimeUnits(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, expectedUnits.GetValue(sitePinInfo));
             });
 
             var values = sessionsBundle.GetApertureTimeUnits();
@@ -730,7 +739,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var expectedUnits = DCPowerMeasureApertureTimeUnits.PowerLineCycles;
             var sessionsBundle = sessionManager.DCPower("VCC2");
             var filteredBundle = sessionsBundle.FilterBySite(new[] { 0, 1 });
-            filteredBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings() { ApertureTimeUnits = expectedUnits });
+            filteredBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.Session.ConfigureApertureTimeUnits(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, expectedUnits);
+            });
 
             var apertureTimeUnits = filteredBundle.GetApertureTimeUnits();
 
