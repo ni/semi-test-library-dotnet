@@ -34,7 +34,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         /// internally, so no separate <see cref="TmuExtensions.EnableTMU"/> call is required.
         /// </para>
         /// <para>
-        /// Ensure that the pin map includes both "CLK_REF" and "CLK_OUT" and that the hardware
+        /// Ensure that the pin map includes both "C0" and "C1" and that the hardware
         /// is properly configured before calling this method.
         /// </para>
         /// </remarks>
@@ -46,13 +46,13 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             double timeoutInSeconds = 5.0;          // Maximum time to wait for measurement completion.
 
             // Reference and target pin names. The number of reference pins must equal the number of target pins.
-            string[] referencePinNames = new[] { "CLK_REF" };
-            string[] targetPinNames = new[] { "CLK_OUT" };
+            string[] referencePinNames = new[] { "C0" };
+            string[] targetPinNames = new[] { "C1" };
 
             // Step 1: Query TSM session manager to get the digital sessions bundle.
             // The bundle must contain both reference and target pins.
             var sessionManager = new TSMSessionManager(tsmContext);
-            var digitalPins = sessionManager.Digital(new[] { "CLK_REF", "CLK_OUT" });
+            var digitalPins = sessionManager.Digital(new[] { "C0", "C1" });
 
             // Step 2: (Mandatory) Assign TMU resources to the reference pin(s) only.
             // The TMU resource is managed from the reference pin for skew measurements.
