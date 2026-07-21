@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using NationalInstruments.SemiconductorTestLibrary.Common;
-using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope;
-using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
-using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
-using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
+
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
 
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.Scope
@@ -40,7 +34,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void ReadWaveform_DifferentSessionTypes_ReturnsRequestedNumberOfSamples(bool pinMapWithChannelGroup)
+        public void DifferentSessionTypes_ReadWaveform_ReturnsRequestedNumberOfSamples(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var pins = new string[] { "Vosc1", "Vosc2" };
@@ -57,6 +51,49 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             foreach (var siteNumber in waveformData.SiteNumbers)
             {
                 var waveform = waveformData.GetValue(siteNumber, "Vosc1");
+                Assert.NotNull(waveform);
+                Assert.Equal(numberOfSamples, waveform.Samples.Count);
+            }
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSessionTypes_ReadWaveformOnSameDevice_ThrowsException(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var pins = new string[] { "Vosc1", "Vosc2" };
+            var sessionsBundle1 = sessionManager.Scope("Vosc1");
+            var sessionsBundle2 = sessionManager.Scope("Vosc2");
+            TimingSettings timingSettings1 = new TimingSettings();
+            timingSettings1.SampleRateMin = 1e6;
+            timingSettings1.RecordLengthMin = 10;
+            TimingSettings timingSettings2 = new TimingSettings();
+
+            const long numberOfSamples = 64;
+
+            sessionsBundle1.ConfigureTiming(timingSettings1);
+            sessionsBundle2.ConfigureTiming(timingSettings2);
+            sessionsBundle1.ConfigureTriggerImmediate();
+            sessionsBundle2.ConfigureTriggerImmediate();
+            var waveformData1 = sessionsBundle1.ReadWaveform(PrecisionTimeSpan.FromSeconds(5), numberOfSamples);
+            var waveformData2 = sessionsBundle2.ReadWaveform(PrecisionTimeSpan.FromSeconds(5), numberOfSamples);
+
+            Assert.NotNull(waveformData1);
+            Assert.Contains("Vosc1", waveformData1.PinNames);
+            Assert.NotEmpty(waveformData1.SiteNumbers);
+            Assert.NotNull(waveformData2);
+            Assert.Contains("Vosc2", waveformData2.PinNames);
+            Assert.NotEmpty(waveformData2.SiteNumbers);
+            foreach (var siteNumber in waveformData1.SiteNumbers)
+            {
+                var waveform = waveformData1.GetValue(siteNumber, "Vosc1");
+                Assert.NotNull(waveform);
+                Assert.Equal(numberOfSamples, waveform.Samples.Count);
+            }
+            foreach (var siteNumber in waveformData2.SiteNumbers)
+            {
+                var waveform = waveformData2.GetValue(siteNumber, "Vosc2");
                 Assert.NotNull(waveform);
                 Assert.Equal(numberOfSamples, waveform.Samples.Count);
             }
