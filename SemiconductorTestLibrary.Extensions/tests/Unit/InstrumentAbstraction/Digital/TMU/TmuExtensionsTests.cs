@@ -468,8 +468,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager();
             var bundle1 = sessionManager.Digital(new string[] { "C0" });
-            var bundle2 = sessionManager.Digital(new string[] { "C1" });
+            var bundle2 = sessionManager.Digital(new string[] { "C0" });
             bundle1.AssignTMUResources();
+
             bundle2.AssignTMUResources();
 
             // Releasing the first bundle should not affect the second bundle's assignment.

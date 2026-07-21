@@ -826,14 +826,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             foreach (SitePinInfo sitePinInfo in sitePinInfos)
             {
                 var digitalSitePinInfo = sitePinInfo as DigitalSitePinInfo;
-
+                var assignedTmuContext = digitalSitePinInfo?.AssignedTmuContext;
                 // Assign TMU only if it is not already assigned.
                 // It may already be assigned if:
                 // - AssignTMUResources() is invoked twice on the same bundle object.
                 // - AssignTMUResources() is invoked after having already invoked AssignTMUResources(pinNames) on the same the bundle object for a subset of pins.
                 // - AssignTMUResources(pinNames1) is invoked after having already invoked AssignTMUResources(pinNames2) on the same the bundle object,
                 // where pinNames1 and pinNames2 contain overlapping pins.
-                if (string.IsNullOrEmpty(digitalSitePinInfo.AssignedTmuContext))
+                if (string.IsNullOrEmpty(assignedTmuContext))
                 {
                     string deviceName = digitalSitePinInfo.InstrumentName;
                     if (!TryGetTMU(tmusPerInstrument, deviceName, out string tmuName))
@@ -861,16 +861,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             foreach (SitePinInfo sitePinInfo in sitePinInfos)
             {
                 var digitalSitePinInfo = sitePinInfo as DigitalSitePinInfo;
-
+                var assignedTmuContext = digitalSitePinInfo?.AssignedTmuContext;
                 // Clear only if TMU resource is assigned for a site/pin pair.
                 // This can happen when:
                 // - 'ClearTMUAssignment' is invoked twice on the same bundle object.
                 // - 'ClearTMUAssignment' is invoked before invoking 'AssignTMUResources'.
                 // - 'ClearTMUAssignment(pinNames)' is invoked, targeting only a subset of pins within the bundle object, and then the 'ClearTMUAssignment()' is invoked on whole bundle object.
-                if (!string.IsNullOrEmpty(digitalSitePinInfo.AssignedTmuContext))
+                if (!string.IsNullOrEmpty(assignedTmuContext))
                 {
                     string deviceName = digitalSitePinInfo.InstrumentName;
-                    string tmuName = digitalSitePinInfo.AssignedTmuContext;
+                    string tmuName = assignedTmuContext;
                     digitalSitePinInfo.AssignedTmuContext = string.Empty;
                     TMUContextManager.Instance.UnAssignTMU(deviceName, tmuName);
                 }
