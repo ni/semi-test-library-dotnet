@@ -755,6 +755,27 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
+        public void ConfigureApertureTimeUnitsIsNoOp_GetApertureTimeUnits_ReturnsSeconds(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var pinName = "VCC";
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.Session.ConfigureApertureTimeUnits(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, DCPowerMeasureApertureTimeUnits.PowerLineCycles);
+            });
+
+            var apertureTimeUnits = sessionsBundle.GetApertureTimeUnits();
+
+            Assert.Equal(DCPowerMeasureApertureTimeUnits.Seconds, apertureTimeUnits.ExtractSite(0)[pinName]);
+            Assert.Equal(DCPowerMeasureApertureTimeUnits.Seconds, apertureTimeUnits.ExtractSite(1)[pinName]);
+            Assert.Equal(DCPowerMeasureApertureTimeUnits.Seconds, apertureTimeUnits.ExtractSite(2)[pinName]);
+            Assert.Equal(DCPowerMeasureApertureTimeUnits.PowerLineCycles, apertureTimeUnits.ExtractSite(3)[pinName]);
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
         public void DifferentSMUDevices_ConfigureSameMeasureSettings_CorrectValuesAreSet(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
