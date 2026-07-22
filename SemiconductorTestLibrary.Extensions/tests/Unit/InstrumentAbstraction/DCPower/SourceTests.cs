@@ -3990,10 +3990,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Theory]
         [InlineData(false, UpdateMode.Commit)]
+        [InlineData(false, UpdateMode.Deferred)]
         [InlineData(false, UpdateMode.Immediate)]
         [InlineData(true, UpdateMode.Commit)]
+        [InlineData(true, UpdateMode.Deferred)]
         [InlineData(true, UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureOutputEnabledWithPerSiteValuesAndUpdateMode_CorrectOutputEnabledSet(bool pinMapWithChannelGroup, UpdateMode updateMode)
+        public void DifferentSMUDevices_ConfigureOutputEnabledWithPerSiteValuesAndUpdateMode_CorrectOutputEnabledSetAndMatchUpdateMode(bool pinMapWithChannelGroup, UpdateMode updateMode)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -4012,10 +4014,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Theory]
         [InlineData(false, UpdateMode.Commit)]
+        [InlineData(false, UpdateMode.Deferred)]
         [InlineData(false, UpdateMode.Immediate)]
         [InlineData(true, UpdateMode.Commit)]
+        [InlineData(true, UpdateMode.Deferred)]
         [InlineData(true, UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureOutputEnabledWithPerPinPerSiteValuesAndUpdateMode_CorrectOutputEnabledSet(bool pinMapWithChannelGroup, UpdateMode updateMode)
+        public void DifferentSMUDevices_ConfigureOutputEnabledWithPerPinPerSiteValuesAndUpdateMode_CorrectOutputEnabledSetAndMatchUpdateMode(bool pinMapWithChannelGroup, UpdateMode updateMode)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
