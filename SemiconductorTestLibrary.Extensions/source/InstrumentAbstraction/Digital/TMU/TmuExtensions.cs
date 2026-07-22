@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU;
+using NiDigital = NationalInstruments.ModularInstruments.NIDigital;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
 {
@@ -19,7 +19,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Initiates the TMU measurement for the assigned TMU resource of each pin within the <see cref="DigitalSessionsBundle"/>.
         /// </summary>
         /// <remarks>
-        /// Before initiating, the <see cref="SelectedFunction"/> is set to <see cref="SelectedFunction.Digital"/> and the <see cref="TerminationMode"/> is set to <see cref="TerminationMode.HighZ"/> for the associated pin(s).<br/>
+        /// Before initiating, the <see cref="NiDigital.SelectedFunction"/> is set to <see cref="NiDigital.SelectedFunction.Digital"/> and the <see cref="NiDigital.TerminationMode"/> is set to <see cref="NiDigital.TerminationMode.HighZ"/> for the associated pin(s).<br/>
         /// This function validates TMU configuration, clears the measurement buffers for the specified TMU(s), and prepares the hardware for making the a TMU measurement.<br/>
         /// All TMU configuration attributes must be set before calling this function.<br/>
         /// The driver validates and commits TMU configuration parameters when this function is called, not when Commit() is called.<br/>
@@ -1103,8 +1103,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         {
             // Fix for timeout issue when fetching TMU measurement.
             // Set the pin function to Digital and Termination mode to HighZ.
-            digitalSessionInformation.PinSet.SelectedFunction = SelectedFunction.Digital;
-            digitalSessionInformation.PinSet.DigitalLevels.TerminationMode = TerminationMode.HighZ;
+            digitalSessionInformation.PinSet.SelectedFunction = NiDigital.SelectedFunction.Digital;
+            digitalSessionInformation.PinSet.DigitalLevels.TerminationMode = NiDigital.TerminationMode.HighZ;
         }
 
         private static bool DoForThisPin(string[] pinNames, string currentPin)
@@ -1120,7 +1120,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             return GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
         }
 
-        private static DigitalTmuCollections GetDigitalTmus(NIDigital session)
+        private static DigitalTmuCollections GetDigitalTmus(NiDigital.NIDigital session)
         {
             return new DigitalTmuCollections(session);
         }
