@@ -6,7 +6,7 @@ using System.Text;
 using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
-using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU;
+using StlTmu = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
 {
@@ -36,7 +36,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
                     SetDigitalHighZState(sessionInfo);
-                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                    StlTmu.DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
                     tmu.Initiate();
                 }
             });
@@ -59,7 +59,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
-                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                    StlTmu.DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
                     tmu.Enabled = true;
                 }
             });
@@ -83,7 +83,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
-                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                    StlTmu.DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
                     tmu.Enabled = false;
                 }
             });
@@ -106,7 +106,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
-                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                    StlTmu.DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
                     tmu.Abort();
                 }
             });
@@ -210,7 +210,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// The TMU's arm input is used to frame, or select, the start and stop events of interest for each TMU sample.
         /// </param>
         /// <param name="pinNames">The specific pins to configure the TMU for. When <c>null</c>, all pins are targeted.</param>
-        public static void ConfigurePeriodMeasurement(this DigitalSessionsBundle sessionsBundle, TmuPolarity edgeType, long samplesToAcquire, TmuArmType armType = TmuArmType.Immediate, string[] pinNames = null)
+        public static void ConfigurePeriodMeasurement(this DigitalSessionsBundle sessionsBundle, StlTmu.TmuPolarity edgeType, long samplesToAcquire, StlTmu.TmuArmType armType = StlTmu.TmuArmType.Immediate, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -242,27 +242,27 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
         /// - <see cref="TmuAttributes.TmuStopSource"/> = Target channel<br/>
         /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
+        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="StlTmu.TmuPolarity.RisingEdge"/><br/>
         /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
         /// - <see cref="TmuAttributes.TmuArmType"/> = value of <paramref name="armType"/> parameter.
         /// </para>
         /// <para>
-        /// For falling edge skew (<see cref="TmuPolarity.FallingEdge"/>):<br/>
+        /// For falling edge skew (<see cref="StlTmu.TmuPolarity.FallingEdge"/>):<br/>
         /// - <see cref="TmuAttributes.TmuStartSource"/> = Reference channel<br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
+        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="StlTmu.TmuSourceEvent.Vol"/><br/>
+        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="StlTmu.TmuPolarity.FallingEdge"/><br/>
         /// - <see cref="TmuAttributes.TmuStopSource"/> = Target channel<br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
+        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="StlTmu.TmuSourceEvent.Vol"/><br/>
+        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="StlTmu.TmuPolarity.FallingEdge"/><br/>
         /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
         /// - <see cref="TmuAttributes.TmuArmType"/> = value of <paramref name="armType"/> parameter.
         /// </para>
-        /// If the <paramref name="edgeType"/> parameter is set to <see cref="TmuPolarity.EitherEdge"/>, an exception will be thrown.
+        /// If the <paramref name="edgeType"/> parameter is set to <see cref="StlTmu.TmuPolarity.EitherEdge"/>, an exception will be thrown.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="referencePinNames">The pins to use as the reference (start) source for the skew measurement.</param>
         /// <param name="targetPinNames">The pins to use as the target (stop) source for the skew measurement.</param>
-        /// <param name="edgeType">The type of edge to detect. Only accepts <see cref="TmuPolarity.RisingEdge"/> or <see cref="TmuPolarity.FallingEdge"/>.</param>
+        /// <param name="edgeType">The type of edge to detect. Only accepts <see cref="StlTmu.TmuPolarity.RisingEdge"/> or <see cref="StlTmu.TmuPolarity.FallingEdge"/>.</param>
         /// <param name="samplesToAcquire">The number of samples to acquire for the TMU measurement.</param>
         /// <param name="armType">
         /// The type of signal used to arm the TMU measurement.<br/>
@@ -272,9 +272,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             this DigitalSessionsBundle sessionsBundle,
             string[] referencePinNames,
             string[] targetPinNames,
-            TmuPolarity edgeType,
+            StlTmu.TmuPolarity edgeType,
             long samplesToAcquire,
-            TmuArmType armType = TmuArmType.Immediate)
+            StlTmu.TmuArmType armType = StlTmu.TmuArmType.Immediate)
         {
             ValidateSkewParameters(referencePinNames, targetPinNames, armType, sessionsBundle.Pins);
 
@@ -340,7 +340,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// The TMU's arm input is used to frame, or select, the start and stop events of interest for each TMU sample.
         /// </param>
         /// <param name="pinNames">The specific pins to configure the TMU for. When <c>null</c>, all pins are targeted.</param>
-        public static void ConfigureTMURiseTimeMeasurement(this DigitalSessionsBundle sessionsBundle, long samplesToAcquire, TmuArmType armType = TmuArmType.Immediate, string[] pinNames = null)
+        public static void ConfigureTMURiseTimeMeasurement(this DigitalSessionsBundle sessionsBundle, long samplesToAcquire, StlTmu.TmuArmType armType = StlTmu.TmuArmType.Immediate, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -383,7 +383,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// The TMU's arm input is used to frame, or select, the start and stop events of interest for each TMU sample.
         /// </param>
         /// <param name="pinNames">The specific pins to configure the TMU for. When <c>null</c>, all pins are targeted.</param>
-        public static void ConfigureTMUFallTimeMeasurement(this DigitalSessionsBundle sessionsBundle, long samplesToAcquire, TmuArmType armType = TmuArmType.Immediate, string[] pinNames = null)
+        public static void ConfigureTMUFallTimeMeasurement(this DigitalSessionsBundle sessionsBundle, long samplesToAcquire, StlTmu.TmuArmType armType = StlTmu.TmuArmType.Immediate, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -440,7 +440,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// The TMU's arm input is used to frame, or select, the start and stop events of interest for each TMU sample.
         /// </param>
         /// <param name="pinNames">The specific pins to configure the TMU for. When <c>null</c>, all pins are targeted.</param>
-        public static void ConfigureTMUDutyCycleMeasurement(this DigitalSessionsBundle sessionsBundle, TmuDutyCycle dutyCycleType, long samplesToAcquire, TmuArmType armType = TmuArmType.Immediate, string[] pinNames = null)
+        public static void ConfigureTMUDutyCycleMeasurement(this DigitalSessionsBundle sessionsBundle, StlTmu.TmuDutyCycle dutyCycleType, long samplesToAcquire, StlTmu.TmuArmType armType = StlTmu.TmuArmType.Immediate, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -460,22 +460,22 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// This method sets the following attributes for the assigned TMU resource based on the <paramref name="pulseWidthType"/> parameter:
         /// </para>
         /// <para>
-        /// For pulse width high (<see cref="TmuPulseWidth.High"/>):<br/>
+        /// For pulse width high (<see cref="StlTmu.TmuPulseWidth.High"/>):<br/>
         /// - <see cref="TmuAttributes.TmuStartSource"/> = the associated pin<br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
+        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="StlTmu.TmuSourceEvent.Voh"/><br/>
         /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
         /// - <see cref="TmuAttributes.TmuStopSource"/> = same pin as start source<br/>
         /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
         /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
         /// </para>
         /// <para>
-        /// For pulse width low (<see cref="TmuPulseWidth.Low"/>):<br/>
+        /// For pulse width low (<see cref="StlTmu.TmuPulseWidth.Low"/>):<br/>
         /// - <see cref="TmuAttributes.TmuStartSource"/> = the associated pin<br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
+        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="StlTmu.TmuSourceEvent.Vol"/><br/>
+        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="StlTmu.TmuPolarity.FallingEdge"/><br/>
         /// - <see cref="TmuAttributes.TmuStopSource"/> = same pin as start source<br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
+        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="StlTmu.TmuSourceEvent.Vol"/><br/>
+        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="StlTmu.TmuPolarity.RisingEdge"/><br/>
         /// </para>
         /// <para>
         /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
@@ -488,14 +488,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </para>
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <param name="pulseWidthType">The pulse width measurement type. Accepts <see cref="TmuPulseWidth.High"/> or <see cref="TmuPulseWidth.Low"/>.</param>
+        /// <param name="pulseWidthType">The pulse width measurement type. Accepts <see cref="StlTmu.TmuPulseWidth.High"/> or <see cref="StlTmu.TmuPulseWidth.Low"/>.</param>
         /// <param name="samplesToAcquire">The number of samples to acquire for the TMU measurement.</param>
         /// <param name="armType">
         /// The type of signal used to arm the TMU measurement.<br/>
         /// The TMU's arm input is used to frame, or select, the start and stop events of interest for each TMU sample.
         /// </param>
         /// <param name="pinNames">The specific pins to configure the TMU for. When <c>null</c>, all pins are targeted.</param>
-        public static void ConfigureTMUPulseWidthMeasurement(this DigitalSessionsBundle sessionsBundle, TmuPulseWidth pulseWidthType, long samplesToAcquire, TmuArmType armType = TmuArmType.Immediate, string[] pinNames = null)
+        public static void ConfigureTMUPulseWidthMeasurement(this DigitalSessionsBundle sessionsBundle, StlTmu.TmuPulseWidth pulseWidthType, long samplesToAcquire, StlTmu.TmuArmType armType = StlTmu.TmuArmType.Immediate, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -527,7 +527,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
-                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                    StlTmu.DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
                     return tmu.FetchAveragedMeasurement(timeoutInSeconds);
                 }
                 return double.NaN;
@@ -548,7 +548,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
-                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                    StlTmu.DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
                     tmu.Start.Source = sitePinInfo.IndividualChannelString;
                 }
             });
@@ -890,16 +890,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                     return false;
                 }
             }
-            return true; // It is safe to release only when all the assigned TMUs are free, resources not reserved at driver level.
+            return true; // It i    s safe to release only when all the assigned TMUs are free, resources not reserved at driver level.
         }
 
-        private static void ConfigurePeriodMeasurementForSitePin(DigitalSessionInformation sessionInfo, SitePinInfo sitePinInfo, TmuPolarity edgeType, long samplesToAcquire, TmuArmType armSourcetype)
+        private static void ConfigurePeriodMeasurementForSitePin(DigitalSessionInformation sessionInfo, SitePinInfo sitePinInfo, StlTmu.TmuPolarity edgeType, long samplesToAcquire, StlTmu.TmuArmType armSourcetype)
         {
-            TmuSourceEvent sourceEvent = GetSourceEventForEdge(edgeType);
+            StlTmu.TmuSourceEvent sourceEvent = GetSourceEventForEdge(edgeType);
 
             // Configure the TMU Start Source, TMU Start Source Event, TMU Start Source Event Polarity,
-            // TMU Stop Source, TMU Stop Source Event, TMU Stop Source Event Polarity, number of samples to acquire, and arm source.
-            DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+            // TMU Stop Source, TMU Stop Source Event, TMU Stop Source Event Polarity, number of samples to acquire, and arm sourc  e.
+            StlTmu.DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
             tmu.Start.Source = sitePinInfo.IndividualChannelString;
             tmu.Start.SourceEvent = sourceEvent;
             tmu.Start.SourceEventPolarity = edgeType;
@@ -917,12 +917,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             DigitalSessionInformation sessionInfo,
             SitePinInfo referenceSitePinInfo,
             SitePinInfo targetSitePinInfo,
-            TmuPolarity edgeType,
+            StlTmu.TmuPolarity edgeType,
             long samplesToAcquire,
-            TmuArmType armType)
+            StlTmu.TmuArmType armType)
         {
-            TmuSourceEvent sourceEvent = GetSourceEventForEdge(edgeType);
-            DigitalTmu tmu = GetAssignedTmu(sessionInfo, referenceSitePinInfo);
+            StlTmu.TmuSourceEvent sourceEvent = GetSourceEventForEdge(edgeType);
+            StlTmu.DigitalTmu tmu = GetAssignedTmu(sessionInfo, referenceSitePinInfo);
             // Configure TMU Start Source (Reference Channel)
             tmu.Start.Source = referenceSitePinInfo.IndividualChannelString;
             tmu.Start.SourceEvent = sourceEvent;
@@ -941,72 +941,72 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             tmu.Enabled = true;
         }
 
-        private static TmuSourceEvent GetSourceEventForEdge(TmuPolarity edgeType)
+        private static StlTmu.TmuSourceEvent GetSourceEventForEdge(StlTmu.TmuPolarity edgeType)
         {
             switch (edgeType)
             {
-                case TmuPolarity.RisingEdge:
-                    return TmuSourceEvent.Voh;
-                case TmuPolarity.FallingEdge:
-                    return TmuSourceEvent.Vol;
+                case StlTmu.TmuPolarity.RisingEdge:
+                    return StlTmu.TmuSourceEvent.Voh;
+                case StlTmu.TmuPolarity.FallingEdge:
+                    return StlTmu.TmuSourceEvent.Vol;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(edgeType), edgeType, string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedPolarity));
             }
         }
 
-        private static void ConfigureRiseTimeMeasurementForSitePin(DigitalSessionInformation sessionInfo, SitePinInfo sitePinInfo, long samplesToAcquire, TmuArmType armType)
+        private static void ConfigureRiseTimeMeasurementForSitePin(DigitalSessionInformation sessionInfo, SitePinInfo sitePinInfo, long samplesToAcquire, StlTmu.TmuArmType armType)
         {
             string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-            DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+            StlTmu.DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
             tmu.Start.Source = sitePinInfo.IndividualChannelString;
-            tmu.Start.SourceEvent = TmuSourceEvent.Vol;
-            tmu.Start.SourceEventPolarity = TmuPolarity.RisingEdge;
+            tmu.Start.SourceEvent = StlTmu.TmuSourceEvent.Vol;
+            tmu.Start.SourceEventPolarity = StlTmu.TmuPolarity.RisingEdge;
             tmu.Stop.Source = sitePinInfo.IndividualChannelString;
-            tmu.Stop.SourceEvent = TmuSourceEvent.Voh;
-            tmu.Stop.SourceEventPolarity = TmuPolarity.RisingEdge;
+            tmu.Stop.SourceEvent = StlTmu.TmuSourceEvent.Voh;
+            tmu.Stop.SourceEventPolarity = StlTmu.TmuPolarity.RisingEdge;
             tmu.SamplesToAcquire = samplesToAcquire;
             tmu.ArmType = armType;
             // Enable the TMU (reserve it)
             tmu.Enabled = true;
         }
 
-        private static void ConfigureFallTimeMeasurementForSitePin(DigitalSessionInformation sessionInfo, SitePinInfo sitePinInfo, long samplesToAcquire, TmuArmType armType)
+        private static void ConfigureFallTimeMeasurementForSitePin(DigitalSessionInformation sessionInfo, SitePinInfo sitePinInfo, long samplesToAcquire, StlTmu.TmuArmType armType)
         {
             string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-            DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+            StlTmu.DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
             tmu.Start.Source = sitePinInfo.IndividualChannelString;
-            tmu.Start.SourceEvent = TmuSourceEvent.Voh;
-            tmu.Start.SourceEventPolarity = TmuPolarity.FallingEdge;
+            tmu.Start.SourceEvent = StlTmu.TmuSourceEvent.Voh;
+            tmu.Start.SourceEventPolarity = StlTmu.TmuPolarity.FallingEdge;
             tmu.Stop.Source = sitePinInfo.IndividualChannelString;
-            tmu.Stop.SourceEvent = TmuSourceEvent.Vol;
-            tmu.Stop.SourceEventPolarity = TmuPolarity.FallingEdge;
+            tmu.Stop.SourceEvent = StlTmu.TmuSourceEvent.Vol;
+            tmu.Stop.SourceEventPolarity = StlTmu.TmuPolarity.FallingEdge;
             tmu.SamplesToAcquire = samplesToAcquire;
             tmu.ArmType = armType;
             // Enable the TMU (reserve it)
             tmu.Enabled = true;
         }
 
-        private static void ConfigureDutyCycleMeasurementForSitePin(DigitalSessionInformation sessionInfo, SitePinInfo sitePinInfo, TmuDutyCycle dutyCycleType, long samplesToAcquire, TmuArmType armType)
+        private static void ConfigureDutyCycleMeasurementForSitePin(DigitalSessionInformation sessionInfo, SitePinInfo sitePinInfo, TmuDutyCycle dutyCycleType, long samplesToAcquire, StlTmu.TmuArmType armType)
         {
             string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-            DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+            StlTmu.DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
             switch (dutyCycleType)
             {
                 case TmuDutyCycle.High:
                     tmu.Start.Source = sitePinInfo.IndividualChannelString;
-                    tmu.Start.SourceEvent = TmuSourceEvent.Voh;
-                    tmu.Start.SourceEventPolarity = TmuPolarity.RisingEdge;
+                    tmu.Start.SourceEvent = StlTmu.TmuSourceEvent.Voh;
+                    tmu.Start.SourceEventPolarity = StlTmu.TmuPolarity.RisingEdge;
                     tmu.Stop.Source = sitePinInfo.IndividualChannelString;
-                    tmu.Stop.SourceEvent = TmuSourceEvent.Voh;
-                    tmu.Stop.SourceEventPolarity = TmuPolarity.FallingEdge;
+                    tmu.Stop.SourceEvent = StlTmu.TmuSourceEvent.Voh;
+                    tmu.Stop.SourceEventPolarity = StlTmu.TmuPolarity.FallingEdge;
                     break;
                 case TmuDutyCycle.Low:
                     tmu.Start.Source = sitePinInfo.IndividualChannelString;
-                    tmu.Start.SourceEvent = TmuSourceEvent.Vol;
-                    tmu.Start.SourceEventPolarity = TmuPolarity.FallingEdge;
+                    tmu.Start.SourceEvent = StlTmu.TmuSourceEvent.Vol;
+                    tmu.Start.SourceEventPolarity = StlTmu.TmuPolarity.FallingEdge;
                     tmu.Stop.Source = sitePinInfo.IndividualChannelString;
-                    tmu.Stop.SourceEvent = TmuSourceEvent.Vol;
-                    tmu.Stop.SourceEventPolarity = TmuPolarity.RisingEdge;
+                    tmu.Stop.SourceEvent = StlTmu.TmuSourceEvent.Vol;
+                    tmu.Stop.SourceEventPolarity = StlTmu.TmuPolarity.RisingEdge;
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(dutyCycleType), dutyCycleType, string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedPolarity));
@@ -1017,7 +1017,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             tmu.Enabled = true;
         }
 
-        private static void ConfigurePulseWidthMeasurementForSitePin(DigitalSessionInformation sessionInfo, SitePinInfo sitePinInfo, TmuPulseWidth pulseWidthType, long samplesToAcquire, TmuArmType armType)
+        private static void ConfigurePulseWidthMeasurementForSitePin(DigitalSessionInformation sessionInfo, SitePinInfo sitePinInfo, TmuPulseWidth pulseWidthType, long samplesToAcquire, StlTmu.TmuArmType armType)
         {
             string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
             DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
