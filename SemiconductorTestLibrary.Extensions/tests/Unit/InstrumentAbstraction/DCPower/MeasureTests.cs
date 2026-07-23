@@ -1147,6 +1147,234 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             dcPower.UngangPinGroup("MergedPowerPins");
         }
 
+        [Theory]
+        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap", DCPowerMeasurementWhen.OnDemand)]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap", DCPowerMeasurementWhen.OnDemand)]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap", DCPowerMeasurementWhen.OnDemand)]
+        public void DifferentSMUDevicesConfigureMeasureWhenAndForceVoltage_MeasureVoltageWithInCompliance_AllChannelsMeasured(string pinMapFileName, DCPowerMeasurementWhen measureWhen)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            var voltageLevel = 3.6;
+            sessionsBundle.ConfigureMeasureWhen(measureWhen);
+            sessionsBundle.ForceVoltage(voltageLevel, waitForSourceCompletion: true);
+
+            var results = sessionsBundle.MeasureVoltageWithInCompliance();
+
+            AssertAllChannelsHaveCorrectResult(results, voltageLevel);
+        }
+
+        [Theory]
+        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap")]
+        public void DifferentSMUDevicesOneChannelMeasureOnTriggerOthersMeasureOnDemand_ForceVoltageMeasureVoltageWithInCompliance_ReturnsCorrectValue(string pinMapFileName)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            var voltageLevel = 3.6;
+            string firstChannelString = sessionsBundle.InstrumentSessions.ElementAt(0).AssociatedSitePinList[0].IndividualChannelString;
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnDemand);
+            sessionsBundle.InstrumentSessions.ElementAt(0).Session.Outputs[firstChannelString].Measurement.MeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger;
+            sessionsBundle.ForceVoltage(voltageLevel, waitForSourceCompletion: true);
+
+            var results = sessionsBundle.MeasureVoltageWithInCompliance();
+
+            AssertAllChannelsHaveCorrectResult(results, voltageLevel);
+        }
+
+        [Theory]
+        [InlineData("VCC1")]
+        [InlineData("VDET")]
+        public void SharedPinsAllChannelsMeasureOnDemand_ForceVoltageMeasureVoltageWithInCompliance_ReturnsSameValueForSharedAndShadowPins(string pinName)
+        {
+            var sessionManager = Initialize("SharedPinTests_MultiSite.pinmap");
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            var filteredBundle = sessionsBundle.FilterBySite(new int[] { 0, 2 });
+            var voltageLevel = 3.6;
+            filteredBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnDemand);
+            filteredBundle.ForceVoltage(voltageLevel, waitForSourceCompletion: true);
+
+            var results = sessionsBundle.MeasureVoltageWithInCompliance();
+
+            AssertAllChannelsHaveCorrectResult(results, voltageLevel);
+        }
+
+        [Theory]
+        [InlineData("G1_1mA")]
+        [InlineData("G1_2mA")]
+        [InlineData("G1_4mA")]
+        public void MergePinGroupAndForceVoltage_MeasureVoltageWithInCompliance_ResultsAssociatedWithIndividualPinName(string pinGroupName)
+        {
+            var sessionsBundle = MergeAndForceVoltage(pinGroupName, out string primaryPin);
+
+            var results = sessionsBundle.MeasureVoltageWithInCompliance();
+
+            sessionsBundle.UnmergePinGroup(pinGroupName);
+            AssertResultAssociatedWithIndividualPinName(results, pinGroupName, primaryPin, expectedMeasurement: 3.6);
+        }
+
+        [Theory]
+        [InlineData("AllPinsGangedGroup")]
+        [InlineData("TwoPinsGangedGroup")]
+        [InlineData("ThreePinsGangedGroup")]
+        public void GangPinGroupAndForceCurrent_MeasureVoltageWithInCompliance_ResultsAssociatedWithIndividualPinName(string pinGroupName)
+        {
+            var sessionsBundle = GangAndForceCurrent(pinGroupName, out string leaderPin);
+
+            var results = sessionsBundle.MeasureVoltageWithInCompliance();
+
+            sessionsBundle.UngangPinGroup(pinGroupName);
+            AssertResultAssociatedWithIndividualPinName(results, pinGroupName, leaderPin);
+        }
+
+        [Theory]
+        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap", DCPowerMeasurementWhen.OnDemand)]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap", DCPowerMeasurementWhen.OnDemand)]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap", DCPowerMeasurementWhen.OnDemand)]
+        public void DifferentSMUDevicesConfigureMeasureWhenAndForceCurrent_MeasureCurrentWithInCompliance_AllChannelsMeasured(string pinMapFileName, DCPowerMeasurementWhen measureWhen)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            var currentLevel = 0.1;
+            sessionsBundle.ConfigureMeasureWhen(measureWhen);
+            sessionsBundle.ForceCurrent(currentLevel, waitForSourceCompletion: true);
+
+            var results = sessionsBundle.MeasureCurrentWithInCompliance();
+
+            AssertAllChannelsHaveCorrectResult(results, currentLevel);
+        }
+
+        [Theory]
+        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap")]
+        public void DifferentSMUDevicesOneChannelMeasureOnTriggerOthersMeasureOnDemand_ForceCurrentMeasureCurrentWithInCompliance_ReturnsCorrectValue(string pinMapFileName)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            var currentLevel = 0.1;
+            string firstChannelString = sessionsBundle.InstrumentSessions.ElementAt(0).AssociatedSitePinList[0].IndividualChannelString;
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnDemand);
+            sessionsBundle.InstrumentSessions.ElementAt(0).Session.Outputs[firstChannelString].Measurement.MeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger;
+            sessionsBundle.ForceCurrent(currentLevel, waitForSourceCompletion: true);
+
+            var results = sessionsBundle.MeasureCurrentWithInCompliance();
+
+            AssertAllChannelsHaveCorrectResult(results, currentLevel);
+        }
+
+        [Theory]
+        [InlineData("VCC1")]
+        [InlineData("VDET")]
+        public void SharedPinsAllChannelsMeasureOnDemand_ForceCurrentMeasureCurrentWithInCompliance_ReturnsSameValueForSharedAndShadowPins(string pinName)
+        {
+            var sessionManager = Initialize("SharedPinTests_MultiSite.pinmap");
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            var filteredBundle = sessionsBundle.FilterBySite(new int[] { 0, 2 });
+            var currentLevel = 0.05;
+            filteredBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnDemand);
+            filteredBundle.ForceCurrent(currentLevel, waitForSourceCompletion: true);
+
+            var results = sessionsBundle.MeasureCurrentWithInCompliance();
+
+            AssertAllChannelsHaveCorrectResult(results, currentLevel);
+        }
+
+        [Theory]
+        [InlineData("G1_1mA")]
+        [InlineData("G1_2mA")]
+        [InlineData("G1_4mA")]
+        public void MergePinGroupAndForceVoltage_MeasureCurrentWithInCompliance_ResultsAssociatedWithIndividualPinName(string pinGroupName)
+        {
+            var sessionsBundle = MergeAndForceVoltage(pinGroupName, out string primaryPin);
+
+            var results = sessionsBundle.MeasureCurrentWithInCompliance();
+
+            sessionsBundle.UnmergePinGroup(pinGroupName);
+            AssertResultAssociatedWithIndividualPinName(results, pinGroupName, primaryPin);
+        }
+
+        [Theory]
+        [InlineData("AllPinsGangedGroup")]
+        [InlineData("TwoPinsGangedGroup")]
+        [InlineData("ThreePinsGangedGroup")]
+        public void GangPinGroupAndForceCurrent_MeasureCurrentWithInCompliance_ResultsAssociatedWithIndividualPinName(string pinGroupName)
+        {
+            var sessionsBundle = GangAndForceCurrent(pinGroupName, out string leaderPin);
+
+            var results = sessionsBundle.MeasureCurrentWithInCompliance();
+
+            sessionsBundle.UngangPinGroup(pinGroupName);
+            AssertResultAssociatedWithIndividualPinName(results, pinGroupName, leaderPin);
+        }
+
+        [Theory]
+        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
+        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap")]
+        public void AllChannelsMeasureOnDemand_QueryInCompliance_AllChannelsReturnResult(string pinMapFileName)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnDemand);
+            sessionsBundle.ForceVoltage(voltageLevel: 3.6, waitForSourceCompletion: true);
+
+            var results = sessionsBundle.QueryInCompliance();
+
+            AssertAllChannelsReturnResult(results);
+        }
+
+        [Theory]
+        [InlineData("VCC1")]
+        [InlineData("VDET")]
+        public void SharedPinsAllChannelsMeasureOnDemand_QueryInCompliance_ReturnsSameValueForSharedAndShadowPins(string pinName)
+        {
+            var sessionManager = Initialize("SharedPinTests_MultiSite.pinmap");
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            var filteredBundle = sessionsBundle.FilterBySite(new int[] { 0, 2 });
+            filteredBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnDemand);
+            filteredBundle.ForceVoltage(voltageLevel: 3.6, waitForSourceCompletion: true);
+
+            var results = sessionsBundle.QueryInCompliance();
+
+            AssertAllChannelsReturnSameResult(results);
+        }
+
+        [Theory]
+        [InlineData("G1_1mA")]
+        [InlineData("G1_2mA")]
+        [InlineData("G1_4mA")]
+        public void MergePinGroupAndForceVoltage_QueryInCompliance_ResultsAssociatedWithIndividualPinName(string pinGroupName)
+        {
+            var sessionsBundle = MergeAndForceVoltage(pinGroupName, out string primaryPin);
+
+            var results = sessionsBundle.QueryInCompliance();
+
+            sessionsBundle.UnmergePinGroup(pinGroupName);
+            AssertResultAssociatedWithIndividualPinName(results, pinGroupName, primaryPin);
+        }
+
+        [Theory]
+        [InlineData("AllPinsGangedGroup")]
+        [InlineData("TwoPinsGangedGroup")]
+        [InlineData("ThreePinsGangedGroup")]
+        public void GangPinGroupAndForceCurrent_QueryInCompliance_ResultsAssociatedWithIndividualPinName(string pinGroupName)
+        {
+            var sessionsBundle = GangAndForceCurrent(pinGroupName, out string leaderPin);
+
+            var results = sessionsBundle.QueryInCompliance();
+
+            sessionsBundle.UngangPinGroup(pinGroupName);
+            AssertResultAssociatedWithIndividualPinName(results, pinGroupName, leaderPin);
+        }
+
         private void AssertMeasureWhenSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, DCPowerMeasurementWhen measureWhen)
         {
             if (sitePinInfo.CascadingInfo is GangingInfo gangingInfo && gangingInfo.IsFollower)
@@ -1196,6 +1424,36 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
         }
 
+        private void AssertAllChannelsHaveCorrectResult(PinSiteData<Tuple<double, bool>> results, double expectedMeasurement)
+        {
+            foreach (var siteNumber in results.SiteNumbers)
+            {
+                foreach (var pin in results.PinNames)
+                {
+                    Assert.Equal(expectedMeasurement, results.GetValue(siteNumber, pin).Item1, precision: 3);
+                }
+            }
+        }
+
+        private void AssertAllChannelsReturnResult(PinSiteData<bool> results)
+        {
+            foreach (var siteNumber in results.SiteNumbers)
+            {
+                foreach (var pin in results.PinNames)
+                {
+                    Assert.True(results.TryGetValue(siteNumber, pin, out _));
+                }
+            }
+        }
+
+        private void AssertAllChannelsReturnSameResult(PinSiteData<bool> results)
+        {
+            var distinctValues = results.SiteNumbers
+                .SelectMany(siteNumber => results.PinNames.Select(pin => results.GetValue(siteNumber, pin)))
+                .Distinct();
+            Assert.Single(distinctValues);
+        }
+
         private DCPowerSessionsBundle MergeAndForceVoltage(string pinGroupName, out string primaryPin)
         {
             _tsmContext = CreateTSMContext("Merged_4163.pinmap");
@@ -1227,6 +1485,25 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.True(results.TryGetValue(siteNumber, pinGroup, out _));
                 Assert.False(results.TryGetValue(siteNumber, primaryPin, out _));
+            }
+        }
+
+        private void AssertResultAssociatedWithIndividualPinName<T>(PinSiteData<T> results, string pinGroup, string individualPin)
+        {
+            foreach (var siteNumber in results.SiteNumbers)
+            {
+                Assert.True(results.TryGetValue(siteNumber, individualPin, out _));
+                Assert.False(results.TryGetValue(siteNumber, pinGroup, out _));
+            }
+        }
+
+        private void AssertResultAssociatedWithIndividualPinName(PinSiteData<Tuple<double, bool>> results, string pinGroup, string individualPin, double expectedMeasurement)
+        {
+            foreach (var siteNumber in results.SiteNumbers)
+            {
+                Assert.True(results.TryGetValue(siteNumber, individualPin, out var result));
+                Assert.False(results.TryGetValue(siteNumber, pinGroup, out _));
+                Assert.Equal(expectedMeasurement, result.Item1, precision: 3);
             }
         }
     }
