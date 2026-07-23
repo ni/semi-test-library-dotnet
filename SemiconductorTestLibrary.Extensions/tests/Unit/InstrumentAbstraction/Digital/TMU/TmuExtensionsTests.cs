@@ -378,7 +378,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionsBundle = InititalzeAndCreateBundle();
 
-            sessionsBundle.ConfigureSkewMeasurement(new string[] { "C0" }, new string[] { "C1" }, edgeType, 1);
+            sessionsBundle.ConfigureTMUSkewMeasurement(new string[] { "C0" }, new string[] { "C1" }, edgeType, 1);
             sessionsBundle.DisableTMU();
             sessionsBundle.ClearTMUAssignment();
         }
@@ -389,7 +389,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = InititalzeAndCreateBundle();
 
             Assert.Throws<NISemiconductorTestException>(() =>
-                sessionsBundle.ConfigureSkewMeasurement(new string[] { "C0" }, new string[] { "C1" }, TmuPolarity.EitherEdge, 1));
+                sessionsBundle.ConfigureTMUSkewMeasurement(new string[] { "C0" }, new string[] { "C1" }, TmuPolarity.EitherEdge, 1));
             sessionsBundle.DisableTMU();
             sessionsBundle.ClearTMUAssignment();
         }
@@ -400,7 +400,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = InititalzeAndCreateBundle();
 
             Assert.Throws<NISemiconductorTestException>(() =>
-                sessionsBundle.ConfigureSkewMeasurement(new string[] { "C0" }, new string[] { "C0" }, TmuPolarity.RisingEdge, 1));
+                sessionsBundle.ConfigureTMUSkewMeasurement(new string[] { "C0" }, new string[] { "C0" }, TmuPolarity.RisingEdge, 1));
             sessionsBundle.DisableTMU();
             sessionsBundle.ClearTMUAssignment();
         }
@@ -416,7 +416,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionsBundle = InititalzeAndCreateBundle();
 
-            sessionsBundle.ConfigureSkewMeasurement(new[] { "C0" }, new[] { "C1" }, edgeType, 1);
+            sessionsBundle.ConfigureTMUSkewMeasurement(new[] { "C0" }, new[] { "C1" }, edgeType, 1);
             sessionsBundle.DisableTMU();
             sessionsBundle.ClearTMUAssignment();
         }
@@ -427,7 +427,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = InititalzeAndCreateBundle();
 
             Assert.Throws<NISemiconductorTestException>(() =>
-                sessionsBundle.ConfigureSkewMeasurement(
+                sessionsBundle.ConfigureTMUSkewMeasurement(
                     new[] { "C0" }, new[] { "C0" }, TmuPolarity.RisingEdge, 1));
             sessionsBundle.DisableTMU();
             sessionsBundle.ClearTMUAssignment();
@@ -439,7 +439,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = InititalzeAndCreateBundle();
 
             Assert.Throws<NISemiconductorTestException>(() =>
-                sessionsBundle.ConfigureSkewMeasurement(
+                sessionsBundle.ConfigureTMUSkewMeasurement(
                     new[] { "C0" }, new[] { "C1" }, TmuPolarity.EitherEdge, 1));
             sessionsBundle.DisableTMU();
             sessionsBundle.ClearTMUAssignment();
