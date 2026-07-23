@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text;
 using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
@@ -147,7 +148,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 // Clear partially assigned TMU resources in case of exception
                 sessionsBundle.Do(sessionInfo =>
                 {
-                    sessionInfo.ClearAssignedTMUContexts(pinNames);
+                    sessionInfo.ClearAssignedTMUContexts(pinNames, doTMUReleaseCheck: false);
                 });
 
                 throw; // rethrow the original exception.
@@ -827,44 +828,39 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
 
             // Initialize the TMUAssignmentManager with the available TMU resources for the devices within the current session.
             List<string> availableTMUContexts = GetDigitalTmus(digitalSessionInformation.Session).GetDisabledTmuContexts();
-            TMUContextManager.AddAvailableTMUs(string.Join(", ", availableTMUContexts));
+            Dictionary<string, Queue<string>> tmusPerInstrument = CategorizeTMUByInstrument(availableTMUContexts);
 
             // Assign TMU resources to each target pin/site pair within the session.
             foreach (SitePinInfo sitePinInfo in sitePinInfos)
             {
                 var digitalSitePinInfo = sitePinInfo as DigitalSitePinInfo;
-
+                var assignedTmuContext = digitalSitePinInfo?.AssignedTmuContext;
                 // Assign TMU only if it is not already assigned.
                 // It may already be assigned if:
                 // - AssignTMUResources() is invoked twice on the same bundle object.
                 // - AssignTMUResources() is invoked after having already invoked AssignTMUResources(pinNames) on the same the bundle object for a subset of pins.
                 // - AssignTMUResources(pinNames1) is invoked after having already invoked AssignTMUResources(pinNames2) on the same the bundle object,
                 // where pinNames1 and pinNames2 contain overlapping pins.
-                if (string.IsNullOrEmpty(digitalSitePinInfo.AssignedTmuContext))
+                if (string.IsNullOrEmpty(assignedTmuContext))
                 {
                     string deviceName = digitalSitePinInfo.InstrumentName;
-                    var success = TMUContextManager.TryCheckOutTMU(deviceName, out string tmuName);
-                    if (!success)
+                    if (!TryGetTMU(tmusPerInstrument, deviceName, out string tmuName))
                     {
-                        throw new NISemiconductorTestException(
-                            string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUNotEnoughResources, deviceName, sitePinInfo.SitePinString));
+                        throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUNotEnoughResources, deviceName));
                     }
                     digitalSitePinInfo.AssignedTmuContext = tmuName;
                 }
             }
         }
 
-        private static void ClearAssignedTMUContexts(this DigitalSessionInformation digitalSessionInformation, string[] pins = null)
+        private static void ClearAssignedTMUContexts(this DigitalSessionInformation digitalSessionInformation, string[] pins = null, bool doTMUReleaseCheck = true)
         {
             // Filter sitePinInfo based on specified pins.
             var sitePinInfos = (pins != null && pins.Any())
                 ? digitalSessionInformation.AssociatedSitePinList.Where(sp => pins.Contains(sp.PinName))
                 : digitalSessionInformation.AssociatedSitePinList;
-
-            List<string> availableTMUList = GetDigitalTmus(digitalSessionInformation.Session).GetDisabledTmuContexts();
-
             // Check if all the assigned TMUs of site/pin pair are safe to release.
-            if (!IsSafeToReleaseAllTMUs(sitePinInfos, availableTMUList))
+            if (doTMUReleaseCheck && !IsSafeToReleaseAllTMUs(sitePinInfos, () => GetDigitalTmus(digitalSessionInformation.Session).GetDisabledTmuContexts()))
             {
                 throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUResourcesInUse));
             }
@@ -873,27 +869,28 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             foreach (SitePinInfo sitePinInfo in sitePinInfos)
             {
                 var digitalSitePinInfo = sitePinInfo as DigitalSitePinInfo;
-
+                var assignedTmuContext = digitalSitePinInfo?.AssignedTmuContext;
                 // Clear only if TMU resource is assigned for a site/pin pair.
                 // This can happen when:
                 // - 'ClearTMUAssignment' is invoked twice on the same bundle object.
                 // - 'ClearTMUAssignment' is invoked before invoking 'AssignTMUResources'.
                 // - 'ClearTMUAssignment(pinNames)' is invoked, targeting only a subset of pins within the bundle object, and then the 'ClearTMUAssignment()' is invoked on whole bundle object.
-                if (!string.IsNullOrEmpty(digitalSitePinInfo.AssignedTmuContext))
+                if (!string.IsNullOrEmpty(assignedTmuContext))
                 {
                     string deviceName = digitalSitePinInfo.InstrumentName;
-                    string tmuName = digitalSitePinInfo.AssignedTmuContext;
+                    string tmuName = assignedTmuContext;
                     digitalSitePinInfo.AssignedTmuContext = string.Empty;
-                    TMUContextManager.TryCheckInTMU(deviceName, tmuName);
+                    TMUContextManager.Instance.UnAssignTMU(deviceName, tmuName);
                 }
             }
         }
 
-        private static bool IsSafeToReleaseAllTMUs(IEnumerable<SitePinInfo> sitePinInfos, List<string> availableTMUList)
+        private static bool IsSafeToReleaseAllTMUs(IEnumerable<SitePinInfo> sitePinInfos, Func<List<string>> getAvailableTMUs)
         {
+            List<string> availableTMUList = getAvailableTMUs();
             foreach (var sitePinInfo in sitePinInfos)
             {
-                string tmuName = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
+                string tmuName = (sitePinInfo as DigitalSitePinInfo)?.AssignedTmuContext;
 
                 // Break the loop when the TMUname is not in the 'availableTMUList', TMU resource is reserved at the driver level.
                 if (!string.IsNullOrEmpty(tmuName) && !availableTMUList.Contains(tmuName))
@@ -1057,6 +1054,32 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             tmu.ArmType = armType;
             // Enable the TMU (reserve it)
             tmu.Enabled = true;
+        }
+
+        private static bool TryGetTMU(Dictionary<string, Queue<string>> tmusPerInstrument, string deviceName, out string tmuName)
+        {
+            tmuName = null;
+            if (tmusPerInstrument.TryGetValue(deviceName, out var tmus))
+            {
+                while (tmus.Any())
+                {
+                    var tmu = tmus.Dequeue();
+                    if (TMUContextManager.Instance.TryAssignTMU(deviceName, tmu))
+                    {
+                        tmuName = tmu;
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private static Dictionary<string, Queue<string>> CategorizeTMUByInstrument(List<string> availableTMUs)
+        {
+            // Build a dictionary with device name as key and queue of available TMU as value.
+            return availableTMUs.GroupBy(tmu => tmu.Split('/')[0])
+                .ToDictionary(g => g.Key, g => new Queue<string>(g.Select(tmu => tmu)));
         }
 
         private static void ValidateSkewPins(string[] referencePinNames, string[] targetPinNames)
