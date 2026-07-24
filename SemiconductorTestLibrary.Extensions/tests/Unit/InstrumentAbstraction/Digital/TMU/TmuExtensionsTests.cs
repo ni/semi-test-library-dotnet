@@ -457,10 +457,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = InititalzeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
             sessionsBundle.ConfigureTMUStartSource(pinNames);
+            var expected = sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) => sitePinInfo.IndividualChannelString);
 
             var result = sessionsBundle.GetTMUStartSource(pinNames);
 
-            Assert.False(string.IsNullOrEmpty(result.ExtractSite(0)["C0"]));
+            Assert.Equal(expected.ExtractSite(0)["C0"], result.ExtractSite(0)["C0"]);
+            if (useSpecificPins)
+            {
+                Assert.Null(result.ExtractSite(0)["C1"]);
+            }
+            else
+            {
+                Assert.Equal(expected.ExtractSite(0)["C1"], result.ExtractSite(0)["C1"]);
+            }
             sessionsBundle.ClearTMUAssignment();
         }
 
@@ -476,10 +485,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = InititalzeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
             sessionsBundle.ConfigureTMUStopSource(pinNames);
+            var expected = sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) => sitePinInfo.IndividualChannelString);
 
             var result = sessionsBundle.GetTMUStopSource(pinNames);
 
-            Assert.False(string.IsNullOrEmpty(result.ExtractSite(0)["C0"]));
+            Assert.Equal(expected.ExtractSite(0)["C0"], result.ExtractSite(0)["C0"]);
+            if (useSpecificPins)
+            {
+                Assert.Null(result.ExtractSite(0)["C1"]);
+            }
+            else
+            {
+                Assert.Equal(expected.ExtractSite(0)["C1"], result.ExtractSite(0)["C1"]);
+            }
             sessionsBundle.ClearTMUAssignment();
         }
 
@@ -639,10 +657,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = InititalzeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
             sessionsBundle.ConfigureTMUEdgeArmSource(pinNames);
+            var expected = sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) => sitePinInfo.IndividualChannelString);
 
             var result = sessionsBundle.GetTMUEdgeArmSource(pinNames);
 
-            Assert.False(string.IsNullOrEmpty(result.ExtractSite(0)["C0"]));
+            Assert.Equal(expected.ExtractSite(0)["C0"], result.ExtractSite(0)["C0"]);
+            if (useSpecificPins)
+            {
+                Assert.Null(result.ExtractSite(0)["C1"]);
+            }
+            else
+            {
+                Assert.Equal(expected.ExtractSite(0)["C1"], result.ExtractSite(0)["C1"]);
+            }
             sessionsBundle.ClearTMUAssignment();
         }
 

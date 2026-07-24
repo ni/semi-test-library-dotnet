@@ -1194,9 +1194,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <returns>The total number of TMU resources available in the instrument session for each pin and site.</returns>
         public static PinSiteData<int> GetTMUCount(this DigitalSessionsBundle sessionsBundle)
         {
+            var tmuCountBySession = new System.Collections.Concurrent.ConcurrentDictionary<NIDigital, int>();
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
-                return GetDigitalTmus(sessionInfo.Session).GetTmuCount();
+                return tmuCountBySession.GetOrAdd(sessionInfo.Session, session => GetDigitalTmus(session).GetTmuCount());
             });
         }
 
