@@ -4464,6 +4464,32 @@
             Performs the ungang operation.
             </summary>
         </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.UpdateMode">
+            <summary>
+            Specifies the type of update operation to perform when DCPower session properties are updated.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.UpdateMode.Deferred">
+            <summary>
+            Default (existing) behavior.
+            The session will be aborted and the driver property will be set.
+            The property update will be deferred until the next commit or initiate operation,
+            but the result may not be reflected in the output of the device until the session has been initiated.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.UpdateMode.Immediate">
+            <summary>
+            The session will be aborted and the driver property will be set.
+            Additionally, the session will be initiated.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.UpdateMode.Commit">
+            <summary>
+            The session will be aborted and the driver property will be set.
+            The property update will be committed to the instrument,
+            but the result may not be reflected in the output of the device until the session has been initiated.
+            </summary>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities">
             <summary>
             Provides general helper methods.
