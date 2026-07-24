@@ -452,7 +452,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void Inititalize_GetTMUStartSourceReturnsNonEmptyChannelString(bool useSpecificPins)
+        public void Inititalize_GetTMUStartSource_ReturnsConfiguredChannelString(bool useSpecificPins)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -473,6 +473,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ClearTMUAssignment();
         }
 
+        [Fact]
+        public void Inititalize_GetTMUStartSourceWithPinNotInBundleThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                sessionsBundle.GetTMUStartSource(new string[] { "InvalidPin" }));
+            sessionsBundle.ClearTMUAssignment();
+        }
+
         #endregion
 
         #region Get TMU Stop Source Tests
@@ -480,7 +490,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void Inititalize_GetTMUStopSourceReturnsNonEmptyChannelString(bool useSpecificPins)
+        public void Inititalize_GetTMUStopSource_ReturnsConfiguredChannelString(bool useSpecificPins)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -501,6 +511,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ClearTMUAssignment();
         }
 
+        [Fact]
+        public void Inititalize_GetTMUStopSourceWithPinNotInBundleThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                sessionsBundle.GetTMUStopSource(new string[] { "InvalidPin" }));
+            sessionsBundle.ClearTMUAssignment();
+        }
+
         #endregion
 
         #region Get TMU Start Source Event Tests
@@ -510,7 +530,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(TmuSourceEvent.Vol, true)]
         [InlineData(TmuSourceEvent.Voh, false)]
         [InlineData(TmuSourceEvent.Voh, true)]
-        public void Inititalize_GetTMUStartSourceEventReturnsConfiguredValue(TmuSourceEvent sourceEvent, bool useSpecificPins)
+        public void Inititalize_GetTMUStartSourceEvent_ReturnsConfiguredValue(TmuSourceEvent sourceEvent, bool useSpecificPins)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -519,6 +539,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var result = sessionsBundle.GetTMUStartSourceEvent(pinNames);
 
             Assert.Equal(sourceEvent, result.ExtractSite(0)["C0"]);
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_GetTMUStartSourceEventWithPinNotInBundleThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                sessionsBundle.GetTMUStartSourceEvent(new string[] { "InvalidPin" }));
             sessionsBundle.ClearTMUAssignment();
         }
 
@@ -531,7 +561,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(TmuSourceEvent.Vol, true)]
         [InlineData(TmuSourceEvent.Voh, false)]
         [InlineData(TmuSourceEvent.Voh, true)]
-        public void Inititalize_GetTMUStopSourceEventReturnsConfiguredValue(TmuSourceEvent sourceEvent, bool useSpecificPins)
+        public void Inititalize_GetTMUStopSourceEvent_ReturnsConfiguredValue(TmuSourceEvent sourceEvent, bool useSpecificPins)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -540,6 +570,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var result = sessionsBundle.GetTMUStopSourceEvent(pinNames);
 
             Assert.Equal(sourceEvent, result.ExtractSite(0)["C0"]);
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_GetTMUStopSourceEventWithPinNotInBundleThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                sessionsBundle.GetTMUStopSourceEvent(new string[] { "InvalidPin" }));
             sessionsBundle.ClearTMUAssignment();
         }
 
@@ -552,7 +592,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(TmuPolarity.RisingEdge, true)]
         [InlineData(TmuPolarity.FallingEdge, false)]
         [InlineData(TmuPolarity.FallingEdge, true)]
-        public void Inititalize_GetTMUStartSourceEventPolarityReturnsConfiguredValue(TmuPolarity polarity, bool useSpecificPins)
+        public void Inititalize_GetTMUStartSourceEventPolarity_ReturnsConfiguredValue(TmuPolarity polarity, bool useSpecificPins)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -561,6 +601,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var result = sessionsBundle.GetTMUStartSourceEventPolarity(pinNames);
 
             Assert.Equal(polarity, result.ExtractSite(0)["C0"]);
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_GetTMUStartSourceEventPolarityWithPinNotInBundleThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                sessionsBundle.GetTMUStartSourceEventPolarity(new string[] { "InvalidPin" }));
             sessionsBundle.ClearTMUAssignment();
         }
 
@@ -573,7 +623,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(TmuPolarity.RisingEdge, true)]
         [InlineData(TmuPolarity.FallingEdge, false)]
         [InlineData(TmuPolarity.FallingEdge, true)]
-        public void Inititalize_GetTMUStopSourceEventPolarityReturnsConfiguredValue(TmuPolarity polarity, bool useSpecificPins)
+        public void Inititalize_GetTMUStopSourceEventPolarity_ReturnsConfiguredValue(TmuPolarity polarity, bool useSpecificPins)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -585,6 +635,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ClearTMUAssignment();
         }
 
+        [Fact]
+        public void Inititalize_GetTMUStopSourceEventPolarityWithPinNotInBundleThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                sessionsBundle.GetTMUStopSourceEventPolarity(new string[] { "InvalidPin" }));
+            sessionsBundle.ClearTMUAssignment();
+        }
+
         #endregion
 
         #region Get TMU Enabled Tests
@@ -592,7 +652,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void Inititalize_GetTMUEnabledReturnsTrueAfterEnableTMU(bool useSpecificPins)
+        public void InititalzeAndEnableTMU_GetTMUEnabled_ReturnsTrue(bool useSpecificPins)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -608,7 +668,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void Inititalize_GetTMUEnabledReturnsFalseAfterDisableTMU(bool useSpecificPins)
+        public void InititalzeAndDisableTMU_GetTMUEnabled_ReturnsFalse(bool useSpecificPins)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -621,6 +681,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ClearTMUAssignment();
         }
 
+        [Fact]
+        public void Inititalize_GetTMUEnabledWithPinNotInBundleThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                sessionsBundle.GetTMUEnabled(new string[] { "InvalidPin" }));
+            sessionsBundle.ClearTMUAssignment();
+        }
+
         #endregion
 
         #region Get TMU Arm Type Tests
@@ -630,7 +700,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(TmuArmType.Immediate, true)]
         [InlineData(TmuArmType.Edge, false)]
         [InlineData(TmuArmType.Edge, true)]
-        public void Inititalize_GetTMUArmTypeReturnsConfiguredValue(TmuArmType armType, bool useSpecificPins)
+        public void Inititalize_GetTMUArmType_ReturnsConfiguredValue(TmuArmType armType, bool useSpecificPins)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -645,6 +715,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ClearTMUAssignment();
         }
 
+        [Fact]
+        public void Inititalize_GetTMUArmTypeWithPinNotInBundleThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                sessionsBundle.GetTMUArmType(new string[] { "InvalidPin" }));
+            sessionsBundle.ClearTMUAssignment();
+        }
+
         #endregion
 
         #region Get TMU Edge Arm Source Tests
@@ -652,7 +732,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void Inititalize_GetTMUEdgeArmSourceReturnsNonEmptyChannelString(bool useSpecificPins)
+        public void Inititalize_GetTMUEdgeArmSource_ReturnsConfiguredChannelString(bool useSpecificPins)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -673,6 +753,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ClearTMUAssignment();
         }
 
+        [Fact]
+        public void Inititalize_GetTMUEdgeArmSourceWithPinNotInBundleThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                sessionsBundle.GetTMUEdgeArmSource(new string[] { "InvalidPin" }));
+            sessionsBundle.ClearTMUAssignment();
+        }
+
         #endregion
 
         #region Get TMU Edge Arm Source Event Tests
@@ -682,7 +772,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(TmuSourceEvent.Vol, true)]
         [InlineData(TmuSourceEvent.Voh, false)]
         [InlineData(TmuSourceEvent.Voh, true)]
-        public void Inititalize_GetTMUEdgeArmSourceEventReturnsConfiguredValue(TmuSourceEvent sourceEvent, bool useSpecificPins)
+        public void Inititalize_GetTMUEdgeArmSourceEvent_ReturnsConfiguredValue(TmuSourceEvent sourceEvent, bool useSpecificPins)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -691,6 +781,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var result = sessionsBundle.GetTMUEdgeArmSourceEvent(pinNames);
 
             Assert.Equal(sourceEvent, result.ExtractSite(0)["C0"]);
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_GetTMUEdgeArmSourceEventWithPinNotInBundleThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                sessionsBundle.GetTMUEdgeArmSourceEvent(new string[] { "InvalidPin" }));
             sessionsBundle.ClearTMUAssignment();
         }
 
@@ -703,7 +803,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(TmuPolarity.RisingEdge, true)]
         [InlineData(TmuPolarity.FallingEdge, false)]
         [InlineData(TmuPolarity.FallingEdge, true)]
-        public void Inititalize_GetTMUEdgeArmPolarityReturnsConfiguredValue(TmuPolarity polarity, bool useSpecificPins)
+        public void Inititalize_GetTMUEdgeArmPolarity_ReturnsConfiguredValue(TmuPolarity polarity, bool useSpecificPins)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -715,6 +815,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ClearTMUAssignment();
         }
 
+        [Fact]
+        public void Inititalize_GetTMUEdgeArmPolarityWithPinNotInBundleThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                sessionsBundle.GetTMUEdgeArmPolarity(new string[] { "InvalidPin" }));
+            sessionsBundle.ClearTMUAssignment();
+        }
+
         #endregion
 
         #region Get TMU Samples To Acquire Tests
@@ -723,7 +833,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(100, false)]
         [InlineData(1, false)]
         [InlineData(50, true)]
-        public void Inititalize_GetTMUSamplesToAcquireReturnsConfiguredValue(long samplesToAcquire, bool useSpecificPins)
+        public void Inititalize_GetTMUSamplesToAcquire_ReturnsConfiguredValue(long samplesToAcquire, bool useSpecificPins)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -735,6 +845,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ClearTMUAssignment();
         }
 
+        [Fact]
+        public void Inititalize_GetTMUSamplesToAcquireWithPinNotInBundleThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                sessionsBundle.GetTMUSamplesToAcquire(new string[] { "InvalidPin" }));
+            sessionsBundle.ClearTMUAssignment();
+        }
+
         #endregion
 
         #region Get TMU Sample Timeout Tests
@@ -743,7 +863,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(10.0, false)]
         [InlineData(0.001, false)]
         [InlineData(10.0, true)]
-        public void Inititalize_GetTMUSampleTimeoutReturnsConfiguredValue(double timeout, bool useSpecificPins)
+        public void Inititalize_GetTMUSampleTimeout_ReturnsConfiguredValue(double timeout, bool useSpecificPins)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -756,6 +876,17 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ClearTMUAssignment();
         }
 
+        [Fact]
+        public void Inititalize_GetTMUSampleTimeoutWithPinNotInBundleThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                sessionsBundle.GetTMUSampleTimeout(new string[] { "InvalidPin" }));
+            sessionsBundle.DisableTMU();
+            sessionsBundle.ClearTMUAssignment();
+        }
+
         #endregion
 
         #region Get TMU Start Input Debounce Time Tests
@@ -763,7 +894,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void Inititalize_GetTMUStartInputDebounceTimeReturnsNonNegativeValue(bool useSpecificPins)
+        public void Inititalize_GetTMUStartInputDebounceTime_ReturnsNonNegativeValue(bool useSpecificPins)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -774,6 +905,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ClearTMUAssignment();
         }
 
+        [Fact]
+        public void Inititalize_GetTMUStartInputDebounceTimeWithPinNotInBundleThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                sessionsBundle.GetTMUStartInputDebounceTime(new string[] { "InvalidPin" }));
+            sessionsBundle.ClearTMUAssignment();
+        }
+
         #endregion
 
         #region Get TMU Stop Input Debounce Time Tests
@@ -781,7 +922,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void Inititalize_GetTMUStopInputDebounceTimeReturnsNonNegativeValue(bool useSpecificPins)
+        public void Inititalize_GetTMUStopInputDebounceTime_ReturnsNonNegativeValue(bool useSpecificPins)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -792,12 +933,22 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ClearTMUAssignment();
         }
 
+        [Fact]
+        public void Inititalize_GetTMUStopInputDebounceTimeWithPinNotInBundleThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                sessionsBundle.GetTMUStopInputDebounceTime(new string[] { "InvalidPin" }));
+            sessionsBundle.ClearTMUAssignment();
+        }
+
         #endregion
 
         #region Get TMU Count Tests
 
         [Fact]
-        public void Inititalize_GetTMUCountReturnsPositiveValue()
+        public void Inititalize_GetTMUCount_ReturnsPositiveValue()
         {
             var sessionsBundle = InititalzeAndCreateBundle();
 
