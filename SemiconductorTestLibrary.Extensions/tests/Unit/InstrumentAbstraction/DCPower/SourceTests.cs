@@ -6514,6 +6514,116 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
         }
 
+        [Fact]
+        public void SMUDevicesMerged_GetTransientResponse_ReturnsPrimaryPinValue()
+        {
+            var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
+            var primaryPin = "VCCPrimary";
+            var allPinsMergedGroup = "AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin";
+            var expectedTransientResponse = DCPowerSourceTransientResponse.Fast;
+            var sessionsBundle = sessionManager.DCPower(allPinsMergedGroup);
+            sessionsBundle.MergePinGroup(allPinsMergedGroup);
+            sessionsBundle.ConfigureSourceSettings(new DCPowerSourceSettings { TransientResponse = expectedTransientResponse });
+
+            var transientResponse = sessionsBundle.GetTransientResponse();
+
+            Assert.Single(transientResponse.PinNames);
+            Assert.Equal(primaryPin, transientResponse.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(allPinsMergedGroup, transientResponse.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedTransientResponse, transientResponse.GetValue(sitePinInfo));
+            });
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        public void DifferentSMUDevicesGangedConfigureTransientResponse_GetTransientResponse_ReturnsCorrectValue(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var allPinsGangedGroup = "AllPinsGangedGroup";
+            var expectedTransientResponse = DCPowerSourceTransientResponse.Fast;
+            var sessionsBundle = sessionManager.DCPower(allPinsGangedGroup);
+            sessionsBundle.GangPinGroup(allPinsGangedGroup);
+            sessionsBundle.ConfigureSourceSettings(new DCPowerSourceSettings { TransientResponse = expectedTransientResponse });
+
+            var transientResponse = sessionsBundle.GetTransientResponse();
+
+            Assert.Equal(5, transientResponse.PinNames.Length);
+            Assert.DoesNotContain(allPinsGangedGroup, transientResponse.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedTransientResponse, transientResponse.GetValue(sitePinInfo));
+            });
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevicesConfigureTransientResponse_GetTransientResponse_ReturnsCorrectValue(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var expectedTransientResponse = DCPowerSourceTransientResponse.Fast;
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            sessionsBundle.ConfigureSourceSettings(new DCPowerSourceSettings { TransientResponse = expectedTransientResponse });
+
+            var transientResponse = sessionsBundle.GetTransientResponse();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedTransientResponse, transientResponse.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesSetPerPinPerSiteTransientResponse_GetTransientResponse_ReturnsCorrectValue()
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var pinNames = new string[] { "VCC1", "VCC2", "VDET" };
+            var sessionsBundle = sessionManager.DCPower(pinNames);
+            var activeSites = GetActiveSites(sessionsBundle);
+            var expectedTransientResponse = new PinSiteData<DCPowerSourceTransientResponse>(
+                new Dictionary<string, IDictionary<int, DCPowerSourceTransientResponse>>
+                {
+                    [pinNames[0]] = activeSites.ToDictionary(site => site, site => site % 3 == 0 ? DCPowerSourceTransientResponse.Normal : DCPowerSourceTransientResponse.Fast),
+                    [pinNames[1]] = activeSites.ToDictionary(site => site, site => site % 3 == 1 ? DCPowerSourceTransientResponse.Fast : DCPowerSourceTransientResponse.Slow),
+                    [pinNames[2]] = activeSites.ToDictionary(site => site, site => site % 3 == 2 ? DCPowerSourceTransientResponse.Slow : DCPowerSourceTransientResponse.Normal)
+                });
+            sessionsBundle.ConfigureSourceSettings(new PinSiteData<DCPowerSourceSettings>(
+                new Dictionary<string, IDictionary<int, DCPowerSourceSettings>>
+                {
+                    [pinNames[0]] = activeSites.ToDictionary(site => site, site => new DCPowerSourceSettings { TransientResponse = expectedTransientResponse.GetValue(site, pinNames[0]) }),
+                    [pinNames[1]] = activeSites.ToDictionary(site => site, site => new DCPowerSourceSettings { TransientResponse = expectedTransientResponse.GetValue(site, pinNames[1]) }),
+                    [pinNames[2]] = activeSites.ToDictionary(site => site, site => new DCPowerSourceSettings { TransientResponse = expectedTransientResponse.GetValue(site, pinNames[2]) })
+                }));
+
+            var transientResponse = sessionsBundle.GetTransientResponse();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedTransientResponse.GetValue(sitePinInfo), transientResponse.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void SharedPinConfigureTransientResponseOnFilteredSites_GetTransientResponse_ReturnsSameValueForAllPrimaryAndShadowSites()
+        {
+            var sessionManager = Initialize("SharedPinTests.pinmap");
+            var pinName = "VDD";
+            var expectedTransientResponse = DCPowerSourceTransientResponse.Fast;
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            var filteredBySite0Bundle = sessionsBundle.FilterBySite(new int[] { 0, 1 });
+            filteredBySite0Bundle.ConfigureSourceSettings(new DCPowerSourceSettings { TransientResponse = expectedTransientResponse });
+
+            var transientResponse = sessionsBundle.GetTransientResponse();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedTransientResponse, transientResponse.GetValue(sitePinInfo));
+            });
+        }
+
         private void AssertVoltageSettings(DCPowerOutput channelOutput, double expectedVoltageLevel, double expectedCurrentLimit, int precision = 6)
         {
             Assert.Equal(expectedVoltageLevel, channelOutput.Source.Voltage.VoltageLevel, precision);
