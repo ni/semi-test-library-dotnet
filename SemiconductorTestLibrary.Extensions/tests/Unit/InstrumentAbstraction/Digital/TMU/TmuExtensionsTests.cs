@@ -447,6 +447,523 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         #endregion
 
+        #region Get TMU Start Source Tests
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void Inititalize_GetTMUStartSource_ReturnsConfiguredChannelString(bool useSpecificPins)
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+            var pinNames = useSpecificPins ? new string[] { "C0" } : null;
+            sessionsBundle.ConfigureTMUStartSource(pinNames);
+            var expected = sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) => sitePinInfo.IndividualChannelString);
+
+            var result = sessionsBundle.GetTMUStartSource(pinNames);
+
+            Assert.Equal(expected.ExtractSite(0)["C0"], result.ExtractSite(0)["C0"]);
+            if (useSpecificPins)
+            {
+                Assert.Null(result.ExtractSite(0)["C1"]);
+            }
+            else
+            {
+                Assert.Equal(expected.ExtractSite(0)["C1"], result.ExtractSite(0)["C1"]);
+            }
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_GetTMUStartSourceWithPinNotInBundleThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                sessionsBundle.GetTMUStartSource(new string[] { "InvalidPin" }));
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        #endregion
+
+        #region Get TMU Stop Source Tests
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void Inititalize_GetTMUStopSource_ReturnsConfiguredChannelString(bool useSpecificPins)
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+            var pinNames = useSpecificPins ? new string[] { "C0" } : null;
+            sessionsBundle.ConfigureTMUStopSource(pinNames);
+            var expected = sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) => sitePinInfo.IndividualChannelString);
+
+            var result = sessionsBundle.GetTMUStopSource(pinNames);
+
+            Assert.Equal(expected.ExtractSite(0)["C0"], result.ExtractSite(0)["C0"]);
+            if (useSpecificPins)
+            {
+                Assert.Null(result.ExtractSite(0)["C1"]);
+            }
+            else
+            {
+                Assert.Equal(expected.ExtractSite(0)["C1"], result.ExtractSite(0)["C1"]);
+            }
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_GetTMUStopSourceWithPinNotInBundleThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                sessionsBundle.GetTMUStopSource(new string[] { "InvalidPin" }));
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        #endregion
+
+        #region Get TMU Start Source Event Tests
+
+        [Theory]
+        [InlineData(TmuSourceEvent.Vol, false)]
+        [InlineData(TmuSourceEvent.Vol, true)]
+        [InlineData(TmuSourceEvent.Voh, false)]
+        [InlineData(TmuSourceEvent.Voh, true)]
+        public void Inititalize_GetTMUStartSourceEvent_ReturnsConfiguredValue(TmuSourceEvent sourceEvent, bool useSpecificPins)
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+            var pinNames = useSpecificPins ? new string[] { "C0" } : null;
+            sessionsBundle.ConfigureTMUStartSourceEvent(sourceEvent, pinNames);
+
+            var result = sessionsBundle.GetTMUStartSourceEvent(pinNames);
+
+            Assert.Equal(sourceEvent, result.ExtractSite(0)["C0"]);
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_GetTMUStartSourceEventWithPinNotInBundleThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                sessionsBundle.GetTMUStartSourceEvent(new string[] { "InvalidPin" }));
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        #endregion
+
+        #region Get TMU Stop Source Event Tests
+
+        [Theory]
+        [InlineData(TmuSourceEvent.Vol, false)]
+        [InlineData(TmuSourceEvent.Vol, true)]
+        [InlineData(TmuSourceEvent.Voh, false)]
+        [InlineData(TmuSourceEvent.Voh, true)]
+        public void Inititalize_GetTMUStopSourceEvent_ReturnsConfiguredValue(TmuSourceEvent sourceEvent, bool useSpecificPins)
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+            var pinNames = useSpecificPins ? new string[] { "C0" } : null;
+            sessionsBundle.ConfigureTMUStopSourceEvent(sourceEvent, pinNames);
+
+            var result = sessionsBundle.GetTMUStopSourceEvent(pinNames);
+
+            Assert.Equal(sourceEvent, result.ExtractSite(0)["C0"]);
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_GetTMUStopSourceEventWithPinNotInBundleThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                sessionsBundle.GetTMUStopSourceEvent(new string[] { "InvalidPin" }));
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        #endregion
+
+        #region Get TMU Start Source Event Polarity Tests
+
+        [Theory]
+        [InlineData(TmuPolarity.RisingEdge, false)]
+        [InlineData(TmuPolarity.RisingEdge, true)]
+        [InlineData(TmuPolarity.FallingEdge, false)]
+        [InlineData(TmuPolarity.FallingEdge, true)]
+        public void Inititalize_GetTMUStartSourceEventPolarity_ReturnsConfiguredValue(TmuPolarity polarity, bool useSpecificPins)
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+            var pinNames = useSpecificPins ? new string[] { "C0" } : null;
+            sessionsBundle.ConfigureTMUStartSourceEventPolarity(polarity, pinNames);
+
+            var result = sessionsBundle.GetTMUStartSourceEventPolarity(pinNames);
+
+            Assert.Equal(polarity, result.ExtractSite(0)["C0"]);
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_GetTMUStartSourceEventPolarityWithPinNotInBundleThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                sessionsBundle.GetTMUStartSourceEventPolarity(new string[] { "InvalidPin" }));
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        #endregion
+
+        #region Get TMU Stop Source Event Polarity Tests
+
+        [Theory]
+        [InlineData(TmuPolarity.RisingEdge, false)]
+        [InlineData(TmuPolarity.RisingEdge, true)]
+        [InlineData(TmuPolarity.FallingEdge, false)]
+        [InlineData(TmuPolarity.FallingEdge, true)]
+        public void Inititalize_GetTMUStopSourceEventPolarity_ReturnsConfiguredValue(TmuPolarity polarity, bool useSpecificPins)
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+            var pinNames = useSpecificPins ? new string[] { "C0" } : null;
+            sessionsBundle.ConfigureTMUStopSourceEventPolarity(polarity, pinNames);
+
+            var result = sessionsBundle.GetTMUStopSourceEventPolarity(pinNames);
+
+            Assert.Equal(polarity, result.ExtractSite(0)["C0"]);
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_GetTMUStopSourceEventPolarityWithPinNotInBundleThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                sessionsBundle.GetTMUStopSourceEventPolarity(new string[] { "InvalidPin" }));
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        #endregion
+
+        #region Get TMU Enabled Tests
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void InititalzeAndEnableTMU_GetTMUEnabled_ReturnsTrue(bool useSpecificPins)
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+            var pinNames = useSpecificPins ? new string[] { "C0" } : null;
+            sessionsBundle.ConfigureTMUStartSource(pinNames);
+            sessionsBundle.ConfigureTMUStopSource(pinNames);
+            sessionsBundle.EnableTMU(pinNames);
+
+            var result = sessionsBundle.GetTMUEnabled(pinNames);
+
+            Assert.True(result.ExtractSite(0)["C0"]);
+            sessionsBundle.DisableTMU(pinNames);
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void InititalzeAndDisableTMU_GetTMUEnabled_ReturnsFalse(bool useSpecificPins)
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+            var pinNames = useSpecificPins ? new string[] { "C0" } : null;
+            sessionsBundle.ConfigureTMUStartSource(pinNames);
+            sessionsBundle.ConfigureTMUStopSource(pinNames);
+            sessionsBundle.EnableTMU(pinNames);
+            sessionsBundle.DisableTMU(pinNames);
+
+            var result = sessionsBundle.GetTMUEnabled(pinNames);
+
+            Assert.False(result.ExtractSite(0)["C0"]);
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_GetTMUEnabledWithPinNotInBundleThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                sessionsBundle.GetTMUEnabled(new string[] { "InvalidPin" }));
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        #endregion
+
+        #region Get TMU Arm Type Tests
+
+        [Theory]
+        [InlineData(TmuArmType.Immediate, false)]
+        [InlineData(TmuArmType.Immediate, true)]
+        [InlineData(TmuArmType.Edge, false)]
+        [InlineData(TmuArmType.Edge, true)]
+        public void Inititalize_GetTMUArmType_ReturnsConfiguredValue(TmuArmType armType, bool useSpecificPins)
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+            var pinNames = useSpecificPins ? new string[] { "C0" } : null;
+            sessionsBundle.ConfigureTMUStartSource(pinNames);
+            sessionsBundle.ConfigureTMUEdgeArmSource(pinNames);
+            sessionsBundle.ConfigureTMUEdgeArmPolarity(TmuPolarity.RisingEdge, pinNames);
+            sessionsBundle.ConfigureTMUArmType(armType, pinNames);
+
+            var result = sessionsBundle.GetTMUArmType(pinNames);
+
+            Assert.Equal(armType, result.ExtractSite(0)["C0"]);
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_GetTMUArmTypeWithPinNotInBundleThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                sessionsBundle.GetTMUArmType(new string[] { "InvalidPin" }));
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        #endregion
+
+        #region Get TMU Edge Arm Source Tests
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void Inititalize_GetTMUEdgeArmSource_ReturnsConfiguredChannelString(bool useSpecificPins)
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+            var pinNames = useSpecificPins ? new string[] { "C0" } : null;
+            sessionsBundle.ConfigureTMUEdgeArmSource(pinNames);
+            var expected = sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) => sitePinInfo.IndividualChannelString);
+
+            var result = sessionsBundle.GetTMUEdgeArmSource(pinNames);
+
+            Assert.Equal(expected.ExtractSite(0)["C0"], result.ExtractSite(0)["C0"]);
+            if (useSpecificPins)
+            {
+                Assert.Null(result.ExtractSite(0)["C1"]);
+            }
+            else
+            {
+                Assert.Equal(expected.ExtractSite(0)["C1"], result.ExtractSite(0)["C1"]);
+            }
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_GetTMUEdgeArmSourceWithPinNotInBundleThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                sessionsBundle.GetTMUEdgeArmSource(new string[] { "InvalidPin" }));
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        #endregion
+
+        #region Get TMU Edge Arm Source Event Tests
+
+        [Theory]
+        [InlineData(TmuSourceEvent.Vol, false)]
+        [InlineData(TmuSourceEvent.Vol, true)]
+        [InlineData(TmuSourceEvent.Voh, false)]
+        [InlineData(TmuSourceEvent.Voh, true)]
+        public void Inititalize_GetTMUEdgeArmSourceEvent_ReturnsConfiguredValue(TmuSourceEvent sourceEvent, bool useSpecificPins)
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+            var pinNames = useSpecificPins ? new string[] { "C0" } : null;
+            sessionsBundle.ConfigureTMUEdgeArmSourceEvent(sourceEvent, pinNames);
+
+            var result = sessionsBundle.GetTMUEdgeArmSourceEvent(pinNames);
+
+            Assert.Equal(sourceEvent, result.ExtractSite(0)["C0"]);
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_GetTMUEdgeArmSourceEventWithPinNotInBundleThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                sessionsBundle.GetTMUEdgeArmSourceEvent(new string[] { "InvalidPin" }));
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        #endregion
+
+        #region Get TMU Edge Arm Polarity Tests
+
+        [Theory]
+        [InlineData(TmuPolarity.RisingEdge, false)]
+        [InlineData(TmuPolarity.RisingEdge, true)]
+        [InlineData(TmuPolarity.FallingEdge, false)]
+        [InlineData(TmuPolarity.FallingEdge, true)]
+        public void Inititalize_GetTMUEdgeArmPolarity_ReturnsConfiguredValue(TmuPolarity polarity, bool useSpecificPins)
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+            var pinNames = useSpecificPins ? new string[] { "C0" } : null;
+            sessionsBundle.ConfigureTMUEdgeArmPolarity(polarity, pinNames);
+
+            var result = sessionsBundle.GetTMUEdgeArmPolarity(pinNames);
+
+            Assert.Equal(polarity, result.ExtractSite(0)["C0"]);
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_GetTMUEdgeArmPolarityWithPinNotInBundleThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                sessionsBundle.GetTMUEdgeArmPolarity(new string[] { "InvalidPin" }));
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        #endregion
+
+        #region Get TMU Samples To Acquire Tests
+
+        [Theory]
+        [InlineData(100, false)]
+        [InlineData(1, false)]
+        [InlineData(50, true)]
+        public void Inititalize_GetTMUSamplesToAcquire_ReturnsConfiguredValue(long samplesToAcquire, bool useSpecificPins)
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+            var pinNames = useSpecificPins ? new string[] { "C0" } : null;
+            sessionsBundle.ConfigureTMUSamplesToAcquire(samplesToAcquire, pinNames);
+
+            var result = sessionsBundle.GetTMUSamplesToAcquire(pinNames);
+
+            Assert.Equal(samplesToAcquire, result.ExtractSite(0)["C0"]);
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_GetTMUSamplesToAcquireWithPinNotInBundleThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                sessionsBundle.GetTMUSamplesToAcquire(new string[] { "InvalidPin" }));
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        #endregion
+
+        #region Get TMU Sample Timeout Tests
+
+        [Theory]
+        [InlineData(10.0, false)]
+        [InlineData(0.001, false)]
+        [InlineData(10.0, true)]
+        public void Inititalize_GetTMUSampleTimeout_ReturnsConfiguredValue(double timeout, bool useSpecificPins)
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+            var pinNames = useSpecificPins ? new string[] { "C0" } : null;
+            sessionsBundle.ConfigureTMUSampleTimeout(timeout, pinNames);
+
+            var result = sessionsBundle.GetTMUSampleTimeout(pinNames);
+
+            Assert.Equal(timeout, result.ExtractSite(0)["C0"]);
+            sessionsBundle.DisableTMU();
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_GetTMUSampleTimeoutWithPinNotInBundleThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                sessionsBundle.GetTMUSampleTimeout(new string[] { "InvalidPin" }));
+            sessionsBundle.DisableTMU();
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        #endregion
+
+        #region Get TMU Start Input Debounce Time Tests
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void Inititalize_GetTMUStartInputDebounceTime_ReturnsNonNegativeValue(bool useSpecificPins)
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+            var pinNames = useSpecificPins ? new string[] { "C0" } : null;
+
+            var result = sessionsBundle.GetTMUStartInputDebounceTime(pinNames);
+
+            Assert.True(result.ExtractSite(0)["C0"] >= 0);
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_GetTMUStartInputDebounceTimeWithPinNotInBundleThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                sessionsBundle.GetTMUStartInputDebounceTime(new string[] { "InvalidPin" }));
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        #endregion
+
+        #region Get TMU Stop Input Debounce Time Tests
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void Inititalize_GetTMUStopInputDebounceTime_ReturnsNonNegativeValue(bool useSpecificPins)
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+            var pinNames = useSpecificPins ? new string[] { "C0" } : null;
+
+            var result = sessionsBundle.GetTMUStopInputDebounceTime(pinNames);
+
+            Assert.True(result.ExtractSite(0)["C0"] >= 0);
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_GetTMUStopInputDebounceTimeWithPinNotInBundleThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                sessionsBundle.GetTMUStopInputDebounceTime(new string[] { "InvalidPin" }));
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        #endregion
+
+        #region Get TMU Count Tests
+
+        [Fact]
+        public void Inititalize_GetTMUCount_ReturnsPositiveValue()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            var result = sessionsBundle.GetTMUCount();
+
+            Assert.True(result.ExtractSite(0)["C0"] > 0);
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        #endregion
+
         #region Helper Methods
 
         private DigitalSessionsBundle InititalzeAndCreateBundle()
