@@ -1253,6 +1253,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
+            sessionsBundle.ConfigureTMUStartSource(pinNames);
+            sessionsBundle.ConfigureTMUStopSource(pinNames);
             sessionsBundle.EnableTMU(pinNames);
 
             var result = sessionsBundle.GetTMUEnabled(pinNames);
@@ -1269,6 +1271,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
+            sessionsBundle.ConfigureTMUStartSource(pinNames);
+            sessionsBundle.ConfigureTMUStopSource(pinNames);
             sessionsBundle.EnableTMU(pinNames);
             sessionsBundle.DisableTMU(pinNames);
 
