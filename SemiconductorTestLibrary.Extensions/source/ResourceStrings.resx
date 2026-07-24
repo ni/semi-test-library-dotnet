@@ -180,4 +180,22 @@
   <data name="Digital_TMUUnsupportedPolarity" xml:space="preserve">
     <value>Unsupported Polarity.</value>
   </data>
+  <data name="Digital_TMUSkewPinCountMismatch" xml:space="preserve">
+    <value>The number of reference pins ({0}) must match the number of target pins ({1}).</value>
+  </data>
+  <data name="Digital_TMUSkewOverlappingPins" xml:space="preserve">
+    <value>A pin cannot be used as both a reference and a target in the same skew measurement configuration. The following pin(s) appear in both reference and target arrays: {0}</value>
+  </data>
+  <data name="Digital_TMUSkewTargetPinNotFound" xml:space="preserve">
+    <value>Target pin '{0}' was not found in the session for site {1}.</value>
+  </data>
+  <data name="Digital_TMUSkewMeasurementNullReferencePinsOrTargetPins" xml:space="preserve">
+    <value>'{0}' cannot be null for skew measurement. Please provide valid '{0}' values.</value>
+  </data>
+  <data name="Digital_TMUUnsupportedArmType" xml:space="preserve">
+    <value>Given arm type is not supported for TMU measurements.</value>
+  </data>
+  <data name="Digital_TMUSkewEmptyReferenceOrTargetPins" xml:space="preserve">
+    <value>'{0}' cannot be empty.</value>
+  </data>
 </root>

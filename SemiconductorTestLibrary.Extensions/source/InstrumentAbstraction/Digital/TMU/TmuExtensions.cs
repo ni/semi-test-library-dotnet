@@ -5,7 +5,15 @@ using System.Linq;
 using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
-using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU;
+// Following namespaces are required for 26.5
+using DigitalTmu = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu;
+using DigitalTmuCollections = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuCollections;
+using TMUContextManager = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TMUContextManager;
+using TmuArmType = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuArmType;
+using TmuDutyCycle = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuDutyCycle;
+using TmuPolarity = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuPolarity;
+using TmuPulseWidth = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuPulseWidth;
+using TmuSourceEvent = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuSourceEvent;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
 {
@@ -217,6 +225,291 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
                     ConfigurePeriodMeasurementForSitePin(sessionInfo, sitePinInfo, edgeType, samplesToAcquire, armType);
+                }
+            });
+        }
+
+        /// <summary>
+        /// Configures the TMU for skew measurement between a reference pin and a target pin.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// Skew is defined as the time difference between a specific edge type on the reference channel
+        /// and the same edge type on the target channel.<br/>
+        /// A positive result indicates the target edge occurs after the reference edge.<br/>
+        /// A negative result indicates the target edge occurs before the reference edge.
+        /// </para>
+        /// <para>
+        /// This method sets the necessary attributes to configure skew measurement for the assigned TMU resource.<br/>
+        /// </para>
+        /// <para>
+        /// For rising edge skew (<see cref="TmuPolarity.RisingEdge"/>):<br/>
+        /// - <see cref="TmuAttributes.TmuStartSource"/> = Reference channel<br/>
+        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
+        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
+        /// - <see cref="TmuAttributes.TmuStopSource"/> = Target channel<br/>
+        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
+        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
+        /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
+        /// - <see cref="TmuAttributes.TmuArmType"/> = value of <paramref name="armType"/> parameter.
+        /// </para>
+        /// <para>
+        /// For falling edge skew (<see cref="TmuPolarity.FallingEdge"/>):<br/>
+        /// - <see cref="TmuAttributes.TmuStartSource"/> = Reference channel<br/>
+        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
+        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
+        /// - <see cref="TmuAttributes.TmuStopSource"/> = Target channel<br/>
+        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
+        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
+        /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
+        /// - <see cref="TmuAttributes.TmuArmType"/> = value of <paramref name="armType"/> parameter.
+        /// </para>
+        /// If the <paramref name="edgeType"/> parameter is set to <see cref="TmuPolarity.EitherEdge"/>, an exception will be thrown.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="referencePinNames">The pins to use as the reference (start) source for the skew measurement.</param>
+        /// <param name="targetPinNames">The pins to use as the target (stop) source for the skew measurement.</param>
+        /// <param name="edgeType">The type of edge to detect. Only accepts <see cref="TmuPolarity.RisingEdge"/> or <see cref="TmuPolarity.FallingEdge"/>.</param>
+        /// <param name="samplesToAcquire">The number of samples to acquire for the TMU measurement.</param>
+        /// <param name="armType">
+        /// The type of signal used to arm the TMU measurement.<br/>
+        /// The TMU's arm input is used to frame, or select, the start and stop events of interest for each TMU sample.
+        /// </param>
+        public static void ConfigureTMUSkewMeasurement(
+            this DigitalSessionsBundle sessionsBundle,
+            string[] referencePinNames,
+            string[] targetPinNames,
+            TmuPolarity edgeType,
+            long samplesToAcquire,
+            TmuArmType armType = TmuArmType.Immediate)
+        {
+            ValidateSkewParameters(referencePinNames, targetPinNames, armType, sessionsBundle.Pins);
+
+            // Create a mapping from reference pin to target pin
+            var referenceToTargetMap = new Dictionary<string, string>();
+            for (int i = 0; i < referencePinNames.Length; i++)
+            {
+                referenceToTargetMap[referencePinNames[i]] = targetPinNames[i];
+            }
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                // Configure only for reference pins (which have the TMU assigned)
+                if (referenceToTargetMap.TryGetValue(sitePinInfo.PinName, out string targetPinName))
+                {
+                    // Find the target pin's channel string for the same site
+                    var targetSitePinInfo = sessionInfo.AssociatedSitePinList
+                        .FirstOrDefault(sp => sp.PinName == targetPinName && sp.SiteNumber == sitePinInfo.SiteNumber);
+                    if (targetSitePinInfo == null)
+                    {
+                        throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUSkewTargetPinNotFound, targetPinName, sitePinInfo.SiteNumber));
+                    }
+
+                    ConfigureTMUSkewMeasurementForSitePin(
+                        sessionInfo,
+                        sitePinInfo,
+                        targetSitePinInfo,
+                        edgeType,
+                        samplesToAcquire,
+                        armType);
+                }
+            });
+        }
+
+        /// <summary>
+        /// Configures the TMU to perform a rise time measurement for pins in the sessions bundle.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// Rise time is defined as the time for a signal to transition from the low voltage threshold to the high voltage threshold.<br/>
+        /// This method sets the following attributes for the assigned TMU resource:
+        /// </para>
+        /// <para>
+        /// - <see cref="TmuAttributes.TmuStartSource"/> = the associated pin<br/>
+        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
+        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
+        /// - <see cref="TmuAttributes.TmuStopSource"/> = same pin as start source<br/>
+        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
+        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
+        /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
+        /// - <see cref="TmuAttributes.TmuArmType"/> = value of <paramref name="armType"/> parameter.
+        /// </para>
+        /// <para>
+        /// This measurement requires 2 comparators.<br/>
+        /// This method does not enable the TMU (see <see cref="TmuAttributes.TmuEnabled"/>).
+        /// Call <see cref="EnableTMU"/> separately when ready to reserve the TMU resource.
+        /// </para>
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="samplesToAcquire">The number of samples to acquire for the TMU measurement.</param>
+        /// <param name="armType">
+        /// The type of signal used to arm the TMU measurement.<br/>
+        /// The TMU's arm input is used to frame, or select, the start and stop events of interest for each TMU sample.
+        /// </param>
+        /// <param name="pinNames">The specific pins to configure the TMU for. When <c>null</c>, all pins are targeted.</param>
+        public static void ConfigureTMURiseTimeMeasurement(this DigitalSessionsBundle sessionsBundle, long samplesToAcquire, TmuArmType armType = TmuArmType.Immediate, string[] pinNames = null)
+        {
+            ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                {
+                    ConfigureRiseTimeMeasurementForSitePin(sessionInfo, sitePinInfo, samplesToAcquire, armType);
+                }
+            });
+        }
+
+        /// <summary>
+        /// Configures the TMU to perform a fall time measurement for pins in the sessions bundle.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// Fall time is defined as the time for a signal to transition from the high voltage threshold to the low voltage threshold.<br/>
+        /// This method sets the following attributes for the assigned TMU resource:
+        /// </para>
+        /// <para>
+        /// - <see cref="TmuAttributes.TmuStartSource"/> = the associated pin<br/>
+        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
+        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
+        /// - <see cref="TmuAttributes.TmuStopSource"/> = same pin as start source<br/>
+        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
+        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
+        /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
+        /// - <see cref="TmuAttributes.TmuArmType"/> = value of <paramref name="armType"/> parameter.
+        /// </para>
+        /// <para>
+        /// This measurement requires 2 comparators.<br/>
+        /// This method does not enable the TMU (see <see cref="TmuAttributes.TmuEnabled"/>).
+        /// Call <see cref="EnableTMU"/> separately when ready to reserve the TMU resource.
+        /// </para>
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="samplesToAcquire">The number of samples to acquire for the TMU measurement.</param>
+        /// <param name="armType">
+        /// The type of signal used to arm the TMU measurement.<br/>
+        /// The TMU's arm input is used to frame, or select, the start and stop events of interest for each TMU sample.
+        /// </param>
+        /// <param name="pinNames">The specific pins to configure the TMU for. When <c>null</c>, all pins are targeted.</param>
+        public static void ConfigureTMUFallTimeMeasurement(this DigitalSessionsBundle sessionsBundle, long samplesToAcquire, TmuArmType armType = TmuArmType.Immediate, string[] pinNames = null)
+        {
+            ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                {
+                    ConfigureFallTimeMeasurementForSitePin(sessionInfo, sitePinInfo, samplesToAcquire, armType);
+                }
+            });
+        }
+
+        /// <summary>
+        /// Configures the TMU to perform a duty cycle measurement for pins in the sessions bundle.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// This method sets the following attributes for the assigned TMU resource based on the <paramref name="dutyCycleType"/> parameter:
+        /// </para>
+        /// <para>
+        /// For duty cycle high (<see cref="TmuDutyCycle.High"/>):<br/>
+        /// - <see cref="TmuAttributes.TmuStartSource"/> = the associated pin<br/>
+        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
+        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
+        /// - <see cref="TmuAttributes.TmuStopSource"/> = same pin as start source<br/>
+        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
+        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
+        /// </para>
+        /// <para>
+        /// For duty cycle low (<see cref="TmuDutyCycle.Low"/>):<br/>
+        /// - <see cref="TmuAttributes.TmuStartSource"/> = the associated pin<br/>
+        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
+        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
+        /// - <see cref="TmuAttributes.TmuStopSource"/> = same pin as start source<br/>
+        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
+        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
+        /// </para>
+        /// <para>
+        /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
+        /// - <see cref="TmuAttributes.TmuArmType"/> = value of <paramref name="armType"/> parameter.
+        /// </para>
+        /// <para>
+        /// This measurement requires 1 comparator.<br/>
+        /// This method does not enable the TMU (see <see cref="TmuAttributes.TmuEnabled"/>).
+        /// Call <see cref="EnableTMU"/> separately when ready to reserve the TMU resource.<br/>
+        /// The returned measurement value is the time duration, not a percentage.
+        /// To convert to percentage duty cycle, divide by the period.
+        /// </para>
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="dutyCycleType">The duty cycle measurement type. Accepts <see cref="TmuDutyCycle.High"/> or <see cref="TmuDutyCycle.Low"/>.</param>
+        /// <param name="samplesToAcquire">The number of samples to acquire for the TMU measurement.</param>
+        /// <param name="armType">
+        /// The type of signal used to arm the TMU measurement.<br/>
+        /// The TMU's arm input is used to frame, or select, the start and stop events of interest for each TMU sample.
+        /// </param>
+        /// <param name="pinNames">The specific pins to configure the TMU for. When <c>null</c>, all pins are targeted.</param>
+        public static void ConfigureTMUDutyCycleMeasurement(this DigitalSessionsBundle sessionsBundle, TmuDutyCycle dutyCycleType, long samplesToAcquire, TmuArmType armType = TmuArmType.Immediate, string[] pinNames = null)
+        {
+            ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                {
+                    ConfigureDutyCycleMeasurementForSitePin(sessionInfo, sitePinInfo, dutyCycleType, samplesToAcquire, armType);
+                }
+            });
+        }
+
+        /// <summary>
+        /// Configures the TMU to perform a pulse width measurement for pins in the sessions bundle.
+        /// </summary>
+        /// <remarks>
+        /// <para>
+        /// This method sets the following attributes for the assigned TMU resource based on the <paramref name="pulseWidthType"/> parameter:
+        /// </para>
+        /// <para>
+        /// For pulse width high (<see cref="TmuPulseWidth.High"/>):<br/>
+        /// - <see cref="TmuAttributes.TmuStartSource"/> = the associated pin<br/>
+        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
+        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
+        /// - <see cref="TmuAttributes.TmuStopSource"/> = same pin as start source<br/>
+        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
+        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
+        /// </para>
+        /// <para>
+        /// For pulse width low (<see cref="TmuPulseWidth.Low"/>):<br/>
+        /// - <see cref="TmuAttributes.TmuStartSource"/> = the associated pin<br/>
+        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
+        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
+        /// - <see cref="TmuAttributes.TmuStopSource"/> = same pin as start source<br/>
+        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
+        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
+        /// </para>
+        /// <para>
+        /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
+        /// - <see cref="TmuAttributes.TmuArmType"/> = value of <paramref name="armType"/> parameter.
+        /// </para>
+        /// <para>
+        /// This measurement requires 1 comparator.<br/>
+        /// This method does not enable the TMU (see <see cref="TmuAttributes.TmuEnabled"/>).
+        /// Call <see cref="EnableTMU"/> separately when ready to reserve the TMU resource.
+        /// </para>
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="pulseWidthType">The pulse width measurement type. Accepts <see cref="TmuPulseWidth.High"/> or <see cref="TmuPulseWidth.Low"/>.</param>
+        /// <param name="samplesToAcquire">The number of samples to acquire for the TMU measurement.</param>
+        /// <param name="armType">
+        /// The type of signal used to arm the TMU measurement.<br/>
+        /// The TMU's arm input is used to frame, or select, the start and stop events of interest for each TMU sample.
+        /// </param>
+        /// <param name="pinNames">The specific pins to configure the TMU for. When <c>null</c>, all pins are targeted.</param>
+        public static void ConfigureTMUPulseWidthMeasurement(this DigitalSessionsBundle sessionsBundle, TmuPulseWidth pulseWidthType, long samplesToAcquire, TmuArmType armType = TmuArmType.Immediate, string[] pinNames = null)
+        {
+            ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                {
+                    ConfigurePulseWidthMeasurementForSitePin(sessionInfo, sitePinInfo, pulseWidthType, samplesToAcquire, armType);
                 }
             });
         }
@@ -608,23 +901,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                     return false;
                 }
             }
-            return true; // It is safe to release only when all the assigned TMUs are free, resources not reservered at driver level.
+            return true; // It is safe to release only when all the assigned TMUs are free, resources not reserved at driver level.
         }
 
         private static void ConfigurePeriodMeasurementForSitePin(DigitalSessionInformation sessionInfo, SitePinInfo sitePinInfo, TmuPolarity edgeType, long samplesToAcquire, TmuArmType armSourcetype)
         {
-            TmuSourceEvent sourceEvent;
-            switch (edgeType)
-            {
-                case TmuPolarity.RisingEdge:
-                    sourceEvent = TmuSourceEvent.Voh;
-                    break;
-                case TmuPolarity.FallingEdge:
-                    sourceEvent = TmuSourceEvent.Vol;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(edgeType), edgeType, string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedPolarity));
-            }
+            TmuSourceEvent sourceEvent = GetSourceEventForEdge(edgeType);
 
             // Configure the TMU Start Source, TMU Start Source Event, TMU Start Source Event Polarity,
             // TMU Stop Source, TMU Stop Source Event, TMU Stop Source Event Polarity, number of samples to acquire, and arm source.
@@ -640,6 +922,152 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
 
             // Enable the TMU (reserve it)
             tmu.Enabled = true;
+        }
+
+        private static void ConfigureTMUSkewMeasurementForSitePin(
+            DigitalSessionInformation sessionInfo,
+            SitePinInfo referenceSitePinInfo,
+            SitePinInfo targetSitePinInfo,
+            TmuPolarity edgeType,
+            long samplesToAcquire,
+            TmuArmType armType)
+        {
+            TmuSourceEvent sourceEvent = GetSourceEventForEdge(edgeType);
+            DigitalTmu tmu = GetAssignedTmu(sessionInfo, referenceSitePinInfo);
+            // Configure TMU Start Source (Reference Channel)
+            tmu.Start.Source = referenceSitePinInfo.IndividualChannelString;
+            tmu.Start.SourceEvent = sourceEvent;
+            tmu.Start.SourceEventPolarity = edgeType;
+
+            // Configure TMU Stop Source (Target Channel)
+            tmu.Stop.Source = targetSitePinInfo.IndividualChannelString;
+            tmu.Stop.SourceEvent = sourceEvent;
+            tmu.Stop.SourceEventPolarity = edgeType;
+
+            // Configure samples and arm type
+            tmu.SamplesToAcquire = samplesToAcquire;
+            tmu.ArmType = armType;
+
+            // Enable the TMU (reserve it)
+            tmu.Enabled = true;
+        }
+
+        private static TmuSourceEvent GetSourceEventForEdge(TmuPolarity edgeType)
+        {
+            switch (edgeType)
+            {
+                case TmuPolarity.RisingEdge:
+                    return TmuSourceEvent.Voh;
+                case TmuPolarity.FallingEdge:
+                    return TmuSourceEvent.Vol;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(edgeType), edgeType, string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedPolarity));
+            }
+        }
+
+        private static void ConfigureRiseTimeMeasurementForSitePin(DigitalSessionInformation sessionInfo, SitePinInfo sitePinInfo, long samplesToAcquire, TmuArmType armType)
+        {
+            string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
+            DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+            tmu.Start.Source = sitePinInfo.IndividualChannelString;
+            tmu.Start.SourceEvent = TmuSourceEvent.Vol;
+            tmu.Start.SourceEventPolarity = TmuPolarity.RisingEdge;
+            tmu.Stop.Source = sitePinInfo.IndividualChannelString;
+            tmu.Stop.SourceEvent = TmuSourceEvent.Voh;
+            tmu.Stop.SourceEventPolarity = TmuPolarity.RisingEdge;
+            tmu.SamplesToAcquire = samplesToAcquire;
+            tmu.ArmType = armType;
+            // Enable the TMU (reserve it)
+            tmu.Enabled = true;
+        }
+
+        private static void ConfigureFallTimeMeasurementForSitePin(DigitalSessionInformation sessionInfo, SitePinInfo sitePinInfo, long samplesToAcquire, TmuArmType armType)
+        {
+            string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
+            DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+            tmu.Start.Source = sitePinInfo.IndividualChannelString;
+            tmu.Start.SourceEvent = TmuSourceEvent.Voh;
+            tmu.Start.SourceEventPolarity = TmuPolarity.FallingEdge;
+            tmu.Stop.Source = sitePinInfo.IndividualChannelString;
+            tmu.Stop.SourceEvent = TmuSourceEvent.Vol;
+            tmu.Stop.SourceEventPolarity = TmuPolarity.FallingEdge;
+            tmu.SamplesToAcquire = samplesToAcquire;
+            tmu.ArmType = armType;
+            // Enable the TMU (reserve it)
+            tmu.Enabled = true;
+        }
+
+        private static void ConfigureDutyCycleMeasurementForSitePin(DigitalSessionInformation sessionInfo, SitePinInfo sitePinInfo, TmuDutyCycle dutyCycleType, long samplesToAcquire, TmuArmType armType)
+        {
+            string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
+            DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+            switch (dutyCycleType)
+            {
+                case TmuDutyCycle.High:
+                    tmu.Start.Source = sitePinInfo.IndividualChannelString;
+                    tmu.Start.SourceEvent = TmuSourceEvent.Voh;
+                    tmu.Start.SourceEventPolarity = TmuPolarity.RisingEdge;
+                    tmu.Stop.Source = sitePinInfo.IndividualChannelString;
+                    tmu.Stop.SourceEvent = TmuSourceEvent.Voh;
+                    tmu.Stop.SourceEventPolarity = TmuPolarity.FallingEdge;
+                    break;
+                case TmuDutyCycle.Low:
+                    tmu.Start.Source = sitePinInfo.IndividualChannelString;
+                    tmu.Start.SourceEvent = TmuSourceEvent.Vol;
+                    tmu.Start.SourceEventPolarity = TmuPolarity.FallingEdge;
+                    tmu.Stop.Source = sitePinInfo.IndividualChannelString;
+                    tmu.Stop.SourceEvent = TmuSourceEvent.Vol;
+                    tmu.Stop.SourceEventPolarity = TmuPolarity.RisingEdge;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(dutyCycleType), dutyCycleType, string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedPolarity));
+            }
+            tmu.SamplesToAcquire = samplesToAcquire;
+            tmu.ArmType = armType;
+            // Enable the TMU (reserve it)
+            tmu.Enabled = true;
+        }
+
+        private static void ConfigurePulseWidthMeasurementForSitePin(DigitalSessionInformation sessionInfo, SitePinInfo sitePinInfo, TmuPulseWidth pulseWidthType, long samplesToAcquire, TmuArmType armType)
+        {
+            string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
+            DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+            switch (pulseWidthType)
+            {
+                case TmuPulseWidth.High:
+                    tmu.Start.Source = sitePinInfo.IndividualChannelString;
+                    tmu.Start.SourceEvent = TmuSourceEvent.Voh;
+                    tmu.Start.SourceEventPolarity = TmuPolarity.RisingEdge;
+                    tmu.Stop.Source = sitePinInfo.IndividualChannelString;
+                    tmu.Stop.SourceEvent = TmuSourceEvent.Voh;
+                    tmu.Stop.SourceEventPolarity = TmuPolarity.FallingEdge;
+                    break;
+                case TmuPulseWidth.Low:
+                    tmu.Start.Source = sitePinInfo.IndividualChannelString;
+                    tmu.Start.SourceEvent = TmuSourceEvent.Vol;
+                    tmu.Start.SourceEventPolarity = TmuPolarity.FallingEdge;
+                    tmu.Stop.Source = sitePinInfo.IndividualChannelString;
+                    tmu.Stop.SourceEvent = TmuSourceEvent.Vol;
+                    tmu.Stop.SourceEventPolarity = TmuPolarity.RisingEdge;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(pulseWidthType), pulseWidthType, string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedPolarity));
+            }
+            tmu.SamplesToAcquire = samplesToAcquire;
+            tmu.ArmType = armType;
+            // Enable the TMU (reserve it)
+            tmu.Enabled = true;
+        }
+
+        private static void ValidateSkewPins(string[] referencePinNames, string[] targetPinNames)
+        {
+            // Check that no target pin appears in the reference pins array.
+            var overlappingPins = targetPinNames.Intersect(referencePinNames, StringComparer.OrdinalIgnoreCase).ToArray();
+
+            if (overlappingPins.Any())
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUSkewOverlappingPins, string.Join(", ", overlappingPins.Select(p => $"\"{p}\""))));
+            }
         }
 
         private static void ValidatePinsOfTMU(IEnumerable<string> bundlePins, string[] requestedPins)
@@ -680,6 +1108,41 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         private static DigitalTmuCollections GetDigitalTmus(NIDigital session)
         {
             return new DigitalTmuCollections(session);
+        }
+
+        private static void ValidateSkewParameters(string[] referencePinNames, string[] targetPinNames, TmuArmType armType, IEnumerable<string> bundlePins)
+        {
+            if (referencePinNames == null)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUSkewMeasurementNullReferencePinsOrTargetPins, nameof(referencePinNames)));
+            }
+            if (targetPinNames == null)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUSkewMeasurementNullReferencePinsOrTargetPins, nameof(targetPinNames)));
+            }
+            if (armType != TmuArmType.None && armType != TmuArmType.Immediate && armType != TmuArmType.Edge)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedArmType), new ArgumentOutOfRangeException(nameof(armType)));
+            }
+            if (referencePinNames.Length == 0)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUSkewEmptyReferenceOrTargetPins, nameof(referencePinNames)));
+            }
+            if (targetPinNames.Length == 0)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUSkewEmptyReferenceOrTargetPins, nameof(targetPinNames)));
+            }
+            // Validate array lengths match
+            if (referencePinNames.Length != targetPinNames.Length)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUSkewPinCountMismatch, referencePinNames.Length, targetPinNames.Length));
+            }
+            // Validate all pins exist in the bundle
+            var allPins = referencePinNames.Concat(targetPinNames).Distinct().ToArray();
+            ValidatePinsOfTMU(bundlePins, allPins);
+
+            // Validate reference and target pins are not the same
+            ValidateSkewPins(referencePinNames, targetPinNames);
         }
     }
 }
