@@ -6561,7 +6561,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void DifferentSMUDevicesConfigureTransientResponse_GetTransientResponse_ReturnsTheTransientResponse(bool pinMapWithChannelGroup)
+        public void DifferentSMUDevicesConfigureTransientResponse_GetTransientResponse_ReturnsCorrectValue(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var expectedTransientResponse = DCPowerSourceTransientResponse.Fast;
@@ -6613,7 +6613,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinName = "VDD";
             var expectedTransientResponse = DCPowerSourceTransientResponse.Fast;
             var sessionsBundle = sessionManager.DCPower(pinName);
-            var filteredBySite0Bundle = sessionsBundle.FilterBySite(0);
+            var filteredBySite0Bundle = sessionsBundle.FilterBySite(new int[] { 0, 1 });
             filteredBySite0Bundle.ConfigureSourceSettings(new DCPowerSourceSettings { TransientResponse = expectedTransientResponse });
 
             var transientResponse = sessionsBundle.GetTransientResponse();
