@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SemiconductorTestLibrary.Ex
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.SemiconductorTestLibrary.Extensions", "SemiconductorTestLibrary.Extensions\tests\Tests.SemiconductorTestLibrary.Extensions.csproj", "{22397A12-B9B8-4913-897C-59BF49752659}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.SemiconductorTestLibrary.Utilities", "TestAssets\Tests.SemiconductorTestLibrary.Utilities\Tests.SemiconductorTestLibrary.Utilities.csproj", "{4A5E4AD8-DF13-4B94-87E8-F0FA19EAB2FA}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SemiconductorTestLibrary.TestStandSteps", "SemiconductorTestLibrary.TestStandSteps\source\SemiconductorTestLibrary.TestStandSteps.csproj", "{663384BE-3A81-4B11-AF33-817BF91345B2}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.SemiconductorTestLibrary.TestStandSteps", "SemiconductorTestLibrary.TestStandSteps\tests\Tests.SemiconductorTestLibrary.TestStandSteps.csproj", "{B5E6E050-014D-447B-A572-8D1DD7860871}"
@@ -31,10 +29,6 @@ Global
 		{22397A12-B9B8-4913-897C-59BF49752659}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{22397A12-B9B8-4913-897C-59BF49752659}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{22397A12-B9B8-4913-897C-59BF49752659}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4A5E4AD8-DF13-4B94-87E8-F0FA19EAB2FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4A5E4AD8-DF13-4B94-87E8-F0FA19EAB2FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4A5E4AD8-DF13-4B94-87E8-F0FA19EAB2FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4A5E4AD8-DF13-4B94-87E8-F0FA19EAB2FA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{663384BE-3A81-4B11-AF33-817BF91345B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{663384BE-3A81-4B11-AF33-817BF91345B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{663384BE-3A81-4B11-AF33-817BF91345B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
