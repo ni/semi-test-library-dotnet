@@ -174,7 +174,25 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             // Hence, need the ability to check the operation against each channel when configuring triggers.
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
-                if (!IsFollowerOfGangedChannels(pinSiteInfo.CascadingInfo))
+                GangingInfo gangingInfo = pinSiteInfo.CascadingInfo as GangingInfo;
+                if (IsFollowerOfGangedChannels(gangingInfo))
+                {
+                    switch (triggerType)
+                    {
+                        case TriggerType.MeasureTrigger:
+                            ConfigureTriggerDigitalEdge(sessionInfo, pinSiteInfo, triggerType, gangingInfo.MeasureTriggerName, triggerEdge);
+                            break;
+                        case TriggerType.SequenceAdvanceTrigger:
+                            ConfigureTriggerDigitalEdge(sessionInfo, pinSiteInfo, triggerType, gangingInfo.SequenceAdvanceTriggerName, triggerEdge);
+                            break;
+                        case TriggerType.StartTrigger:
+                            ConfigureTriggerDigitalEdge(sessionInfo, pinSiteInfo, triggerType, gangingInfo.StartTriggerName, triggerEdge);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else
                 {
                     ConfigureTriggerDigitalEdge(sessionInfo, pinSiteInfo, triggerType, tiggerTerminal, triggerEdge);
                 }
@@ -194,9 +212,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
                 var triggerTypesUnsupported = GetUnsupportedTriggerTypes(pinSiteInfo.ModelString);
-                if (!triggerTypesUnsupported.Contains(triggerType) && !IsFollowerOfGangedChannels(pinSiteInfo.CascadingInfo))
+                var output = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
+                GangingInfo gangingInfo = pinSiteInfo.CascadingInfo as GangingInfo;
+                if (!triggerTypesUnsupported.Contains(triggerType) && !IsFollowerOfGangedChannels(gangingInfo))
                 {
-                    var output = sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString];
                     output.Control.Abort();
                     switch (triggerType)
                     {
@@ -214,6 +233,26 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                             break;
                         case TriggerType.StartTrigger:
                             output.Triggers.StartTrigger.ConfigureSoftwareEdgeTrigger();
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                else if (IsFollowerOfGangedChannels(gangingInfo))
+                {
+                    switch (triggerType)
+                    {
+                        case TriggerType.MeasureTrigger:
+                            sessionInfo.ConfigureMeasureTriggerForCascading(pinSiteInfo);
+                            break;
+                        case TriggerType.SequenceAdvanceTrigger:
+                            output.ConfigureSequenceAdvanceTriggerForCascadedSequencing(pinSiteInfo);
+                            break;
+                        case TriggerType.StartTrigger:
+                            output.ConfigureStartTriggerForCascadedSequencing(pinSiteInfo);
+                            break;
+                        case TriggerType.SourceTrigger:
+                            output.ConfigureSourceTriggerForCascading(pinSiteInfo);
                             break;
                         default:
                             break;
