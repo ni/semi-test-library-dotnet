@@ -185,7 +185,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
 
             // Use AddSite to add one or more site numbers to the empty SiteData object.
             // Each added site is initialized with the default value of the data type (0.0 for double).
-            siteData.AddSite(0, 1, 2);
+            var siteNumbersToAdd = new int[] { 0, 1, 2 };
+            siteData.AddSite(siteNumbersToAdd);
             // Site  |  0    |  1    |  2
             // Value |  0.0  |  0.0  |  0.0
 
@@ -199,7 +200,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // Use SetValue with specific site numbers to set values for only those sites.
             // This adds sites 3 and 4 ans sets 5.0 as value  leaving site 0 unchanged at 3.3.
             valueToSet = 5.0;
-            siteData.SetValue(valueToSet, 3, 4);
+            var siteNumbersToSetValue = new int[] { 3, 4 };
+            siteData.SetValue(valueToSet, siteNumbersToSetValue);
             // Site  |  0    |  1    |  2    |  3    |  4
             // Value |  3.3  |  3.3  |  3.3  |  5.0  |  5.0
 
@@ -244,7 +246,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
 
             // Use RemoveSite to remove specific sites from the SiteData object.
             // This removes site 0 and site 1, leaving only site 2 in the object.
-            siteData.RemoveSite(0, 1);
+            var siteNumbersToRemove = new int[] { 0, 1 };
+            siteData.RemoveSite(siteNumbersToRemove);
             // Site  |  2
             // Value |  2.5
         }
