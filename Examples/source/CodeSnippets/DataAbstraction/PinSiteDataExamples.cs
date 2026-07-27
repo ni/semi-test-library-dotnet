@@ -338,7 +338,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
 
             // Use SetValue to assign a specific value to all pins and all sites at once.
             // This sets the value 1.5 for all pin-site combinations (VDET/0, VDET/1, VCC1/0, VCC1/1, VCC2/0, VCC2/1).
-            pinSiteData.SetValue(1.5);
+            var valueToSet = 1.5;
+            pinSiteData.SetValue(valueToSet);
             // Pin    | Site 0 | Site 1 | Site 2
             // VDET   |  1.5   |  1.5   |  1.5
             // VCC1   |  1.5   |  1.5   |  1.5
@@ -346,7 +347,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
 
             // Use SetValue with specific site numbers to overwrite only certain sites across all pins.
             // This sets 3.3 for site 1 of all pins (VDET/1, VCC1/1, VCC2/1), leaving site 0 and 2 unchanged at 1.5.
-            pinSiteData.SetValue(3.3, 1);
+            valueToSet = 3.3;
+            pinSiteData.SetValue(valueToSet, 1);
             // Pin    | Site 0 | Site 1 | Site 2
             // VDET   |  1.5   |  3.3   |  1.5
             // VCC1   |  1.5   |  3.3   |  1.5
@@ -369,7 +371,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
 
             // Use SetValue with a specific pin name and site numbers to overwrite a single pin-site combination.
             // This sets 5.0 only for VCC1 at site 0, leaving all other pin-site combinations unchanged.
-            pinSiteData.SetValue(5.0, "VCC1", 0);
+            valueToSet = 5.0;
+            pinSiteData.SetValue(valueToSet, "VCC1", 0);
             // Pin    | Site 0 | Site 1
             // VDET   |  1.5   |  3.3
             // VCC1   |  5.0   |  3.3
@@ -405,7 +408,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // to a subset of pins across a subset of sites.
             // Missing site 4 is added to VCC1 and VCC2.
             // This sets 1.8 for both VCC1 and VCC2 at sites 0, 1 and 4.
-            pinSiteData.SetValue(1.8, new string[] { "VCC1", "VCC2" }, 0, 1, 4);
+            var valueToSet = 1.8;
+            pinSiteData.SetValue(valueToSet, new string[] { "VCC1", "VCC2" }, 0, 1, 4);
             // Pin    | Site 0 | Site 1 | Site 2 | Site 3 | Site 4
             // VDET   |  0.0   |  0.0   |  0.0   |  0.0   |  ---
             // VCC1   |  1.8   |  1.8   |  0.0   |  0.0   |  1.8
@@ -421,7 +425,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
 
             // Use SetValue with a pin name only (no site numbers) to set a value for all sites on that pin.
             // This sets 3.3 for VDET across all of its sites (0, 1, 3).
-            pinSiteData.SetValue(3.3, "VDET");
+            valueToSet = 3.3;
+            pinSiteData.SetValue(valueToSet, "VDET");
             // Pin    | Site 0 | Site 1 | Site 2 | Site 3 | Site 4
             // VDET   |  3.3   |  3.3   |  ---   |  3.3   |  ---
             // VCC1   |  1.8   |  1.8   |  ---   |  0.0   |  1.8
@@ -480,7 +485,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
 
             // Use SetValue with a specific pin name and site number to overwrite a single combination.
             // This sets 0.9 only for VDET at site 0, leaving all other values unchanged.
-            pinSiteData.SetValue(0.9, "VDET", 0);
+            var valueToSet = 0.9;
+            pinSiteData.SetValue(valueToSet, "VDET", 0);
             // Pin    | Site 0 | Site 1 | Site 2
             // VDET   |  0.9   |  3.6   |  5.7
         }

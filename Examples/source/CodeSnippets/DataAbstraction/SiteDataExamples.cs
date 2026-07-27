@@ -191,13 +191,15 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
 
             // Use SetValue to assign a specific value to all sites at once.
             // This sets 3.3 for all sites (site 0, site 1, and site 2).
-            siteData.SetValue(3.3);
+            var valueToSet = 3.3;
+            siteData.SetValue(valueToSet);
             // Site  |  0    |  1    |  2
             // Value |  3.3  |  3.3  |  3.3
 
             // Use SetValue with specific site numbers to set values for only those sites.
             // This adds sites 3 and 4 ans sets 5.0 as value  leaving site 0 unchanged at 3.3.
-            siteData.SetValue(5.0, 3, 4);
+            valueToSet = 5.0;
+            siteData.SetValue(valueToSet, 3, 4);
             // Site  |  0    |  1    |  2    |  3    |  4
             // Value |  3.3  |  3.3  |  3.3  |  5.0  |  5.0
 
@@ -228,13 +230,15 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // Use SetValue with specific site numbers to assign a value to only those sites.
             // Missing site 0 is added automatically, and all specified sites are set to the provided value (1.8 for site 0 and site 1).
             var siteNumbersToSetValue = new int[] { 0, 1 };
-            siteData.SetValue(1.8, siteNumbersToSetValue);
+            var valueToSet = 1.8;
+            siteData.SetValue(valueToSet, siteNumbersToSetValue);
             // Site  |  0    |  1    |  2
             // Value |  1.8  |  1.8  |  0.0
 
             // Use SetValue without site numbers to set the same value across all existing sites.
             // This overwrites the values for site 0, site 1, and site 2, setting all of them to 2.5.
-            siteData.SetValue(2.5);
+            valueToSet = 2.5;
+            siteData.SetValue(valueToSet);
             // Site  |  0    |  1    |  2
             // Value |  2.5  |  2.5  |  2.5
 
