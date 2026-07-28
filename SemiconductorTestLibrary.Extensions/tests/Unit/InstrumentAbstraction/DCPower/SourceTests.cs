@@ -6611,8 +6611,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinName = "VDD";
             var expectedTransientResponse = DCPowerSourceTransientResponse.Fast;
             var sessionsBundle = sessionManager.DCPower(pinName);
-            var filteredBySite0Bundle = sessionsBundle.FilterBySite(new int[] { 0, 1 });
-            ConfigureTransientResponse(filteredBySite0Bundle, expectedTransientResponse);
+            var filteredBySiteBundle = sessionsBundle.FilterBySite(0);
+            ConfigureTransientResponse(filteredBySiteBundle, expectedTransientResponse);
 
             var transientResponse = sessionsBundle.GetTransientResponse();
 
