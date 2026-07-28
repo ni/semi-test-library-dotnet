@@ -1265,10 +1265,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinNames = new string[] { "VCC1", "VCC2" };
             var sessionsBundle = sessionManager.DCPower(pinNames);
             var activeSites = GetActiveSites(sessionsBundle);
-            var expectedSense = new PinSiteData<DCPowerMeasurementSense>(activeSites, new Dictionary<string, DCPowerMeasurementSense>()
+            var expectedSense = new PinSiteData<DCPowerMeasurementSense>(new Dictionary<string, IDictionary<int, DCPowerMeasurementSense>>
             {
-                [pinNames[0]] = DCPowerMeasurementSense.Local,
-                [pinNames[1]] = DCPowerMeasurementSense.Local
+                [pinNames[0]] = activeSites.ToDictionary(site => site, site => site % 2 == 0 ? DCPowerMeasurementSense.Local : DCPowerMeasurementSense.Remote),
+                [pinNames[1]] = activeSites.ToDictionary(site => site, site => site % 2 == 0 ? DCPowerMeasurementSense.Remote : DCPowerMeasurementSense.Local),
             });
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
