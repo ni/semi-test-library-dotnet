@@ -224,7 +224,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
-                    ConfigurePeriodMeasurementForSitePin(sessionInfo, sitePinInfo, edgeType, samplesToAcquire, armType);
+                    TmuSourceEvent sourceEvent = GetSourceEventForEdge(edgeType);
+                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                    string channel = sitePinInfo.IndividualChannelString;
+                    ConfigureAndEnableTmu(
+                        tmu: tmu,
+                        startSource: channel,
+                        startEvent: sourceEvent,
+                        startPolarity: edgeType,
+                        stopSource: channel,
+                        stopEvent: sourceEvent,
+                        stopPolarity: edgeType,
+                        samplesToAcquire: samplesToAcquire,
+                        armType: armType);
                 }
             });
         }
@@ -297,7 +309,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 // Configure only for reference pins (which have the TMU assigned)
                 if (referenceToTargetMap.TryGetValue(sitePinInfo.PinName, out string targetPinName))
                 {
-                    // Find the target pin's channel string for the same site
+                    // Find the target pin's sitePinInfo in the same site.
                     var targetSitePinInfo = sessionInfo.AssociatedSitePinList
                         .FirstOrDefault(sp => sp.PinName == targetPinName && sp.SiteNumber == sitePinInfo.SiteNumber);
                     if (targetSitePinInfo == null)
@@ -305,13 +317,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                         throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUSkewTargetPinNotFound, targetPinName, sitePinInfo.SiteNumber));
                     }
 
-                    ConfigureTMUSkewMeasurementForSitePin(
-                        sessionInfo,
-                        sitePinInfo,
-                        targetSitePinInfo,
-                        edgeType,
-                        samplesToAcquire,
-                        armType);
+                    TmuSourceEvent sourceEvent = GetSourceEventForEdge(edgeType);
+                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                    ConfigureAndEnableTmu(
+                        tmu: tmu,
+                        startSource: sitePinInfo.IndividualChannelString,
+                        startEvent: sourceEvent,
+                        startPolarity: edgeType,
+                        stopSource: targetSitePinInfo.IndividualChannelString,
+                        stopEvent: sourceEvent,
+                        stopPolarity: edgeType,
+                        samplesToAcquire: samplesToAcquire,
+                        armType: armType);
                 }
             });
         }
@@ -334,11 +351,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
         /// - <see cref="TmuAttributes.TmuArmType"/> = value of <paramref name="armType"/> parameter.
         /// </para>
-        /// <para>
-        /// This measurement requires 2 comparators.<br/>
-        /// This method does not enable the TMU (see <see cref="TmuAttributes.TmuEnabled"/>).
-        /// Call <see cref="EnableTMU"/> separately when ready to reserve the TMU resource.
-        /// </para>
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="samplesToAcquire">The number of samples to acquire for the TMU measurement.</param>
@@ -354,7 +366,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
-                    ConfigureRiseTimeMeasurementForSitePin(sessionInfo, sitePinInfo, samplesToAcquire, armType);
+                    string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
+                    DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+                    string channel = sitePinInfo.IndividualChannelString;
+                    ConfigureAndEnableTmu(
+                        tmu: tmu,
+                        startSource: channel,
+                        startEvent: TmuSourceEvent.Vol,
+                        startPolarity: TmuPolarity.RisingEdge,
+                        stopSource: channel,
+                        stopEvent: TmuSourceEvent.Voh,
+                        stopPolarity: TmuPolarity.RisingEdge,
+                        samplesToAcquire: samplesToAcquire,
+                        armType: armType);
                 }
             });
         }
@@ -377,11 +401,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
         /// - <see cref="TmuAttributes.TmuArmType"/> = value of <paramref name="armType"/> parameter.
         /// </para>
-        /// <para>
-        /// This measurement requires 2 comparators.<br/>
-        /// This method does not enable the TMU (see <see cref="TmuAttributes.TmuEnabled"/>).
-        /// Call <see cref="EnableTMU"/> separately when ready to reserve the TMU resource.
-        /// </para>
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="samplesToAcquire">The number of samples to acquire for the TMU measurement.</param>
@@ -397,7 +416,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
-                    ConfigureFallTimeMeasurementForSitePin(sessionInfo, sitePinInfo, samplesToAcquire, armType);
+                    string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
+                    DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+                    string channel = sitePinInfo.IndividualChannelString;
+                    ConfigureAndEnableTmu(
+                        tmu: tmu,
+                        startSource: channel,
+                        startEvent: TmuSourceEvent.Voh,
+                        startPolarity: TmuPolarity.FallingEdge,
+                        stopSource: channel,
+                        stopEvent: TmuSourceEvent.Vol,
+                        stopPolarity: TmuPolarity.FallingEdge,
+                        samplesToAcquire: samplesToAcquire,
+                        armType: armType);
                 }
             });
         }
@@ -431,20 +462,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
         /// - <see cref="TmuAttributes.TmuArmType"/> = value of <paramref name="armType"/> parameter.
         /// </para>
-        /// <para>
-        /// This measurement requires 1 comparator.<br/>
-        /// This method does not enable the TMU (see <see cref="TmuAttributes.TmuEnabled"/>).
-        /// Call <see cref="EnableTMU"/> separately when ready to reserve the TMU resource.<br/>
-        /// The returned measurement value is the time duration, not a percentage.
-        /// To convert to percentage duty cycle, divide by the period.
-        /// </para>
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="dutyCycleType">The duty cycle measurement type. Accepts <see cref="TmuDutyCycle.High"/> or <see cref="TmuDutyCycle.Low"/>.</param>
         /// <param name="samplesToAcquire">The number of samples to acquire for the TMU measurement.</param>
         /// <param name="armType">
-        /// The type of signal used to arm the TMU measurement.<br/>
-        /// The TMU's arm input is used to frame, or select, the start and stop events of interest for each TMU sample.
+        /// The type of signal used to arm the TMU measurement.
         /// </param>
         /// <param name="pinNames">The specific pins to configure the TMU for. When <c>null</c>, all pins are targeted.</param>
         public static void ConfigureTMUDutyCycleMeasurement(this DigitalSessionsBundle sessionsBundle, TmuDutyCycle dutyCycleType, long samplesToAcquire, TmuArmType armType = TmuArmType.Immediate, string[] pinNames = null)
@@ -454,7 +477,38 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
-                    ConfigureDutyCycleMeasurementForSitePin(sessionInfo, sitePinInfo, dutyCycleType, samplesToAcquire, armType);
+                    string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
+                    DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+                    string channel = sitePinInfo.IndividualChannelString;
+                    switch (dutyCycleType)
+                    {
+                        case TmuDutyCycle.High:
+                            ConfigureAndEnableTmu(
+                                tmu: tmu,
+                                startSource: channel,
+                                startEvent: TmuSourceEvent.Voh,
+                                startPolarity: TmuPolarity.RisingEdge,
+                                stopSource: channel,
+                                stopEvent: TmuSourceEvent.Voh,
+                                stopPolarity: TmuPolarity.FallingEdge,
+                                samplesToAcquire: samplesToAcquire,
+                                armType: armType);
+                            break;
+                        case TmuDutyCycle.Low:
+                            ConfigureAndEnableTmu(
+                                tmu: tmu,
+                                startSource: channel,
+                                startEvent: TmuSourceEvent.Vol,
+                                startPolarity: TmuPolarity.FallingEdge,
+                                stopSource: channel,
+                                stopEvent: TmuSourceEvent.Vol,
+                                stopPolarity: TmuPolarity.RisingEdge,
+                                samplesToAcquire: samplesToAcquire,
+                                armType: armType);
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(dutyCycleType), dutyCycleType, string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedPolarity));
+                    }
                 }
             });
         }
@@ -488,11 +542,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
         /// - <see cref="TmuAttributes.TmuArmType"/> = value of <paramref name="armType"/> parameter.
         /// </para>
-        /// <para>
-        /// This measurement requires 1 comparator.<br/>
-        /// This method does not enable the TMU (see <see cref="TmuAttributes.TmuEnabled"/>).
-        /// Call <see cref="EnableTMU"/> separately when ready to reserve the TMU resource.
-        /// </para>
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="pulseWidthType">The pulse width measurement type. Accepts <see cref="TmuPulseWidth.High"/> or <see cref="TmuPulseWidth.Low"/>.</param>
@@ -509,7 +558,38 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
-                    ConfigurePulseWidthMeasurementForSitePin(sessionInfo, sitePinInfo, pulseWidthType, samplesToAcquire, armType);
+                    string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
+                    DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+                    string channel = sitePinInfo.IndividualChannelString;
+                    switch (pulseWidthType)
+                    {
+                        case TmuPulseWidth.High:
+                            ConfigureAndEnableTmu(
+                                tmu: tmu,
+                                startSource: channel,
+                                startEvent: TmuSourceEvent.Voh,
+                                startPolarity: TmuPolarity.RisingEdge,
+                                stopSource: channel,
+                                stopEvent: TmuSourceEvent.Voh,
+                                stopPolarity: TmuPolarity.FallingEdge,
+                                samplesToAcquire: samplesToAcquire,
+                                armType: armType);
+                            break;
+                        case TmuPulseWidth.Low:
+                            ConfigureAndEnableTmu(
+                                tmu: tmu,
+                                startSource: channel,
+                                startEvent: TmuSourceEvent.Vol,
+                                startPolarity: TmuPolarity.FallingEdge,
+                                stopSource: channel,
+                                stopEvent: TmuSourceEvent.Vol,
+                                stopPolarity: TmuPolarity.RisingEdge,
+                                samplesToAcquire: samplesToAcquire,
+                                armType: armType);
+                            break;
+                        default:
+                            throw new ArgumentOutOfRangeException(nameof(pulseWidthType), pulseWidthType, string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedPolarity));
+                    }
                 }
             });
         }
@@ -904,51 +984,32 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             return true; // It is safe to release only when all the assigned TMUs are free, resources not reserved at driver level.
         }
 
-        private static void ConfigurePeriodMeasurementForSitePin(DigitalSessionInformation sessionInfo, SitePinInfo sitePinInfo, TmuPolarity edgeType, long samplesToAcquire, TmuArmType armSourcetype)
-        {
-            TmuSourceEvent sourceEvent = GetSourceEventForEdge(edgeType);
-
-            // Configure the TMU Start Source, TMU Start Source Event, TMU Start Source Event Polarity,
-            // TMU Stop Source, TMU Stop Source Event, TMU Stop Source Event Polarity, number of samples to acquire, and arm source.
-            DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-            tmu.Start.Source = sitePinInfo.IndividualChannelString;
-            tmu.Start.SourceEvent = sourceEvent;
-            tmu.Start.SourceEventPolarity = edgeType;
-            tmu.Stop.Source = sitePinInfo.IndividualChannelString;
-            tmu.Stop.SourceEvent = sourceEvent;
-            tmu.Stop.SourceEventPolarity = edgeType;
-            tmu.SamplesToAcquire = samplesToAcquire;
-            tmu.ArmType = armSourcetype;
-
-            // Enable the TMU (reserve it)
-            tmu.Enabled = true;
-        }
-
-        private static void ConfigureTMUSkewMeasurementForSitePin(
-            DigitalSessionInformation sessionInfo,
-            SitePinInfo referenceSitePinInfo,
-            SitePinInfo targetSitePinInfo,
-            TmuPolarity edgeType,
+        private static void ConfigureAndEnableTmu(
+            DigitalTmu tmu,
+            string startSource,
+            TmuSourceEvent startEvent,
+            TmuPolarity startPolarity,
+            string stopSource,
+            TmuSourceEvent stopEvent,
+            TmuPolarity stopPolarity,
             long samplesToAcquire,
             TmuArmType armType)
         {
-            TmuSourceEvent sourceEvent = GetSourceEventForEdge(edgeType);
-            DigitalTmu tmu = GetAssignedTmu(sessionInfo, referenceSitePinInfo);
-            // Configure TMU Start Source (Reference Channel)
-            tmu.Start.Source = referenceSitePinInfo.IndividualChannelString;
-            tmu.Start.SourceEvent = sourceEvent;
-            tmu.Start.SourceEventPolarity = edgeType;
+            // Configure the TMU Start Source, Start Source Event, and Start Source Event Polarity.
+            tmu.Start.Source = startSource;
+            tmu.Start.SourceEvent = startEvent;
+            tmu.Start.SourceEventPolarity = startPolarity;
 
-            // Configure TMU Stop Source (Target Channel)
-            tmu.Stop.Source = targetSitePinInfo.IndividualChannelString;
-            tmu.Stop.SourceEvent = sourceEvent;
-            tmu.Stop.SourceEventPolarity = edgeType;
+            // Configure the TMU Stop Source, Stop Source Event, and Stop Source Event Polarity.
+            tmu.Stop.Source = stopSource;
+            tmu.Stop.SourceEvent = stopEvent;
+            tmu.Stop.SourceEventPolarity = stopPolarity;
 
-            // Configure samples and arm type
+            // Configure samples and arm type.
             tmu.SamplesToAcquire = samplesToAcquire;
             tmu.ArmType = armType;
 
-            // Enable the TMU (reserve it)
+            // Enable the TMU (reserve it).
             tmu.Enabled = true;
         }
 
@@ -963,100 +1024,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 default:
                     throw new ArgumentOutOfRangeException(nameof(edgeType), edgeType, string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedPolarity));
             }
-        }
-
-        private static void ConfigureRiseTimeMeasurementForSitePin(DigitalSessionInformation sessionInfo, SitePinInfo sitePinInfo, long samplesToAcquire, TmuArmType armType)
-        {
-            string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-            DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
-            tmu.Start.Source = sitePinInfo.IndividualChannelString;
-            tmu.Start.SourceEvent = TmuSourceEvent.Vol;
-            tmu.Start.SourceEventPolarity = TmuPolarity.RisingEdge;
-            tmu.Stop.Source = sitePinInfo.IndividualChannelString;
-            tmu.Stop.SourceEvent = TmuSourceEvent.Voh;
-            tmu.Stop.SourceEventPolarity = TmuPolarity.RisingEdge;
-            tmu.SamplesToAcquire = samplesToAcquire;
-            tmu.ArmType = armType;
-            // Enable the TMU (reserve it)
-            tmu.Enabled = true;
-        }
-
-        private static void ConfigureFallTimeMeasurementForSitePin(DigitalSessionInformation sessionInfo, SitePinInfo sitePinInfo, long samplesToAcquire, TmuArmType armType)
-        {
-            string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-            DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
-            tmu.Start.Source = sitePinInfo.IndividualChannelString;
-            tmu.Start.SourceEvent = TmuSourceEvent.Voh;
-            tmu.Start.SourceEventPolarity = TmuPolarity.FallingEdge;
-            tmu.Stop.Source = sitePinInfo.IndividualChannelString;
-            tmu.Stop.SourceEvent = TmuSourceEvent.Vol;
-            tmu.Stop.SourceEventPolarity = TmuPolarity.FallingEdge;
-            tmu.SamplesToAcquire = samplesToAcquire;
-            tmu.ArmType = armType;
-            // Enable the TMU (reserve it)
-            tmu.Enabled = true;
-        }
-
-        private static void ConfigureDutyCycleMeasurementForSitePin(DigitalSessionInformation sessionInfo, SitePinInfo sitePinInfo, TmuDutyCycle dutyCycleType, long samplesToAcquire, TmuArmType armType)
-        {
-            string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-            DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
-            switch (dutyCycleType)
-            {
-                case TmuDutyCycle.High:
-                    tmu.Start.Source = sitePinInfo.IndividualChannelString;
-                    tmu.Start.SourceEvent = TmuSourceEvent.Voh;
-                    tmu.Start.SourceEventPolarity = TmuPolarity.RisingEdge;
-                    tmu.Stop.Source = sitePinInfo.IndividualChannelString;
-                    tmu.Stop.SourceEvent = TmuSourceEvent.Voh;
-                    tmu.Stop.SourceEventPolarity = TmuPolarity.FallingEdge;
-                    break;
-                case TmuDutyCycle.Low:
-                    tmu.Start.Source = sitePinInfo.IndividualChannelString;
-                    tmu.Start.SourceEvent = TmuSourceEvent.Vol;
-                    tmu.Start.SourceEventPolarity = TmuPolarity.FallingEdge;
-                    tmu.Stop.Source = sitePinInfo.IndividualChannelString;
-                    tmu.Stop.SourceEvent = TmuSourceEvent.Vol;
-                    tmu.Stop.SourceEventPolarity = TmuPolarity.RisingEdge;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(dutyCycleType), dutyCycleType, string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedPolarity));
-            }
-            tmu.SamplesToAcquire = samplesToAcquire;
-            tmu.ArmType = armType;
-            // Enable the TMU (reserve it)
-            tmu.Enabled = true;
-        }
-
-        private static void ConfigurePulseWidthMeasurementForSitePin(DigitalSessionInformation sessionInfo, SitePinInfo sitePinInfo, TmuPulseWidth pulseWidthType, long samplesToAcquire, TmuArmType armType)
-        {
-            string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-            DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
-            switch (pulseWidthType)
-            {
-                case TmuPulseWidth.High:
-                    tmu.Start.Source = sitePinInfo.IndividualChannelString;
-                    tmu.Start.SourceEvent = TmuSourceEvent.Voh;
-                    tmu.Start.SourceEventPolarity = TmuPolarity.RisingEdge;
-                    tmu.Stop.Source = sitePinInfo.IndividualChannelString;
-                    tmu.Stop.SourceEvent = TmuSourceEvent.Voh;
-                    tmu.Stop.SourceEventPolarity = TmuPolarity.FallingEdge;
-                    break;
-                case TmuPulseWidth.Low:
-                    tmu.Start.Source = sitePinInfo.IndividualChannelString;
-                    tmu.Start.SourceEvent = TmuSourceEvent.Vol;
-                    tmu.Start.SourceEventPolarity = TmuPolarity.FallingEdge;
-                    tmu.Stop.Source = sitePinInfo.IndividualChannelString;
-                    tmu.Stop.SourceEvent = TmuSourceEvent.Vol;
-                    tmu.Stop.SourceEventPolarity = TmuPolarity.RisingEdge;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(pulseWidthType), pulseWidthType, string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedPolarity));
-            }
-            tmu.SamplesToAcquire = samplesToAcquire;
-            tmu.ArmType = armType;
-            // Enable the TMU (reserve it)
-            tmu.Enabled = true;
         }
 
         private static void ValidateSkewPins(string[] referencePinNames, string[] targetPinNames)
