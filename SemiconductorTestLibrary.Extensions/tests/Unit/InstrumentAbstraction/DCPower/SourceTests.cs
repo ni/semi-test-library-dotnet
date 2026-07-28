@@ -6523,7 +6523,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var expectedTransientResponse = DCPowerSourceTransientResponse.Fast;
             var sessionsBundle = sessionManager.DCPower(allPinsMergedGroup);
             sessionsBundle.MergePinGroup(allPinsMergedGroup);
-            sessionsBundle.ConfigureSourceSettings(new DCPowerSourceSettings { TransientResponse = expectedTransientResponse });
+            ConfigureTransientResponse(sessionsBundle, expectedTransientResponse);
 
             var transientResponse = sessionsBundle.GetTransientResponse();
 
@@ -6547,7 +6547,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var expectedTransientResponse = DCPowerSourceTransientResponse.Fast;
             var sessionsBundle = sessionManager.DCPower(allPinsGangedGroup);
             sessionsBundle.GangPinGroup(allPinsGangedGroup);
-            sessionsBundle.Do(sessionInfo => sessionInfo.AllChannelsOutput.Source.TransientResponse = DCPowerSourceTransientResponse.Fast);
+            ConfigureTransientResponse(sessionsBundle, expectedTransientResponse);
 
             var transientResponse = sessionsBundle.GetTransientResponse();
 
@@ -6567,7 +6567,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var expectedTransientResponse = DCPowerSourceTransientResponse.Fast;
             var sessionsBundle = sessionManager.DCPower("VDD");
-            sessionsBundle.ConfigureSourceSettings(new DCPowerSourceSettings { TransientResponse = expectedTransientResponse });
+            ConfigureTransientResponse(sessionsBundle, expectedTransientResponse);
 
             var transientResponse = sessionsBundle.GetTransientResponse();
 
@@ -6591,13 +6591,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                     [pinNames[1]] = activeSites.ToDictionary(site => site, site => site % 3 == 1 ? DCPowerSourceTransientResponse.Fast : DCPowerSourceTransientResponse.Slow),
                     [pinNames[2]] = activeSites.ToDictionary(site => site, site => site % 3 == 2 ? DCPowerSourceTransientResponse.Slow : DCPowerSourceTransientResponse.Normal)
                 });
-            sessionsBundle.ConfigureSourceSettings(new PinSiteData<DCPowerSourceSettings>(
-                new Dictionary<string, IDictionary<int, DCPowerSourceSettings>>
-                {
-                    [pinNames[0]] = activeSites.ToDictionary(site => site, site => new DCPowerSourceSettings { TransientResponse = expectedTransientResponse.GetValue(site, pinNames[0]) }),
-                    [pinNames[1]] = activeSites.ToDictionary(site => site, site => new DCPowerSourceSettings { TransientResponse = expectedTransientResponse.GetValue(site, pinNames[1]) }),
-                    [pinNames[2]] = activeSites.ToDictionary(site => site, site => new DCPowerSourceSettings { TransientResponse = expectedTransientResponse.GetValue(site, pinNames[2]) })
-                }));
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.TransientResponse = expectedTransientResponse.GetValue(sitePinInfo);
+            });
 
             var transientResponse = sessionsBundle.GetTransientResponse();
 
@@ -6615,7 +6612,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var expectedTransientResponse = DCPowerSourceTransientResponse.Fast;
             var sessionsBundle = sessionManager.DCPower(pinName);
             var filteredBySite0Bundle = sessionsBundle.FilterBySite(new int[] { 0, 1 });
-            filteredBySite0Bundle.ConfigureSourceSettings(new DCPowerSourceSettings { TransientResponse = expectedTransientResponse });
+            ConfigureTransientResponse(filteredBySite0Bundle, expectedTransientResponse);
 
             var transientResponse = sessionsBundle.GetTransientResponse();
 
@@ -6623,6 +6620,18 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.Equal(expectedTransientResponse, transientResponse.GetValue(sitePinInfo));
             });
+        }
+
+        /// <summary>
+        /// Configures the same <see cref="DCPowerSourceTransientResponse"/> on all channels of the given bundle
+        /// by writing directly to the hardware property via <see cref="DCPowerSessionsBundle.Do"/>,
+        /// without going through <c>ConfigureSourceSettings</c>.
+        /// </summary>
+        /// <param name="sessionsBundle">The sessions bundle to configure.</param>
+        /// <param name="transientResponse">The transient response value to apply to every channel.</param>
+        private static void ConfigureTransientResponse(DCPowerSessionsBundle sessionsBundle, DCPowerSourceTransientResponse transientResponse)
+        {
+            sessionsBundle.Do(sessionInfo => sessionInfo.AllChannelsOutput.Source.TransientResponse = transientResponse);
         }
 
         private void AssertVoltageSettings(DCPowerOutput channelOutput, double expectedVoltageLevel, double expectedCurrentLimit, int precision = 6)
