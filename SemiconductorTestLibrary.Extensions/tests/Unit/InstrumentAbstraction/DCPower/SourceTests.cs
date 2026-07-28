@@ -6539,6 +6539,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
         [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
         public void DifferentSMUDevicesGangedConfigureTransientResponse_GetTransientResponse_ReturnsCorrectValue(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
@@ -6546,7 +6547,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var expectedTransientResponse = DCPowerSourceTransientResponse.Fast;
             var sessionsBundle = sessionManager.DCPower(allPinsGangedGroup);
             sessionsBundle.GangPinGroup(allPinsGangedGroup);
-            sessionsBundle.ConfigureSourceSettings(new DCPowerSourceSettings { TransientResponse = expectedTransientResponse });
+            sessionsBundle.Do(sessionInfo => sessionInfo.AllChannelsOutput.Source.TransientResponse = DCPowerSourceTransientResponse.Fast);
 
             var transientResponse = sessionsBundle.GetTransientResponse();
 
