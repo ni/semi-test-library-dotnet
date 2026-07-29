@@ -39,8 +39,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// Gets the number of records to acquire for each instrument and channel in the sessions bundle.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
-        /// <returns>A per-session collection of the number of records to acquire.</returns>
-        public static IEnumerable<long> GetNumberOfRecordsToAcquire(this ScopeSessionsBundle sessionsBundle)
+        /// <returns>A per-session array of the number of records to acquire.</returns>
+        public static long[] GetNumberOfRecordsToAcquire(this ScopeSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo =>
             {

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using NationalInstruments.ModularInstruments.NIScope;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
@@ -28,8 +27,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// Gets the acquisition status for the oscilloscope.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
-        /// <returns>A per-session collection of acquisition statuses.</returns>
-        public static IEnumerable<ScopeAcquisitionStatus> GetAcquisitionStatus(this ScopeSessionsBundle sessionsBundle)
+        /// <returns>A per-session array of acquisition statuses.</returns>
+        public static ScopeAcquisitionStatus[] GetAcquisitionStatus(this ScopeSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo =>
             {
@@ -41,8 +40,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// Gets the configured record length for the acquisition.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
-        /// <returns>A per-session collection of record lengths.</returns>
-        public static IEnumerable<long> GetRecordLength(this ScopeSessionsBundle sessionsBundle)
+        /// <returns>A per-session array of record lengths.</returns>
+        public static long[] GetRecordLength(this ScopeSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo =>
             {
@@ -54,8 +53,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// Gets the configured resolution for the acquisition.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
-        /// <returns>A per-session collection of resolutions.</returns>
-        public static IEnumerable<long> GetResolution(this ScopeSessionsBundle sessionsBundle)
+        /// <returns>A per-session array of resolutions.</returns>
+        public static long[] GetResolution(this ScopeSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo =>
             {
@@ -80,8 +79,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// Gets the configured sample rate for the acquisition.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
-        /// <returns>A per-session collection of sample rates in samples per second.</returns>
-        public static IEnumerable<double> GetSampleRate(this ScopeSessionsBundle sessionsBundle)
+        /// <returns>A per-session array of sample rates in samples per second.</returns>
+        public static double[] GetSampleRate(this ScopeSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo =>
             {
