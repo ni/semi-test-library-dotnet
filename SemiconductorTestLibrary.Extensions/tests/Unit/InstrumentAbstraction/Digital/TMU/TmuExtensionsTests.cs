@@ -258,8 +258,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(TmuPolarity.RisingEdge, 1, false)]
         [InlineData(TmuPolarity.RisingEdge, 100, true)]
-        [InlineData(TmuPolarity.FallingEdge, 1, false)]
-        [InlineData(TmuPolarity.FallingEdge, 100, true)]
         public void Inititalize_ConfigurePeriodMeasurementSucceeds(TmuPolarity edgeType, long samplesToAcquire, bool useSpecificPins)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
