@@ -482,8 +482,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// The type of signal used to arm the TMU measurement.
         /// </param>
         /// <param name="pinNames">The specific pins to configure the TMU for. When <c>null</c>, all pins are targeted.</param>
-        /// <exception cref="NISemiconductorTestException">Thrown when one or more of the requested <paramref name="pinNames"/> are not present in the sessions bundle.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="dutyCycleType"/> is not <see cref="TmuDutyCycle.High"/> or <see cref="TmuDutyCycle.Low"/>.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when one or more of the requested <paramref name="pinNames"/> are not present in the sessions bundle and when <paramref name="dutyCycleType"/> is not <see cref="TmuDutyCycle.High"/> or <see cref="TmuDutyCycle.Low"/>.
+        /// </exception>
         public static void ConfigureTMUDutyCycleMeasurement(this DigitalSessionsBundle sessionsBundle, TmuDutyCycle dutyCycleType, long samplesToAcquire, TmuArmType armType = TmuArmType.Immediate, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -565,8 +565,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// The TMU's arm input is used to frame, or select, the start and stop events of interest for each TMU sample.
         /// </param>
         /// <param name="pinNames">The specific pins to configure the TMU for. When <c>null</c>, all pins are targeted.</param>
-        /// <exception cref="NISemiconductorTestException">Thrown when one or more of the requested <paramref name="pinNames"/> are not present in the sessions bundle.</exception>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="pulseWidthType"/> is not <see cref="TmuPulseWidth.High"/> or <see cref="TmuPulseWidth.Low"/>.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when one or more of the requested <paramref name="pinNames"/> are not present in the sessions bundl and when <paramref name="pulseWidthType"/> is not <see cref="TmuPulseWidth.High"/> or <see cref="TmuPulseWidth.Low"/>.
+        /// </exception>
         public static void ConfigureTMUPulseWidthMeasurement(this DigitalSessionsBundle sessionsBundle, TmuPulseWidth pulseWidthType, long samplesToAcquire, TmuArmType armType = TmuArmType.Immediate, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
