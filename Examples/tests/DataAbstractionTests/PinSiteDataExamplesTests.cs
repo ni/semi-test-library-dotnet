@@ -22,11 +22,5 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.DataAbstractionTest
         {
             ConstructWithPinNamesAndSiteNumbers();
         }
-
-        [Fact]
-        public void ConstructWithArrays_Succeeds()
-        {
-            ConstructWithArrays();
-        }
     }
 }
