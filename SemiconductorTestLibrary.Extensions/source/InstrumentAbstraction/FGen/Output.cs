@@ -1,0 +1,109 @@
+﻿using System;
+using System.Linq;
+using NationalInstruments.ModularInstruments.NIFgen;
+using NationalInstruments.SemiconductorTestLibrary.Common;
+using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
+
+namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen
+{
+    /// <summary>
+    ///  Defines methods for output configurations.
+    /// </summary>
+    public static class Output
+    {
+        /// <summary>
+        /// Configures the signal generator to generate a signal at the channel output connector.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
+        /// <param name="outputEnable">Specifies the state of the output enable relay. Set outputEnable to TRUE to enable the relay.</param>
+        public static void ConfigureOutputEnabled(this FgenSessionsBundle sessionsBundle, bool outputEnable)
+        {
+            sessionsBundle.Do((sessionInformation, sitePinInfo) =>
+            {
+                sessionInformation.Session.Output.SetEnabled(sitePinInfo.IndividualChannelString.Split('/').Last(), outputEnable);
+            });
+        }
+
+        /// <summary>
+        /// Configures the signal generator to generate a signal at the channel output connector.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
+        /// <param name="outputEnable">Specifies the state of the output enable relay. Set outputEnable to TRUE to enable the relay.</param>
+        public static void ConfigureOutputEnabled(this FgenSessionsBundle sessionsBundle, SiteData<bool> outputEnable)
+        {
+            sessionsBundle.Do((sessionInformation, sitePinInfo) =>
+            {
+                sessionInformation.Session.Output.SetEnabled(sitePinInfo.IndividualChannelString.Split('/').Last(), outputEnable.GetValue(sitePinInfo.SiteNumber));
+            });
+        }
+
+        /// <summary>
+        /// Configures the signal generator to generate a signal at the channel output connector.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
+        /// <param name="outputEnable">Specifies the state of the output enable relay. Set outputEnable to TRUE to enable the relay.</param>
+        public static void ConfigureOutputEnabled(this FgenSessionsBundle sessionsBundle, PinSiteData<bool> outputEnable)
+        {
+            sessionsBundle.Do((sessionInformation, sitePinInfo) =>
+            {
+                sessionInformation.Session.Output.SetEnabled(sitePinInfo.IndividualChannelString.Split('/').Last(), outputEnable.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName));
+            });
+        }
+
+        /// <summary>
+        /// Configures the output impedance.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
+        /// <param name="impedance">Specifies the impedance value that you want the signal generator to use.</param>
+        public static void ConfigureOutputImpedance(this FgenSessionsBundle sessionsBundle, double impedance = 50)
+        {
+            sessionsBundle.Do((sessionInformation, sitePinInfo) =>
+            {
+                sessionInformation.Session.Output.SetImpedance(sitePinInfo.IndividualChannelString.Split('/').Last(), impedance);
+            });
+        }
+
+        /// <summary>
+        /// Configures the output impedance.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
+        /// <param name="impedance">Specifies the impedance value that you want the signal generator to use.</param>
+        public static void ConfigureOutputImpedance(this FgenSessionsBundle sessionsBundle, SiteData<double> impedance)
+        {
+            sessionsBundle.Do((sessionInformation, sitePinInfo) =>
+            {
+                sessionInformation.Session.Output.SetImpedance(sitePinInfo.IndividualChannelString.Split('/').Last(), impedance.GetValue(sitePinInfo.SiteNumber));
+            });
+        }
+
+        /// <summary>
+        /// Configures the output impedance.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
+        /// <param name="impedance">Specifies the impedance value that you want the signal generator to use.</param>
+        public static void ConfigureOutputImpedance(this FgenSessionsBundle sessionsBundle, PinSiteData<double> impedance)
+        {
+            sessionsBundle.Do((sessionInformation, sitePinInfo) =>
+            {
+                sessionInformation.Session.Output.SetImpedance(sitePinInfo.IndividualChannelString.Split('/').Last(), impedance.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName));
+            });
+        }
+
+        /// <summary>
+        /// The Configure Output Mode step determines the type of waveforms that will be generated by your device. Options include standard waveforms, arbitrary waveforms, arbitrary sequences, frequency lists, and scripts.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
+        /// <param name="outputMode">Specifies the output mode that you want the signal generator to use.</param>
+        public static void ConfigureOutputMode(this FgenSessionsBundle sessionsBundle, OutputMode outputMode)
+        {
+            if (outputMode != OutputMode.Function)
+            {
+                throw new NISemiconductorTestException($"Output mode {outputMode} is not supported.");
+            }
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.Session.Output.OutputMode = outputMode;
+            });
+        }
+    }
+}
