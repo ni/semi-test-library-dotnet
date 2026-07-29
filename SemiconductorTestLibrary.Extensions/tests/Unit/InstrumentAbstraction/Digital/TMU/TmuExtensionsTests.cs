@@ -405,6 +405,118 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ClearTMUAssignment();
         }
 
+        [Fact]
+        public void Inititalize_ConfigureSkewMeasurementWithMismatchedReferenceAndTargetPinCounts_ThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            void ConfigureSkewMeasurementWithMismatchedPinCounts()
+            {
+                sessionsBundle.ConfigureTMUSkewMeasurement(new string[] { "C0", "C1" }, new string[] { "C1" }, TmuPolarity.RisingEdge, 1);
+            }
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                ConfigureSkewMeasurementWithMismatchedPinCounts());
+            sessionsBundle.DisableTMU();
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_ConfigureSkewMeasurementWithNullReferencePins_ThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            void ConfigureSkewMeasurementWithNullReferencePins()
+            {
+                sessionsBundle.ConfigureTMUSkewMeasurement(null, new string[] { "C1" }, TmuPolarity.RisingEdge, 1);
+            }
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                ConfigureSkewMeasurementWithNullReferencePins());
+            sessionsBundle.DisableTMU();
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_ConfigureSkewMeasurementWithNullTargetPins_ThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            void ConfigureSkewMeasurementWithNullTargetPins()
+            {
+                sessionsBundle.ConfigureTMUSkewMeasurement(new string[] { "C0" }, null, TmuPolarity.RisingEdge, 1);
+            }
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                ConfigureSkewMeasurementWithNullTargetPins());
+            sessionsBundle.DisableTMU();
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_ConfigureSkewMeasurementWithEmptyReferencePins_ThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            void ConfigureSkewMeasurementWithEmptyReferencePins()
+            {
+                sessionsBundle.ConfigureTMUSkewMeasurement(new string[] { }, new string[] { "C1" }, TmuPolarity.RisingEdge, 1);
+            }
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                ConfigureSkewMeasurementWithEmptyReferencePins());
+            sessionsBundle.DisableTMU();
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_ConfigureSkewMeasurementWithEmptyTargetPins_ThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            void ConfigureSkewMeasurementWithEmptyTargetPins()
+            {
+                sessionsBundle.ConfigureTMUSkewMeasurement(new string[] { "C0" }, new string[] { }, TmuPolarity.RisingEdge, 1);
+            }
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                ConfigureSkewMeasurementWithEmptyTargetPins());
+            sessionsBundle.DisableTMU();
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_ConfigureSkewMeasurementWithReferencePinNotInBundle_ThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            void ConfigureSkewMeasurementWithReferencePinNotInBundle()
+            {
+                sessionsBundle.ConfigureTMUSkewMeasurement(new string[] { "NonExistentPin" }, new string[] { "C1" }, TmuPolarity.RisingEdge, 1);
+            }
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                ConfigureSkewMeasurementWithReferencePinNotInBundle());
+            sessionsBundle.DisableTMU();
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_ConfigureSkewMeasurementWithTargetPinNotInBundle_ThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            void ConfigureSkewMeasurementWithTargetPinNotInBundle()
+            {
+                sessionsBundle.ConfigureTMUSkewMeasurement(new string[] { "C0" }, new string[] { "NonExistentPin" }, TmuPolarity.RisingEdge, 1);
+            }
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                ConfigureSkewMeasurementWithTargetPinNotInBundle());
+            sessionsBundle.DisableTMU();
+            sessionsBundle.ClearTMUAssignment();
+        }
+
         #endregion
 
         #region Configure Skew Measurement (Multiple Pin Pairs) Tests
