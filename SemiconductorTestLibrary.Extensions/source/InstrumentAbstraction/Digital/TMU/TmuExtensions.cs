@@ -217,14 +217,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// The TMU's arm input is used to frame, or select, the start and stop events of interest for each TMU sample.
         /// </param>
         /// <param name="pinNames">The specific pins to configure the TMU for. When <c>null</c>, all pins are targeted.</param>
+        /// <exception cref="NISemiconductorTestException">
+        /// Thrown when one or more of the requested <paramref name="pinNames"/> are not present in the sessions bundle,
+        /// or when the <paramref name="edgeType"/> is <see cref="TmuPolarity.EitherEdge"/> (an unsupported polarity).
+        /// </exception>
         public static void ConfigurePeriodMeasurement(this DigitalSessionsBundle sessionsBundle, TmuPolarity edgeType, long samplesToAcquire, TmuArmType armType = TmuArmType.Immediate, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+            TmuSourceEvent sourceEvent = ValidateAndGetSourceEventForEdge(edgeType);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
-                    TmuSourceEvent sourceEvent = GetSourceEventForEdge(edgeType);
                     DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
                     string channel = sitePinInfo.IndividualChannelString;
                     ConfigureAndEnableTmu(
@@ -287,6 +291,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// The type of signal used to arm the TMU measurement.<br/>
         /// The TMU's arm input is used to frame, or select, the start and stop events of interest for each TMU sample.
         /// </param>
+        /// <exception cref="NISemiconductorTestException">
+        /// Thrown when <paramref name="referencePinNames"/> or <paramref name="targetPinNames"/> is <c>null</c> or empty,
+        /// when the two pin arrays have different lengths, when a reference pin is also used as a target pin,
+        /// when one or more of the requested pins are not present in the sessions bundle,
+        /// when <paramref name="armType"/> is an unsupported value, when the <paramref name="edgeType"/> is
+        /// <see cref="TmuPolarity.EitherEdge"/> (an unsupported polarity), or when a target pin cannot be found on the same site as its reference pin.
+        /// </exception>
         public static void ConfigureTMUSkewMeasurement(
             this DigitalSessionsBundle sessionsBundle,
             string[] referencePinNames,
@@ -296,6 +307,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             TmuArmType armType = TmuArmType.Immediate)
         {
             ValidateSkewParameters(referencePinNames, targetPinNames, armType, sessionsBundle.Pins);
+            TmuSourceEvent sourceEvent = ValidateAndGetSourceEventForEdge(edgeType);
 
             // Create a mapping from reference pin to target pin
             var referenceToTargetMap = new Dictionary<string, string>();
@@ -316,8 +328,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                     {
                         throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUSkewTargetPinNotFound, targetPinName, sitePinInfo.SiteNumber));
                     }
-
-                    TmuSourceEvent sourceEvent = GetSourceEventForEdge(edgeType);
                     DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
                     ConfigureAndEnableTmu(
                         tmu: tmu,
@@ -359,6 +369,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// The TMU's arm input is used to frame, or select, the start and stop events of interest for each TMU sample.
         /// </param>
         /// <param name="pinNames">The specific pins to configure the TMU for. When <c>null</c>, all pins are targeted.</param>
+        /// <exception cref="NISemiconductorTestException">Thrown when one or more of the requested <paramref name="pinNames"/> are not present in the sessions bundle.</exception>
         public static void ConfigureTMURiseTimeMeasurement(this DigitalSessionsBundle sessionsBundle, long samplesToAcquire, TmuArmType armType = TmuArmType.Immediate, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -409,6 +420,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// The TMU's arm input is used to frame, or select, the start and stop events of interest for each TMU sample.
         /// </param>
         /// <param name="pinNames">The specific pins to configure the TMU for. When <c>null</c>, all pins are targeted.</param>
+        /// <exception cref="NISemiconductorTestException">Thrown when one or more of the requested <paramref name="pinNames"/> are not present in the sessions bundle.</exception>
         public static void ConfigureTMUFallTimeMeasurement(this DigitalSessionsBundle sessionsBundle, long samplesToAcquire, TmuArmType armType = TmuArmType.Immediate, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -470,6 +482,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// The type of signal used to arm the TMU measurement.
         /// </param>
         /// <param name="pinNames">The specific pins to configure the TMU for. When <c>null</c>, all pins are targeted.</param>
+        /// <exception cref="NISemiconductorTestException">Thrown when one or more of the requested <paramref name="pinNames"/> are not present in the sessions bundle.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="dutyCycleType"/> is not <see cref="TmuDutyCycle.High"/> or <see cref="TmuDutyCycle.Low"/>.</exception>
         public static void ConfigureTMUDutyCycleMeasurement(this DigitalSessionsBundle sessionsBundle, TmuDutyCycle dutyCycleType, long samplesToAcquire, TmuArmType armType = TmuArmType.Immediate, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -551,6 +565,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// The TMU's arm input is used to frame, or select, the start and stop events of interest for each TMU sample.
         /// </param>
         /// <param name="pinNames">The specific pins to configure the TMU for. When <c>null</c>, all pins are targeted.</param>
+        /// <exception cref="NISemiconductorTestException">Thrown when one or more of the requested <paramref name="pinNames"/> are not present in the sessions bundle.</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when <paramref name="pulseWidthType"/> is not <see cref="TmuPulseWidth.High"/> or <see cref="TmuPulseWidth.Low"/>.</exception>
         public static void ConfigureTMUPulseWidthMeasurement(this DigitalSessionsBundle sessionsBundle, TmuPulseWidth pulseWidthType, long samplesToAcquire, TmuArmType armType = TmuArmType.Immediate, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -1013,19 +1029,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             tmu.Enabled = true;
         }
 
-        private static TmuSourceEvent GetSourceEventForEdge(TmuPolarity edgeType)
-        {
-            switch (edgeType)
-            {
-                case TmuPolarity.RisingEdge:
-                    return TmuSourceEvent.Voh;
-                case TmuPolarity.FallingEdge:
-                    return TmuSourceEvent.Vol;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(edgeType), edgeType, string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedPolarity));
-            }
-        }
-
         private static void ValidateSkewPins(string[] referencePinNames, string[] targetPinNames)
         {
             // Check that no target pin appears in the reference pins array.
@@ -1075,6 +1078,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         private static DigitalTmuCollections GetDigitalTmus(NIDigital session)
         {
             return new DigitalTmuCollections(session);
+        }
+
+        private static TmuSourceEvent ValidateAndGetSourceEventForEdge(TmuPolarity edgeType)
+        {
+            switch (edgeType)
+            {
+                case TmuPolarity.RisingEdge:
+                    return TmuSourceEvent.Voh;
+                case TmuPolarity.FallingEdge:
+                    return TmuSourceEvent.Vol;
+                default:
+                    throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedPolarity));
+            }
         }
 
         private static void ValidateSkewParameters(string[] referencePinNames, string[] targetPinNames, TmuArmType armType, IEnumerable<string> bundlePins)
