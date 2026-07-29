@@ -3,7 +3,7 @@ using static NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.
 
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.DataAbstractionTests
 {
-public class PinSiteDataExamplesTests
+    public class PinSiteDataExamplesTests
     {
         [Fact]
         public void ConstructWithDefaultConstructor_Succeeds()
