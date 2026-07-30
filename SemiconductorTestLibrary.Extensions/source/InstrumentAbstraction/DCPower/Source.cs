@@ -2397,6 +2397,58 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
+        /// Gets the current level.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin current level, in Amps.</returns>
+        public static PinSiteData<double> GetCurrentLevel(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevel;
+            });
+        }
+
+        /// <summary>
+        /// Gets the current level range.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin current level range, in Amps.</returns>
+        public static PinSiteData<double> GetCurrentLevelRange(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange;
+            });
+        }
+
+        /// <summary>
+        /// Gets the current limit range.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin current limit range, in Amps.</returns>
+        public static PinSiteData<double> GetCurrentLimitRange(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitRange;
+            });
+        }
+
+        /// <summary>
+        /// Gets the compliance limit symmetry.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin compliance limit symmetry.</returns>
+        public static PinSiteData<DCPowerComplianceLimitSymmetry> GetLimitSymmetry(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
+            });
+        }
+
+        /// <summary>
         /// Checks if the output function is set to DCVoltage and the level(s) are set to the expected values.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
