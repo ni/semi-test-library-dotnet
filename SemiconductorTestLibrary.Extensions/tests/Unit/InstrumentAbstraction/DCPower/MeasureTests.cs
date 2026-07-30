@@ -1413,36 +1413,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
         }
 
-        private void AssertAllChannelsHaveCorrectResult(PinSiteData<Tuple<double, bool>> results, double expectedMeasurement)
-        {
-            foreach (var siteNumber in results.SiteNumbers)
-            {
-                foreach (var pin in results.PinNames)
-                {
-                    Assert.Equal(expectedMeasurement, results.GetValue(siteNumber, pin).Item1, precision: 3);
-                }
-            }
-        }
-
-        private void AssertAllChannelsReturnResult(PinSiteData<bool> results)
-        {
-            foreach (var siteNumber in results.SiteNumbers)
-            {
-                foreach (var pin in results.PinNames)
-                {
-                    Assert.True(results.TryGetValue(siteNumber, pin, out _));
-                }
-            }
-        }
-
-        private void AssertAllChannelsReturnSameResult(PinSiteData<bool> results)
-        {
-            var distinctValues = results.SiteNumbers
-                .SelectMany(siteNumber => results.PinNames.Select(pin => results.GetValue(siteNumber, pin)))
-                .Distinct();
-            Assert.Single(distinctValues);
-        }
-
         private DCPowerSessionsBundle MergeAndForceVoltage(string pinGroupName, out string primaryPin)
         {
             _tsmContext = CreateTSMContext("Merged_4163.pinmap");
@@ -1475,6 +1445,36 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Assert.True(results.TryGetValue(siteNumber, pinGroup, out _));
                 Assert.False(results.TryGetValue(siteNumber, primaryPin, out _));
             }
+        }
+
+        private void AssertAllChannelsHaveCorrectResult(PinSiteData<Tuple<double, bool>> results, double expectedMeasurement)
+        {
+            foreach (var siteNumber in results.SiteNumbers)
+            {
+                foreach (var pin in results.PinNames)
+                {
+                    Assert.Equal(expectedMeasurement, results.GetValue(siteNumber, pin).Item1, precision: 3);
+                }
+            }
+        }
+
+        private void AssertAllChannelsReturnResult(PinSiteData<bool> results)
+        {
+            foreach (var siteNumber in results.SiteNumbers)
+            {
+                foreach (var pin in results.PinNames)
+                {
+                    Assert.True(results.TryGetValue(siteNumber, pin, out _));
+                }
+            }
+        }
+
+        private void AssertAllChannelsReturnSameResult(PinSiteData<bool> results)
+        {
+            var distinctValues = results.SiteNumbers
+                .SelectMany(siteNumber => results.PinNames.Select(pin => results.GetValue(siteNumber, pin)))
+                .Distinct();
+            Assert.Single(distinctValues);
         }
 
         private void AssertResultAssociatedWithIndividualPinName<T>(PinSiteData<T> results, string pinGroup, string individualPin)
