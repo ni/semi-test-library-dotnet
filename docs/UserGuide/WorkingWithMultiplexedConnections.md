@@ -2,11 +2,10 @@
 
 Semiconductor Test Library (STL) supports multiplexed connections to enable routing a shared instrument channel to the same DUT pin across multiple sites. This is achieved by defining a multiplexed connection in the pin map, specifying relay configurations for the routes, and then using a combination of the existing [Shared Pins](InstrumentAbstraction.md#shared-pins) functionality with the TestStand Semiconductor Module (TSM) Code Module API within a code module. Physical multiplexed connections must be made externally using a multiplexer or a relay network on the load board.
 
-> [!IMPORTANT]
-> STL does not make connections or control routes. These core responsibilities are retained by the TSM Code Module API. Before you perform measurements with STL, your code must initialize the multiplexer session and invoke TSM APIs to apply the appropriate routes or relay configurations.
-
 > [!NOTE]
-> Supported in Semiconductor Test Library 25.5 NuGet package or later.
+>
+> - Supported in Semiconductor Test Library 25.5 NuGet package or later.
+> - STL does not make connections or control routes. These core responsibilities are retained by the TSM Code Module API. Before you perform measurements with STL, your code must initialize the multiplexer session and invoke TSM APIs to apply the appropriate routes or relay configurations.
 
 ## Pin Map Configuration
 
@@ -29,7 +28,7 @@ Use the Pin Map Editor to configure the following:
    - **Multiplexer**: The multiplexer used for routing.
    - **Route**: The relay configuration to apply for this pin-site-specific connection.
 
-> [!IMPORTANT]
+> [!NOTE]
 > Using SystemPins or SiteRelays is not supported when defining multiplexed connections with STL.
 
 ### Example Pin Map: NIGenericMultiplexer with Relay Configurations

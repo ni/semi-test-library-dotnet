@@ -19,6 +19,8 @@
   items:
     - name: SMU Merge Pin Group
       href: SMUMergePinGroup.md
+    - name: SMU Gang Pin Group
+      href: SMUGangPinGroup.md
     - name: Custom Instrument Support
       href: CustomInstrumentSupport.md
 - name: Data Abstraction
