@@ -24,37 +24,43 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             InitializeAndClose.Close(_tsmContext);
         }
 
-        [Fact]
-        public void InitializeBundleWithSinglePin_PerformResetOperation__Succeeds()
+        [Theory]
+        [InlineData("FgenSingleInstrumentPerPin.pinmap")]
+        public void InitializeBundleWithSinglePin_PerformResetOperation__Succeeds(string pinmap)
         {
-            var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
+            var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen("A");
 
             sessionsBundle.Reset();
         }
 
-        [Fact]
-        public void InitializeBundleWithSinglePin_PerformResetDeviceOperation_Succeeds()
+        [Theory]
+        [InlineData("FgenSingleInstrumentPerPin.pinmap")]
+        public void InitializeBundleWithSinglePin_PerformResetDeviceOperation_Succeeds(string pinmap)
         {
-            var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
+            var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen("A");
 
             sessionsBundle.ResetDevice();
         }
 
-        [Fact]
-        public void InitializeBundleWithMultiplePin_PerformResetOperation_Succeeds()
+        [Theory]
+        [InlineData("FgenSingleInstrumentPerPin.pinmap")]
+        [InlineData("FgenSingleInstrumentPerSite.pinmap")]
+        public void InitializeBundleWithMultiplePin_PerformResetOperation_Succeeds(string pinmap)
         {
-            var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
+            var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
 
             sessionsBundle.Reset();
         }
 
-        [Fact]
-        public void InitializeBundleWithMultiplePin_PerformResetDeviceOperation_Succeeds()
+        [Theory]
+        [InlineData("FgenSingleInstrumentPerPin.pinmap")]
+        [InlineData("FgenSingleInstrumentPerSite.pinmap")]
+        public void InitializeBundleWithMultiplePin_PerformResetDeviceOperation_Succeeds(string pinmap)
         {
-            var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
+            var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
 
             sessionsBundle.ResetDevice();
