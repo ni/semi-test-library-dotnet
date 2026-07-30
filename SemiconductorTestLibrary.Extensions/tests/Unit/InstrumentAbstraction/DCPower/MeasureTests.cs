@@ -1148,15 +1148,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
-        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
-        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
-        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap", DCPowerMeasurementWhen.OnDemand)]
-        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap", DCPowerMeasurementWhen.OnDemand)]
-        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap", DCPowerMeasurementWhen.OnDemand)]
-        public void DifferentSMUDevicesConfigureMeasureWhenAndForceVoltage_MeasureVoltageWithInCompliance_AllChannelsMeasured(string pinMapFileName, DCPowerMeasurementWhen measureWhen)
+        [InlineData(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete, true)]
+        [InlineData(DCPowerMeasurementWhen.OnDemand, false)]
+        public void DifferentSMUDevicesConfigureMeasureWhenAndForceVoltage_MeasureVoltageWithInCompliance_AllChannelsMeasured(DCPowerMeasurementWhen measureWhen, bool pinMapWithChannelGroup)
         {
-            var sessionManager = Initialize(pinMapFileName);
+            var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
             var voltageLevel = 3.6;
             sessionsBundle.ConfigureMeasureWhen(measureWhen);
@@ -1168,17 +1164,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
-        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
-        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap")]
-        public void DifferentSMUDevicesOneChannelMeasureOnTriggerOthersMeasureOnDemand_ForceVoltageMeasureVoltageWithInCompliance_ReturnsCorrectValue(string pinMapFileName)
+        [InlineData(true)]
+        [InlineData(false)]
+        public void DifferentSMUDevicesOneChannelMeasureOnTriggerOthersMeasureOnDemand_ForceVoltageMeasureVoltageWithInCompliance_ReturnsCorrectValue(bool pinMapWithChannelGroup)
         {
-            var sessionManager = Initialize(pinMapFileName);
+            var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
             var voltageLevel = 3.6;
             string firstChannelString = sessionsBundle.InstrumentSessions.ElementAt(0).AssociatedSitePinList[0].IndividualChannelString;
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnDemand);
-            sessionsBundle.InstrumentSessions.ElementAt(0).Session.Outputs[firstChannelString].Measurement.MeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger;
+            sessionsBundle.InstrumentSessions.ElementAt(0).Session.Outputs[firstChannelString].Measurement.MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete;
             sessionsBundle.ForceVoltage(voltageLevel, waitForSourceCompletion: true);
 
             var results = sessionsBundle.MeasureVoltageWithInCompliance();
@@ -1232,17 +1227,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
-        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
-        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
-        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap", DCPowerMeasurementWhen.OnDemand)]
-        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap", DCPowerMeasurementWhen.OnDemand)]
-        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap", DCPowerMeasurementWhen.OnDemand)]
-        public void DifferentSMUDevicesConfigureMeasureWhenAndForceCurrent_MeasureCurrentWithInCompliance_AllChannelsMeasured(string pinMapFileName, DCPowerMeasurementWhen measureWhen)
+        [InlineData(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete, true)]
+        [InlineData(DCPowerMeasurementWhen.OnDemand, false)]
+        public void DifferentSMUDevicesConfigureMeasureWhenAndForceCurrent_MeasureCurrentWithInCompliance_AllChannelsMeasured(DCPowerMeasurementWhen measureWhen, bool pinMapWithChannelGroup)
         {
-            var sessionManager = Initialize(pinMapFileName);
+            var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
-            var currentLevel = 0.1;
+            var currentLevel = 3E-5;
             sessionsBundle.ConfigureMeasureWhen(measureWhen);
             sessionsBundle.ForceCurrent(currentLevel, waitForSourceCompletion: true);
 
@@ -1252,14 +1243,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
-        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
-        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap")]
-        public void DifferentSMUDevicesOneChannelMeasureOnTriggerOthersMeasureOnDemand_ForceCurrentMeasureCurrentWithInCompliance_ReturnsCorrectValue(string pinMapFileName)
+        [InlineData(true)]
+        [InlineData(false)]
+        public void DifferentSMUDevicesOneChannelMeasureOnTriggerOthersMeasureOnDemand_ForceCurrentMeasureCurrentWithInCompliance_ReturnsCorrectValue(bool pinMapWithChannelGroup)
         {
-            var sessionManager = Initialize(pinMapFileName);
+            var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
-            var currentLevel = 0.1;
+            var currentLevel = 3E-5;
             string firstChannelString = sessionsBundle.InstrumentSessions.ElementAt(0).AssociatedSitePinList[0].IndividualChannelString;
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnDemand);
             sessionsBundle.InstrumentSessions.ElementAt(0).Session.Outputs[firstChannelString].Measurement.MeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger;
@@ -1278,7 +1268,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize("SharedPinTests_MultiSite.pinmap");
             var sessionsBundle = sessionManager.DCPower(pinName);
             var filteredBundle = sessionsBundle.FilterBySite(new int[] { 0, 2 });
-            var currentLevel = 0.05;
+            var currentLevel = 3E-5;
             filteredBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnDemand);
             filteredBundle.ForceCurrent(currentLevel, waitForSourceCompletion: true);
 
@@ -1316,12 +1306,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
-        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
-        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap")]
-        public void AllChannelsMeasureOnDemand_QueryInCompliance_AllChannelsReturnResult(string pinMapFileName)
+        [InlineData(true)]
+        [InlineData(false)]
+        public void AllChannelsMeasureOnDemand_QueryInCompliance_AllChannelsReturnResult(bool pinMapWithChannelGroup)
         {
-            var sessionManager = Initialize(pinMapFileName);
+            var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnDemand);
             sessionsBundle.ForceVoltage(voltageLevel: 3.6, waitForSourceCompletion: true);
