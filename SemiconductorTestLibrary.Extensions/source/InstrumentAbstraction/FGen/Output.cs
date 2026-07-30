@@ -99,7 +99,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// </remarks>
         public static void ConfigureOutputMode(this FgenSessionsBundle sessionsBundle, OutputMode outputMode)
         {
-            string a = outputMode.ToString();
             if (outputMode != OutputMode.Function)
             {
                 throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.FGen_InvalidOutputModeException, outputMode));
