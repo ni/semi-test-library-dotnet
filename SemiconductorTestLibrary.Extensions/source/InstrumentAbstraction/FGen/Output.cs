@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Globalization;
 using System.Linq;
 using NationalInstruments.ModularInstruments.NIFgen;
 using NationalInstruments.SemiconductorTestLibrary.Common;
@@ -99,9 +99,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// </remarks>
         public static void ConfigureOutputMode(this FgenSessionsBundle sessionsBundle, OutputMode outputMode)
         {
+            string a = outputMode.ToString();
             if (outputMode != OutputMode.Function)
             {
-                throw new NISemiconductorTestException($"Output mode {outputMode} is not supported.");
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.FGen_InvalidOutputModeException, outputMode));
             }
             sessionsBundle.Do(sessionInfo =>
             {

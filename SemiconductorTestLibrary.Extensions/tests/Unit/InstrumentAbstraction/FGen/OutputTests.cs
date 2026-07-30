@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using NationalInstruments.ModularInstruments.NIFgen;
+using NationalInstruments.SemiconductorTestLibrary;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
@@ -36,6 +38,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.Fgen("A");
 
             sessionsBundle.ConfigureOutputEnabled(false);
+
             AssertOutputEnabledState(sessionsBundle, false);
             sessionsBundle.ConfigureOutputEnabled(true);
             AssertOutputEnabledState(sessionsBundle, true);
@@ -50,6 +53,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
 
             sessionsBundle.ConfigureOutputEnabled(false);
+
             AssertOutputEnabledState(sessionsBundle, false);
             sessionsBundle.ConfigureOutputEnabled(true);
             AssertOutputEnabledState(sessionsBundle, true);
@@ -98,6 +102,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.Fgen("A");
 
             sessionsBundle.ConfigureOutputImpedance(50);
+
             AssertOutputImpedance(sessionsBundle, 50);
             sessionsBundle.ConfigureOutputImpedance();
             AssertOutputImpedance(sessionsBundle, 50);
@@ -112,6 +117,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
 
             sessionsBundle.ConfigureOutputImpedance(50);
+
             AssertOutputImpedance(sessionsBundle, 50);
             sessionsBundle.ConfigureOutputImpedance();
             AssertOutputImpedance(sessionsBundle, 50);
@@ -161,6 +167,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.Fgen("A");
 
             sessionsBundle.ConfigureOutputMode(OutputMode.Function);
+
+            AssertOutputMode(sessionsBundle, OutputMode.Function);
         }
 
         [Theory]
@@ -172,33 +180,43 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
 
             sessionsBundle.ConfigureOutputMode(OutputMode.Function);
+
+            AssertOutputMode(sessionsBundle, OutputMode.Function);
         }
 
         [Theory]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
-        public void InitializeBundleWithSinglePin_PerformConfigureUnsupportedOutputMode_ThrowsException(string pinmap)
+        public void InitializeBundleWithSinglePin_PerformConfigureUnsupportedOutputModeThrowsException(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen("A");
 
-            Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ConfigureOutputMode(OutputMode.Arbitrary));
-            Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ConfigureOutputMode(OutputMode.FrequencyList));
-            Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ConfigureOutputMode(OutputMode.Sequence));
-            Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ConfigureOutputMode(OutputMode.Script));
+            foreach (var outputMode in Enum.GetValues(typeof(OutputMode)))
+            {
+                if ((OutputMode)outputMode != OutputMode.Function)
+                {
+                    var exception = Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ConfigureOutputMode((OutputMode)outputMode));
+                    Assert.Contains(string.Format(CultureInfo.InvariantCulture, ResourceStrings.FGen_InvalidOutputModeException, outputMode), exception.Message);
+                }
+            }
         }
 
         [Theory]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
         [InlineData("FgenSingleInstrumentPerSite.pinmap")]
-        public void InitializeBundleWithMultiplePins_PerformConfigureUnsupportedOutputMode_ThrowsException(string pinmap)
+        public void InitializeBundleWithMultiplePins_PerformConfigureUnsupportedOutputModeThrowsException(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
 
-            Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ConfigureOutputMode(OutputMode.Arbitrary));
-            Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ConfigureOutputMode(OutputMode.FrequencyList));
-            Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ConfigureOutputMode(OutputMode.Sequence));
-            Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ConfigureOutputMode(OutputMode.Script));
+            foreach (var outputMode in Enum.GetValues(typeof(OutputMode)))
+            {
+                if ((OutputMode)outputMode != OutputMode.Function)
+                {
+                    var exception = Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ConfigureOutputMode((OutputMode)outputMode));
+                    Assert.Contains(string.Format(CultureInfo.InvariantCulture, ResourceStrings.FGen_InvalidOutputModeException, outputMode), exception.Message);
+                }
+            }
         }
 
         #region HelperMethods
@@ -235,6 +253,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var actualValue = sessionInformation.Session.Output.GetImpedance(sitePinInfo.IndividualChannelString.Split('/').Last());
                 Assert.Equal(expectedValue.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName), actualValue);
+            });
+        }
+
+        private void AssertOutputMode(FgenSessionsBundle sessionsBundle, OutputMode expectedValue)
+        {
+            sessionsBundle.Do(sessionInformation =>
+            {
+                var actualValue = sessionInformation.Session.Output.OutputMode;
+                Assert.Equal(expectedValue, actualValue);
             });
         }
         #endregion
