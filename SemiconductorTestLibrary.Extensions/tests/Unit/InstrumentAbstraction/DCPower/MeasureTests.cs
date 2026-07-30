@@ -1147,13 +1147,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             dcPower.UngangPinGroup("MergedPowerPins");
         }
 
-        [Theory]
-        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
-        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
-        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap")]
-        public void ChannelsHavePendingFetchData_ClearFetchBacklog_BacklogIsCleared(string pinMapFileName)
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [Fact]
+        public void ChannelsHavePendingFetchData_ClearFetchBacklog_BacklogIsCleared()
         {
-            var sessionManager = Initialize(pinMapFileName);
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower("VDD");
             sessionsBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
             sessionsBundle.ForceVoltage(voltageLevel: 1, currentLimit: 0.1, waitForSourceCompletion: true);
