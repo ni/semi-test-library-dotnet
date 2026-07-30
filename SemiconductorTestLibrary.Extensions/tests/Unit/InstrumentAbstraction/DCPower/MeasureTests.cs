@@ -1147,6 +1147,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             dcPower.UngangPinGroup("MergedPowerPins");
         }
 
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [Theory]
         [InlineData(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete, true)]
         [InlineData(DCPowerMeasurementWhen.OnDemand, false)]
@@ -1163,6 +1164,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             AssertAllChannelsHaveCorrectResult(results, voltageLevel);
         }
 
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
@@ -1181,6 +1183,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             AssertAllChannelsHaveCorrectResult(results, voltageLevel);
         }
 
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [Theory]
         [InlineData("VCC1")]
         [InlineData("VDET")]
@@ -1198,6 +1201,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             AssertAllChannelsHaveCorrectResult(results, voltageLevel);
         }
 
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [Theory]
         [InlineData("G1_1mA")]
         [InlineData("G1_2mA")]
@@ -1212,6 +1216,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             AssertResultAssociatedWithIndividualPinName(results, pinGroupName, primaryPin, expectedMeasurement: 3.6);
         }
 
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [Theory]
         [InlineData("AllPinsGangedGroup")]
         [InlineData("TwoPinsGangedGroup")]
@@ -1226,6 +1231,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             AssertResultAssociatedWithIndividualPinName(results, pinGroupName, leaderPin);
         }
 
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [Theory]
         [InlineData(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete, true)]
         [InlineData(DCPowerMeasurementWhen.OnDemand, false)]
@@ -1242,6 +1248,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             AssertAllChannelsHaveCorrectResult(results, currentLevel);
         }
 
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
@@ -1260,6 +1267,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             AssertAllChannelsHaveCorrectResult(results, currentLevel);
         }
 
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [Theory]
         [InlineData("VCC1")]
         [InlineData("VDET")]
@@ -1277,6 +1285,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             AssertAllChannelsHaveCorrectResult(results, currentLevel);
         }
 
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [Theory]
         [InlineData("G1_1mA")]
         [InlineData("G1_2mA")]
@@ -1291,6 +1300,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             AssertResultAssociatedWithIndividualPinName(results, pinGroupName, primaryPin);
         }
 
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [Theory]
         [InlineData("AllPinsGangedGroup")]
         [InlineData("TwoPinsGangedGroup")]
@@ -1305,6 +1315,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             AssertResultAssociatedWithIndividualPinName(results, pinGroupName, leaderPin);
         }
 
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
@@ -1320,6 +1331,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             AssertAllChannelsReturnResult(results);
         }
 
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [Theory]
         [InlineData("VCC1")]
         [InlineData("VDET")]
@@ -1336,6 +1348,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             AssertAllChannelsReturnSameResult(results);
         }
 
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [Theory]
         [InlineData("G1_1mA")]
         [InlineData("G1_2mA")]
@@ -1350,6 +1363,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             AssertResultAssociatedWithIndividualPinName(results, pinGroupName, primaryPin);
         }
 
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [Theory]
         [InlineData("AllPinsGangedGroup")]
         [InlineData("TwoPinsGangedGroup")]
