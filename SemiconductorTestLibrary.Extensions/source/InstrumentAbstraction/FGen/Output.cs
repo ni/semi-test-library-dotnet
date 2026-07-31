@@ -24,11 +24,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
             });
         }
 
-        /// <summary>
-        /// Configures the signal generator to generate a signal at the channel output connector.
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
-        /// <param name="outputEnable">Specifies the state of the output enable relay. Set outputEnable to TRUE to enable the relay.</param>
+        /// <inheritdoc cref="ConfigureOutputEnabled(FgenSessionsBundle, bool)"/>
         public static void ConfigureOutputEnabled(this FgenSessionsBundle sessionsBundle, SiteData<bool> outputEnable)
         {
             sessionsBundle.Do((sessionInformation, sitePinInfo) =>
@@ -37,11 +33,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
             });
         }
 
-        /// <summary>
-        /// Configures the signal generator to generate a signal at the channel output connector.
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
-        /// <param name="outputEnable">Specifies the state of the output enable relay. Set outputEnable to TRUE to enable the relay.</param>
+        /// <inheritdoc cref="ConfigureOutputEnabled(FgenSessionsBundle, bool)"/>
         public static void ConfigureOutputEnabled(this FgenSessionsBundle sessionsBundle, PinSiteData<bool> outputEnable)
         {
             sessionsBundle.Do((sessionInformation, sitePinInfo) =>
@@ -63,11 +55,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
             });
         }
 
-        /// <summary>
-        /// Configures the output impedance.
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
-        /// <param name="impedance">Specifies the impedance value that you want the signal generator to use.</param>
+        /// <inheritdoc cref="ConfigureOutputImpedance(FgenSessionsBundle, double)"/>
         public static void ConfigureOutputImpedance(this FgenSessionsBundle sessionsBundle, SiteData<double> impedance)
         {
             sessionsBundle.Do((sessionInformation, sitePinInfo) =>
@@ -76,11 +64,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
             });
         }
 
-        /// <summary>
-        /// Configures the output impedance.
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
-        /// <param name="impedance">Specifies the impedance value that you want the signal generator to use.</param>
+        /// <inheritdoc cref="ConfigureOutputImpedance(FgenSessionsBundle, double)"/>
         public static void ConfigureOutputImpedance(this FgenSessionsBundle sessionsBundle, PinSiteData<double> impedance)
         {
             sessionsBundle.Do((sessionInformation, sitePinInfo) =>
@@ -95,7 +79,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
         /// <param name="outputMode">Specifies the output mode that you want the signal generator to use.</param>
         /// <remarks>
-        /// As of STL 26.5, only the `Function` output mode is supported. Attempting to configure any other output mode throws an exception.
+        /// As of STL 26.5, only the <see cref="OutputMode.Function"/> output mode is supported.
+        /// Attempting to configure any other output mode throws an exception.
         /// </remarks>
         public static void ConfigureOutputMode(this FgenSessionsBundle sessionsBundle, OutputMode outputMode)
         {
