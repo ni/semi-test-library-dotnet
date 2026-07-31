@@ -1766,7 +1766,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentLevelRange">The current level range to set, in Amps.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">The <see cref="UpdateMode"/> value.</param>
         public static void ConfigureCurrentLevelRange(this DCPowerSessionsBundle sessionsBundle, double currentLevelRange, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.DoPerChannelIfGangedElsePerSession(
@@ -1816,7 +1816,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentLimitLow">The current limit low to set, in Amps.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">The <see cref="UpdateMode"/> value.</param>
         public static void ConfigureCurrentLimitLow(this DCPowerSessionsBundle sessionsBundle, double currentLimitLow, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.DoPerChannelIfGangedElsePerSession(
@@ -1866,7 +1866,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentLimitHigh">The current limit high to set, in Amps.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">The <see cref="UpdateMode"/> value.</param>
         public static void ConfigureCurrentLimitHigh(this DCPowerSessionsBundle sessionsBundle, double currentLimitHigh, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.DoPerChannelIfGangedElsePerSession(
@@ -1916,7 +1916,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentLimitRange">The current limit range to set, in Amps.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">The <see cref="UpdateMode"/> value.</param>
         public static void ConfigureCurrentLimitRange(this DCPowerSessionsBundle sessionsBundle, double currentLimitRange, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.DoPerChannelIfGangedElsePerSession(
@@ -1967,7 +1967,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="complianceLimitSymmetry">The compliance limit symmetry value to set, either <see cref="DCPowerComplianceLimitSymmetry.Symmetric"/> or <see cref="DCPowerComplianceLimitSymmetry.Asymmetric"/></param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">The <see cref="UpdateMode"/> value.</param>
         public static void ConfigureLimitSymmetry(this DCPowerSessionsBundle sessionsBundle, DCPowerComplianceLimitSymmetry complianceLimitSymmetry, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.DoPerChannelIfGangedElsePerSession(
@@ -2012,7 +2012,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentLevel">The current level to set, in Amps.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">The <see cref="UpdateMode"/> value.</param>
         public static void ConfigureCurrentLevel(this DCPowerSessionsBundle sessionsBundle, double currentLevel, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.DoPerChannelIfGangedElsePerSession(
