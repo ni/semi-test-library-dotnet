@@ -269,6 +269,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <returns>The per-pin per-site compliance status.</returns>
         public static PinSiteData<bool> QueryInCompliance(this DCPowerSessionsBundle sessionsBundle)
         {
+            sessionsBundle.ClearBacklogIfSoftwareEdgeTrigger();
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
                 return sessionInfo.Session.Measurement.QueryInCompliance(sitePinInfo.IndividualChannelString);

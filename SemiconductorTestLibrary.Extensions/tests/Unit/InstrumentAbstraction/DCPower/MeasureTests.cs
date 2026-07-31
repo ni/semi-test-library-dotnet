@@ -1467,7 +1467,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 foreach (var pin in results.PinNames)
                 {
-                    Assert.Equal(expectedMeasurement, results.GetValue(siteNumber, pin).Item1, precision: 3);
+                    var value = results.GetValue(siteNumber, pin);
+                    Assert.Equal(expectedMeasurement, value.Item1, precision: 3);
+                    Assert.False(value.Item2);
                 }
             }
         }
