@@ -38,7 +38,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         {
             sessionsBundle.Do((sessionInformation, sitePinInfo) =>
             {
-                sessionInformation.Session.Output.SetEnabled(sitePinInfo.IndividualChannelString.Split('/').Last(), outputEnable.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName));
+                sessionInformation.Session.Output.SetEnabled(sitePinInfo.IndividualChannelString.Split('/').Last(), outputEnable.GetValue(sitePinInfo));
             });
         }
 
@@ -69,7 +69,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         {
             sessionsBundle.Do((sessionInformation, sitePinInfo) =>
             {
-                sessionInformation.Session.Output.SetImpedance(sitePinInfo.IndividualChannelString.Split('/').Last(), impedance.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName));
+                sessionInformation.Session.Output.SetImpedance(sitePinInfo.IndividualChannelString.Split('/').Last(), impedance.GetValue(sitePinInfo));
             });
         }
 

@@ -234,7 +234,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Do((sessionInformation, sitePinInfo) =>
             {
                 var actualValue = sessionInformation.Session.Output.GetEnabled(sitePinInfo.IndividualChannelString.Split('/').Last());
-                Assert.Equal(expectedValue.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName), actualValue);
+                Assert.Equal(expectedValue.GetValue(sitePinInfo), actualValue);
             });
         }
 
@@ -252,7 +252,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Do((sessionInformation, sitePinInfo) =>
             {
                 var actualValue = sessionInformation.Session.Output.GetImpedance(sitePinInfo.IndividualChannelString.Split('/').Last());
-                Assert.Equal(expectedValue.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName), actualValue);
+                Assert.Equal(expectedValue.GetValue(sitePinInfo), actualValue);
             });
         }
 
