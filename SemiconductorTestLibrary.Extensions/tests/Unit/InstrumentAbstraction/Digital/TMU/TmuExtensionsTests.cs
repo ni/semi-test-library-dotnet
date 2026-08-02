@@ -464,7 +464,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(expected.ExtractSite(0)["C0"], result.ExtractSite(0)["C0"]);
             if (useSpecificPins)
             {
-                Assert.Null(result.ExtractSite(0)["C1"]);
+                Assert.False(result.ExtractSite(0).ContainsKey("C1"));
             }
             else
             {
@@ -502,7 +502,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(expected.ExtractSite(0)["C0"], result.ExtractSite(0)["C0"]);
             if (useSpecificPins)
             {
-                Assert.Null(result.ExtractSite(0)["C1"]);
+                Assert.False(result.ExtractSite(0).ContainsKey("C1"));
             }
             else
             {
@@ -748,7 +748,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(expected.ExtractSite(0)["C0"], result.ExtractSite(0)["C0"]);
             if (useSpecificPins)
             {
-                Assert.Null(result.ExtractSite(0)["C1"]);
+                Assert.False(result.ExtractSite(0).ContainsKey("C1"));
             }
             else
             {
