@@ -1357,7 +1357,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         public static PinSiteData<string> GetTMUStartSource(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            var results = sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
@@ -1366,6 +1366,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 }
                 return null;
             });
+            return pinNames != null && pinNames.Length > 0 ? results.ExtractPins(pinNames) : results;
         }
 
         #endregion
@@ -1381,7 +1382,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         public static PinSiteData<string> GetTMUStopSource(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            var results = sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
@@ -1390,6 +1391,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 }
                 return null;
             });
+            return pinNames != null && pinNames.Length > 0 ? results.ExtractPins(pinNames) : results;
         }
 
         #endregion
@@ -1405,7 +1407,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         public static PinSiteData<TmuSourceEvent> GetTMUStartSourceEvent(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            var results = sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
@@ -1414,6 +1416,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 }
                 return TmuSourceEvent.None;
             });
+            return pinNames != null && pinNames.Length > 0 ? results.ExtractPins(pinNames) : results;
         }
 
         #endregion
@@ -1429,7 +1432,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         public static PinSiteData<TmuSourceEvent> GetTMUStopSourceEvent(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            var results = sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
@@ -1438,6 +1441,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 }
                 return TmuSourceEvent.None;
             });
+            return pinNames != null && pinNames.Length > 0 ? results.ExtractPins(pinNames) : results;
         }
 
         #endregion
@@ -1453,7 +1457,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         public static PinSiteData<TmuPolarity> GetTMUStartSourceEventPolarity(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            var results = sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
@@ -1462,6 +1466,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 }
                 return TmuPolarity.None;
             });
+            return pinNames != null && pinNames.Length > 0 ? results.ExtractPins(pinNames) : results;
         }
 
         #endregion
@@ -1477,7 +1482,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         public static PinSiteData<TmuPolarity> GetTMUStopSourceEventPolarity(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            var results = sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
@@ -1486,6 +1491,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 }
                 return TmuPolarity.None;
             });
+            return pinNames != null && pinNames.Length > 0 ? results.ExtractPins(pinNames) : results;
         }
 
         #endregion
@@ -1501,7 +1507,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         public static PinSiteData<bool> GetTMUEnabled(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            var results = sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
@@ -1510,6 +1516,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 }
                 return false;
             });
+            return pinNames != null && pinNames.Length > 0 ? results.ExtractPins(pinNames) : results;
         }
 
         #endregion
@@ -1525,7 +1532,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         public static PinSiteData<TmuArmType> GetTMUArmType(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            var results = sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
@@ -1534,6 +1541,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 }
                 return TmuArmType.None;
             });
+            return pinNames != null && pinNames.Length > 0 ? results.ExtractPins(pinNames) : results;
         }
 
         #endregion
@@ -1550,7 +1558,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         public static PinSiteData<string> GetTMUEdgeArmSource(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            var results = sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
@@ -1559,6 +1567,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 }
                 return null;
             });
+            return pinNames != null && pinNames.Length > 0 ? results.ExtractPins(pinNames) : results;
         }
 
         #endregion
@@ -1575,7 +1584,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         public static PinSiteData<TmuSourceEvent> GetTMUEdgeArmSourceEvent(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            var results = sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
@@ -1584,6 +1593,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 }
                 return TmuSourceEvent.None;
             });
+            return pinNames != null && pinNames.Length > 0 ? results.ExtractPins(pinNames) : results;
         }
 
         #endregion
@@ -1600,7 +1610,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         public static PinSiteData<TmuPolarity> GetTMUEdgeArmPolarity(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            var results = sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
@@ -1609,6 +1619,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 }
                 return TmuPolarity.None;
             });
+            return pinNames != null && pinNames.Length > 0 ? results.ExtractPins(pinNames) : results;
         }
 
         #endregion
@@ -1624,7 +1635,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         public static PinSiteData<long> GetTMUSamplesToAcquire(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            var results = sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
@@ -1633,6 +1644,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 }
                 return 0L;
             });
+            return pinNames != null && pinNames.Length > 0 ? results.ExtractPins(pinNames) : results;
         }
 
         #endregion
@@ -1648,7 +1660,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         public static PinSiteData<double> GetTMUSampleTimeout(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            var results = sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
@@ -1657,6 +1669,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 }
                 return double.NaN;
             });
+            return pinNames != null && pinNames.Length > 0 ? results.ExtractPins(pinNames) : results;
         }
 
         #endregion
@@ -1672,7 +1685,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         public static PinSiteData<double> GetTMUStartInputDebounceTime(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            var results = sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
@@ -1681,6 +1694,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 }
                 return double.NaN;
             });
+            return pinNames != null && pinNames.Length > 0 ? results.ExtractPins(pinNames) : results;
         }
 
         #endregion
@@ -1696,7 +1710,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         public static PinSiteData<double> GetTMUStopInputDebounceTime(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            var results = sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
@@ -1705,6 +1719,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 }
                 return double.NaN;
             });
+            return pinNames != null && pinNames.Length > 0 ? results.ExtractPins(pinNames) : results;
         }
 
         #endregion
@@ -1722,10 +1737,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <returns>The total number of TMU resources available in the instrument session for each pin and site.</returns>
         public static PinSiteData<int> GetTMUCount(this DigitalSessionsBundle sessionsBundle)
         {
-            var tmuCountBySession = new System.Collections.Concurrent.ConcurrentDictionary<NIDigital, int>();
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo =>
             {
-                return tmuCountBySession.GetOrAdd(sessionInfo.Session, session => GetDigitalTmus(session).GetTmuCount());
+                int count = GetDigitalTmus(sessionInfo.Session).GetTmuCount();
+                return sessionInfo.AssociatedSitePinList
+                    .Where(sp => !sp.SkipOperations)
+                    .Select(_ => count)
+                    .ToArray();
             });
         }
 
