@@ -821,11 +821,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         #region Get TMU Start Source
 
         /// <summary>
-        /// Gets the TMU start source channel string for each pin in the sessions bundle.
+        /// Gets the TMU start source channel string for each pin in the <see cref="DigitalSessionsBundle"/>.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <param name="pinNames">The pin names to query. When <c>null</c>, all pins are targeted.</param>
-        /// <returns>The start source channel string for each pin and site.</returns>
+        /// <returns>The start source channel string for each pin and site. When <paramref name="pinNames"/> is specified, only data for those pins is returned.</returns>
         public static PinSiteData<string> GetTMUStartSource(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -846,11 +846,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         #region Get TMU Stop Source
 
         /// <summary>
-        /// Gets the TMU stop source channel string for each pin in the sessions bundle.
+        /// Gets the TMU stop source channel string for each pin in the <see cref="DigitalSessionsBundle"/>.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <param name="pinNames">The pin names to query. When <c>null</c>, all pins are targeted.</param>
-        /// <returns>The stop source channel string for each pin and site.</returns>
+        /// <returns>The stop source channel string for each pin and site. When <paramref name="pinNames"/> is specified, only data for those pins is returned.</returns>
         public static PinSiteData<string> GetTMUStopSource(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -871,11 +871,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         #region Get TMU Start Source Event
 
         /// <summary>
-        /// Gets the TMU start source event for each pin in the sessions bundle.
+        /// Gets the TMU start source event for each pin in the <see cref="DigitalSessionsBundle"/>.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <param name="pinNames">The pin names to query. When <c>null</c>, all pins are targeted.</param>
-        /// <returns>The start source event for each pin and site.</returns>
+        /// <returns>The start source event for each pin and site. When <paramref name="pinNames"/> is specified, only data for those pins is returned.</returns>
         public static PinSiteData<TmuSourceEvent> GetTMUStartSourceEvent(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -896,11 +896,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         #region Get TMU Stop Source Event
 
         /// <summary>
-        /// Gets the TMU stop source event for each pin in the sessions bundle.
+        /// Gets the TMU stop source event for each pin in the <see cref="DigitalSessionsBundle"/>.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <param name="pinNames">The pin names to query. When <c>null</c>, all pins are targeted.</param>
-        /// <returns>The stop source event for each pin and site.</returns>
+        /// <returns>The stop source event for each pin and site. When <paramref name="pinNames"/> is specified, only data for those pins is returned.</returns>
         public static PinSiteData<TmuSourceEvent> GetTMUStopSourceEvent(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -921,11 +921,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         #region Get TMU Start Source Event Polarity
 
         /// <summary>
-        /// Gets the TMU start source event polarity for each pin in the sessions bundle.
+        /// Gets the TMU start source event polarity for each pin in the <see cref="DigitalSessionsBundle"/>.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <param name="pinNames">The pin names to query. When <c>null</c>, all pins are targeted.</param>
-        /// <returns>The start source event polarity for each pin and site.</returns>
+        /// <returns>The start source event polarity for each pin and site. When <paramref name="pinNames"/> is specified, only data for those pins is returned.</returns>
         public static PinSiteData<TmuPolarity> GetTMUStartSourceEventPolarity(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -946,11 +946,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         #region Get TMU Stop Source Event Polarity
 
         /// <summary>
-        /// Gets the TMU stop source event polarity for each pin in the sessions bundle.
+        /// Gets the TMU stop source event polarity for each pin in the <see cref="DigitalSessionsBundle"/>.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <param name="pinNames">The pin names to query. When <c>null</c>, all pins are targeted.</param>
-        /// <returns>The stop source event polarity for each pin and site.</returns>
+        /// <returns>The stop source event polarity for each pin and site. When <paramref name="pinNames"/> is specified, only data for those pins is returned.</returns>
         public static PinSiteData<TmuPolarity> GetTMUStopSourceEventPolarity(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -971,11 +971,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         #region Get TMU Enabled
 
         /// <summary>
-        /// Gets a value indicating whether the assigned TMU resource is enabled for each pin in the sessions bundle.
+        /// Gets a value indicating whether the assigned TMU resource is enabled for each pin in the <see cref="DigitalSessionsBundle"/>.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <param name="pinNames">The pin names to query. When <c>null</c>, all pins are targeted.</param>
-        /// <returns>A value indicating whether the TMU is enabled for each pin and site.</returns>
+        /// <returns>A value indicating whether the TMU is enabled for each pin and site. When <paramref name="pinNames"/> is specified, only data for those pins is returned.</returns>
         public static PinSiteData<bool> GetTMUEnabled(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -996,11 +996,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         #region Get TMU Arm Type
 
         /// <summary>
-        /// Gets the TMU arm type for each pin in the sessions bundle.
+        /// Gets the TMU arm type for each pin in the <see cref="DigitalSessionsBundle"/>.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <param name="pinNames">The pin names to query. When <c>null</c>, all pins are targeted.</param>
-        /// <returns>The arm type for each pin and site.</returns>
+        /// <returns>The arm type for each pin and site. When <paramref name="pinNames"/> is specified, only data for those pins is returned.</returns>
         public static PinSiteData<TmuArmType> GetTMUArmType(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -1021,12 +1021,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         #region Get TMU Edge Arm Source
 
         /// <summary>
-        /// Gets the TMU edge arm source channel string for each pin in the sessions bundle.
+        /// Gets the TMU edge arm source channel string for each pin in the <see cref="DigitalSessionsBundle"/>.
         /// Applicable when arm type is set to <see cref="TmuArmType.Edge"/>.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <param name="pinNames">The pin names to query. When <c>null</c>, all pins are targeted.</param>
-        /// <returns>The edge arm source channel string for each pin and site.</returns>
+        /// <returns>The edge arm source channel string for each pin and site. When <paramref name="pinNames"/> is specified, only data for those pins is returned.</returns>
         public static PinSiteData<string> GetTMUEdgeArmSource(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -1047,12 +1047,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         #region Get TMU Edge Arm Source Event
 
         /// <summary>
-        /// Gets the TMU edge arm source event for each pin in the sessions bundle.
+        /// Gets the TMU edge arm source event for each pin in the <see cref="DigitalSessionsBundle"/>.
         /// Applicable when arm type is set to <see cref="TmuArmType.Edge"/> and arm source is a digital pin or channel.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <param name="pinNames">The pin names to query. When <c>null</c>, all pins are targeted.</param>
-        /// <returns>The edge arm source event for each pin and site.</returns>
+        /// <returns>The edge arm source event for each pin and site. When <paramref name="pinNames"/> is specified, only data for those pins is returned.</returns>
         public static PinSiteData<TmuSourceEvent> GetTMUEdgeArmSourceEvent(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -1073,12 +1073,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         #region Get TMU Edge Arm Polarity
 
         /// <summary>
-        /// Gets the TMU edge arm polarity for each pin in the sessions bundle.
+        /// Gets the TMU edge arm polarity for each pin in the <see cref="DigitalSessionsBundle"/>.
         /// Applicable when arm type is set to <see cref="TmuArmType.Edge"/>.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <param name="pinNames">The pin names to query. When <c>null</c>, all pins are targeted.</param>
-        /// <returns>The edge arm polarity for each pin and site.</returns>
+        /// <returns>The edge arm polarity for each pin and site. When <paramref name="pinNames"/> is specified, only data for those pins is returned.</returns>
         public static PinSiteData<TmuPolarity> GetTMUEdgeArmPolarity(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -1099,11 +1099,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         #region Get TMU Samples To Acquire
 
         /// <summary>
-        /// Gets the number of TMU samples to acquire for each pin in the sessions bundle.
+        /// Gets the number of TMU samples to acquire for each pin in the <see cref="DigitalSessionsBundle"/>.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <param name="pinNames">The pin names to query. When <c>null</c>, all pins are targeted.</param>
-        /// <returns>The number of samples to acquire for each pin and site.</returns>
+        /// <returns>The number of samples to acquire for each pin and site. When <paramref name="pinNames"/> is specified, only data for those pins is returned.</returns>
         public static PinSiteData<long> GetTMUSamplesToAcquire(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -1124,11 +1124,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         #region Get TMU Sample Timeout
 
         /// <summary>
-        /// Gets the TMU sample timeout for each pin in the sessions bundle.
+        /// Gets the TMU sample timeout for each pin in the <see cref="DigitalSessionsBundle"/>.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <param name="pinNames">The pin names to query. When <c>null</c>, all pins are targeted.</param>
-        /// <returns>The sample timeout in seconds for each pin and site.</returns>
+        /// <returns>The sample timeout in seconds for each pin and site. When <paramref name="pinNames"/> is specified, only data for those pins is returned.</returns>
         public static PinSiteData<double> GetTMUSampleTimeout(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -1149,11 +1149,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         #region Get TMU Start Input Debounce Time
 
         /// <summary>
-        /// Gets the TMU start input debounce time for each pin in the sessions bundle.
+        /// Gets the TMU start input debounce time for each pin in the <see cref="DigitalSessionsBundle"/>.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <param name="pinNames">The pin names to query. When <c>null</c>, all pins are targeted.</param>
-        /// <returns>The start input debounce time in seconds for each pin and site.</returns>
+        /// <returns>The start input debounce time in seconds for each pin and site. When <paramref name="pinNames"/> is specified, only data for those pins is returned.</returns>
         public static PinSiteData<double> GetTMUStartInputDebounceTime(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -1174,11 +1174,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         #region Get TMU Stop Input Debounce Time
 
         /// <summary>
-        /// Gets the TMU stop input debounce time for each pin in the sessions bundle.
+        /// Gets the TMU stop input debounce time for each pin in the <see cref="DigitalSessionsBundle"/>.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <param name="pinNames">The pin names to query. When <c>null</c>, all pins are targeted.</param>
-        /// <returns>The stop input debounce time in seconds for each pin and site.</returns>
+        /// <returns>The stop input debounce time in seconds for each pin and site. When <paramref name="pinNames"/> is specified, only data for those pins is returned.</returns>
         public static PinSiteData<double> GetTMUStopInputDebounceTime(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -1199,7 +1199,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         #region Get TMU Count
 
         /// <summary>
-        /// Gets the total number of TMU resources available in the instrument session for each pin in the sessions bundle.
+        /// Gets the total number of TMU resources available in the instrument session for each pin in the <see cref="DigitalSessionsBundle"/>.
         /// </summary>
         /// <remarks>
         /// This value is session-level and reflects the total TMU count across all modules in the instrument session
