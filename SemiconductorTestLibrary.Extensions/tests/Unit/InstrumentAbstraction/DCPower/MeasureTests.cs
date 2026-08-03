@@ -1314,6 +1314,106 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
         }
 
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureApertureTimeInSecondsWithScalarValueAndUpdateMode_CorrectValueIsSetAndMatchesUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var expectedApertureTimeInSeconds = 1E-3;
+
+            sessionsBundle.ConfigureApertureTimeInSeconds(expectedApertureTimeInSeconds, updateMode);
+            void InitiateTest()
+            {
+                sessionsBundle.Initiate();
+            }
+
+            var apertureTimes = sessionsBundle.GetApertureTimeInSeconds(out _);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedApertureTimeInSeconds, apertureTimes.GetValue(sitePinInfo), 4);
+            });
+            if (updateMode == UpdateMode.Immediate)
+            {
+                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
+                Assert.Contains("The session is already running.", exception.Message);
+            }
+            else
+            {
+                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
+            }
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureApertureTimeInSecondsWithPerSiteValuesAndUpdateMode_CorrectValuesAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var apertureTimesToSet = new SiteData<double>(new[] { 1E-3, 2E-3 });
+
+            sessionsBundle.ConfigureApertureTimeInSeconds(apertureTimesToSet, updateMode);
+            void InitiateTest()
+            {
+                sessionsBundle.Initiate();
+            }
+
+            var apertureTimes = sessionsBundle.GetApertureTimeInSeconds(out _);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(apertureTimesToSet.GetValue(sitePinInfo.SiteNumber), apertureTimes.GetValue(sitePinInfo), 4);
+            });
+            if (updateMode == UpdateMode.Immediate)
+            {
+                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
+                Assert.Contains("The session is already running.", exception.Message);
+            }
+            else
+            {
+                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
+            }
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureApertureTimeInSecondsWithPerPinPerSiteValuesAndUpdateMode_CorrectValuesAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
+            var apertureTimesToSet = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 1E-3, [1] = 2E-3 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 2E-3, [1] = 1E-3 }
+            });
+
+            sessionsBundle.ConfigureApertureTimeInSeconds(apertureTimesToSet, updateMode);
+            void InitiateTest()
+            {
+                sessionsBundle.Initiate();
+            }
+
+            var apertureTimes = sessionsBundle.GetApertureTimeInSeconds(out _);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(apertureTimesToSet.GetValue(sitePinInfo), apertureTimes.GetValue(sitePinInfo), 4);
+            });
+            if (updateMode == UpdateMode.Immediate)
+            {
+                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
+                Assert.Contains("The session is already running.", exception.Message);
+            }
+            else
+            {
+                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
+            }
+        }
+
         [Fact]
         public void GangedPinGroup_ConfigureApertureTimeInSeconds_CorrectValuesAreSet()
         {

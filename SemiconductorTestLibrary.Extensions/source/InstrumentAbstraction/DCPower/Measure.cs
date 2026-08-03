@@ -136,11 +136,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="apertureTime">The measurement aperture time in seconds to set.</param>
+        /// <param name="updateMode">The <see cref="UpdateMode"/> value.</param>
         /// <remarks>
         /// For the PXI-4110, PXI-4130, and PXIe-4154 models, the aperture time is converted to the equivalent SamplesToAverage value
         /// using the model's fixed sample rate (3 kHz for the PXI-4110 and PXI-4130, 300 kHz for the PXIe-4154).
         /// </remarks>
-        public static void ConfigureApertureTimeInSeconds(this DCPowerSessionsBundle sessionsBundle, double apertureTime)
+        public static void ConfigureApertureTimeInSeconds(this DCPowerSessionsBundle sessionsBundle, double apertureTime, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do(sessionInfo =>
@@ -150,10 +151,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     sessionInfo.Session.SetApertureTimeInSeconds(channelString, modelString, apertureTime);
                 });
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
-        /// <inheritdoc cref="ConfigureApertureTimeInSeconds(DCPowerSessionsBundle, double)"/>
-        public static void ConfigureApertureTimeInSeconds(this DCPowerSessionsBundle sessionsBundle, SiteData<double> apertureTime)
+        /// <inheritdoc cref="ConfigureApertureTimeInSeconds(DCPowerSessionsBundle, double, UpdateMode)"/>
+        public static void ConfigureApertureTimeInSeconds(this DCPowerSessionsBundle sessionsBundle, SiteData<double> apertureTime, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -161,10 +163,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
                 sessionInfo.Session.SetApertureTimeInSeconds(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, apertureTime.GetValue(sitePinInfo.SiteNumber));
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
-        /// <inheritdoc cref="ConfigureApertureTimeInSeconds(DCPowerSessionsBundle, double)"/>
-        public static void ConfigureApertureTimeInSeconds(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> apertureTime)
+        /// <inheritdoc cref="ConfigureApertureTimeInSeconds(DCPowerSessionsBundle, double, UpdateMode)"/>
+        public static void ConfigureApertureTimeInSeconds(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> apertureTime, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -172,6 +175,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
                 sessionInfo.Session.SetApertureTimeInSeconds(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, apertureTime.GetValue(sitePinInfo));
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
