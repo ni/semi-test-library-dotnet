@@ -1175,10 +1175,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
             sessionsBundle.ForceVoltage(voltageLevel: 1, currentLimit: 0.1, waitForSourceCompletion: true);
             var filteredBundle = sessionsBundle.FilterByPin("VDD");
+            var originalVCCBacklog = GetTotalFetchBacklog(sessionsBundle.FilterByPin("VCC"));
+
+            // Confirm there is pending fetch data before clearing.
+            Assert.True(GetTotalFetchBacklog(sessionsBundle) > 0);
 
             filteredBundle.ClearFetchBacklog();
 
             Assert.Equal(0, GetTotalFetchBacklog(filteredBundle));
+            Assert.Equal(originalVCCBacklog, GetTotalFetchBacklog(sessionsBundle.FilterByPin("VCC")));
         }
 
         [Fact]
@@ -1425,27 +1430,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             return totalBacklog;
         }
 
-        private static void AssertApertureTimeInSecondsForLegacyModels(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, double expectedApertureTimeInSeconds)
-        {
-            switch (sitePinInfo.ModelString)
-            {
-                case DCPowerModelStrings.PXI_4110:
-                case DCPowerModelStrings.PXI_4130:
-                    // These models use samples to average with a fixed 3 kHz sample rate instead of an aperture time.
-                    Assert.Equal(Convert.ToInt32(3000.0 * expectedApertureTimeInSeconds), channelOutput.Measurement.SamplesToAverage);
-                    break;
 
-                case DCPowerModelStrings.PXIe_4154:
-                    // This model uses samples to average with a fixed 300 kHz sample rate instead of an aperture time.
-                    Assert.Equal(Convert.ToInt32(300000.0 * expectedApertureTimeInSeconds), channelOutput.Measurement.SamplesToAverage);
-                    break;
-
-                default:
-                    Assert.Equal(DCPowerMeasureApertureTimeUnits.Seconds, channelOutput.Measurement.ApertureTimeUnits);
-                    Assert.Equal(expectedApertureTimeInSeconds, channelOutput.Measurement.ApertureTime, 6);
-                    break;
-            }
-        }
 
         private void AssertMeasureWhenSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, DCPowerMeasurementWhen measureWhen)
         {

@@ -496,6 +496,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 foreach (var sitePinInfo in sessionInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations))
                 {
                     var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+
+                    // FetchBacklog is only valid when the channel is running (non-OnDemand measure modes).
+                    if (channelOutput.Measurement.MeasureWhen == DCPowerMeasurementWhen.OnDemand)
+                    {
+                        continue;
+                    }
+
                     int fetchBacklog = channelOutput.Measurement.FetchBacklog;
                     if (fetchBacklog > 0)
                     {
