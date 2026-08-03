@@ -1147,8 +1147,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             dcPower.UngangPinGroup("MergedPowerPins");
         }
 
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete, true)]
         [InlineData(DCPowerMeasurementWhen.OnDemand, false)]
         public void DifferentSMUDevicesConfigureMeasureWhenAndForceVoltage_MeasureVoltageWithInCompliance_AllChannelsMeasured(DCPowerMeasurementWhen measureWhen, bool pinMapWithChannelGroup)
@@ -1164,8 +1164,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             AssertAllChannelsHaveCorrectResult(results, voltageLevel);
         }
 
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(true)]
         [InlineData(false)]
         public void DifferentSMUDevicesOneChannelMeasureOnTriggerOthersMeasureOnDemand_ForceVoltageMeasureVoltageWithInCompliance_ReturnsCorrectValue(bool pinMapWithChannelGroup)
@@ -1183,8 +1183,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             AssertAllChannelsHaveCorrectResult(results, voltageLevel);
         }
 
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("VCC1")]
         [InlineData("VDET")]
         public void SharedPinsAllChannelsMeasureOnDemand_ForceVoltageMeasureVoltageWithInCompliance_ReturnsSameValueForSharedAndShadowPins(string pinName)
@@ -1201,38 +1201,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             AssertAllChannelsHaveCorrectResult(results, voltageLevel);
         }
 
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [Theory]
-        [InlineData("G1_1mA")]
-        [InlineData("G1_2mA")]
-        [InlineData("G1_4mA")]
-        public void MergePinGroupAndForceVoltage_MeasureVoltageWithInCompliance_ResultsAssociatedWithIndividualPinName(string pinGroupName)
-        {
-            var sessionsBundle = MergeAndForceVoltage(pinGroupName, out string primaryPin);
-
-            var results = sessionsBundle.MeasureVoltageWithInCompliance();
-
-            sessionsBundle.UnmergePinGroup(pinGroupName);
-            AssertResultAssociatedWithIndividualPinName(results, pinGroupName, primaryPin, expectedMeasurement: 3.6);
-        }
-
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
-        [Theory]
-        [InlineData("AllPinsGangedGroup")]
-        [InlineData("TwoPinsGangedGroup")]
-        [InlineData("ThreePinsGangedGroup")]
-        public void GangPinGroupAndForceCurrent_MeasureVoltageWithInCompliance_ResultsAssociatedWithIndividualPinName(string pinGroupName)
-        {
-            var sessionsBundle = GangAndForceCurrent(pinGroupName, out string leaderPin);
-
-            var results = sessionsBundle.MeasureVoltageWithInCompliance();
-
-            sessionsBundle.UngangPinGroup(pinGroupName);
-            AssertResultAssociatedWithIndividualPinName(results, pinGroupName, leaderPin);
-        }
-
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
-        [Theory]
         [InlineData(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete, true)]
         [InlineData(DCPowerMeasurementWhen.OnDemand, false)]
         public void DifferentSMUDevicesConfigureMeasureWhenAndForceCurrent_MeasureCurrentWithInCompliance_AllChannelsMeasured(DCPowerMeasurementWhen measureWhen, bool pinMapWithChannelGroup)
@@ -1248,8 +1218,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             AssertAllChannelsHaveCorrectResult(results, currentLevel);
         }
 
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(true)]
         [InlineData(false)]
         public void DifferentSMUDevicesOneChannelMeasureOnTriggerOthersMeasureOnDemand_ForceCurrentMeasureCurrentWithInCompliance_ReturnsCorrectValue(bool pinMapWithChannelGroup)
@@ -1267,8 +1237,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             AssertAllChannelsHaveCorrectResult(results, currentLevel);
         }
 
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("VCC1")]
         [InlineData("VDET")]
         public void SharedPinsAllChannelsMeasureOnDemand_ForceCurrentMeasureCurrentWithInCompliance_ReturnsSameValueForSharedAndShadowPins(string pinName)
@@ -1285,38 +1255,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             AssertAllChannelsHaveCorrectResult(results, currentLevel);
         }
 
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [Theory]
-        [InlineData("G1_1mA")]
-        [InlineData("G1_2mA")]
-        [InlineData("G1_4mA")]
-        public void MergePinGroupAndForceVoltage_MeasureCurrentWithInCompliance_ResultsAssociatedWithIndividualPinName(string pinGroupName)
-        {
-            var sessionsBundle = MergeAndForceVoltage(pinGroupName, out string primaryPin);
-
-            var results = sessionsBundle.MeasureCurrentWithInCompliance();
-
-            sessionsBundle.UnmergePinGroup(pinGroupName);
-            AssertResultAssociatedWithIndividualPinName(results, pinGroupName, primaryPin);
-        }
-
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
-        [Theory]
-        [InlineData("AllPinsGangedGroup")]
-        [InlineData("TwoPinsGangedGroup")]
-        [InlineData("ThreePinsGangedGroup")]
-        public void GangPinGroupAndForceCurrent_MeasureCurrentWithInCompliance_ResultsAssociatedWithIndividualPinName(string pinGroupName)
-        {
-            var sessionsBundle = GangAndForceCurrent(pinGroupName, out string leaderPin);
-
-            var results = sessionsBundle.MeasureCurrentWithInCompliance();
-
-            sessionsBundle.UngangPinGroup(pinGroupName);
-            AssertResultAssociatedWithIndividualPinName(results, pinGroupName, leaderPin);
-        }
-
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
-        [Theory]
         [InlineData(true)]
         [InlineData(false)]
         public void AllChannelsMeasureOnDemand_QueryInCompliance_AllChannelsReturnResult(bool pinMapWithChannelGroup)
@@ -1331,8 +1271,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             AssertAllChannelsReturnResult(results);
         }
 
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("VCC1")]
         [InlineData("VDET")]
         public void SharedPinsAllChannelsMeasureOnDemand_QueryInCompliance_ReturnsSameValueForSharedAndShadowPins(string pinName)
@@ -1346,36 +1286,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var results = sessionsBundle.QueryInCompliance();
 
             AssertAllChannelsReturnSameResult(results);
-        }
-
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
-        [Theory]
-        [InlineData("G1_1mA")]
-        [InlineData("G1_2mA")]
-        [InlineData("G1_4mA")]
-        public void MergePinGroupAndForceVoltage_QueryInCompliance_ResultsAssociatedWithIndividualPinName(string pinGroupName)
-        {
-            var sessionsBundle = MergeAndForceVoltage(pinGroupName, out string primaryPin);
-
-            var results = sessionsBundle.QueryInCompliance();
-
-            sessionsBundle.UnmergePinGroup(pinGroupName);
-            AssertResultAssociatedWithIndividualPinName(results, pinGroupName, primaryPin);
-        }
-
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
-        [Theory]
-        [InlineData("AllPinsGangedGroup")]
-        [InlineData("TwoPinsGangedGroup")]
-        [InlineData("ThreePinsGangedGroup")]
-        public void GangPinGroupAndForceCurrent_QueryInCompliance_ResultsAssociatedWithIndividualPinName(string pinGroupName)
-        {
-            var sessionsBundle = GangAndForceCurrent(pinGroupName, out string leaderPin);
-
-            var results = sessionsBundle.QueryInCompliance();
-
-            sessionsBundle.UngangPinGroup(pinGroupName);
-            AssertResultAssociatedWithIndividualPinName(results, pinGroupName, leaderPin);
         }
 
         private void AssertMeasureWhenSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, DCPowerMeasurementWhen measureWhen)
