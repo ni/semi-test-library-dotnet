@@ -1240,8 +1240,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var steps = new List<DCPowerAdvancedSequenceStepProperties>
             {
                 new DCPowerAdvancedSequenceStepProperties { CurrentLevel = expectedCurrentLevel[0], OutputFunction = DCPowerSourceOutputFunction.DCCurrent },
-                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = expectedCurrentLevel[1], ApertureTime = 0.016, OutputFunction = DCPowerSourceOutputFunction.DCCurrent },
-                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = expectedCurrentLevel[2], SourceDelay = 0.5, OutputFunction = DCPowerSourceOutputFunction.DCCurrent }
+                new DCPowerAdvancedSequenceStepProperties { CurrentLevel = expectedCurrentLevel[1], ApertureTime = 0.016, OutputFunction = DCPowerSourceOutputFunction.DCCurrent },
+                new DCPowerAdvancedSequenceStepProperties { CurrentLevel = expectedCurrentLevel[2], SourceDelay = 0.5, OutputFunction = DCPowerSourceOutputFunction.DCCurrent }
             };
             const string sequenceName = "ScalarAdvancedSequence";
             sessionsBundle.ConfigureAdvancedSequence(
