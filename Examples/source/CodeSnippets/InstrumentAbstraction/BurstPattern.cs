@@ -39,6 +39,17 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             SiteData<uint[]> captureData = patternPins.FetchCaptureWaveform(captureWaveformName, samplesToRead: -1);
         }
 
+        internal static void BurstPatternWithParallelCapture(ISemiconductorModuleContext tsmContext, string[] patternPinNames, string patternName, string captureWaveformName, string sourceWaveformName, uint[] sourceWaveformData, string[] capturePinNames)
+        {
+            var sessionManager = new TSMSessionManager(tsmContext);
+            var patternPins = sessionManager.Digital(patternPinNames);
+
+            patternPins.BurstPattern(patternName);
+            SiteData<uint[]> captureData = patternPins.FetchCaptureWaveform(captureWaveformName, samplesToRead: -1);
+
+            PinSiteData<bool[]> captureDataByPin = captureData.FormatParallelCaptureDataByPin(capturePinNames);
+        }
+
         internal static void BurstPatternWithDynamicSourceCaptureSiteUnique(ISemiconductorModuleContext tsmContext, string[] patternPinNames, string patternName, string captureWaveformName, string sourceWaveformName)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
