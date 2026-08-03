@@ -6560,12 +6560,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public void DifferentSMUDevicesConfigureTransientResponse_GetTransientResponse_ReturnsCorrectValue(bool pinMapWithChannelGroup)
+        [InlineData(false, DCPowerSourceTransientResponse.Fast)]
+        [InlineData(false, DCPowerSourceTransientResponse.Slow)]
+        [InlineData(false, DCPowerSourceTransientResponse.Custom)]
+        [InlineData(true, DCPowerSourceTransientResponse.Fast)]
+        [InlineData(true, DCPowerSourceTransientResponse.Slow)]
+        [InlineData(true, DCPowerSourceTransientResponse.Custom)]
+        public void DifferentSMUDevicesConfigureTransientResponse_GetTransientResponse_ReturnsCorrectValue(bool pinMapWithChannelGroup, DCPowerSourceTransientResponse expectedTransientResponse)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
-            var expectedTransientResponse = DCPowerSourceTransientResponse.Fast;
             var sessionsBundle = sessionManager.DCPower("VDD");
             ConfigureTransientResponse(sessionsBundle, expectedTransientResponse);
 
