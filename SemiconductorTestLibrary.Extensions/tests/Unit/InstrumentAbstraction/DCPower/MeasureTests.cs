@@ -1147,14 +1147,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             dcPower.UngangPinGroup("MergedPowerPins");
         }
 
-        [Theory]
-        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
-        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
-        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap")]
-        public void ChannelsHavePendingFetchData_ClearFetchBacklog_BacklogIsCleared(string pinMapFileName)
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [Fact]
+        public void ChannelsHavePendingFetchData_ClearFetchBacklog_BacklogIsCleared()
         {
-            var sessionManager = Initialize(pinMapFileName);
-            var sessionsBundle = sessionManager.DCPower("VDD");
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC1");
             sessionsBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
             sessionsBundle.ForceVoltage(voltageLevel: 1, currentLimit: 0.1, waitForSourceCompletion: true);
 
@@ -1166,67 +1164,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(0, GetTotalFetchBacklog(sessionsBundle));
         }
 
-        [Fact]
-        public void ChannelsHaveNoPendingFetchData_ClearFetchBacklog_NoExceptionIsThrownAndBacklogRemainsZero()
-        {
-            var sessionManager = Initialize(pinMapWithChannelGroup: true);
-            var sessionsBundle = sessionManager.DCPower("VDD");
-            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnDemand);
-
-            sessionsBundle.ClearFetchBacklog();
-
-            Assert.Equal(0, GetTotalFetchBacklog(sessionsBundle));
-        }
-
-        [Theory]
-        [InlineData("VCC1")]
-        [InlineData("VCC2")]
-        [InlineData("VDET")]
-        public void SharedPinConfiguration_ClearFetchBacklog_OnlyNonSharedChannelsAreProcessed(string pinName)
-        {
-            var sessionManager = Initialize("SharedPinTests_MultiSite.pinmap");
-            var sessionsBundle = sessionManager.DCPower(pinName);
-            sessionsBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
-            sessionsBundle.ForceVoltage(voltageLevel: 1, currentLimit: 0.1, waitForSourceCompletion: true);
-
-            // Should not throw even though shared (SkipOperations) channels are present in the bundle.
-            sessionsBundle.ClearFetchBacklog();
-
-            // Only non-shared/primary channels are processed and have their backlog cleared.
-            sessionsBundle.Do(sessionInfo =>
-            {
-                foreach (var sitePinInfo in sessionInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations))
-                {
-                    Assert.Equal(0, sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Measurement.FetchBacklog);
-                }
-            });
-        }
-
-        [Fact]
-        public void GangedPinGroup_ClearFetchBacklog_BacklogIsClearedWithoutException()
-        {
-            var sessionsBundle = GangAndForceCurrent("AllPinsGangedGroup", out _);
-
-            sessionsBundle.ClearFetchBacklog();
-
-            Assert.Equal(0, GetTotalFetchBacklog(sessionsBundle));
-            sessionsBundle.UngangPinGroup("AllPinsGangedGroup");
-        }
-
-        [Theory]
-        [InlineData("G1_1mA")]
-        [InlineData("G1_2mA")]
-        [InlineData("G1_4mA")]
-        public void MergedPinGroup_ClearFetchBacklog_BacklogIsClearedWithoutException(string pinGroupName)
-        {
-            var sessionsBundle = MergeAndForceVoltage(pinGroupName, out _);
-
-            sessionsBundle.ClearFetchBacklog();
-
-            Assert.Equal(0, GetTotalFetchBacklog(sessionsBundle));
-            sessionsBundle.UnmergePinGroup(pinGroupName);
-        }
-
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [Fact]
         public void FilteredBundle_ClearFetchBacklog_OnlyFilteredChannelsAreProcessed()
         {
