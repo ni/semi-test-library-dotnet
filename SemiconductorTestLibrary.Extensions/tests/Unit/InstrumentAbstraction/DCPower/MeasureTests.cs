@@ -1196,13 +1196,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
         }
 
-        [Fact]
-        public void SMUDevicesMerged_GetMeasurementSense_ReturnsPrimaryPinValue()
+        [Theory]
+        [InlineData(DCPowerMeasurementSense.Local)]
+        [InlineData(DCPowerMeasurementSense.Remote)]
+        public void SMUDevicesMerged_GetMeasurementSense_ReturnsPrimaryPinValue(DCPowerMeasurementSense expectedSense)
         {
             var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
             var primaryPin = "VCCPrimary";
             var allPinsMergedGroup = "AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin";
-            var expectedSense = DCPowerMeasurementSense.Local;
             var sessionsBundle = sessionManager.DCPower(allPinsMergedGroup);
             sessionsBundle.MergePinGroup(allPinsMergedGroup);
             sessionsBundle.ConfigureMeasurementSense(expectedSense);
@@ -1219,13 +1220,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
-        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
-        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
-        public void DifferentSMUDevicesGangedConfigureMeasurementSense_GetMeasurementSense_ReturnsCorrectValue(string pinMap)
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap", DCPowerMeasurementSense.Local)]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap", DCPowerMeasurementSense.Remote)]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap", DCPowerMeasurementSense.Local)]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap", DCPowerMeasurementSense.Remote)]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap", DCPowerMeasurementSense.Local)]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap", DCPowerMeasurementSense.Remote)]
+        public void DifferentSMUDevicesGangedConfigureMeasurementSense_GetMeasurementSense_ReturnsCorrectValue(string pinMap, DCPowerMeasurementSense expectedSense)
         {
             var sessionManager = Initialize(pinMap);
-            var expectedSense = DCPowerMeasurementSense.Local;
             var sessionsBundle = sessionManager.DCPower(TwoPinsGangedGroup);
             sessionsBundle.GangPinGroup(TwoPinsGangedGroup);
             sessionsBundle.ConfigureMeasurementSense(expectedSense);
@@ -1241,12 +1244,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("Mixed Signal Tests.pinmap")]
-        [InlineData("SharedPinTests.pinmap")]
-        public void DifferentSMUDevicesConfigureMeasurementSense_GetMeasurementSense_ReturnsCorrectValue(string pinMap)
+        [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementSense.Local)]
+        [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementSense.Remote)]
+        [InlineData("SharedPinTests.pinmap", DCPowerMeasurementSense.Local)]
+        [InlineData("SharedPinTests.pinmap", DCPowerMeasurementSense.Remote)]
+        public void DifferentSMUDevicesConfigureMeasurementSense_GetMeasurementSense_ReturnsCorrectValue(string pinMap, DCPowerMeasurementSense expectedSense)
         {
             var sessionManager = Initialize(pinMap);
-            var expectedSense = DCPowerMeasurementSense.Local;
             var sessionsBundle = sessionManager.DCPower("VCC2");
             sessionsBundle.ConfigureMeasurementSense(expectedSense);
 
@@ -1283,12 +1287,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
         }
 
-        [Fact]
-        public void SharedPinsConfigureMeasurementSenseOnFilteredSites_GetMeasurementSense_ReturnsSameValueForAllSites()
+        [Theory]
+        [InlineData(DCPowerMeasurementSense.Local)]
+        [InlineData(DCPowerMeasurementSense.Remote)]
+        public void SharedPinsConfigureMeasurementSenseOnFilteredSites_GetMeasurementSense_ReturnsSameValueForAllSites(DCPowerMeasurementSense expectedSense)
         {
             var sessionManager = Initialize("SharedPinTests.pinmap");
             var pinName = "VCC2";
-            var expectedSense = DCPowerMeasurementSense.Local;
             var sessionsBundle = sessionManager.DCPower(pinName);
             var filteredBundle = sessionsBundle.FilterBySite(new[] { 0, 1 });
             filteredBundle.ConfigureMeasurementSense(expectedSense);
