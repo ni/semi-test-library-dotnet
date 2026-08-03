@@ -13,6 +13,7 @@ using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
+using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities;
 
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.DCPower
 {
@@ -37,8 +38,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             return new TSMSessionManager(_tsmContext);
         }
 
-        public TSMSessionManager Initialize(string pinMapFileName, out IPublishedDataReader publishedDataReader)
+        public TSMSessionManager Initialize(bool pinMapWithChannelGroup, out IPublishedDataReader publishedDataReader)
         {
+            string pinMapFileName = pinMapWithChannelGroup ? "DifferentSMUDevicesWithChannelGroup.pinmap" : "DifferentSMUDevices.pinmap";
             _tsmContext = CreateTSMContext(pinMapFileName, out publishedDataReader);
             InitializeAndClose.Initialize(_tsmContext);
             return new TSMSessionManager(_tsmContext);
@@ -1156,83 +1158,101 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
-        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
-        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap")]
-        public void DifferentSMUDevice_FetchAndPublishVoltageWithMultiplePoints_ReturnsArrayWithLengthEqualToPointsToFetch(string pinMapFileName)
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void DifferentSMUDevice_FetchAndPublishVoltageWithSinglePointToFetch_ReturnsArrayWithLengthEqualToPointsToFetch(bool pinMapWithChannelGroup)
         {
-            var pointsToFetch = 5;
-            var expectedVoltageLevel = 2;
-            var sessionManager = Initialize(pinMapFileName, out var publishedDataReader);
-            var pinName = "VDD";
+            var pinName = "VCC";
+            var expectedVoltage = 1.0;
+            var sessionManager = Initialize(pinMapWithChannelGroup, out var publishedDataReader);
             var sessionsBundle = sessionManager.DCPower(pinName);
-            sessionsBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
-            sessionsBundle.ForceVoltage(voltageLevel: expectedVoltageLevel, currentLimit: 0.1, waitForSourceCompletion: true);
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            sessionsBundle.ForceVoltage(expectedVoltage, waitForSourceCompletion: true);
+
+            var results = sessionsBundle.FetchAndPublishVoltage("Voltage{0}", pointsToFetch: 1);
+
+            AssertPublishedValues(sessionsBundle, publishedDataReader, expectedCount: 1, pinName, results, expectedVoltage);
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void DifferentSMUDevice_FetchAndPublishVoltageWithMultiplePointsToFetch_ReturnsArrayWithLengthEqualToPointsToFetch(bool pinMapWithChannelGroup)
+        {
+            var pointsToFetch = 3;
+            var pinName = "VCC";
+            var sessionManager = Initialize(pinMapWithChannelGroup, out var publishedDataReader);
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            var steps = new List<DCPowerAdvancedSequenceStepProperties>
+            {
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 2.0, ApertureTime = 0.016, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.0, SourceDelay = 0.5, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+            };
+            const string sequenceName = "ScalarAdvancedSequence";
+            sessionsBundle.ConfigureAdvancedSequence(
+                sequenceName,
+                steps,
+                setAsActiveSequence: true,
+                commitFirstElementAsInitialState: false);
+            sessionsBundle.Initiate();
 
             var results = sessionsBundle.FetchAndPublishVoltage("Voltage{0}", pointsToFetch);
 
-            AssertPublishedValues(sessionsBundle, publishedDataReader, pointsToFetch, expectedVoltageLevel, pinName, results);
+            AssertPublishedValues(sessionsBundle, publishedDataReader, pointsToFetch, pinName, results, 1.0, 2.0, 3.0);
         }
 
         [Theory]
-        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
-        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
-        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap")]
-        public void DifferentSMUDevice_FetchAndPublishVoltage_ThrowsExceptionForUnsupportedPins(string pinMapFileName)
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void DifferentSMUDevice_FetchAndPublishCurrentWithSinglePointToFetch_ReturnsArrayWithLengthEqualToPointsToFetch(bool pinMapWithChannelGroup)
         {
-            var sessionManager = Initialize(pinMapFileName);
-            var sessionsBundle = sessionManager.DCPower("VCC");
-            var expectedPhrases = new string[] { "An exception occurred while processing pins/sites:", "Function or method not supported." };
-            sessionsBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
-            sessionsBundle.ForceVoltage(voltageLevel: 1, currentLimit: 0.1, waitForSourceCompletion: true);
-
-            void FetchAndPublishVoltage() => sessionsBundle.FetchAndPublishVoltage("Voltage{0}");
-
-            var exception = Assert.Throws<NISemiconductorTestException>(FetchAndPublishVoltage);
-            foreach (var expectedPhrase in expectedPhrases)
-            {
-                Assert.Contains(expectedPhrase, exception.Message);
-            }
-        }
-
-        [Theory]
-        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
-        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
-        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap")]
-        public void DifferentSMUDevice_FetchAndPublishCurrentWithMultiplePoints_ReturnsArrayWithLengthEqualToPointsToFetch(string pinMapFileName)
-        {
-            var pointsToFetch = 5;
-            var expectedCurrentLevel = 0.01;
-            var sessionManager = Initialize(pinMapFileName, out var publishedDataReader);
-            var pinName = "VDD";
+            var pinName = "VCC";
+            var expectedCurrent = 1E-3;
+            var sessionManager = Initialize(pinMapWithChannelGroup, out var publishedDataReader);
             var sessionsBundle = sessionManager.DCPower(pinName);
-            sessionsBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
-            sessionsBundle.ForceCurrent(currentLevel: expectedCurrentLevel, waitForSourceCompletion: true);
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            sessionsBundle.ForceCurrent(expectedCurrent, waitForSourceCompletion: true);
 
+            var results = sessionsBundle.FetchAndPublishCurrent("Current{0}", pointsToFetch: 1);
+
+            AssertPublishedValues(sessionsBundle, publishedDataReader, expectedCount: 1, pinName, results, expectedCurrent);
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void DifferentSMUDevice_FetchAndPublishCurrentWithMultiplePointsToFetch_ReturnsArrayWithLengthEqualToPointsToFetch(bool pinMapWithChannelGroup)
+        {
+            var pointsToFetch = 3;
+            var pinName = "VCC";
+            var expectedCurrentLevel = new double[] { 1E-3, 2E-4, 3E-5 };
+            var sessionManager = Initialize(pinMapWithChannelGroup, out var publishedDataReader);
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            var steps = new List<DCPowerAdvancedSequenceStepProperties>
+            {
+                new DCPowerAdvancedSequenceStepProperties { CurrentLevel = expectedCurrentLevel[0], OutputFunction = DCPowerSourceOutputFunction.DCCurrent },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = expectedCurrentLevel[1], ApertureTime = 0.016, OutputFunction = DCPowerSourceOutputFunction.DCCurrent },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = expectedCurrentLevel[2], SourceDelay = 0.5, OutputFunction = DCPowerSourceOutputFunction.DCCurrent }
+            };
+            const string sequenceName = "ScalarAdvancedSequence";
+            sessionsBundle.ConfigureAdvancedSequence(
+                sequenceName,
+                steps,
+                setAsActiveSequence: true,
+                commitFirstElementAsInitialState: false);
+            sessionsBundle.Initiate();
             var results = sessionsBundle.FetchAndPublishCurrent("Current{0}", pointsToFetch);
 
-            AssertPublishedValues(sessionsBundle, publishedDataReader, pointsToFetch, expectedCurrentLevel, pinName, results);
-        }
-
-        [Theory]
-        [InlineData("DifferentSMUDevicesForEachSiteSharedChannelGroup.pinmap")]
-        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerInstr.pinmap")]
-        [InlineData("DifferentSMUDevicesForEachSiteSeperateChannelGroupPerCh.pinmap")]
-        public void DifferentSMUDevice_FetchAndPublishCurrent_ThrowsExceptionForUnsupportedPins(string pinMapFileName)
-        {
-            var sessionManager = Initialize(pinMapFileName);
-            var sessionsBundle = sessionManager.DCPower("VCC");
-            var expectedPhrases = new string[] { "An exception occurred while processing pins/sites:", "Function or method not supported." };
-            sessionsBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
-            sessionsBundle.ForceVoltage(voltageLevel: 1, currentLimit: 0.1, waitForSourceCompletion: true);
-
-            void FetchAndPublishCurrent() => sessionsBundle.FetchAndPublishCurrent("Current{0}");
-
-            var exception = Assert.Throws<NISemiconductorTestException>(FetchAndPublishCurrent);
-            foreach (var expectedPhrase in expectedPhrases)
-            {
-                Assert.Contains(expectedPhrase, exception.Message);
-            }
+            AssertPublishedValues(sessionsBundle, publishedDataReader, pointsToFetch, pinName, results, expectedCurrentLevel);
         }
 
         private void AssertMeasureWhenSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, DCPowerMeasurementWhen measureWhen)
@@ -1318,22 +1338,37 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
         }
 
-        private void AssertPublishedValues(DCPowerSessionsBundle sessionsBundle, IPublishedDataReader publishedDataReader, int expectedCount, double expectedValue, string pinName, PinSiteData<double[]> results)
+        private void AssertPublishedValues(DCPowerSessionsBundle sessionsBundle, IPublishedDataReader publishedDataReader, int expectedCount, string pinName, PinSiteData<double[]> results, params double[] expectedValue)
         {
             var expectedPublishedDataCount = GetActiveSites(sessionsBundle).Length * expectedCount;
             var publishedData = publishedDataReader.GetAndClearPublishedData();
             Utilities.Utilities.AssertPublishedDataCountPerPins(expectedPublishedDataCount, publishedData, pinName);
+            AssertPublishedDataValue(publishedData, pinName, expectedValue);
+            AssertExpectedSequenceMeasurements(results, (_, __) => expectedValue);
+        }
 
-            if (!_tsmContext.IsSemiconductorModuleInOfflineMode)
+        private void AssertExpectedSequenceMeasurements(
+            PinSiteData<double[]> results,
+            Func<int, string, double[]> getExpectedSequence,
+            int precision = 3)
+        {
+            foreach (var siteNumber in results.SiteNumbers)
             {
-                Utilities.Utilities.AssertPublishedDataValue(expectedValue, publishedData, pinName);
-                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                foreach (var pinName in results.PinNames)
                 {
-                    foreach (var voltage in results.GetValue(sitePinInfo))
-                    {
-                        Assert.Equal(expectedValue, voltage);
-                    }
-                });
+                    var expectedSequence = getExpectedSequence(siteNumber, pinName);
+                    var actualSequence = results.GetValue(siteNumber, pinName);
+                    Utilities.Utilities.AssertEqualForDoubleArrays(expectedSequence, actualSequence, precision);
+                }
+            }
+        }
+
+        private void AssertPublishedDataValue(IPublishedData[] publishedData, string pinName, params double[] expectedValue)
+        {
+            var data = publishedData.Where(d => d.Pin == pinName).ToList();
+            for (int i = 0; i < expectedValue.Length; i++)
+            {
+                Assert.Equal(expectedValue[i], data[i].DoubleValue, 3);
             }
         }
     }

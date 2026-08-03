@@ -57,5 +57,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Utilities
                 }
             }
         }
+
+        internal static void AssertEqualForDoubleArrays(double[] expected, double[] actual, int precision = 3)
+        {
+            Assert.Equal(expected.Length, actual.Length);
+            for (int i = 0; i < expected.Length; i++)
+            {
+                Assert.Equal(expected[i], actual[i], precision);
+            }
+        }
     }
 }
