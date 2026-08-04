@@ -168,4 +168,16 @@
   <data name="DCPower_GangedPinGroupDetected" xml:space="preserve">
     <value>This feature is not supported on a ganged pin group.</value>
   </data>
+  <data name="Digital_TMUNotEnoughResources" xml:space="preserve">
+    <value>Not enough TMU resources available on {0} to allocate to {1}.</value>
+  </data>
+  <data name="Digital_TMUResourcesInUse" xml:space="preserve">
+    <value>Cannot release TMUs: One or more assigned TMUs are in use. Call DisableTMU before clearing resources.</value>
+  </data>
+  <data name="Digital_TMUPinsNotInBundle" xml:space="preserve">
+    <value>The following pins are not available in the DigitalSessionsBundle object: {0}. Ensure the DigitalSessionsBundle object contains all necessary pins to perform the requested TMU operation.</value>
+  </data>
+  <data name="Digital_TMUUnsupportedPolarity" xml:space="preserve">
+    <value>Unsupported Polarity.</value>
+  </data>
 </root>
