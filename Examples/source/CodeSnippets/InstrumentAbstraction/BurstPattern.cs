@@ -1,10 +1,9 @@
-﻿using NationalInstruments.SemiconductorTestLibrary.Common;
+﻿using System.Linq;
+using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
-using System;
-using System.Linq;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.InstrumentAbstraction
 {
@@ -38,42 +37,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
 
             patternPins.BurstPattern(patternName);
             SiteData<uint[]> captureData = patternPins.FetchCaptureWaveform(captureWaveformName, samplesToRead: -1);
-        }
-
-        internal static void BurstPatternWithParallelCapture(ISemiconductorModuleContext tsmContext, string[] patternPinNames, string patternName, string captureWaveformName, string sourceWaveformName, uint[] sourceWaveformData, string[] capturePinNames)
-        {
-            var sessionManager = new TSMSessionManager(tsmContext);
-            var patternPins = sessionManager.Digital(patternPinNames);
-
-            patternPins.BurstPattern(patternName);
-            SiteData<uint[]> captureData = patternPins.FetchCaptureWaveform(captureWaveformName, samplesToRead: -1);
-
-            // Parallel capture data is returned as a uint array where each element represents the captured data for all pins at a given capture vector of pattern execution.
-            // The captured data can be reformatted into a PinSiteData<uint[]> object where each pin's value can be separated into its own sample array for easier analysis.
-            // The following helper method unpacks each pin's value from the individual bits of each uint sample,
-            // where a bit value indicates the state of a particular pin (true for high, false for low).
-            // Additionally, the method assumes that the order of the pin names passed in corresponds to bit position in a unit sample,
-            // and that it also matches the order of the pins in the pattern. The first pin corresponds to the most significant bit (MSB) of the uint sample,
-            // and the last pin corresponds to the least significant bit (LSB).
-            PinSiteData<uint[]> captureDataByPin = captureData.FormatParallelCaptureDataByPin(capturePinNames);
-        }
-
-        internal static void BurstPatternWithParallelCaptureFormatAsBoolArray(ISemiconductorModuleContext tsmContext, string[] patternPinNames, string patternName, string captureWaveformName, string sourceWaveformName, uint[] sourceWaveformData, string[] capturePinNames)
-        {
-            var sessionManager = new TSMSessionManager(tsmContext);
-            var patternPins = sessionManager.Digital(patternPinNames);
-
-            patternPins.BurstPattern(patternName);
-            SiteData<uint[]> captureData = patternPins.FetchCaptureWaveform(captureWaveformName, samplesToRead: -1);
-
-            // Parallel capture data is returned as a uint array where each element represents the captured data for all pins at a given capture vector of pattern execution.
-            // The captured data can be reformatted into a PinSiteData<bool[]> object where each pin's value can be separated into its own sample array for easier analysis.
-            // The following helper method unpacks each pin's value from the individual bits of each uint sample,
-            // where a bit value indicates the state of a particular pin (1 for high, 0 for low).
-            // Additionally, the method assumes that the order of the pin names passed in corresponds to bit position in a unit sample,
-            // and that it also matches the order of the pins in the pattern. The first pin corresponds to the most significant bit (MSB) of the uint sample,
-            // and the last pin corresponds to the least significant bit (LSB).
-            PinSiteData<bool[]> captureDataByPin = captureData.FormatParallelCaptureDataByPinAsBoolArray(capturePinNames);
         }
 
         internal static void BurstPatternWithDynamicSourceCaptureSiteUnique(ISemiconductorModuleContext tsmContext, string[] patternPinNames, string patternName, string captureWaveformName, string sourceWaveformName)
@@ -121,6 +84,42 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             }
 
             SiteData<uint[]> captureData = patternPins.FetchCaptureWaveform(captureWaveformName, samplesToRead: -1);
+        }
+
+        internal static void BurstPatternWithParallelCapture(ISemiconductorModuleContext tsmContext, string[] patternPinNames, string patternName, string captureWaveformName, string sourceWaveformName, uint[] sourceWaveformData, string[] capturePinNames)
+        {
+            var sessionManager = new TSMSessionManager(tsmContext);
+            var patternPins = sessionManager.Digital(patternPinNames);
+
+            patternPins.BurstPattern(patternName);
+            SiteData<uint[]> captureData = patternPins.FetchCaptureWaveform(captureWaveformName, samplesToRead: -1);
+
+            // Parallel capture data is returned as a uint array where each element represents the captured data for all pins at a given capture vector of pattern execution.
+            // The captured data can be reformatted into a PinSiteData<uint[]> object where each pin's value can be separated into its own sample array for easier analysis.
+            // The following helper method unpacks each pin's value from the individual bits of each uint sample,
+            // where a bit value indicates the state of a particular pin (true for high, false for low).
+            // Additionally, the method assumes that the order of the pin names passed in corresponds to bit position in a unit sample,
+            // and that it also matches the order of the pins in the pattern. The first pin corresponds to the most significant bit (MSB) of the uint sample,
+            // and the last pin corresponds to the least significant bit (LSB).
+            PinSiteData<uint[]> captureDataByPin = captureData.UnpackParallelCaptureDataByPin(capturePinNames);
+        }
+
+        internal static void BurstPatternWithParallelCaptureFormatAsBoolArray(ISemiconductorModuleContext tsmContext, string[] patternPinNames, string patternName, string captureWaveformName, string sourceWaveformName, uint[] sourceWaveformData, string[] capturePinNames)
+        {
+            var sessionManager = new TSMSessionManager(tsmContext);
+            var patternPins = sessionManager.Digital(patternPinNames);
+
+            patternPins.BurstPattern(patternName);
+            SiteData<uint[]> captureData = patternPins.FetchCaptureWaveform(captureWaveformName, samplesToRead: -1);
+
+            // Parallel capture data is returned as a uint array where each element represents the captured data for all pins at a given capture vector of pattern execution.
+            // The captured data can be reformatted into a PinSiteData<bool[]> object where each pin's value can be separated into its own sample array for easier analysis.
+            // The following helper method unpacks each pin's value from the individual bits of each uint sample,
+            // where a bit value indicates the state of a particular pin (1 for high, 0 for low).
+            // Additionally, the method assumes that the order of the pin names passed in corresponds to bit position in a unit sample,
+            // and that it also matches the order of the pins in the pattern. The first pin corresponds to the most significant bit (MSB) of the uint sample,
+            // and the last pin corresponds to the least significant bit (LSB).
+            PinSiteData<bool[]> captureDataByPin = captureData.UnpackParallelCaptureDataByPinAsBoolArray(capturePinNames);
         }
     }
 }
