@@ -3913,6 +3913,85 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
+        [InlineData(false, false, UpdateMode.Commit)]
+        [InlineData(false, false, UpdateMode.Deferred)]
+        [InlineData(false, false, UpdateMode.Immediate)]
+        [InlineData(true, false, UpdateMode.Commit)]
+        [InlineData(true, false, UpdateMode.Deferred)]
+        [InlineData(true, false, UpdateMode.Immediate)]
+        [InlineData(false, true, UpdateMode.Commit)]
+        [InlineData(false, true, UpdateMode.Deferred)]
+        [InlineData(false, true, UpdateMode.Immediate)]
+        [InlineData(true, true, UpdateMode.Commit)]
+        [InlineData(true, true, UpdateMode.Deferred)]
+        [InlineData(true, true, UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureOutputConnectedWithScalarValueAndUpdateMode_CorrectOutputConnectedSetAndMatchUpdateMode(bool pinMapWithChannelGroup, bool outputConnected, UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+
+            sessionsBundle.ConfigureOutputConnected(outputConnected, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualOutputConnected = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Output.Connected;
+                Assert.Equal(outputConnected, actualOutputConnected);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(false, UpdateMode.Commit)]
+        [InlineData(false, UpdateMode.Deferred)]
+        [InlineData(false, UpdateMode.Immediate)]
+        [InlineData(true, UpdateMode.Commit)]
+        [InlineData(true, UpdateMode.Deferred)]
+        [InlineData(true, UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureOutputConnectedWithPerSiteValuesAndUpdateMode_CorrectOutputConnectedSetAndMatchUpdateMode(bool pinMapWithChannelGroup, UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            var outputConnected = new SiteData<bool>(new[] { true, false, true, false });
+
+            sessionsBundle.ConfigureOutputConnected(outputConnected, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedOutputConnected = outputConnected.GetValue(sitePinInfo.SiteNumber);
+                var actualOutputConnected = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Output.Connected;
+                Assert.Equal(expectedOutputConnected, actualOutputConnected);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(false, UpdateMode.Commit)]
+        [InlineData(false, UpdateMode.Deferred)]
+        [InlineData(false, UpdateMode.Immediate)]
+        [InlineData(true, UpdateMode.Commit)]
+        [InlineData(true, UpdateMode.Deferred)]
+        [InlineData(true, UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureOutputConnectedWithPerPinPerSiteValuesAndUpdateMode_CorrectOutputConnectedSetAndMatchUpdateMode(bool pinMapWithChannelGroup, UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            var outputConnected = new PinSiteData<bool>(new Dictionary<string, IDictionary<int, bool>>()
+            {
+                ["VDD"] = new Dictionary<int, bool>() { [0] = true, [1] = false, [2] = true, [3] = false }
+            });
+
+            sessionsBundle.ConfigureOutputConnected(outputConnected, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedOutputConnected = outputConnected.GetValue(sitePinInfo);
+                var actualOutputConnected = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Output.Connected;
+                Assert.Equal(expectedOutputConnected, actualOutputConnected);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
         [InlineData(false)]
         [InlineData(true)]
         public void DifferentSMUDevices_ConfigureOutputEnabled_OutputEnabled(bool pinMapWithChannelGroup)
@@ -4006,6 +4085,35 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var expectedOutputEnabled = outputEnabled.GetValue(sitePinInfo.SiteNumber);
+                var actualOutputEnabled = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Output.Enabled;
+                Assert.Equal(expectedOutputEnabled, actualOutputEnabled);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(false, true, UpdateMode.Commit)]
+        [InlineData(false, true, UpdateMode.Deferred)]
+        [InlineData(false, true, UpdateMode.Immediate)]
+        [InlineData(true, true, UpdateMode.Commit)]
+        [InlineData(true, true, UpdateMode.Deferred)]
+        [InlineData(true, true, UpdateMode.Immediate)]
+        [InlineData(false, false, UpdateMode.Commit)]
+        [InlineData(false, false, UpdateMode.Deferred)]
+        [InlineData(false, false, UpdateMode.Immediate)]
+        [InlineData(true, false, UpdateMode.Commit)]
+        [InlineData(true, false, UpdateMode.Deferred)]
+        [InlineData(true, false, UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureOutputEnabledWithScalarValueAndUpdateMode_CorrectOutputEnabledSetAndMatchUpdateMode(bool pinMapWithChannelGroup, bool outputEnabled, UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+
+            sessionsBundle.ConfigureOutputEnabled(outputEnabled, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedOutputEnabled = outputEnabled;
                 var actualOutputEnabled = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Output.Enabled;
                 Assert.Equal(expectedOutputEnabled, actualOutputEnabled);
             });
