@@ -329,7 +329,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
         /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
         /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuArmType"/> = value of <paramref name="armType"/> parameter.
+        /// - <see cref="TmuAttributes.TmuArmType"/> = value of <paramref name="armType"/> parameter.<br/>
+        /// - <see cref="TmuAttributes.TmuEnabled"/> = <c>true</c>
         /// </para>
         /// <para>
         /// For falling edge skew (<see cref="TmuPolarity.FallingEdge"/>):<br/>
@@ -340,7 +341,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
         /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
         /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuArmType"/> = value of <paramref name="armType"/> parameter.
+        /// - <see cref="TmuAttributes.TmuArmType"/> = value of <paramref name="armType"/> parameter.<br/>
+        /// - <see cref="TmuAttributes.TmuEnabled"/> = <c>true</c>
         /// </para>
         /// If the <paramref name="edgeType"/> parameter is set to <see cref="TmuPolarity.EitherEdge"/>, an exception will be thrown.
         /// </remarks>
@@ -578,7 +580,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </para>
         /// <para>
         /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuArmType"/> = value of <paramref name="armType"/> parameter.
+        /// - <see cref="TmuAttributes.TmuArmType"/> = value of <paramref name="armType"/> parameter.<br/>
+        /// - <see cref="TmuAttributes.TmuEnabled"/> = <c>true</c>
         /// </para>
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
@@ -671,7 +674,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </para>
         /// <para>
         /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuArmType"/> = value of <paramref name="armType"/> parameter.
+        /// - <see cref="TmuAttributes.TmuArmType"/> = value of <paramref name="armType"/> parameter.<br/>
+        /// - <see cref="TmuAttributes.TmuEnabled"/> = <c>true</c>
         /// </para>
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
