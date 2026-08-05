@@ -82,6 +82,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// As of STL 26.5, only the <see cref="OutputMode.Function"/> output mode is supported.
         /// Attempting to configure any other output mode throws an exception.
         /// </remarks>
+        /// <exception cref="NISemiconductorTestException">Thrown when the output mode is not <see cref="OutputMode.Function"/>.</exception>
         public static void ConfigureOutputMode(this FgenSessionsBundle sessionsBundle, OutputMode outputMode)
         {
             if (outputMode != OutputMode.Function)
