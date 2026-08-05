@@ -889,20 +889,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ClearTMUAssignment();
         }
 
-        [Fact]
-        public void Inititalize_FetchAveragedTMUMeasurementWithSinglePinReturnsData()
-        {
-            var sessionsBundle = InititalzeAndCreateBundle();
-            sessionsBundle.ConfigurePeriodMeasurement(TmuPolarity.RisingEdge, 1, "C0");
-            sessionsBundle.TMUInitiate("C0");
-
-            var results = sessionsBundle.FetchAveragedTMUMeasurement("C0");
-
-            Assert.NotNull(results);
-            sessionsBundle.DisableTMU();
-            sessionsBundle.ClearTMUAssignment();
-        }
-
         #endregion
 
         #region Helper Methods

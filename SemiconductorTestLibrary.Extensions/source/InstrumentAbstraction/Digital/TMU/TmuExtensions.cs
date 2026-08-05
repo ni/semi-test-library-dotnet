@@ -461,8 +461,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
-                    string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
                     string channel = sitePinInfo.IndividualChannelString;
                     ConfigureAndEnableTmu(
                         tmu: tmu,
@@ -526,8 +525,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
-                    string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
                     string channel = sitePinInfo.IndividualChannelString;
                     ConfigureAndEnableTmu(
                         tmu: tmu,
@@ -600,8 +598,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
-                    string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
                     string channel = sitePinInfo.IndividualChannelString;
                     switch (dutyCycleType)
                     {
@@ -695,8 +692,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
-                    string tmuContext = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
-                    DigitalTmu tmu = GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
+                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
                     string channel = sitePinInfo.IndividualChannelString;
                     switch (pulseWidthType)
                     {
