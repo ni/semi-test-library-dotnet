@@ -29,7 +29,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         public double DcOffset { get; set; }
 
         /// <summary>
-        /// Sspecifies the horizontal offset of the standard waveform that you want the signal generator to produce (in degrees).
+        /// Specifies the horizontal offset of the standard waveform that you want the signal generator to produce (in degrees).
         /// </summary>
         public double StartPhase { get; set; }
 

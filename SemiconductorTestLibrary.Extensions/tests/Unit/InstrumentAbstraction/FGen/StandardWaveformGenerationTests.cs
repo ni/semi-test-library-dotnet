@@ -12,7 +12,7 @@ using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMCon
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.Fgen
 {
     [Collection("NonParallelizable")]
-    public sealed class StandardWaveformTests : IDisposable
+    public sealed class StandardWaveformGenerationTests : IDisposable
     {
         private ISemiconductorModuleContext _tsmContext;
 
@@ -29,14 +29,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap", StandardWaveform.Sine)]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap", StandardWaveform.Square)]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap", StandardWaveform.Triangle)]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap", StandardWaveform.DC)]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap", StandardWaveform.RampUp)]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap", StandardWaveform.RampDown)]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap", StandardWaveform.Noise)]
-        public void InitializeBundleWithSinglePin_PerformConfigureStandardWaveformOperation_Succeeds(string pinmap, StandardWaveform waveformFunctionType)
+        [InlineData("FgenSingleInstrumentPerPin.pinmap", ModularInstruments.NIFgen.StandardWaveform.Sine)]
+        [InlineData("FgenSingleInstrumentPerPin.pinmap", ModularInstruments.NIFgen.StandardWaveform.Square)]
+        [InlineData("FgenSingleInstrumentPerPin.pinmap", ModularInstruments.NIFgen.StandardWaveform.Triangle)]
+        [InlineData("FgenSingleInstrumentPerPin.pinmap", ModularInstruments.NIFgen.StandardWaveform.DC)]
+        [InlineData("FgenSingleInstrumentPerPin.pinmap", ModularInstruments.NIFgen.StandardWaveform.RampUp)]
+        [InlineData("FgenSingleInstrumentPerPin.pinmap", ModularInstruments.NIFgen.StandardWaveform.RampDown)]
+        [InlineData("FgenSingleInstrumentPerPin.pinmap", ModularInstruments.NIFgen.StandardWaveform.Noise)]
+        public void InitializeBundleWithSinglePin_PerformConfigureStandardWaveformOperation_Succeeds(string pinmap, ModularInstruments.NIFgen.StandardWaveform waveformFunctionType)
         {
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen("A");
@@ -51,21 +51,21 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap", StandardWaveform.Sine)]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap", StandardWaveform.Square)]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap", StandardWaveform.Triangle)]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap", StandardWaveform.DC)]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap", StandardWaveform.RampUp)]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap", StandardWaveform.RampDown)]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap", StandardWaveform.Noise)]
-        [InlineData("FgenSingleInstrumentPerSite.pinmap", StandardWaveform.Sine)]
-        [InlineData("FgenSingleInstrumentPerSite.pinmap", StandardWaveform.Square)]
-        [InlineData("FgenSingleInstrumentPerSite.pinmap", StandardWaveform.Triangle)]
-        [InlineData("FgenSingleInstrumentPerSite.pinmap", StandardWaveform.DC)]
-        [InlineData("FgenSingleInstrumentPerSite.pinmap", StandardWaveform.RampUp)]
-        [InlineData("FgenSingleInstrumentPerSite.pinmap", StandardWaveform.RampDown)]
-        [InlineData("FgenSingleInstrumentPerSite.pinmap", StandardWaveform.Noise)]
-        public void InitializeBundleWithMultiplePins_PerformConfigureStandardWaveformOperation_Succeeds(string pinmap, StandardWaveform waveformFunctionType)
+        [InlineData("FgenSingleInstrumentPerPin.pinmap", ModularInstruments.NIFgen.StandardWaveform.Sine)]
+        [InlineData("FgenSingleInstrumentPerPin.pinmap", ModularInstruments.NIFgen.StandardWaveform.Square)]
+        [InlineData("FgenSingleInstrumentPerPin.pinmap", ModularInstruments.NIFgen.StandardWaveform.Triangle)]
+        [InlineData("FgenSingleInstrumentPerPin.pinmap", ModularInstruments.NIFgen.StandardWaveform.DC)]
+        [InlineData("FgenSingleInstrumentPerPin.pinmap", ModularInstruments.NIFgen.StandardWaveform.RampUp)]
+        [InlineData("FgenSingleInstrumentPerPin.pinmap", ModularInstruments.NIFgen.StandardWaveform.RampDown)]
+        [InlineData("FgenSingleInstrumentPerPin.pinmap", ModularInstruments.NIFgen.StandardWaveform.Noise)]
+        [InlineData("FgenSingleInstrumentPerSite.pinmap", ModularInstruments.NIFgen.StandardWaveform.Sine)]
+        [InlineData("FgenSingleInstrumentPerSite.pinmap", ModularInstruments.NIFgen.StandardWaveform.Square)]
+        [InlineData("FgenSingleInstrumentPerSite.pinmap", ModularInstruments.NIFgen.StandardWaveform.Triangle)]
+        [InlineData("FgenSingleInstrumentPerSite.pinmap", ModularInstruments.NIFgen.StandardWaveform.DC)]
+        [InlineData("FgenSingleInstrumentPerSite.pinmap", ModularInstruments.NIFgen.StandardWaveform.RampUp)]
+        [InlineData("FgenSingleInstrumentPerSite.pinmap", ModularInstruments.NIFgen.StandardWaveform.RampDown)]
+        [InlineData("FgenSingleInstrumentPerSite.pinmap", ModularInstruments.NIFgen.StandardWaveform.Noise)]
+        public void InitializeBundleWithMultiplePins_PerformConfigureStandardWaveformOperation_Succeeds(string pinmap, ModularInstruments.NIFgen.StandardWaveform waveformFunctionType)
         {
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
@@ -87,11 +87,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
             var standardWaveformSettings1 = new StandardWaveformSettings(
-                functionType: StandardWaveform.Sine,
+                functionType: ModularInstruments.NIFgen.StandardWaveform.Sine,
                 amplitude: 5.0,
                 frequency: 1000.0);
             var standardWaveformSettings2 = new StandardWaveformSettings(
-                functionType: StandardWaveform.Square,
+                functionType: ModularInstruments.NIFgen.StandardWaveform.Square,
                 amplitude: 3.5,
                 frequency: 5000.0);
             var siteNumbers = new int[] { 0, 1 };
@@ -110,19 +110,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinNames = new string[] { "A", "B" };
             var sessionsBundle = sessionManager.Fgen(pinNames);
             var standardWaveformSettings1 = new StandardWaveformSettings(
-                functionType: StandardWaveform.Sine,
+                functionType: ModularInstruments.NIFgen.StandardWaveform.Sine,
                 amplitude: 5.0,
                 frequency: 1000.0);
             var standardWaveformSettings2 = new StandardWaveformSettings(
-                functionType: StandardWaveform.Sine,
+                functionType: ModularInstruments.NIFgen.StandardWaveform.Sine,
                 amplitude: 3.5,
                 frequency: 5000.0);
             var standardWaveformSettings3 = new StandardWaveformSettings(
-                functionType: StandardWaveform.Triangle,
+                functionType: ModularInstruments.NIFgen.StandardWaveform.Triangle,
                 amplitude: 5.0,
                 frequency: 1000.0);
             var standardWaveformSettings4 = new StandardWaveformSettings(
-                functionType: StandardWaveform.RampUp,
+                functionType: ModularInstruments.NIFgen.StandardWaveform.RampUp,
                 amplitude: 3.5,
                 frequency: 5000.0);
             var siteNumbers = new int[] { 0, 1 };
@@ -141,7 +141,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinNames = new string[] { "A", "B" };
             var sessionsBundle = sessionManager.Fgen(pinNames);
             var standardWaveformSettings = new StandardWaveformSettings(
-                functionType: StandardWaveform.User,
+                functionType: ModularInstruments.NIFgen.StandardWaveform.User,
                 amplitude: 5.0,
                 frequency: 1000.0);
 
