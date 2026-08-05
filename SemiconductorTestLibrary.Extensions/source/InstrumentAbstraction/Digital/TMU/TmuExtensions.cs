@@ -220,11 +220,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="pinNames">The specific pins to configure the TMU for. When <c>null</c>, all pins are targeted.</param>
         /// <exception cref="NISemiconductorTestException">
         /// Thrown when one or more of the requested <paramref name="pinNames"/> are not present in the sessions bundle,
+        /// when <paramref name="armType"/> is an unsupported value,
         /// or when the <paramref name="edgeType"/> is <see cref="TmuPolarity.EitherEdge"/> (an unsupported polarity).
         /// </exception>
         public static void ConfigurePeriodMeasurement(this DigitalSessionsBundle sessionsBundle, TmuPolarity edgeType, long samplesToAcquire, TmuArmType armType = TmuArmType.Immediate, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+            ValidateArmType(armType);
             TmuSourceEvent sourceEvent = ValidateAndGetSourceEventForEdge(edgeType);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -370,10 +372,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// The TMU's arm input is used to frame, or select, the start and stop events of interest for each TMU sample.
         /// </param>
         /// <param name="pinNames">The specific pins to configure the TMU for. When <c>null</c>, all pins are targeted.</param>
-        /// <exception cref="NISemiconductorTestException">Thrown when one or more of the requested <paramref name="pinNames"/> are not present in the sessions bundle.</exception>
+        /// <exception cref="NISemiconductorTestException">
+        /// Thrown when one or more of the requested <paramref name="pinNames"/> are not present in the sessions bundle,
+        /// or when <paramref name="armType"/> is an unsupported value.
+        /// </exception>
         public static void ConfigureTMURiseTimeMeasurement(this DigitalSessionsBundle sessionsBundle, long samplesToAcquire, TmuArmType armType = TmuArmType.Immediate, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+            ValidateArmType(armType);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
@@ -421,10 +427,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// The TMU's arm input is used to frame, or select, the start and stop events of interest for each TMU sample.
         /// </param>
         /// <param name="pinNames">The specific pins to configure the TMU for. When <c>null</c>, all pins are targeted.</param>
-        /// <exception cref="NISemiconductorTestException">Thrown when one or more of the requested <paramref name="pinNames"/> are not present in the sessions bundle.</exception>
+        /// <exception cref="NISemiconductorTestException">
+        /// Thrown when one or more of the requested <paramref name="pinNames"/> are not present in the sessions bundle,
+        /// or when <paramref name="armType"/> is an unsupported value.
+        /// </exception>
         public static void ConfigureTMUFallTimeMeasurement(this DigitalSessionsBundle sessionsBundle, long samplesToAcquire, TmuArmType armType = TmuArmType.Immediate, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+            ValidateArmType(armType);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
@@ -483,11 +493,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// The type of signal used to arm the TMU measurement.
         /// </param>
         /// <param name="pinNames">The specific pins to configure the TMU for. When <c>null</c>, all pins are targeted.</param>
-        /// <exception cref="NISemiconductorTestException">Thrown when one or more of the requested <paramref name="pinNames"/> are not present in the sessions bundle and when <paramref name="dutyCycleType"/> is not <see cref="TmuDutyCycle.High"/> or <see cref="TmuDutyCycle.Low"/>.
+        /// <exception cref="NISemiconductorTestException">Thrown when one or more of the requested <paramref name="pinNames"/> are not present in the sessions bundle, when <paramref name="armType"/> is an unsupported value, or when <paramref name="dutyCycleType"/> is not <see cref="TmuDutyCycle.High"/> or <see cref="TmuDutyCycle.Low"/>.
         /// </exception>
         public static void ConfigureTMUDutyCycleMeasurement(this DigitalSessionsBundle sessionsBundle, TmuDutyCycle dutyCycleType, long samplesToAcquire, TmuArmType armType = TmuArmType.Immediate, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+            ValidateArmType(armType);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
@@ -566,11 +577,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// The TMU's arm input is used to frame, or select, the start and stop events of interest for each TMU sample.
         /// </param>
         /// <param name="pinNames">The specific pins to configure the TMU for. When <c>null</c>, all pins are targeted.</param>
-        /// <exception cref="NISemiconductorTestException">Thrown when one or more of the requested <paramref name="pinNames"/> are not present in the sessions bundl and when <paramref name="pulseWidthType"/> is not <see cref="TmuPulseWidth.High"/> or <see cref="TmuPulseWidth.Low"/>.
+        /// <exception cref="NISemiconductorTestException">Thrown when one or more of the requested <paramref name="pinNames"/> are not present in the sessions bundle, when <paramref name="armType"/> is an unsupported value, or when <paramref name="pulseWidthType"/> is not <see cref="TmuPulseWidth.High"/> or <see cref="TmuPulseWidth.Low"/>.
         /// </exception>
         public static void ConfigureTMUPulseWidthMeasurement(this DigitalSessionsBundle sessionsBundle, TmuPulseWidth pulseWidthType, long samplesToAcquire, TmuArmType armType = TmuArmType.Immediate, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+            ValidateArmType(armType);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
@@ -605,7 +617,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                                 armType: armType);
                             break;
                         default:
-                            throw new ArgumentOutOfRangeException(nameof(pulseWidthType), pulseWidthType, string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedPolarity));
+                            throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedPolarity));
                     }
                 }
             });
@@ -782,9 +794,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <param name="armType">The arm type.</param>
         /// <param name="pinNames">The pin names to configure. When <c>null</c>, all pins are targeted.</param>
+        /// <exception cref="NISemiconductorTestException">
+        /// Thrown when one or more of the requested <paramref name="pinNames"/> are not present in the sessions bundle,
+        /// or when <paramref name="armType"/> is an unsupported value.
+        /// </exception>
         public static void ConfigureTMUArmType(this DigitalSessionsBundle sessionsBundle, TmuArmType armType, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+            ValidateArmType(armType);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
@@ -1081,6 +1098,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             return new DigitalTmuCollections(session);
         }
 
+        private static void ValidateArmType(TmuArmType armType)
+        {
+            if (armType != TmuArmType.None && armType != TmuArmType.Immediate && armType != TmuArmType.Edge)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedArmType));
+            }
+        }
+
         private static TmuSourceEvent ValidateAndGetSourceEventForEdge(TmuPolarity edgeType)
         {
             switch (edgeType)
@@ -1104,10 +1129,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUSkewMeasurementNullReferencePinsOrTargetPins, nameof(targetPinNames)));
             }
-            if (armType != TmuArmType.None && armType != TmuArmType.Immediate && armType != TmuArmType.Edge)
-            {
-                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedArmType), new ArgumentOutOfRangeException(nameof(armType)));
-            }
             if (referencePinNames.Length == 0)
             {
                 throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUSkewEmptyReferenceOrTargetPins, nameof(referencePinNames)));
@@ -1121,6 +1142,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUSkewPinCountMismatch, referencePinNames.Length, targetPinNames.Length));
             }
+
+            ValidateArmType(armType);
             // Validate all pins exist in the bundle
             var allPins = referencePinNames.Concat(targetPinNames).Distinct().ToArray();
             ValidatePinsOfTMU(bundlePins, allPins);
