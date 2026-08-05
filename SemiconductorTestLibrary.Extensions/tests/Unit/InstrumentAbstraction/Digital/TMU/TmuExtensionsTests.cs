@@ -682,6 +682,229 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         #endregion
 
+        #region Single Pin Overload Tests
+
+        [Fact]
+        public void Inititalize_ConfigureTMUStartSourceWithSinglePinSucceeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.ConfigureTMUStartSource("C0");
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_ConfigureTMUStopSourceWithSinglePinSucceeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.ConfigureTMUStopSource("C0");
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_ConfigureTMUStartSourceEventWithSinglePinSucceeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.ConfigureTMUStartSourceEvent(TmuSourceEvent.Vol, "C0");
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_ConfigureTMUStopSourceEventWithSinglePinSucceeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.ConfigureTMUStopSourceEvent(TmuSourceEvent.Voh, "C0");
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_ConfigureTMUStartSourceEventPolarityWithSinglePinSucceeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.ConfigureTMUStartSourceEventPolarity(TmuPolarity.RisingEdge, "C0");
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_ConfigureTMUStopSourceEventPolarityWithSinglePinSucceeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.ConfigureTMUStopSourceEventPolarity(TmuPolarity.FallingEdge, "C0");
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_ConfigureTMUArmTypeWithSinglePinSucceeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+            sessionsBundle.ConfigureTMUStartSource("C0");
+            sessionsBundle.ConfigureTMUEdgeArmSource("C0");
+            sessionsBundle.ConfigureTMUEdgeArmPolarity(TmuPolarity.RisingEdge, "C0");
+
+            sessionsBundle.ConfigureTMUArmType(TmuArmType.Edge, "C0");
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_ConfigureTMUEdgeArmSourceWithSinglePinSucceeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.ConfigureTMUEdgeArmSource("C0");
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_ConfigureTMUEdgeArmSourceEventWithSinglePinSucceeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.ConfigureTMUEdgeArmSourceEvent(TmuSourceEvent.Vol, "C0");
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_ConfigureTMUEdgeArmPolarityWithSinglePinSucceeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.ConfigureTMUEdgeArmPolarity(TmuPolarity.RisingEdge, "C0");
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_ConfigureTMUSamplesToAcquireWithSinglePinSucceeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.ConfigureTMUSamplesToAcquire(10, "C0");
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_ConfigureTMUSampleTimeoutWithSinglePinSucceeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.ConfigureTMUSampleTimeout(10.0, "C0");
+            sessionsBundle.DisableTMU();
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_ConfigurePeriodMeasurementWithSinglePinSucceeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.ConfigurePeriodMeasurement(TmuPolarity.RisingEdge, 1, "C0");
+            sessionsBundle.DisableTMU();
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_ConfigureTMURiseTimeMeasurementWithSinglePinSucceeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.ConfigureTMURiseTimeMeasurement(1, "C0");
+            sessionsBundle.DisableTMU();
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_ConfigureTMUFallTimeMeasurementWithSinglePinSucceeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.ConfigureTMUFallTimeMeasurement(1, "C0");
+            sessionsBundle.DisableTMU();
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_ConfigureTMUDutyCycleMeasurementWithSinglePinSucceeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.ConfigureTMUDutyCycleMeasurement(TmuDutyCycle.High, 1, "C0");
+            sessionsBundle.DisableTMU();
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_ConfigureTMUPulseWidthMeasurementWithSinglePinSucceeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.ConfigureTMUPulseWidthMeasurement(TmuPulseWidth.High, 1, "C0");
+            sessionsBundle.DisableTMU();
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_ConfigureTMUSkewMeasurementWithSinglePinPairSucceeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.ConfigureTMUSkewMeasurement("C0", "C1", TmuPolarity.RisingEdge, 1);
+            sessionsBundle.DisableTMU();
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_AssignTMUResourcesAndClearTMUAssignmentWithSinglePinSucceeds()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager();
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+
+            sessionsBundle.AssignTMUResources("C0");
+            sessionsBundle.ClearTMUAssignment("C0");
+        }
+
+        [Fact]
+        public void Inititalize_EnableAndDisableTMUWithSinglePinSucceeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+            sessionsBundle.ConfigurePeriodMeasurement(TmuPolarity.RisingEdge, 1, "C0");
+
+            sessionsBundle.EnableTMU("C0");
+            sessionsBundle.DisableTMU("C0");
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_TMUInitiateAndAbortWithSinglePinSucceeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+            sessionsBundle.ConfigurePeriodMeasurement(TmuPolarity.RisingEdge, 1, "C0");
+
+            sessionsBundle.TMUInitiate("C0");
+            sessionsBundle.TMUAbort("C0");
+            sessionsBundle.DisableTMU();
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_FetchAveragedTMUMeasurementWithSinglePinReturnsData()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+            sessionsBundle.ConfigurePeriodMeasurement(TmuPolarity.RisingEdge, 1, "C0");
+            sessionsBundle.TMUInitiate("C0");
+
+            var results = sessionsBundle.FetchAveragedTMUMeasurement("C0");
+
+            Assert.NotNull(results);
+            sessionsBundle.DisableTMU();
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        #endregion
+
         #region Helper Methods
 
         private DigitalSessionsBundle InititalzeAndCreateBundle()

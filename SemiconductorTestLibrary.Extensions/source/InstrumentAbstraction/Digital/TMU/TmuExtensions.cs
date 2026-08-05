@@ -50,6 +50,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             });
         }
 
+        /// <inheritdoc cref="TMUInitiate(DigitalSessionsBundle, string[])"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="pinName">The specific pin to initiate the TMU measurement on.</param>
+        public static void TMUInitiate(this DigitalSessionsBundle sessionsBundle, string pinName)
+        {
+            sessionsBundle.TMUInitiate(new string[] { pinName });
+        }
+
         /// <summary>
         /// Enables the assigned TMU resource of each pin within the <see cref="DigitalSessionsBundle"/>.
         /// </summary>
@@ -71,6 +79,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                     tmu.Enabled = true;
                 }
             });
+        }
+
+        /// <inheritdoc cref="EnableTMU(DigitalSessionsBundle, string[])"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="pinName">The specific pin for which to enable the assigned TMU resource.</param>
+        public static void EnableTMU(this DigitalSessionsBundle sessionsBundle, string pinName)
+        {
+            sessionsBundle.EnableTMU(new string[] { pinName });
         }
 
         /// <summary>
@@ -97,6 +113,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             });
         }
 
+        /// <inheritdoc cref="DisableTMU(DigitalSessionsBundle, string[])"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="pinName">The specific pin for which to disable the assigned TMU resource.</param>
+        public static void DisableTMU(this DigitalSessionsBundle sessionsBundle, string pinName)
+        {
+            sessionsBundle.DisableTMU(new string[] { pinName });
+        }
+
         /// <summary>
         /// Aborts any in-progress TMU measurement(s) on TMU resource of each pin within the <see cref="DigitalSessionsBundle"/>.
         /// </summary>
@@ -118,6 +142,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                     tmu.Abort();
                 }
             });
+        }
+
+        /// <inheritdoc cref="TMUAbort(DigitalSessionsBundle, string[])"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="pinName">The specific pin for which to abort the operation on the associated TMU resource.</param>
+        public static void TMUAbort(this DigitalSessionsBundle sessionsBundle, string pinName)
+        {
+            sessionsBundle.TMUAbort(new string[] { pinName });
         }
 
         /// <summary>
@@ -155,6 +187,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             }
         }
 
+        /// <inheritdoc cref="AssignTMUResources(DigitalSessionsBundle, string[])"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="pinName">The pin to assign a TMU resource to.</param>
+        public static void AssignTMUResources(this DigitalSessionsBundle sessionsBundle, string pinName)
+        {
+            sessionsBundle.AssignTMUResources(new string[] { pinName });
+        }
+
         /// <summary>
         /// Clears any assigned TMU contexts stored within each <see cref="DigitalSessionInformation" /> of the <see cref="DigitalSessionsBundle" />.
         /// </summary>
@@ -172,6 +212,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 sessionInfo.ClearAssignedTMUContexts(pinNames);
             });
+        }
+
+        /// <inheritdoc cref="ClearTMUAssignment(DigitalSessionsBundle, string[])"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="pinName">The pin for which the assigned TMU should be cleared.</param>
+        public static void ClearTMUAssignment(this DigitalSessionsBundle sessionsBundle, string pinName)
+        {
+            sessionsBundle.ClearTMUAssignment(new string[] { pinName });
         }
 
         /// <summary>
@@ -246,6 +294,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                         armType: armType);
                 }
             });
+        }
+
+        /// <inheritdoc cref="ConfigurePeriodMeasurement(DigitalSessionsBundle, TmuPolarity, long, TmuArmType, string[])"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="edgeType"/>
+        /// <param name="samplesToAcquire"/>
+        /// <param name="pinName">The specific pin to configure the TMU for.</param>
+        /// <param name="armType"/>
+        public static void ConfigurePeriodMeasurement(this DigitalSessionsBundle sessionsBundle, TmuPolarity edgeType, long samplesToAcquire, string pinName, TmuArmType armType = TmuArmType.Immediate)
+        {
+            sessionsBundle.ConfigurePeriodMeasurement(edgeType, samplesToAcquire, armType, new string[] { pinName });
         }
 
         /// <summary>
@@ -346,6 +405,24 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             });
         }
 
+        /// <inheritdoc cref="ConfigureTMUSkewMeasurement(DigitalSessionsBundle, string[], string[], TmuPolarity, long, TmuArmType)"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="referencePinName">The pin to use as the reference (start) source for the skew measurement.</param>
+        /// <param name="targetPinName">The pin to use as the target (stop) source for the skew measurement.</param>
+        /// <param name="edgeType"/>
+        /// <param name="samplesToAcquire"/>
+        /// <param name="armType"/>
+        public static void ConfigureTMUSkewMeasurement(
+            this DigitalSessionsBundle sessionsBundle,
+            string referencePinName,
+            string targetPinName,
+            TmuPolarity edgeType,
+            long samplesToAcquire,
+            TmuArmType armType = TmuArmType.Immediate)
+        {
+            sessionsBundle.ConfigureTMUSkewMeasurement(new string[] { referencePinName }, new string[] { targetPinName }, edgeType, samplesToAcquire, armType);
+        }
+
         /// <summary>
         /// Configures the TMU to perform a rise time measurement for pins in the sessions bundle.
         /// </summary>
@@ -401,6 +478,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             });
         }
 
+        /// <inheritdoc cref="ConfigureTMURiseTimeMeasurement(DigitalSessionsBundle, long, TmuArmType, string[])"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="samplesToAcquire"/>
+        /// <param name="pinName">The specific pin to configure the TMU for.</param>
+        /// <param name="armType"/>
+        public static void ConfigureTMURiseTimeMeasurement(this DigitalSessionsBundle sessionsBundle, long samplesToAcquire, string pinName, TmuArmType armType = TmuArmType.Immediate)
+        {
+            sessionsBundle.ConfigureTMURiseTimeMeasurement(samplesToAcquire, armType, new string[] { pinName });
+        }
+
         /// <summary>
         /// Configures the TMU to perform a fall time measurement for pins in the sessions bundle.
         /// </summary>
@@ -454,6 +541,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                         armType: armType);
                 }
             });
+        }
+
+        /// <inheritdoc cref="ConfigureTMUFallTimeMeasurement(DigitalSessionsBundle, long, TmuArmType, string[])"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="samplesToAcquire"/>
+        /// <param name="pinName">The specific pin to configure the TMU for.</param>
+        /// <param name="armType"/>
+        public static void ConfigureTMUFallTimeMeasurement(this DigitalSessionsBundle sessionsBundle, long samplesToAcquire, string pinName, TmuArmType armType = TmuArmType.Immediate)
+        {
+            sessionsBundle.ConfigureTMUFallTimeMeasurement(samplesToAcquire, armType, new string[] { pinName });
         }
 
         /// <summary>
@@ -537,6 +634,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                     }
                 }
             });
+        }
+
+        /// <inheritdoc cref="ConfigureTMUDutyCycleMeasurement(DigitalSessionsBundle, TmuDutyCycle, long, TmuArmType, string[])"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="dutyCycleType"/>
+        /// <param name="samplesToAcquire"/>
+        /// <param name="pinName">The specific pin to configure the TMU for.</param>
+        /// <param name="armType"/>
+        public static void ConfigureTMUDutyCycleMeasurement(this DigitalSessionsBundle sessionsBundle, TmuDutyCycle dutyCycleType, long samplesToAcquire, string pinName, TmuArmType armType = TmuArmType.Immediate)
+        {
+            sessionsBundle.ConfigureTMUDutyCycleMeasurement(dutyCycleType, samplesToAcquire, armType, new string[] { pinName });
         }
 
         /// <summary>
@@ -623,6 +731,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             });
         }
 
+        /// <inheritdoc cref="ConfigureTMUPulseWidthMeasurement(DigitalSessionsBundle, TmuPulseWidth, long, TmuArmType, string[])"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="pulseWidthType"/>
+        /// <param name="samplesToAcquire"/>
+        /// <param name="pinName">The specific pin to configure the TMU for.</param>
+        /// <param name="armType"/>
+        public static void ConfigureTMUPulseWidthMeasurement(this DigitalSessionsBundle sessionsBundle, TmuPulseWidth pulseWidthType, long samplesToAcquire, string pinName, TmuArmType armType = TmuArmType.Immediate)
+        {
+            sessionsBundle.ConfigureTMUPulseWidthMeasurement(pulseWidthType, samplesToAcquire, armType, new string[] { pinName });
+        }
+
         /// <summary>
         /// Fetches the averaged TMU measurement for pins in the sessions bundle.
         /// </summary>
@@ -650,6 +769,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             });
         }
 
+        /// <inheritdoc cref="FetchAveragedTMUMeasurement(DigitalSessionsBundle, double, string[])"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="pinName">The specific pin to fetch the TMU measurement for.</param>
+        /// <param name="timeoutInSeconds"/>
+        public static PinSiteData<double> FetchAveragedTMUMeasurement(this DigitalSessionsBundle sessionsBundle, string pinName, double timeoutInSeconds = 5)
+        {
+            return sessionsBundle.FetchAveragedTMUMeasurement(timeoutInSeconds, new string[] { pinName });
+        }
+
         #region Configure TMU Start Source
 
         /// <summary>
@@ -668,6 +796,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                     tmu.Start.Source = sitePinInfo.IndividualChannelString;
                 }
             });
+        }
+
+        /// <inheritdoc cref="ConfigureTMUStartSource(DigitalSessionsBundle, string[])"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="pinName">The pin name to configure.</param>
+        public static void ConfigureTMUStartSource(this DigitalSessionsBundle sessionsBundle, string pinName)
+        {
+            sessionsBundle.ConfigureTMUStartSource(new string[] { pinName });
         }
 
         #endregion
@@ -690,6 +826,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                     tmu.Stop.Source = sitePinInfo.IndividualChannelString;
                 }
             });
+        }
+
+        /// <inheritdoc cref="ConfigureTMUStopSource(DigitalSessionsBundle, string[])"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="pinName">The pin name to configure.</param>
+        public static void ConfigureTMUStopSource(this DigitalSessionsBundle sessionsBundle, string pinName)
+        {
+            sessionsBundle.ConfigureTMUStopSource(new string[] { pinName });
         }
 
         #endregion
@@ -715,6 +859,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             });
         }
 
+        /// <inheritdoc cref="ConfigureTMUStartSourceEvent(DigitalSessionsBundle, TmuSourceEvent, string[])"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="sourceEvent"/>
+        /// <param name="pinName">The pin name to configure.</param>
+        public static void ConfigureTMUStartSourceEvent(this DigitalSessionsBundle sessionsBundle, TmuSourceEvent sourceEvent, string pinName)
+        {
+            sessionsBundle.ConfigureTMUStartSourceEvent(sourceEvent, new string[] { pinName });
+        }
+
         #endregion
 
         #region Configure TMU Stop Source Event
@@ -736,6 +889,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                     tmu.Stop.SourceEvent = sourceEvent;
                 }
             });
+        }
+
+        /// <inheritdoc cref="ConfigureTMUStopSourceEvent(DigitalSessionsBundle, TmuSourceEvent, string[])"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="sourceEvent"/>
+        /// <param name="pinName">The pin name to configure.</param>
+        public static void ConfigureTMUStopSourceEvent(this DigitalSessionsBundle sessionsBundle, TmuSourceEvent sourceEvent, string pinName)
+        {
+            sessionsBundle.ConfigureTMUStopSourceEvent(sourceEvent, new string[] { pinName });
         }
 
         #endregion
@@ -761,6 +923,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             });
         }
 
+        /// <inheritdoc cref="ConfigureTMUStartSourceEventPolarity(DigitalSessionsBundle, TmuPolarity, string[])"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="polarity"/>
+        /// <param name="pinName">The pin name to configure.</param>
+        public static void ConfigureTMUStartSourceEventPolarity(this DigitalSessionsBundle sessionsBundle, TmuPolarity polarity, string pinName)
+        {
+            sessionsBundle.ConfigureTMUStartSourceEventPolarity(polarity, new string[] { pinName });
+        }
+
         #endregion
 
         #region Configure TMU Stop Source Event Polarity
@@ -782,6 +953,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                     tmu.Stop.SourceEventPolarity = polarity;
                 }
             });
+        }
+
+        /// <inheritdoc cref="ConfigureTMUStopSourceEventPolarity(DigitalSessionsBundle, TmuPolarity, string[])"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="polarity"/>
+        /// <param name="pinName">The pin name to configure.</param>
+        public static void ConfigureTMUStopSourceEventPolarity(this DigitalSessionsBundle sessionsBundle, TmuPolarity polarity, string pinName)
+        {
+            sessionsBundle.ConfigureTMUStopSourceEventPolarity(polarity, new string[] { pinName });
         }
 
         #endregion
@@ -812,6 +992,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             });
         }
 
+        /// <inheritdoc cref="ConfigureTMUArmType(DigitalSessionsBundle, TmuArmType, string[])"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="armType"/>
+        /// <param name="pinName">The pin name to configure.</param>
+        public static void ConfigureTMUArmType(this DigitalSessionsBundle sessionsBundle, TmuArmType armType, string pinName)
+        {
+            sessionsBundle.ConfigureTMUArmType(armType, new string[] { pinName });
+        }
+
         #endregion
 
         #region Configure TMU Edge Arm Source
@@ -833,6 +1022,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                     tmu.EdgeArm.Source = sitePinInfo.IndividualChannelString;
                 }
             });
+        }
+
+        /// <inheritdoc cref="ConfigureTMUEdgeArmSource(DigitalSessionsBundle, string[])"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="pinName">The pin name to configure.</param>
+        public static void ConfigureTMUEdgeArmSource(this DigitalSessionsBundle sessionsBundle, string pinName)
+        {
+            sessionsBundle.ConfigureTMUEdgeArmSource(new string[] { pinName });
         }
 
         #endregion
@@ -859,6 +1056,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             });
         }
 
+        /// <inheritdoc cref="ConfigureTMUEdgeArmSourceEvent(DigitalSessionsBundle, TmuSourceEvent, string[])"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="sourceEvent"/>
+        /// <param name="pinName">The pin name to configure.</param>
+        public static void ConfigureTMUEdgeArmSourceEvent(this DigitalSessionsBundle sessionsBundle, TmuSourceEvent sourceEvent, string pinName)
+        {
+            sessionsBundle.ConfigureTMUEdgeArmSourceEvent(sourceEvent, new string[] { pinName });
+        }
+
         #endregion
 
         #region Configure TMU Edge Arm Polarity
@@ -881,6 +1087,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                     tmu.EdgeArm.Polarity = polarity;
                 }
             });
+        }
+
+        /// <inheritdoc cref="ConfigureTMUEdgeArmPolarity(DigitalSessionsBundle, TmuPolarity, string[])"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="polarity"/>
+        /// <param name="pinName">The pin name to configure.</param>
+        public static void ConfigureTMUEdgeArmPolarity(this DigitalSessionsBundle sessionsBundle, TmuPolarity polarity, string pinName)
+        {
+            sessionsBundle.ConfigureTMUEdgeArmPolarity(polarity, new string[] { pinName });
         }
 
         #endregion
@@ -906,6 +1121,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             });
         }
 
+        /// <inheritdoc cref="ConfigureTMUSamplesToAcquire(DigitalSessionsBundle, long, string[])"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="samplesToAcquire"/>
+        /// <param name="pinName">The pin name to configure.</param>
+        public static void ConfigureTMUSamplesToAcquire(this DigitalSessionsBundle sessionsBundle, long samplesToAcquire, string pinName)
+        {
+            sessionsBundle.ConfigureTMUSamplesToAcquire(samplesToAcquire, new string[] { pinName });
+        }
+
         #endregion
 
         #region Configure TMU Sample Timeout
@@ -928,6 +1152,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                     tmu.SampleTimeout = timeoutInSeconds;
                 }
             });
+        }
+
+        /// <inheritdoc cref="ConfigureTMUSampleTimeout(DigitalSessionsBundle, double, string[])"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="timeoutInSeconds"/>
+        /// <param name="pinName">The pin name to configure.</param>
+        public static void ConfigureTMUSampleTimeout(this DigitalSessionsBundle sessionsBundle, double timeoutInSeconds, string pinName)
+        {
+            sessionsBundle.ConfigureTMUSampleTimeout(timeoutInSeconds, new string[] { pinName });
         }
 
         #endregion
