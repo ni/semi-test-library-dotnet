@@ -839,7 +839,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                     string deviceName = digitalSitePinInfo.InstrumentName;
                     if (!TryGetTMU(tmusPerInstrument, deviceName, out string tmuName))
                     {
-                        throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUNotEnoughResources, deviceName));
+                        throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUNotEnoughResources, deviceName, sitePinInfo.PinName));
                     }
                     digitalSitePinInfo.AssignedTmuContext = tmuName;
                 }
@@ -879,7 +879,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 string deviceName = digitalSitePinInfo.InstrumentName;
                 string tmuName = assignedTmuContext;
                 digitalSitePinInfo.AssignedTmuContext = string.Empty;
-                TMUContextManager.Instance.UnAssignTMU(deviceName, tmuName);
+                TMUContextManager.Instance.UnAssignTMUContext(deviceName, tmuName);
             }
         }
 
@@ -1062,7 +1062,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 while (tmus.Any())
                 {
                     var tmu = tmus.Dequeue();
-                    if (TMUContextManager.Instance.TryAssignTMU(deviceName, tmu))
+                    if (TMUContextManager.Instance.TryAssignTMUContext(deviceName, tmu))
                     {
                         tmuName = tmu;
                         return true;
@@ -1075,6 +1075,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
 
         private static Dictionary<string, Queue<string>> CategorizeTMUByInstrument(List<string> availableTMUs)
         {
+            // A null or empty list yields an empty dictionary, so downstream TryGetTMU simply
+            // reports that no TMU resources are available rather than faulting here.
+            if (availableTMUs == null || availableTMUs.Count == 0)
+            {
+                return new Dictionary<string, Queue<string>>();
+            }
             // Build a dictionary with device name as key and queue of available TMU as value.
             return availableTMUs.GroupBy(tmu => tmu.Split('/')[0])
                 .ToDictionary(g => g.Key, g => new Queue<string>(g.Select(tmu => tmu)));
