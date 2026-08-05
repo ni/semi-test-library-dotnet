@@ -13,18 +13,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// <summary>
         /// Configures the properties of the signal generator that affect standard waveform generation. These settings are the waveform, amplitude, DC offset, frequency, and start phase.
         /// </summary>
-        /// <param name="sessionsBundle">The FGen sessionsBundle.</param>
+        /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
         /// <param name="standardWaveformSettings">Standard Waveform Settings.</param>
         /// <remarks>
         /// You must set Output Mode to Standard Function before you can configure the standard waveform settings.
         /// The 'User' Waveform Function Type is not supported in STL.
         /// </remarks>
+        /// <exception cref="NISemiconductorTestException">Thrown when the WaveformFunctionType is set to User.</exception>"
         public static void ConfigureStandardWaveform(this FgenSessionsBundle sessionsBundle, StandardWaveformSettings standardWaveformSettings)
         {
             sessionsBundle.Do((sessionInfo, sitePininfo) =>
             {
                 ValidateWaveformFunctionType(standardWaveformSettings);
-                sessionInfo.Session.StandardWaveform.Configure(sitePininfo.IndividualChannelString.Split('/').Last(), standardWaveformSettings.WaveformFunctionType, standardWaveformSettings.Amplitude, standardWaveformSettings.DCOffset, standardWaveformSettings.Frequency, standardWaveformSettings.StartPhase);
+                sessionInfo.Session.StandardWaveform.Configure(sitePininfo.IndividualChannelString.Split('/').Last(), standardWaveformSettings.WaveformFunctionType, standardWaveformSettings.Amplitude, standardWaveformSettings.DcOffset, standardWaveformSettings.Frequency, standardWaveformSettings.StartPhase);
             });
         }
 
@@ -35,7 +36,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
             {
                 var standardWaveformSettingsPerSite = standardWaveformSettings.GetValue(sitePininfo.SiteNumber);
                 ValidateWaveformFunctionType(standardWaveformSettingsPerSite);
-                sessionInfo.Session.StandardWaveform.Configure(sitePininfo.IndividualChannelString.Split('/').Last(), standardWaveformSettingsPerSite.WaveformFunctionType, standardWaveformSettingsPerSite.Amplitude, standardWaveformSettingsPerSite.DCOffset, standardWaveformSettingsPerSite.Frequency, standardWaveformSettingsPerSite.StartPhase);
+                sessionInfo.Session.StandardWaveform.Configure(sitePininfo.IndividualChannelString.Split('/').Last(), standardWaveformSettingsPerSite.WaveformFunctionType, standardWaveformSettingsPerSite.Amplitude, standardWaveformSettingsPerSite.DcOffset, standardWaveformSettingsPerSite.Frequency, standardWaveformSettingsPerSite.StartPhase);
             });
         }
 
@@ -46,7 +47,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
             {
                 var standardWaveformSettingsPerPinPerSite = standardWaveformSettings.GetValue(sitePininfo);
                 ValidateWaveformFunctionType(standardWaveformSettingsPerPinPerSite);
-                sessionInfo.Session.StandardWaveform.Configure(sitePininfo.IndividualChannelString.Split('/').Last(), standardWaveformSettingsPerPinPerSite.WaveformFunctionType, standardWaveformSettingsPerPinPerSite.Amplitude, standardWaveformSettingsPerPinPerSite.DCOffset, standardWaveformSettingsPerPinPerSite.Frequency, standardWaveformSettingsPerPinPerSite.StartPhase);
+                sessionInfo.Session.StandardWaveform.Configure(sitePininfo.IndividualChannelString.Split('/').Last(), standardWaveformSettingsPerPinPerSite.WaveformFunctionType, standardWaveformSettingsPerPinPerSite.Amplitude, standardWaveformSettingsPerPinPerSite.DcOffset, standardWaveformSettingsPerPinPerSite.Frequency, standardWaveformSettingsPerPinPerSite.StartPhase);
             });
         }
 
