@@ -26,7 +26,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// <summary>
         /// Specifies the DC offset of the standard waveform that you want the signal generator to produce (in volts).
         /// </summary>
-        public double DCOffset { get; set; }
+        public double DcOffset { get; set; }
 
         /// <summary>
         /// Sspecifies the horizontal offset of the standard waveform that you want the signal generator to produce (in degrees).
@@ -46,7 +46,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
             WaveformFunctionType = functionType;
             Frequency = frequency;
             Amplitude = amplitude;
-            DCOffset = dcOffset;
+            DcOffset = dcOffset;
             StartPhase = startPhase;
         }
     }
