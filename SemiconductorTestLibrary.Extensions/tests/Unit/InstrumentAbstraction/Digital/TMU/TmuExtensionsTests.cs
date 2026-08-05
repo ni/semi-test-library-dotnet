@@ -637,7 +637,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(TmuPolarity.RisingEdge)]
         [InlineData(TmuPolarity.FallingEdge)]
-        public void Inititalize_ConfigureSkewMeasurementWithMultiplePinsSucceeds(TmuPolarity edgeType)
+        public void Inititalize_ConfigureSkewMeasurementWithUniquePinsSucceeds(TmuPolarity edgeType)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
 
@@ -647,7 +647,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Inititalize_ConfigureSkewMeasurementWithOverlappingReferencAndTargetPins_ThrowsNISemiconductorTestException()
+        public void Inititalize_ConfigureSkewMeasurementWithOverlappingReferenceAndTargetPins_ThrowsNISemiconductorTestException()
         {
             var sessionsBundle = InititalzeAndCreateBundle();
 
@@ -664,7 +664,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Inititalize_ConfigureSkewMeasurementWithMultiplePinsAndEitherEdge_ThrowsNISemiconductorTestException()
+        public void Inititalize_ConfigureSkewMeasurementWithUniquePinsAndEitherEdge_ThrowsNISemiconductorTestException()
         {
             var sessionsBundle = InititalzeAndCreateBundle();
 
