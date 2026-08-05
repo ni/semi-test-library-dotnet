@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PinMap schemaVersion="1.6" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Instruments>
+		<NIDCPowerInstrument name="SMU_4147_C2_S03" numberOfChannels="4">
+			<ChannelGroup name="CommonDCPowerChannelGroup" />
+		</NIDCPowerInstrument>
+	</Instruments>
+	<Pins>
+		<DUTPin name="Vdd" />
+		<DUTPin name="Vcc" />
+		<DUTPin name="Vin" />
+		<DUTPin name="Ven" />
+	</Pins>
+	<PinGroups></PinGroups>
+	<Sites>
+		<Site siteNumber="0" />
+	</Sites>
+	<Connections>
+		<Connection pin="Vcc" siteNumber="0" instrument="SMU_4147_C2_S03" channel="0" />
+		<Connection pin="Vin" siteNumber="0" instrument="SMU_4147_C2_S03" channel="1" />
+		<Connection pin="Ven" siteNumber="0" instrument="SMU_4147_C2_S03" channel="3" />
+		<Connection pin="Vdd" siteNumber="0" instrument="SMU_4147_C2_S03" channel="2" />
+	</Connections>
+</PinMap>
