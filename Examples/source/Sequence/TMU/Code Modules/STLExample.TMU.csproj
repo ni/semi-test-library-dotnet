@@ -27,7 +27,7 @@
   </ItemGroup>
   <ItemGroup>
 	<ProjectReference Include="..\..\..\..\..\SemiconductorTestLibrary.Extensions\source\SemiconductorTestLibrary.Extensions.csproj" />
-	  <ProjectReference Include="C:\Code Repo MS STEPS\srd-sebu-mixed-signal-apt\SemiconductorTestLibraryDotNET\Scripts\..\..\SemiconductorTestLibraryDotNET\SemiconductorTestLibraryAbstractions\source\SemiconductorTestLibrary.Abstractions.csproj" />
+	  <ProjectReference Include="C:\Code Repo MS STEPS\srd-sebu-mixed-signal-apt\SemiconductorTestLibraryDotNET\SemiconductorTestLibraryAbstractions\source\SemiconductorTestLibrary.Abstractions.csproj" />
   </ItemGroup>
   <ItemGroup>
 	<Reference Include="NationalInstruments.Common">
