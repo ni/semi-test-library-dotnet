@@ -67,7 +67,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
         /// <param name="timeout">Max wait time in milliseconds.</param>
         /// <remarks>
-        /// Call this method after calling <see cref="Initiate"/>
+        /// Call this method after calling <see cref="Initiate"/>.
         /// </remarks>
         public static void WaitUntilDone(this FgenSessionsBundle sessionsBundle, int timeout = 10000)
         {
