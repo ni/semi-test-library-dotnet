@@ -60,6 +60,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen("A");
+
             sessionsBundle.Commit();
         }
 
@@ -70,6 +71,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen(new[] { "A", "B" });
+
             sessionsBundle.Commit();
         }
 
@@ -79,6 +81,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen("A");
+
             sessionsBundle.Abort();
         }
 
@@ -89,6 +92,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen(new[] { "A", "B" });
+
             sessionsBundle.Abort();
         }
 
@@ -98,6 +102,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen("A");
+
             sessionsBundle.IsDone();
         }
 
@@ -108,6 +113,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen(new[] { "A", "B" });
+
             sessionsBundle.IsDone();
         }
 
@@ -117,6 +123,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen("A");
+
             sessionsBundle.WaitUntilDone();
         }
 
@@ -127,6 +134,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen(new[] { "A", "B" });
+
             sessionsBundle.WaitUntilDone();
         }
     }
