@@ -34,8 +34,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
         /// <remarks>
-        /// If you want to abort signal generation, call <see cref = "Abort"/>.
-        /// After the signal generation is aborted, you can call <see cref = "Initiate"/> to cause the signal generator to produce a signal again.
+        /// If you want to abort signal generation, call <see cref="Abort"/>.
+        /// After the signal generation is aborted, you can call <see cref="Initiate"/> to cause the signal generator to produce a signal again.
         /// </remarks>
         public static void Initiate(this FgenSessionsBundle sessionsBundle)
         {
@@ -67,7 +67,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
         /// <param name="timeout">Max wait time in milliseconds.</param>
         /// <remarks>
-        /// Call this method after calling <see cref = "InitiateGeneration"/>
+        /// Call this method after calling <see cref="Initiate"/>
         /// </remarks>
         public static void WaitUntilDone(this FgenSessionsBundle sessionsBundle, int timeout = 10000)
         {
@@ -83,7 +83,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
         /// <remarks>
-        /// Call <see cref = "Initiate"/> to cause the signal generator to produce a signal again.
+        /// Call <see cref="Initiate"/> to cause the signal generator to produce a signal again.
         /// </remarks>
         public static void Abort(this FgenSessionsBundle sessionsBundle)
         {
