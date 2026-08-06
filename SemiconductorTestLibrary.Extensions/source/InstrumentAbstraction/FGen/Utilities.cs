@@ -3,15 +3,17 @@
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen
 {
     /// <summary>
-    /// Defines utility methods for NI-FGen session.
+    /// Defines utility methods for NI-FGen.
     /// </summary>
     public static class Utilities
     {
         /// <summary>
-        /// Resets the instrument to a known state. This method aborts the generation, clears all routes, and resets session properties to the default values.
-        /// This method does not, however, commit the session properties or configure the device hardware to its default state.
+        /// Resets the instrument to a known state.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
+        /// <remarks>
+        /// This method aborts signal generation, resets all attributes to default values, and stops the export of all external signals and events.
+        /// </remarks>
         public static void Reset(this FgenSessionsBundle sessionsBundle)
         {
             sessionsBundle.Do(sessionInfo =>
