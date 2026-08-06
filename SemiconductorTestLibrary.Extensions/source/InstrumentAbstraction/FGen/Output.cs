@@ -18,27 +18,27 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// <param name="outputEnable">Specifies the state of the output enable relay. Set outputEnable to TRUE to enable the relay.</param>
         public static void ConfigureOutputEnabled(this FgenSessionsBundle sessionsBundle, bool outputEnable)
         {
-            sessionsBundle.Do((sessionInformation, sitePinInfo) =>
+            sessionsBundle.Do(sessionInfo =>
             {
-                sessionInformation.Session.Output.SetEnabled(sitePinInfo.IndividualChannelString.Split('/').Last(), outputEnable);
+                sessionInfo.Session.Output.SetEnabled(sessionInfo.AllChannelsString, outputEnable);
             });
         }
 
         /// <inheritdoc cref="ConfigureOutputEnabled(FgenSessionsBundle, bool)"/>
         public static void ConfigureOutputEnabled(this FgenSessionsBundle sessionsBundle, SiteData<bool> outputEnable)
         {
-            sessionsBundle.Do((sessionInformation, sitePinInfo) =>
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInformation.Session.Output.SetEnabled(sitePinInfo.IndividualChannelString.Split('/').Last(), outputEnable.GetValue(sitePinInfo.SiteNumber));
+                sessionInfo.Session.Output.SetEnabled(sitePinInfo.IndividualChannelString.Split('/').Last(), outputEnable.GetValue(sitePinInfo.SiteNumber));
             });
         }
 
         /// <inheritdoc cref="ConfigureOutputEnabled(FgenSessionsBundle, bool)"/>
         public static void ConfigureOutputEnabled(this FgenSessionsBundle sessionsBundle, PinSiteData<bool> outputEnable)
         {
-            sessionsBundle.Do((sessionInformation, sitePinInfo) =>
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInformation.Session.Output.SetEnabled(sitePinInfo.IndividualChannelString.Split('/').Last(), outputEnable.GetValue(sitePinInfo));
+                sessionInfo.Session.Output.SetEnabled(sitePinInfo.IndividualChannelString.Split('/').Last(), outputEnable.GetValue(sitePinInfo));
             });
         }
 
@@ -49,27 +49,27 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// <param name="impedance">Specifies the impedance value that you want the signal generator to use.</param>
         public static void ConfigureOutputImpedance(this FgenSessionsBundle sessionsBundle, double impedance = 50)
         {
-            sessionsBundle.Do((sessionInformation, sitePinInfo) =>
+            sessionsBundle.Do(sessionInfo =>
             {
-                sessionInformation.Session.Output.SetImpedance(sitePinInfo.IndividualChannelString.Split('/').Last(), impedance);
+                sessionInfo.Session.Output.SetImpedance(sessionInfo.AllChannelsString, impedance);
             });
         }
 
         /// <inheritdoc cref="ConfigureOutputImpedance(FgenSessionsBundle, double)"/>
         public static void ConfigureOutputImpedance(this FgenSessionsBundle sessionsBundle, SiteData<double> impedance)
         {
-            sessionsBundle.Do((sessionInformation, sitePinInfo) =>
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInformation.Session.Output.SetImpedance(sitePinInfo.IndividualChannelString.Split('/').Last(), impedance.GetValue(sitePinInfo.SiteNumber));
+                sessionInfo.Session.Output.SetImpedance(sitePinInfo.IndividualChannelString.Split('/').Last(), impedance.GetValue(sitePinInfo.SiteNumber));
             });
         }
 
         /// <inheritdoc cref="ConfigureOutputImpedance(FgenSessionsBundle, double)"/>
         public static void ConfigureOutputImpedance(this FgenSessionsBundle sessionsBundle, PinSiteData<double> impedance)
         {
-            sessionsBundle.Do((sessionInformation, sitePinInfo) =>
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInformation.Session.Output.SetImpedance(sitePinInfo.IndividualChannelString.Split('/').Last(), impedance.GetValue(sitePinInfo));
+                sessionInfo.Session.Output.SetImpedance(sitePinInfo.IndividualChannelString.Split('/').Last(), impedance.GetValue(sitePinInfo));
             });
         }
 

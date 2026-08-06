@@ -30,6 +30,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             InitializeAndClose.Close(_tsmContext);
         }
 
+        #region ConfigureOutputEnabled tests
+
         [Theory]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
         public void InitializeBundleWithSinglePin_PerformConfigureOutputEnabledOperation_Succeeds(string pinmap)
@@ -65,8 +67,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void InitializeBundleWithMultiplePins_PerformConfigureOutputEnabledOperationWithSiteData_Succeeds(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
-            var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
             var pinNames = new string[] { "A", "B" };
+            var sessionsBundle = sessionManager.Fgen(pinNames);
+
             var siteNumbers = new int[] { 0, 1 };
             var siteDataArray = new bool[] { true, false };
             var siteData = new SiteData<bool>(siteNumbers, siteDataArray);
@@ -93,6 +96,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             AssertOutputEnabledState(sessionsBundle, pinSiteData);
         }
+
+        #endregion
+
+        #region ConfigureOutputImpedance tests
 
         [Theory]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
@@ -159,6 +166,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             AssertOutputImpedance(sessionsBundle, pinSiteData);
         }
 
+        #endregion
+
+        #region ConfigureOutputMode tests
         [Theory]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
         public void InitializeBundleWithSinglePin_PerformConfigureOutputModeOperation_Succeeds(string pinmap)
@@ -218,6 +228,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 }
             }
         }
+        #endregion
 
         #region HelperMethods
         private void AssertOutputEnabledState(FgenSessionsBundle sessionsBundle, bool expectedValue)
