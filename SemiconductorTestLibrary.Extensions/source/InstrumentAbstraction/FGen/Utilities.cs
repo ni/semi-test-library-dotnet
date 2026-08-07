@@ -8,7 +8,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
     public static class Utilities
     {
         /// <summary>
-        /// Resets the instrument to a known state.
+        /// Resets the signal generator to a known state.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
         /// <remarks>
