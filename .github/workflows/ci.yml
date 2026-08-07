@@ -5,6 +5,7 @@ on:
     branches: 
       - main
       - 'releases/**'
+      # - features/27.5-platform-upgrade
     paths:
       - 'Examples/**'
       - 'SemiconductorTestLibrary.Abstractions/**'
@@ -27,7 +28,7 @@ jobs:
             ORG="ni"
             PROJECT="DevCentral"
             PIPELINE_ID="18439"
-            BRANCH="main"
+            BRANCH="features/27.5-platform-upgrade"
             PAT="${{ secrets.AZURE_DEVOPS_TOKEN }}"
 
             GITHUB_INTERNAL_SHA="${{ github.head_ref }}.${{ github.sha }}"

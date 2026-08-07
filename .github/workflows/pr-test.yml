@@ -40,7 +40,7 @@ jobs:
             ORG="ni"
             PROJECT="DevCentral"
             PIPELINE_ID="21753"
-            BRANCH="main"
+            BRANCH="features/27.5-platform-upgrade"
             PAT="${{ secrets.AZURE_DEVOPS_TOKEN }}"
 
             BODY=$(jq -n \
