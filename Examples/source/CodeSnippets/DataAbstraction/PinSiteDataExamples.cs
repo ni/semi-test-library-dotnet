@@ -329,6 +329,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // Use AddSite to add site numbers across all existing pins.
             // Since VDET, VCC1, and VCC2 were already added, sites 0, 1 and 2 are added to each of them.
             // Each new site is initialized with the default value of the data type (0.0 for double).
+            // Note that the AddSite method can be invoked either by passing a preformed array, as is shown below,
+            // or by listing out the sites as separate parameter inputs, for example, pinSiteData.AddSite(0, 1, 2).
             var siteNumbersToAdd = new int[] { 0, 1, 2 };
             pinSiteData.AddSite(siteNumbersToAdd);
             // Pin    | Site 0 | Site 1 | Site 2
@@ -384,7 +386,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
         {
             // Constructs a PinSiteData object with a single pin name and associated site numbers.
             // The site numbers are passed as a params array, so any number of site numbers can be specified.
-            // This constructor is useful when only one pin needs to be tracked across multiple sites.
+            // This constructor is useful for initially declaring data for only one pin spanning across multiple sites.
             var pinSiteData = new PinSiteData<double>("VDET", 0, 1, 2);
             // Pin    | Site 0 | Site 1 | Site 2
             // VDET   |  0.0   |  0.0   |  0.0
@@ -398,8 +400,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // VCC1   |  0.0   |  0.0   |  0.0
             // VCC2   |  0.0   |  0.0   |  0.0
 
-            // Use AddSite to add an additional site to pins (VDET, VCC1).
+            // Use AddSite to add an additional site to pins(VDET, VCC1).
             // Site 3 is added to pins VDET, VCC1 and initialized with the default value (0.0 for double).
+            // Note: Using this overload can result in a jagged PinSiteData object where different
+            // pins have different numbers of sites. VCC2 does not have Site 3 since pins VDET and VCC1 were the only pins
+            // included in the pinNames argument.
             pinSiteData.AddSite(new string[] { "VDET", "VCC1" }, 3);
             // Pin    | Site 0 | Site 1 | Site 2 | Site 3
             // VDET   |  0.0   |  0.0   |  0.0   |  0.0
@@ -408,7 +413,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
 
             // Use SetValue with pin names and site numbers to assign specific values
             // to a subset of pins across a subset of sites.
-            // Missing site 4 is added to VCC1 and VCC2.
+            // Site 4 is added to VCC1 and VCC2 since it is new, but not to VDET since it is not
+            // included in the pinNames argument. Similarly, Site 3 is not added to VCC2 since it
+            // was never added to VCC2, further reinforcing the jagged structure of this PinSiteData object.
             // This sets 1.8 for both VCC1 and VCC2 at sites 0, 1 and 4.
             var valueToSet = 1.8;
             var siteNumbers = new int[] { 0, 1, 4 };
@@ -420,6 +427,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
 
             // Use RemoveSite with specific pin names to remove a site from only those pins.
             // This removes site 2 from VDET and VCC1 only, leaving VCC2's site definitions unchanged.
+            // Note: Using this overload can result in a jagged PinSiteData object where different
+            // pins have different numbers of sites. VCC2 retains Site 2 while VDET and VCC1 do not.
+            // Additionally, VDET still lacks Site 4 and VCC2 still lacks Site 3, further reinforcing
+            // the jagged structure of this PinSiteData object.
             pinSiteData.RemoveSite(new string[] { "VDET", "VCC1" }, 2);
             // Pin    | Site 0 | Site 1 | Site 2 | Site 3 | Site 4
             // VDET   |  0.0   |  0.0   |  ---   |  0.0   |  ---
@@ -479,6 +490,12 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // VDET   |  2.4   |  3.6   |  5.7
             // VCC1   |  2.4   |  3.6   |  5.7
             // VCC2   |  0.0   |  0.0   |  ---
+
+            pinSiteData.RemoveSite(2, 3);
+            // Pin   | Site 0 | Site 1
+            // VDET  |  2.4   |  3.6
+            // VCC1  |  2.4   |  3.6
+            // VCC2  |  0.0   |  0.0
 
             // Use RemovePin to remove multiple pins from the PinSiteData object at once.
             // This removes both VCC1 and VCC2 and all their associated site data, leaving only VDET.
