@@ -1,11 +1,12 @@
 ﻿using System.Linq;
+using NationalInstruments.ModularInstruments.NIFgen;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen
 {
     /// <summary>
-    /// Defines methods for standard waveform configuration
+    /// Defines methods for standard waveform configuration.
     /// </summary>
     public static class StandardWaveformGeneration
     {
@@ -15,16 +16,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
         /// <param name="standardWaveformSettings">Standard Waveform Settings.</param>
         /// <remarks>
-        /// You must set Output Mode to Standard Function before you can configure the standard waveform settings.
-        /// The 'User' Waveform Function Type is not supported in STL.
+        /// You must configure output mode to <see cref="OutputMode.Function"/> using <see cref="Output.ConfigureOutputMode"/> before you can configure the standard waveform settings.
+        /// <para>The <see cref="StandardWaveform.User"/>' Waveform Function Type is not supported in STL.</para>
         /// </remarks>
-        /// <exception cref="NISemiconductorTestException">Thrown when the WaveformFunctionType is set to User.</exception>
+        /// <exception cref="NISemiconductorTestException">Throw when the WaveformFunctionType is set to <see cref="StandardWaveform.User"/>.</exception>
         public static void ConfigureStandardWaveform(this FgenSessionsBundle sessionsBundle, StandardWaveformSettings standardWaveformSettings)
         {
             ValidateWaveformFunctionType(standardWaveformSettings);
-            sessionsBundle.Do((sessionInfo, sitePininfo) =>
+            sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Session.StandardWaveform.Configure(sitePininfo.IndividualChannelString.Split('/').Last(), standardWaveformSettings.WaveformFunctionType, standardWaveformSettings.Amplitude, standardWaveformSettings.DcOffset, standardWaveformSettings.Frequency, standardWaveformSettings.StartPhase);
+                sessionInfo.Session.StandardWaveform.Configure(sessionInfo.AllChannelsString, standardWaveformSettings.WaveformFunctionType, standardWaveformSettings.Amplitude, standardWaveformSettings.DcOffset, standardWaveformSettings.Frequency, standardWaveformSettings.StartPhase);
             });
         }
 

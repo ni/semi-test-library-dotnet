@@ -9,38 +9,38 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
     public class StandardWaveformSettings
     {
         /// <summary>
-        /// Specifies the standard waveform that you want the signal generator to produce (Sine, Square, Triangle, Ramp Up, Ramp Down, DC, Noise, User ).
+        /// The standard waveform that you want the signal generator to produce (Sine, Square, Triangle, Ramp Up, Ramp Down, DC, Noise, User ).
         /// </summary>
         public StandardWaveform WaveformFunctionType { get; set; }
 
         /// <summary>
-        /// Specifies the frequency of the standard waveform that you want the signal generator to produce (in hertz).
+        /// The frequency of the standard waveform that you want the signal generator to produce (in hertz).
         /// </summary>
         public double Frequency { get; set; }
 
         /// <summary>
-        /// Specifies the amplitude of the standard waveform that you want the signal generator to produce (in volts).
+        /// The peak-to-peak amplitude of the standard waveform that you want the signal generator to produce (in volts).
         /// </summary>
         public double Amplitude { get; set; }
 
         /// <summary>
-        /// Specifies the DC offset of the standard waveform that you want the signal generator to produce (in volts).
+        /// The DC offset of the standard waveform that you want the signal generator to produce (in volts).
         /// </summary>
         public double DcOffset { get; set; }
 
         /// <summary>
-        /// Specifies the horizontal offset of the standard waveform that you want the signal generator to produce (in degrees).
+        /// The horizontal offset, in degrees of one waveform cycle, of the standard waveform that you want the signal generator to produce (in degrees).
         /// </summary>
         public double StartPhase { get; set; }
 
         /// <summary>
         /// Standard Waveform function settings.
         /// </summary>
-        /// <param name="functionType">functionType</param>
-        /// <param name="frequency">frequency</param>
-        /// <param name="amplitude">amplitude</param>
-        /// <param name="dcOffset">dcOffset</param>
-        /// <param name="startPhase">startPhase</param>
+        /// <param name="functionType">The standard waveform that you want the signal generator to produce (Sine, Square, Triangle, Ramp Up, Ramp Down, DC, Noise, User ).</param>
+        /// <param name="frequency">The frequency of the standard waveform that you want the signal generator to produce (in hertz).</param>
+        /// <param name="amplitude">The peak-to-peak amplitude of the standard waveform that you want the signal generator to produce (in volts).</param>
+        /// <param name="dcOffset">The DC offset of the standard waveform that you want the signal generator to produce (in volts).</param>
+        /// <param name="startPhase">The horizontal offset, in degrees of one waveform cycle, of the standard waveform that you want the signal generator to produce (in degrees).</param>
         public StandardWaveformSettings(StandardWaveform functionType, double frequency, double amplitude, double dcOffset = 0, double startPhase = 0)
         {
             WaveformFunctionType = functionType;
