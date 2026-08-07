@@ -632,7 +632,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                                 armType: armType);
                             break;
                         default:
-                            throw new ArgumentOutOfRangeException(nameof(dutyCycleType), dutyCycleType, string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedPolarity));
+                            throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedDuty, dutyCycleType.ToString()));
                     }
                 }
             });
@@ -727,7 +727,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                                 armType: armType);
                             break;
                         default:
-                            throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedPolarity));
+                            throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedPulseWidth, pulseWidthType.ToString()));
                     }
                 }
             });
@@ -1299,6 +1299,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 return;
             }
+            if (requestedPins.Any(pin => string.IsNullOrEmpty(pin)))
+            {
+                throw new NISemiconductorTestException(
+                    string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUPinsNullOrEmpty));
+            }
             var invalidPins = requestedPins.Except(bundlePins);
             if (invalidPins.Any())
             {
@@ -1335,9 +1340,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
 
         private static void ValidateArmType(TmuArmType armType)
         {
-            if (armType != TmuArmType.None && armType != TmuArmType.Immediate && armType != TmuArmType.Edge)
+            if (armType != TmuArmType.Immediate && armType != TmuArmType.Edge)
             {
-                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedArmType));
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedArmType, armType.ToString()));
             }
         }
 
@@ -1350,7 +1355,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 case TmuPolarity.FallingEdge:
                     return TmuSourceEvent.Vol;
                 default:
-                    throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedPolarity));
+                    throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedPolarity, edgeType.ToString()));
             }
         }
 
