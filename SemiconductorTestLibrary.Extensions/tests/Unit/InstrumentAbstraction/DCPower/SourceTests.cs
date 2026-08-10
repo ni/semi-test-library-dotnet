@@ -4551,6 +4551,82 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureVoltageSequenceWithSourceDelaysAndSiteDataAndUpdateMode_SequenceConfiguredSuccessfully(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup: false);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            string sequenceName = "VoltageSequenceWithSourceDelaysAndSiteDataAndUpdateMode";
+            var expectedSequences = new SiteData<double[]>(new double[][]
+            {
+                new[] { 1.0, 2.0, 3.0 },
+                new[] { 1.5, 2.5, 3.5 },
+                new[] { 2.0, 3.0, 4.0 },
+                new[] { 2.5, 3.5, 4.5 }
+            });
+            var sourceDelays = new SiteData<double[]>(new double[][]
+            {
+                new[] { 0.01, 0.02, 0.03 },
+                new[] { 0.01, 0.02, 0.03 },
+                new[] { 0.01, 0.02, 0.03 },
+                new[] { 0.01, 0.02, 0.03 }
+            });
+
+            sessionsBundle.ConfigureVoltageSequenceWithSourceDelays(sequenceName, expectedSequences, sourceDelays, sequenceLoopCount: 1, setAsActiveSequence: true, updateMode: updateMode);
+
+            sessionsBundle.Do(sessionInfo =>
+            {
+                Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, sessionInfo.AllChannelsOutput.Source.Output.Function);
+                Assert.Equal(sequenceName, sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence);
+            });
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence(sequenceName);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureVoltageSequenceWithSourceDelaysAndPinSiteDataAndUpdateMode_SequenceConfiguredSuccessfully(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup: false);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            string sequenceName = "VoltageSequenceWithSourceDelaysAndPinSiteDataAndUpdateMode";
+            var expectedSequences = new PinSiteData<double[]>(new Dictionary<string, IDictionary<int, double[]>>()
+            {
+                ["VDD"] = new Dictionary<int, double[]>()
+                {
+                    [0] = new[] { 1.0, 2.0, 3.0 },
+                    [1] = new[] { 1.5, 2.5, 3.5 },
+                    [2] = new[] { 2.0, 3.0, 4.0 },
+                    [3] = new[] { 2.5, 3.5, 4.5 }
+                }
+            });
+            var sourceDelays = new PinSiteData<double[]>(new Dictionary<string, IDictionary<int, double[]>>()
+            {
+                ["VDD"] = new Dictionary<int, double[]>()
+                {
+                    [0] = new[] { 0.01, 0.02, 0.03 },
+                    [1] = new[] { 0.01, 0.02, 0.03 },
+                    [2] = new[] { 0.01, 0.02, 0.03 },
+                    [3] = new[] { 0.01, 0.02, 0.03 }
+                }
+            });
+
+            sessionsBundle.ConfigureVoltageSequenceWithSourceDelays(sequenceName, expectedSequences, sourceDelays, sequenceLoopCount: 1, setAsActiveSequence: true, updateMode: updateMode);
+
+            sessionsBundle.Do(sessionInfo =>
+            {
+                Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, sessionInfo.AllChannelsOutput.Source.Output.Function);
+                Assert.Equal(sequenceName, sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence);
+            });
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence(sequenceName);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
         public void DifferentSMUDevices_ConfigureCurrentSequenceWithSourceDelaysAndUpdateMode_SequenceConfiguredSuccessfully(UpdateMode updateMode)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup: false);
