@@ -331,8 +331,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // Each new site is initialized with the default value of the data type (0.0 for double).
             // Note that the AddSite method can be invoked either by passing a preformed array, as is shown below,
             // or by listing out the sites as separate parameter inputs, for example, pinSiteData.AddSite(0, 1, 2).
-            var siteNumbersToAdd = new int[] { 0, 1, 2 };
-            pinSiteData.AddSite(siteNumbersToAdd);
+            pinSiteData.AddSite(0, 1, 2);
             // Pin    | Site 0 | Site 1 | Site 2
             // VDET   |  0.0   |  0.0   |  0.0
             // VCC1   |  0.0   |  0.0   |  0.0
@@ -375,8 +374,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // Use SetValue with a specific pin name and site numbers to overwrite a single pin-site combination.
             // This sets 5.0 only for VCC1 at site 0, leaving all other pin-site combinations unchanged.
             valueToSet = 5.0;
+            var pinNameToSetValueFor = "VCC1";
             siteNumberToSetValue = 0;
-            pinSiteData.SetValue(valueToSet, "VCC1", siteNumberToSetValue);
+            pinSiteData.SetValue(valueToSet, pinNameToSetValueFor, siteNumberToSetValue);
             // Pin    | Site 0 | Site 1
             // VDET   |  1.5   |  3.3
             // VCC1   |  5.0   |  3.3
@@ -387,7 +387,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // Constructs a PinSiteData object with a single pin name and associated site numbers.
             // The site numbers are passed as a params array, so any number of site numbers can be specified.
             // This constructor is useful for initially declaring data for only one pin spanning across multiple sites.
-            var pinSiteData = new PinSiteData<double>("VDET", 0, 1, 2);
+            var siteNumbers = new int[] { 0, 1, 2 };
+            var pinSiteData = new PinSiteData<double>("VDET", siteNumbers);
             // Pin    | Site 0 | Site 1 | Site 2
             // VDET   |  0.0   |  0.0   |  0.0
 
@@ -405,7 +406,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // Note: Using this overload can result in a jagged PinSiteData object where different
             // pins have different numbers of sites. VCC2 does not have Site 3 since pins VDET and VCC1 were the only pins
             // included in the pinNames argument.
-            pinSiteData.AddSite(new string[] { "VDET", "VCC1" }, 3);
+            var pinnamesToAddSiteTo = new string[] { "VDET", "VCC1" };
+            var siteNumberToAdd = 3;
+            pinSiteData.AddSite(pinnamesToAddSiteTo, siteNumberToAdd);
             // Pin    | Site 0 | Site 1 | Site 2 | Site 3
             // VDET   |  0.0   |  0.0   |  0.0   |  0.0
             // VCC1   |  0.0   |  0.0   |  0.0   |  0.0
@@ -418,8 +421,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // was never added to VCC2, further reinforcing the jagged structure of this PinSiteData object.
             // This sets 1.8 for both VCC1 and VCC2 at sites 0, 1 and 4.
             var valueToSet = 1.8;
-            var siteNumbers = new int[] { 0, 1, 4 };
-            pinSiteData.SetValue(valueToSet, new string[] { "VCC1", "VCC2" }, siteNumbers);
+            var pinNamesToSetValueFor = new string[] { "VCC1", "VCC2" };
+            var siteNumbersToSetValue = new int[] { 0, 1, 4 };
+            pinSiteData.SetValue(valueToSet, pinNamesToSetValueFor, siteNumbersToSetValue);
             // Pin    | Site 0 | Site 1 | Site 2 | Site 3 | Site 4
             // VDET   |  0.0   |  0.0   |  0.0   |  0.0   |  ---
             // VCC1   |  1.8   |  1.8   |  0.0   |  0.0   |  1.8
@@ -431,7 +435,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // pins have different numbers of sites. VCC2 retains Site 2 while VDET and VCC1 do not.
             // Additionally, VDET still lacks Site 4 and VCC2 still lacks Site 3, further reinforcing
             // the jagged structure of this PinSiteData object.
-            pinSiteData.RemoveSite(new string[] { "VDET", "VCC1" }, 2);
+            var pinNamesToRemoveSiteFrom = new string[] { "VDET", "VCC1" };
+            var siteNumberToRemove = 2;
+            pinSiteData.RemoveSite(pinNamesToRemoveSiteFrom, siteNumberToRemove);
             // Pin    | Site 0 | Site 1 | Site 2 | Site 3 | Site 4
             // VDET   |  0.0   |  0.0   |  ---   |  0.0   |  ---
             // VCC1   |  1.8   |  1.8   |  ---   |  0.0   |  1.8
@@ -440,7 +446,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // Use SetValue with a pin name only (no site numbers) to set a value for all sites on that pin.
             // This sets 3.3 for VDET across all of its sites (0, 1, 3).
             valueToSet = 3.3;
-            pinSiteData.SetValue(valueToSet, "VDET");
+            var pinNameToSetValueFor = "VDET";
+            pinSiteData.SetValue(valueToSet, pinNameToSetValueFor);
             // Pin    | Site 0 | Site 1 | Site 2 | Site 3 | Site 4
             // VDET   |  3.3   |  3.3   |  ---   |  3.3   |  ---
             // VCC1   |  1.8   |  1.8   |  ---   |  0.0   |  1.8
@@ -485,7 +492,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // This removes site 2 from VCC2 only, while VDET and VCC1 retain site 2.
             // Note: Using this overload can result in a jagged PinSiteData object where different
             // pins have different numbers of sites.
-            pinSiteData.RemoveSite("VCC2", 2);
+            var pinNameToRemoveSiteFrom = "VCC2";
+            var siteNumberToRemove = 2;
+            pinSiteData.RemoveSite(pinNameToRemoveSiteFrom, siteNumberToRemove);
             // Pin    | Site 0 | Site 1 | Site 2
             // VDET   |  2.4   |  3.6   |  5.7
             // VCC1   |  2.4   |  3.6   |  5.7
@@ -500,8 +509,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // Use SetValue with a specific pin name and site number to overwrite a single combination.
             // This sets 0.9 only for VDET at site 0, leaving all other values unchanged.
             var valueToSet = 0.9;
+            var pinNameToSetValueFor = "VDET";
             var siteNumberToSetValue = 0;
-            pinSiteData.SetValue(valueToSet, "VDET", siteNumberToSetValue);
+            pinSiteData.SetValue(valueToSet, pinNameToSetValueFor, siteNumberToSetValue);
             // Pin    | Site 0 | Site 1 | Site 2
             // VDET   |  0.9   |  3.6   |  5.7
         }
