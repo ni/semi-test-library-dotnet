@@ -25,6 +25,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             InitializeAndClose.Close(_tsmContext);
         }
 
+        #region Initiate Tests
+
         [Fact]
         public void InitializeBundleWithSinglePin_InitiateWithoutConfiguration_ThrowsExpectedException()
         {
@@ -53,8 +55,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Contains("No waveforms have been created", exception.Message); // Ensure correct error message is reported in the exception message.
         }
 
+        #endregion
+
+        #region Commit Tests
         [Fact]
-        public void InitializeBundleWithSinglePin_PerformCommitOperation_Succeeds()
+        public void InitializeBundleWithSinglePin_PerformCommitOperationSucceeds()
         {
             var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
             var sessionsBundle = sessionManager.Fgen("A");
@@ -65,7 +70,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
         [InlineData("FgenSingleInstrumentPerSite.pinmap")]
-        public void InitializeBundleWithMultiplePins_PerformCommitOperation_Succeeds(string pinmap)
+        public void InitializeBundleWithMultiplePins_PerformCommitOperationSucceeds(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen(new[] { "A", "B" });
@@ -73,8 +78,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Commit();
         }
 
+        #endregion
+
+        #region Abort Tests
+
         [Fact]
-        public void InitializeBundleWithSinglePin_PerformAbortOperation_Succeeds()
+        public void InitializeBundleWithSinglePin_PerformAbortOperationSucceeds()
         {
             var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
             var sessionsBundle = sessionManager.Fgen("A");
@@ -85,7 +94,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
         [InlineData("FgenSingleInstrumentPerSite.pinmap")]
-        public void InitializeBundleWithMultiplePins_PerformAbortOperation_Succeeds(string pinmap)
+        public void InitializeBundleWithMultiplePins_PerformAbortOperationSucceeds(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen(new[] { "A", "B" });
@@ -93,28 +102,42 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Abort();
         }
 
+        #endregion
+
+        #region IsDone Tests
+
         [Fact]
-        public void InitializeBundleWithSinglePin_PerformIsDoneOperation_Succeeds()
+        public void InitializeBundleWithSinglePin_PerformIsDoneOperation_SucceedsAndReturnCorrectStatus()
         {
             var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
             var sessionsBundle = sessionManager.Fgen("A");
 
-            sessionsBundle.IsDone();
+            var statusArray = sessionsBundle.IsDone();
+
+            Assert.Single(statusArray);
+            Assert.True(statusArray[0]);
         }
 
         [Theory]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
         [InlineData("FgenSingleInstrumentPerSite.pinmap")]
-        public void InitializeBundleWithMultiplePins_PerformIsDoneOperation_Succeeds(string pinmap)
+        public void InitializeBundleWithMultiplePins_PerformIsDoneOperation_SucceedsAndReturnCorrectStatus(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen(new[] { "A", "B" });
 
-            sessionsBundle.IsDone();
+            var statusArray = sessionsBundle.IsDone();
+
+            Assert.Equal(2, statusArray.Length);
+            Assert.All(statusArray, Assert.True);
         }
 
+        #endregion
+
+        #region WaitUntilDone Tests
+
         [Fact]
-        public void InitializeBundleWithSinglePin_PerformWaitUntilDoneOperation_Succeeds()
+        public void InitializeBundleWithSinglePin_PerformWaitUntilDoneOperationWithDefaultTimeoutSucceeds()
         {
             var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
             var sessionsBundle = sessionManager.Fgen("A");
@@ -125,12 +148,25 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
         [InlineData("FgenSingleInstrumentPerSite.pinmap")]
-        public void InitializeBundleWithMultiplePins_PerformWaitUntilDoneOperation_Succeeds(string pinmap)
+        public void InitializeBundleWithMultiplePins_PerformWaitUntilDoneOperationWithDefaultTimeoutSucceeds(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen(new[] { "A", "B" });
 
             sessionsBundle.WaitUntilDone();
         }
+
+        [Theory]
+        [InlineData("FgenSingleInstrumentPerPin.pinmap")]
+        [InlineData("FgenSingleInstrumentPerSite.pinmap")]
+        public void InitializeBundleWithMultiplePins_PerformWaitUntilDoneOperationWithNonDefaultTimeoutSucceeds(string pinmap)
+        {
+            var sessionManager = Initialize(pinmap);
+            var sessionsBundle = sessionManager.Fgen(new[] { "A", "B" });
+
+            sessionsBundle.WaitUntilDone(20000);
+        }
+
+        #endregion
     }
 }
