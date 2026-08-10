@@ -10,20 +10,9 @@
 	<Pins>
 		<DUTPin name="A" />
 		<DUTPin name="B" />
-		<DUTPin name="C" />
-		<DUTPin name="D" />
 		<SystemPin name="SystemPin" />
 	</Pins>
-	<PinGroups>
-		<PinGroup name="PinGroup1">
-			<PinReference pin="A" />
-			<PinReference pin="B" />
-		</PinGroup>
-		<PinGroup name="PinGroup2">
-			<PinReference pin="C" />
-			<PinReference pin="D" />
-		</PinGroup>
-	</PinGroups>
+	<PinGroups></PinGroups>
 	<Sites>
 		<Site siteNumber="0" />
 		<Site siteNumber="1" />
@@ -31,12 +20,8 @@
 	<Connections>
 		<Connection pin="A" siteNumber="0" instrument="FGEN_5433_C1_S13" channel="0" />
 		<Connection pin="A" siteNumber="1" instrument="FGEN_5433_C2_S05" channel="0" />
-		<Connection pin="B" siteNumber="0" instrument="FGEN_5433_C1_S13" channel="1" />
-		<Connection pin="B" siteNumber="1" instrument="FGEN_5433_C2_S05" channel="1" />
-		<Connection pin="C" siteNumber="0" instrument="FGEN_5433_C3_S03" channel="0" />
-		<Connection pin="C" siteNumber="1" instrument="FGEN_5433_C4_S13" channel="0" />
-		<Connection pin="D" siteNumber="0" instrument="FGEN_5433_C3_S03" channel="1" />
-		<Connection pin="D" siteNumber="1" instrument="FGEN_5433_C4_S13" channel="1" />
+		<Connection pin="B" siteNumber="0" instrument="FGEN_5433_C3_S03" channel="0" />
+		<Connection pin="B" siteNumber="1" instrument="FGEN_5433_C4_S13" channel="0" />
 		<SystemConnection pin="SystemPin" instrument="FGEN_5433_C4_S09" channel="0" />
 	</Connections>
 </PinMap>

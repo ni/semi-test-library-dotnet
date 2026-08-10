@@ -14,13 +14,7 @@
 		<DUTPin name="D" />
 		<SystemPin name="SystemPin" />
 	</Pins>
-	<PinGroups>
-		<PinGroup name="PinGroup">
-			<PinReference pin="A" />
-			<PinReference pin="C" />
-			<PinReference pin="SystemPin" />
-		</PinGroup>
-	</PinGroups>
+	<PinGroups></PinGroups>
 	<Sites>
 		<Site siteNumber="0" />
 		<Site siteNumber="1" />
