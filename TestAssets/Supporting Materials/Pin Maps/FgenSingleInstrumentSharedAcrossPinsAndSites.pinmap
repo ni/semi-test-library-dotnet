@@ -30,13 +30,13 @@
 	</Sites>
 	<Connections>
 		<Connection pin="A" siteNumber="0" instrument="FGEN_5433_C1_S13" channel="0" />
-		<Connection pin="A" siteNumber="1" instrument="FGEN_5433_C2_S05" channel="0" />
-		<Connection pin="B" siteNumber="0" instrument="FGEN_5433_C1_S13" channel="1" />
-		<Connection pin="B" siteNumber="1" instrument="FGEN_5433_C2_S05" channel="1" />
+		<Connection pin="A" siteNumber="1" instrument="FGEN_5433_C2_S05" channel="1" />
+		<Connection pin="B" siteNumber="0" instrument="FGEN_5433_C2_S05" channel="0" />
+		<Connection pin="B" siteNumber="1" instrument="FGEN_5433_C1_S13" channel="1" />
 		<Connection pin="C" siteNumber="0" instrument="FGEN_5433_C3_S03" channel="0" />
-		<Connection pin="C" siteNumber="1" instrument="FGEN_5433_C4_S13" channel="0" />
-		<Connection pin="D" siteNumber="0" instrument="FGEN_5433_C3_S03" channel="1" />
-		<Connection pin="D" siteNumber="1" instrument="FGEN_5433_C4_S13" channel="1" />
+		<Connection pin="C" siteNumber="1" instrument="FGEN_5433_C4_S13" channel="1" />
+		<Connection pin="D" siteNumber="0" instrument="FGEN_5433_C4_S13" channel="0" />
+		<Connection pin="D" siteNumber="1" instrument="FGEN_5433_C3_S03" channel="1" />
 		<SystemConnection pin="SystemPin" instrument="FGEN_5433_C4_S09" channel="0" />
 	</Connections>
 </PinMap>
