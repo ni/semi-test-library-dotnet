@@ -24,19 +24,23 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             InitializeAndClose.Close(_tsmContext);
         }
 
-        [Fact]
-        public void InitializeBundleWithSinglePin_PerformResetOperationSucceeds()
+        [Theory]
+        [InlineData("FgenSingleInstrumentPerPin.pinmap")]
+        [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
+        public void InitializeBundleWithSinglePin_PerformResetOperationSucceeds(string pinmap)
         {
-            var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
+            var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen("A");
 
             sessionsBundle.Reset();
         }
 
-        [Fact]
-        public void InitializeBundleWithSinglePin_PerformResetDeviceOperationSucceeds()
+        [Theory]
+        [InlineData("FgenSingleInstrumentPerPin.pinmap")]
+        [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
+        public void InitializeBundleWithSinglePin_PerformResetDeviceOperationSucceeds(string pinmap)
         {
-            var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
+            var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen("A");
 
             sessionsBundle.ResetDevice();
@@ -45,10 +49,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
         [InlineData("FgenSingleInstrumentPerSite.pinmap")]
+        [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
+        [InlineData("FgenSingleInstrumentSharedAcrossPinsAndSites.pinmap")]
         public void InitializeBundleWithMultiplePins_PerformResetOperationSucceeds(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
-            var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
+            var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B", "SystemPin" });
 
             sessionsBundle.Reset();
         }
@@ -56,10 +62,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
         [InlineData("FgenSingleInstrumentPerSite.pinmap")]
+        [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
+        [InlineData("FgenSingleInstrumentSharedAcrossPinsAndSites.pinmap")]
         public void InitializeBundleWithMultiplePins_PerformResetDeviceOperationSucceeds(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
-            var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
+            var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B", "SystemPin" });
 
             sessionsBundle.ResetDevice();
         }
