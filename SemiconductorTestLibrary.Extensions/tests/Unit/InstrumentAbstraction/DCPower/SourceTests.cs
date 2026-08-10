@@ -4448,6 +4448,86 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureAdvancedSequenceWithSiteDataAndUpdateMode_SequenceConfiguredSuccessfully(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup: false);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+            string sequenceName = "AdvancedSequenceWithSiteDataAndUpdateMode";
+            var stepProperties = new SiteData<IList<DCPowerAdvancedSequenceStepProperties>>(new IList<DCPowerAdvancedSequenceStepProperties>[]
+            {
+                new List<DCPowerAdvancedSequenceStepProperties>
+                {
+                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 2.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+                },
+                new List<DCPowerAdvancedSequenceStepProperties>
+                {
+                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 4.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+                },
+                new List<DCPowerAdvancedSequenceStepProperties>
+                {
+                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 5.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 6.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+                },
+                new List<DCPowerAdvancedSequenceStepProperties>
+                {
+                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 7.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 8.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+                }
+            });
+
+            sessionsBundle.ConfigureAdvancedSequence(sequenceName, stepProperties, setAsActiveSequence: true, updateMode: updateMode);
+
+            sessionsBundle.Do(sessionInfo =>
+            {
+                Assert.Equal(sequenceName, sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence);
+            });
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence(sequenceName);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureAdvancedSequenceWithPinSiteDataAndUpdateMode_SequenceConfiguredSuccessfully(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup: false);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+            string sequenceName = "AdvancedSequenceWithPinSiteDataAndUpdateMode";
+            IList<DCPowerAdvancedSequenceStepProperties> CreateSteps(double startLevel) => new List<DCPowerAdvancedSequenceStepProperties>
+            {
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = startLevel, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = startLevel + 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+            };
+            var stepProperties = new PinSiteData<IList<DCPowerAdvancedSequenceStepProperties>>(new Dictionary<string, IDictionary<int, IList<DCPowerAdvancedSequenceStepProperties>>>()
+            {
+                ["VDD"] = new Dictionary<int, IList<DCPowerAdvancedSequenceStepProperties>>()
+                {
+                    [0] = CreateSteps(1.0),
+                    [1] = CreateSteps(2.0),
+                    [2] = CreateSteps(3.0),
+                    [3] = CreateSteps(4.0)
+                }
+            });
+
+            sessionsBundle.ConfigureAdvancedSequence(sequenceName, stepProperties, setAsActiveSequence: true, updateMode: updateMode);
+
+            sessionsBundle.Do(sessionInfo =>
+            {
+                Assert.Equal(sequenceName, sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence);
+            });
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence(sequenceName);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
         public void DifferentSMUDevices_ConfigureVoltageSequenceWithSourceDelaysAndUpdateMode_SequenceConfiguredSuccessfully(UpdateMode updateMode)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup: false);
