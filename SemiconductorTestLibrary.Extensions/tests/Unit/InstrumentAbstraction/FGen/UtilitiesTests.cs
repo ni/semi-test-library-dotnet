@@ -24,21 +24,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             InitializeAndClose.Close(_tsmContext);
         }
 
-        [Theory]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap")]
-        public void InitializeBundleWithSinglePin_PerformResetOperationSucceeds(string pinmap)
+        [Fact]
+        public void InitializeBundleWithSinglePin_PerformResetOperationSucceeds()
         {
-            var sessionManager = Initialize(pinmap);
+            var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
             var sessionsBundle = sessionManager.Fgen("A");
 
             sessionsBundle.Reset();
         }
 
-        [Theory]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap")]
-        public void InitializeBundleWithSinglePin_PerformResetDeviceOperationSucceeds(string pinmap)
+        [Fact]
+        public void InitializeBundleWithSinglePin_PerformResetDeviceOperationSucceeds()
         {
-            var sessionManager = Initialize(pinmap);
+            var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
             var sessionsBundle = sessionManager.Fgen("A");
 
             sessionsBundle.ResetDevice();
