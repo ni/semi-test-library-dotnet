@@ -14,7 +14,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// Configures the properties of the signal generator that affect standard waveform generation. These settings are the waveform, amplitude, DC offset, frequency, and start phase.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
-        /// <param name="standardWaveformSettings">Standard Waveform Settings.</param>
+        /// <param name="standardWaveformSettings">The <see cref="StandardWaveformSettings"/> object.</param>
         /// <remarks>
         /// You must configure output mode to <see cref="OutputMode.Function"/> using <see cref="Output.ConfigureOutputMode"/> before you can configure the standard waveform settings.
         /// <para>The <see cref="StandardWaveform.User"/>' Waveform Function Type is not supported in STL.</para>
