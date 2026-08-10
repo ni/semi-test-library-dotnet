@@ -331,7 +331,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // Each new site is initialized with the default value of the data type (0.0 for double).
             // Note that the AddSite method can be invoked either by passing a preformed array, as is shown below,
             // or by listing out the sites as separate parameter inputs, for example, pinSiteData.AddSite(0, 1, 2).
-            pinSiteData.AddSite(0, 1, 2);
+            var siteNumbersToAdd = new int[] { 0, 1, 2 };
+            pinSiteData.AddSite(siteNumbersToAdd);
             // Pin    | Site 0 | Site 1 | Site 2
             // VDET   |  0.0   |  0.0   |  0.0
             // VCC1   |  0.0   |  0.0   |  0.0
