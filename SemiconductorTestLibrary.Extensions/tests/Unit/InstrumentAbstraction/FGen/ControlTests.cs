@@ -27,7 +27,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Theory]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
-        public void InitializeBundleWithSinglePin_PerformInitiateOperation_ThrowsExpectedException(string pinmap)
+        public void InitializeBundleWithSinglePin_InitiateWithoutConfiguration_ThrowsExpectedException(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen("A");
@@ -42,7 +42,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
         [InlineData("FgenSingleInstrumentPerSite.pinmap")]
-        public void InitializeBundleWithMultiplePins_PerformInitiateOperation_ThrowsExpectedException(string pinmap)
+        public void InitializeBundleWithMultiplePins_InitiateWithoutConfiguration_ThrowsExpectedException(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen(new[] { "A", "B" });
