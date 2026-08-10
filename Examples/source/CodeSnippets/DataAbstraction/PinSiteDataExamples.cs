@@ -491,12 +491,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // VCC1   |  2.4   |  3.6   |  5.7
             // VCC2   |  0.0   |  0.0   |  ---
 
-            pinSiteData.RemoveSite(2, 3);
-            // Pin   | Site 0 | Site 1
-            // VDET  |  2.4   |  3.6
-            // VCC1  |  2.4   |  3.6
-            // VCC2  |  0.0   |  0.0
-
             // Use RemovePin to remove multiple pins from the PinSiteData object at once.
             // This removes both VCC1 and VCC2 and all their associated site data, leaving only VDET.
             pinSiteData.RemovePin("VCC1", "VCC2");
