@@ -18,7 +18,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.WrapSTLMethodsTo
         /// <param name="clearAlarm">A boolean indicating whether to clear the alarm.</param>
         public static void PublishResults<T>(this ISemiconductorModuleContext semiconductorModuleContext, PinSiteData<T> results, string publishedDataId, bool clearAlarm = true)
         {
-            WrapMethodWithQueryForRaisedAlarms(semiconductorModuleContext, clearAlarm, () =>
+            WrapMethodToQueryForRaisedAlarmsBeforeInvoke(semiconductorModuleContext, clearAlarm, () =>
             Publish.PublishResults(semiconductorModuleContext, results, publishedDataId));
         }
 
@@ -30,7 +30,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.WrapSTLMethodsTo
         /// <param name="clearAlarm">A boolean indicating whether to clear the alarm.</param>
         public static void PublishResults<T>(this ISemiconductorModuleContext semiconductorModuleContext, SiteData<T> results, string publishedDataId, string pin = "", bool clearAlarm = true)
         {
-            WrapMethodWithQueryForRaisedAlarms(semiconductorModuleContext, clearAlarm, () =>
+            WrapMethodToQueryForRaisedAlarmsBeforeInvoke(semiconductorModuleContext, clearAlarm, () =>
             Publish.PublishResults(semiconductorModuleContext, results, publishedDataId, pin));
         }
 
@@ -42,7 +42,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.WrapSTLMethodsTo
         /// <param name="clearAlarm">A boolean indicating whether to clear the alarm.</param>
         public static void PublishResult<T>(this ISemiconductorModuleContext semiconductorModuleContext, T result, string publishedDataId, string pin = "", bool clearAlarm = true)
         {
-            WrapMethodWithQueryForRaisedAlarms(semiconductorModuleContext, clearAlarm, () =>
+            WrapMethodToQueryForRaisedAlarmsBeforeInvoke(semiconductorModuleContext, clearAlarm, () =>
             Publish.PublishResult(semiconductorModuleContext, result, publishedDataId, pin));
         }
 
@@ -54,7 +54,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.WrapSTLMethodsTo
         /// <param name="clearAlarm">A boolean indicating whether to clear the alarm.</param>
         public static void PublishSingleSiteResult<T>(this ISemiconductorModuleContext singleSiteSemiconductorModuleContext, T result, string publishedDataId, string pin = "", bool clearAlarm = true)
         {
-            WrapMethodWithQueryForRaisedAlarms(singleSiteSemiconductorModuleContext, clearAlarm, () =>
+            WrapMethodToQueryForRaisedAlarmsBeforeInvoke(singleSiteSemiconductorModuleContext, clearAlarm, () =>
             Publish.PublishSingleSiteResult(singleSiteSemiconductorModuleContext, result, publishedDataId, pin));
         }
 
@@ -65,7 +65,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.WrapSTLMethodsTo
         /// <param name="clearAlarm">A boolean indicating whether to clear the alarm.</param>
         public static void PublishResults<TSessionInformation, TData>(this ISessionsBundle<TSessionInformation> sessionsBundle, TData[][] results, string publishedDataId, bool clearAlarm = true)
         {
-            WrapMethodWithQueryForRaisedAlarms(sessionsBundle.TSMContext, clearAlarm, () =>
+            WrapMethodToQueryForRaisedAlarmsBeforeInvoke(sessionsBundle.TSMContext, clearAlarm, () =>
             Publish.PublishResults(sessionsBundle, results, publishedDataId));
         }
 
@@ -76,7 +76,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.WrapSTLMethodsTo
         /// <param name="clearAlarm">A boolean indicating whether to clear the alarm.</param>
         public static void PublishResults<TSessionInformation, TData>(this ISessionsBundle<TSessionInformation> sessionsBundle, TData[] results, string publishedDataId, bool clearAlarm = true)
         {
-            WrapMethodWithQueryForRaisedAlarms(sessionsBundle.TSMContext, clearAlarm, () =>
+            WrapMethodToQueryForRaisedAlarmsBeforeInvoke(sessionsBundle.TSMContext, clearAlarm, () =>
             Publish.PublishResults(sessionsBundle, results, publishedDataId));
         }
     }

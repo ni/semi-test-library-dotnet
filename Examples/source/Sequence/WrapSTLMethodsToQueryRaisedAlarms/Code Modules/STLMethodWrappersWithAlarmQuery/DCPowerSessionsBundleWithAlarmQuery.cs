@@ -25,13 +25,13 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.WrapSTLMethodsTo
         /// <inheritdoc cref="Measure.MeasureVoltage(DCPowerSessionsBundle)"/>
         public PinSiteData<double> MeasureVoltage(bool clearAlarm = true)
         {
-            return WrapMethodWithQueryForRaisedAlarms(TSMContext, clearAlarm, () => Measure.MeasureVoltage(this));
+            return WrapMethodToQueryForRaisedAlarmsBeforeAndAfterInvoke(TSMContext, clearAlarm, () => Measure.MeasureVoltage(this));
         }
 
         /// <inheritdoc cref="Measure.MeasureCurrent(DCPowerSessionsBundle)"/>
         public PinSiteData<double> MeasureCurrent(bool clearAlarm = true)
         {
-            return WrapMethodWithQueryForRaisedAlarms(TSMContext, clearAlarm, () => Measure.MeasureCurrent(this));
+            return WrapMethodToQueryForRaisedAlarmsBeforeAndAfterInvoke(TSMContext, clearAlarm, () => Measure.MeasureCurrent(this));
         }
 
         /// <inheritdoc cref="Measure.MeasureAndPublishVoltage(DCPowerSessionsBundle, string, out double[][])"/>
@@ -41,7 +41,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.WrapSTLMethodsTo
         public void MeasureAndPublishVoltage(string publishedDataId, out double[][] voltageMeasurements, bool clearAlarm = true)
         {
             double[][] localVoltageMeasurements = new double[InstrumentSessions.Count()][];
-            WrapMethodWithQueryForRaisedAlarms(TSMContext, clearAlarm, () => Measure.MeasureAndPublishVoltage(this, publishedDataId, out localVoltageMeasurements));
+            // Only query for raised alarms before the measurement,
+            // since the STL MeasureAndPublishVoltage method calls into the Publish method after taking a measurement,
+            // which it itself will inherently query for raised alarms after the measurement as it goes to publish.
+            WrapMethodToQueryForRaisedAlarmsBeforeInvoke(TSMContext, clearAlarm, () => Measure.MeasureAndPublishVoltage(this, publishedDataId, out localVoltageMeasurements));
             voltageMeasurements = localVoltageMeasurements;
         }
 
@@ -49,7 +52,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.WrapSTLMethodsTo
         /// <param name="publishedDataId"/>
         public PinSiteData<double> MeasureAndPublishVoltage(string publishedDataId)
         {
-            return WrapMethodWithQueryForRaisedAlarms(TSMContext, false, () => Measure.MeasureAndPublishVoltage(this, publishedDataId));
+            // Only query for raised alarms before the measurement.
+            // The MeasureAndPublishVoltage method calls into the Publish method after taking a measurement,
+            // which it itself is wrapped and will inherently query for raised alarms after the measurement before publishing.
+            return WrapMethodToQueryForRaisedAlarmsBeforeInvoke(TSMContext, false, () => Measure.MeasureAndPublishVoltage(this, publishedDataId));
         }
 
         /// <inheritdoc cref="Measure.MeasureAndPublishCurrent(DCPowerSessionsBundle, string, out double[][])"/>
@@ -59,7 +65,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.WrapSTLMethodsTo
         public void MeasureAndPublishCurrent(string publishedDataId, out double[][] currentMeasurements, bool clearAlarm = true)
         {
             double[][] localCurrentMeasurements = new double[InstrumentSessions.Count()][];
-            WrapMethodWithQueryForRaisedAlarms(TSMContext, clearAlarm, () => Measure.MeasureAndPublishCurrent(this, publishedDataId, out localCurrentMeasurements));
+            // Only query for raised alarms before the measurement.
+            // The MeasureAndPublishCurrent method calls into the Publish method after taking a measurement,
+            // which it itself is wrapped and will inherently query for raised alarms after the measurement before publishing.
+            WrapMethodToQueryForRaisedAlarmsBeforeInvoke(TSMContext, clearAlarm, () => Measure.MeasureAndPublishCurrent(this, publishedDataId, out localCurrentMeasurements));
             currentMeasurements = localCurrentMeasurements;
         }
 
@@ -68,7 +77,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.WrapSTLMethodsTo
         /// <param name="clearAlarm">If true, clears any raised alarms before taking the measurement.</param>
         public PinSiteData<double> MeasureAndPublishCurrent(string publishedDataId, bool clearAlarm = true)
         {
-            return WrapMethodWithQueryForRaisedAlarms(TSMContext, clearAlarm, () => Measure.MeasureAndPublishCurrent(this, publishedDataId));
+            // Only query for raised alarms before the measurement.
+            // The MeasureAndPublishCurrent method calls into the Publish method after taking a measurement,
+            // which it itself is wrapped and will inherently query for raised alarms after the measurement before publishing.
+            return WrapMethodToQueryForRaisedAlarmsBeforeInvoke(TSMContext, clearAlarm, () => Measure.MeasureAndPublishCurrent(this, publishedDataId));
         }
     }
 }
