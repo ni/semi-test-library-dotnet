@@ -32,10 +32,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         #region ConfigureOutputEnabled tests
 
-        [Fact]
-        public void InitializeBundleWithSinglePin_PerformConfigureOutputEnabledOperation_Succeeds()
+        [Theory]
+        [InlineData("FgenSingleInstrumentPerPin.pinmap")]
+        [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
+        public void InitializeBundleWithSinglePin_PerformConfigureOutputEnabledOperation_Succeeds(string pinmap)
         {
-            var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
+            var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen("A");
 
             sessionsBundle.ConfigureOutputEnabled(false);
@@ -48,6 +50,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
         [InlineData("FgenSingleInstrumentPerSite.pinmap")]
+        [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
+        [InlineData("FgenSingleInstrumentSharedAcrossPinsAndSites.pinmap")]
         public void InitializeBundleWithMultiplePins_PerformConfigureOutputEnabledOperation_Succeeds(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
@@ -63,6 +67,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
         [InlineData("FgenSingleInstrumentPerSite.pinmap")]
+        [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
+        [InlineData("FgenSingleInstrumentSharedAcrossPinsAndSites.pinmap")]
         public void InitializeBundleWithMultiplePins_PerformConfigureOutputEnabledOperationWithSiteData_Succeeds(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
@@ -82,6 +88,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
         [InlineData("FgenSingleInstrumentPerSite.pinmap")]
+        [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
+        [InlineData("FgenSingleInstrumentSharedAcrossPinsAndSites.pinmap")]
         public void InitializeBundleWithMultiplePins_PerformConfigureOutputEnabledOperationWithPinSiteData_Succeeds(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
@@ -100,10 +108,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         #region ConfigureOutputImpedance tests
 
-        [Fact]
-        public void InitializeBundleWithSinglePin_PerformConfigureOutputImpedanceOperation_Succeeds()
+        [Theory]
+        [InlineData("FgenSingleInstrumentPerPin.pinmap")]
+        [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
+        public void InitializeBundleWithSinglePin_PerformConfigureOutputImpedanceOperation_Succeeds(string pinmap)
         {
-            var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
+            var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen("A");
 
             sessionsBundle.ConfigureOutputImpedance(50);
@@ -116,6 +126,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
         [InlineData("FgenSingleInstrumentPerSite.pinmap")]
+        [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
+        [InlineData("FgenSingleInstrumentSharedAcrossPinsAndSites.pinmap")]
         public void InitializeBundleWithMultiplePins_PerformConfigureOutputImpedanceOperation_Succeeds(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
@@ -131,6 +143,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
         [InlineData("FgenSingleInstrumentPerSite.pinmap")]
+        [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
+        [InlineData("FgenSingleInstrumentSharedAcrossPinsAndSites.pinmap")]
         public void InitializeBundleWithMultiplePins_PerformConfigureOutputImpedanceOperationWithSiteData_Succeeds(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
@@ -150,6 +164,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
         [InlineData("FgenSingleInstrumentPerSite.pinmap")]
+        [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
+        [InlineData("FgenSingleInstrumentSharedAcrossPinsAndSites.pinmap")]
         public void InitializeBundleWithMultiplePins_PerformConfigureOutputImpedanceOperationWithPinSiteData_Succeeds(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
@@ -167,10 +183,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         #endregion
 
         #region ConfigureOutputMode tests
-        [Fact]
-        public void InitializeBundleWithSinglePin_PerformConfigureOutputModeOperation_Succeeds()
+
+        [Theory]
+        [InlineData("FgenSingleInstrumentPerPin.pinmap")]
+        [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
+        public void InitializeBundleWithSinglePin_PerformConfigureOutputModeOperation_Succeeds(string pinmap)
         {
-            var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
+            var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen("A");
 
             sessionsBundle.ConfigureOutputMode(OutputMode.Function);
@@ -181,6 +200,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
         [InlineData("FgenSingleInstrumentPerSite.pinmap")]
+        [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
+        [InlineData("FgenSingleInstrumentSharedAcrossPinsAndSites.pinmap")]
         public void InitializeBundleWithMultiplePins_PerformConfigureOutputModeOperation_Succeeds(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
@@ -191,10 +212,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             AssertOutputMode(sessionsBundle, OutputMode.Function);
         }
 
-        [Fact]
-        public void InitializeBundleWithSinglePin_PerformConfigureUnsupportedOutputModeThrowsException()
+        [Theory]
+        [InlineData("FgenSingleInstrumentPerPin.pinmap")]
+        [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
+        public void InitializeBundleWithSinglePin_PerformConfigureUnsupportedOutputModeThrowsException(string pinmap)
         {
-            var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
+            var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen("A");
 
             foreach (var outputMode in Enum.GetValues(typeof(OutputMode)))
@@ -210,6 +233,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
         [InlineData("FgenSingleInstrumentPerSite.pinmap")]
+        [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
+        [InlineData("FgenSingleInstrumentSharedAcrossPinsAndSites.pinmap")]
         public void InitializeBundleWithMultiplePins_PerformConfigureUnsupportedOutputModeThrowsException(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
