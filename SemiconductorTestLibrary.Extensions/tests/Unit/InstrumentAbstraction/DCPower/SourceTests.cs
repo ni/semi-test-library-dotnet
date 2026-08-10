@@ -4362,6 +4362,65 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureCurrentSequenceWithSiteDataAndUpdateMode_SequenceConfiguredSuccessfully(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup: false);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            string sequenceName = "CurrentSequenceWithSiteDataAndUpdateMode";
+            var expectedSequences = new SiteData<double[]>(new double[][]
+            {
+                new[] { 0.5, 1.0, 1.5, 2.0, 2.5 },
+                new[] { 0.6, 1.1, 1.6, 2.1, 2.6 },
+                new[] { 0.7, 1.2, 1.7, 2.2, 2.7 },
+                new[] { 0.8, 1.3, 1.8, 2.3, 2.8 }
+            });
+
+            sessionsBundle.ConfigureCurrentSequence(sequenceName, expectedSequences, sequenceLoopCount: 1, setAsActiveSequence: true, updateMode: updateMode);
+
+            sessionsBundle.Do(sessionInfo =>
+            {
+                Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, sessionInfo.AllChannelsOutput.Source.Output.Function);
+                Assert.Equal(sequenceName, sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence);
+            });
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence(sequenceName);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureCurrentSequenceWithPinSiteDataAndUpdateMode_SequenceConfiguredSuccessfully(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup: false);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            string sequenceName = "CurrentSequenceWithPinSiteDataAndUpdateMode";
+            var expectedSequences = new PinSiteData<double[]>(new Dictionary<string, IDictionary<int, double[]>>()
+            {
+                ["VDD"] = new Dictionary<int, double[]>()
+                {
+                    [0] = new[] { 0.5, 1.0, 1.5, 2.0, 2.5 },
+                    [1] = new[] { 0.6, 1.1, 1.6, 2.1, 2.6 },
+                    [2] = new[] { 0.7, 1.2, 1.7, 2.2, 2.7 },
+                    [3] = new[] { 0.8, 1.3, 1.8, 2.3, 2.8 }
+                }
+            });
+
+            sessionsBundle.ConfigureCurrentSequence(sequenceName, expectedSequences, sequenceLoopCount: 1, setAsActiveSequence: true, updateMode: updateMode);
+
+            sessionsBundle.Do(sessionInfo =>
+            {
+                Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, sessionInfo.AllChannelsOutput.Source.Output.Function);
+                Assert.Equal(sequenceName, sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence);
+            });
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence(sequenceName);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
         public void DifferentSMUDevices_ConfigureAdvancedSequenceWithUpdateMode_SequenceConfiguredSuccessfully(UpdateMode updateMode)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup: false);
