@@ -191,11 +191,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             AssertOutputMode(sessionsBundle, OutputMode.Function);
         }
 
-        [Theory]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap")]
-        public void InitializeBundleWithSinglePin_PerformConfigureUnsupportedOutputModeThrowsException(string pinmap)
+        [Fact]
+        public void InitializeBundleWithSinglePin_PerformConfigureUnsupportedOutputModeThrowsException()
         {
-            var sessionManager = Initialize(pinmap);
+            var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
             var sessionsBundle = sessionManager.Fgen("A");
 
             foreach (var outputMode in Enum.GetValues(typeof(OutputMode)))
