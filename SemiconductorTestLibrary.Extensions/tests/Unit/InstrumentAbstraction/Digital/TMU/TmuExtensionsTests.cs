@@ -685,7 +685,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         #region Get TMU Start Source Tests
 
         [Fact]
-        public void Inititalize_GetTMUStartSource_ReturnsConfiguredChannelString()
+        public void Initialize_GetTMUStartSourceWithTMUAssigned_ReturnsConfiguredChannelString()
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             sessionsBundle.ConfigureTMUStartSource();
@@ -699,12 +699,26 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Inititalize_GetTMUStartSourceWithoutTMUAssigned_ThrowsNISemiconductorTestException()
+        public void Initialize_GetTMUStartSourceWithTMUAssignedBeforeConfiguration_Succeeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            var result = sessionsBundle.GetTMUStartSource();
+
+            Assert.NotNull(result);
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Initialize_GetTMUStartSourceWithoutTMUAssigned_ThrowsNISemiconductorTestException()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager();
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
 
-            Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.GetTMUStartSource());
+            var exception = Record.Exception(() => sessionsBundle.GetTMUStartSource());
+
+            Assert.IsType<NISemiconductorTestException>(exception);
+            Assert.Contains("No TMU resource has been assigned to one or more pins.", exception.Message);
         }
 
         #endregion
@@ -712,7 +726,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         #region Get TMU Stop Source Tests
 
         [Fact]
-        public void Inititalize_GetTMUStopSource_ReturnsConfiguredChannelString()
+        public void Initialize_GetTMUStopSourceWithTMUAssigned_ReturnsConfiguredChannelString()
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             sessionsBundle.ConfigureTMUStopSource();
@@ -726,12 +740,26 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Inititalize_GetTMUStopSourceWithoutTMUAssigned_ThrowsNISemiconductorTestException()
+        public void Initialize_GetTMUStopSourceWithTMUAssignedBeforeConfiguration_Succeeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            var result = sessionsBundle.GetTMUStopSource();
+
+            Assert.NotNull(result);
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Initialize_GetTMUStopSourceWithoutTMUAssigned_ThrowsNISemiconductorTestException()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager();
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
 
-            Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.GetTMUStopSource());
+            var exception = Record.Exception(() => sessionsBundle.GetTMUStopSource());
+
+            Assert.IsType<NISemiconductorTestException>(exception);
+            Assert.Contains("No TMU resource has been assigned to one or more pins.", exception.Message);
         }
 
         #endregion
@@ -741,7 +769,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(TmuSourceEvent.Vol)]
         [InlineData(TmuSourceEvent.Voh)]
-        public void Inititalize_GetTMUStartSourceEvent_ReturnsConfiguredValue(TmuSourceEvent sourceEvent)
+        public void Initialize_GetTMUStartSourceEventWithTMUAssigned_ReturnsConfiguredValue(TmuSourceEvent sourceEvent)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             sessionsBundle.ConfigureTMUStartSourceEvent(sourceEvent);
@@ -753,12 +781,25 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Inititalize_GetTMUStartSourceEventWithoutTMUAssigned_ThrowsNISemiconductorTestException()
+        public void Initialize_GetTMUStartSourceEventWithTMUAssignedBeforeConfiguration_Succeeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.GetTMUStartSourceEvent();
+
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Initialize_GetTMUStartSourceEventWithoutTMUAssigned_ThrowsNISemiconductorTestException()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager();
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
 
-            Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.GetTMUStartSourceEvent());
+            var exception = Record.Exception(() => sessionsBundle.GetTMUStartSourceEvent());
+
+            Assert.IsType<NISemiconductorTestException>(exception);
+            Assert.Contains("No TMU resource has been assigned to one or more pins.", exception.Message);
         }
 
         #endregion
@@ -768,7 +809,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(TmuSourceEvent.Vol)]
         [InlineData(TmuSourceEvent.Voh)]
-        public void Inititalize_GetTMUStopSourceEvent_ReturnsConfiguredValue(TmuSourceEvent sourceEvent)
+        public void Initialize_GetTMUStopSourceEventWithTMUAssigned_ReturnsConfiguredValue(TmuSourceEvent sourceEvent)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             sessionsBundle.ConfigureTMUStopSourceEvent(sourceEvent);
@@ -780,12 +821,25 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Inititalize_GetTMUStopSourceEventWithoutTMUAssigned_ThrowsNISemiconductorTestException()
+        public void Initialize_GetTMUStopSourceEventWithTMUAssignedBeforeConfiguration_Succeeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.GetTMUStopSourceEvent();
+
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Initialize_GetTMUStopSourceEventWithoutTMUAssigned_ThrowsNISemiconductorTestException()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager();
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
 
-            Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.GetTMUStopSourceEvent());
+            var exception = Record.Exception(() => sessionsBundle.GetTMUStopSourceEvent());
+
+            Assert.IsType<NISemiconductorTestException>(exception);
+            Assert.Contains("No TMU resource has been assigned to one or more pins.", exception.Message);
         }
 
         #endregion
@@ -795,7 +849,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(TmuPolarity.RisingEdge)]
         [InlineData(TmuPolarity.FallingEdge)]
-        public void Inititalize_GetTMUStartSourceEventPolarity_ReturnsConfiguredValue(TmuPolarity polarity)
+        public void Initialize_GetTMUStartSourceEventPolarityWithTMUAssigned_ReturnsConfiguredValue(TmuPolarity polarity)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             sessionsBundle.ConfigureTMUStartSourceEventPolarity(polarity);
@@ -807,12 +861,25 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Inititalize_GetTMUStartSourceEventPolarityWithoutTMUAssigned_ThrowsNISemiconductorTestException()
+        public void Initialize_GetTMUStartSourceEventPolarityWithTMUAssignedBeforeConfiguration_Succeeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.GetTMUStartSourceEventPolarity();
+
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Initialize_GetTMUStartSourceEventPolarityWithoutTMUAssigned_ThrowsNISemiconductorTestException()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager();
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
 
-            Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.GetTMUStartSourceEventPolarity());
+            var exception = Record.Exception(() => sessionsBundle.GetTMUStartSourceEventPolarity());
+
+            Assert.IsType<NISemiconductorTestException>(exception);
+            Assert.Contains("No TMU resource has been assigned to one or more pins.", exception.Message);
         }
 
         #endregion
@@ -822,7 +889,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(TmuPolarity.RisingEdge)]
         [InlineData(TmuPolarity.FallingEdge)]
-        public void Inititalize_GetTMUStopSourceEventPolarity_ReturnsConfiguredValue(TmuPolarity polarity)
+        public void Initialize_GetTMUStopSourceEventPolarityWithTMUAssigned_ReturnsConfiguredValue(TmuPolarity polarity)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             sessionsBundle.ConfigureTMUStopSourceEventPolarity(polarity);
@@ -834,12 +901,25 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Inititalize_GetTMUStopSourceEventPolarityWithoutTMUAssigned_ThrowsNISemiconductorTestException()
+        public void Initialize_GetTMUStopSourceEventPolarityWithTMUAssignedBeforeConfiguration_Succeeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.GetTMUStopSourceEventPolarity();
+
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Initialize_GetTMUStopSourceEventPolarityWithoutTMUAssigned_ThrowsNISemiconductorTestException()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager();
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
 
-            Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.GetTMUStopSourceEventPolarity());
+            var exception = Record.Exception(() => sessionsBundle.GetTMUStopSourceEventPolarity());
+
+            Assert.IsType<NISemiconductorTestException>(exception);
+            Assert.Contains("No TMU resource has been assigned to one or more pins.", exception.Message);
         }
 
         #endregion
@@ -847,7 +927,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         #region Get TMU Enabled Tests
 
         [Fact]
-        public void InititalzeAndEnableTMU_GetTMUEnabled_ReturnsTrue()
+        public void InitializeAndEnableTMU_GetTMUEnabledWithTMUAssigned_ReturnsTrue()
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             sessionsBundle.ConfigureTMUStartSource();
@@ -862,7 +942,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void InititalzeAndDisableTMU_GetTMUEnabled_ReturnsFalse()
+        public void InitializeAndDisableTMU_GetTMUEnabledWithTMUAssigned_ReturnsFalse()
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             sessionsBundle.ConfigureTMUStartSource();
@@ -877,12 +957,26 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Inititalize_GetTMUEnabledWithoutTMUAssigned_ThrowsNISemiconductorTestException()
+        public void Initialize_GetTMUEnabledWithTMUAssignedBeforeConfiguration_ReturnsFalse()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            var result = sessionsBundle.GetTMUEnabled();
+
+            Assert.False(result.ExtractSite(0)["C0"]);
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Initialize_GetTMUEnabledWithoutTMUAssigned_ThrowsNISemiconductorTestException()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager();
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
 
-            Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.GetTMUEnabled());
+            var exception = Record.Exception(() => sessionsBundle.GetTMUEnabled());
+
+            Assert.IsType<NISemiconductorTestException>(exception);
+            Assert.Contains("No TMU resource has been assigned to one or more pins.", exception.Message);
         }
 
         #endregion
@@ -892,7 +986,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(TmuArmType.Immediate)]
         [InlineData(TmuArmType.Edge)]
-        public void Inititalize_GetTMUArmType_ReturnsConfiguredValue(TmuArmType armType)
+        public void Initialize_GetTMUArmTypeWithTMUAssigned_ReturnsConfiguredValue(TmuArmType armType)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             sessionsBundle.ConfigureTMUStartSource();
@@ -907,12 +1001,25 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Inititalize_GetTMUArmTypeWithoutTMUAssigned_ThrowsNISemiconductorTestException()
+        public void Initialize_GetTMUArmTypeWithTMUAssignedBeforeConfiguration_Succeeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.GetTMUArmType();
+
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Initialize_GetTMUArmTypeWithoutTMUAssigned_ThrowsNISemiconductorTestException()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager();
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
 
-            Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.GetTMUArmType());
+            var exception = Record.Exception(() => sessionsBundle.GetTMUArmType());
+
+            Assert.IsType<NISemiconductorTestException>(exception);
+            Assert.Contains("No TMU resource has been assigned to one or more pins.", exception.Message);
         }
 
         #endregion
@@ -920,7 +1027,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         #region Get TMU Edge Arm Source Tests
 
         [Fact]
-        public void Inititalize_GetTMUEdgeArmSource_ReturnsConfiguredChannelString()
+        public void Initialize_GetTMUEdgeArmSourceWithTMUAssigned_ReturnsConfiguredChannelString()
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             sessionsBundle.ConfigureTMUEdgeArmSource();
@@ -934,12 +1041,26 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Inititalize_GetTMUEdgeArmSourceWithoutTMUAssigned_ThrowsNISemiconductorTestException()
+        public void Initialize_GetTMUEdgeArmSourceWithTMUAssignedBeforeConfiguration_Succeeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            var result = sessionsBundle.GetTMUEdgeArmSource();
+
+            Assert.NotNull(result);
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Initialize_GetTMUEdgeArmSourceWithoutTMUAssigned_ThrowsNISemiconductorTestException()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager();
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
 
-            Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.GetTMUEdgeArmSource());
+            var exception = Record.Exception(() => sessionsBundle.GetTMUEdgeArmSource());
+
+            Assert.IsType<NISemiconductorTestException>(exception);
+            Assert.Contains("No TMU resource has been assigned to one or more pins.", exception.Message);
         }
 
         #endregion
@@ -949,7 +1070,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(TmuSourceEvent.Vol)]
         [InlineData(TmuSourceEvent.Voh)]
-        public void Inititalize_GetTMUEdgeArmSourceEvent_ReturnsConfiguredValue(TmuSourceEvent sourceEvent)
+        public void Initialize_GetTMUEdgeArmSourceEventWithTMUAssigned_ReturnsConfiguredValue(TmuSourceEvent sourceEvent)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             sessionsBundle.ConfigureTMUEdgeArmSourceEvent(sourceEvent);
@@ -961,12 +1082,25 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Inititalize_GetTMUEdgeArmSourceEventWithoutTMUAssigned_ThrowsNISemiconductorTestException()
+        public void Initialize_GetTMUEdgeArmSourceEventWithTMUAssignedBeforeConfiguration_Succeeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.GetTMUEdgeArmSourceEvent();
+
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Initialize_GetTMUEdgeArmSourceEventWithoutTMUAssigned_ThrowsNISemiconductorTestException()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager();
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
 
-            Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.GetTMUEdgeArmSourceEvent());
+            var exception = Record.Exception(() => sessionsBundle.GetTMUEdgeArmSourceEvent());
+
+            Assert.IsType<NISemiconductorTestException>(exception);
+            Assert.Contains("No TMU resource has been assigned to one or more pins.", exception.Message);
         }
 
         #endregion
@@ -976,7 +1110,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(TmuPolarity.RisingEdge)]
         [InlineData(TmuPolarity.FallingEdge)]
-        public void Inititalize_GetTMUEdgeArmPolarity_ReturnsConfiguredValue(TmuPolarity polarity)
+        public void Initialize_GetTMUEdgeArmPolarityWithTMUAssigned_ReturnsConfiguredValue(TmuPolarity polarity)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             sessionsBundle.ConfigureTMUEdgeArmPolarity(polarity);
@@ -988,12 +1122,25 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Inititalize_GetTMUEdgeArmPolarityWithoutTMUAssigned_ThrowsNISemiconductorTestException()
+        public void Initialize_GetTMUEdgeArmPolarityWithTMUAssignedBeforeConfiguration_Succeeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.GetTMUEdgeArmPolarity();
+
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Initialize_GetTMUEdgeArmPolarityWithoutTMUAssigned_ThrowsNISemiconductorTestException()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager();
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
 
-            Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.GetTMUEdgeArmPolarity());
+            var exception = Record.Exception(() => sessionsBundle.GetTMUEdgeArmPolarity());
+
+            Assert.IsType<NISemiconductorTestException>(exception);
+            Assert.Contains("No TMU resource has been assigned to one or more pins.", exception.Message);
         }
 
         #endregion
@@ -1004,7 +1151,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(100)]
         [InlineData(1)]
         [InlineData(50)]
-        public void Inititalize_GetTMUSamplesToAcquire_ReturnsConfiguredValue(long samplesToAcquire)
+        public void Initialize_GetTMUSamplesToAcquireWithTMUAssigned_ReturnsConfiguredValue(long samplesToAcquire)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             sessionsBundle.ConfigureTMUSamplesToAcquire(samplesToAcquire);
@@ -1016,12 +1163,25 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Inititalize_GetTMUSamplesToAcquireWithoutTMUAssigned_ThrowsNISemiconductorTestException()
+        public void Initialize_GetTMUSamplesToAcquireWithTMUAssignedBeforeConfiguration_Succeeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.GetTMUSamplesToAcquire();
+
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Initialize_GetTMUSamplesToAcquireWithoutTMUAssigned_ThrowsNISemiconductorTestException()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager();
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
 
-            Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.GetTMUSamplesToAcquire());
+            var exception = Record.Exception(() => sessionsBundle.GetTMUSamplesToAcquire());
+
+            Assert.IsType<NISemiconductorTestException>(exception);
+            Assert.Contains("No TMU resource has been assigned to one or more pins.", exception.Message);
         }
 
         #endregion
@@ -1031,7 +1191,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(10.0)]
         [InlineData(0.001)]
-        public void Inititalize_GetTMUSampleTimeout_ReturnsConfiguredValue(double timeout)
+        public void Initialize_GetTMUSampleTimeoutWithTMUAssigned_ReturnsConfiguredValue(double timeout)
         {
             var sessionsBundle = InititalzeAndCreateBundle();
             sessionsBundle.ConfigureTMUSampleTimeout(timeout);
@@ -1044,12 +1204,25 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Inititalize_GetTMUSampleTimeoutWithoutTMUAssigned_ThrowsNISemiconductorTestException()
+        public void Initialize_GetTMUSampleTimeoutWithTMUAssignedBeforeConfiguration_Succeeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.GetTMUSampleTimeout();
+
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Initialize_GetTMUSampleTimeoutWithoutTMUAssigned_ThrowsNISemiconductorTestException()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager();
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
 
-            Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.GetTMUSampleTimeout());
+            var exception = Record.Exception(() => sessionsBundle.GetTMUSampleTimeout());
+
+            Assert.IsType<NISemiconductorTestException>(exception);
+            Assert.Contains("No TMU resource has been assigned to one or more pins.", exception.Message);
         }
 
         #endregion
@@ -1057,7 +1230,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         #region Get TMU Start Input Debounce Time Tests
 
         [Fact]
-        public void Inititalize_GetTMUStartInputDebounceTime_ReturnsNonNegativeValue()
+        public void Initialize_GetTMUStartInputDebounceTimeWithTMUAssigned_ReturnsNonNegativeValue()
         {
             var sessionsBundle = InititalzeAndCreateBundle();
 
@@ -1068,12 +1241,25 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Inititalize_GetTMUStartInputDebounceTimeWithoutTMUAssigned_ThrowsNISemiconductorTestException()
+        public void Initialize_GetTMUStartInputDebounceTimeWithTMUAssignedBeforeConfiguration_Succeeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.GetTMUStartInputDebounceTime();
+
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Initialize_GetTMUStartInputDebounceTimeWithoutTMUAssigned_ThrowsNISemiconductorTestException()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager();
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
 
-            Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.GetTMUStartInputDebounceTime());
+            var exception = Record.Exception(() => sessionsBundle.GetTMUStartInputDebounceTime());
+
+            Assert.IsType<NISemiconductorTestException>(exception);
+            Assert.Contains("No TMU resource has been assigned to one or more pins.", exception.Message);
         }
 
         #endregion
@@ -1081,7 +1267,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         #region Get TMU Stop Input Debounce Time Tests
 
         [Fact]
-        public void Inititalize_GetTMUStopInputDebounceTime_ReturnsNonNegativeValue()
+        public void Initialize_GetTMUStopInputDebounceTimeWithTMUAssigned_ReturnsNonNegativeValue()
         {
             var sessionsBundle = InititalzeAndCreateBundle();
 
@@ -1092,12 +1278,25 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Inititalize_GetTMUStopInputDebounceTimeWithoutTMUAssigned_ThrowsNISemiconductorTestException()
+        public void Initialize_GetTMUStopInputDebounceTimeWithTMUAssignedBeforeConfiguration_Succeeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.GetTMUStopInputDebounceTime();
+
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Initialize_GetTMUStopInputDebounceTimeWithoutTMUAssigned_ThrowsNISemiconductorTestException()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager();
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
 
-            Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.GetTMUStopInputDebounceTime());
+            var exception = Record.Exception(() => sessionsBundle.GetTMUStopInputDebounceTime());
+
+            Assert.IsType<NISemiconductorTestException>(exception);
+            Assert.Contains("No TMU resource has been assigned to one or more pins.", exception.Message);
         }
 
         #endregion
@@ -1105,14 +1304,25 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         #region Get TMU Count Tests
 
         [Fact]
-        public void Inititalize_GetTMUCount_ReturnsPositiveValue()
+        public void Initialize_GetTMUCountWithTMUAssigned_ReturnsAtLeastTwoTMUs()
         {
             var sessionsBundle = InititalzeAndCreateBundle();
 
             var result = sessionsBundle.GetTMUCount();
 
-            Assert.True(result.ExtractSite(0)["C0"] > 0);
+            Assert.True(result.ExtractSite(0)["C0"] >= 2);
             sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Initialize_GetTMUCountWithoutTMUAssigned_ReturnsAtLeastTwoTMUs()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager();
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+
+            var result = sessionsBundle.GetTMUCount();
+
+            Assert.True(result.ExtractSite(0)["C0"] >= 2);
         }
 
         #endregion
