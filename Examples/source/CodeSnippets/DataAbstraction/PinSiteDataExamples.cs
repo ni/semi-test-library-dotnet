@@ -402,7 +402,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // VCC1   |  0.0   |  0.0   |  0.0
             // VCC2   |  0.0   |  0.0   |  0.0
 
-            // Use AddSite to add an additional site to pins(VDET, VCC1).
+            // Use AddSite to add an additional site to pins (VDET, VCC1).
             // Site 3 is added to pins VDET, VCC1 and initialized with the default value (0.0 for double).
             // Note: Using this overload can result in a jagged PinSiteData object where different
             // pins have different numbers of sites. VCC2 does not have Site 3 since pins VDET and VCC1 were the only pins
