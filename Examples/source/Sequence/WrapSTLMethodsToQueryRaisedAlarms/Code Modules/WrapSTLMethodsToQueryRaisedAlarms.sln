@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.37411.7
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WrapSTLMethodsToQueryRaisedAlarms", "WrapSTLMethodsToQueryRaisedAlarms.csproj", "{B3AFC3DE-19BC-4F4F-8A10-E2BA25C5A9E0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B3AFC3DE-19BC-4F4F-8A10-E2BA25C5A9E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3AFC3DE-19BC-4F4F-8A10-E2BA25C5A9E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3AFC3DE-19BC-4F4F-8A10-E2BA25C5A9E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3AFC3DE-19BC-4F4F-8A10-E2BA25C5A9E0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {164692B5-2583-480F-B296-AE9C5B2A970A}
+	EndGlobalSection
+EndGlobal
