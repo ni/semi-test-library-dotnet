@@ -32,11 +32,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         #region ConfigureOutputEnabled tests
 
-        [Theory]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap")]
-        public void InitializeBundleWithSinglePin_PerformConfigureOutputEnabledOperation_Succeeds(string pinmap)
+        [Fact]
+        public void InitializeBundleWithSinglePin_PerformConfigureOutputEnabledOperation_Succeeds()
         {
-            var sessionManager = Initialize(pinmap);
+            var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
             var sessionsBundle = sessionManager.Fgen("A");
 
             sessionsBundle.ConfigureOutputEnabled(false);
@@ -101,11 +100,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         #region ConfigureOutputImpedance tests
 
-        [Theory]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap")]
-        public void InitializeBundleWithSinglePin_PerformConfigureOutputImpedanceOperation_Succeeds(string pinmap)
+        [Fact]
+        public void InitializeBundleWithSinglePin_PerformConfigureOutputImpedanceOperation_Succeeds()
         {
-            var sessionManager = Initialize(pinmap);
+            var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
             var sessionsBundle = sessionManager.Fgen("A");
 
             sessionsBundle.ConfigureOutputImpedance(50);
@@ -169,11 +167,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         #endregion
 
         #region ConfigureOutputMode tests
-        [Theory]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap")]
-        public void InitializeBundleWithSinglePin_PerformConfigureOutputModeOperation_Succeeds(string pinmap)
+        [Fact]
+        public void InitializeBundleWithSinglePin_PerformConfigureOutputModeOperation_Succeeds()
         {
-            var sessionManager = Initialize(pinmap);
+            var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
             var sessionsBundle = sessionManager.Fgen("A");
 
             sessionsBundle.ConfigureOutputMode(OutputMode.Function);
