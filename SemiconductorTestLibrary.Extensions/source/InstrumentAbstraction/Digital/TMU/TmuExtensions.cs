@@ -218,6 +218,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 {
                     ConfigurePeriodMeasurementForSitePin(sessionInfo, sitePinInfo, edgeType, samplesToAcquire, settings);
                 }
+                if (settings is TmuEdgeArmSettings edgeSettings && edgeSettings.SourcePin == sitePinInfo.PinName)
+                {
+                    // Additional configuration for edge arm settings can be done here using edgeSettings
+                }
             });
         }
 
