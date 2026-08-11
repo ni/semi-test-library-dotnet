@@ -107,12 +107,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="vol">The vol value to configure.</param>
         /// <param name="voh">The voh value to configure.</param>
         /// <param name="vterm">The vterm value to configure.</param>
-        public static void ConfigureVoltageLevels(this DigitalSessionsBundle sessionsBundle, double vil, double vih, double vol, double voh, double vterm)
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        public static void ConfigureVoltageLevels(this DigitalSessionsBundle sessionsBundle, double vil, double vih, double vol, double voh, double vterm, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.PinSet.DigitalLevels.ConfigureVoltageLevels(vil, vih, vol, voh, vterm);
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
