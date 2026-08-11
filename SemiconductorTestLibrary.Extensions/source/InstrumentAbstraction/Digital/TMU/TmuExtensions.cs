@@ -36,6 +36,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="pinNames">Specific pins to initiate the TMU measurement on. When <c>null</c>, all pins are targeted.</param>
+        /// <exception cref="NISemiconductorTestException">
+        /// Thrown when one or more of the requested <paramref name="pinNames"/> are <c>null</c>, empty, or not present in the sessions bundle.
+        /// </exception>
         public static void TMUInitiate(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -68,6 +71,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="pinNames">Specific pins for which to enable the assigned TMU resource. When <c>null</c>, all pins are targeted.</param>
+        /// <exception cref="NISemiconductorTestException">
+        /// Thrown when one or more of the requested <paramref name="pinNames"/> are <c>null</c>, empty, or not present in the sessions bundle.
+        /// </exception>
         public static void EnableTMU(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -100,6 +106,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="pinNames">Specific pins for which to disable the assigned TMU resource. When <c>null</c>, all pins are targeted.</param>
+        /// <exception cref="NISemiconductorTestException">
+        /// Thrown when one or more of the requested <paramref name="pinNames"/> are <c>null</c>, empty, or not present in the sessions bundle.
+        /// </exception>
         public static void DisableTMU(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -131,6 +140,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="pinNames">Specific pins for which to abort the operation on the associated TMU resource. When <c>null</c>, all pins are targeted.</param>
+        /// <exception cref="NISemiconductorTestException">
+        /// Thrown when one or more of the requested <paramref name="pinNames"/> are <c>null</c>, empty, or not present in the sessions bundle.
+        /// </exception>
         public static void TMUAbort(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -165,6 +177,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="pinNames">The pins to assign a TMU resource to. When <c>null</c>, all pins are targeted.</param>
+        /// <exception cref="NISemiconductorTestException">
+        /// Thrown when one or more of the requested <paramref name="pinNames"/> are <c>null</c>, empty, or not present in the sessions bundle,
+        /// or when there are not enough TMU resources available to assign to one or more of the targeted pins.
+        /// </exception>
         public static void AssignTMUResources(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -205,6 +221,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="pinNames">Pins for which the assigned TMU should be cleared. When <c>null</c>, all pins are targeted.</param>
+        /// <exception cref="NISemiconductorTestException">
+        /// Thrown when one or more of the requested <paramref name="pinNames"/> are <c>null</c>, empty, or not present in the sessions bundle,
+        /// or when one or more of the assigned TMU resources are still reserved at the driver level.
+        /// </exception>
         public static void ClearTMUAssignment(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -757,6 +777,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="timeoutInSeconds">Maximum time (in seconds) to wait for the measurement to complete.</param>
         /// <param name="pinNames">The specific pins to fetch the TMU measurement for. When <c>null</c>, all pins are targeted.</param>
         /// <returns>The averaged measurement value fetched from the TMU resource, for each pin and site.</returns>
+        /// <exception cref="NISemiconductorTestException">
+        /// Thrown when one or more of the requested <paramref name="pinNames"/> are <c>null</c>, empty, or not present in the sessions bundle.
+        /// </exception>
         public static PinSiteData<double> FetchAveragedTMUMeasurement(this DigitalSessionsBundle sessionsBundle, double timeoutInSeconds = 5, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -787,6 +810,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <param name="pinNames">The pin names to configure. When <c>null</c>, all pins are targeted.</param>
+        /// <exception cref="NISemiconductorTestException">
+        /// Thrown when one or more of the requested <paramref name="pinNames"/> are <c>null</c>, empty, or not present in the sessions bundle.
+        /// </exception>
         public static void ConfigureTMUStartSource(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -817,6 +843,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <param name="pinNames">The pin names to configure. When <c>null</c>, all pins are targeted.</param>
+        /// <exception cref="NISemiconductorTestException">
+        /// Thrown when one or more of the requested <paramref name="pinNames"/> are <c>null</c>, empty, or not present in the sessions bundle.
+        /// </exception>
         public static void ConfigureTMUStopSource(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -848,6 +877,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <param name="sourceEvent">The source event type.</param>
         /// <param name="pinNames">The pin names to configure. When <c>null</c>, all pins are targeted.</param>
+        /// <exception cref="NISemiconductorTestException">
+        /// Thrown when one or more of the requested <paramref name="pinNames"/> are <c>null</c>, empty, or not present in the sessions bundle.
+        /// </exception>
         public static void ConfigureTMUStartSourceEvent(this DigitalSessionsBundle sessionsBundle, TmuSourceEvent sourceEvent, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -880,6 +912,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <param name="sourceEvent">The source event type.</param>
         /// <param name="pinNames">The pin names to configure. When <c>null</c>, all pins are targeted.</param>
+        /// <exception cref="NISemiconductorTestException">
+        /// Thrown when one or more of the requested <paramref name="pinNames"/> are <c>null</c>, empty, or not present in the sessions bundle.
+        /// </exception>
         public static void ConfigureTMUStopSourceEvent(this DigitalSessionsBundle sessionsBundle, TmuSourceEvent sourceEvent, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -912,6 +947,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <param name="polarity">The source event polarity.</param>
         /// <param name="pinNames">The pin names to configure. When <c>null</c>, all pins are targeted.</param>
+        /// <exception cref="NISemiconductorTestException">
+        /// Thrown when one or more of the requested <paramref name="pinNames"/> are <c>null</c>, empty, or not present in the sessions bundle.
+        /// </exception>
         public static void ConfigureTMUStartSourceEventPolarity(this DigitalSessionsBundle sessionsBundle, TmuPolarity polarity, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -944,6 +982,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <param name="polarity">The edge polarity.</param>
         /// <param name="pinNames">The pin names to configure. When <c>null</c>, all pins are targeted.</param>
+        /// <exception cref="NISemiconductorTestException">
+        /// Thrown when one or more of the requested <paramref name="pinNames"/> are <c>null</c>, empty, or not present in the sessions bundle.
+        /// </exception>
         public static void ConfigureTMUStopSourceEventPolarity(this DigitalSessionsBundle sessionsBundle, TmuPolarity polarity, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -1013,6 +1054,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <param name="pinNames">The pin names to configure. When <c>null</c>, all pins are targeted.</param>
+        /// <exception cref="NISemiconductorTestException">
+        /// Thrown when one or more of the requested <paramref name="pinNames"/> are <c>null</c>, empty, or not present in the sessions bundle.
+        /// </exception>
         public static void ConfigureTMUEdgeArmSource(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -1045,6 +1089,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <param name="sourceEvent">The source event type.</param>
         /// <param name="pinNames">The pin names to configure. When <c>null</c>, all pins are targeted.</param>
+        /// <exception cref="NISemiconductorTestException">
+        /// Thrown when one or more of the requested <paramref name="pinNames"/> are <c>null</c>, empty, or not present in the sessions bundle.
+        /// </exception>
         public static void ConfigureTMUEdgeArmSourceEvent(this DigitalSessionsBundle sessionsBundle, TmuSourceEvent sourceEvent, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -1078,6 +1125,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <param name="polarity">The edge polarity.</param>
         /// <param name="pinNames">The pin names to configure. When <c>null</c>, all pins are targeted.</param>
+        /// <exception cref="NISemiconductorTestException">
+        /// Thrown when one or more of the requested <paramref name="pinNames"/> are <c>null</c>, empty, or not present in the sessions bundle.
+        /// </exception>
         public static void ConfigureTMUEdgeArmPolarity(this DigitalSessionsBundle sessionsBundle, TmuPolarity polarity, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -1110,6 +1160,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <param name="samplesToAcquire">The number of samples to acquire.</param>
         /// <param name="pinNames">The pin names to configure. When <c>null</c>, all pins are targeted.</param>
+        /// <exception cref="NISemiconductorTestException">
+        /// Thrown when one or more of the requested <paramref name="pinNames"/> are <c>null</c>, empty, or not present in the sessions bundle.
+        /// </exception>
         public static void ConfigureTMUSamplesToAcquire(this DigitalSessionsBundle sessionsBundle, long samplesToAcquire, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
@@ -1143,6 +1196,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <param name="timeoutInSeconds">The timeout in seconds (must be greater than 0).</param>
         /// <param name="pinNames">The pin names to configure. When <c>null</c>, all pins are targeted.</param>
+        /// <exception cref="NISemiconductorTestException">
+        /// Thrown when one or more of the requested <paramref name="pinNames"/> are <c>null</c>, empty, or not present in the sessions bundle.
+        /// </exception>
         public static void ConfigureTMUSampleTimeout(this DigitalSessionsBundle sessionsBundle, double timeoutInSeconds, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
