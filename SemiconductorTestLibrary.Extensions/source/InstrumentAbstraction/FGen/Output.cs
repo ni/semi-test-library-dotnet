@@ -89,7 +89,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         }
 
         /// <summary>
-        /// The Configures the output mode of the signal generator.
+        /// Configures the output mode of the signal generator.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
         /// <param name="outputMode">Specifies the output mode that you want the signal generator to use.</param>
