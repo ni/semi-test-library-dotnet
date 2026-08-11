@@ -24,7 +24,7 @@ The example demonstrates several features of TSM and STL in the context of a tes
 ### Prerequisites
 
 1. If you want to use the example you must have the following software installed:
-   - STS Software 26.5.0 or later (see note below for using with STS Software 24.5)
+   - STS Software 25.0.0 or later (see note below for using with STS Software 24.5)
 2. To run the test program you must also have:
    - Two NI-Digital Pattern instruments named HSD_6570_C1_S02 and HSD_6570_C1_S04, respectively, as defined in Measurement & Automation Explorer (MAX).
    - Two NI-DCPower instruments named SMU_4143_C1_S06 and SMU_4143_C1_S07, respectively, as defined in MAX.
