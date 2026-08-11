@@ -1526,6 +1526,163 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
         }
 
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void SessionsInitialized_ConfigureSingleLevelWithUpdateMode_ValueCorrectlySet(UpdateMode updateMode)
+        {
+            var tsmContext = CreateTSMContext("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+            var sessionManager = new TSMSessionManager(tsmContext);
+            Initialize(tsmContext);
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            sessionsBundle.ConfigureSingleLevel(LevelsAndTiming.LevelType.Vih, levelValue: 3.5, updateMode: updateMode);
+
+            sessionsBundle.Do(sessionInfo =>
+            {
+                Assert.Equal(3.5, sessionInfo.PinSet.DigitalLevels.Vih, 1);
+            });
+            Close(tsmContext);
+        }
+
+// 1b) ConfigureSingleLevel overload (per-site values) with each UpdateMode
+[Theory]
+[InlineData(UpdateMode.Deferred)]
+[InlineData(UpdateMode.Commit)]
+[InlineData(UpdateMode.Immediate)]
+public void SessionsInitialized_ConfigurePerSiteSingleLevelWithUpdateMode_ValueCorrectlySet(UpdateMode updateMode)
+{
+    var tsmContext = CreateTSMContext("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+    var sessionManager = new TSMSessionManager(tsmContext);
+    Initialize(tsmContext);
+
+    var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+    var levels = new SiteData<double>(new Dictionary<int, double>() { [0] = 0.1, [1] = 0.2 });
+    sessionsBundle.ConfigureSingleLevel(LevelsAndTiming.LevelType.Vil, levels, updateMode: updateMode);
+
+    Assert.Equal(0.1, sessionsBundle.InstrumentSessions.ElementAt(0).PinSet.DigitalLevels.Vil, 1);
+    Assert.Equal(0.2, sessionsBundle.InstrumentSessions.ElementAt(1).PinSet.DigitalLevels.Vil, 1);
+    Close(tsmContext);
+}
+
+        // 2) ConfigureVoltageLevels with each UpdateMode
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void SessionsInitialized_ConfigureVoltageLevelsWithUpdateMode_ValueCorrectlySet(UpdateMode updateMode)
+        {
+            var tsmContext = CreateTSMContext("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+            var sessionManager = new TSMSessionManager(tsmContext);
+            Initialize(tsmContext);
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            sessionsBundle.ConfigureVoltageLevels(vil: 1, vih: 3.6, vol: 1.5, voh: 3, vterm: 2, updateMode: updateMode);
+
+            sessionsBundle.Do(sessionInfo =>
+            {
+                Assert.Equal(1, sessionInfo.PinSet.DigitalLevels.Vil, 1);
+                Assert.Equal(3.6, sessionInfo.PinSet.DigitalLevels.Vih, 1);
+                Assert.Equal(1.5, sessionInfo.PinSet.DigitalLevels.Vol, 1);
+                Assert.Equal(3, sessionInfo.PinSet.DigitalLevels.Voh, 1);
+                Assert.Equal(2, sessionInfo.PinSet.DigitalLevels.Vterm, 1);
+            });
+            Close(tsmContext);
+        }
+
+        // 3) ConfigureTerminationMode with each UpdateMode
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void SessionsInitialized_ConfigureTerminationModeWithUpdateMode_ValueCorrectlySet(UpdateMode updateMode)
+        {
+            var tsmContext = CreateTSMContext("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+            var sessionManager = new TSMSessionManager(tsmContext);
+            Initialize(tsmContext);
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            sessionsBundle.ConfigureTerminationMode(TerminationMode.Vterm, updateMode: updateMode);
+
+            sessionsBundle.Do(sessionInfo =>
+            {
+                Assert.Equal(TerminationMode.Vterm, sessionInfo.PinSet.DigitalLevels.TerminationMode);
+            });
+            Close(tsmContext);
+        }
+
+        // 4) ConfigureTimeSetCompareEdgesStrobe (single value) with each UpdateMode
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void SessionsInitialized_ConfigureTimeSetCompareEdgesStrobeWithUpdateMode_ValueCorrectlySet(UpdateMode updateMode)
+        {
+            var tsmContext = CreateTSMContext("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+            var sessionManager = new TSMSessionManager(tsmContext);
+            Initialize(tsmContext);
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            sessionsBundle.ConfigureTimeSetCompareEdgesStrobe("TS_SW", compareEdge: 5e-6, updateMode: updateMode);
+
+            sessionsBundle.Do(sessionInfo =>
+            {
+                Assert.Equal(5e-6, sessionInfo.Session.Timing.GetTimeSet("TS_SW").GetEdge(sessionInfo.PinSet, TimeSetEdge.CompareStrobe).TotalSeconds);
+            });
+            Close(tsmContext);
+        }
+
+        // 4b) ConfigureTimeSetCompareEdgesStrobe overload (per-site) with each UpdateMode
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void SessionsInitialized_ConfigurePerSiteTimeSetCompareEdgesStrobeWithUpdateMode_ValueCorrectlySet(UpdateMode updateMode)
+        {
+            var tsmContext = CreateTSMContext("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+            var sessionManager = new TSMSessionManager(tsmContext);
+            Initialize(tsmContext);
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var compareEdges = new SiteData<double>(new Dictionary<int, double>() { [0] = 5e-6, [1] = 8e-6 });
+            sessionsBundle.ConfigureTimeSetCompareEdgesStrobe("TS_SW", compareEdges, updateMode: updateMode);
+
+            var sessionInfo0 = sessionsBundle.InstrumentSessions.ElementAt(0);
+            Assert.Equal(5e-6, sessionInfo0.Session.Timing.GetTimeSet("TS_SW").GetEdge(sessionInfo0.PinSet, TimeSetEdge.CompareStrobe).TotalSeconds);
+            var sessionInfo1 = sessionsBundle.InstrumentSessions.ElementAt(1);
+            Assert.Equal(8e-6, sessionInfo1.Session.Timing.GetTimeSet("TS_SW").GetEdge(sessionInfo1.PinSet, TimeSetEdge.CompareStrobe).TotalSeconds);
+            Close(tsmContext);
+        }
+
+        // 4c) ConfigureTimeSetCompareEdgesStrobe overload (per-site per-pin) with each UpdateMode
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void SessionsInitialized_ConfigurePerSitePerPinTimeSetCompareEdgesStrobeWithUpdateMode_ValueCorrectlySet(UpdateMode updateMode)
+        {
+            var tsmContext = CreateTSMContext("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+            var sessionManager = new TSMSessionManager(tsmContext);
+            Initialize(tsmContext);
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            var compareEdges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["C0"] = new Dictionary<int, double>() { [0] = 5e-6, [1] = 7e-6 },
+                ["C1"] = new Dictionary<int, double>() { [0] = 6e-6, [1] = 8e-6 }
+            });
+            sessionsBundle.ConfigureTimeSetCompareEdgesStrobe("TS_SW", compareEdges, updateMode: updateMode);
+
+            var session0 = sessionsBundle.InstrumentSessions.ElementAt(0).Session;
+            Assert.Equal(5e-6, session0.Timing.GetTimeSet("TS_SW").GetEdge(session0.PinAndChannelMap.GetPinSet("site0/C0"), TimeSetEdge.CompareStrobe).TotalSeconds);
+            Assert.Equal(6e-6, session0.Timing.GetTimeSet("TS_SW").GetEdge(session0.PinAndChannelMap.GetPinSet("site0/C1"), TimeSetEdge.CompareStrobe).TotalSeconds);
+            var session1 = sessionsBundle.InstrumentSessions.ElementAt(1).Session;
+            Assert.Equal(7e-6, session1.Timing.GetTimeSet("TS_SW").GetEdge(session1.PinAndChannelMap.GetPinSet("site1/C0"), TimeSetEdge.CompareStrobe).TotalSeconds);
+            Assert.Equal(8e-6, session1.Timing.GetTimeSet("TS_SW").GetEdge(session1.PinAndChannelMap.GetPinSet("site1/C1"), TimeSetEdge.CompareStrobe).TotalSeconds);
+            Close(tsmContext);
+        }
+
         /// <summary>
         /// Removes a temporary file, if it exists.
         /// This method is intended to be called at the end of the unit test that saving information to a temporary file.
