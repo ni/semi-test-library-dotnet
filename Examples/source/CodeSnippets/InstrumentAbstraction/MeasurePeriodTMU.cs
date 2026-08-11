@@ -42,22 +42,26 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
 
             // Step 1: Query TSM session manager to get the digital sessions bundle associated with the "C0" pin.
             var sessionManager = new TSMSessionManager(tsmContext);
-            var digitalPins = sessionManager.Digital("C0");
+            var digitalPins = sessionManager.Digital(new[] { "C0", "C1" });
 
             // Step 2: (Mandatory) Assign TMU resources to the digital pins.
             // This assign's a TMU resource to each of the pins in the digital sessions bundle object,
-            // in this case just the "C0" pin.
             // Note that the TMU hardware resource is not reserved until step 3.
             digitalPins.AssignTMUResources();
+
+            var tmuArmSetting = TmuArmSettings.Edge(
+                source: "C0",
+                sourceEvent: TmuSourceEvent.Vol,
+                polarity: TmuPolarity.RisingEdge);
 
             // Step 3: Configure the TMU to perform a period rise measurement.
             // - edgeType: Trigger on rising edge transitions.
             // - samplesToAcquire: Number of period measurements to collect.
-            // - armType: Start measurement immediately without waiting for an arm event.
+            // - settings: TMU arm settings for the measurement.
             digitalPins.ConfigurePeriodMeasurement(
                 edgeType: TmuPolarity.RisingEdge,
                 samplesToAcquire: numberOfSamples,
-                armType: TmuArmType.Immediate);
+                settings: tmuArmSetting);
 
             // Step 4: Initiate the TMU measurement.
             digitalPins.TMUInitiate();
