@@ -682,7 +682,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
         /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
         /// - <see cref="TmuAttributes.TmuStopSource"/> = same pin as start source<br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
+        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
         /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
         /// </para>
         /// <para>
@@ -691,7 +691,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
         /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
         /// - <see cref="TmuAttributes.TmuStopSource"/> = same pin as start source<br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
+        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
         /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
         /// </para>
         /// <para>
@@ -729,7 +729,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                                 startEvent: TmuSourceEvent.Voh,
                                 startPolarity: TmuPolarity.RisingEdge,
                                 stopSource: channel,
-                                stopEvent: TmuSourceEvent.Voh,
+                                stopEvent: TmuSourceEvent.Vol,
                                 stopPolarity: TmuPolarity.FallingEdge,
                                 samplesToAcquire: samplesToAcquire,
                                 armType: armType);
@@ -741,7 +741,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                                 startEvent: TmuSourceEvent.Vol,
                                 startPolarity: TmuPolarity.FallingEdge,
                                 stopSource: channel,
-                                stopEvent: TmuSourceEvent.Vol,
+                                stopEvent: TmuSourceEvent.Voh,
                                 stopPolarity: TmuPolarity.RisingEdge,
                                 samplesToAcquire: samplesToAcquire,
                                 armType: armType);
