@@ -651,7 +651,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// For channels configured with OnMeasureTrigger, the incompliance result is obtained via Fetch.
         /// For channels configured with OnDemand, the incompliance result is queried via QueryInCompliance.
         /// </remarks>
-        public static Tuple<double[], double[], bool[]> MeasureVoltageAndCurrentWithInCompliance(this DCPowerSessionInformation sessionInfo)
+        public static Tuple<double[], double[], bool[]> MeasureVoltageCurrentAndInCompliance(this DCPowerSessionInformation sessionInfo)
         {
             var session = sessionInfo.Session;
             List<SitePinInfo> listOfChannelsToMeasure = sessionInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations).ToList();
@@ -880,7 +880,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionsBundle.ClearBacklogIfSoftwareEdgeTrigger();
             return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo =>
             {
-                var results = sessionInfo.MeasureVoltageAndCurrentWithInCompliance();
+                var results = sessionInfo.MeasureVoltageCurrentAndInCompliance();
                 return measurementSelector(results).Zip(results.Item3, (measurement, inCompliance) => new Tuple<double, bool>(measurement, inCompliance)).ToArray();
             });
         }
