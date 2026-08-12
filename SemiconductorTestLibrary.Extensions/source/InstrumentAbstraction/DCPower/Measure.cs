@@ -451,17 +451,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <returns>The pin-site aware voltage measurements, where each <see cref="double"/> array contains all fetched samples for that pin-site and has a length equal to <paramref name="pointsToFetch"/>.</returns>
         public static PinSiteData<double[]> FetchAndPublishVoltage(this DCPowerSessionsBundle sessionsBundle, string publishDataIdFormatter, int pointsToFetch = 1, double timeoutInSeconds = 10)
         {
-            var fetchResults = sessionsBundle.FetchMeasurement(pointsToFetch, timeoutInSeconds);
-            var voltageMeasurements = fetchResults.Select(samples => samples.Select(sample => sample.VoltageMeasurement).ToArray());
-
-            for (int i = 0; i < pointsToFetch; i++)
-            {
-                var voltageMeasurement = voltageMeasurements.Select(samples => samples[i]);
-                string publishedDataId = string.Format(CultureInfo.InvariantCulture, publishDataIdFormatter, i);
-                sessionsBundle.TSMContext.PublishResults(voltageMeasurement, publishedDataId);
-            }
-
-            return voltageMeasurements;
+            return FetchAndPublishMeasurement(sessionsBundle, publishDataIdFormatter, pointsToFetch, timeoutInSeconds, sample => sample.VoltageMeasurement);
         }
 
         /// <summary>
@@ -480,17 +470,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <returns>The pin-site aware current measurements, where each <see cref="double"/> array contains all fetched samples for that pin-site and has a length equal to <paramref name="pointsToFetch"/>.</returns>
         public static PinSiteData<double[]> FetchAndPublishCurrent(this DCPowerSessionsBundle sessionsBundle, string publishDataIdFormatter, int pointsToFetch = 1, double timeoutInSeconds = 10)
         {
-            var fetchResults = sessionsBundle.FetchMeasurement(pointsToFetch, timeoutInSeconds);
-            var currentMeasurements = fetchResults.Select(samples => samples.Select(sample => sample.CurrentMeasurement).ToArray());
-
-            for (int i = 0; i < pointsToFetch; i++)
-            {
-                var currentMeasurement = currentMeasurements.Select(samples => samples[i]);
-                string publishedDataId = string.Format(CultureInfo.InvariantCulture, publishDataIdFormatter, i);
-                sessionsBundle.TSMContext.PublishResults(currentMeasurement, publishedDataId);
-            }
-
-            return currentMeasurements;
+            return FetchAndPublishMeasurement(sessionsBundle, publishDataIdFormatter, pointsToFetch, timeoutInSeconds, sample => sample.CurrentMeasurement);
         }
 
         private static void ClearBacklogIfSoftwareEdgeTrigger(this DCPowerSessionsBundle sessionsBundle)
@@ -831,6 +811,31 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             int pointsToFetch = fetchWaveformLength == 0 ? channelOutput.Measurement.FetchBacklog : Convert.ToInt32(Math.Round(fetchWaveformLength / deltaTime));
             var result = session.Measurement.Fetch(channelString, timeout: PrecisionTimeSpan.FromSeconds(fetchWaveformLength + 1), pointsToFetch);
             return new DCPowerWaveformResults(result, deltaTime);
+        }
+
+        private static PinSiteData<double[]> FetchAndPublishMeasurement(
+            this DCPowerSessionsBundle sessionsBundle,
+            string publishDataIdFormatter,
+            int pointsToFetch,
+            double timeoutInSeconds,
+            Func<SingleDCPowerFetchResult, double> measurementSelector)
+        {
+            if (string.IsNullOrEmpty(publishDataIdFormatter))
+            {
+                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_InvalidPublishDataIdFormatter));
+            }
+
+            var fetchResults = sessionsBundle.FetchMeasurement(pointsToFetch, timeoutInSeconds);
+            var measurements = fetchResults.Select(samples => samples.Select(measurementSelector).ToArray());
+
+            for (int i = 0; i < pointsToFetch; i++)
+            {
+                var measurement = measurements.Select(samples => samples[i]);
+                string publishedDataId = string.Format(CultureInfo.InvariantCulture, publishDataIdFormatter, i);
+                sessionsBundle.TSMContext.PublishResults(measurement, publishedDataId);
+            }
+
+            return measurements;
         }
 
         #endregion private methods

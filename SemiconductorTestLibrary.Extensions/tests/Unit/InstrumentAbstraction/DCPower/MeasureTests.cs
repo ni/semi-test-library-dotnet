@@ -1159,6 +1159,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         [InlineData(true)]
         [InlineData(false)]
         public void DifferentSMUDevice_FetchAndPublishVoltageWithSinglePointToFetch_ReturnsArrayWithLengthEqualToPointsToFetch(bool pinMapWithChannelGroup)
@@ -1177,6 +1178,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         [InlineData(true)]
         [InlineData(false)]
         public void DifferentSMUDevice_FetchAndPublishVoltageWithMultiplePointsToFetch_ReturnsArrayWithLengthEqualToPointsToFetch(bool pinMapWithChannelGroup)
@@ -1208,6 +1210,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         [InlineData(true)]
         [InlineData(false)]
         public void DifferentSMUDevice_FetchAndPublishCurrentWithSinglePointToFetch_ReturnsArrayWithLengthEqualToPointsToFetch(bool pinMapWithChannelGroup)
@@ -1226,6 +1229,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         [InlineData(true)]
         [InlineData(false)]
         public void DifferentSMUDevice_FetchAndPublishCurrentWithMultiplePointsToFetch_ReturnsArrayWithLengthEqualToPointsToFetch(bool pinMapWithChannelGroup)
