@@ -1147,8 +1147,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             dcPower.UngangPinGroup("MergedPowerPins");
         }
 
-        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         [Fact]
         public void ChannelsHavePendingFetchData_ClearFetchBacklog_BacklogIsCleared()
         {
@@ -1429,8 +1429,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
             return totalBacklog;
         }
-
-
 
         private void AssertMeasureWhenSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, DCPowerMeasurementWhen measureWhen)
         {
