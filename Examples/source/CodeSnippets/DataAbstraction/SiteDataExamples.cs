@@ -140,7 +140,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             var data = new double[] { 1, 2, 3 };
             // Use the empty constructor to build the SiteData dynamically.
             var siteData = new SiteData<double>();
-            // Add site numbers explicitly so the mapping is clear and not index-dependent.
+            // Add site numbers sequentially from zero, since the index of the data above represents the site number.
             siteData.AddSite(0, 1, 2);
             // Set a unique value for each site individually.
             for (int i = 0; i < data.Length; i++)
@@ -183,14 +183,12 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // Dictionary containing site-unique data values, including a site-agnostic entry (-1).
             // Note there can only be one site-agnostic value represented in a SiteData object.
             var perSiteDataDictionary = new Dictionary<int, double> { [1] = 11, [2] = 22, [-1] = 33 };
-            // Start with the single-site constructor for site 1, then expand with the remaining entries.
-            var siteData = new SiteData<double>(siteNumber: 1);
-            // Set the value for site 1 from the dictionary.
-            siteData.SetValue(perSiteDataDictionary[1], 1);
-            // Add and set remaining entries, including the site-agnostic entry represented by site -1.
-            foreach (var entry in perSiteDataDictionary)
+            // Create a new SiteData object containing the sites defined by the Keys of the dictionary. 
+            var siteData = new SiteData<double>();
+            // Add each dictionary item, including the site-agnostic entry represented by site -1.
+            foreach (var item in perSiteDataDictionary)
             {
-                siteData.SetValue(entry.Value, entry.Key);
+                siteData.SetValue(value: item.Value, siteNumbers: item.Key);
             }
         }
 

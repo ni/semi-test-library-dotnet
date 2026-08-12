@@ -238,8 +238,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
                 new SiteData<double>(siteNumbers, 2.5),
                 new SiteData<double>(new[] { -1 }, -22.5)
             };
-            // Since both pin names and site numbers are known, using this constructor is more efficient.
-            // But one can also create empty PinSiteData and then add pins, sites and set value dynamically.
+            // Since both pin names and site numbers are known, providing this information to the constructor is most efficient.
+            // Alternatively, you can create empty PinSiteData and then add pins and sites manually with the AddPin and AddSite methods,
+            // or have them be added dynamically as specified by the SetValue method.
             var pinSiteData = new PinSiteData<double>(pinNames, siteNumbers);
             // Set the uniform value for each DUT pin across all sites.
             for (int i = 0; i < perPinSiteData.Length; i++)
@@ -312,7 +313,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             var pinNames = perPinData.Keys.ToArray();
             // Use the empty constructor to build the PinSiteData dynamically.
             // This is useful when pin names or site numbers are not all known upfront.
-            // For this case, we know the pin names and site numbers, so we could also use the constructor that takes both as input.
+            // For this example, since the pin names and site numbers are known, it would also be possible to provide that information directly to the constructor.
             var pinSiteData = new PinSiteData<double>();
             // Add all pin names first. No sites yet so each pin gets an empty SiteData.
             pinSiteData.AddPin(pinNames);
@@ -381,8 +382,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             var siteNumbers = new int[] { 2, 4, 3 };
             // Pin names to associate with the data.
             var pinNames = new string[] { "VDET", "VCC1", "VCC2" };
-            // Since both pin names and site numbers are known, using this constructor is more efficient.
-            // But one can also create empty PinSiteData and then add pins, sites and set value dynamically.
+            // Since both pin names and site numbers are known, providing this information to the constructor is most efficient.
+            // Alternatively, you can create empty PinSiteData and then add pins and sites manually with the AddPin and AddSite method,
+            // or have them be added dynamically as specified by the SetValue method.
             var pinSiteData = new PinSiteData<double>(pinNames, siteNumbers);
             // Set the same value across all pins and all sites at once.
             pinSiteData.SetValue(55);
@@ -415,7 +417,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             var perPinData = new double[] { 42, 105 };
             // Use the empty constructor to build the PinSiteData dynamically.
             // This is useful when pin names or site numbers are not all known upfront.
-            // For this case, we know the pin names and site numbers, so we could also use the constructor that takes both as input.
+            // For this example, since the pin names and site numbers are known, it would also be possible to provide that information directly to the constructor.
             var pinSiteData = new PinSiteData<double>();
             // Add pins first, then sites — each site is initialized to the default value (0.0).
             pinSiteData.AddPin(pinNames);
@@ -452,8 +454,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             var pinNames = new string[] { "VDET", "VCC1" };
             // Per-site data values, where each element is the value for the site at the same index in siteNumbers.
             var perSiteData = new double[] { 42, 105, 55 };
-            // Since both pin names and site numbers are known, using this constructor is more efficient.
-            // But one can also create empty PinSiteData and then add pins, sites and set value dynamically.
+            // Since both pin names and site numbers are known, providing this information to the constructor is most efficient.
+            // Alternatively, you can create empty PinSiteData and then add pins and sites manually with the AddPin and AddSite methods,
+            // or have them be added dynamically as specified by the SetValue method.
             var pinSiteData = new PinSiteData<double>(pinNames, siteNumbers);
             // Set the per-site value across all pins for each site.
             for (int i = 0; i < siteNumbers.Length; i++)
@@ -497,17 +500,19 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
                 new double[] { 42, 105, 206 },
                 new double[] { 55, 2048, 0.5 }
             };
-            // Start with a single pin using the single-pin constructor, then add the remaining pins.
-            // But one can also create empty PinSiteData and then add pins, sites and set value dynamically.
-            var pinSiteData = new PinSiteData<double>(pinNames[0], siteNumbers);
-            // Add remaining pins — they inherit the existing site definitions.
-            pinSiteData.AddPin(pinNames.Skip(0).ToArray());
+
+            // Use the empty constructor. Pins and sites can be added later using AddSite method.
+            var pinSiteData = new PinSiteData<double>();
+            // Add sites. Sites 2, 4, and 3 are added to all pins. Each new site is initialized with the default value of the data type (0.0 for double).
+            pinSiteData.AddSite(pinNames, 2, 4, 3);
             // Set a unique value for each pin and each site combination.
-            for (int pinIndex = 0; pinIndex < pinNames.Length; pinIndex++)
+            for (int pinIndex = 0; pinIndex < pinSiteData.PinNames.Length; pinIndex++)
             {
-                for (int siteIndex = 0; siteIndex < siteNumbers.Length; siteIndex++)
+                string pinName = pinSiteData.PinNames[pinIndex];
+                for (int siteIndex = 0; siteIndex < pinSiteData.SiteNumbers.Length; siteIndex++)
                 {
-                    pinSiteData.SetValue(perPinPerSiteData[pinIndex][siteIndex], pinNames[pinIndex], siteNumbers[siteIndex]);
+                    int siteNumber = pinSiteData.SiteNumbers[pinIndex]
+                    pinSiteData.SetValue(perPinPerSiteData[pinIndex][siteIndex], pinName, siteNumber);
                 }
             }
         }
@@ -548,8 +553,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
                 new double[] { 105, 2048 },
                 new double[] { 206, 0.5 },
             };
-            // Since both pin names and site numbers are known, using this constructor is more efficient.
-            // But one can also create empty PinSiteData and then add pins, sites and set value dynamically.
+            // Since both pin names and site numbers are known, providing this information to the constructor is most efficient.
+            // Alternatively, you can create empty PinSiteData and then add pins and sites manually with the AddPin and AddSite methods,
+            // or have them be added dynamically as specified by the SetValue method.
             var pinSiteData = new PinSiteData<double>(pinNames, siteNumbers);
             // Set a unique value for each site and each pin combination.
             // Outer loop iterates over sites, inner loop iterates over pins — matching perSitePerPinData layout.
