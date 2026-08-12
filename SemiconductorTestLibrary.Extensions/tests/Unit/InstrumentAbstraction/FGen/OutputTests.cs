@@ -74,7 +74,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinmap);
             var pinNames = new string[] { "A", "B" };
             var sessionsBundle = sessionManager.Fgen(pinNames);
-
             var siteNumbers = new int[] { 0, 1 };
             var siteDataArray = new bool[] { true, false };
             var siteData = new SiteData<bool>(siteNumbers, siteDataArray);
