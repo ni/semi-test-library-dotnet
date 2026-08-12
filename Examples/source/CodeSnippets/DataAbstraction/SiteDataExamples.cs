@@ -139,8 +139,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // The data values to set per site, where the index represents the site number.
             var data = new double[] { 1, 2, 3 };
             // Use the empty constructor to build the SiteData dynamically.
-            // This allows sites to be added and values to be set individually,
-            // rather than relying on array-index-to-site-number mapping.
             var siteData = new SiteData<double>();
             // Add site numbers explicitly so the mapping is clear and not index-dependent.
             siteData.AddSite(0, 1, 2);
@@ -165,9 +163,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // Use the empty constructor to build the SiteData dynamically.
             var siteData = new SiteData<double>();
             // Set each value for the corresponding site number individually. Site numbers are added automatically if they do not already exist in the SiteData object.
-            foreach (var entry in perSiteDataDictionary)
+            foreach (var item in perSiteDataDictionary)
             {
-                siteData.SetValue(entry.Value, entry.Key);
+                siteData.SetValue(item.Value, item.Key);
             }
         }
 
@@ -249,11 +247,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             var perSiteData = new double[] { 22, 44, 33 };
             // Start with the single-site constructor for the first site, then add the remaining sites.
             var siteData = new SiteData<double>(siteNumber: siteNumbers[0]);
-            // Set the value for the first site.
-            siteData.SetValue(perSiteData[0], siteNumbers[0]);
-            // Add remaining site numbers and set their corresponding values individually.
+            // Add site numbers and set their corresponding values individually.
             // Non-sequential site order is accepted.
-            for (int i = 1; i < siteNumbers.Length; i++)
+            for (int i = 0; i < siteNumbers.Length; i++)
             {
                 siteData.SetValue(perSiteData[i], siteNumbers[i]);
             }
