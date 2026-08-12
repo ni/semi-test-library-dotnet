@@ -730,5 +730,18 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(5, sessionsBundle.InstrumentSessions.ElementAt(1).AssociatedSitePinList.Count);
             sessionsBundle.Do(sessionInfo => Assert.Equal(3.5, sessionInfo.PinSet.Ppmu.DCVoltage.VoltageLevel, 1));
         }
+
+        [Fact]
+        public void SessionsInitialized_MeasureAndPublishVoltageWithQueriedPins_PublishResultsSucceed()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("SharedPinTests.pinmap", "SharedPinTests.digiproj", out var publishDatReader);
+            var pins = new string[] { "C0", "C1" };
+            var sessionsBundle = sessionManager.Digital(pins);
+
+            DigitalSessionsBundle filteredSessionsBundle = sessionsBundle.FilterByPin("C0");
+            filteredSessionsBundle.MeasureAndPublishVoltage("VoltageMeasurments");
+
+            Utilities.Utilities.AssertPublishedDataCountPerPins(3, publishDatReader, "C0");
+        }
     }
 }

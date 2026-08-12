@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
@@ -513,7 +514,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <returns>The measurements.</returns>
         public static double[] Measure(this DigitalSessionInformation sessionInfo, MeasurementType measurementType)
         {
-            var ppmu = sessionInfo.Session.PinAndChannelMap.GetPinSet(sessionInfo.PinSetString).Ppmu;
+            var activeSitePins = sessionInfo.AssociatedSitePinList
+                .Where(pin => !pin.SkipOperations)
+                .Select(pin => pin.SitePinString);
+            var filteredPinSetString = string.Join(",", activeSitePins);
+            var ppmu = sessionInfo.Session.PinAndChannelMap.GetPinSet(filteredPinSetString).Ppmu;
+
             return ppmu.Measure(measurementType is MeasurementType.Voltage ? PpmuMeasurementType.Voltage : PpmuMeasurementType.Current);
         }
 

@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Resources;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following
@@ -10,7 +11,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("National Instruments")]
 [assembly: AssemblyProduct("NationalInstruments.SemiconductorTestLibrary")]
-[assembly: AssemblyCopyright("Copyright (C) National Instruments 2024. All Rights Reserved.")]
+[assembly: AssemblyCopyright("Copyright (C) National Instruments 2026. All Rights Reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -19,6 +20,7 @@ using System.Runtime.InteropServices;
 // COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
 
+[assembly: InternalsVisibleTo("NationalInstruments.Tests.SemiconductorTestLibrary.TestStandSteps")]
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("e18d1b1d-2b56-4d53-b021-068fa8476aaa")]
 

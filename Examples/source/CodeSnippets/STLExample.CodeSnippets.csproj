@@ -20,6 +20,9 @@
     <ProjectReference Include="..\..\..\SemiconductorTestLibrary.Extensions\source\SemiconductorTestLibrary.Extensions.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <InternalsVisibleTo Include="NationalInstruments.Tests.SemiconductorTestLibrary.Examples" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="Ivi.Driver">
       <SpecificVersion>False</SpecificVersion>
     </Reference>

@@ -19,6 +19,8 @@
   items:
     - name: SMU Merge Pin Group
       href: SMUMergePinGroup.md
+    - name: SMU Gang Pin Group
+      href: SMUGangPinGroup.md
     - name: Custom Instrument Support
       href: CustomInstrumentSupport.md
 - name: Data Abstraction
@@ -40,6 +42,8 @@
   href: PublishingResults.md
 - name: Common Utility Methods
   href: CommonUtilityMethods.md
+- name: Working With Multiplexed Connections
+  href: WorkingWithMultiplexedConnections.md
 
 - name: Best Practices
 - name: NuGet Package Management For STS Projects

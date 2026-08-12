@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument.RSeries.RSeries7822RCustomInstrument
 {
     /// <summary>
-    /// Define specific exception for Pinmap validation.
+    /// Define specific exception for pin map validation.
     /// </summary>
     [Serializable]
     public class InvalidPinMapDefinitionException : Exception

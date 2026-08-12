@@ -48,7 +48,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// <param name="channelLists">Channel lists</param>
         /// <Remarks>
         /// This method is called as part of initialization of custom instruments.
-        /// Each instrument should have two ChannelgroupIDs, one group should be for digital channels from dio to dio7 and another group should be for analog channels ai0 to ai3.
+        /// Each instrument should have one Channel Group for all digital channels across all connectors.
+        /// Each channel id should be formatted as either or "Connector0_DIO0" or "Connector0_Port0_DIO0".
         /// </Remarks>
         public void ValidateCustomInstruments(string[] instrumentNames, string[] channelGroupIds, string[] channelLists)
         {
@@ -56,7 +57,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
             // Throw error when there are more than 1 channel group for any given instrument.
             if (instrumentNames.Distinct().Count() < instrumentNames.Length)
             {
-                throw new InvalidPinMapDefinitionException("At least one instrument definition does not satify the single channel group constraint");
+                throw new InvalidPinMapDefinitionException("At least one instrument definition does not satisfy the single channel group constraint");
             }
         }
     }

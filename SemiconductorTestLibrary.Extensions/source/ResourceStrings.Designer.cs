@@ -19,7 +19,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class ResourceStrings {
@@ -115,6 +115,15 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This feature is not supported on a ganged pin group..
+        /// </summary>
+        internal static string DCPower_GangedPinGroupDetected {
+            get {
+                return ResourceManager.GetString("DCPower_GangedPinGroupDetected", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Inconsistent advanced sequence properties. The following properties must be either specified or omitted for all steps in the sequence: {0}.
         /// </summary>
         internal static string DCPower_InconsistentAdvancedSequenceProperties {
@@ -122,7 +131,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
                 return ResourceManager.GetString("DCPower_InconsistentAdvancedSequenceProperties", resourceCulture);
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to The channelOutput contains more than one channel &quot;{0}&quot;. This method overload only supports single channel operation when a valid SitePinInfo object is passed.&quot;.
         /// </summary>
@@ -160,6 +169,24 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The offset count for instrument index ({0}) is invalid. Expected either ({1}) offset for primary and non-shared channels or ({2}) offsets for all site-pin channels, including shared shadows. Received ({3}) offsets instead..
+        /// </summary>
+        internal static string Digital_TDROffsetsCountMismatch {
+            get {
+                return ResourceManager.GetString("Digital_TDROffsetsCountMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The number of instrument session offsets provided ({0}) does not match the number of instrument sessions in the bundle ({1})..
+        /// </summary>
+        internal static string Digital_TDROffsetsInstrumentCountMismatch {
+            get {
+                return ResourceManager.GetString("Digital_TDROffsetsInstrumentCountMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to TDR offsets for following channels are missing from {0}: {1}..
         /// </summary>
         internal static string Digital_TDROffsetsMissing {
@@ -169,11 +196,56 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Inconsistent offsets for shared channel on instrument index ({0}). Primary channel ({1}) offset ({2}) must match shared shadow channel ({3}) offset ({4})..
+        /// </summary>
+        internal static string Digital_TDROffsetsSharedChannelMismatch {
+            get {
+                return ResourceManager.GetString("Digital_TDROffsetsSharedChannelMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The value of the time set period ({0}) is not the same for all underlying instrument sessions..
         /// </summary>
         internal static string Digital_TimeSetPeriodNotDistinct {
             get {
                 return ResourceManager.GetString("Digital_TimeSetPeriodNotDistinct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not enough TMU resources available on {0} to allocate to {1}..
+        /// </summary>
+        internal static string Digital_TMUNotEnoughResources {
+            get {
+                return ResourceManager.GetString("Digital_TMUNotEnoughResources", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The following pins are not available in the DigitalSessionsBundle object: {0}. Ensure the DigitalSessionsBundle object contains all necessary pins to perform the requested TMU operation..
+        /// </summary>
+        internal static string Digital_TMUPinsNotInBundle {
+            get {
+                return ResourceManager.GetString("Digital_TMUPinsNotInBundle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot release TMUs: One or more assigned TMUs are in use. Call DisableTMU before clearing resources..
+        /// </summary>
+        internal static string Digital_TMUResourcesInUse {
+            get {
+                return ResourceManager.GetString("Digital_TMUResourcesInUse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unsupported Polarity..
+        /// </summary>
+        internal static string Digital_TMUUnsupportedPolarity {
+            get {
+                return ResourceManager.GetString("Digital_TMUUnsupportedPolarity", resourceCulture);
             }
         }
     }

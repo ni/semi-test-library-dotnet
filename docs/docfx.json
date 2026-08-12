@@ -12,6 +12,7 @@
         }
       ],
       "dest": "SemiconductorTestLibrary",
+      "outputFormat": "apiPage",
       "memberLayout": "separatePages",
       "namespaceLayout": "flattened",
       "properties": {
@@ -29,6 +30,7 @@
         }
       ],
       "dest": "SemiconductorTestLibrary.TestStandSteps",
+      "outputFormat": "apiPage",
       "memberLayout": "separatePages",
       "namespaceLayout": "nested",
       "properties": {

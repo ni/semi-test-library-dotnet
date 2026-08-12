@@ -21,13 +21,13 @@ int32_t __stdcall EnableLoopBack(uint64_t ReferenceID,
 /*!
  * Write channel data to the specified channel
  */
-int32_t __stdcall WriteData(uint64_t ReferenceID, char ChannelName[], 
-	uint8_t ChannelData);
+int32_t __stdcall WriteData(uint64_t ReferenceID, char PortName[], 
+	uint8_t PortData);
 /*!
  * Reads data from a specific channel mentioned.
  */
-int32_t __stdcall ReadData(uint64_t ReferenceID, char ChannelName[], 
-	uint8_t *ChannelData);
+int32_t __stdcall ReadData(uint64_t ReferenceID, char PortName[], 
+	uint8_t *PortData);
 
 MgErr __cdecl LVDLLStatus(char *errStr, int errStrLen, void *module);
 

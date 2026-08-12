@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PinMap schemaVersion="1.6" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Instruments>
+		<NIDmmInstrument name="DMM_4081_C1_S02" />
+		<NIRelayDriverModule name="RELAY_2567_C1_S03" numberOfControlLines="64" />
+		<Multiplexer name="MUX1" multiplexerTypeId="NIGenericMultiplexer" />
+	</Instruments>
+	<Pins>
+		<DUTPin name="A" />
+	</Pins>
+	<PinGroups></PinGroups>
+	<Relays>
+		<SystemRelay name="DmmPinASite0" />
+		<SystemRelay name="DmmPinASite1" />
+		<SystemRelay name="DmmPinASite2" />
+		<SystemRelay name="DmmPinASite3" />
+	</Relays>
+	<RelayGroups></RelayGroups>
+	<RelayConfigurations>
+		<RelayConfiguration name="ConnectDmmToPinASite0">
+			<RelayPosition relay="DmmPinASite0" position="Closed" />
+			<RelayPosition relay="DmmPinASite1" position="Open" />
+			<RelayPosition relay="DmmPinASite2" position="Open" />
+			<RelayPosition relay="DmmPinASite3" position="Open" />
+		</RelayConfiguration>
+		<RelayConfiguration name="ConnectDmmToPinASite1">
+			<RelayPosition relay="DmmPinASite0" position="Open" />
+			<RelayPosition relay="DmmPinASite1" position="Closed" />
+			<RelayPosition relay="DmmPinASite2" position="Open" />
+			<RelayPosition relay="DmmPinASite3" position="Open" />
+		</RelayConfiguration>
+		<RelayConfiguration name="ConnectDmmToPinASite2">
+			<RelayPosition relay="DmmPinASite0" position="Open" />
+			<RelayPosition relay="DmmPinASite1" position="Open" />
+			<RelayPosition relay="DmmPinASite2" position="Closed" />
+			<RelayPosition relay="DmmPinASite3" position="Open" />
+		</RelayConfiguration>
+		<RelayConfiguration name="ConnectDmmToPinASite3">
+			<RelayPosition relay="DmmPinASite0" position="Open" />
+			<RelayPosition relay="DmmPinASite1" position="Open" />
+			<RelayPosition relay="DmmPinASite2" position="Open" />
+			<RelayPosition relay="DmmPinASite3" position="Closed" />
+		</RelayConfiguration>
+		<RelayConfiguration name="DisconnectDmmFromPinAOnAllSites">
+			<RelayPosition relay="DmmPinASite0" position="Open" />
+			<RelayPosition relay="DmmPinASite1" position="Open" />
+			<RelayPosition relay="DmmPinASite2" position="Open" />
+			<RelayPosition relay="DmmPinASite3" position="Open" />
+		</RelayConfiguration>
+	</RelayConfigurations>
+	<Sites>
+		<Site siteNumber="0" />
+		<Site siteNumber="1" />
+		<Site siteNumber="2" />
+		<Site siteNumber="3" />
+	</Sites>
+	<Connections>
+		<MultiplexedConnection instrument="DMM_4081_C1_S02" channel="0">
+			<MultiplexedDUTPinRoute pin="A" siteNumber="0" multiplexer="MUX1" routeName="ConnectDmmToPinASite0" />
+			<MultiplexedDUTPinRoute pin="A" siteNumber="1" multiplexer="MUX1" routeName="ConnectDmmToPinASite1" />
+			<MultiplexedDUTPinRoute pin="A" siteNumber="2" multiplexer="MUX1" routeName="ConnectDmmToPinASite2" />
+			<MultiplexedDUTPinRoute pin="A" siteNumber="3" multiplexer="MUX1" routeName="ConnectDmmToPinASite3" />
+		</MultiplexedConnection>
+		<SystemRelayConnection relay="DmmPinASite0" relayDriverModule="RELAY_2567_C1_S03" controlLine="K0" />
+		<SystemRelayConnection relay="DmmPinASite1" relayDriverModule="RELAY_2567_C1_S03" controlLine="K1" />
+		<SystemRelayConnection relay="DmmPinASite2" relayDriverModule="RELAY_2567_C1_S03" controlLine="K2" />
+		<SystemRelayConnection relay="DmmPinASite3" relayDriverModule="RELAY_2567_C1_S03" controlLine="K3" />
+	</Connections>
+</PinMap>
