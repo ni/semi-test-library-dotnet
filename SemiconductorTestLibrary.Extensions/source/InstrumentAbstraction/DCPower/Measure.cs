@@ -139,7 +139,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="updateMode">The <see cref="UpdateMode"/> value. Specifies when the configured settings are applied:
         /// <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation,
         /// <see cref="UpdateMode.Commit"/> commits immediately,
-        /// and <see cref="UpdateMode.Initiate"/> initiates immediately.</param>
+        /// and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
         /// <remarks>
         /// For the PXI-4110, PXI-4130, and PXIe-4154 models, the aperture time is converted to the equivalent SamplesToAverage value
         /// using the model's fixed sample rate (3 kHz for the PXI-4110 and PXI-4130, 300 kHz for the PXIe-4154).
