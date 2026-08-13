@@ -511,7 +511,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
                 string pinName = pinSiteData.PinNames[pinIndex];
                 for (int siteIndex = 0; siteIndex < pinSiteData.SiteNumbers.Length; siteIndex++)
                 {
-                    int siteNumber = pinSiteData.SiteNumbers[pinIndex]
+                    int siteNumber = pinSiteData.SiteNumbers[pinIndex];
                     pinSiteData.SetValue(perPinPerSiteData[pinIndex][siteIndex], pinName, siteNumber);
                 }
             }
