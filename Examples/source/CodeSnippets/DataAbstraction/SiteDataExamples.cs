@@ -183,7 +183,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // Dictionary containing site-unique data values, including a site-agnostic entry (-1).
             // Note there can only be one site-agnostic value represented in a SiteData object.
             var perSiteDataDictionary = new Dictionary<int, double> { [1] = 11, [2] = 22, [-1] = 33 };
-            // Create a new SiteData object containing the sites defined by the Keys of the dictionary. 
+            // Create a new SiteData object containing the sites defined by the Keys of the dictionary.
             var siteData = new SiteData<double>();
             // Add each dictionary item, including the site-agnostic entry represented by site -1.
             foreach (var item in perSiteDataDictionary)

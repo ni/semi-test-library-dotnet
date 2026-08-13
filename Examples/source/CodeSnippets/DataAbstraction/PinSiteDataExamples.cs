@@ -184,7 +184,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             var pinNames = new string[] { "VCC1", "VCC2" };
             // Site numbers to associate with the data.
             var siteNumbers = new int[] { 0, 1, 2, 3 };
-            // Per-pin SiteData objects.
+            // 2D jagged array of pin and site unique data,
+            // where the first dimension represents pins (2) and the second dimension represents sites (4).
             var perPinAndSiteData = new double[][]
             {
                 new[] { 1.5, 1.6, 1.7, 1.8 }, // VCC1 data for sites: 0, 1, 2, 3
@@ -229,25 +230,38 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             var pinNames = new string[] { "VCC1", "VCC2", "SystemSupply" };
             // Site numbers to associate with the DUT pins.
             var siteNumbers = new int[] { 0, 1 };
-            // Per-pin SiteData objects.
+            // Per-pin, per-site data array.
             // Note that data associated with system pins is considered site-agnostic,
             // and site-agnostic data can represented with -1 as the site value.
-            var perPinSiteData = new[]
-            {
-                new SiteData<double>(siteNumbers, 1.5),
-                new SiteData<double>(siteNumbers, 2.5),
-                new SiteData<double>(new[] { -1 }, -22.5)
-            };
+            var perPinData = new double[] { 1.5, 2.5, -22.5 };
+
             // Since both pin names and site numbers are known, providing this information to the constructor is most efficient.
             // Alternatively, you can create empty PinSiteData and then add pins and sites manually with the AddPin and AddSite methods,
             // or have them be added dynamically as specified by the SetValue method.
-            var pinSiteData = new PinSiteData<double>(pinNames, siteNumbers);
-            // Set the uniform value for each DUT pin across all sites.
-            for (int i = 0; i < perPinSiteData.Length; i++)
+            // Note that the constructor's siteNumbers input parameter can accept both an array of site numbers and a single site number,
+            // In this example the -1 site value is simply appended after the siteNumbers array,
+            // where the -1 value represents the site-agnostic data for any system pins.
+            var pinSiteData = new PinSiteData<double>(pinNames: pinNames, siteNumbers: siteNumbers, -1);
+            for (int i = 0; i < perPinData.Length; i++)
             {
-                var siteData = perPinSiteData[i];
-                pinSiteData.ExtractPin(pinNames[i]).SetValue(siteData.GetValue(siteData.SiteNumbers[0]));
-                // Since the value is uniform across all sites, we can just use the first site value to set the value for all sites.
+                // Check if the pin is a system pin and set the value accordingly.
+                // In this example, we are assuming that the system pin is named "SystemSupply".
+                // However, in practice, you would want to have a more robust way to identify system pins,
+                // such as utilizing the ISemiconductorModuleContext.GetPins method.
+                if (pinNames[i] == "SystemSupply")
+                {
+                    // For system pins, set the value for site -1 to indicate site-agnostic data.
+                    pinSiteData.SetValue(value: perPinData[i], pinName: pinNames[i], siteNumbers: -1);
+                }
+                else
+                {
+                    // Set the uniform value for each DUT pin across all sites.
+                    // Note that care must be taken when calling SetValue with system pins present in the PinSiteData object,
+                    // As the  SetValue(T value) and SetValue(T value, param string) overload will apply the same value to all sites declared within the PinSiteData, including system sites.
+                    // Therefore, it is best to avoid those overloads when working with system pins,
+                    // and instead, explicitly specify which site number to set a value for, as shown below.
+                    pinSiteData.SetValue(value: perPinData[i], pinName: pinNames[i], siteNumbers: siteNumbers);
+                }
             }
         }
 
@@ -268,7 +282,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
 
         internal static void BuildWithDictionaryWithSystemPin()
         {
-            // Dictionary containing pin- and site-unique data, including system pin data.
+            // Dictionary containing pin and site-unique data, including system pin data.
             // Note that data associated with system pins is considered site-agnostic,
             // and site-agnostic data can represented with -1 as the site value.
             var pinAndSiteUnqiueDataDictionary = new Dictionary<string, IDictionary<int, double>>
@@ -351,19 +365,20 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // Two separate dictionaries are used to delineate between DUT pins from System pin data.
             var perDutPinData = new Dictionary<string, double> { ["VDET"] = 22, ["VCC1"] = 44, ["VCC2"] = 33 };
             var perSystemPinSiteData = new Dictionary<string, double> { ["SystemSupply"] = -15 };
-            // Extract the pin names from the DUT pin data dictionary keys to use for constructing the PinSiteData object.
-            var dutPinNames = perDutPinData.Keys.ToArray();
             // Create an empty PinSiteData object to build dynamically.
             var pinSiteData = new PinSiteData<double>();
             // Set the per-pin value for each DUT pin, repeated across all sites for that pin.
             // All the pins and sites are added dynamically to the PinSiteData object as they are encountered.
-            foreach (var pinName in dutPinNames)
+            foreach (var pinName in perDutPinData.Keys)
             {
                 pinSiteData.SetValue(perDutPinData[pinName], pinName, siteNumbers);
             }
             // System pins are site-agnostic; -1 is used as the site number.
             // SetValue automatically adds the SystemSupply pin and site -1 since they do not yet exist.
-            pinSiteData.SetValue(-15, "SystemSupply", -1);
+            foreach (var pinName in perSystemPinSiteData.Keys)
+            {
+                pinSiteData.SetValue(perSystemPinSiteData[pinName], pinName, -1);
+            }
         }
 
         internal static void ConstructWithArraysForCommonDataValue()
