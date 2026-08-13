@@ -2657,7 +2657,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Gets the voltage limit low.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <returns>The per-pin per-site voltage limit low.</returns>
+        /// <returns>The per-site per-pin voltage limit low.</returns>
         public static PinSiteData<double> GetVoltageLimitLow(this DCPowerSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
