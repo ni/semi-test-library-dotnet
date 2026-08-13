@@ -908,7 +908,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void InititalizeAndAssignTMUResourcesOnFirstBundle_AssignSamePinOnSecondBundle_Succeeds()
+        public void InititalizeAndAssignTMUResourcesOnFirstBundle_AssignTMUResourcesForSamePinOnSecondBundle_Succeeds()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager();
             var bundle1 = sessionManager.Digital(new string[] { "C0" });
@@ -923,7 +923,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void InititalizeAndAssignTMUResourcesOnFirstBundle_ExhaustsResourcesOnSecondBundle_ThrowsAndCleansUp()
+        public void InititalizeAndAssignTMUResourcesOnFirstBundle_AssignTMUResourcesExhaustsResourcesOnSecondBundle_ThrowsAndCleansUp()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager();
             var bundle1 = sessionManager.Digital(new string[] { "C0", "C1" });

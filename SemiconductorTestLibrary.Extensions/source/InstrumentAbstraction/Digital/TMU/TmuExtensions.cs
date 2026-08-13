@@ -1379,10 +1379,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             // - 'ClearTMUAssignment(pinNames)' is invoked, targeting only a subset of pins within the bundle object, and then the 'ClearTMUAssignment()' is invoked on whole bundle object.
             if (!string.IsNullOrEmpty(assignedTmuContext))
             {
-                string deviceName = digitalSitePinInfo.InstrumentName;
-                string tmuName = assignedTmuContext;
                 digitalSitePinInfo.AssignedTmuContext = string.Empty;
-                TMUContextManager.Instance.UnAssignTMUContext(deviceName, tmuName);
+                TMUContextManager.Instance.UnAssignTMUContext(digitalSitePinInfo.InstrumentName, assignedTmuContext);
             }
         }
 
