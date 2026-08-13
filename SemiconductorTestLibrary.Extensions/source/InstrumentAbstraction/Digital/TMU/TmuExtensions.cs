@@ -204,21 +204,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="edgeType">The type of edge to detect. Only accepts <see cref="TmuPolarity.RisingEdge"/> or <see cref="TmuPolarity.FallingEdge"/>.</param>
         /// <param name="samplesToAcquire">The number of samples to acquire for the TMU measurement.</param>
-        /// <param name="armType">
-        /// The type of signal used to arm the TMU measurement.<br/>
-        /// The TMU's arm input is used to frame, or select, the start and stop events of interest for each TMU sample.
+        /// <param name="armSettings">
+        /// Arm Settings
         /// </param>
         /// <param name="pinNames">The specific pins to configure the TMU for. When <c>null</c>, all pins are targeted.</param>
-        public static void ConfigurePeriodMeasurement(this DigitalSessionsBundle sessionsBundle, TmuPolarity edgeType, long samplesToAcquire, TmuArmSettings settings, string[] pinNames = null)
+        public static void ConfigurePeriodMeasurement(this DigitalSessionsBundle sessionsBundle, TmuPolarity edgeType, long samplesToAcquire, TmuArmSettings armSettings, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
                 {
-                    ConfigurePeriodMeasurementForSitePin(sessionInfo, sitePinInfo, edgeType, samplesToAcquire, settings);
+                    ConfigurePeriodMeasurementForSitePin(sessionInfo, sitePinInfo, edgeType, samplesToAcquire, armSettings);
                 }
-                if (settings is TmuEdgeArmSettings edgeSettings && edgeSettings.SourcePin == sitePinInfo.PinName)
+                if (armSettings is TmuEdgeArmSettings edgeSettings && edgeSettings.SourcePin == sitePinInfo.PinName)
                 {
                     // Additional configuration for edge arm settings can be done here using edgeSettings
                 }
