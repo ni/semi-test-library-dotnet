@@ -934,10 +934,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             // Second bundle attempts to claim the same already-assigned resources and should fail.
             Assert.Throws<NISemiconductorTestException>(() => bundle2.AssignTMUResources());
-
             // The failed assignment should have rolled back its partial claims,
             // so releasing the first bundle must still succeed.
             bundle1.ClearTMUAssignment();
+            bundle2.ClearTMUAssignment();
         }
 
         #endregion
