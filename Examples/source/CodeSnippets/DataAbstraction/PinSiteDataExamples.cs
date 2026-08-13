@@ -197,7 +197,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // Use SetValue to assign values to the PinSiteData object for each pin and site.
             for (int pinIndex = 0; pinIndex < pinNames.Length; pinIndex++)
             {
-                for (int siteIndex = 0; pinIndex < siteNumbers.Length; siteIndex++)
+                for (int siteIndex = 0; siteIndex < siteNumbers.Length; siteIndex++)
                 {
                     pinSiteData.SetValue(perPinAndSiteData[pinIndex][siteIndex], pinNames[pinIndex], siteNumbers[siteIndex]);
                 }
@@ -398,7 +398,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // Pin names to associate with the data.
             var pinNames = new string[] { "VDET", "VCC1", "VCC2" };
             // Since both pin names and site numbers are known, providing this information to the constructor is most efficient.
-            // Alternatively, you can create empty PinSiteData and then add pins and sites manually with the AddPin and AddSite method,
+            // Alternatively, you can create empty PinSiteData and then add pins and sites manually with the AddPin and AddSite methods,
             // or have them be added dynamically as specified by the SetValue method.
             var pinSiteData = new PinSiteData<double>(pinNames, siteNumbers);
             // Set the same value across all pins and all sites at once.
@@ -437,7 +437,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // Add pins first, then sites — each site is initialized to the default value (0.0).
             pinSiteData.AddPin(pinNames);
             pinSiteData.AddSite(siteNumbers);
-            // Set the per-pin value for each pin, repeating the value across all sites for that pin.
+            // Set the per-pin value for each pin, repeating the value across all its sites.
             for (int i = 0; i < pinNames.Length; i++)
             {
                 pinSiteData.SetValue(perPinData[i], pinNames[i]);
@@ -673,11 +673,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // VCC1   |  0.0   |  0.0   |  0.0
             // VCC2   |  0.0   |  0.0   |  0.0
 
-            // Use AddSite to add an additional site to pins(VDET, VCC1).
+            // Use AddSite to add an additional site to pins (VDET, VCC1).
             // Site 3 is added to pins VDET, VCC1 and initialized with the default value (0.0 for double).
-            // Note: Using this overload can result in a jagged PinSiteData object where different
-            // pins have different numbers of sites. VCC2 does not have Site 3 since pins VDET and VCC1 were the only pins
-            // included in the pinNames argument.
             pinSiteData.AddSite(new string[] { "VDET", "VCC1" }, 3);
             // Pin    | Site 0 | Site 1 | Site 2 | Site 3
             // VDET   |  0.0   |  0.0   |  0.0   |  0.0
@@ -702,8 +699,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // This removes site 2 from VDET and VCC1 only, leaving VCC2's site definitions unchanged.
             // Note: Using this overload can result in a jagged PinSiteData object where different
             // pins have different numbers of sites. VCC2 retains Site 2 while VDET and VCC1 do not.
-            // Additionally, VDET still lacks Site 4 and VCC2 still lacks Site 3, further reinforcing
-            // the jagged structure of this PinSiteData object.
             pinSiteData.RemoveSite(new string[] { "VDET", "VCC1" }, 2);
             // Pin    | Site 0 | Site 1 | Site 2 | Site 3 | Site 4
             // VDET   |  0.0   |  0.0   |  ---   |  0.0   |  ---
