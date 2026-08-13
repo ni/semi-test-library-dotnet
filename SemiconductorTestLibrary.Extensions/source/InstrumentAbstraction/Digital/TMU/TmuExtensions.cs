@@ -1206,24 +1206,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         #region Get TMU Count
 
         /// <summary>
-        /// Gets the total number of TMU resources available in the instrument session for each pin in the <see cref="DigitalSessionsBundle"/>.
+        /// Gets the total number of TMU resources available for each instrument session in the <see cref="DigitalSessionsBundle"/>.
         /// </summary>
         /// <remarks>
-        /// This value is session-level and reflects the total TMU count across all modules in the instrument session
-        /// that hosts each pin. All pins belonging to the same instrument session will return the same value.
+        /// This value is session-level and reflects the total TMU count across all modules in each instrument session.
+        /// The returned array contains one value per instrument session, in the same order as <see cref="ISessionsBundle{TSessionInformation}.InstrumentSessions"/>.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
-        /// <returns>The total number of TMU resources available in the instrument session for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
-        public static PinSiteData<int> GetTMUCount(this DigitalSessionsBundle sessionsBundle)
+        /// <returns>An array containing the total number of TMU resources available, one value per instrument session.</returns>
+        public static int[] GetTMUCount(this DigitalSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo =>
-            {
-                int count = GetDigitalTmus(sessionInfo.Session).GetTmuCount();
-                return sessionInfo.AssociatedSitePinList
-                    .Where(sp => !sp.SkipOperations)
-                    .Select(_ => count)
-                    .ToArray();
-            });
+            return sessionsBundle.InstrumentSessions
+                .Select(sessionInfo => GetDigitalTmus(sessionInfo.Session).GetTmuCount())
+                .ToArray();
         }
 
         #endregion

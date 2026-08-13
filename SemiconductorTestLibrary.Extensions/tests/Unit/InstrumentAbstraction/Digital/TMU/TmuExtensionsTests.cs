@@ -1310,7 +1310,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var result = sessionsBundle.GetTMUCount();
 
-            Assert.True(result.ExtractSite(0)["C0"] >= 2);
+            Assert.True(Array.TrueForAll(result, count => count >= 2));
             sessionsBundle.ClearTMUAssignment();
         }
 
@@ -1322,7 +1322,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var result = sessionsBundle.GetTMUCount();
 
-            Assert.True(result.ExtractSite(0)["C0"] >= 2);
+            Assert.True(Array.TrueForAll(result, count => count >= 2));
         }
 
         #endregion
