@@ -61,7 +61,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             digitalPins.ConfigurePeriodMeasurement(
                 edgeType: TmuPolarity.RisingEdge,
                 samplesToAcquire: numberOfSamples,
-                settings: tmuArmSetting);
+                armSettings: tmuArmSetting);
 
             // Step 4: Initiate the TMU measurement.
             digitalPins.TMUInitiate();
