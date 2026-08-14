@@ -1356,7 +1356,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 ? digitalSessionInformation.AssociatedSitePinList.Where(sp => pins.Contains(sp.PinName))
                 : digitalSessionInformation.AssociatedSitePinList;
             // Check if all the assigned TMUs of site/pin pair are safe to release.
-            if (doTMUReleaseCheck && !IsSafeToReleaseAllTMUs(sitePinInfos, () => GetDigitalTmus(digitalSessionInformation.Session).GetDisabledTmuContexts()))
+            if (doTMUReleaseCheck && !IsSafeToReleaseAllTMUs(digitalSessionInformation.Session, sitePinInfos))
             {
                 throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUResourcesInUse));
             }
@@ -1384,9 +1384,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             }
         }
 
-        private static bool IsSafeToReleaseAllTMUs(IEnumerable<SitePinInfo> sitePinInfos, Func<List<string>> getAvailableTMUs)
+        private static bool IsSafeToReleaseAllTMUs(NIDigital session, IEnumerable<SitePinInfo> sitePinInfos)
         {
-            List<string> availableTMUList = getAvailableTMUs();
+            List<string> availableTMUList = GetDigitalTmus(session).GetDisabledTmuContexts();
             foreach (var sitePinInfo in sitePinInfos)
             {
                 string tmuName = (sitePinInfo as DigitalSitePinInfo)?.AssignedTmuContext;
@@ -1458,7 +1458,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             }
             // Build a dictionary with device name as key and queue of available TMU as value.
             return availableTMUs.GroupBy(tmu => tmu.Split('/')[0])
-                .ToDictionary(g => g.Key, g => new Queue<string>(g.Select(tmu => tmu)));
+                .ToDictionary(g => g.Key, g => new Queue<string>(g));
         }
 
         private static void ValidateSkewPins(string[] referencePinNames, string[] targetPinNames)
