@@ -787,6 +787,11 @@
             Returns an array of sites associated with current PinSiteData object.
             </summary>
         </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.SiteNumbersByPin">
+            <summary>
+            Returns a dictionary where the key is pin name and the value is an array of site numbers associated with that pin.
+            </summary>
+        </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor">
             <summary>
             Initializes an empty PinSiteData object. Pins and sites must be added using <see cref="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.AddPin(System.String[])"/> and <see cref="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.AddSite(System.Int32[])"/> methods respectively.
@@ -977,9 +982,65 @@
             <summary>
             Removes the specified sites from the specified pins.
             Using this method can result in a jagged PinSiteData object where different pins can have different number of sites.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if <paramref name="siteNumbers"/> parameter is null, an empty array or not provided.
             </summary>
             <param name="pinNames">The pin names from which the specified site numbers are to be removed.</param>
             <param name="siteNumbers">The site numbers to be removed.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.SetValue(`0)">
+            <summary>
+            Sets the specified value for all sites across all pins in the PinSiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if PinSiteData object doesn't contain any pin or any pin contains empty SiteData object.
+            </summary>
+            <param name="value">The value to be set.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.SetValue(`0,System.Int32[])">
+            <summary>
+            Sets the specified value for the specified sites across all pins in the PinSiteData object.
+            Adds the specified sites to the SiteData object associated with each pin if they don't already exist and then sets value.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty.
+            If  <paramref name="siteNumbers"/> specified as input is null or an empty array, sets the provided value to all existing site numbers for each pin in the PinSiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object for any pin is empty in this case.
+            </summary>
+            <param name="value">The value to be set.</param>
+            <param name="siteNumbers">The site numbers to which the value is being set.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.SetValue(`0,System.String[])">
+            <summary>
+            Sets the specified value for all sites in the specified pins in the PinSiteData object.
+            If <paramref name="pinNames"/> is null or an empty array, sets the provided value to all existing pins in the PinSiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if <paramref name="pinNames"/> is null or an empty array and the PinSiteData object is empty or any existing pin contain empty SiteData object.
+            If any of the specified pins doesn't exist, it is first added to the PinSiteData object and then the value is set for all sites in that pin.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if  the specified pins exists and any of them has an empty SiteData object. This could happen with jagged PinSiteData objects.
+            </summary>
+            <param name="value">The value to be set.</param>
+            <param name="pinNames">The pin names in which all the sites are assigned the provided value.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.SetValue(`0,System.String,System.Int32[])">
+            <summary>
+            Sets the specified value for the specified sites in the pin provided as input in the PinSiteData object.
+            If the specified pin doesn't exist, it is first added to the PinSiteData object along with the specified sites and then the value is set.
+            Any of the specified sites missing from the specified pin is added first and then the value is set for that site.
+            If the <paramref name="siteNumbers"/> is null or an empty array, the value is set for all existing sites in the specified pin.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the <paramref name="siteNumbers"/> is null or an empty array and the specified pin doesn't contain any site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the <paramref name="pinName"/> is an empty string or null./>
+            </summary>
+            <param name="value">The value to be set.</param>
+            <param name="pinName">The pin name whose sites are assigned the value.</param>
+            <param name="siteNumbers">The site numbers to which the value is assigned.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.SetValue(`0,System.String[],System.Int32[])">
+            <summary>
+            Sets the specified value for the specified sites in the pins provided as input in the PinSiteData object.
+            If any of the specified pins doesn't exist, it is first added to the PinSiteData object along with the specified sites and then the value is set.
+            Any of specified sites missing from the specified pins is added first and then the value is set for that site.
+            If the <paramref name="siteNumbers"/> is null or an empty array, the value is set for all existing sites in the specified pin.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the <paramref name="siteNumbers"/> is null or an empty array and the specified pin doesn't contain any site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if <paramref name="pinNames"/> is null or empty and if any pin name is an empty string or null.
+            </summary>
+            <param name="value">The value to be set.</param>
+            <param name="pinNames">The pin names whose sites are assigned the value.</param>
+            <param name="siteNumbers">The site numbers to which the value is assigned.</param>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractPin(System.String)">
             <summary>
@@ -6191,7 +6252,12 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_SiteDataEmpty">
             <summary>
-              Looks up a localized string similar to The SiteData object is empty and does not contain any site number. Cannot set value..
+              Looks up a localized string similar to The SiteData object is empty and does not contain any site number..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_SiteDataEmptyForPins">
+            <summary>
+              Looks up a localized string similar to The SiteData object of pin(s) {0} is empty and does not contain any site. Cannot set value..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_SiteNumberNotFound">
@@ -6282,6 +6348,11 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Digital_TMUEmptyOrNullTMUContext">
             <summary>
               Looks up a localized string similar to TMU context must not be null or empty..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Digital_TMUNativeCallFailed">
+            <summary>
+              Looks up a localized string similar to Error in {0}: Status code {1}..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.ExceptionCollector_MessageWithCaseDescription">
@@ -6385,11 +6456,6 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Sync_FailToConvertErrorCode">
             <summary>
               Looks up a localized string similar to Fail to convert error code {0} to its corresponding error message..
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Digital_TMUNativeCallFailed">
-            <summary>
-              Looks up a localized string similar to Error in {0}: Status code {1}..
             </summary>
         </member>
     </members>
