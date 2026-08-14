@@ -1324,7 +1324,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
 
             // Initialize the TMUAssignmentManager with the available TMU resources for the devices within the current session.
             List<string> availableTMUContexts = GetDigitalTmus(digitalSessionInformation.Session).GetDisabledTmuContexts();
-            Dictionary<string, Queue<string>> tmusPerInstrument = CategorizeTMUByInstrument(availableTMUContexts);
+            Dictionary<string, Queue<string>> tmuContextsPerInstrument = CategorizeTMUContextsByInstrument(availableTMUContexts);
 
             // Assign TMU resources to each target pin/site pair within the session.
             foreach (SitePinInfo sitePinInfo in sitePinInfos)
@@ -1340,11 +1340,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 if (string.IsNullOrEmpty(assignedTmuContext))
                 {
                     string deviceName = digitalSitePinInfo.InstrumentName;
-                    if (!TryGetTMU(tmusPerInstrument, deviceName, out string tmuName))
+                    if (!TryGetTMUContext(tmuContextsPerInstrument, deviceName, out string tmuContext))
                     {
                         throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUNotEnoughResources, deviceName, sitePinInfo.PinName));
                     }
-                    digitalSitePinInfo.AssignedTmuContext = tmuName;
+                    digitalSitePinInfo.AssignedTmuContext = tmuContext;
                 }
             }
         }
@@ -1386,13 +1386,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
 
         private static bool IsSafeToReleaseAllTMUs(NIDigital session, IEnumerable<SitePinInfo> sitePinInfos)
         {
-            List<string> availableTMUList = GetDigitalTmus(session).GetDisabledTmuContexts();
+            List<string> availableTMUContexts = GetDigitalTmus(session).GetDisabledTmuContexts();
             foreach (var sitePinInfo in sitePinInfos)
             {
-                string tmuName = (sitePinInfo as DigitalSitePinInfo)?.AssignedTmuContext;
+                string tmuContext = (sitePinInfo as DigitalSitePinInfo)?.AssignedTmuContext;
 
-                // Break the loop when the TMUname is not in the 'availableTMUList', TMU resource is reserved at the driver level.
-                if (!string.IsNullOrEmpty(tmuName) && !availableTMUList.Contains(tmuName))
+                // Break the loop when the TMU context is not in the 'availableTMUContexts', TMU resource is reserved at the driver level.
+                if (!string.IsNullOrEmpty(tmuContext) && !availableTMUContexts.Contains(tmuContext))
                 {
                     return false;
                 }
@@ -1429,17 +1429,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             tmu.Enabled = true;
         }
 
-        private static bool TryGetTMU(Dictionary<string, Queue<string>> tmusPerInstrument, string deviceName, out string tmuName)
+        private static bool TryGetTMUContext(Dictionary<string, Queue<string>> tmuContextsPerInstrument, string deviceName, out string tmuContext)
         {
-            tmuName = null;
-            if (tmusPerInstrument.TryGetValue(deviceName, out var tmus))
+            tmuContext = null;
+            if (tmuContextsPerInstrument.TryGetValue(deviceName, out var tmuContexts))
             {
-                while (tmus.Any())
+                while (tmuContexts.Any())
                 {
-                    var tmu = tmus.Dequeue();
-                    if (TMUContextManager.Instance.TryAssignTMUContext(deviceName, tmu))
+                    var availableTMUContext = tmuContexts.Dequeue();
+                    if (TMUContextManager.Instance.TryAssignTMUContext(deviceName, availableTMUContext))
                     {
-                        tmuName = tmu;
+                        tmuContext = availableTMUContext;
                         return true;
                     }
                 }
@@ -1448,16 +1448,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             return false;
         }
 
-        private static Dictionary<string, Queue<string>> CategorizeTMUByInstrument(List<string> availableTMUs)
+        private static Dictionary<string, Queue<string>> CategorizeTMUContextsByInstrument(List<string> availableTMUContexts)
         {
-            // A null or empty list yields an empty dictionary, so downstream TryGetTMU simply
+            // A null or empty list yields an empty dictionary, so downstream TryGetTMUContext simply
             // reports that no TMU resources are available rather than faulting here.
-            if (availableTMUs == null || availableTMUs.Count == 0)
+            if (availableTMUContexts == null || availableTMUContexts.Count == 0)
             {
                 return new Dictionary<string, Queue<string>>();
             }
-            // Build a dictionary with device name as key and queue of available TMU as value.
-            return availableTMUs.GroupBy(tmu => tmu.Split('/')[0])
+            // Build a dictionary with device name as key and queue of available TMU contexts as value.
+            return availableTMUContexts.GroupBy(tmuContext => tmuContext.Split('/')[0])
                 .ToDictionary(g => g.Key, g => new Queue<string>(g));
         }
 
