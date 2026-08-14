@@ -47,17 +47,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Utilities
             }
         }
 
-        internal static void AssertPublishedDataValue(double expectedValue, IPublishedData[] publishedData, params string[] pins)
-        {
-            foreach (var pinName in pins)
-            {
-                foreach (var data in publishedData.Where(d => d.Pin == pinName))
-                {
-                    Assert.Equal(expectedValue, data.DoubleValue);
-                }
-            }
-        }
-
         internal static void AssertEqualForDoubleArrays(double[] expected, double[] actual, int precision = 3)
         {
             Assert.Equal(expected.Length, actual.Length);
