@@ -97,6 +97,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
+        /// Gets the MeasureWhen property for all targeted pin(s).
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin MeasureWhen values.</returns>
+        public static PinSiteData<DCPowerMeasurementWhen> GetMeasureWhen(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Measurement.MeasureWhen);
+        }
+
+        /// <summary>
         /// Configures the power line frequency in Hz (double).
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
@@ -129,6 +140,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     sessionInfo.Session.ConfigureMeasurementSense(channelString, modelString, sense);
                 });
             });
+        }
+
+        /// <summary>
+        /// Gets the measurement sense setting for all targeted pin(s).
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin measurement sense values.</returns>
+        public static PinSiteData<DCPowerMeasurementSense> GetMeasurementSense(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Measurement.Sense);
         }
 
         /// <summary>
