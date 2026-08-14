@@ -1,5 +1,6 @@
 using NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAndI2C;
 using NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAndI2C.DutControl;
+using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using Xunit;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
 
@@ -16,7 +17,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         {
             var tsmContext = CreateTSMContext(PinMapFileName, out _);
 
-            TestStep.WriteUniqueValuesToMultipleRegistersAndCompareReadbackValues(tsmContext, protocol);
+            // BME280 writable config registers: ctrl_hum (0xF2), ctrl_meas (0xF4), config (0xF5).
+            SiteData<bool[]> comparisonResults = TestStep.WriteUniqueValuesToMultipleRegistersAndCompareReadbackValues(
+                tsmContext, protocol, registerAddresses: new uint[] { 0xF2, 0xF4, 0xF5 }, valuesToWrite: new long[] { 0x01, 0x27, 0xA0 });
+
+            Assert.All(comparisonResults.SiteNumbers, site => Assert.All(comparisonResults.GetValue(site), Assert.True));
         }
     }
 }

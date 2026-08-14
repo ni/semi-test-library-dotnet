@@ -12,20 +12,25 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="protocol">The digital communication protocol to use (SPI).</param>
-        public static void WriteValueToRegisterAndCompareReadbackValue(ISemiconductorModuleContext tsmContext, CommunicationProtocol protocol)
+        /// <param name="registerAddress">The address of the register to write and read back.</param>
+        /// <param name="valueToWrite">The value to write to the register and expect on readback.</param>
+        /// <returns>The per-site comparison of the readback value against <paramref name="valueToWrite"/>.</returns>
+        public static SiteData<bool> WriteValueToRegisterAndCompareReadbackValue(
+            ISemiconductorModuleContext tsmContext,
+            CommunicationProtocol protocol,
+            uint registerAddress,
+            long valueToWrite)
         {
-            uint regAddress = 0x48;
-            long regValue = 4;
-
             IDigitalProtocol digitalProtocol = tsmContext.DutControl(protocol);
 
-            digitalProtocol.WriteRegister(regAddress, regValue);
+            digitalProtocol.WriteRegister(registerAddress, valueToWrite);
 
-            SiteData<long> regValueReadBack = digitalProtocol.ReadRegister(regAddress);
+            SiteData<long> regValueReadBack = digitalProtocol.ReadRegister(registerAddress);
 
-            SiteData<bool> comparisonResults = regValueReadBack.Compare(ComparisonType.EqualTo, regValue);
+            SiteData<bool> comparisonResults = regValueReadBack.Compare(ComparisonType.EqualTo, valueToWrite);
             tsmContext.PublishResults(regValueReadBack, "RegisterValueReadback");
             tsmContext.PublishResults(comparisonResults, "ComparisonResult");
+            return comparisonResults;
         }
     }
 }

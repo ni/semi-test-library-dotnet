@@ -12,21 +12,27 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="protocol">The digital communication protocol to use (SPI).</param>
-        public static void WriteSiteUniqueValueToRegisterAndCompareReadbackValues(ISemiconductorModuleContext tsmContext, CommunicationProtocol protocol)
+        /// <param name="registerAddress">The address of the register to write and read back.</param>
+        /// <param name="perSiteValuesToWrite">The values to write, one per site in site order.</param>
+        /// <returns>The per-site comparison of the readback value against the written value.</returns>
+        public static SiteData<bool> WriteSiteUniqueValueToRegisterAndCompareReadbackValues(
+            ISemiconductorModuleContext tsmContext,
+            CommunicationProtocol protocol,
+            uint registerAddress,
+            long[] perSiteValuesToWrite)
         {
-            uint regAddress = 0x48;
-            long[] perSiteRegValues = new long[] { 1, 2, 3, 4 };
-            SiteData<long> regValues = tsmContext.NewSiteData(perSiteRegValues);
+            SiteData<long> regValues = tsmContext.NewSiteData(perSiteValuesToWrite);
 
             IDigitalProtocol digitalProtocol = tsmContext.DutControl(protocol);
 
-            digitalProtocol.WriteRegister(regAddress, regValues);
+            digitalProtocol.WriteRegister(registerAddress, regValues);
 
-            SiteData<long> regValueReadBack = digitalProtocol.ReadRegister(regAddress);
+            SiteData<long> regValueReadBack = digitalProtocol.ReadRegister(registerAddress);
 
             SiteData<bool> comparisonResults = regValueReadBack.Compare(ComparisonType.EqualTo, regValues);
             tsmContext.PublishResults(regValueReadBack, "RegisterValueReadback");
             tsmContext.PublishResults(comparisonResults, "ComparisonResult");
+            return comparisonResults;
         }
     }
 }
