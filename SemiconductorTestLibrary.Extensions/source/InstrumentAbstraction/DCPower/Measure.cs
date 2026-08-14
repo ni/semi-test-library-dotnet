@@ -132,6 +132,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
+        /// Gets the measurement sense setting for all targeted pin(s).
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin measurement sense values.</returns>
+        public static PinSiteData<DCPowerMeasurementSense> GetMeasurementSense(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Measurement.Sense);
+        }
+
+        /// <summary>
         /// Gets aperture time in seconds.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
