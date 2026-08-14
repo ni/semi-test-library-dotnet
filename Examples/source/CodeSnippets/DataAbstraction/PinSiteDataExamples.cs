@@ -603,7 +603,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // Since VDET, VCC1, and VCC2 were already added, sites 0, 1 and 2 are added to each of them.
             // Each new site is initialized with the default value of the data type (0.0 for double).
             // Note that the AddSite method can be invoked either by passing a preformed array, as is shown below,
-            // or by listing out the sites as separate parameter inputs, for example, pinSiteData.AddSite(0, 1, 2
+            // or by listing out the sites as separate parameter inputs, for example, pinSiteData.AddSite(0, 1, 2).
             var siteNumbersToAdd = new int[] { 0, 1, 2 };
             pinSiteData.AddSite(siteNumbersToAdd);
             // Pin    | Site 0 | Site 1 | Site 2
@@ -706,7 +706,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // VCC2   |  1.8   |  1.8   |  0.0   |  ---   |  1.8
 
             // Use SetValue with a pin name only (no site numbers) to set a value for all sites on that pin.
-            // This sets 3.3 for VDET across all of its sites (0, 1, 4).
+            // This sets 3.3 for VDET across all of its sites (0, 1, 3).
             pinSiteData.SetValue(value: 3.3, pinNames: "VDET");
             // Pin    | Site 0 | Site 1 | Site 2 | Site 3 | Site 4
             // VDET   |  3.3   |  3.3   |  ---   |  3.3   |  ---
@@ -736,12 +736,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // VCC2   |  0.0   |  0.0   |  0.0   |  0.0
 
             var perSiteData = new double[] { 2.4, 3.6, 5.7, 4.3 };
-            // Use SetValue with specific pin names and site numbers to assign a value from perSiteData for VDET and VCC1 pins at once.
-            // This sets 2.4 for VDET and VCC1 at site 0, 3.6 for VDET and VCC1 at site 1,
-            // 5.7 for VDET and VCC1 at site 2, and 4.3 for VDET and VCC1 at site 3.
+            // Use SetValue to assign per-site data values for both VDET and VCC1 pins at once.
+            // Note that the site values for VCC2 are left untouched and remain at their default value (0.0).
             for (int i = 0; i < perSiteData.Length; i++)
             {
-                pinSiteData.SetValue(value: perSiteData[i], pinNames: new string[] { "VDET", "VCC1" }, siteNumbers: siteNumbers[i]);
+                pinSiteData.SetValue(value: perSiteData[i], pinNames: new string[] { "VDET", "VCC1" }, siteNumbers: i);
             }
             // Pin    | Site 0 | Site 1 | Site 2 | Site 3
             // VDET   |  2.4   |  3.6   |  5.7   |  4.3
@@ -750,17 +749,17 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
 
             // Use RemoveSite to remove a specific site from a specific pin.
             // This removes site 2 from VCC2 only, while VDET and VCC1 retain site 2.
-            // Note that using the overload for the AddSite method shown below can result in a jagged    PinSiteData object,
+            // Note that using the overload for the AddSite method shown below can result in a jagged PinSiteData object,
             // where different pins have different numbers of sites.
             // This can be useful for certain scenarios but should be leveraged with caution.
-            // Tthe invocation below results in Site 2 being removed from VCC2 but is retained for other pins.
+            // The invocation below results in Site 2 being removed from VCC2 but is retained for other pins.
             pinSiteData.RemoveSite(pinName: "VCC2", siteNumbers: 2);
             // Pin    | Site 0 | Site 1 | Site 2 | Site 3
             // VDET   |  2.4   |  3.6   |  5.7   |  4.3
             // VCC1   |  2.4   |  3.6   |  5.7   |  4.3
             // VCC2   |  0.0   |  0.0   |  ---   |  0.0
 
-            // Use RemoveSite to remove a specific sites from all pins.
+            // Use RemoveSite to remove specific sites from all pins.
             // This removes sites 2 and 3 from VDET, VCC1, and VCC2, leaving sites 0 and 1 for each pin.
             pinSiteData.RemoveSite(2, 3);
             // Pin   | Site 0 | Site 1
@@ -771,14 +770,14 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // Use RemovePin to remove multiple pins from the PinSiteData object at once.
             // This removes both VCC1 and VCC2 and all their associated site data, leaving only VDET.
             pinSiteData.RemovePin("VCC1", "VCC2");
-            // Pin    | Site 0 | Site 1 | Site 2
-            // VDET   |  2.4   |  3.6   |  5.7
+            // Pin    | Site 0 | Site 1
+            // VDET   |  2.4   |  3.6
 
             // Use SetValue with a specific pin name and site number to overwrite a single combination.
             // This sets 0.9 only for VDET at site 0, leaving all other values unchanged.
             pinSiteData.SetValue(value: 0.9, pinName: "VDET", siteNumbers: 0);
-            // Pin    | Site 0 | Site 1 | Site 2
-            // VDET   |  0.9   |  3.6   |  5.7
+            // Pin    | Site 0 | Site 1
+            // VDET   |  0.9   |  3.6
         }
 
         /// <summary>

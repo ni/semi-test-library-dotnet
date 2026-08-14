@@ -307,6 +307,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // Value |  0.0  |  0.0  |  0.0
 
             // Use SetValue with specific site numbers to assign a value to only those sites.
+            // This sets 1.8 for site 0 and site 1, leaving site 2 unchanged at 0.0.
             siteData.SetValue(value: 1.8, siteNumbers: new int[] { 0, 1 });
             // Site  |  0    |  1    |  2
             // Value |  1.8  |  1.8  |  0.0
