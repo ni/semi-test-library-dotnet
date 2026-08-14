@@ -231,17 +231,20 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // Site numbers to associate with the DUT pins.
             var siteNumbers = new int[] { 0, 1 };
             // Per-pin, per-site data array.
-            // Note that data associated with system pins is considered site-agnostic,
-            // and site-agnostic data can represented with -1 as the site value.
+            // Each element in the perPinData array corresponds to a pin in the pinNames array.
             var perPinData = new double[] { 1.5, 2.5, -22.5 };
 
-            // Since both pin names and site numbers are known, providing this information to the constructor is most efficient.
-            // Alternatively, you can create empty PinSiteData and then add pins and sites manually with the AddPin and AddSite methods,
-            // or have them be added dynamically as specified by the SetValue method.
-            // Note that the constructor's siteNumbers input parameter can accept both an array of site numbers and a single site number,
-            // In this example the -1 site value is simply appended after the siteNumbers array,
-            // where the -1 value represents the site-agnostic data for any system pins.
-            var pinSiteData = new PinSiteData<double>(pinNames: pinNames, siteNumbers: siteNumbers, -1);
+            // Note that data associated with system pins is considered site-agnostic,
+            // and site-agnostic data can represented with -1 as the site value.
+            // Typically, the site numbers array used within a code module will not explicitly contain a -1 value.
+            // Therefore, -1 will need to be appended to the siteNumbers array when creating a PinSiteData object that contains system pin data.
+            // This can be done using array operations or by converting the array into a List, but in most instances it is best not to modify the original siteNumbers array,
+            // as it may be used elsewhere in the code module where the system pin data is not relevant and can result in unintended consequences.
+            // The most efficient way to handle this is by first constructing the PinSiteData object with the known Pin Names and Site Numbers array,
+            // and then adding the -1 site manually with the AddSite method.
+            // Alternatively, the site and pins can simply be added dynamically when SetValue is called.
+            var pinSiteData = new PinSiteData<double>(pinNames: new string[] { "VCC1", "VCC2" }, siteNumbers);
+            pinSiteData.AddSite("SystemSupply", -1);
             for (int i = 0; i < perPinData.Length; i++)
             {
                 // Check if the pin is a system pin and set the value accordingly.
@@ -504,10 +507,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
 
         internal static void BuildWithPinAndSiteUniqueDataArray()
         {
-            // Site numbers to associate with the data.
-            var siteNumbers = new int[] { 2, 4, 3 };
-            // Pin names to associate with the data.
-            var pinNames = new string[] { "VDET", "VCC1" };
             // 2D jagged array of pin and site unique data,
             // where the first dimension represents pins (2) and the second dimension represents sites (3).
             var perPinPerSiteData = new double[][]
@@ -515,11 +514,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
                 new double[] { 42, 105, 206 },
                 new double[] { 55, 2048, 0.5 }
             };
-
-            // Use the empty constructor. Pins and sites can be added later using AddSite method.
-            var pinSiteData = new PinSiteData<double>();
-            // Add sites. Sites 2, 4, and 3 are added to all pins. Each new site is initialized with the default value of the data type (0.0 for double).
-            pinSiteData.AddSite(pinNames, 2, 4, 3);
+            // Use the pin-only constructor, then add the sites.
+            // This constructor allows you to declare pins upfront and add sites later on.
+            var pinSiteData = new PinSiteData<double>(pinNames: new string[] { "VDET", "VCC1" });
+            // Add sites
+            pinSiteData.AddSite(2, 4, 3);
             // Set a unique value for each pin and each site combination.
             for (int pinIndex = 0; pinIndex < pinSiteData.PinNames.Length; pinIndex++)
             {
