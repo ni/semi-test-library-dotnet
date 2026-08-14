@@ -1378,7 +1378,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 foreach (var pin in results.PinNames)
                 {
                     var value = results.GetValue(siteNumber, pin);
-                    Assert.Equal(expectedMeasurement, value.Item1, precision: 3);
+                    Assert.Equal(expectedMeasurement, value.Item1, precision: 6);
                     Assert.False(value.Item2);
                 }
             }
@@ -1401,25 +1401,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 .SelectMany(siteNumber => results.PinNames.Select(pin => results.GetValue(siteNumber, pin)))
                 .Distinct();
             Assert.Single(distinctValues);
-        }
-
-        private void AssertResultAssociatedWithIndividualPinName<T>(PinSiteData<T> results, string pinGroup, string individualPin)
-        {
-            foreach (var siteNumber in results.SiteNumbers)
-            {
-                Assert.True(results.TryGetValue(siteNumber, individualPin, out _));
-                Assert.False(results.TryGetValue(siteNumber, pinGroup, out _));
-            }
-        }
-
-        private void AssertResultAssociatedWithIndividualPinName(PinSiteData<Tuple<double, bool>> results, string pinGroup, string individualPin, double expectedMeasurement)
-        {
-            foreach (var siteNumber in results.SiteNumbers)
-            {
-                Assert.True(results.TryGetValue(siteNumber, individualPin, out var result));
-                Assert.False(results.TryGetValue(siteNumber, pinGroup, out _));
-                Assert.Equal(expectedMeasurement, result.Item1, precision: 3);
-            }
         }
     }
 }
