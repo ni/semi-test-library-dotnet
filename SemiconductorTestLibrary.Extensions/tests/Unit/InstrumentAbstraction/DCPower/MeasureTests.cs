@@ -1306,6 +1306,124 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
         }
 
+        [Theory]
+        [InlineData(DCPowerMeasurementWhen.OnDemand)]
+        [InlineData(DCPowerMeasurementWhen.OnMeasureTrigger)]
+        [InlineData(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        public void SMUDevicesMerged_GetMeasureWhen_ReturnsPrimaryPinValue(DCPowerMeasurementWhen expectedMeasureWhen)
+        {
+            var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
+            var primaryPin = "VCCPrimary";
+            var allPinsMergedGroup = "AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin";
+            var sessionsBundle = sessionManager.DCPower(allPinsMergedGroup);
+            sessionsBundle.MergePinGroup(allPinsMergedGroup);
+            sessionsBundle.ConfigureMeasureWhen(expectedMeasureWhen);
+
+            var measureWhen = sessionsBundle.GetMeasureWhen();
+
+            Assert.Single(measureWhen.PinNames);
+            Assert.Equal(primaryPin, measureWhen.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(allPinsMergedGroup, measureWhen.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedMeasureWhen, measureWhen.GetValue(sitePinInfo));
+            });
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap", DCPowerMeasurementWhen.OnDemand)]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap", DCPowerMeasurementWhen.OnMeasureTrigger)]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap", DCPowerMeasurementWhen.OnDemand)]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap", DCPowerMeasurementWhen.OnMeasureTrigger)]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap", DCPowerMeasurementWhen.OnDemand)]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap", DCPowerMeasurementWhen.OnMeasureTrigger)]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        public void DifferentSMUDevicesGangedConfigureMeasureWhen_GetMeasureWhen_ReturnsCorrectValue(string pinMap, DCPowerMeasurementWhen expectedMeasureWhen)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            sessionsBundle.GangPinGroup(TwoPinsGangedGroup);
+            sessionsBundle.ConfigureMeasureWhen(expectedMeasureWhen);
+
+            var measureWhen = sessionsBundle.GetMeasureWhen();
+
+            Assert.Equal(2, measureWhen.PinNames.Length);
+            Assert.DoesNotContain(TwoPinsGangedGroup, measureWhen.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                var expectedValue = IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo) ? DCPowerMeasurementWhen.OnMeasureTrigger : expectedMeasureWhen;
+                Assert.Equal(expectedValue, measureWhen.GetValue(sitePinInfo));
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementWhen.OnDemand)]
+        [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementWhen.OnMeasureTrigger)]
+        [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        [InlineData("SharedPinTests.pinmap", DCPowerMeasurementWhen.OnDemand)]
+        [InlineData("SharedPinTests.pinmap", DCPowerMeasurementWhen.OnMeasureTrigger)]
+        [InlineData("SharedPinTests.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        public void DifferentSMUDevicesConfigureMeasureWhen_GetMeasureWhen_ReturnsCorrectValue(string pinMap, DCPowerMeasurementWhen expectedMeasureWhen)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            sessionsBundle.ConfigureMeasureWhen(expectedMeasureWhen);
+
+            var measureWhen = sessionsBundle.GetMeasureWhen();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedMeasureWhen, measureWhen.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesConfigurePerPinPerSiteMeasureWhen_GetMeasureWhen_ReturnsCorrectValue()
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var pinNames = new string[] { "VCC1", "VCC2" };
+            var sessionsBundle = sessionManager.DCPower(pinNames);
+            var activeSites = GetActiveSites(sessionsBundle);
+            var expectedMeasureWhen = new PinSiteData<DCPowerMeasurementWhen>(activeSites, new Dictionary<string, DCPowerMeasurementWhen>()
+            {
+                [pinNames[0]] = DCPowerMeasurementWhen.OnDemand,
+                [pinNames[1]] = DCPowerMeasurementWhen.OnDemand
+            });
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Measurement.MeasureWhen = expectedMeasureWhen.GetValue(sitePinInfo);
+            });
+
+            var values = sessionsBundle.GetMeasureWhen();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedMeasureWhen.GetValue(sitePinInfo), values.GetValue(sitePinInfo));
+            });
+        }
+
+        [Theory]
+        [InlineData(DCPowerMeasurementWhen.OnDemand)]
+        [InlineData(DCPowerMeasurementWhen.OnMeasureTrigger)]
+        [InlineData(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        public void SharedPinsConfigureMeasureWhenOnFilteredSites_GetMeasureWhen_ReturnsSameValueForAllSites(DCPowerMeasurementWhen expectedMeasureWhen)
+        {
+            var sessionManager = Initialize("SharedPinTests.pinmap");
+            var pinName = "VCC2";
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            var filteredBundle = sessionsBundle.FilterBySite(new[] { 0, 1 });
+            filteredBundle.ConfigureMeasureWhen(expectedMeasureWhen);
+
+            var measureWhen = filteredBundle.GetMeasureWhen();
+
+            filteredBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedMeasureWhen, measureWhen.GetValue(sitePinInfo));
+            });
+        }
+
         private DCPowerSessionsBundle MergeAndForceVoltage(string pinGroupName, out string primaryPin)
         {
             _tsmContext = CreateTSMContext("Merged_4163.pinmap");
