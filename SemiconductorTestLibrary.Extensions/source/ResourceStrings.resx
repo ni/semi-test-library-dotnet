@@ -192,8 +192,11 @@
   <data name="Digital_TMUSkewMeasurementNullReferencePinsOrTargetPins" xml:space="preserve">
     <value>'{0}' cannot be null for skew measurement. Please provide valid '{0}' values.</value>
   </data>
+  <data name="Digital_TMUUnsupportedArmSetting" xml:space="preserve">
+    <value>The arm setting "{0}" is not supported, use either "Immediate". "StartEdge" or "StopEdge" as arm setting.</value>
+  </data>
   <data name="Digital_TMUUnsupportedArmType" xml:space="preserve">
-    <value>The arm type "{0}" is not supported, use either "Immediate" or "Edge" as duty cycle.</value>
+    <value>The arm type "{0}" is not supported, use either "Immediate" or "Edge" as arm type.</value>
   </data>
   <data name="Digital_TMUSkewEmptyReferenceOrTargetPins" xml:space="preserve">
     <value>'{0}' cannot be empty.</value>

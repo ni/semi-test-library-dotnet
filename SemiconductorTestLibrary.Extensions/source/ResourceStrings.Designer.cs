@@ -295,7 +295,16 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The arm type &quot;{0}&quot; is not supported, use either &quot;Immediate&quot; or &quot;Edge&quot; as duty cycle..
+        ///   Looks up a localized string similar to The arm setting &quot;{0}&quot; is not supported, use either &quot;Immediate&quot;. &quot;StartEdge&quot; or &quot;StopEdge&quot; as arm setting..
+        /// </summary>
+        internal static string Digital_TMUUnsupportedArmSetting {
+            get {
+                return ResourceManager.GetString("Digital_TMUUnsupportedArmSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The arm type &quot;{0}&quot; is not supported, use either &quot;Immediate&quot; or &quot;Edge&quot; as arm type..
         /// </summary>
         internal static string Digital_TMUUnsupportedArmType {
             get {
