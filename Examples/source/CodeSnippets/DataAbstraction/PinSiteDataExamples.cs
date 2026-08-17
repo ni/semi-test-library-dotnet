@@ -507,8 +507,13 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
 
         internal static void BuildWithPinAndSiteUniqueDataArray()
         {
+            // Site numbers to associate with the data.
+            var siteNumbers = new int[] { 2, 4, 3 };
+            // Pin names to associate with the data.
+            var pinNames = new string[] { "VDET", "VCC1" };
             // 2D jagged array of pin and site unique data,
             // where the first dimension represents pins (2) and the second dimension represents sites (3).
+            // Note that order of the elements in the perPinPerSiteData array must match the order of the pinNames and siteNumbers arrays. Given the out of order siteNumbers array, the data for site 3 is in the last column of the perPinPerSiteData array.
             var perPinPerSiteData = new double[][]
             {
                 new double[] { 42, 105, 206 },
@@ -516,9 +521,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             };
             // Use the pin-only constructor, then add the sites.
             // This constructor allows you to declare pins upfront and add sites later on.
-            var pinSiteData = new PinSiteData<double>(pinNames: new string[] { "VDET", "VCC1" });
-            // Add sites
-            var siteNumbers = new int[] { 2, 4, 3 };
+            var pinSiteData = new PinSiteData<double>(pinNames);
+            // Add sites.
             pinSiteData.AddSite(siteNumbers);
             // Set a unique value for each pin and each site combination.
             for (int pinIndex = 0; pinIndex < pinSiteData.PinNames.Length; pinIndex++)
