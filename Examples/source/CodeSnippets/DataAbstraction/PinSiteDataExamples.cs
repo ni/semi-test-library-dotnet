@@ -731,7 +731,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // VCC1   |  0.0   |  0.0
             // VCC2   |  0.0   |  0.0
 
-            // Use AddSite to extend all existing pins with an additional site.
+            // Use AddSite to extend all existing pins with additional sites.
             // Sites 2 and 3 are added to VDET, VCC1, and VCC2, each initialized with the default value (0.0).
             pinSiteData.AddSite(2, 3);
             // Pin    | Site 0 | Site 1 | Site 2 | Site 3
