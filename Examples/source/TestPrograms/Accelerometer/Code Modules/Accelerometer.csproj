@@ -26,7 +26,7 @@
     <None Remove="packages\**" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NationalInstruments.SemiconductorTestLibrary" Version="26.5.0-d41" />
+    <PackageReference Include="NationalInstruments.SemiconductorTestLibrary" Version="26.5.0-*" />
     <PackageReference Include="NI.CSharp.Analyzers" Version="2.0.28" ExcludeAssets="runtime" />
   </ItemGroup>
   <ItemGroup>

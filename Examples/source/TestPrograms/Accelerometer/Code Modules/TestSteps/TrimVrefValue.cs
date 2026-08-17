@@ -23,11 +23,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.Accelerometer
         {
             double[] vrefValues = semiconductorModuleContext.GetInputDataAsDoubles(inputDataId: "Vref Value");
             double maxVrefValue = semiconductorModuleContext.GetSpecificationsValue("DC.Max_Vref_Value");
-            int[] siteNumbers = semiconductorModuleContext.SiteNumbers.ToArray();
+            var siteNumbers = semiconductorModuleContext.SiteNumbers;
 
             // Build SiteData using the default constructor, then add sites and set per-site values.
             SiteData<uint> registerValues = new SiteData<uint>();
-            registerValues.AddSite(siteNumbers);
             // Compute register value based on vrefValues (one per site).
             for (int i = 0; i < vrefValues.Length; i++)
             {
@@ -35,7 +34,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.Accelerometer
                 double normalizedValue = (vrefValue / maxVrefValue) * byte.MaxValue;
                 uint registerValue = ConvertDoubleToByte(normalizedValue);
 
-                registerValues.SetValue(registerValue, siteNumbers[i]);
+                registerValues.SetValue(registerValue, siteNumbers.ElementAt(i));
             }
 
             var sessionManager = new TSMSessionManager(semiconductorModuleContext);
