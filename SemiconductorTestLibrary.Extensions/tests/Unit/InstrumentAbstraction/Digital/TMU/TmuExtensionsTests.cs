@@ -891,6 +891,117 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         #endregion
 
+        #region TMU Arm Setting Tests
+
+        [Theory]
+        [InlineData(TmuArmSetting.Immediate)]
+        [InlineData(TmuArmSetting.StartEdge)]
+        [InlineData(TmuArmSetting.StopEdge)]
+        public void Inititalize_ConfigurePeriodMeasurementWithArmSettingSucceeds(TmuArmSetting armSetting)
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.ConfigurePeriodMeasurement(TmuPolarity.RisingEdge, 1, armSetting);
+            sessionsBundle.DisableTMU();
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Theory]
+        [InlineData(TmuArmSetting.Immediate)]
+        [InlineData(TmuArmSetting.StartEdge)]
+        [InlineData(TmuArmSetting.StopEdge)]
+        public void Inititalize_ConfigureTMURiseTimeMeasurementWithArmSettingSucceeds(TmuArmSetting armSetting)
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.ConfigureTMURiseTimeMeasurement(1, armSetting);
+            sessionsBundle.DisableTMU();
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Theory]
+        [InlineData(TmuArmSetting.Immediate)]
+        [InlineData(TmuArmSetting.StartEdge)]
+        [InlineData(TmuArmSetting.StopEdge)]
+        public void Inititalize_ConfigureTMUFallTimeMeasurementWithArmSettingSucceeds(TmuArmSetting armSetting)
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.ConfigureTMUFallTimeMeasurement(1, armSetting);
+            sessionsBundle.DisableTMU();
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Theory]
+        [InlineData(TmuArmSetting.Immediate)]
+        [InlineData(TmuArmSetting.StartEdge)]
+        [InlineData(TmuArmSetting.StopEdge)]
+        public void Inititalize_ConfigureTMUDutyCycleMeasurementWithArmSettingSucceeds(TmuArmSetting armSetting)
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.ConfigureTMUDutyCycleMeasurement(TmuDutyCycle.High, 1, armSetting);
+            sessionsBundle.DisableTMU();
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Theory]
+        [InlineData(TmuArmSetting.Immediate)]
+        [InlineData(TmuArmSetting.StartEdge)]
+        [InlineData(TmuArmSetting.StopEdge)]
+        public void Inititalize_ConfigureTMUPulseWidthMeasurementWithArmSettingSucceeds(TmuArmSetting armSetting)
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.ConfigureTMUPulseWidthMeasurement(TmuPulseWidth.High, 1, armSetting);
+            sessionsBundle.DisableTMU();
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_ConfigurePeriodMeasurementWithInvalidArmSetting_ThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            void ConfigurePeriodMeasurementWithInvalidArmSetting()
+            {
+                sessionsBundle.ConfigurePeriodMeasurement(TmuPolarity.RisingEdge, 1, (TmuArmSetting)999);
+            }
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                ConfigurePeriodMeasurementWithInvalidArmSetting());
+            sessionsBundle.DisableTMU();
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_ConfigureTMUDutyCycleMeasurementWithInvalidArmSetting_ThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            void ConfigureTMUDutyCycleMeasurementWithInvalidArmSetting()
+            {
+                sessionsBundle.ConfigureTMUDutyCycleMeasurement(TmuDutyCycle.High, 1, (TmuArmSetting)999);
+            }
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                ConfigureTMUDutyCycleMeasurementWithInvalidArmSetting());
+            sessionsBundle.DisableTMU();
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Inititalize_ConfigureTMUPulseWidthMeasurementWithArmSettingAndSinglePinSucceeds()
+        {
+            var sessionsBundle = InititalzeAndCreateBundle();
+
+            sessionsBundle.ConfigureTMUPulseWidthMeasurement(TmuPulseWidth.Low, 1, "C0", TmuArmSetting.StartEdge);
+            sessionsBundle.DisableTMU();
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        #endregion
+
         #region Helper Methods
 
         private DigitalSessionsBundle InititalzeAndCreateBundle()
