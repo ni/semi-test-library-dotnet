@@ -513,11 +513,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             var pinNames = new string[] { "VDET", "VCC1" };
             // 2D jagged array of pin and site unique data,
             // where the first dimension represents pins (2) and the second dimension represents sites (3).
-            // Note that order of the elements in the perPinPerSiteData array must match the order of the pinNames and siteNumbers arrays. Given the out of order siteNumbers array, the data for site 3 is in the last column of the perPinPerSiteData array.
+            // Note that order of the elements in the perPinPerSiteData array must match the order of the pinNames and siteNumbers arrays.
             var perPinPerSiteData = new double[][]
             {
-                new double[] { 42, 105, 206 },
-                new double[] { 55, 2048, 0.5 }
+                new double[] { 42, 105, 206 }, // VDET data for sites: 2, 4, 3.
+                new double[] { 55, 2048, 0.5 } // VCC1 data for sites: 2, 4, 3.
             };
             // Use the pin-only constructor, then add the sites.
             // This constructor allows you to declare pins upfront and add sites later on.
