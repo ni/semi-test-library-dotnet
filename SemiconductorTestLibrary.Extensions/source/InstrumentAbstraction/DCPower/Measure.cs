@@ -539,22 +539,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         public static void ClearFetchBacklog(this DCPowerSessionsBundle sessionsBundle)
         {
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            sessionsBundle.Do(sessionInfo =>
             {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-
-                // Clear FetchBacklog is valid only for non-onDemand measurement modes.
-                if (channelOutput.Measurement.MeasureWhen == DCPowerMeasurementWhen.OnDemand)
+                foreach (var sitePinInfo in sessionInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations))
                 {
-                    return;
-                }
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
 
-                // Continuously fetch until backlog is empty to handle race conditions where samples
-                // may be added to the buffer between reading the backlog and fetching.
-                int fetchBacklog;
-                while ((fetchBacklog = channelOutput.Measurement.FetchBacklog) > 0)
-                {
-                    sessionInfo.Session.Measurement.Fetch(sitePinInfo.IndividualChannelString, new PrecisionTimeSpan(20), fetchBacklog);
+                    // FetchBacklog is only valid when the channel is running (non-OnDemand measure modes).
+                    if (channelOutput.Measurement.MeasureWhen == DCPowerMeasurementWhen.OnDemand)
+                    {
+                        continue;
+                    }
+
+                    int fetchBacklog = channelOutput.Measurement.FetchBacklog;
+                    if (fetchBacklog > 0)
+                    {
+                        sessionInfo.Session.Measurement.Fetch(sitePinInfo.IndividualChannelString, new PrecisionTimeSpan(20), fetchBacklog);
+                    }
                 }
             });
         }
