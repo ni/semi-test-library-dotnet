@@ -49,8 +49,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                     SetDigitalHighZState(sessionInfo);
                     DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
                     tmu.Initiate();
-                    // After inititaing the TMU we can clear them form our list as then they are no longer "just" soft assigned.
-                    ClearAssignedTMUContextsForSitePin(sitePinInfo);
                 }
             });
         }
@@ -1364,23 +1362,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             // Clear assigned TMU and release it back to TMU resource pool.
             foreach (SitePinInfo sitePinInfo in sitePinInfos)
             {
-                ClearAssignedTMUContextsForSitePin(sitePinInfo);
-            }
-        }
-
-        private static void ClearAssignedTMUContextsForSitePin(SitePinInfo sitePinInfo)
-        {
-            var digitalSitePinInfo = sitePinInfo as DigitalSitePinInfo;
-            var assignedTmuContext = digitalSitePinInfo?.AssignedTmuContext;
-            // Clear only if TMU resource is assigned for a site/pin pair.
-            // This can happen when:
-            // - 'ClearTMUAssignment' is invoked twice on the same bundle object.
-            // - 'ClearTMUAssignment' is invoked before invoking 'AssignTMUResources'.
-            // - 'ClearTMUAssignment(pinNames)' is invoked, targeting only a subset of pins within the bundle object, and then the 'ClearTMUAssignment()' is invoked on whole bundle object.
-            if (!string.IsNullOrEmpty(assignedTmuContext))
-            {
-                digitalSitePinInfo.AssignedTmuContext = string.Empty;
-                TMUContextManager.Instance.UnAssignTMUContext(digitalSitePinInfo.InstrumentName, assignedTmuContext);
+                var digitalSitePinInfo = sitePinInfo as DigitalSitePinInfo;
+                var assignedTmuContext = digitalSitePinInfo?.AssignedTmuContext;
+                // Clear only if TMU resource is assigned for a site/pin pair.
+                // This can happen when:
+                // - 'ClearTMUAssignment' is invoked twice on the same bundle object.
+                // - 'ClearTMUAssignment' is invoked before invoking 'AssignTMUResources'.
+                // - 'ClearTMUAssignment(pinNames)' is invoked, targeting only a subset of pins within the bundle object, and then the 'ClearTMUAssignment()' is invoked on whole bundle object.
+                if (!string.IsNullOrEmpty(assignedTmuContext))
+                {
+                    digitalSitePinInfo.AssignedTmuContext = string.Empty;
+                    TMUContextManager.Instance.UnAssignTMUContext(digitalSitePinInfo.InstrumentName, assignedTmuContext);
+                }
             }
         }
 
