@@ -2058,6 +2058,319 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
+        /// Configures the voltage limit range.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="voltageLimitRange">The voltage limit range to set, in Volts.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        public static void ConfigureVoltageLimitRange(this DCPowerSessionsBundle sessionsBundle, double voltageLimitRange, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            sessionsBundle.DoPerChannelIfGangedElsePerSession(
+               perChannelAction: (sessionInfo, sitePinInfo) =>
+               {
+                   SetVoltageLimitRange(sessionInfo, sitePinInfo, voltageLimitRange);
+               },
+               perSessionAction: sessionInfo =>
+               {
+                   sessionInfo.AllChannelsOutput.Control.Abort();
+                   sessionInfo.AllChannelsOutput.Source.Current.VoltageLimitRange = voltageLimitRange;
+               });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureVoltageLimitRange(DCPowerSessionsBundle, double, UpdateMode)"/>
+        public static void ConfigureVoltageLimitRange(this DCPowerSessionsBundle sessionsBundle, SiteData<double> voltageLimitRange, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetVoltageLimitRange(sessionInfo, sitePinInfo, voltageLimitRange.GetValue(sitePinInfo.SiteNumber));
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureVoltageLimitRange(DCPowerSessionsBundle, double, UpdateMode)"/>
+        /// <remarks>
+        /// The range defines the valid values to which the voltage limit can be set.
+        /// When the session bundle contains a ganged pin group and the <paramref name="voltageLimitRange"/> value is associated with the ganged pin group name, the voltage limit range is applied to all channels in the pin group.
+        /// When ganged pins are configured using individual pin names, all pins in the ganged group must have the same value; otherwise an exception is thrown.
+        /// Otherwise, when the value is associated with individual pin names, the voltage limit range for each pin is selected as the nearest range to the specified value.
+        /// </remarks>
+        /// <exception cref="NISemiconductorTestException">Thrown when the ganged pins are configured using individual pin names with different values.</exception>
+        public static void ConfigureVoltageLimitRange(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> voltageLimitRange, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, voltageLimitRange);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetVoltageLimitRange(sessionInfo, sitePinInfo, voltageLimitRange.GetValue(sitePinInfo));
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <summary>
+        /// Configures the voltage level.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="voltageLevel">The voltage level to set, in Volts.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        public static void ConfigureVoltageLevel(this DCPowerSessionsBundle sessionsBundle, double voltageLevel, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            sessionsBundle.DoPerChannelIfGangedElsePerSession(
+               perChannelAction: (sessionInfo, sitePinInfo) =>
+               {
+                   SetVoltageLevel(sessionInfo, sitePinInfo, voltageLevel);
+               },
+               perSessionAction: sessionInfo =>
+               {
+                   sessionInfo.AllChannelsOutput.Control.Abort();
+                   sessionInfo.AllChannelsOutput.Source.Voltage.VoltageLevel = voltageLevel;
+               });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureVoltageLevel(DCPowerSessionsBundle, double, UpdateMode)"/>
+        public static void ConfigureVoltageLevel(this DCPowerSessionsBundle sessionsBundle, SiteData<double> voltageLevel, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetVoltageLevel(sessionInfo, sitePinInfo, voltageLevel.GetValue(sitePinInfo.SiteNumber));
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureVoltageLevel(DCPowerSessionsBundle, double, UpdateMode)"/>
+        /// <remarks>
+        /// When the session bundle contains a ganged pin group, the <paramref name="voltageLevel"/> value is associated with the ganged pin group name, the voltage level is applied to all channels in the pin group.
+        /// When ganged pins are configured using individual pin names, all pins in the ganged group must have the same value; otherwise an exception is thrown.
+        /// Otherwise, when the value is associated with individual pin names, the voltage level for each pin is set to the specified value.
+        /// </remarks>
+        /// <exception cref="NISemiconductorTestException">Thrown when the ganged pins are configured using individual pin names with different values.</exception>
+        public static void ConfigureVoltageLevel(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> voltageLevel, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, voltageLevel);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetVoltageLevel(sessionInfo, sitePinInfo, voltageLevel.GetValue(sitePinInfo, out _));
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <summary>
+        /// Configures the voltage limit high.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="voltageLimitHigh">The voltage limit high to set, in Volts.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        public static void ConfigureVoltageLimitHigh(this DCPowerSessionsBundle sessionsBundle, double voltageLimitHigh, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            sessionsBundle.DoPerChannelIfGangedElsePerSession(
+               perChannelAction: (sessionInfo, sitePinInfo) =>
+               {
+                   SetVoltageLimitHigh(sessionInfo, sitePinInfo, voltageLimitHigh);
+               },
+               perSessionAction: sessionInfo =>
+               {
+                   sessionInfo.AllChannelsOutput.Control.Abort();
+                   sessionInfo.AllChannelsOutput.Source.Current.VoltageLimitHigh = voltageLimitHigh;
+               });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureVoltageLimitHigh(DCPowerSessionsBundle, double, UpdateMode)"/>
+        public static void ConfigureVoltageLimitHigh(this DCPowerSessionsBundle sessionsBundle, SiteData<double> voltageLimitHigh, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetVoltageLimitHigh(sessionInfo, sitePinInfo, voltageLimitHigh.GetValue(sitePinInfo.SiteNumber));
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureVoltageLimitHigh(DCPowerSessionsBundle, double, UpdateMode)"/>
+        /// <remarks>
+        /// When the session bundle contains a ganged pin group and the <paramref name="voltageLimitHigh"/> value is associated with the ganged pin group name, the voltage limit high is applied to all channels in the pin group.
+        /// When ganged pins are configured using individual pin names, all pins in the ganged group must have the same value; otherwise an exception is thrown.
+        /// Otherwise, when the value is associated with individual pin names, the voltage limit high for each pin is set to the specified value.
+        /// </remarks>
+        /// <exception cref="NISemiconductorTestException">Thrown when the ganged pins are configured using individual pin names with different values.</exception>
+        public static void ConfigureVoltageLimitHigh(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> voltageLimitHigh, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, voltageLimitHigh);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetVoltageLimitHigh(sessionInfo, sitePinInfo, voltageLimitHigh.GetValue(sitePinInfo));
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <summary>
+        /// Configures the voltage limit low.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="voltageLimitLow">The voltage limit low to set, in Volts.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        public static void ConfigureVoltageLimitLow(this DCPowerSessionsBundle sessionsBundle, double voltageLimitLow, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            sessionsBundle.DoPerChannelIfGangedElsePerSession(
+               perChannelAction: (sessionInfo, sitePinInfo) =>
+               {
+                   SetVoltageLimitLow(sessionInfo, sitePinInfo, voltageLimitLow);
+               },
+               perSessionAction: sessionInfo =>
+               {
+                   sessionInfo.AllChannelsOutput.Control.Abort();
+                   sessionInfo.AllChannelsOutput.Source.Current.VoltageLimitLow = voltageLimitLow;
+               });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureVoltageLimitLow(DCPowerSessionsBundle, double, UpdateMode)"/>
+        public static void ConfigureVoltageLimitLow(this DCPowerSessionsBundle sessionsBundle, SiteData<double> voltageLimitLow, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetVoltageLimitLow(sessionInfo, sitePinInfo, voltageLimitLow.GetValue(sitePinInfo.SiteNumber));
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureVoltageLimitLow(DCPowerSessionsBundle, double, UpdateMode)"/>
+        /// <remarks>
+        /// When the session bundle contains a ganged pin group and the <paramref name="voltageLimitLow"/> value is associated with the ganged pin group name, the voltage limit low is applied to all channels in the pin group.
+        /// When ganged pins are configured using individual pin names, all pins in the ganged group must have the same value; otherwise an exception is thrown.
+        /// Otherwise, when the value is associated with individual pin names, the voltage limit low for each pin is set to the specified value.
+        /// </remarks>
+        /// <exception cref="NISemiconductorTestException">Thrown when the ganged pins are configured using individual pin names with different values.</exception>
+        public static void ConfigureVoltageLimitLow(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> voltageLimitLow, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, voltageLimitLow);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetVoltageLimitLow(sessionInfo, sitePinInfo, voltageLimitLow.GetValue(sitePinInfo));
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <summary>
+        /// Configures the voltage limit.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="voltageLimit">The voltage limit to set, in Volts.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        public static void ConfigureVoltageLimit(this DCPowerSessionsBundle sessionsBundle, double voltageLimit, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            sessionsBundle.DoPerChannelIfGangedElsePerSession(
+               perChannelAction: (sessionInfo, sitePinInfo) =>
+               {
+                   SetVoltageLimit(sessionInfo, sitePinInfo, voltageLimit);
+               },
+               perSessionAction: sessionInfo =>
+               {
+                   sessionInfo.AllChannelsOutput.Control.Abort();
+                   sessionInfo.AllChannelsOutput.Source.Current.VoltageLimit = voltageLimit;
+               });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureVoltageLimit(DCPowerSessionsBundle, double, UpdateMode)"/>
+        public static void ConfigureVoltageLimit(this DCPowerSessionsBundle sessionsBundle, SiteData<double> voltageLimit, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetVoltageLimit(sessionInfo, sitePinInfo, voltageLimit.GetValue(sitePinInfo.SiteNumber));
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureVoltageLimit(DCPowerSessionsBundle, double, UpdateMode)"/>
+        /// <remarks>
+        /// When the session bundle contains a ganged pin group and the <paramref name="voltageLimit"/> value is associated with the ganged pin group name, the voltage limit is applied to all channels in the pin group.
+        /// When ganged pins are configured using individual pin names, all pins in the ganged group must have the same value; otherwise an exception is thrown.
+        /// Otherwise, when the value is associated with individual pin names, the voltage limit for each pin is set to the specified value.
+        /// </remarks>
+        /// <exception cref="NISemiconductorTestException">Thrown when the ganged pins are configured using individual pin names with different values.</exception>
+        public static void ConfigureVoltageLimit(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> voltageLimit, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, voltageLimit);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetVoltageLimit(sessionInfo, sitePinInfo, voltageLimit.GetValue(sitePinInfo));
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <summary>
+        /// Configures the voltage level range.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="voltageLevelRange">The voltage level range to set, in Volts.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        public static void ConfigureVoltageLevelRange(this DCPowerSessionsBundle sessionsBundle, double voltageLevelRange, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            sessionsBundle.DoPerChannelIfGangedElsePerSession(
+               perChannelAction: (sessionInfo, sitePinInfo) =>
+               {
+                   SetVoltageLevelRange(sessionInfo, sitePinInfo, voltageLevelRange);
+               },
+               perSessionAction: sessionInfo =>
+               {
+                   sessionInfo.AllChannelsOutput.Control.Abort();
+                   sessionInfo.AllChannelsOutput.Source.Voltage.VoltageLevelRange = voltageLevelRange;
+               });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureVoltageLevelRange(DCPowerSessionsBundle, double, UpdateMode)"/>
+        public static void ConfigureVoltageLevelRange(this DCPowerSessionsBundle sessionsBundle, SiteData<double> voltageLevelRange, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetVoltageLevelRange(sessionInfo, sitePinInfo, voltageLevelRange.GetValue(sitePinInfo.SiteNumber));
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureVoltageLevelRange(DCPowerSessionsBundle, double, UpdateMode)"/>
+        /// <remarks>
+        /// When the session bundle contains a ganged pin group and the <paramref name="voltageLevelRange"/> value is associated with the ganged pin group name, the voltage level range is applied to all channels in the pin group.
+        /// When ganged pins are configured using individual pin names, all pins in the ganged group must have the same value; otherwise an exception is thrown.
+        /// Otherwise, when the value is associated with individual pin names, the voltage range for each pin is selected as the nearest range to the specified value.
+        /// </remarks>
+        /// <exception cref="NISemiconductorTestException">Thrown when the ganged pins are configured using individual pin names with different values.</exception>
+        public static void ConfigureVoltageLevelRange(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> voltageLevelRange, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, voltageLevelRange);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetVoltageLevelRange(sessionInfo, sitePinInfo, voltageLevelRange.GetValue(sitePinInfo));
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <summary>
         /// Configures a hardware-timed sequence of values.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
@@ -2285,6 +2598,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
+        /// Gets the current limit high.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin upper current limit, in Amps.</returns>
+        public static PinSiteData<double> GetCurrentLimitHigh(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
+            });
+        }
+
+        /// <summary>
         /// Gets the current limits.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
@@ -2294,6 +2620,162 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
                 return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimit;
+            });
+        }
+
+        /// <summary>
+        /// Gets the current limit low.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin lower current limit, in Amps.</returns>
+        public static PinSiteData<double> GetCurrentLimitLow(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitLow;
+            });
+        }
+
+        /// <summary>
+        /// Gets the current level.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin current level, in Amps.</returns>
+        public static PinSiteData<double> GetCurrentLevel(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevel;
+            });
+        }
+
+        /// <summary>
+        /// Gets the current level range.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin current level range, in Amps.</returns>
+        public static PinSiteData<double> GetCurrentLevelRange(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange;
+            });
+        }
+
+        /// <summary>
+        /// Gets the current limit range.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin current limit range, in Amps.</returns>
+        public static PinSiteData<double> GetCurrentLimitRange(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitRange;
+            });
+        }
+
+        /// <summary>
+        /// Gets the compliance limit symmetry.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin compliance limit symmetry.</returns>
+        public static PinSiteData<DCPowerComplianceLimitSymmetry> GetLimitSymmetry(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
+            });
+        }
+
+        /// <summary>
+        /// Gets the voltage limit high.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-pin per-site voltage limit high.</returns>
+        public static PinSiteData<double> GetVoltageLimitHigh(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitHigh;
+            });
+        }
+
+        /// <summary>
+        /// Gets the voltage limit low.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin voltage limit low.</returns>
+        public static PinSiteData<double> GetVoltageLimitLow(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitLow;
+            });
+        }
+
+        /// <summary>
+        /// Gets the voltage level range.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin voltage level range.</returns>
+        public static PinSiteData<double> GetVoltageLevelRange(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevelRange;
+            });
+        }
+
+        /// <summary>
+        /// Gets the voltage level.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin voltage level.</returns>
+        public static PinSiteData<double> GetVoltageLevel(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevel;
+            });
+        }
+
+        /// <summary>
+        /// Gets the voltage limit range.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin voltage limit range.</returns>
+        public static PinSiteData<double> GetVoltageLimitRange(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitRange;
+            });
+        }
+
+        /// <summary>
+        /// Gets the voltage limit.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin voltage limit.</returns>
+        public static PinSiteData<double> GetVoltageLimit(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimit;
+            });
+        }
+
+        /// <summary>
+        /// Gets the transient response for each of the underlying device channel(s), per-pin and per-site.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The transient response (<see cref="PinSiteData{T}"/>, where T is of type <see cref="DCPowerSourceTransientResponse"/>).</returns>
+        public static PinSiteData<DCPowerSourceTransientResponse> GetTransientResponse(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.TransientResponse;
             });
         }
 
@@ -3389,7 +3871,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             channelOutput.Control.Abort();
             channelOutput.Source.Current.CurrentLevel = currentLevelToSet;
         }
-
         internal static void ValidateNoChannelGanged(this DCPowerSessionsBundle sessionsBundle)
         {
             if (sessionsBundle.HasGangedChannels)
@@ -3440,6 +3921,50 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
+        private static void SetVoltageLimitRange(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double voltageLimitRange)
+        {
+            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+            channelOutput.Control.Abort();
+            channelOutput.Source.Current.VoltageLimitRange = voltageLimitRange;
+        }
+
+        private static void SetVoltageLimitHigh(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double voltageLimitHigh)
+        {
+            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+            channelOutput.Control.Abort();
+            // Note: Voltage limits are NOT divided across ganged channels. Each channel maintains the full specified voltage limit.
+            channelOutput.Source.Current.VoltageLimitHigh = voltageLimitHigh;
+        }
+
+        private static void SetVoltageLevel(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double voltageLevel)
+        {
+            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+            channelOutput.Control.Abort();
+            channelOutput.Source.Voltage.VoltageLevel = voltageLevel;
+        }
+
+        private static void SetVoltageLimitLow(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double voltageLimitLow)
+        {
+            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+            channelOutput.Control.Abort();
+            // Note: Voltage limits are NOT divided across ganged channels. Each channel maintains the full specified voltage limit.
+            channelOutput.Source.Current.VoltageLimitLow = voltageLimitLow;
+        }
+
+        private static void SetVoltageLevelRange(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double voltageLevelRange)
+        {
+            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+            channelOutput.Control.Abort();
+            channelOutput.Source.Voltage.VoltageLevelRange = voltageLevelRange;
+        }
+
+        private static void SetVoltageLimit(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double voltageLimit)
+        {
+            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+            channelOutput.Control.Abort();
+            // Note: Voltage limits are NOT divided across ganged channels. Each channel maintains the full specified voltage limit.
+            channelOutput.Source.Current.VoltageLimit = voltageLimit;
+        }
         #endregion private and internal methods
     }
 }
