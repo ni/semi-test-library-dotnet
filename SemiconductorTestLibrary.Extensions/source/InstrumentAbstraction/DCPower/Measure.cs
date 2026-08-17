@@ -97,6 +97,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
+        /// Gets the MeasureWhen property for all targeted pin(s).
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin MeasureWhen values.</returns>
+        public static PinSiteData<DCPowerMeasurementWhen> GetMeasureWhen(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Measurement.MeasureWhen);
+        }
+
+        /// <summary>
         /// Configures the power line frequency in Hz (double).
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
@@ -129,6 +140,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     sessionInfo.Session.ConfigureMeasurementSense(channelString, modelString, sense);
                 });
             });
+        }
+
+        /// <summary>
+        /// Gets the measurement sense setting for all targeted pin(s).
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin measurement sense values.</returns>
+        public static PinSiteData<DCPowerMeasurementSense> GetMeasurementSense(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Measurement.Sense);
         }
 
         /// <summary>
@@ -165,6 +187,28 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
             maximumApertureTime = apertureTimes.SiteNumbers.Select(siteNumber => apertureTimes.ExtractSite(siteNumber).Values.Max()).Max();
             return apertureTimes;
+        }
+
+        /// <summary>
+        /// Gets the aperture time units for all targeted pins.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin aperture time units.</returns>
+        public static PinSiteData<DCPowerMeasureApertureTimeUnits> GetApertureTimeUnits(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                switch (sitePinInfo.ModelString)
+                {
+                    case DCPowerModelStrings.PXI_4110:
+                    case DCPowerModelStrings.PXI_4130:
+                    case DCPowerModelStrings.PXIe_4154:
+                        return DCPowerMeasureApertureTimeUnits.Seconds; // They use samples to average and do not support the ApertureTimeUnits attribute.
+
+                    default:
+                        return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Measurement.ApertureTimeUnits;
+                }
+            });
         }
 
         /// <summary>
