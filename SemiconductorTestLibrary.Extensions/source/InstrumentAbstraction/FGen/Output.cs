@@ -59,7 +59,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// </para>
         /// <para>
         /// You cannot change terminal configuration while the device is generating a waveform.
-        /// If you want to change the device configuration, call <see cref="Control.Abort" crefType= "undefined"/> or wait for the generation to complete.
+        /// If you want to change the device configuration, call 'Abort' extension method or wait for the generation to complete.
         /// </para>
         /// </remarks>
         public static void ConfigureOutputImpedance(this FgenSessionsBundle sessionsBundle, double impedance = 50)
