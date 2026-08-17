@@ -243,7 +243,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // The most efficient way to handle this is by first constructing the PinSiteData object with the known Pin Names and Site Numbers array,
             // and then adding the -1 site manually with the AddSite method.
             // Alternatively, the site and pins can simply be added dynamically when SetValue is called.
-            var pinSiteData = new PinSiteData<double>(pinNames: new string[] { "VCC1", "VCC2" }, siteNumbers);
+            var pinSiteData = new PinSiteData<double>(pinNames: new string[] { "VCC1", "VCC2" }, siteNumbers: siteNumbers);
             pinSiteData.AddSite("SystemSupply", -1);
             for (int i = 0; i < perPinData.Length; i++)
             {
@@ -260,7 +260,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
                 {
                     // Set the uniform value for each DUT pin across all sites.
                     // Note that care must be taken when calling SetValue with system pins present in the PinSiteData object,
-                    // As the  SetValue(T value) and SetValue(T value, param string) overload will apply the same value to all sites declared within the PinSiteData, including system sites.
+                    // As the SetValue(T value) and SetValue(T value, param string) overload will apply the same value to all sites declared within the PinSiteData, including system sites.
                     // Therefore, it is best to avoid those overloads when working with system pins,
                     // and instead, explicitly specify which site number to set a value for, as shown below.
                     pinSiteData.SetValue(value: perPinData[i], pinName: pinNames[i], siteNumbers: siteNumbers);
@@ -518,14 +518,15 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // This constructor allows you to declare pins upfront and add sites later on.
             var pinSiteData = new PinSiteData<double>(pinNames: new string[] { "VDET", "VCC1" });
             // Add sites
-            pinSiteData.AddSite(2, 4, 3);
+            var siteNumbers = new int[] { 2, 4, 3 };
+            pinSiteData.AddSite(siteNumbers);
             // Set a unique value for each pin and each site combination.
             for (int pinIndex = 0; pinIndex < pinSiteData.PinNames.Length; pinIndex++)
             {
                 string pinName = pinSiteData.PinNames[pinIndex];
-                for (int siteIndex = 0; siteIndex < pinSiteData.SiteNumbers.Length; siteIndex++)
+                for (int siteIndex = 0; siteIndex < siteNumbers.Length; siteIndex++)
                 {
-                    int siteNumber = pinSiteData.SiteNumbers[pinIndex];
+                    int siteNumber = siteNumbers[siteIndex];
                     pinSiteData.SetValue(perPinPerSiteData[pinIndex][siteIndex], pinName, siteNumber);
                 }
             }
