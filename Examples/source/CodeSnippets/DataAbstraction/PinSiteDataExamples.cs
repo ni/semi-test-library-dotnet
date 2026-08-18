@@ -310,6 +310,203 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             var pinSiteData = new PinSiteData<double>(siteNumbers, pinNames, perSitePerPinData);
         }
 
+        internal static void ConstructWithDefaultConstructor()
+        {
+            // Constructs an empty PinSiteData object using the default (parameterless) constructor.
+            // No pins or sites are associated with the object at this point.
+            var pinSiteData = new PinSiteData<double>();
+            // (empty)
+
+            // Use AddPin to add one or more pin names to the empty PinSiteData object.
+            // Each added pin is initialized with existing site definitions.
+            // Since no sites exist yet, an empty SiteData object is assigned to each added pin.
+            pinSiteData.AddPin("VDET", "VCC1", "VCC2");
+            // Pin    | (no sites)
+            // VDET   |
+            // VCC1   |
+            // VCC2   |
+
+            // Use AddSite to add site numbers across all existing pins.
+            // Since VDET, VCC1, and VCC2 were already added, sites 0, 1 and 2 are added to each of them.
+            // Each new site is initialized with the default value of the data type (0.0 for double).
+            // Note that the AddSite method can be invoked either by passing a preformed array, as is shown below,
+            // or by listing out the sites as separate parameter inputs, for example, pinSiteData.AddSite(0, 1, 2).
+            var siteNumbersToAdd = new int[] { 0, 1, 2 };
+            pinSiteData.AddSite(siteNumbersToAdd);
+            // Pin    | Site 0 | Site 1 | Site 2
+            // VDET   |  0.0   |  0.0   |  0.0
+            // VCC1   |  0.0   |  0.0   |  0.0
+            // VCC2   |  0.0   |  0.0   |  0.0
+
+            // Use SetValue to assign a specific value to all pins and all sites at once.
+            // This sets the value 1.5 for all pin-site combinations (VDET/0, VDET/1, VCC1/0, VCC1/1, VCC2/0, VCC2/1).
+            pinSiteData.SetValue(value: 1.5);
+            // Pin    | Site 0 | Site 1 | Site 2
+            // VDET   |  1.5   |  1.5   |  1.5
+            // VCC1   |  1.5   |  1.5   |  1.5
+            // VCC2   |  1.5   |  1.5   |  1.5
+
+            // Use SetValue with specific site numbers to overwrite only certain sites across all pins.
+            // This sets 3.3 for site 1 of all pins (VDET/1, VCC1/1, VCC2/1), leaving site 0 and 2 unchanged at 1.5.
+            pinSiteData.SetValue(value: 3.3, siteNumbers: 1);
+            // Pin    | Site 0 | Site 1 | Site 2
+            // VDET   |  1.5   |  3.3   |  1.5
+            // VCC1   |  1.5   |  3.3   |  1.5
+            // VCC2   |  1.5   |  3.3   |  1.5
+
+            // Use RemoveSite to remove a specific site from all pins.
+            // This removes site 2 from VDET, VCC1, and VCC2, leaving sites 0 and 1 for each pin.
+            pinSiteData.RemoveSite(2);
+            // Pin    | Site 0 | Site 1
+            // VDET   |  1.5   |  3.3
+            // VCC1   |  1.5   |  3.3
+            // VCC2   |  1.5   |  3.3
+
+            // Use RemovePin to remove one or more pins from the PinSiteData object entirely.
+            // This removes VCC2 and all its associated site data from the object.
+            pinSiteData.RemovePin("VCC2");
+            // Pin    | Site 0 | Site 1
+            // VDET   |  1.5   |  3.3
+            // VCC1   |  1.5   |  3.3
+
+            // Use SetValue with a specific pin name and site numbers to overwrite a single pin-site combination.
+            // This sets 5.0 only for VCC1 at site 0, leaving all other pin-site combinations unchanged.
+            pinSiteData.SetValue(value: 5.0, pinName: "VCC1", siteNumbers: 0);
+            // Pin    | Site 0 | Site 1
+            // VDET   |  1.5   |  3.3
+            // VCC1   |  5.0   |  3.3
+        }
+
+        internal static void ConstructWithSinglePinNameAndSiteNumbers()
+        {
+            // Constructs a PinSiteData object with a single pin name and associated site numbers.
+            // The site numbers are passed as a params array, so any number of site numbers can be specified.
+            // This constructor is useful for initially declaring data for only one pin spanning across multiple sites.
+            var siteNumbers = new int[] { 0, 1, 2 };
+            var pinSiteData = new PinSiteData<double>("VDET", siteNumbers);
+            // Pin    | Site 0 | Site 1 | Site 2
+            // VDET   |  0.0   |  0.0   |  0.0
+
+            // Use AddPin to add additional pins to the existing PinSiteData object.
+            // The newly added pins inherit the existing site definitions (sites 0, 1, and 2).
+            // Each new pin is initialized with the default value (0.0 for double) for each site.
+            pinSiteData.AddPin("VCC1", "VCC2");
+            // Pin    | Site 0 | Site 1 | Site 2
+            // VDET   |  0.0   |  0.0   |  0.0
+            // VCC1   |  0.0   |  0.0   |  0.0
+            // VCC2   |  0.0   |  0.0   |  0.0
+
+            // Use AddSite to add an additional site to pins (VDET, VCC1).
+            // Site 3 is added to pins VDET, VCC1 and initialized with the default value (0.0 for double).
+            // Note that using the overload for the AddSite method shown below can result in a jagged PinSiteData object,
+            // where different pins have different numbers of sites.
+            // This can be useful for certain scenarios but should be leveraged with caution.
+            // The invocation below results in VCC2 not having a Site 3 value since only pins VDET and VCC1 are included in the pinNames argument.
+            pinSiteData.AddSite(pinNames: new string[] { "VDET", "VCC1" }, siteNumbers: 3);
+            // Pin    | Site 0 | Site 1 | Site 2 | Site 3
+            // VDET   |  0.0   |  0.0   |  0.0   |  0.0
+            // VCC1   |  0.0   |  0.0   |  0.0   |  0.0
+            // VCC2   |  0.0   |  0.0   |  0.0   |  ---
+
+            // Use SetValue with pin names and site numbers to assign specific values to a subset of pins across a subset of sites.
+            // Note that the invocation below results in Site 4 being added since it does not already exist,
+            // and is added to VCC1 and VCC2 only and not to VDET.
+            // This operation further exaggerates the jagged structure of the PinSiteData object.
+            // Also, note that VCC2 remains without a Site 3 value as a result of the preceding operation.
+            // This sets 1.8 for both VCC1 and VCC2 at sites 0, 1 and 4.
+            pinSiteData.SetValue(value: 1.8, pinNames: new string[] { "VCC1", "VCC2" }, siteNumbers: new int[] { 0, 1, 4 });
+            // Pin    | Site 0 | Site 1 | Site 2 | Site 3 | Site 4
+            // VDET   |  0.0   |  0.0   |  0.0   |  0.0   |  ---
+            // VCC1   |  1.8   |  1.8   |  0.0   |  0.0   |  1.8
+            // VCC2   |  1.8   |  1.8   |  0.0   |  ---   |  1.8
+
+            // Use RemoveSite with specific pin names to remove a site from only those pins.
+            // This removes site 2 from VDET and VCC1 only, leaving VCC2's site definitions unchanged.
+            // Note that the invocation below results in Site 2 being removed from both VDET and VCC1
+            // but is retained for VCC2.
+            // Additionally, since VDET still lacks Site 4 and VCC2 still lacks Site 3,
+            // this operation again perpetuates the jagged structure of the PinSiteData object.
+            pinSiteData.RemoveSite(pinNames: new string[] { "VDET", "VCC1" }, siteNumbers: 2);
+            // Pin    | Site 0 | Site 1 | Site 2 | Site 3 | Site 4
+            // VDET   |  0.0   |  0.0   |  ---   |  0.0   |  ---
+            // VCC1   |  1.8   |  1.8   |  ---   |  0.0   |  1.8
+            // VCC2   |  1.8   |  1.8   |  0.0   |  ---   |  1.8
+
+            // Use SetValue with a pin name only (no site numbers) to set a value for all sites on that pin.
+            // This sets 3.3 for VDET across all of its sites (0, 1, 3).
+            pinSiteData.SetValue(value: 3.3, pinNames: "VDET");
+            // Pin    | Site 0 | Site 1 | Site 2 | Site 3 | Site 4
+            // VDET   |  3.3   |  3.3   |  ---   |  3.3   |  ---
+            // VCC1   |  1.8   |  1.8   |  ---   |  0.0   |  1.8
+            // VCC2   |  1.8   |  1.8   |  0.0   |  ---   |  1.8
+        }
+
+        internal static void ConstructWithPinNamesAndSiteNumbers()
+        {
+            // Pin names to associate with the data.
+            var pinNames = new string[] { "VDET", "VCC1", "VCC2" };
+            // Site numbers to associate with the data.
+            var siteNumbers = new int[] { 0, 1 };
+            // Constructs a PinSiteData object with pin names and an array of site numbers.
+            var pinSiteData = new PinSiteData<double>(pinNames, siteNumbers);
+            // Pin    | Site 0 | Site 1
+            // VDET   |  0.0   |  0.0
+            // VCC1   |  0.0   |  0.0
+            // VCC2   |  0.0   |  0.0
+
+            // Use AddSite to extend all existing pins with additional sites.
+            // Sites 2 and 3 are added to VDET, VCC1, and VCC2, each initialized with the default value (0.0).
+            pinSiteData.AddSite(2, 3);
+            // Pin    | Site 0 | Site 1 | Site 2 | Site 3
+            // VDET   |  0.0   |  0.0   |  0.0   |  0.0
+            // VCC1   |  0.0   |  0.0   |  0.0   |  0.0
+            // VCC2   |  0.0   |  0.0   |  0.0   |  0.0
+
+            var perSiteData = new double[] { 2.4, 3.6, 5.7, 4.3 };
+            // Use SetValue to assign per-site data values for both VDET and VCC1 pins at once.
+            // Note that the site values for VCC2 are left untouched and remain at their default value (0.0).
+            for (int i = 0; i < perSiteData.Length; i++)
+            {
+                pinSiteData.SetValue(value: perSiteData[i], pinNames: new string[] { "VDET", "VCC1" }, siteNumbers: i);
+            }
+            // Pin    | Site 0 | Site 1 | Site 2 | Site 3
+            // VDET   |  2.4   |  3.6   |  5.7   |  4.3
+            // VCC1   |  2.4   |  3.6   |  5.7   |  4.3
+            // VCC2   |  0.0   |  0.0   |  0.0   |  0.0
+
+            // Use RemoveSite to remove a specific site from a specific pin.
+            // This removes site 2 from VCC2 only, while VDET and VCC1 retain site 2.
+            // Note that using the overload for the AddSite method shown below can result in a jagged PinSiteData object,
+            // where different pins have different numbers of sites.
+            // This can be useful for certain scenarios but should be leveraged with caution.
+            // The invocation below results in Site 2 being removed from VCC2 but is retained for other pins.
+            pinSiteData.RemoveSite(pinName: "VCC2", siteNumbers: 2);
+            // Pin    | Site 0 | Site 1 | Site 2 | Site 3
+            // VDET   |  2.4   |  3.6   |  5.7   |  4.3
+            // VCC1   |  2.4   |  3.6   |  5.7   |  4.3
+            // VCC2   |  0.0   |  0.0   |  ---   |  0.0
+
+            // Use RemoveSite to remove specific sites from all pins.
+            // This removes sites 2 and 3 from VDET, VCC1, and VCC2, leaving sites 0 and 1 for each pin.
+            pinSiteData.RemoveSite(2, 3);
+            // Pin   | Site 0 | Site 1
+            // VDET  |  2.4   |  3.6
+            // VCC1  |  2.4   |  3.6
+            // VCC2  |  0.0   |  0.0
+
+            // Use RemovePin to remove multiple pins from the PinSiteData object at once.
+            // This removes both VCC1 and VCC2 and all their associated site data, leaving only VDET.
+            pinSiteData.RemovePin("VCC1", "VCC2");
+            // Pin    | Site 0 | Site 1
+            // VDET   |  2.4   |  3.6
+
+            // Use SetValue with a specific pin name and site number to overwrite a single combination.
+            // This sets 0.9 only for VDET at site 0, leaving all other values unchanged.
+            pinSiteData.SetValue(value: 0.9, pinName: "VDET", siteNumbers: 0);
+            // Pin    | Site 0 | Site 1
+            // VDET   |  0.9   |  3.6
+        }
+
         /// <summary>
         /// This method is just for example purposes to simulate a measurement result being collected.
         /// </summary>
