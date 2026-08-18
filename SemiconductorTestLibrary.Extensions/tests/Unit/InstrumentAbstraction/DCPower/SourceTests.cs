@@ -9770,13 +9770,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var currentLevelRanges = new SiteData<double>(new[] { 1E-2, 1E-3 });
 
             sessionsBundle.ConfigureCurrentLevelRange(currentLevelRanges, updateMode);
+
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var expectedCurrentLevelRange = currentLevelRanges.GetValue(sitePinInfo.SiteNumber);
                 var actualCurrentLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange;
                 Assert.Equal(expectedCurrentLevelRange, actualCurrentLevelRange);
             });
-
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
@@ -9795,13 +9795,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
 
             sessionsBundle.ConfigureCurrentLevelRange(currentLevelRanges, updateMode);
+
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var expectedCurrentLevelRange = currentLevelRanges.GetValue(sitePinInfo);
                 var actualCurrentLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange;
                 Assert.Equal(expectedCurrentLevelRange, actualCurrentLevelRange);
             });
-
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
@@ -9816,12 +9816,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var expectedCurrentLimitLow = -1E-3;
 
             sessionsBundle.ConfigureCurrentLimitLow(expectedCurrentLimitLow, updateMode);
+
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var actualCurrentLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitLow;
                 Assert.Equal(expectedCurrentLimitLow, actualCurrentLimitLow);
             });
-
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
@@ -9842,7 +9842,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 var actualCurrentLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitLow;
                 Assert.Equal(expectedCurrentLimitLow, actualCurrentLimitLow);
             });
-
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
@@ -9861,13 +9860,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
 
             sessionsBundle.ConfigureCurrentLimitLow(currentLimitLow, updateMode);
+
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var expectedCurrentLimitLow = currentLimitLow.GetValue(sitePinInfo);
                 var actualCurrentLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitLow;
                 Assert.Equal(expectedCurrentLimitLow, actualCurrentLimitLow);
             });
-
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
@@ -9882,12 +9881,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var expectedCurrentLimitHigh = 1E-3;
 
             sessionsBundle.ConfigureCurrentLimitHigh(expectedCurrentLimitHigh, updateMode);
+
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var actualCurrentLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
                 Assert.Equal(expectedCurrentLimitHigh, actualCurrentLimitHigh);
             });
-
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
@@ -9902,13 +9901,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var currentLimitHigh = new SiteData<double>(new[] { 1E-3, 2E-3 });
 
             sessionsBundle.ConfigureCurrentLimitHigh(currentLimitHigh, updateMode);
+
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var expectedCurrentLimitHigh = currentLimitHigh.GetValue(sitePinInfo.SiteNumber);
                 var actualCurrentLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
                 Assert.Equal(expectedCurrentLimitHigh, actualCurrentLimitHigh);
             });
-
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
@@ -9927,13 +9926,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
 
             sessionsBundle.ConfigureCurrentLimitHigh(currentLimitHigh, updateMode);
+
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var expectedCurrentLimitHigh = currentLimitHigh.GetValue(sitePinInfo);
                 var actualCurrentLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
                 Assert.Equal(expectedCurrentLimitHigh, actualCurrentLimitHigh);
             });
-
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
@@ -9948,12 +9947,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var expectedCurrentLimitRange = 0.1;
 
             sessionsBundle.ConfigureCurrentLimitRange(expectedCurrentLimitRange, updateMode);
+
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var actualCurrentLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitRange;
                 Assert.Equal(expectedCurrentLimitRange, actualCurrentLimitRange);
             });
-
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
@@ -9968,13 +9967,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var currentLimitRanges = new SiteData<double>(new[] { 1E-1, 1E-1 });
 
             sessionsBundle.ConfigureCurrentLimitRange(currentLimitRanges, updateMode);
+
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var expectedCurrentLimitRange = currentLimitRanges.GetValue(sitePinInfo.SiteNumber);
                 var actualCurrentLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitRange;
                 Assert.Equal(expectedCurrentLimitRange, actualCurrentLimitRange);
             });
-
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
@@ -9993,13 +9992,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
 
             sessionsBundle.ConfigureCurrentLimitRange(currentLimitRanges, updateMode);
+
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var expectedCurrentLimitRange = currentLimitRanges.GetValue(sitePinInfo);
                 var actualCurrentLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitRange;
                 Assert.Equal(expectedCurrentLimitRange, actualCurrentLimitRange);
             });
-
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
@@ -10014,25 +10013,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var expectedLimitSymmetry = DCPowerComplianceLimitSymmetry.Asymmetric;
 
             sessionsBundle.ConfigureLimitSymmetry(expectedLimitSymmetry, updateMode);
-            void InitiateTest()
-            {
-                sessionsBundle.Initiate();
-            }
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var actualLimitSymmetry = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
                 Assert.Equal(expectedLimitSymmetry, actualLimitSymmetry);
             });
-            if (updateMode == UpdateMode.Immediate)
-            {
-                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
-                Assert.Contains("The session is already running.", exception.Message);
-            }
-            else
-            {
-                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
-            }
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
         [Theory]
@@ -10046,10 +10033,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var limitSymmetry = new SiteData<DCPowerComplianceLimitSymmetry>(new[] { DCPowerComplianceLimitSymmetry.Symmetric, DCPowerComplianceLimitSymmetry.Asymmetric });
 
             sessionsBundle.ConfigureLimitSymmetry(limitSymmetry, updateMode);
-            void InitiateTest()
-            {
-                sessionsBundle.Initiate();
-            }
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -10057,15 +10040,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 var actualLimitSymmetry = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
                 Assert.Equal(expectedLimitSymmetry, actualLimitSymmetry);
             });
-            if (updateMode == UpdateMode.Immediate)
-            {
-                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
-                Assert.Contains("The session is already running.", exception.Message);
-            }
-            else
-            {
-                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
-            }
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
         [Theory]
@@ -10083,10 +10058,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
 
             sessionsBundle.ConfigureLimitSymmetry(limitSymmetry, updateMode);
-            void InitiateTest()
-            {
-                sessionsBundle.Initiate();
-            }
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -10094,15 +10065,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 var actualLimitSymmetry = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
                 Assert.Equal(expectedLimitSymmetry, actualLimitSymmetry);
             });
-            if (updateMode == UpdateMode.Immediate)
-            {
-                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
-                Assert.Contains("The session is already running.", exception.Message);
-            }
-            else
-            {
-                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
-            }
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
         [Theory]
@@ -10116,12 +10079,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var expectedCurrentLevel = 1E-2;
 
             sessionsBundle.ConfigureCurrentLevel(expectedCurrentLevel, updateMode);
+
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var actualCurrentLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevel;
                 Assert.Equal(expectedCurrentLevel, actualCurrentLevel);
             });
-
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
@@ -10136,13 +10099,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var currentLevel = new SiteData<double>(new[] { 1E-2, 2E-2 });
 
             sessionsBundle.ConfigureCurrentLevel(currentLevel, updateMode);
+
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var expectedCurrentLevel = currentLevel.GetValue(sitePinInfo.SiteNumber);
                 var actualCurrentLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevel;
                 Assert.Equal(expectedCurrentLevel, actualCurrentLevel);
             });
-
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
