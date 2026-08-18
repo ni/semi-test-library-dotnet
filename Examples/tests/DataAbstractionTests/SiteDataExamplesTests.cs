@@ -16,5 +16,35 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.DataAbstractionTest
         {
             ConstructWithSingleSiteNumber();
         }
+
+        [Fact]
+        public void BuildWithArray_Succeeds()
+        {
+            BuildWithArray();
+        }
+
+        [Fact]
+        public void BuildWithPerSiteDataDictionary_Succeeds()
+        {
+            BuildWithPerSiteDataDictionary();
+        }
+
+        [Fact]
+        public void BuildWithDictionaryWithSystemData_Succeeds()
+        {
+            BuildWithDictionaryWithSystemData();
+        }
+
+        [Fact]
+        public void BuildWithSingleValue_Succeeds()
+        {
+            BuildWithSingleValue();
+        }
+
+        [Fact]
+        public void BuildWithSiteUniqueDataArray_Succeeds()
+        {
+            BuildWithSiteUniqueDataArray();
+        }
     }
 }
