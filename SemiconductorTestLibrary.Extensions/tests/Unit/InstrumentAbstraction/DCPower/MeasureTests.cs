@@ -1426,41 +1426,87 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("AllPinsGangedGroup")]
-        [InlineData("TwoPinsGangedGroup")]
-        [InlineData("ThreePinsGangedGroup")]
-        public void GangPinGroupAndForceCurrent_MeasureCurrentWithInCompliance_ResultsAssociatedWithPinGroupName(string pinGroupName)
+        [InlineData("G1_1mA")]
+        [InlineData("G1_2mA")]
+        [InlineData("G1_4mA")]
+        public void MergePinGroupAndForceVoltage_MeasureCurrentWithInComplianceAsGroup_ResultsAssociatedWithPinGroupName(string pinGroupName)
         {
-            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
-            var sessionsBundle = sessionManager.DCPower(pinGroupName);
-            var currentLevel = 1E-2;
-            sessionsBundle.GangPinGroup(pinGroupName);
-            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnMeasureTrigger);
-            sessionsBundle.ForceCurrent(currentLevel, waitForSourceCompletion: true);
+            var sessionsBundle = MergeAndForceVoltage(pinGroupName, out string primaryPin);
 
-            var results = sessionsBundle.MeasureCurrentWithInCompliance();
+            var results = sessionsBundle.MeasureCurrentWithInCompliance(gangedPinsAsGroup: true);
 
-            sessionsBundle.UngangPinGroup(pinGroupName);
-            AssertAllChannelsHaveCorrectResult(results, currentLevel);
+            sessionsBundle.UnmergePinGroup(pinGroupName);
+            AssertResultAssociatedWithPinGroupName(results, pinGroupName, primaryPin);
+        }
+
+        [Theory]
+        [InlineData("G1_1mA")]
+        [InlineData("G1_2mA")]
+        [InlineData("G1_4mA")]
+        public void MergePinGroupAndForceVoltage_MeasureVoltageWithInComplianceAsGroup_ResultsAssociatedWithPinGroupName(string pinGroupName)
+        {
+            var sessionsBundle = MergeAndForceVoltage(pinGroupName, out string primaryPin);
+
+            var results = sessionsBundle.MeasureVoltageWithInCompliance(gangedPinsAsGroup: true);
+
+            sessionsBundle.UnmergePinGroup(pinGroupName);
+            AssertResultAssociatedWithPinGroupName(results, pinGroupName, primaryPin);
+        }
+
+        [Theory]
+        [InlineData("G1_1mA")]
+        [InlineData("G1_2mA")]
+        [InlineData("G1_4mA")]
+        public void MergePinGroupAndForceVoltage_QueryInComplianceAsGroup_ResultsAssociatedWithPinGroupName(string pinGroupName)
+        {
+            var sessionsBundle = MergeAndForceVoltage(pinGroupName, out string primaryPin);
+
+            var results = sessionsBundle.QueryInCompliance(gangedPinsAsGroup: true);
+
+            sessionsBundle.UnmergePinGroup(pinGroupName);
+            AssertResultAssociatedWithPinGroupName(results, pinGroupName, primaryPin);
         }
 
         [Theory]
         [InlineData("AllPinsGangedGroup")]
         [InlineData("TwoPinsGangedGroup")]
         [InlineData("ThreePinsGangedGroup")]
-        public void GangPinGroupAndForceCurrent_MeasureVoltageWithInCompliance_ResultsAssociatedWithPinGroupName(string pinGroupName)
+        public void GangPinGroupAndForceCurrent_MeasureCurrentWithInComplianceAsGroup_ResultsAssociatedWithPinGroupName(string pinGroupName)
         {
-            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
-            var sessionsBundle = sessionManager.DCPower(pinGroupName);
-            var currentLevel = 1E-2;
-            sessionsBundle.GangPinGroup(pinGroupName);
-            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnMeasureTrigger);
-            sessionsBundle.ForceVoltage(currentLevel, waitForSourceCompletion: true);
+            var sessionsBundle = GangAndForceCurrent(pinGroupName, out string leaderPin);
 
-            var results = sessionsBundle.MeasureVoltageWithInCompliance();
+            var results = sessionsBundle.MeasureCurrentWithInCompliance(gangedPinsAsGroup: true);
 
             sessionsBundle.UngangPinGroup(pinGroupName);
-            AssertAllChannelsHaveCorrectResult(results, currentLevel);
+            AssertResultAssociatedWithPinGroupName(results, pinGroupName, leaderPin);
+        }
+
+        [Theory]
+        [InlineData("AllPinsGangedGroup")]
+        [InlineData("TwoPinsGangedGroup")]
+        [InlineData("ThreePinsGangedGroup")]
+        public void GangPinGroupAndForceCurrent_MeasureVoltageWithInComplianceAsGroup_ResultsAssociatedWithPinGroupName(string pinGroupName)
+        {
+            var sessionsBundle = GangAndForceCurrent(pinGroupName, out string leaderPin);
+
+            var results = sessionsBundle.MeasureVoltageWithInCompliance(gangedPinsAsGroup: true);
+
+            sessionsBundle.UngangPinGroup(pinGroupName);
+            AssertResultAssociatedWithPinGroupName(results, pinGroupName, leaderPin);
+        }
+
+        [Theory]
+        [InlineData("AllPinsGangedGroup")]
+        [InlineData("TwoPinsGangedGroup")]
+        [InlineData("ThreePinsGangedGroup")]
+        public void GangPinGroupAndForceCurrent_QueryInComplianceAsGroup_ResultsAssociatedWithPinGroupName(string pinGroupName)
+        {
+            var sessionsBundle = GangAndForceCurrent(pinGroupName, out string leaderPin);
+
+            var results = sessionsBundle.QueryInCompliance(gangedPinsAsGroup: true);
+
+            sessionsBundle.UngangPinGroup(pinGroupName);
+            AssertResultAssociatedWithPinGroupName(results, pinGroupName, leaderPin);
         }
 
         private void AssertMeasureWhenSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, DCPowerMeasurementWhen measureWhen)
@@ -1771,6 +1817,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.True(results.TryGetValue(siteNumber, pinGroup, out _));
                 Assert.False(results.TryGetValue(siteNumber, primaryPin, out _));
+            }
+        }
+
+        private void AssertResultAssociatedWithPinGroupName<T>(PinSiteData<T> results, string pinGroup, string memberPin)
+        {
+            foreach (var siteNumber in results.SiteNumbers)
+            {
+                Assert.True(results.TryGetValue(siteNumber, pinGroup, out _));
+                Assert.False(results.TryGetValue(siteNumber, memberPin, out _));
             }
         }
 
