@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
@@ -1422,6 +1423,44 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var results = sessionsBundle.QueryInCompliance();
 
             AssertAllChannelsReturnSameResult(results);
+        }
+
+        [Theory]
+        [InlineData("AllPinsGangedGroup")]
+        [InlineData("TwoPinsGangedGroup")]
+        [InlineData("ThreePinsGangedGroup")]
+        public void GangPinGroupAndForceCurrent_MeasureCurrentWithInCompliance_ResultsAssociatedWithPinGroupName(string pinGroupName)
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(pinGroupName);
+            var currentLevel = 1E-2;
+            sessionsBundle.GangPinGroup(pinGroupName);
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnMeasureTrigger);
+            sessionsBundle.ForceCurrent(currentLevel, waitForSourceCompletion: true);
+
+            var results = sessionsBundle.MeasureCurrentWithInCompliance();
+
+            sessionsBundle.UngangPinGroup(pinGroupName);
+            AssertAllChannelsHaveCorrectResult(results, currentLevel);
+        }
+
+        [Theory]
+        [InlineData("AllPinsGangedGroup")]
+        [InlineData("TwoPinsGangedGroup")]
+        [InlineData("ThreePinsGangedGroup")]
+        public void GangPinGroupAndForceCurrent_MeasureVoltageWithInCompliance_ResultsAssociatedWithPinGroupName(string pinGroupName)
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(pinGroupName);
+            var currentLevel = 1E-2;
+            sessionsBundle.GangPinGroup(pinGroupName);
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnMeasureTrigger);
+            sessionsBundle.ForceVoltage(currentLevel, waitForSourceCompletion: true);
+
+            var results = sessionsBundle.MeasureVoltageWithInCompliance();
+
+            sessionsBundle.UngangPinGroup(pinGroupName);
+            AssertAllChannelsHaveCorrectResult(results, currentLevel);
         }
 
         private void AssertMeasureWhenSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, DCPowerMeasurementWhen measureWhen)
