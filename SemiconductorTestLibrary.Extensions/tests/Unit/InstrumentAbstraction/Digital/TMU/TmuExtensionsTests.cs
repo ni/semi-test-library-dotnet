@@ -1049,7 +1049,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void Initialize_GetTMUStartSourceWithTMUAssigned_ReturnsConfiguredChannelString()
         {
-            var sessionsBundle = InititalzeAndCreateBundle();
+            var sessionsBundle = InitializeAndCreateBundle();
             sessionsBundle.ConfigureTMUStartSource();
             var expected = sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) => sitePinInfo.IndividualChannelString);
 
@@ -1063,7 +1063,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void Initialize_GetTMUStartSourceWithTMUAssignedBeforeConfiguration_Succeeds()
         {
-            var sessionsBundle = InititalzeAndCreateBundle();
+            var sessionsBundle = InitializeAndCreateBundle();
 
             var result = sessionsBundle.GetTMUStartSource();
 
@@ -1090,7 +1090,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void Initialize_GetTMUStopSourceWithTMUAssigned_ReturnsConfiguredChannelString()
         {
-            var sessionsBundle = InititalzeAndCreateBundle();
+            var sessionsBundle = InitializeAndCreateBundle();
             sessionsBundle.ConfigureTMUStopSource();
             var expected = sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) => sitePinInfo.IndividualChannelString);
 
@@ -1104,7 +1104,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void Initialize_GetTMUStopSourceWithTMUAssignedBeforeConfiguration_Succeeds()
         {
-            var sessionsBundle = InititalzeAndCreateBundle();
+            var sessionsBundle = InitializeAndCreateBundle();
 
             var result = sessionsBundle.GetTMUStopSource();
 
@@ -1133,7 +1133,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(TmuSourceEvent.Voh)]
         public void Initialize_GetTMUStartSourceEventWithTMUAssigned_ReturnsConfiguredValue(TmuSourceEvent sourceEvent)
         {
-            var sessionsBundle = InititalzeAndCreateBundle();
+            var sessionsBundle = InitializeAndCreateBundle();
             sessionsBundle.ConfigureTMUStartSourceEvent(sourceEvent);
 
             var result = sessionsBundle.GetTMUStartSourceEvent();
@@ -1145,7 +1145,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void Initialize_GetTMUStartSourceEventWithTMUAssignedBeforeConfiguration_Succeeds()
         {
-            var sessionsBundle = InititalzeAndCreateBundle();
+            var sessionsBundle = InitializeAndCreateBundle();
 
             sessionsBundle.GetTMUStartSourceEvent();
 
@@ -1173,7 +1173,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(TmuSourceEvent.Voh)]
         public void Initialize_GetTMUStopSourceEventWithTMUAssigned_ReturnsConfiguredValue(TmuSourceEvent sourceEvent)
         {
-            var sessionsBundle = InititalzeAndCreateBundle();
+            var sessionsBundle = InitializeAndCreateBundle();
             sessionsBundle.ConfigureTMUStopSourceEvent(sourceEvent);
 
             var result = sessionsBundle.GetTMUStopSourceEvent();
@@ -1185,7 +1185,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void Initialize_GetTMUStopSourceEventWithTMUAssignedBeforeConfiguration_Succeeds()
         {
-            var sessionsBundle = InititalzeAndCreateBundle();
+            var sessionsBundle = InitializeAndCreateBundle();
 
             sessionsBundle.GetTMUStopSourceEvent();
 
@@ -1213,7 +1213,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(TmuPolarity.FallingEdge)]
         public void Initialize_GetTMUStartSourceEventPolarityWithTMUAssigned_ReturnsConfiguredValue(TmuPolarity polarity)
         {
-            var sessionsBundle = InititalzeAndCreateBundle();
+            var sessionsBundle = InitializeAndCreateBundle();
             sessionsBundle.ConfigureTMUStartSourceEventPolarity(polarity);
 
             var result = sessionsBundle.GetTMUStartSourceEventPolarity();
@@ -1225,7 +1225,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void Initialize_GetTMUStartSourceEventPolarityWithTMUAssignedBeforeConfiguration_Succeeds()
         {
-            var sessionsBundle = InititalzeAndCreateBundle();
+            var sessionsBundle = InitializeAndCreateBundle();
 
             sessionsBundle.GetTMUStartSourceEventPolarity();
 
@@ -1253,7 +1253,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(TmuPolarity.FallingEdge)]
         public void Initialize_GetTMUStopSourceEventPolarityWithTMUAssigned_ReturnsConfiguredValue(TmuPolarity polarity)
         {
-            var sessionsBundle = InititalzeAndCreateBundle();
+            var sessionsBundle = InitializeAndCreateBundle();
             sessionsBundle.ConfigureTMUStopSourceEventPolarity(polarity);
 
             var result = sessionsBundle.GetTMUStopSourceEventPolarity();
@@ -1265,7 +1265,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void Initialize_GetTMUStopSourceEventPolarityWithTMUAssignedBeforeConfiguration_Succeeds()
         {
-            var sessionsBundle = InititalzeAndCreateBundle();
+            var sessionsBundle = InitializeAndCreateBundle();
 
             sessionsBundle.GetTMUStopSourceEventPolarity();
 
@@ -1291,7 +1291,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void InitializeAndEnableTMU_GetTMUEnabledWithTMUAssigned_ReturnsTrue()
         {
-            var sessionsBundle = InititalzeAndCreateBundle();
+            var sessionsBundle = InitializeAndCreateBundle();
             sessionsBundle.ConfigureTMUStartSource();
             sessionsBundle.ConfigureTMUStopSource();
             sessionsBundle.EnableTMU();
@@ -1306,7 +1306,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void InitializeAndDisableTMU_GetTMUEnabledWithTMUAssigned_ReturnsFalse()
         {
-            var sessionsBundle = InititalzeAndCreateBundle();
+            var sessionsBundle = InitializeAndCreateBundle();
             sessionsBundle.ConfigureTMUStartSource();
             sessionsBundle.ConfigureTMUStopSource();
             sessionsBundle.EnableTMU();
@@ -1321,7 +1321,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void Initialize_GetTMUEnabledWithTMUAssignedBeforeConfiguration_ReturnsFalse()
         {
-            var sessionsBundle = InititalzeAndCreateBundle();
+            var sessionsBundle = InitializeAndCreateBundle();
 
             var result = sessionsBundle.GetTMUEnabled();
 
@@ -1350,7 +1350,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(TmuArmType.Edge)]
         public void Initialize_GetTMUArmTypeWithTMUAssigned_ReturnsConfiguredValue(TmuArmType armType)
         {
-            var sessionsBundle = InititalzeAndCreateBundle();
+            var sessionsBundle = InitializeAndCreateBundle();
             sessionsBundle.ConfigureTMUStartSource();
             sessionsBundle.ConfigureTMUEdgeArmSource();
             sessionsBundle.ConfigureTMUEdgeArmPolarity(TmuPolarity.RisingEdge);
@@ -1365,7 +1365,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void Initialize_GetTMUArmTypeWithTMUAssignedBeforeConfiguration_Succeeds()
         {
-            var sessionsBundle = InititalzeAndCreateBundle();
+            var sessionsBundle = InitializeAndCreateBundle();
 
             sessionsBundle.GetTMUArmType();
 
@@ -1391,7 +1391,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void Initialize_GetTMUEdgeArmSourceWithTMUAssigned_ReturnsConfiguredChannelString()
         {
-            var sessionsBundle = InititalzeAndCreateBundle();
+            var sessionsBundle = InitializeAndCreateBundle();
             sessionsBundle.ConfigureTMUEdgeArmSource();
             var expected = sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) => sitePinInfo.IndividualChannelString);
 
@@ -1405,7 +1405,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void Initialize_GetTMUEdgeArmSourceWithTMUAssignedBeforeConfiguration_Succeeds()
         {
-            var sessionsBundle = InititalzeAndCreateBundle();
+            var sessionsBundle = InitializeAndCreateBundle();
 
             var result = sessionsBundle.GetTMUEdgeArmSource();
 
@@ -1434,7 +1434,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(TmuSourceEvent.Voh)]
         public void Initialize_GetTMUEdgeArmSourceEventWithTMUAssigned_ReturnsConfiguredValue(TmuSourceEvent sourceEvent)
         {
-            var sessionsBundle = InititalzeAndCreateBundle();
+            var sessionsBundle = InitializeAndCreateBundle();
             sessionsBundle.ConfigureTMUEdgeArmSourceEvent(sourceEvent);
 
             var result = sessionsBundle.GetTMUEdgeArmSourceEvent();
@@ -1446,7 +1446,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void Initialize_GetTMUEdgeArmSourceEventWithTMUAssignedBeforeConfiguration_Succeeds()
         {
-            var sessionsBundle = InititalzeAndCreateBundle();
+            var sessionsBundle = InitializeAndCreateBundle();
 
             sessionsBundle.GetTMUEdgeArmSourceEvent();
 
@@ -1474,7 +1474,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(TmuPolarity.FallingEdge)]
         public void Initialize_GetTMUEdgeArmPolarityWithTMUAssigned_ReturnsConfiguredValue(TmuPolarity polarity)
         {
-            var sessionsBundle = InititalzeAndCreateBundle();
+            var sessionsBundle = InitializeAndCreateBundle();
             sessionsBundle.ConfigureTMUEdgeArmPolarity(polarity);
 
             var result = sessionsBundle.GetTMUEdgeArmPolarity();
@@ -1486,7 +1486,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void Initialize_GetTMUEdgeArmPolarityWithTMUAssignedBeforeConfiguration_Succeeds()
         {
-            var sessionsBundle = InititalzeAndCreateBundle();
+            var sessionsBundle = InitializeAndCreateBundle();
 
             sessionsBundle.GetTMUEdgeArmPolarity();
 
@@ -1515,7 +1515,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(50)]
         public void Initialize_GetTMUSamplesToAcquireWithTMUAssigned_ReturnsConfiguredValue(long samplesToAcquire)
         {
-            var sessionsBundle = InititalzeAndCreateBundle();
+            var sessionsBundle = InitializeAndCreateBundle();
             sessionsBundle.ConfigureTMUSamplesToAcquire(samplesToAcquire);
 
             var result = sessionsBundle.GetTMUSamplesToAcquire();
@@ -1527,7 +1527,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void Initialize_GetTMUSamplesToAcquireWithTMUAssignedBeforeConfiguration_Succeeds()
         {
-            var sessionsBundle = InititalzeAndCreateBundle();
+            var sessionsBundle = InitializeAndCreateBundle();
 
             sessionsBundle.GetTMUSamplesToAcquire();
 
@@ -1555,7 +1555,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(0.001)]
         public void Initialize_GetTMUSampleTimeoutWithTMUAssigned_ReturnsConfiguredValue(double timeout)
         {
-            var sessionsBundle = InititalzeAndCreateBundle();
+            var sessionsBundle = InitializeAndCreateBundle();
             sessionsBundle.ConfigureTMUSampleTimeout(timeout);
 
             var result = sessionsBundle.GetTMUSampleTimeout();
@@ -1568,7 +1568,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void Initialize_GetTMUSampleTimeoutWithTMUAssignedBeforeConfiguration_Succeeds()
         {
-            var sessionsBundle = InititalzeAndCreateBundle();
+            var sessionsBundle = InitializeAndCreateBundle();
 
             sessionsBundle.GetTMUSampleTimeout();
 
@@ -1594,7 +1594,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void Initialize_GetTMUStartInputDebounceTimeWithTMUAssigned_ReturnsNonNegativeValue()
         {
-            var sessionsBundle = InititalzeAndCreateBundle();
+            var sessionsBundle = InitializeAndCreateBundle();
 
             var result = sessionsBundle.GetTMUStartInputDebounceTime();
 
@@ -1605,7 +1605,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void Initialize_GetTMUStartInputDebounceTimeWithTMUAssignedBeforeConfiguration_Succeeds()
         {
-            var sessionsBundle = InititalzeAndCreateBundle();
+            var sessionsBundle = InitializeAndCreateBundle();
 
             sessionsBundle.GetTMUStartInputDebounceTime();
 
@@ -1631,7 +1631,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void Initialize_GetTMUStopInputDebounceTimeWithTMUAssigned_ReturnsNonNegativeValue()
         {
-            var sessionsBundle = InititalzeAndCreateBundle();
+            var sessionsBundle = InitializeAndCreateBundle();
 
             var result = sessionsBundle.GetTMUStopInputDebounceTime();
 
@@ -1642,7 +1642,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void Initialize_GetTMUStopInputDebounceTimeWithTMUAssignedBeforeConfiguration_Succeeds()
         {
-            var sessionsBundle = InititalzeAndCreateBundle();
+            var sessionsBundle = InitializeAndCreateBundle();
 
             sessionsBundle.GetTMUStopInputDebounceTime();
 
@@ -1668,7 +1668,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void Initialize_GetTMUCountWithTMUAssigned_ReturnsAtLeastTwoTMUs()
         {
-            var sessionsBundle = InititalzeAndCreateBundle();
+            var sessionsBundle = InitializeAndCreateBundle();
 
             var result = sessionsBundle.GetTMUCount();
 
