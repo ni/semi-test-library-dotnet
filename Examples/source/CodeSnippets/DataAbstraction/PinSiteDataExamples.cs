@@ -160,6 +160,50 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             var pinSiteData = new PinSiteData<double>(pinNames, perPinSiteData);
         }
 
+        internal static void BuildWithWithArraysAndSetValueWithPerPinData()
+        {
+            // Pin names to associate with the data.
+            var pinNames = new string[] { "VCC1", "VCC2" };
+            // Site numbers to associate with the data.
+            var siteNumbers = new int[] { 0 };
+            // Per-pin data values.
+            var perPinData = new[] { 1.5, 2.5 };
+
+            // Construct PinSiteData object.
+            var pinSiteData = new PinSiteData<double>(pinNames, siteNumbers);
+            // Use SetValue to assign the per-pin values to all sites within the PinSiteData object.
+            for (int i = 0; i < pinNames.Length; i++)
+            {
+                pinSiteData.SetValue(perPinData[i], pinNames[i]);
+            }
+        }
+
+        internal static void BuildWithArraysAndSetValueWithPerPinPerSiteData()
+        {
+            // Pin names to associate with the data.
+            var pinNames = new string[] { "VCC1", "VCC2" };
+            // Site numbers to associate with the data.
+            var siteNumbers = new int[] { 0, 1, 2, 3 };
+            // 2D jagged array of pin and site unique data,
+            // where the first dimension represents pins (2) and the second dimension represents sites (4).
+            var perPinAndSiteData = new double[][]
+            {
+                new[] { 1.5, 1.6, 1.7, 1.8 }, // VCC1 data for sites: 0, 1, 2, 3
+                new[] { 3.3, 3.4, 3.5, 3.6 } // VCC2 data for sites: 0, 1, 2, 3
+            };
+
+            // Construct empty PinSiteData object, this will be dynamically filled with data using SetValue.
+            var pinSiteData = new PinSiteData<double>();
+            // Use SetValue to assign values to the PinSiteData object for each pin and site.
+            for (int pinIndex = 0; pinIndex < pinNames.Length; pinIndex++)
+            {
+                for (int siteIndex = 0; siteIndex < siteNumbers.Length; siteIndex++)
+                {
+                    pinSiteData.SetValue(perPinAndSiteData[pinIndex][siteIndex], pinNames[pinIndex], siteNumbers[siteIndex]);
+                }
+            }
+        }
+
         internal static void ConstructWithArraysWithSystemPin()
         {
             // Pin names to associate with the data.
@@ -180,6 +224,50 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             var pinSiteData = new PinSiteData<double>(pinNames, perPinSiteData);
         }
 
+        internal static void BuildWithArraysWithSystemPin()
+        {
+            // Pin names to associate with the data.
+            var pinNames = new string[] { "VCC1", "VCC2", "SystemSupply" };
+            // Site numbers to associate with the DUT pins.
+            var siteNumbers = new int[] { 0, 1 };
+            // Per-pin, per-site data array.
+            // Each element in the perPinData array corresponds to a pin in the pinNames array.
+            var perPinData = new double[] { 1.5, 2.5, -22.5 };
+
+            // Note that data associated with system pins is considered site-agnostic,
+            // and site-agnostic data can represented with -1 as the site value.
+            // Typically, the site numbers array used within a code module will not explicitly contain a -1 value.
+            // Therefore, -1 will need to be appended to the siteNumbers array when creating a PinSiteData object that contains system pin data.
+            // This can be done using array operations or by converting the array into a List, but in most instances it is best not to modify the original siteNumbers array,
+            // as it may be used elsewhere in the code module where the system pin data is not relevant and can result in unintended consequences.
+            // The most efficient way to handle this is by first constructing the PinSiteData object with the known Pin Names and Site Numbers array,
+            // and then adding the -1 site manually with the AddSite method.
+            // Alternatively, the site and pins can simply be added dynamically when SetValue is called.
+            var pinSiteData = new PinSiteData<double>(pinNames: new string[] { "VCC1", "VCC2" }, siteNumbers: siteNumbers);
+            pinSiteData.AddSite("SystemSupply", -1);
+            for (int i = 0; i < perPinData.Length; i++)
+            {
+                // Check if the pin is a system pin and set the value accordingly.
+                // In this example, we are assuming that the system pin is named "SystemSupply".
+                // However, in practice, you would want to have a more robust way to identify system pins,
+                // such as utilizing the ISemiconductorModuleContext.GetPins method.
+                if (pinNames[i] == "SystemSupply")
+                {
+                    // For system pins, set the value for site -1 to indicate site-agnostic data.
+                    pinSiteData.SetValue(value: perPinData[i], pinName: pinNames[i], siteNumbers: -1);
+                }
+                else
+                {
+                    // Set the uniform value for each DUT pin across all sites.
+                    // Note that care must be taken when calling SetValue with system pins present in the PinSiteData object,
+                    // As the SetValue(T value) and SetValue(T value, param string) overload will apply the same value to all sites declared within the PinSiteData, including system sites.
+                    // Therefore, it is best to avoid those overloads when working with system pins,
+                    // and instead, explicitly specify which site number to set a value for, as shown below.
+                    pinSiteData.SetValue(value: perPinData[i], pinName: pinNames[i], siteNumbers: siteNumbers);
+                }
+            }
+        }
+
         internal static void ConstructWithDictionaryWithSystemPin()
         {
             // Dictionary containing pin- and site-unique data, including system pin data.
@@ -195,6 +283,33 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             var pinSiteData = new PinSiteData<double>(pinAndSiteUnqiueDataDictionary);
         }
 
+        internal static void BuildWithDictionaryWithSystemPin()
+        {
+            // Dictionary containing pin and site-unique data, including system pin data.
+            // Note that data associated with system pins is considered site-agnostic,
+            // and site-agnostic data can represented with -1 as the site value.
+            var pinAndSiteUnqiueDataDictionary = new Dictionary<string, IDictionary<int, double>>
+            {
+                ["VCC1"] = new Dictionary<int, double> { [0] = 1.5, [1] = 11.5 },
+                ["SystemSupply"] = new Dictionary<int, double> { [-1] = -22.5 }
+            };
+            // Extract the pin names from the dictionary keys to use for constructing the PinSiteData object.
+            var pinNames = pinAndSiteUnqiueDataDictionary.Keys.ToArray();
+            // Construct a PinSiteData object with the pin names.
+            var pinSiteData = new PinSiteData<double>(pinNames);
+            // Add the site numbers to the PinSiteData object.
+            foreach (var pin in pinNames)
+            {
+                // Parse the site numbers and corresponding value for the current pin from the dictionary.
+                var siteNumberToValueDictionary = pinAndSiteUnqiueDataDictionary[pin];
+                foreach (var siteNumber in siteNumberToValueDictionary.Keys)
+                {
+                    // Set the value for the current pin and site number in the PinSiteData object.
+                    pinSiteData.SetValue(siteNumberToValueDictionary[siteNumber], pin, siteNumber);
+                }
+            }
+        }
+
         internal static void ConstructWithPinDataDictionaryAndSiteNumbersArray()
         {
             // Site numbers to associate with the data.
@@ -203,6 +318,29 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             var perPinData = new Dictionary<string, double> { ["VDET"] = 22, ["VCC1"] = 44, ["VCC2"] = 33 };
             // Constructs a PinSiteData object with a pin specific data dictionary and siteNumbers array.
             var pinSiteData = new PinSiteData<double>(siteNumbers, perPinData);
+        }
+
+        internal static void BuildWithPinDataDictionaryAndSiteNumbersArray()
+        {
+            // Site numbers to associate with the data.
+            var siteNumbers = new int[] { 2, 4, 3, 1 };
+            // Dictionary containing pin-unique data.
+            var perPinData = new Dictionary<string, double> { ["VDET"] = 22, ["VCC1"] = 44, ["VCC2"] = 33 };
+            // Get the pin names from the dictionary keys.
+            var pinNames = perPinData.Keys.ToArray();
+            // Use the empty constructor to build the PinSiteData dynamically.
+            // This is useful when pin names or site numbers are not all known upfront.
+            // For this example, since the pin names and site numbers are known, it would also be possible to provide that information directly to the constructor.
+            var pinSiteData = new PinSiteData<double>();
+            // Add all pin names first. No sites yet so each pin gets an empty SiteData.
+            pinSiteData.AddPin(pinNames);
+            // Add site numbers across all existing pins, initializing each to the default value (0.0).
+            pinSiteData.AddSite(siteNumbers);
+            // Set the per-pin value for each pin, repeating across all its sites.
+            foreach (var pinName in pinNames)
+            {
+                pinSiteData.SetValue(perPinData[pinName], pinName);
+            }
         }
 
         internal static void ConstructWithPinDataDictionaryAndSiteNumbersArrayWithSystemPin()
@@ -222,6 +360,30 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
                 .Combine(new PinSiteData<double>(new[] { -1 }, perSystemPinSiteData));
         }
 
+        internal static void BuildWithPinDataDictionaryAndSiteNumbersArrayWithSystemPin()
+        {
+            // Site numbers to associate with the data.
+            var siteNumbers = new int[] { 2, 4, 3, 1 };
+            // Dictionaries containing pin-unique data.
+            // Two separate dictionaries are used to delineate between DUT pins from System pin data.
+            var perDutPinData = new Dictionary<string, double> { ["VDET"] = 22, ["VCC1"] = 44, ["VCC2"] = 33 };
+            var perSystemPinSiteData = new Dictionary<string, double> { ["SystemSupply"] = -15 };
+            // Create an empty PinSiteData object to build dynamically.
+            var pinSiteData = new PinSiteData<double>();
+            // Set the per-pin value for each DUT pin, repeated across all sites for that pin.
+            // All the pins and sites are added dynamically to the PinSiteData object as they are encountered.
+            foreach (var pinName in perDutPinData.Keys)
+            {
+                pinSiteData.SetValue(perDutPinData[pinName], pinName, siteNumbers);
+            }
+            // System pins are site-agnostic; -1 is used as the site number.
+            // SetValue automatically adds the SystemSupply pin and site -1 since they do not yet exist.
+            foreach (var pinName in perSystemPinSiteData.Keys)
+            {
+                pinSiteData.SetValue(perSystemPinSiteData[pinName], pinName, -1);
+            }
+        }
+
         internal static void ConstructWithArraysForCommonDataValue()
         {
             // Site numbers to associate with the data.
@@ -230,6 +392,20 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             var pinNames = new string[] { "VDET", "VCC1", "VCC2" };
             // Constructs a PinSiteData object with the same data value across all pins and sites.
             var pinSiteData = new PinSiteData<double>(pinNames, siteNumbers, 55);
+        }
+
+        internal static void BuildWithArraysForCommonDataValue()
+        {
+            // Site numbers to associate with the data.
+            var siteNumbers = new int[] { 2, 4, 3 };
+            // Pin names to associate with the data.
+            var pinNames = new string[] { "VDET", "VCC1", "VCC2" };
+            // Since both pin names and site numbers are known, providing this information to the constructor is most efficient.
+            // Alternatively, you can create empty PinSiteData and then add pins and sites manually with the AddPin and AddSite methods,
+            // or have them be added dynamically as specified by the SetValue method.
+            var pinSiteData = new PinSiteData<double>(pinNames, siteNumbers);
+            // Set the same value across all pins and all sites at once.
+            pinSiteData.SetValue(55);
         }
 
         internal static void ConstructWithPinUniqueDataArray()
@@ -249,6 +425,28 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             var pinSiteData = new PinSiteData<double>(pinNames, siteNumbers, perPinData);
         }
 
+        internal static void BuildWithPinUniqueDataArray()
+        {
+            // Site numbers to associate with the data.
+            var siteNumbers = new int[] { 2, 4, 3 };
+            // Pin names to associate with the data.
+            var pinNames = new string[] { "VDET", "VCC1" };
+            // Per-pin data values, where each element is the value for the pin at the same index in pinNames.
+            var perPinData = new double[] { 42, 105 };
+            // Use the empty constructor to build the PinSiteData dynamically.
+            // This is useful when pin names or site numbers are not all known upfront.
+            // For this example, since the pin names and site numbers are known, it would also be possible to provide that information directly to the constructor.
+            var pinSiteData = new PinSiteData<double>();
+            // Add pins first, then sites — each site is initialized to the default value (0.0).
+            pinSiteData.AddPin(pinNames);
+            pinSiteData.AddSite(siteNumbers);
+            // Set the per-pin value for each pin, repeating the value across all its sites.
+            for (int i = 0; i < pinNames.Length; i++)
+            {
+                pinSiteData.SetValue(perPinData[i], pinNames[i]);
+            }
+        }
+
         internal static void ConstructWithSiteUniqueDataArray()
         {
             // Site numbers to associate with the data.
@@ -264,6 +462,25 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // otherwise an exception will be thrown.
             // Non-sequential site order is accepted.
             var pinSiteData = new PinSiteData<double>(siteNumbers, pinNames, perSiteData);
+        }
+
+        internal static void BuildWithSiteUniqueDataArray()
+        {
+            // Site numbers to associate with the data.
+            var siteNumbers = new int[] { 2, 4, 3 };
+            // Pin names to associate with the data.
+            var pinNames = new string[] { "VDET", "VCC1" };
+            // Per-site data values, where each element is the value for the site at the same index in siteNumbers.
+            var perSiteData = new double[] { 42, 105, 55 };
+            // Since both pin names and site numbers are known, providing this information to the constructor is most efficient.
+            // Alternatively, you can create empty PinSiteData and then add pins and sites manually with the AddPin and AddSite methods,
+            // or have them be added dynamically as specified by the SetValue method.
+            var pinSiteData = new PinSiteData<double>(pinNames, siteNumbers);
+            // Set the per-site value across all pins for each site.
+            for (int i = 0; i < siteNumbers.Length; i++)
+            {
+                pinSiteData.SetValue(perSiteData[i], siteNumbers[i]);
+            }
         }
 
         internal static void ConstructWithPinAndSiteUniqueDataArray()
@@ -288,6 +505,37 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             var pinSiteData = new PinSiteData<double>(pinNames, siteNumbers, perPinPerSiteData);
         }
 
+        internal static void BuildWithPinAndSiteUniqueDataArray()
+        {
+            // Site numbers to associate with the data.
+            var siteNumbers = new int[] { 2, 4, 3 };
+            // Pin names to associate with the data.
+            var pinNames = new string[] { "VDET", "VCC1" };
+            // 2D jagged array of pin and site unique data,
+            // where the first dimension represents pins (2) and the second dimension represents sites (3).
+            // Note that order of the elements in the perPinPerSiteData array must match the order of the pinNames and siteNumbers arrays.
+            var perPinPerSiteData = new double[][]
+            {
+                new double[] { 42, 105, 206 }, // VDET data for sites: 2, 4, 3.
+                new double[] { 55, 2048, 0.5 } // VCC1 data for sites: 2, 4, 3.
+            };
+            // Use the pin-only constructor, then add the sites.
+            // This constructor allows you to declare pins upfront and add sites later on.
+            var pinSiteData = new PinSiteData<double>(pinNames);
+            // Add sites.
+            pinSiteData.AddSite(siteNumbers);
+            // Set a unique value for each pin and each site combination.
+            for (int pinIndex = 0; pinIndex < pinSiteData.PinNames.Length; pinIndex++)
+            {
+                string pinName = pinSiteData.PinNames[pinIndex];
+                for (int siteIndex = 0; siteIndex < siteNumbers.Length; siteIndex++)
+                {
+                    int siteNumber = siteNumbers[siteIndex];
+                    pinSiteData.SetValue(perPinPerSiteData[pinIndex][siteIndex], pinName, siteNumber);
+                }
+            }
+        }
+
         internal static void ConstructWithSiteAndPinUniqueDataArray()
         {
             var siteNumbers = new int[] { 2, 4, 3 };
@@ -308,6 +556,35 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // If any of the above conditions are not met, an exception will be thrown.
             // Non-sequential site order is accepted
             var pinSiteData = new PinSiteData<double>(siteNumbers, pinNames, perSitePerPinData);
+        }
+
+        internal static void BuildWithSiteAndPinUniqueDataArray()
+        {
+            // Site numbers to associate with the data.
+            var siteNumbers = new int[] { 2, 4, 3 };
+            // Pin names to associate with the data.
+            var pinNames = new string[] { "VDET", "VCC1" };
+            // 2D jagged array of pin and site unique data,
+            // where the first dimension represents sites (3) and the second dimension represents pins (2).
+            var perSitePerPinData = new double[][]
+            {
+                new double[] { 42,  55 },
+                new double[] { 105, 2048 },
+                new double[] { 206, 0.5 },
+            };
+            // Since both pin names and site numbers are known, providing this information to the constructor is most efficient.
+            // Alternatively, you can create empty PinSiteData and then add pins and sites manually with the AddPin and AddSite methods,
+            // or have them be added dynamically as specified by the SetValue method.
+            var pinSiteData = new PinSiteData<double>(pinNames, siteNumbers);
+            // Set a unique value for each site and each pin combination.
+            // Outer loop iterates over sites, inner loop iterates over pins — matching perSitePerPinData layout.
+            for (int siteIndex = 0; siteIndex < siteNumbers.Length; siteIndex++)
+            {
+                for (int pinIndex = 0; pinIndex < pinNames.Length; pinIndex++)
+                {
+                    pinSiteData.SetValue(perSitePerPinData[siteIndex][pinIndex], pinNames[pinIndex], siteNumbers[siteIndex]);
+                }
+            }
         }
 
         internal static void ConstructWithDefaultConstructor()
