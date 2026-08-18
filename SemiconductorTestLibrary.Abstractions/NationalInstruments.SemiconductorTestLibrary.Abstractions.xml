@@ -5235,6 +5235,26 @@
             Measure pulse width low (time at VOL level between falling and rising edges).
             </summary>
         </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuArmSetting">
+            <summary>
+            TMU Arm Setting values.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuArmSetting.Immediate">
+            <summary>
+            Arm each sample immediately.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuArmSetting.StartEdge">
+            <summary>
+            Arm each sample on the rising or falling edge of a signal with the same properties as the Start Source.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuArmSetting.StopEdge">
+            <summary>
+            Arm each sample on the rising or falling edge of a signal with the same properties as the Stop Source.
+            </summary>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionInformation">
             <summary>
             Defines an object that contains an individual <see cref="T:NationalInstruments.ModularInstruments.NIDmm.NIDmm"/> session and its related information.
