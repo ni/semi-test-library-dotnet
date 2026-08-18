@@ -492,10 +492,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="publishDataIdFormatter">A .NET composite format string used to build the unique published data ID for each fetched sample. It must contain a single format item, <c>{0}</c>, which is replaced with the zero-based sample index (for example, "Voltage{0}" produces "Voltage0", "Voltage1", and so on).</param>
         /// <param name="pointsToFetch">The number of points to fetch. This also determines the length of each returned <see cref="double"/> array.</param>
         /// <param name="timeoutInSeconds">The maximum time, in seconds, to wait for the fetch to complete before the operation is aborted.</param>
-        /// <returns>The pin-site aware voltage measurements, where each <see cref="double"/> array contains all fetched samples for that pin-site and has a length equal to <paramref name="pointsToFetch"/>.</returns>
+        /// <returns>The pin-site aware voltage measurements, where each <see cref="double"/> array contains all fetched samples for that pin-site and has a length equal to <paramref name="pointsToFetch"/>. The voltage result of the primary pin is returned with the pin group name in case of merging, and the voltage results of individual pins are averaged and returned with the pin group name in case of ganging.</returns>
         public static PinSiteData<double[]> FetchAndPublishVoltage(this DCPowerSessionsBundle sessionsBundle, string publishDataIdFormatter, int pointsToFetch = 1, double timeoutInSeconds = 10)
         {
-            return FetchAndPublishMeasurement(sessionsBundle, publishDataIdFormatter, pointsToFetch, timeoutInSeconds, sample => sample.VoltageMeasurement);
+            return FetchAndPublishMeasurement(sessionsBundle, publishDataIdFormatter, pointsToFetch, timeoutInSeconds, measurements => measurements.Item1, VoltagePinSiteResultsFilling);
         }
 
         /// <summary>
@@ -511,10 +511,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="publishDataIdFormatter">A .NET composite format string used to build the unique published data ID for each fetched sample. It must contain a single format item, <c>{0}</c>, which is replaced with the zero-based sample index (for example, "Current{0}" produces "Current0", "Current1", and so on).</param>
         /// <param name="pointsToFetch">The number of points to fetch. This also determines the length of each returned <see cref="double"/> array.</param>
         /// <param name="timeoutInSeconds">The maximum time, in seconds, to wait for the fetch to complete before the operation is aborted.</param>
-        /// <returns>The pin-site aware current measurements, where each <see cref="double"/> array contains all fetched samples for that pin-site and has a length equal to <paramref name="pointsToFetch"/>.</returns>
+        /// <returns>The pin-site aware current measurements, where each <see cref="double"/> array contains all fetched samples for that pin-site and has a length equal to <paramref name="pointsToFetch"/>. The current result of the primary pin is returned with the pin group name in case of merging, and the current results of individual pins are accumulated and returned with the pin group name in case of ganging.</returns>
         public static PinSiteData<double[]> FetchAndPublishCurrent(this DCPowerSessionsBundle sessionsBundle, string publishDataIdFormatter, int pointsToFetch = 1, double timeoutInSeconds = 10)
         {
-            return FetchAndPublishMeasurement(sessionsBundle, publishDataIdFormatter, pointsToFetch, timeoutInSeconds, sample => sample.CurrentMeasurement);
+            return FetchAndPublishMeasurement(sessionsBundle, publishDataIdFormatter, pointsToFetch, timeoutInSeconds, measurements => measurements.Item2, CurrentPinSiteResultsFilling);
         }
 
         private static void ClearBacklogIfSoftwareEdgeTrigger(this DCPowerSessionsBundle sessionsBundle)
@@ -681,6 +681,27 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
 
             return new Tuple<double[], double[]>(voltageMeasurements, currentMeasurements);
+        }
+
+        /// <summary>
+        /// Fetches the specified number of voltage and current measurement points for each channel that is not skipped.
+        /// </summary>
+        /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>
+        /// <param name="pointsToFetch">The number of points to fetch per channel.</param>
+        /// <param name="timeoutInSeconds">The time to wait before the operation is aborted.</param>
+        /// <returns>The measurements in per-channel format. Item1 is voltage measurements, Item2 is current measurements. The outer index is the channel, and the inner index is the sample point.</returns>
+        public static Tuple<double[][], double[][]> FetchVoltageAndCurrent(this DCPowerSessionInformation sessionInfo, int pointsToFetch, double timeoutInSeconds)
+        {
+            var channelsToFetch = sessionInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations).ToList();
+            var voltageMeasurements = new double[channelsToFetch.Count][];
+            var currentMeasurements = new double[channelsToFetch.Count][];
+            for (int i = 0; i < channelsToFetch.Count; i++)
+            {
+                var fetchResult = sessionInfo.Session.Measurement.Fetch(channelsToFetch[i].IndividualChannelString, PrecisionTimeSpan.FromSeconds(timeoutInSeconds), pointsToFetch);
+                voltageMeasurements[i] = fetchResult.VoltageMeasurements;
+                currentMeasurements[i] = fetchResult.CurrentMeasurements;
+            }
+            return new Tuple<double[][], double[][]>(voltageMeasurements, currentMeasurements);
         }
 
         #endregion methods on DCPowerSessionInformation
@@ -862,24 +883,44 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             string publishDataIdFormatter,
             int pointsToFetch,
             double timeoutInSeconds,
-            Func<SingleDCPowerFetchResult, double> measurementSelector)
+            Func<Tuple<double[][], double[][]>, double[][]> measurementSelector,
+            PinSiteResultsFilling<double> pinSiteResultsFilling)
         {
             if (string.IsNullOrEmpty(publishDataIdFormatter))
             {
                 throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_InvalidPublishDataIdFormatter));
             }
 
-            var fetchResults = sessionsBundle.FetchMeasurement(pointsToFetch, timeoutInSeconds);
-            var measurements = fetchResults.Select(samples => samples.Select(measurementSelector).ToArray());
+            // Bulk fetch all points per channel, then aggregate ganged/merged pins one sample point at a time using the provided filling.
+            var perInstrumentPerChannelSamples = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(
+                sessionInfo => measurementSelector(sessionInfo.FetchVoltageAndCurrent(pointsToFetch, timeoutInSeconds)));
 
+            var perPointResults = new PinSiteData<double>[pointsToFetch];
             for (int i = 0; i < pointsToFetch; i++)
             {
-                var measurement = measurements.Select(samples => samples[i]);
+                int pointIndex = i;
+                var perInstrumentPerChannelForPoint = perInstrumentPerChannelSamples
+                    .Select(perInstrumentSamples => perInstrumentSamples.Select(perChannelSamples => perChannelSamples[pointIndex]).ToArray())
+                    .ToArray();
+                var pointResult = sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPinSiteData(perInstrumentPerChannelForPoint, pinSiteResultsFilling);
                 string publishedDataId = string.Format(CultureInfo.InvariantCulture, publishDataIdFormatter, i);
-                sessionsBundle.TSMContext.PublishResults(measurement, publishedDataId);
+                sessionsBundle.TSMContext.PublishResults(pointResult, publishedDataId);
+                perPointResults[i] = pointResult;
             }
 
-            return measurements;
+            return CombinePerPointResults(perPointResults);
+        }
+
+        private static PinSiteData<double[]> CombinePerPointResults(PinSiteData<double>[] perPointResults)
+        {
+            // Reshapes point-major results (one PinSiteData per fetched sample point) into pin-major arrays (one array of all sample points per pin/site). This is only a transpose; the ganged/merged aggregation already happened per point.
+            var pinSiteResults = perPointResults[0].SiteNumbersByPin.ToDictionary(
+                pinAndSites => pinAndSites.Key,
+                pinAndSites => (IDictionary<int, double[]>)pinAndSites.Value.ToDictionary(
+                    siteNumber => siteNumber,
+                    siteNumber => perPointResults.Select(pointResult => pointResult.GetValue(siteNumber, pinAndSites.Key)).ToArray()));
+
+            return new PinSiteData<double[]>(pinSiteResults);
         }
 
         #endregion private methods
