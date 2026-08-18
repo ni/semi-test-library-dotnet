@@ -176,6 +176,77 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             var siteData = new SiteData<double>(siteNumbers, perSiteData);
         }
 
+        internal static void ConstructWithDefaultConstructor()
+        {
+            // Constructs an empty SiteData object using the default (parameterless) constructor.
+            // No sites or values are associated with the object at this point.
+            var siteData = new SiteData<double>();
+            // Site  | (empty)
+
+            // Use AddSite to add one or more site numbers to the empty SiteData object.
+            // Each added site is initialized with the default value of the data type (0.0 for double).
+            // Note that the AddSite method can be invoked either by passing a preformed array, as is shown below,
+            // or by listing out the sites as separate parameter inputs, for example, siteData.AddSite(0, 1, 2).
+            var siteNumbersToAdd = new int[] { 0, 1, 2 };
+            siteData.AddSite(siteNumbersToAdd);
+            // Site  |  0    |  1    |  2
+            // Value |  0.0  |  0.0  |  0.0
+
+            // Use SetValue to assign a specific value to all sites at once.
+            // This sets 3.3 for all sites (site 0, site 1, and site 2).
+            siteData.SetValue(value: 3.3);
+            // Site  |  0    |  1    |  2
+            // Value |  3.3  |  3.3  |  3.3
+
+            // Use SetValue with specific site numbers to set values for only those sites.
+            // This adds sites 3 and 4 and sets 5.0 as the value for those sites,
+            // leaving sites 0, 1, and 2 unchanged at 3.3.
+            siteData.SetValue(value: 5.0, siteNumbers: new int[] { 3, 4 });
+            // Site  |  0    |  1    |  2    |  3    |  4
+            // Value |  3.3  |  3.3  |  3.3  |  5.0  |  5.0
+
+            // Use RemoveSite to remove one or more sites from the SiteData object.
+            // This removes site 2, leaving sites 0, 1, 3 and 4 in the object.
+            siteData.RemoveSite(2);
+            // Site  |  0    |  1    |  3    |  4
+            // Value |  3.3  |  3.3  |  5.0  |  5.0
+        }
+
+        internal static void ConstructWithSingleSiteNumber()
+        {
+            // Constructs a SiteData object with a single site number.
+            // The site is initialized with the default value of the data type (0.0 for double).
+            // This constructor is useful for initially declaring data for only one site.
+            var siteData = new SiteData<double>(siteNumber: 0);
+            // Site  |  0
+            // Value |  0.0
+
+            // Use AddSite to extend the object with additional site numbers.
+            // Sites 1 and 2 are added, each initialized with the default value (0.0 for double).
+            // If a site already exists in the SiteData object, such as Site 0 in this case, that site is skipped when performing the operation.
+            siteData.AddSite(0, 1, 2);
+            // Site  |  0    |  1    |  2
+            // Value |  0.0  |  0.0  |  0.0
+
+            // Use SetValue with specific site numbers to assign a value to only those sites.
+            // This sets 1.8 for site 0 and site 1, leaving site 2 unchanged at 0.0.
+            siteData.SetValue(value: 1.8, siteNumbers: new int[] { 0, 1 });
+            // Site  |  0    |  1    |  2
+            // Value |  1.8  |  1.8  |  0.0
+
+            // Use SetValue without site numbers to set the same value across all existing sites.
+            // This overwrites the values for site 0, site 1, and site 2, setting all of them to 2.5.
+            siteData.SetValue(value: 2.5);
+            // Site  |  0    |  1    |  2
+            // Value |  2.5  |  2.5  |  2.5
+
+            // Use RemoveSite to remove specific sites from the SiteData object.
+            // This removes site 0 and site 1, leaving only site 2 in the object.
+            siteData.RemoveSite(0, 1);
+            // Site  |  2
+            // Value |  2.5
+        }
+
         /// <summary>
         /// This method is just for example purposes to simulate a measurement result being collected.
         /// </summary>
