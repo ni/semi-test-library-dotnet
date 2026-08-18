@@ -5875,8 +5875,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var voltageLevelRange = sessionsBundle.GetVoltageLevelRange();
 
             Assert.Single(voltageLevelRange.PinNames);
-            Assert.Equal(primaryPin, voltageLevelRange.PinNames.FirstOrDefault());
-            Assert.DoesNotContain(allPinsMergedGroup, voltageLevelRange.PinNames);
+            Assert.Equal(allPinsMergedGroup, voltageLevelRange.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(primaryPin, voltageLevelRange.PinNames);
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedVoltageLevelRange, voltageLevelRange.GetValue(sitePinInfo));
@@ -5897,8 +5897,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var voltageLevelRange = sessionsBundle.GetVoltageLevelRange();
 
-            Assert.Equal(2, voltageLevelRange.PinNames.Length);
-            Assert.DoesNotContain(TwoPinsGangedGroup, voltageLevelRange.PinNames);
+            Assert.Single(voltageLevelRange.PinNames);
+            Assert.Equal(TwoPinsGangedGroup, voltageLevelRange.PinNames.FirstOrDefault());
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedVoltageLevelRange, voltageLevelRange.GetValue(sitePinInfo), 4);
@@ -8505,9 +8505,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var currentLimitHigh = sessionsBundle.GetCurrentLimitHigh();
 
             Assert.Single(currentLimitHigh.PinNames);
-            Assert.Equal(primaryPin, currentLimitHigh.PinNames.FirstOrDefault());
-            Assert.DoesNotContain(allPinsMergedGroup, currentLimitHigh.PinNames);
-            Assert.Equal(expectedCurrentLimitHigh, currentLimitHigh.GetValue(0, primaryPin));
+            Assert.Equal(allPinsMergedGroup, currentLimitHigh.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(primaryPin, currentLimitHigh.PinNames);
+            Assert.Equal(expectedCurrentLimitHigh, currentLimitHigh.GetValue(0, allPinsMergedGroup));
         }
 
         [Theory]
@@ -8525,12 +8525,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var currentLimitHigh = sessionsBundle.GetCurrentLimitHigh();
 
-            Assert.Equal(5, currentLimitHigh.PinNames.Length);
-            Assert.DoesNotContain(allPinsGangedGroup, currentLimitHigh.PinNames);
+            Assert.Single(currentLimitHigh.PinNames);
+            Assert.Equal(allPinsGangedGroup, currentLimitHigh.PinNames.FirstOrDefault());
             sessionsBundle.Do((_, sitePinInfo) =>
             {
-                var currentLimitHighDivisor = sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
-                Assert.Equal(expectedCurrentLimitHigh / currentLimitHighDivisor, currentLimitHigh.GetValue(sitePinInfo), 6);
+                Assert.Equal(expectedCurrentLimitHigh, currentLimitHigh.GetValue(sitePinInfo), 6);
             });
         }
 
@@ -8608,9 +8607,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var currentLimitLow = sessionsBundle.GetCurrentLimitLow();
 
             Assert.Single(currentLimitLow.PinNames);
-            Assert.Equal(primaryPin, currentLimitLow.PinNames.FirstOrDefault());
-            Assert.DoesNotContain(allPinsMergedGroup, currentLimitLow.PinNames);
-            Assert.Equal(expectedCurrentLimitLow, currentLimitLow.GetValue(0, primaryPin));
+            Assert.Equal(allPinsMergedGroup, currentLimitLow.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(primaryPin, currentLimitLow.PinNames);
+            Assert.Equal(expectedCurrentLimitLow, currentLimitLow.GetValue(0, allPinsMergedGroup));
         }
 
         [Theory]
@@ -8628,12 +8627,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var currentLimitLow = sessionsBundle.GetCurrentLimitLow();
 
-            Assert.Equal(5, currentLimitLow.PinNames.Length);
-            Assert.DoesNotContain(allPinsGangedGroup, currentLimitLow.PinNames);
+            Assert.Single(currentLimitLow.PinNames);
+            Assert.Equal(allPinsGangedGroup, currentLimitLow.PinNames.FirstOrDefault());
             sessionsBundle.Do((_, sitePinInfo) =>
             {
-                var currentLimitLowDivisor = sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
-                Assert.Equal(expectedCurrentLimitLow / currentLimitLowDivisor, currentLimitLow.GetValue(sitePinInfo), 6);
+                Assert.Equal(expectedCurrentLimitLow, currentLimitLow.GetValue(sitePinInfo), 6);
             });
         }
 
@@ -8710,9 +8708,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var currentLevel = sessionsBundle.GetCurrentLevel();
 
             Assert.Single(currentLevel.PinNames);
-            Assert.Equal(primaryPin, currentLevel.PinNames.FirstOrDefault());
-            Assert.DoesNotContain(allPinsMergedGroup, currentLevel.PinNames);
-            Assert.Equal(expectedCurrentLevel, currentLevel.GetValue(0, primaryPin));
+            Assert.Equal(allPinsMergedGroup, currentLevel.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(primaryPin, currentLevel.PinNames);
+            Assert.Equal(expectedCurrentLevel, currentLevel.GetValue(0, allPinsMergedGroup));
         }
 
         [Theory]
@@ -8730,12 +8728,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var currentLevel = sessionsBundle.GetCurrentLevel();
 
-            Assert.Equal(5, currentLevel.PinNames.Length);
-            Assert.DoesNotContain(allPinsGangedGroup, currentLevel.PinNames);
+            Assert.Single(currentLevel.PinNames);
+            Assert.Equal(allPinsGangedGroup, currentLevel.PinNames.FirstOrDefault());
             sessionsBundle.Do((_, sitePinInfo) =>
             {
-                var currentLevelDivisor = sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
-                Assert.Equal(expectedCurrentLevel / currentLevelDivisor, currentLevel.GetValue(sitePinInfo), 6);
+                Assert.Equal(expectedCurrentLevel, currentLevel.GetValue(sitePinInfo), 6);
             });
         }
 
@@ -8812,9 +8809,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var currentLevelRange = sessionsBundle.GetCurrentLevelRange();
 
             Assert.Single(currentLevelRange.PinNames);
-            Assert.Equal(primaryPin, currentLevelRange.PinNames.FirstOrDefault());
-            Assert.DoesNotContain(allPinsMergedGroup, currentLevelRange.PinNames);
-            Assert.Equal(expectedCurrentLevelRange, currentLevelRange.GetValue(0, primaryPin));
+            Assert.Equal(allPinsMergedGroup, currentLevelRange.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(primaryPin, currentLevelRange.PinNames);
+            Assert.Equal(expectedCurrentLevelRange, currentLevelRange.GetValue(0, allPinsMergedGroup));
         }
 
         [Theory]
@@ -8832,12 +8829,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var currentLevelRange = sessionsBundle.GetCurrentLevelRange();
 
-            Assert.Equal(5, currentLevelRange.PinNames.Length);
-            Assert.DoesNotContain(allPinsGangedGroup, currentLevelRange.PinNames);
+            Assert.Single(currentLevelRange.PinNames);
+            Assert.Equal(allPinsGangedGroup, currentLevelRange.PinNames.FirstOrDefault());
             sessionsBundle.Do((_, sitePinInfo) =>
             {
-                var currentLevelRangeDivisor = sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
-                Assert.Equal(expectedCurrentLevelRange / currentLevelRangeDivisor, currentLevelRange.GetValue(sitePinInfo), 6);
+                Assert.Equal(expectedCurrentLevelRange, currentLevelRange.GetValue(sitePinInfo), 6);
             });
         }
 
@@ -8914,9 +8910,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var currentLimitRange = sessionsBundle.GetCurrentLimitRange();
 
             Assert.Single(currentLimitRange.PinNames);
-            Assert.Equal(primaryPin, currentLimitRange.PinNames.FirstOrDefault());
-            Assert.DoesNotContain(allPinsMergedGroup, currentLimitRange.PinNames);
-            Assert.Equal(expectedCurrentLimitRange, currentLimitRange.GetValue(0, primaryPin));
+            Assert.Equal(allPinsMergedGroup, currentLimitRange.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(primaryPin, currentLimitRange.PinNames);
+            Assert.Equal(expectedCurrentLimitRange, currentLimitRange.GetValue(0, allPinsMergedGroup));
         }
 
         [Fact]
@@ -8931,12 +8927,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var currentLimitRange = sessionsBundle.GetCurrentLimitRange();
 
-            Assert.Equal(5, currentLimitRange.PinNames.Length);
-            Assert.DoesNotContain(allPinsGangedGroup, currentLimitRange.PinNames);
+            Assert.Single(currentLimitRange.PinNames);
+            Assert.Equal(allPinsGangedGroup, currentLimitRange.PinNames.FirstOrDefault());
             sessionsBundle.Do((_, sitePinInfo) =>
             {
-                var currentLimitRangeDivisor = sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
-                Assert.Equal(expectedCurrentLimitRange / currentLimitRangeDivisor, currentLimitRange.GetValue(sitePinInfo), 6);
+                Assert.Equal(expectedCurrentLimitRange, currentLimitRange.GetValue(sitePinInfo), 6);
             });
         }
 
@@ -9013,8 +9008,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var limitSymmetry = sessionsBundle.GetLimitSymmetry();
 
             Assert.Single(limitSymmetry.PinNames);
-            Assert.Equal(primaryPin, limitSymmetry.PinNames.FirstOrDefault());
-            Assert.DoesNotContain(allPinsMergedGroup, limitSymmetry.PinNames);
+            Assert.Equal(allPinsMergedGroup, limitSymmetry.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(primaryPin, limitSymmetry.PinNames);
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedLimitSymmetry, limitSymmetry.GetValue(sitePinInfo));
@@ -9036,8 +9031,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var limitSymmetry = sessionsBundle.GetLimitSymmetry();
 
-            Assert.Equal(5, limitSymmetry.PinNames.Length);
-            Assert.DoesNotContain(allPinsGangedGroup, limitSymmetry.PinNames);
+            Assert.Single(limitSymmetry.PinNames);
+            Assert.Equal(allPinsGangedGroup, limitSymmetry.PinNames.FirstOrDefault());
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedLimitSymmetry, limitSymmetry.GetValue(sitePinInfo));
@@ -9115,8 +9110,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var voltageLimitHigh = sessionsBundle.GetVoltageLimitHigh();
 
             Assert.Single(voltageLimitHigh.PinNames);
-            Assert.Equal(primaryPin, voltageLimitHigh.PinNames.FirstOrDefault());
-            Assert.DoesNotContain(allPinsMergedGroup, voltageLimitHigh.PinNames);
+            Assert.Equal(allPinsMergedGroup, voltageLimitHigh.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(primaryPin, voltageLimitHigh.PinNames);
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedVoltageLimitHigh, voltageLimitHigh.GetValue(sitePinInfo));
@@ -9138,8 +9133,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var voltageLimitHigh = sessionsBundle.GetVoltageLimitHigh();
 
-            Assert.Equal(5, voltageLimitHigh.PinNames.Length);
-            Assert.DoesNotContain(allPinsGangedGroup, voltageLimitHigh.PinNames);
+            Assert.Single(voltageLimitHigh.PinNames);
+            Assert.Equal(allPinsGangedGroup, voltageLimitHigh.PinNames.FirstOrDefault());
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedVoltageLimitHigh, voltageLimitHigh.GetValue(sitePinInfo), 4);
@@ -9219,8 +9214,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var voltageLimitLow = sessionsBundle.GetVoltageLimitLow();
 
             Assert.Single(voltageLimitLow.PinNames);
-            Assert.Equal(primaryPin, voltageLimitLow.PinNames.FirstOrDefault());
-            Assert.DoesNotContain(allPinsMergedGroup, voltageLimitLow.PinNames);
+            Assert.Equal(allPinsMergedGroup, voltageLimitLow.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(primaryPin, voltageLimitLow.PinNames);
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedVoltageLimitLow, voltageLimitLow.GetValue(sitePinInfo));
@@ -9242,8 +9237,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var voltageLimitLow = sessionsBundle.GetVoltageLimitLow();
 
-            Assert.Equal(5, voltageLimitLow.PinNames.Length);
-            Assert.DoesNotContain(allPinsGangedGroup, voltageLimitLow.PinNames);
+            Assert.Single(voltageLimitLow.PinNames);
+            Assert.Equal(allPinsGangedGroup, voltageLimitLow.PinNames.FirstOrDefault());
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedVoltageLimitLow, voltageLimitLow.GetValue(sitePinInfo), 4);
@@ -9323,8 +9318,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var voltageLevel = sessionsBundle.GetVoltageLevel();
 
-            Assert.Equal(2, voltageLevel.PinNames.Length);
-            Assert.DoesNotContain(TwoPinsGangedGroup, voltageLevel.PinNames);
+            Assert.Single(voltageLevel.PinNames);
+            Assert.Equal(TwoPinsGangedGroup, voltageLevel.PinNames.FirstOrDefault());
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedVoltageLevel, voltageLevel.GetValue(sitePinInfo), 6);
@@ -9363,8 +9358,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var voltageLevel = sessionsBundle.GetVoltageLevel();
 
             Assert.Single(voltageLevel.PinNames);
-            Assert.Equal(primaryPin, voltageLevel.PinNames.FirstOrDefault());
-            Assert.DoesNotContain(allPinsMergedGroup, voltageLevel.PinNames);
+            Assert.Equal(allPinsMergedGroup, voltageLevel.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(primaryPin, voltageLevel.PinNames);
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedVoltageLevel, voltageLevel.GetValue(sitePinInfo));
@@ -9425,8 +9420,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var voltageLimitRange = sessionsBundle.GetVoltageLimitRange();
 
             Assert.Single(voltageLimitRange.PinNames);
-            Assert.Equal(primaryPin, voltageLimitRange.PinNames.FirstOrDefault());
-            Assert.DoesNotContain(allPinsMergedGroup, voltageLimitRange.PinNames);
+            Assert.Equal(allPinsMergedGroup, voltageLimitRange.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(primaryPin, voltageLimitRange.PinNames);
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedVoltageLimitRange, voltageLimitRange.GetValue(sitePinInfo));
@@ -9447,8 +9442,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var voltageLimitRange = sessionsBundle.GetVoltageLimitRange();
 
-            Assert.Equal(2, voltageLimitRange.PinNames.Length);
-            Assert.DoesNotContain(TwoPinsGangedGroup, voltageLimitRange.PinNames);
+            Assert.Single(voltageLimitRange.PinNames);
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedVoltageLimitRange, voltageLimitRange.GetValue(sitePinInfo), 4);
@@ -9528,8 +9522,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var voltageLimit = sessionsBundle.GetVoltageLimit();
 
             Assert.Single(voltageLimit.PinNames);
-            Assert.Equal(primaryPin, voltageLimit.PinNames.FirstOrDefault());
-            Assert.DoesNotContain(allPinsMergedGroup, voltageLimit.PinNames);
+            Assert.Equal(allPinsMergedGroup, voltageLimit.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(primaryPin, voltageLimit.PinNames);
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedVoltageLimit, voltageLimit.GetValue(sitePinInfo));
@@ -9550,8 +9544,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var voltageLimit = sessionsBundle.GetVoltageLimit();
 
-            Assert.Equal(3, voltageLimit.PinNames.Length);
-            Assert.DoesNotContain(ThreePinsGangedGroup, voltageLimit.PinNames);
+            Assert.Single(voltageLimit.PinNames);
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedVoltageLimit, voltageLimit.GetValue(sitePinInfo), 4);
@@ -9630,8 +9623,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var transientResponse = sessionsBundle.GetTransientResponse();
 
             Assert.Single(transientResponse.PinNames);
-            Assert.Equal(primaryPin, transientResponse.PinNames.FirstOrDefault());
-            Assert.DoesNotContain(allPinsMergedGroup, transientResponse.PinNames);
+            Assert.Equal(allPinsMergedGroup, transientResponse.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(primaryPin, transientResponse.PinNames);
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedTransientResponse, transientResponse.GetValue(sitePinInfo));
@@ -9653,8 +9646,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var transientResponse = sessionsBundle.GetTransientResponse();
 
-            Assert.Equal(5, transientResponse.PinNames.Length);
-            Assert.DoesNotContain(allPinsGangedGroup, transientResponse.PinNames);
+            Assert.Single(transientResponse.PinNames);
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedTransientResponse, transientResponse.GetValue(sitePinInfo));

@@ -2604,10 +2604,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <returns>The per-site per-pin upper current limit, in Amps.</returns>
         public static PinSiteData<double> GetCurrentLimitHigh(this DCPowerSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
-            {
-                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
-            });
+            return sessionsBundle.DoAndReturnPerSitePerPinResults(
+                sessionInfo => sessionInfo.AssociatedSitePinList
+                    .Where(sitePinInfo => !sitePinInfo.SkipOperations)
+                    .Select(sitePinInfo => sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh)
+                    .ToArray(),
+                caseDescription: string.Empty,
+                CurrentPinSiteResultsFilling);
         }
 
         /// <summary>
@@ -2630,10 +2633,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <returns>The per-site per-pin lower current limit, in Amps.</returns>
         public static PinSiteData<double> GetCurrentLimitLow(this DCPowerSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
-            {
-                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitLow;
-            });
+            return sessionsBundle.DoAndReturnPerSitePerPinResults(
+                sessionInfo => sessionInfo.AssociatedSitePinList
+                    .Where(sitePinInfo => !sitePinInfo.SkipOperations)
+                    .Select(sitePinInfo => sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitLow)
+                    .ToArray(),
+                caseDescription: string.Empty,
+                CurrentPinSiteResultsFilling);
         }
 
         /// <summary>
@@ -2643,10 +2649,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <returns>The per-site per-pin current level, in Amps.</returns>
         public static PinSiteData<double> GetCurrentLevel(this DCPowerSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
-            {
-                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevel;
-            });
+            return sessionsBundle.DoAndReturnPerSitePerPinResults(
+                sessionInfo => sessionInfo.AssociatedSitePinList
+                    .Where(sitePinInfo => !sitePinInfo.SkipOperations)
+                    .Select(sitePinInfo => sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevel)
+                    .ToArray(),
+                caseDescription: string.Empty,
+                CurrentPinSiteResultsFilling);
         }
 
         /// <summary>
@@ -2656,10 +2665,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <returns>The per-site per-pin current level range, in Amps.</returns>
         public static PinSiteData<double> GetCurrentLevelRange(this DCPowerSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
-            {
-                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange;
-            });
+            return sessionsBundle.DoAndReturnPerSitePerPinResults(
+                sessionInfo => sessionInfo.AssociatedSitePinList
+                    .Where(sitePinInfo => !sitePinInfo.SkipOperations)
+                    .Select(sitePinInfo => sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange)
+                    .ToArray(),
+                caseDescription: string.Empty,
+                CurrentPinSiteResultsFilling);
         }
 
         /// <summary>
@@ -2669,10 +2681,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <returns>The per-site per-pin current limit range, in Amps.</returns>
         public static PinSiteData<double> GetCurrentLimitRange(this DCPowerSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
-            {
-                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitRange;
-            });
+            return sessionsBundle.DoAndReturnPerSitePerPinResults(
+                sessionInfo => sessionInfo.AssociatedSitePinList
+                    .Where(sitePinInfo => !sitePinInfo.SkipOperations)
+                    .Select(sitePinInfo => sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitRange)
+                    .ToArray(),
+                caseDescription: string.Empty,
+                CurrentPinSiteResultsFilling);
         }
 
         /// <summary>
@@ -2682,10 +2697,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <returns>The per-site per-pin compliance limit symmetry.</returns>
         public static PinSiteData<DCPowerComplianceLimitSymmetry> GetLimitSymmetry(this DCPowerSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
-            {
-                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
-            });
+            return sessionsBundle.DoAndReturnPerSitePerPinResults(
+                sessionInfo => sessionInfo.AssociatedSitePinList
+                    .Where(sitePinInfo => !sitePinInfo.SkipOperations)
+                    .Select(sitePinInfo => sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry)
+                    .ToArray(),
+                caseDescription: string.Empty,
+                GroupPinSiteResultsFilling);
         }
 
         /// <summary>
@@ -2695,10 +2713,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <returns>The per-pin per-site voltage limit high.</returns>
         public static PinSiteData<double> GetVoltageLimitHigh(this DCPowerSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
-            {
-                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitHigh;
-            });
+            return sessionsBundle.DoAndReturnPerSitePerPinResults(
+                sessionInfo => sessionInfo.AssociatedSitePinList
+                    .Where(sitePinInfo => !sitePinInfo.SkipOperations)
+                    .Select(sitePinInfo => sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitHigh)
+                    .ToArray(),
+                caseDescription: string.Empty,
+                VoltagePinSiteResultsFilling);
         }
 
         /// <summary>
@@ -2708,10 +2729,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <returns>The per-site per-pin voltage limit low.</returns>
         public static PinSiteData<double> GetVoltageLimitLow(this DCPowerSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
-            {
-                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitLow;
-            });
+            return sessionsBundle.DoAndReturnPerSitePerPinResults(
+                sessionInfo => sessionInfo.AssociatedSitePinList
+                    .Where(sitePinInfo => !sitePinInfo.SkipOperations)
+                    .Select(sitePinInfo => sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitLow)
+                    .ToArray(),
+                caseDescription: string.Empty,
+                VoltagePinSiteResultsFilling);
         }
 
         /// <summary>
@@ -2721,10 +2745,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <returns>The per-site per-pin voltage level range.</returns>
         public static PinSiteData<double> GetVoltageLevelRange(this DCPowerSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
-            {
-                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevelRange;
-            });
+            return sessionsBundle.DoAndReturnPerSitePerPinResults(
+                sessionInfo => sessionInfo.AssociatedSitePinList
+                    .Where(sitePinInfo => !sitePinInfo.SkipOperations)
+                    .Select(sitePinInfo => sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevelRange)
+                    .ToArray(),
+                caseDescription: string.Empty,
+                VoltagePinSiteResultsFilling);
         }
 
         /// <summary>
@@ -2734,10 +2761,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <returns>The per-site per-pin voltage level.</returns>
         public static PinSiteData<double> GetVoltageLevel(this DCPowerSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
-            {
-                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevel;
-            });
+            return sessionsBundle.DoAndReturnPerSitePerPinResults(
+                sessionInfo => sessionInfo.AssociatedSitePinList
+                    .Where(sitePinInfo => !sitePinInfo.SkipOperations)
+                    .Select(sitePinInfo => sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevel)
+                    .ToArray(),
+                caseDescription: string.Empty,
+                VoltagePinSiteResultsFilling);
         }
 
         /// <summary>
@@ -2747,10 +2777,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <returns>The per-site per-pin voltage limit range.</returns>
         public static PinSiteData<double> GetVoltageLimitRange(this DCPowerSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
-            {
-                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitRange;
-            });
+            return sessionsBundle.DoAndReturnPerSitePerPinResults(
+                sessionInfo => sessionInfo.AssociatedSitePinList
+                    .Where(sitePinInfo => !sitePinInfo.SkipOperations)
+                    .Select(sitePinInfo => sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitRange)
+                    .ToArray(),
+                caseDescription: string.Empty,
+                VoltagePinSiteResultsFilling);
         }
 
         /// <summary>
@@ -2760,10 +2793,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <returns>The per-site per-pin voltage limit.</returns>
         public static PinSiteData<double> GetVoltageLimit(this DCPowerSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
-            {
-                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimit;
-            });
+            return sessionsBundle.DoAndReturnPerSitePerPinResults(
+                sessionInfo => sessionInfo.AssociatedSitePinList
+                    .Where(sitePinInfo => !sitePinInfo.SkipOperations)
+                    .Select(sitePinInfo => sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimit)
+                    .ToArray(),
+                caseDescription: string.Empty,
+                VoltagePinSiteResultsFilling);
         }
 
         /// <summary>
@@ -2773,10 +2809,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <returns>The transient response (<see cref="PinSiteData{T}"/>, where T is of type <see cref="DCPowerSourceTransientResponse"/>).</returns>
         public static PinSiteData<DCPowerSourceTransientResponse> GetTransientResponse(this DCPowerSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
-            {
-                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.TransientResponse;
-            });
+            return sessionsBundle.DoAndReturnPerSitePerPinResults(
+                sessionInfo => sessionInfo.AssociatedSitePinList
+                    .Where(sitePinInfo => !sitePinInfo.SkipOperations)
+                    .Select(sitePinInfo => sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.TransientResponse)
+                    .ToArray(),
+                caseDescription: string.Empty,
+                GroupPinSiteResultsFilling);
         }
 
         /// <summary>
