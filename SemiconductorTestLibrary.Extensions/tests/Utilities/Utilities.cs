@@ -1,4 +1,7 @@
-﻿using NationalInstruments.SemiconductorTestLibrary.Common;
+﻿using System.Linq;
+using NationalInstruments.SemiconductorTestLibrary.Common;
+using NationalInstruments.TestStand.SemiconductorModule.Restricted;
+using Xunit;
 
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Utilities
 {
@@ -29,6 +32,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Utilities
                 return $"/{channel.Remove(channel.Length - 2)}/Immediate";
             }
             return string.Empty;
+        }
+
+        internal static void AssertPublishedDataCountPerPins(int expectedCount, IPublishedDataReader publishedDataReader, params string[] pins)
+        {
+            var publishedData = publishedDataReader.GetAndClearPublishedData();
+            foreach (var pinName in pins)
+            {
+                Assert.Equal(expectedCount, publishedData.Where(d => d.Pin == pinName).Count());
+            }
         }
     }
 }
