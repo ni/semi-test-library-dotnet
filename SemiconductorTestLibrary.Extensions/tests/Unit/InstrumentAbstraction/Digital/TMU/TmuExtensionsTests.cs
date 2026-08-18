@@ -1000,6 +1000,64 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ClearTMUAssignment();
         }
 
+        [Theory]
+        [InlineData(TmuArmSetting.Immediate)]
+        [InlineData(TmuArmSetting.StartEdge)]
+        [InlineData(TmuArmSetting.StopEdge)]
+        public void Initialize_ConfigureTMUSkewMeasurementWithArmSettingSucceeds(TmuArmSetting armSetting)
+        {
+            var sessionsBundle = InitializeAndCreateBundle();
+
+            sessionsBundle.ConfigureTMUSkewMeasurement(new[] { "C0" }, new[] { "C1" }, TmuPolarity.RisingEdge, 1, armSetting);
+            sessionsBundle.DisableTMU();
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Theory]
+        [InlineData(TmuArmSetting.Immediate)]
+        [InlineData(TmuArmSetting.StartEdge)]
+        [InlineData(TmuArmSetting.StopEdge)]
+        public void Initialize_ConfigureTMUSkewMeasurementWithArmSettingAndSinglePinPairSucceeds(TmuArmSetting armSetting)
+        {
+            var sessionsBundle = InitializeAndCreateBundle();
+
+            sessionsBundle.ConfigureTMUSkewMeasurement("C0", "C1", TmuPolarity.FallingEdge, 1, armSetting);
+            sessionsBundle.DisableTMU();
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Initialize_ConfigureTMUSkewMeasurementWithInvalidArmSetting_ThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InitializeAndCreateBundle();
+
+            void ConfigureTMUSkewMeasurementWithInvalidArmSetting()
+            {
+                sessionsBundle.ConfigureTMUSkewMeasurement(new[] { "C0" }, new[] { "C1" }, TmuPolarity.RisingEdge, 1, (TmuArmSetting)999);
+            }
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                ConfigureTMUSkewMeasurementWithInvalidArmSetting());
+            sessionsBundle.DisableTMU();
+            sessionsBundle.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void Initialize_ConfigureTMUSkewMeasurementWithInvalidArmSettingAndSinglePinPair_ThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = InitializeAndCreateBundle();
+
+            void ConfigureTMUSkewMeasurementWithInvalidArmSetting()
+            {
+                sessionsBundle.ConfigureTMUSkewMeasurement("C0", "C1", TmuPolarity.RisingEdge, 1, (TmuArmSetting)999);
+            }
+
+            Assert.Throws<NISemiconductorTestException>(() =>
+                ConfigureTMUSkewMeasurementWithInvalidArmSetting());
+            sessionsBundle.DisableTMU();
+            sessionsBundle.ClearTMUAssignment();
+        }
+
         #endregion
 
         #region Helper Methods
