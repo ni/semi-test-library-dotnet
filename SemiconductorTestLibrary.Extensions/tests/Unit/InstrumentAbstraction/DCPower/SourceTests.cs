@@ -4268,11 +4268,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ConfigureVoltageSequence(sequenceName, expectedSequence, sequenceLoopCount: 1, setAsActiveSequence: true, updateMode: updateMode);
 
-            sessionsBundle.Do(sessionInfo =>
-            {
-                Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, sessionInfo.AllChannelsOutput.Source.Output.Function);
-                Assert.Equal(sequenceName, sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence);
-            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
             sessionsBundle.ClearActiveAdvancedSequence();
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
         }
@@ -4296,11 +4292,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ConfigureVoltageSequence(sequenceName, expectedSequences, sequenceLoopCount: 1, setAsActiveSequence: true, updateMode: updateMode);
 
-            sessionsBundle.Do(sessionInfo =>
-            {
-                Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, sessionInfo.AllChannelsOutput.Source.Output.Function);
-                Assert.Equal(sequenceName, sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence);
-            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
             sessionsBundle.ClearActiveAdvancedSequence();
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
         }
@@ -4327,11 +4319,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ConfigureVoltageSequence(sequenceName, expectedSequences, sequenceLoopCount: 1, setAsActiveSequence: true, updateMode: updateMode);
 
-            sessionsBundle.Do(sessionInfo =>
-            {
-                Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, sessionInfo.AllChannelsOutput.Source.Output.Function);
-                Assert.Equal(sequenceName, sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence);
-            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
             sessionsBundle.ClearActiveAdvancedSequence();
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
         }
@@ -4349,11 +4337,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ConfigureCurrentSequence(sequenceName, expectedSequence, sequenceLoopCount: 1, setAsActiveSequence: true, updateMode: updateMode);
 
-            sessionsBundle.Do(sessionInfo =>
-            {
-                Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, sessionInfo.AllChannelsOutput.Source.Output.Function);
-                Assert.Equal(sequenceName, sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence);
-            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
             sessionsBundle.ClearActiveAdvancedSequence();
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
         }
@@ -4377,11 +4361,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ConfigureCurrentSequence(sequenceName, expectedSequences, sequenceLoopCount: 1, setAsActiveSequence: true, updateMode: updateMode);
 
-            sessionsBundle.Do(sessionInfo =>
-            {
-                Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, sessionInfo.AllChannelsOutput.Source.Output.Function);
-                Assert.Equal(sequenceName, sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence);
-            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
             sessionsBundle.ClearActiveAdvancedSequence();
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
         }
@@ -4408,11 +4388,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ConfigureCurrentSequence(sequenceName, expectedSequences, sequenceLoopCount: 1, setAsActiveSequence: true, updateMode: updateMode);
 
-            sessionsBundle.Do(sessionInfo =>
-            {
-                Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, sessionInfo.AllChannelsOutput.Source.Output.Function);
-                Assert.Equal(sequenceName, sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence);
-            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
             sessionsBundle.ClearActiveAdvancedSequence();
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
         }
@@ -4436,10 +4412,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ConfigureAdvancedSequence(sequenceName, stepProperties, setAsActiveSequence: true, updateMode: updateMode);
 
-            sessionsBundle.Do(sessionInfo =>
-            {
-                Assert.Equal(sequenceName, sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence);
-            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
             sessionsBundle.ClearActiveAdvancedSequence();
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
         }
@@ -4480,10 +4453,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ConfigureAdvancedSequence(sequenceName, stepProperties, setAsActiveSequence: true, updateMode: updateMode);
 
-            sessionsBundle.Do(sessionInfo =>
-            {
-                Assert.Equal(sequenceName, sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence);
-            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
             sessionsBundle.ClearActiveAdvancedSequence();
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
         }
@@ -4516,10 +4486,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ConfigureAdvancedSequence(sequenceName, stepProperties, setAsActiveSequence: true, updateMode: updateMode);
 
-            sessionsBundle.Do(sessionInfo =>
-            {
-                Assert.Equal(sequenceName, sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence);
-            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
             sessionsBundle.ClearActiveAdvancedSequence();
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
         }
@@ -4538,11 +4505,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ConfigureVoltageSequenceWithSourceDelays(sequenceName, expectedSequence, sourceDelays, sequenceLoopCount: 1, setAsActiveSequence: true, updateMode: updateMode);
 
-            sessionsBundle.Do(sessionInfo =>
-            {
-                Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, sessionInfo.AllChannelsOutput.Source.Output.Function);
-                Assert.Equal(sequenceName, sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence);
-            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
             sessionsBundle.ClearActiveAdvancedSequence();
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
         }
@@ -4573,11 +4536,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ConfigureVoltageSequenceWithSourceDelays(sequenceName, expectedSequences, sourceDelays, sequenceLoopCount: 1, setAsActiveSequence: true, updateMode: updateMode);
 
-            sessionsBundle.Do(sessionInfo =>
-            {
-                Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, sessionInfo.AllChannelsOutput.Source.Output.Function);
-                Assert.Equal(sequenceName, sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence);
-            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
             sessionsBundle.ClearActiveAdvancedSequence();
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
         }
@@ -4614,11 +4573,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ConfigureVoltageSequenceWithSourceDelays(sequenceName, expectedSequences, sourceDelays, sequenceLoopCount: 1, setAsActiveSequence: true, updateMode: updateMode);
 
-            sessionsBundle.Do(sessionInfo =>
-            {
-                Assert.Equal(DCPowerSourceOutputFunction.DCVoltage, sessionInfo.AllChannelsOutput.Source.Output.Function);
-                Assert.Equal(sequenceName, sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence);
-            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
             sessionsBundle.ClearActiveAdvancedSequence();
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
         }
@@ -4637,11 +4592,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ConfigureCurrentSequenceWithSourceDelays(sequenceName, expectedSequence, sourceDelays, sequenceLoopCount: 1, setAsActiveSequence: true, updateMode: updateMode);
 
-            sessionsBundle.Do(sessionInfo =>
-            {
-                Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, sessionInfo.AllChannelsOutput.Source.Output.Function);
-                Assert.Equal(sequenceName, sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence);
-            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
             sessionsBundle.ClearActiveAdvancedSequence();
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
         }
@@ -4672,11 +4623,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ConfigureCurrentSequenceWithSourceDelays(sequenceName, expectedSequences, sourceDelays, sequenceLoopCount: 1, setAsActiveSequence: true, updateMode: updateMode);
 
-            sessionsBundle.Do(sessionInfo =>
-            {
-                Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, sessionInfo.AllChannelsOutput.Source.Output.Function);
-                Assert.Equal(sequenceName, sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence);
-            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
             sessionsBundle.ClearActiveAdvancedSequence();
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
         }
@@ -4713,11 +4660,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ConfigureCurrentSequenceWithSourceDelays(sequenceName, expectedSequences, sourceDelays, sequenceLoopCount: 1, setAsActiveSequence: true, updateMode: updateMode);
 
-            sessionsBundle.Do(sessionInfo =>
-            {
-                Assert.Equal(DCPowerSourceOutputFunction.DCCurrent, sessionInfo.AllChannelsOutput.Source.Output.Function);
-                Assert.Equal(sequenceName, sessionInfo.AllChannelsOutput.Source.AdvancedSequencing.ActiveAdvancedSequence);
-            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
             sessionsBundle.ClearActiveAdvancedSequence();
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
         }
@@ -9000,6 +8943,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
             sessionsBundle.ClearActiveAdvancedSequence();
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
+        }
+
+        private static void AssertInitiateBehaviorMatchesUpdateMode(DCPowerSessionsBundle sessionsBundle, UpdateMode updateMode)
+        {
+            if (updateMode == UpdateMode.Immediate)
+            {
+                var exception = Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.Initiate());
+                Assert.Contains("The session is already running.", exception.Message);
+            }
+            else
+            {
+                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
+            }
         }
     }
 }
