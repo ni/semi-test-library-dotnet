@@ -9750,25 +9750,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var expectedCurrentLevelRange = 1E-2;
 
             sessionsBundle.ConfigureCurrentLevelRange(expectedCurrentLevelRange, updateMode);
-            void InitiateTest()
-            {
-                sessionsBundle.Initiate();
-            }
 
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var actualCurrentLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange;
                 Assert.Equal(expectedCurrentLevelRange, actualCurrentLevelRange);
             });
-            if (updateMode == UpdateMode.Immediate)
-            {
-                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
-                Assert.Contains("The session is already running.", exception.Message);
-            }
-            else
-            {
-                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
-            }
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
         [Theory]
@@ -9782,26 +9770,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var currentLevelRanges = new SiteData<double>(new[] { 1E-2, 1E-3 });
 
             sessionsBundle.ConfigureCurrentLevelRange(currentLevelRanges, updateMode);
-            void InitiateTest()
-            {
-                sessionsBundle.Initiate();
-            }
-
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var expectedCurrentLevelRange = currentLevelRanges.GetValue(sitePinInfo.SiteNumber);
                 var actualCurrentLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange;
                 Assert.Equal(expectedCurrentLevelRange, actualCurrentLevelRange);
             });
-            if (updateMode == UpdateMode.Immediate)
-            {
-                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
-                Assert.Contains("The session is already running.", exception.Message);
-            }
-            else
-            {
-                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
-            }
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
         [Theory]
@@ -9819,26 +9795,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
 
             sessionsBundle.ConfigureCurrentLevelRange(currentLevelRanges, updateMode);
-            void InitiateTest()
-            {
-                sessionsBundle.Initiate();
-            }
-
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var expectedCurrentLevelRange = currentLevelRanges.GetValue(sitePinInfo);
                 var actualCurrentLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange;
                 Assert.Equal(expectedCurrentLevelRange, actualCurrentLevelRange);
             });
-            if (updateMode == UpdateMode.Immediate)
-            {
-                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
-                Assert.Contains("The session is already running.", exception.Message);
-            }
-            else
-            {
-                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
-            }
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
         [Theory]
@@ -9852,25 +9816,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var expectedCurrentLimitLow = -1E-3;
 
             sessionsBundle.ConfigureCurrentLimitLow(expectedCurrentLimitLow, updateMode);
-            void InitiateTest()
-            {
-                sessionsBundle.Initiate();
-            }
-
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var actualCurrentLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitLow;
                 Assert.Equal(expectedCurrentLimitLow, actualCurrentLimitLow);
             });
-            if (updateMode == UpdateMode.Immediate)
-            {
-                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
-                Assert.Contains("The session is already running.", exception.Message);
-            }
-            else
-            {
-                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
-            }
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
         [Theory]
@@ -9884,26 +9836,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var currentLimitLow = new SiteData<double>(new[] { -1E-3, -2E-3 });
 
             sessionsBundle.ConfigureCurrentLimitLow(currentLimitLow, updateMode);
-            void InitiateTest()
-            {
-                sessionsBundle.Initiate();
-            }
-
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var expectedCurrentLimitLow = currentLimitLow.GetValue(sitePinInfo.SiteNumber);
                 var actualCurrentLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitLow;
                 Assert.Equal(expectedCurrentLimitLow, actualCurrentLimitLow);
             });
-            if (updateMode == UpdateMode.Immediate)
-            {
-                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
-                Assert.Contains("The session is already running.", exception.Message);
-            }
-            else
-            {
-                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
-            }
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
         [Theory]
@@ -9921,26 +9861,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
 
             sessionsBundle.ConfigureCurrentLimitLow(currentLimitLow, updateMode);
-            void InitiateTest()
-            {
-                sessionsBundle.Initiate();
-            }
-
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var expectedCurrentLimitLow = currentLimitLow.GetValue(sitePinInfo);
                 var actualCurrentLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitLow;
                 Assert.Equal(expectedCurrentLimitLow, actualCurrentLimitLow);
             });
-            if (updateMode == UpdateMode.Immediate)
-            {
-                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
-                Assert.Contains("The session is already running.", exception.Message);
-            }
-            else
-            {
-                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
-            }
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
         [Theory]
@@ -9954,25 +9882,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var expectedCurrentLimitHigh = 1E-3;
 
             sessionsBundle.ConfigureCurrentLimitHigh(expectedCurrentLimitHigh, updateMode);
-            void InitiateTest()
-            {
-                sessionsBundle.Initiate();
-            }
-
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var actualCurrentLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
                 Assert.Equal(expectedCurrentLimitHigh, actualCurrentLimitHigh);
             });
-            if (updateMode == UpdateMode.Immediate)
-            {
-                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
-                Assert.Contains("The session is already running.", exception.Message);
-            }
-            else
-            {
-                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
-            }
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
         [Theory]
@@ -9986,26 +9902,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var currentLimitHigh = new SiteData<double>(new[] { 1E-3, 2E-3 });
 
             sessionsBundle.ConfigureCurrentLimitHigh(currentLimitHigh, updateMode);
-            void InitiateTest()
-            {
-                sessionsBundle.Initiate();
-            }
-
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var expectedCurrentLimitHigh = currentLimitHigh.GetValue(sitePinInfo.SiteNumber);
                 var actualCurrentLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
                 Assert.Equal(expectedCurrentLimitHigh, actualCurrentLimitHigh);
             });
-            if (updateMode == UpdateMode.Immediate)
-            {
-                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
-                Assert.Contains("The session is already running.", exception.Message);
-            }
-            else
-            {
-                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
-            }
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
         [Theory]
@@ -10023,26 +9927,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
 
             sessionsBundle.ConfigureCurrentLimitHigh(currentLimitHigh, updateMode);
-            void InitiateTest()
-            {
-                sessionsBundle.Initiate();
-            }
-
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var expectedCurrentLimitHigh = currentLimitHigh.GetValue(sitePinInfo);
                 var actualCurrentLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
                 Assert.Equal(expectedCurrentLimitHigh, actualCurrentLimitHigh);
             });
-            if (updateMode == UpdateMode.Immediate)
-            {
-                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
-                Assert.Contains("The session is already running.", exception.Message);
-            }
-            else
-            {
-                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
-            }
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
         [Theory]
@@ -10056,25 +9948,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var expectedCurrentLimitRange = 0.1;
 
             sessionsBundle.ConfigureCurrentLimitRange(expectedCurrentLimitRange, updateMode);
-            void InitiateTest()
-            {
-                sessionsBundle.Initiate();
-            }
-
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var actualCurrentLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitRange;
                 Assert.Equal(expectedCurrentLimitRange, actualCurrentLimitRange);
             });
-            if (updateMode == UpdateMode.Immediate)
-            {
-                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
-                Assert.Contains("The session is already running.", exception.Message);
-            }
-            else
-            {
-                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
-            }
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
         [Theory]
@@ -10088,26 +9968,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var currentLimitRanges = new SiteData<double>(new[] { 1E-1, 1E-1 });
 
             sessionsBundle.ConfigureCurrentLimitRange(currentLimitRanges, updateMode);
-            void InitiateTest()
-            {
-                sessionsBundle.Initiate();
-            }
-
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var expectedCurrentLimitRange = currentLimitRanges.GetValue(sitePinInfo.SiteNumber);
                 var actualCurrentLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitRange;
                 Assert.Equal(expectedCurrentLimitRange, actualCurrentLimitRange);
             });
-            if (updateMode == UpdateMode.Immediate)
-            {
-                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
-                Assert.Contains("The session is already running.", exception.Message);
-            }
-            else
-            {
-                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
-            }
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
         [Theory]
@@ -10125,26 +9993,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
 
             sessionsBundle.ConfigureCurrentLimitRange(currentLimitRanges, updateMode);
-            void InitiateTest()
-            {
-                sessionsBundle.Initiate();
-            }
-
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var expectedCurrentLimitRange = currentLimitRanges.GetValue(sitePinInfo);
                 var actualCurrentLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitRange;
                 Assert.Equal(expectedCurrentLimitRange, actualCurrentLimitRange);
             });
-            if (updateMode == UpdateMode.Immediate)
-            {
-                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
-                Assert.Contains("The session is already running.", exception.Message);
-            }
-            else
-            {
-                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
-            }
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
         [Theory]
@@ -10260,25 +10116,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var expectedCurrentLevel = 1E-2;
 
             sessionsBundle.ConfigureCurrentLevel(expectedCurrentLevel, updateMode);
-            void InitiateTest()
-            {
-                sessionsBundle.Initiate();
-            }
-
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var actualCurrentLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevel;
                 Assert.Equal(expectedCurrentLevel, actualCurrentLevel);
             });
-            if (updateMode == UpdateMode.Immediate)
-            {
-                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
-                Assert.Contains("The session is already running.", exception.Message);
-            }
-            else
-            {
-                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
-            }
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
         [Theory]
@@ -10292,26 +10136,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var currentLevel = new SiteData<double>(new[] { 1E-2, 2E-2 });
 
             sessionsBundle.ConfigureCurrentLevel(currentLevel, updateMode);
-            void InitiateTest()
-            {
-                sessionsBundle.Initiate();
-            }
-
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var expectedCurrentLevel = currentLevel.GetValue(sitePinInfo.SiteNumber);
                 var actualCurrentLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevel;
                 Assert.Equal(expectedCurrentLevel, actualCurrentLevel);
             });
-            if (updateMode == UpdateMode.Immediate)
-            {
-                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
-                Assert.Contains("The session is already running.", exception.Message);
-            }
-            else
-            {
-                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
-            }
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
         [Theory]
@@ -10329,32 +10161,33 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
 
             sessionsBundle.ConfigureCurrentLevel(currentLevel, updateMode);
-            void InitiateTest()
-            {
-                sessionsBundle.Initiate();
-            }
-
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 var expectedCurrentLevel = currentLevel.GetValue(sitePinInfo);
                 var actualCurrentLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevel;
                 Assert.Equal(expectedCurrentLevel, actualCurrentLevel);
             });
-            if (updateMode == UpdateMode.Immediate)
-            {
-                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
-                Assert.Contains("The session is already running.", exception.Message);
-            }
-            else
-            {
-                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
-            }
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
         private void AssertVoltageSettings(DCPowerOutput channelOutput, double expectedVoltageLevel, double expectedCurrentLimit, int precision = 6)
         {
             Assert.Equal(expectedVoltageLevel, channelOutput.Source.Voltage.VoltageLevel, precision);
             Assert.Equal(expectedCurrentLimit, channelOutput.Source.Voltage.CurrentLimit, precision);
+        }
+
+        private static void AssertInitiateBehaviorMatchesUpdateMode(DCPowerSessionsBundle sessionsBundle, UpdateMode updateMode)
+        {
+            if (updateMode == UpdateMode.Immediate)
+            {
+                var exception = Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.Initiate());
+                Assert.Contains("The session is already running.", exception.Message);
+            }
+            else
+            {
+                sessionsBundle.Initiate();
+            }
         }
 
         private void AssertVoltageSettings(DCPowerOutput channelOutput, double? expectedVoltageLevel = null, double? expectedCurrentLimitHigh = null, double? expectedCurrentLimitLow = null, double? expectedCurrentLimit = null, double? expectedCurrentLimitRange = null)
