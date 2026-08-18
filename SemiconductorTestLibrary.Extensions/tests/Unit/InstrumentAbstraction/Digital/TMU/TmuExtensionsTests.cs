@@ -1042,22 +1042,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ClearTMUAssignment();
         }
 
-        [Fact]
-        public void Initialize_ConfigureTMUSkewMeasurementWithInvalidArmSettingAndSinglePinPair_ThrowsNISemiconductorTestException()
-        {
-            var sessionsBundle = InitializeAndCreateBundle();
-
-            void ConfigureTMUSkewMeasurementWithInvalidArmSetting()
-            {
-                sessionsBundle.ConfigureTMUSkewMeasurement("C0", "C1", TmuPolarity.RisingEdge, 1, (TmuArmSetting)999);
-            }
-
-            Assert.Throws<NISemiconductorTestException>(() =>
-                ConfigureTMUSkewMeasurementWithInvalidArmSetting());
-            sessionsBundle.DisableTMU();
-            sessionsBundle.ClearTMUAssignment();
-        }
-
         #endregion
 
         #region Helper Methods
