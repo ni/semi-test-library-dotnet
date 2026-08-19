@@ -1,11 +1,10 @@
+using System;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU;
 using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
-using System;
-using System.Runtime.InteropServices.Expando;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.InitializeAndClose;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
