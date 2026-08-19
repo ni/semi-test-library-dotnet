@@ -10713,19 +10713,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(expectedCurrentLimit, channelOutput.Source.Voltage.CurrentLimit, precision);
         }
 
-        private static void AssertInitiateBehaviorMatchesUpdateMode(DCPowerSessionsBundle sessionsBundle, UpdateMode updateMode)
-        {
-            if (updateMode == UpdateMode.Immediate)
-            {
-                var exception = Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.Initiate());
-                Assert.Contains("The session is already running.", exception.Message);
-            }
-            else
-            {
-                sessionsBundle.Initiate();
-            }
-        }
-
         private void AssertVoltageSettings(DCPowerOutput channelOutput, double? expectedVoltageLevel = null, double? expectedCurrentLimitHigh = null, double? expectedCurrentLimitLow = null, double? expectedCurrentLimit = null, double? expectedCurrentLimitRange = null)
         {
             if (expectedVoltageLevel.HasValue)
