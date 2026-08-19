@@ -338,15 +338,13 @@ namespace NationalInstruments.SemiconductorTestLibrary {
                 return ResourceManager.GetString("Digital_TMUUnsupportedPulseWidth", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Output mode &apos;{0}&apos; is not supported, only &apos;Function&apos; is supported in STL..
         /// </summary>
         internal static string FGen_InvalidOutputModeException {
             get {
                 return ResourceManager.GetString("FGen_InvalidOutputModeException", resourceCulture);
-            }
-        }
             }
         }
     }

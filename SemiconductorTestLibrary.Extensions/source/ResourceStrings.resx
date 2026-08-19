@@ -213,5 +213,4 @@
   <data name="FGen_InvalidOutputModeException" xml:space="preserve">
     <value>Output mode '{0}' is not supported, only 'Function' is supported in STL.</value>
   </data>
-  </data>
 </root>
