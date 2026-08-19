@@ -1,10 +1,11 @@
-using System;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU;
 using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
+using System;
+using System.Runtime.InteropServices.Expando;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.InitializeAndClose;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
@@ -1666,38 +1667,25 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         #region Get TMU Count Tests
 
         [Fact]
-<<<<<<<<< Temporary merge branch 1
-        public void Inititalize_GetTMUCountReturnsPositiveValue()
+        public void Initialize_GetTMUCountWithTMUAssigned_ReturnsAtLeastTwoTMUs()
         {
-            var sessionsBundle = InititalzeAndCreateBundle();
+            var sessionsBundle = InitializeAndCreateBundle();
 
             var result = sessionsBundle.GetTMUCount();
 
-            Assert.True(result.ExtractSite(0)["C0"] > 0);
+            Assert.True(Array.TrueForAll(result, count => count >= 2));
             sessionsBundle.ClearTMUAssignment();
         }
 
-=========
-        public void Initialize_GetTMUCountWithTMUAssigned_ReturnsAtLeastTwoTMUs()
-            var sessionsBundle = InitializeAndCreateBundle();
+        [Fact]
+        public void Initialize_GetTMUCountWithoutTMUAssigned_ReturnsAtLeastTwoTMUs()
+        {
             var sessionManager = InitializeSessionsAndCreateSessionManager();
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
 
             var result = sessionsBundle.GetTMUCount();
 
-            Assert.False(string.IsNullOrEmpty(result.ExtractSite(0)["C0"]));
-            sessionsBundle.ClearTMUAssignment();
-        #region Get TMU Count Tests
-        public void Initialize_GetTMUCountWithoutTMUAssigned_ReturnsAtLeastTwoTMUs()
-        [Fact]
-            var sessionManager = InitializeSessionsAndCreateSessionManager();
-            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-        {
-            var sessionsBundle = InititalzeAndCreateBundle();
-
             Assert.True(Array.TrueForAll(result, count => count >= 2));
-            Assert.True(result.ExtractSite(0)["C0"] > 0);
-            sessionsBundle.ClearTMUAssignment();
         }
 
         #endregion
