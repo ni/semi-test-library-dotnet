@@ -4873,6 +4873,12 @@
             <param name="tmuContext">The TMU context string (e.g., "PXI1Slot2/tmu0").</param>
             <returns>The <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu"/> object associated with the specified context.</returns>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuCollections.GetTmuCount">
+            <summary>
+            Gets the total number of TMU resources available across all modules in the session.
+            </summary>
+            <returns>The total number of TMU resources.</returns>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuEdgeArm">
             <summary>
             Provides access to the configuration of the TMU edge-sensitive arm source for a TMU context.
@@ -6367,7 +6373,7 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Digital_TMUEmptyOrNullTMUContext">
             <summary>
-              Looks up a localized string similar to TMU context must not be null or empty..
+              Looks up a localized string similar to No TMU resource has been assigned to one or more pins. Call AssignTMUResources() before invoking this method..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Digital_TMUNativeCallFailed">
