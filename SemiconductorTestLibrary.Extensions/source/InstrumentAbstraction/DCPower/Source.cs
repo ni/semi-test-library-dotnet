@@ -2859,7 +2859,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Configures whether to enable (true) or disable (false) output generation on the underlying device channel(s).
         /// </summary>
         /// <remarks>
-        /// Note: This method is independent from the <see cref="ConfigureOutputConnected(DCPowerSessionsBundle, bool)"/> method. It does not affect the <see cref="DCPowerOutputSourceOutput.Connected"/> property.
+        /// Note: This method is independent from the <see cref="ConfigureOutputConnected(DCPowerSessionsBundle, bool, UpdateMode)"/> method. It does not affect the <see cref="DCPowerOutputSourceOutput.Connected"/> property.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="enableOutput">The boolean value to either enable (true) or disable (false) the output .</param>
