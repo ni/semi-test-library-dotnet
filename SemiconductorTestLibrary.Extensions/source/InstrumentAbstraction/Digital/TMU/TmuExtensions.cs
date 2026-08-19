@@ -317,7 +317,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         public static void ConfigurePeriodMeasurement(this DigitalSessionsBundle sessionsBundle, TmuPolarity edgeType, long samplesToAcquire, TmuArmSetting armSetting = TmuArmSetting.Immediate, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            ValidateArmSetting(armSetting);
+            ValidateTmuArmSetting(armSetting);
             TmuSourceEvent sourceEvent = ValidateAndGetSourceEventForEdge(edgeType);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -518,7 +518,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         public static void ConfigureTMURiseTimeMeasurement(this DigitalSessionsBundle sessionsBundle, long samplesToAcquire, TmuArmSetting armSetting = TmuArmSetting.Immediate, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            ValidateArmSetting(armSetting);
+            ValidateTmuArmSetting(armSetting);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
@@ -589,7 +589,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         public static void ConfigureTMUFallTimeMeasurement(this DigitalSessionsBundle sessionsBundle, long samplesToAcquire, TmuArmSetting armSetting = TmuArmSetting.Immediate, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            ValidateArmSetting(armSetting);
+            ValidateTmuArmSetting(armSetting);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
@@ -682,7 +682,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         public static void ConfigureTMUDutyCycleMeasurement(this DigitalSessionsBundle sessionsBundle, TmuDutyCycle dutyCycleType, long samplesToAcquire, TmuArmSetting armSetting = TmuArmSetting.Immediate, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            ValidateArmSetting(armSetting);
+            ValidateTmuArmSetting(armSetting);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
@@ -791,7 +791,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         public static void ConfigureTMUPulseWidthMeasurement(this DigitalSessionsBundle sessionsBundle, TmuPulseWidth pulseWidthType, long samplesToAcquire, TmuArmSetting armSetting = TmuArmSetting.Immediate, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            ValidateArmSetting(armSetting);
+            ValidateTmuArmSetting(armSetting);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
@@ -1128,7 +1128,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         public static void ConfigureTMUArmType(this DigitalSessionsBundle sessionsBundle, TmuArmType armType, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            ValidateArmType(armType);
+            ValidateTmuArmType(armType);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 if (DoForThisPin(pinNames, sitePinInfo.PinName))
@@ -1848,7 +1848,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             return new DigitalTmuCollections(session);
         }
 
-        private static void ValidateArmType(TmuArmType armType)
+        private static void ValidateTmuArmType(TmuArmType armType)
         {
             if (armType != TmuArmType.Immediate && armType != TmuArmType.Edge)
             {
@@ -1856,7 +1856,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             }
         }
 
-        private static void ValidateArmSetting(TmuArmSetting armSetting)
+        private static void ValidateTmuArmSetting(TmuArmSetting armSetting)
         {
             if (armSetting != TmuArmSetting.Immediate && armSetting != TmuArmSetting.StartEdge && armSetting != TmuArmSetting.StopEdge)
             {
@@ -1901,7 +1901,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUSkewPinCountMismatch, referencePinNames.Length, targetPinNames.Length));
             }
 
-            ValidateArmSetting(armSetting);
+            ValidateTmuArmSetting(armSetting);
             // Validate all pins exist in the bundle
             var allPins = referencePinNames.Concat(targetPinNames).Distinct().ToArray();
             ValidatePinsOfTMU(bundlePins, allPins);
