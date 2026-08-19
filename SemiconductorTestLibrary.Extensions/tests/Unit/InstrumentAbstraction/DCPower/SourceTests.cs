@@ -4422,7 +4422,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureVoltageSequenceWithUpdateMode_SequenceConfiguredSuccessfully(UpdateMode updateMode)
+        public void DifferentSMUDevices_ConfigureVoltageSequenceWithUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup: false);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -4440,7 +4440,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureVoltageSequenceWithSiteDataAndUpdateMode_SequenceConfiguredSuccessfully(UpdateMode updateMode)
+        public void DifferentSMUDevices_ConfigureVoltageSequenceWithSiteDataAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup: false);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -4464,7 +4464,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureVoltageSequenceWithPinSiteDataAndUpdateMode_SequenceConfiguredSuccessfully(UpdateMode updateMode)
+        public void DifferentSMUDevices_ConfigureVoltageSequenceWithPinSiteDataAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup: false);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -4491,7 +4491,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureCurrentSequenceWithUpdateMode_SequenceConfiguredSuccessfully(UpdateMode updateMode)
+        public void DifferentSMUDevices_ConfigureCurrentSequenceWithUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup: false);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -4509,7 +4509,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureCurrentSequenceWithSiteDataAndUpdateMode_SequenceConfiguredSuccessfully(UpdateMode updateMode)
+        public void DifferentSMUDevices_ConfigureCurrentSequenceWithSiteDataAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup: false);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -4533,7 +4533,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureCurrentSequenceWithPinSiteDataAndUpdateMode_SequenceConfiguredSuccessfully(UpdateMode updateMode)
+        public void DifferentSMUDevices_ConfigureCurrentSequenceWithPinSiteDataAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup: false);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -4560,7 +4560,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureAdvancedSequenceWithUpdateMode_SequenceConfiguredSuccessfully(UpdateMode updateMode)
+        public void DifferentSMUDevices_ConfigureAdvancedSequenceWithUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup: false);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -4584,7 +4584,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureAdvancedSequenceWithSiteDataAndUpdateMode_SequenceConfiguredSuccessfully(UpdateMode updateMode)
+        public void DifferentSMUDevices_ConfigureAdvancedSequenceWithSiteDataAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup: false);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -4625,7 +4625,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureAdvancedSequenceWithPinSiteDataAndUpdateMode_SequenceConfiguredSuccessfully(UpdateMode updateMode)
+        public void DifferentSMUDevices_ConfigureAdvancedSequenceWithPinSiteDataAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup: false);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -4658,7 +4658,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureVoltageSequenceWithSourceDelaysAndUpdateMode_SequenceConfiguredSuccessfully(UpdateMode updateMode)
+        public void DifferentSMUDevices_ConfigureVoltageSequenceWithSourceDelaysAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup: false);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -4677,7 +4677,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureVoltageSequenceWithSourceDelaysAndSiteDataAndUpdateMode_SequenceConfiguredSuccessfully(UpdateMode updateMode)
+        public void DifferentSMUDevices_ConfigureVoltageSequenceWithSourceDelaysAndSiteDataAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup: false);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -4708,7 +4708,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureVoltageSequenceWithSourceDelaysAndPinSiteDataAndUpdateMode_SequenceConfiguredSuccessfully(UpdateMode updateMode)
+        public void DifferentSMUDevices_ConfigureVoltageSequenceWithSourceDelaysAndPinSiteDataAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup: false);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -4745,7 +4745,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureCurrentSequenceWithSourceDelaysAndUpdateMode_SequenceConfiguredSuccessfully(UpdateMode updateMode)
+        public void DifferentSMUDevices_ConfigureCurrentSequenceWithSourceDelaysAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup: false);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -4764,7 +4764,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureCurrentSequenceWithSourceDelaysAndSiteDataAndUpdateMode_SequenceConfiguredSuccessfully(UpdateMode updateMode)
+        public void DifferentSMUDevices_ConfigureCurrentSequenceWithSourceDelaysAndSiteDataAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup: false);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -4795,7 +4795,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureCurrentSequenceWithSourceDelaysAndPinSiteDataAndUpdateMode_SequenceConfiguredSuccessfully(UpdateMode updateMode)
+        public void DifferentSMUDevices_ConfigureCurrentSequenceWithSourceDelaysAndPinSiteDataAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup: false);
             var sessionsBundle = sessionManager.DCPower("VDD");
