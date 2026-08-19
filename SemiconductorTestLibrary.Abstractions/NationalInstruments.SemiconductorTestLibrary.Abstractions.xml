@@ -5261,6 +5261,32 @@
             Arm each sample on the rising or falling edge of a signal with the same properties as the Stop Source.
             </summary>
         </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.UpdateMode">
+            <summary>
+            Specifies the type of update operation to perform when Digital session properties are updated.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.UpdateMode.Deferred">
+            <summary>
+            Default (existing) behavior.
+            The session will be aborted and the driver property will be set.
+            The property update will be deferred until the next commit or initiate operation,
+            but the result may not be reflected in the output of the device until the session has been initiated.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.UpdateMode.Immediate">
+            <summary>
+            The session will be aborted and the driver property will be set.
+            Additionally, the session will be initiated.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.UpdateMode.Commit">
+            <summary>
+            The session will be aborted and the driver property will be set.
+            The property update will be committed to the instrument,
+            but the result may not be reflected in the output of the device until the session has been initiated.
+            </summary>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionInformation">
             <summary>
             Defines an object that contains an individual <see cref="T:NationalInstruments.ModularInstruments.NIDmm.NIDmm"/> session and its related information.
