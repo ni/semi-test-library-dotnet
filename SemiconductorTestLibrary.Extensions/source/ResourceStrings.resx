@@ -181,6 +181,6 @@
     <value>Unsupported Polarity.</value>
   </data>
   <data name="FGen_InvalidOutputModeException" xml:space="preserve">
-    <value>Output mode {0} is not supported, only 'Function' is supported in STL.</value>
+    <value>Output mode '{0}' is not supported, only 'Function' is supported in STL.</value>
   </data>
 </root>
