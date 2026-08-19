@@ -30,7 +30,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="settings">The measure settings to configure.</param>
-        /// <param name="updateMode">The update mode to use when configuring the measure settings.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next initiate operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
         public static void ConfigureMeasureSettings(this DCPowerSessionsBundle sessionsBundle, DCPowerMeasureSettings settings, UpdateMode updateMode)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
@@ -73,7 +73,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="settings">The specific settings to configure.</param>
-        /// <param name="updateMode">The update mode to use when configuring the measure settings.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next initiate operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
         public static void ConfigureMeasureSettings(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, DCPowerMeasureSettings> settings, UpdateMode updateMode)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
@@ -90,7 +90,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="measureWhen">The MeasurementWhen property to set.</param>
-        /// <param name="updateMode">The update mode to use when configuring the MeasureWhen property.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next initiate operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
         public static void ConfigureMeasureWhen(this DCPowerSessionsBundle sessionsBundle, DCPowerMeasurementWhen measureWhen, UpdateMode updateMode)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
@@ -139,7 +139,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="sense">The measurement sense to set.</param>
-        /// <param name="updateMode">The update mode to use when configuring the measurement sense.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next initiate operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
         public static void ConfigureMeasurementSense(this DCPowerSessionsBundle sessionsBundle, DCPowerMeasurementSense sense, UpdateMode updateMode)
         {
             sessionsBundle.Do(sessionInfo =>
