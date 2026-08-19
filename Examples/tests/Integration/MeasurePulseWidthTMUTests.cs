@@ -7,18 +7,18 @@ using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMCon
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
 {
     [Collection("NonParallelizable")]
-    public class MeasurePeriodWithSTLTest
+    public class MeasurePulseWidthWithSTLTest
     {
         private const string PinMapFileName = @"NIDigitalTMUTest.pinmap";
         private const string DigitalProjectFileName = @"NIDigitalTMUTest.digiproj";
         private ISemiconductorModuleContext _tsmContext = CreateTSMContext(PinMapFileName, DigitalProjectFileName);
 
         [Fact]
-        public void InitializeNIDigital_MeasurePeriodWithSTLSucceeds()
+        public void InitializeNIDigital_MeasurePulseWidthWithSTLSucceeds()
         {
             SetupNIDigitalPatternInstrumentation(_tsmContext);
 
-            MeasurePeriodTMU.MeasurePeriodWithSTL(_tsmContext);
+            MeasurePulseWidthTMU.MeasurePulseWidthWithSTL(_tsmContext);
             CleanupInstrumentation(_tsmContext);
         }
     }
