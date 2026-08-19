@@ -180,4 +180,7 @@
   <data name="Digital_TMUUnsupportedPolarity" xml:space="preserve">
     <value>Unsupported Polarity.</value>
   </data>
+  <data name="DCPower_InvalidPublishDataIdFormatter" xml:space="preserve">
+    <value>The publishDataIdFormatter parameter cannot be null or empty and must contain a format placeholder '{{0}}'.</value>
+  </data>
 </root>
