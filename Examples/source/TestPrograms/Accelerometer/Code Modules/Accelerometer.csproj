@@ -26,16 +26,16 @@
     <None Remove="packages\**" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NationalInstruments.SemiconductorTestLibrary" Version="25.0.0" />
+    <PackageReference Include="NationalInstruments.SemiconductorTestLibrary" Version="26.5.0-*" />
     <PackageReference Include="NI.CSharp.Analyzers" Version="2.0.28" ExcludeAssets="runtime" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Ivi.Driver" >      
+    <Reference Include="Ivi.Driver">      
 	  <HintPath>C:\Program Files\IVI Foundation\IVI\Microsoft.NET\Framework64\v2.0.50727\IviFoundationSharedComponents 1.4.1\Ivi.Driver.dll</HintPath>
 	  <Private>False</Private>
       <SpecificVersion>False</SpecificVersion>     
     </Reference>
-    <Reference Include="NationalInstruments.Common" >      
+    <Reference Include="NationalInstruments.Common">      
 	  <HintPath>C:\Program Files (x86)\National Instruments\Measurement Studio\DotNET\v4.0\AnyCPU\NationalInstruments.Common 19.1.40\NationalInstruments.Common.dll</HintPath>
 	  <Private>False</Private>
       <SpecificVersion>False</SpecificVersion>
