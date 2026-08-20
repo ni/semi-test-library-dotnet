@@ -2400,8 +2400,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// If <see langword="true"/>, sets the configured sequence as the active sequence.
         /// If <see langword="false"/> (default), clears the active sequence to allow configuring multiple sequences before initiating.
         /// </param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
-        public static void ConfigureVoltageSequence(this DCPowerSessionsBundle sessionsBundle, string sequenceName, double[] sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null, bool setAsActiveSequence = false, UpdateMode updateMode = UpdateMode.Deferred)
+        /// <param name="updateMode">Specifies when the configured settings are applied:
+        /// <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation,
+        /// <see cref="UpdateMode.Commit"/> commits immediately, and
+        /// <see cref="UpdateMode.Immediate"/> initiates immediately.
+        /// </param>
+        public static void ConfigureVoltageSequence(
+            this DCPowerSessionsBundle sessionsBundle,
+            string sequenceName,
+            double[] sequence,
+            int sequenceLoopCount = 1,
+            double? sequenceStepDeltaTimeInSeconds = null,
+            bool setAsActiveSequence = false,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             if (sessionsBundle.HasGangedChannels)
             {
@@ -2455,7 +2466,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <inheritdoc cref="ConfigureVoltageSequence(DCPowerSessionsBundle,string, double[], int, double?, bool, UpdateMode)"/>
-        public static void ConfigureVoltageSequence(this DCPowerSessionsBundle sessionsBundle, string sequenceName, PinSiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null, bool setAsActiveSequence = false, UpdateMode updateMode = UpdateMode.Deferred)
+        public static void ConfigureVoltageSequence(
+            this DCPowerSessionsBundle sessionsBundle,
+            string sequenceName,
+            PinSiteData<double[]> sequence,
+            int sequenceLoopCount = 1,
+            double? sequenceStepDeltaTimeInSeconds = null,
+            bool setAsActiveSequence = false,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             var hasGangedChannels = sessionsBundle.HasGangedChannels;
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
@@ -2523,7 +2541,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <inheritdoc cref="ConfigureCurrentSequence(DCPowerSessionsBundle,string, double[], int, double?, bool, UpdateMode)"/>
-        public static void ConfigureCurrentSequence(this DCPowerSessionsBundle sessionsBundle, string sequenceName, SiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null, bool setAsActiveSequence = false, UpdateMode updateMode = UpdateMode.Deferred)
+        public static void ConfigureCurrentSequence(
+            this DCPowerSessionsBundle sessionsBundle,
+            string sequenceName,
+            SiteData<double[]> sequence,
+            int sequenceLoopCount = 1,
+            double? sequenceStepDeltaTimeInSeconds = null,
+            bool setAsActiveSequence = false,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -2541,7 +2566,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <inheritdoc cref="ConfigureCurrentSequence(DCPowerSessionsBundle,string, double[], int, double?, bool, UpdateMode)"/>
-        public static void ConfigureCurrentSequence(this DCPowerSessionsBundle sessionsBundle, string sequenceName, PinSiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null, bool setAsActiveSequence = false, UpdateMode updateMode = UpdateMode.Deferred)
+        public static void ConfigureCurrentSequence(
+            this DCPowerSessionsBundle sessionsBundle,
+            string sequenceName,
+            PinSiteData<double[]> sequence,
+            int sequenceLoopCount = 1,
+            double? sequenceStepDeltaTimeInSeconds = null,
+            bool setAsActiveSequence = false,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
