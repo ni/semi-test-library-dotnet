@@ -7,7 +7,7 @@ using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 // Following namespaces are required for 26.5
 using DigitalTmu = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu;
-using DigitalTmuCollections = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuCollections;
+using DigitalTmuCollection = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuCollection;
 using TMUContextManager = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TMUContextManager;
 using TmuAttributes = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes;
 using TmuArmType = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuArmType;
@@ -1505,9 +1505,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             return GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
         }
 
-        private static DigitalTmuCollections GetDigitalTmus(NIDigital session)
+        private static DigitalTmuCollection GetDigitalTmus(NIDigital session)
         {
-            return new DigitalTmuCollections(session);
+            return new DigitalTmuCollection(session);
         }
 
         private static void ValidateArmType(TmuArmType armType)
