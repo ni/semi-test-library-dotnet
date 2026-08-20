@@ -71,7 +71,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <remarks>
         /// Invoking this method creates a clear separation between TMU configuration and resource reservation.<br/>
         /// The assigned TMU resource is reserved when this method is called.<br/>
-        /// Enabling a TMU with invalid configuration will result in an error when <see cref="TMUInitiate" /> is called.
+        /// Enabling a TMU with invalid configuration will result in an error when <see cref="TMUInitiate(DigitalSessionsBundle, string[])" /> is called.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="pinNames">Specific pins for which to enable the assigned TMU resource. When <c>null</c>, all pins are targeted.</param>
