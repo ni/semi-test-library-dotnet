@@ -1560,6 +1560,167 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
         }
 
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureMeasureSettingsWithScalarValueAndUpdateMode_CorrectSettingsAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var expectedApertureTime = 0.05;
+            var settings = new DCPowerMeasureSettings()
+            {
+                ApertureTime = expectedApertureTime,
+                ApertureTimeUnits = DCPowerMeasureApertureTimeUnits.Seconds,
+            };
+
+            sessionsBundle.ConfigureMeasureSettings(settings, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                Assert.Equal(expectedApertureTime, channelOutput.Measurement.ApertureTime);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureMeasureSettingsWithPerSiteValuesAndUpdateMode_CorrectSettingsAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var settings = new SiteData<DCPowerMeasureSettings>(new[]
+            {
+                new DCPowerMeasureSettings() { ApertureTime = 0.05, ApertureTimeUnits = DCPowerMeasureApertureTimeUnits.Seconds },
+                new DCPowerMeasureSettings() { ApertureTime = 0.06, ApertureTimeUnits = DCPowerMeasureApertureTimeUnits.Seconds },
+            });
+
+            sessionsBundle.ConfigureMeasureSettings(settings, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedApertureTime = settings.GetValue(sitePinInfo.SiteNumber).ApertureTime;
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                Assert.Equal(expectedApertureTime, channelOutput.Measurement.ApertureTime);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureMeasureSettingsWithPerPinPerSiteValuesAndUpdateMode_CorrectSettingsAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var pinNames = new string[] { "VCC1", "VCC2" };
+            var sessionsBundle = sessionManager.DCPower(pinNames);
+            var activeSites = GetActiveSites(sessionsBundle);
+            var settings = new PinSiteData<DCPowerMeasureSettings>(new Dictionary<string, IDictionary<int, DCPowerMeasureSettings>>()
+            {
+                [pinNames[0]] = activeSites.ToDictionary(site => site, site => new DCPowerMeasureSettings() { ApertureTime = 0.05, ApertureTimeUnits = DCPowerMeasureApertureTimeUnits.Seconds }),
+                [pinNames[1]] = activeSites.ToDictionary(site => site, site => new DCPowerMeasureSettings() { ApertureTime = 0.06, ApertureTimeUnits = DCPowerMeasureApertureTimeUnits.Seconds }),
+            });
+
+            sessionsBundle.ConfigureMeasureSettings(settings, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedApertureTime = settings.GetValue(sitePinInfo).ApertureTime;
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                Assert.Equal(expectedApertureTime, channelOutput.Measurement.ApertureTime);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureMeasureSettingsWithPerPinValuesAndUpdateMode_CorrectSettingsAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var pinNames = new string[] { "VCC1", "VCC2" };
+            var sessionsBundle = sessionManager.DCPower(pinNames);
+            var settings = new Dictionary<string, DCPowerMeasureSettings>()
+            {
+                [pinNames[0]] = new DCPowerMeasureSettings() { ApertureTime = 0.05, ApertureTimeUnits = DCPowerMeasureApertureTimeUnits.Seconds },
+                [pinNames[1]] = new DCPowerMeasureSettings() { ApertureTime = 0.06, ApertureTimeUnits = DCPowerMeasureApertureTimeUnits.Seconds },
+            };
+
+            sessionsBundle.ConfigureMeasureSettings(settings, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedApertureTime = settings[sitePinInfo.PinName].ApertureTime;
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                Assert.Equal(expectedApertureTime, channelOutput.Measurement.ApertureTime);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureMeasureWhenWithUpdateMode_CorrectMeasureWhenIsSetAndMatchesUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var expectedMeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger;
+
+            sessionsBundle.ConfigureMeasureWhen(expectedMeasureWhen, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                Assert.Equal(expectedMeasureWhen, channelOutput.Measurement.MeasureWhen);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureMeasurementSenseWithUpdateMode_CorrectSenseIsSetAndMatchesUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var expectedSense = DCPowerMeasurementSense.Remote;
+
+            sessionsBundle.ConfigureMeasurementSense(expectedSense, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                Assert.Equal(expectedSense, channelOutput.Measurement.Sense);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        private static void AssertInitiateBehaviorMatchesUpdateMode(DCPowerSessionsBundle sessionsBundle, UpdateMode updateMode)
+        {
+            void InitiateTest()
+            {
+                sessionsBundle.Initiate();
+            }
+
+            if (updateMode == UpdateMode.Immediate)
+            {
+                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
+                Assert.Contains("The session is already running.", exception.Message);
+            }
+            else
+            {
+                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
+            }
+        }
+
         private DCPowerSessionsBundle MergeAndForceVoltage(string pinGroupName, out string primaryPin)
         {
             _tsmContext = CreateTSMContext("Merged_4163.pinmap");
