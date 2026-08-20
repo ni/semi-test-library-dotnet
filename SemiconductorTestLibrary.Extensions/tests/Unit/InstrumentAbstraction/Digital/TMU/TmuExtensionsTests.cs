@@ -1686,9 +1686,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             Assert.True(Array.TrueForAll(result, count => count >= 2));
         }
-        
+
         #endregion
-        
+
         #region Assign TMU Resources Across Multiple Bundles Tests
 
         [Fact]
