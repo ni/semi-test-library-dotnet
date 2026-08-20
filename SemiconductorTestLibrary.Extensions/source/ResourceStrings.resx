@@ -210,4 +210,7 @@
   <data name="Digital_TMUUnsupportedDuty" xml:space="preserve">
     <value>The duty cycle "{0}" is not supported, use either "Low" or "High" as duty cycle.</value>
   </data>
+  <data name="FGen_InvalidOutputModeException" xml:space="preserve">
+    <value>Output mode '{0}' is not supported, only 'Function' is supported in STL.</value>
+  </data>
 </root>
