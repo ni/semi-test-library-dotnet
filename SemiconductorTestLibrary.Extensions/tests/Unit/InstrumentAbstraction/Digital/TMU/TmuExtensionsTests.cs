@@ -1686,6 +1686,57 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             Assert.True(Array.TrueForAll(result, count => count >= 2));
         }
+        
+        #endregion
+        
+        #region Assign TMU Resources Across Multiple Bundles Tests
+
+        [Fact]
+        public void Inititalize_AssignTMUResourcesOnSeparateBundlesForDifferentPins_Succeeds()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager();
+            var bundle1 = sessionManager.Digital(new string[] { "C0" });
+            var bundle2 = sessionManager.Digital(new string[] { "C1" });
+
+            bundle1.AssignTMUResources();
+            bundle2.AssignTMUResources();
+
+            bundle1.ClearTMUAssignment();
+            bundle2.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void InititalizeAndAssignTMUResourcesOnFirstBundle_AssignTMUResourcesForSamePinOnSecondBundle_Succeeds()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager();
+            var bundle1 = sessionManager.Digital(new string[] { "C0" });
+            var bundle2 = sessionManager.Digital(new string[] { "C0" });
+            bundle1.AssignTMUResources();
+
+            bundle2.AssignTMUResources();
+
+            // Releasing the first bundle should not affect the second bundle's assignment.
+            bundle1.ClearTMUAssignment();
+            bundle2.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void InititalizeAndAssignTMUResourcesOnFirstBundle_AssignTMUResourcesExhaustsResourcesOnSecondBundle_ThrowsAndCleansUp()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager();
+            var bundle1 = sessionManager.Digital(new string[] { "C0", "C1" });
+            var bundle2 = sessionManager.Digital(new string[] { "C0", "C1" });
+
+            // First bundle claims the available TMU resources.
+            bundle1.AssignTMUResources();
+
+            // Second bundle attempts to claim the same already-assigned resources and should fail.
+            Assert.Throws<NISemiconductorTestException>(() => bundle2.AssignTMUResources());
+            // The failed assignment should have rolled back its partial claims,
+            // so releasing the first bundle must still succeed.
+            bundle1.ClearTMUAssignment();
+            bundle2.ClearTMUAssignment();
+        }
 
         #endregion
 
