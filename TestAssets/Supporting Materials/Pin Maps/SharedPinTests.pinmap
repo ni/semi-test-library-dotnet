@@ -16,7 +16,7 @@
 		<NIDigitalPatternInstrument name="HSD_6571_C1_S02" numberOfChannels="32" />
 		<NIDigitalPatternInstrument name="HSD_6571_C2_S02" numberOfChannels="32" />
 		<NIDmmInstrument name="DMM_4065_PCI" />
-		<NIFGenInstrument name="FGEN_5433_C1_S13" numberOfChannels="20" />
+		<NIFGenInstrument name="FGEN_5433_C1_S13" numberOfChannels="2" />
 		<NIFGenInstrument name="FGEN_5433_C2_S05" numberOfChannels="2" />
 		<NIScopeInstrument name="SCP_5622_C3_S05" numberOfChannels="4" />
 		<NIScopeInstrument name="SCP_5105_C1_S09" numberOfChannels="4" />
@@ -36,7 +36,6 @@
 		<SystemPin name="C2" />
 		<DUTPin name="DMM_PIN1" />
 		<DUTPin name="FGEN_PIN1" />
-		<DUTPin name="FGEN_PIN2" />
 		<DUTPin name="FGEN_PIN3" />
 		<DUTPin name="SCP_PIN1" />
 		<DUTPin name="SCP_PIN2" />
@@ -70,10 +69,8 @@
 		<Connection pin="DMM_PIN1" siteNumber="0,1,2" instrument="DMM_4065_PCI" channel="0" />
 		<Connection pin="DMM_PIN2" siteNumber="0,1" instrument="DMM_4070_PCI" channel="0" />
 		<Connection pin="DMM_PIN2" siteNumber="2" instrument="DMM_4081_C6_S13" channel="0" />
-		<Connection pin="FGEN_PIN1" siteNumber="0,1,2" instrument="FGEN_5433_C1_S13" channel="2" />
-		<Connection pin="FGEN_PIN2" siteNumber="0,1" instrument="FGEN_5433_C1_S13" channel="3" />
-		<Connection pin="FGEN_PIN2" siteNumber="2" instrument="FGEN_5433_C1_S13" channel="5" />
-		<Connection pin="FGEN_PIN3" siteNumber="0" instrument="FGEN_5433_C1_S13" channel="8" />
+		<Connection pin="FGEN_PIN1" siteNumber="0,1,2" instrument="FGEN_5433_C1_S13" channel="0" />
+		<Connection pin="FGEN_PIN3" siteNumber="0" instrument="FGEN_5433_C1_S13" channel="1" />
 		<Connection pin="FGEN_PIN3" siteNumber="1,2" instrument="FGEN_5433_C2_S05" channel="0" />
 		<Connection pin="PA_EN" siteNumber="0,1,2" instrument="HSD_6571_C1_S02" channel="2" />
 		<Connection pin="SCLK" siteNumber="0" instrument="HSD_6571_C1_S02" channel="3" />
