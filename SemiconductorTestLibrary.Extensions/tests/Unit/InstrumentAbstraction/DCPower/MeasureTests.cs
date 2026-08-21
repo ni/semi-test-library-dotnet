@@ -620,12 +620,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var apertureTimes = sessionsBundle.GetApertureTimeInSeconds(out _);
 
             Assert.Single(apertureTimes.PinNames);
-            Assert.Equal("VCCPrimary", apertureTimes.PinNames[0]);
-            Assert.DoesNotContain("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin", apertureTimes.PinNames);
+            Assert.Equal("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin", apertureTimes.PinNames[0]);
+            Assert.DoesNotContain("VCCPrimary", apertureTimes.PinNames);
         }
 
         [Fact]
-        public void SMUDevicesGanged_GetApertureTimeInSeconds_ValuesDontHavePinGroupName()
+        public void SMUDevicesGanged_GetApertureTimeInSeconds_ValuesAreReturnedInPinGroupName()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
             var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
@@ -633,8 +633,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var apertureTimes = sessionsBundle.GetApertureTimeInSeconds(out _);
 
-            Assert.Equal(5, apertureTimes.PinNames.Length);
-            Assert.DoesNotContain("AllPinsGangedGroup", apertureTimes.PinNames);
+            Assert.Single(apertureTimes.PinNames);
+            Assert.Equal("AllPinsGangedGroup", apertureTimes.PinNames[0]);
         }
 
         [Fact]
@@ -653,8 +653,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var apertureTimeUnits = sessionsBundle.GetApertureTimeUnits();
 
             Assert.Single(apertureTimeUnits.PinNames);
-            Assert.Equal(primaryPin, apertureTimeUnits.PinNames.FirstOrDefault());
-            Assert.DoesNotContain(allPinsMergedGroup, apertureTimeUnits.PinNames);
+            Assert.Equal(allPinsMergedGroup, apertureTimeUnits.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(primaryPin, apertureTimeUnits.PinNames);
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(DCPowerMeasureApertureTimeUnits.Seconds, apertureTimeUnits.GetValue(sitePinInfo));
@@ -678,8 +678,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var apertureTimeUnits = sessionsBundle.GetApertureTimeUnits();
 
-            Assert.Equal(2, apertureTimeUnits.PinNames.Length);
-            Assert.DoesNotContain(TwoPinsGangedGroup, apertureTimeUnits.PinNames);
+            Assert.Single(apertureTimeUnits.PinNames);
+            Assert.Equal(TwoPinsGangedGroup, apertureTimeUnits.PinNames.FirstOrDefault());
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedUnits, apertureTimeUnits.GetValue(sitePinInfo));
@@ -1347,8 +1347,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var measurementSense = sessionsBundle.GetMeasurementSense();
 
             Assert.Single(measurementSense.PinNames);
-            Assert.Equal(primaryPin, measurementSense.PinNames.FirstOrDefault());
-            Assert.DoesNotContain(allPinsMergedGroup, measurementSense.PinNames);
+            Assert.Equal(allPinsMergedGroup, measurementSense.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(primaryPin, measurementSense.PinNames);
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedSense, measurementSense.GetValue(sitePinInfo));
@@ -1371,8 +1371,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var measurementSense = sessionsBundle.GetMeasurementSense();
 
-            Assert.Equal(2, measurementSense.PinNames.Length);
-            Assert.DoesNotContain(TwoPinsGangedGroup, measurementSense.PinNames);
+            Assert.Single(measurementSense.PinNames);
+            Assert.Equal(TwoPinsGangedGroup, measurementSense.PinNames.FirstOrDefault());
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedSense, measurementSense.GetValue(sitePinInfo));
