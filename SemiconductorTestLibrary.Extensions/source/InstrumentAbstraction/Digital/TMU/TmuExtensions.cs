@@ -1346,6 +1346,314 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
 
         #endregion
 
+        #region Get TMU Start Source
+
+        /// <summary>
+        /// Gets the TMU start source channel string for each pin in the <see cref="DigitalSessionsBundle"/>.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <returns>The start source channel string for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
+        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
+        public static PinSiteData<string> GetTMUStartSource(this DigitalSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                return tmu.Start.Source;
+            });
+        }
+
+        #endregion
+
+        #region Get TMU Stop Source
+
+        /// <summary>
+        /// Gets the TMU stop source channel string for each pin in the <see cref="DigitalSessionsBundle"/>.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <returns>The stop source channel string for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
+        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
+        public static PinSiteData<string> GetTMUStopSource(this DigitalSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                return tmu.Stop.Source;
+            });
+        }
+
+        #endregion
+
+        #region Get TMU Start Source Event
+
+        /// <summary>
+        /// Gets the TMU start source event for each pin in the <see cref="DigitalSessionsBundle"/>.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <returns>The start source event for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
+        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
+        public static PinSiteData<TmuSourceEvent> GetTMUStartSourceEvent(this DigitalSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                return tmu.Start.SourceEvent;
+            });
+        }
+
+        #endregion
+
+        #region Get TMU Stop Source Event
+
+        /// <summary>
+        /// Gets the TMU stop source event for each pin in the <see cref="DigitalSessionsBundle"/>.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <returns>The stop source event for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
+        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
+        public static PinSiteData<TmuSourceEvent> GetTMUStopSourceEvent(this DigitalSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                return tmu.Stop.SourceEvent;
+            });
+        }
+
+        #endregion
+
+        #region Get TMU Start Source Event Polarity
+
+        /// <summary>
+        /// Gets the TMU start source event polarity for each pin in the <see cref="DigitalSessionsBundle"/>.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <returns>The start source event polarity for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
+        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
+        public static PinSiteData<TmuPolarity> GetTMUStartSourceEventPolarity(this DigitalSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                return tmu.Start.SourceEventPolarity;
+            });
+        }
+
+        #endregion
+
+        #region Get TMU Stop Source Event Polarity
+
+        /// <summary>
+        /// Gets the TMU stop source event polarity for each pin in the <see cref="DigitalSessionsBundle"/>.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <returns>The stop source event polarity for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
+        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
+        public static PinSiteData<TmuPolarity> GetTMUStopSourceEventPolarity(this DigitalSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                return tmu.Stop.SourceEventPolarity;
+            });
+        }
+
+        #endregion
+
+        #region Get TMU Enabled
+
+        /// <summary>
+        /// Gets a value indicating whether the assigned TMU resource is enabled for each pin in the <see cref="DigitalSessionsBundle"/>.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <returns>A value indicating whether the TMU is enabled for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
+        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
+        public static PinSiteData<bool> GetTMUEnabled(this DigitalSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                return tmu.Enabled;
+            });
+        }
+
+        #endregion
+
+        #region Get TMU Arm Type
+
+        /// <summary>
+        /// Gets the TMU arm type for each pin in the <see cref="DigitalSessionsBundle"/>.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <returns>The arm type for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
+        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
+        public static PinSiteData<TmuArmType> GetTMUArmType(this DigitalSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                return tmu.ArmType;
+            });
+        }
+
+        #endregion
+
+        #region Get TMU Edge Arm Source
+
+        /// <summary>
+        /// Gets the TMU edge arm source channel string for each pin in the <see cref="DigitalSessionsBundle"/>.
+        /// Applicable when arm type is set to <see cref="TmuArmType.Edge"/>.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <returns>The edge arm source channel string for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
+        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
+        public static PinSiteData<string> GetTMUEdgeArmSource(this DigitalSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                return tmu.EdgeArm.Source;
+            });
+        }
+
+        #endregion
+
+        #region Get TMU Edge Arm Source Event
+
+        /// <summary>
+        /// Gets the TMU edge arm source event for each pin in the <see cref="DigitalSessionsBundle"/>.
+        /// Applicable when arm type is set to <see cref="TmuArmType.Edge"/> and arm source is a digital pin or channel.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <returns>The edge arm source event for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
+        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
+        public static PinSiteData<TmuSourceEvent> GetTMUEdgeArmSourceEvent(this DigitalSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                return tmu.EdgeArm.SourceEvent;
+            });
+        }
+
+        #endregion
+
+        #region Get TMU Edge Arm Polarity
+
+        /// <summary>
+        /// Gets the TMU edge arm polarity for each pin in the <see cref="DigitalSessionsBundle"/>.
+        /// Applicable when arm type is set to <see cref="TmuArmType.Edge"/>.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <returns>The edge arm polarity for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
+        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
+        public static PinSiteData<TmuPolarity> GetTMUEdgeArmPolarity(this DigitalSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                return tmu.EdgeArm.Polarity;
+            });
+        }
+
+        #endregion
+
+        #region Get TMU Samples To Acquire
+
+        /// <summary>
+        /// Gets the number of TMU samples to acquire for each pin in the <see cref="DigitalSessionsBundle"/>.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <returns>The number of samples to acquire for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
+        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
+        public static PinSiteData<long> GetTMUSamplesToAcquire(this DigitalSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                return tmu.SamplesToAcquire;
+            });
+        }
+
+        #endregion
+
+        #region Get TMU Sample Timeout
+
+        /// <summary>
+        /// Gets the TMU sample timeout for each pin in the <see cref="DigitalSessionsBundle"/>.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <returns>The sample timeout in seconds for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
+        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
+        public static PinSiteData<double> GetTMUSampleTimeout(this DigitalSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                return tmu.SampleTimeout;
+            });
+        }
+
+        #endregion
+
+        #region Get TMU Start Input Debounce Time
+
+        /// <summary>
+        /// Gets the TMU start input debounce time for each pin in the <see cref="DigitalSessionsBundle"/>.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <returns>The start input debounce time in seconds for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
+        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
+        public static PinSiteData<double> GetTMUStartInputDebounceTime(this DigitalSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                return tmu.Start.InputDebounceTime;
+            });
+        }
+
+        #endregion
+
+        #region Get TMU Stop Input Debounce Time
+
+        /// <summary>
+        /// Gets the TMU stop input debounce time for each pin in the <see cref="DigitalSessionsBundle"/>.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <returns>The stop input debounce time in seconds for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
+        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
+        public static PinSiteData<double> GetTMUStopInputDebounceTime(this DigitalSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                return tmu.Stop.InputDebounceTime;
+            });
+        }
+
+        #endregion
+
+        #region Get TMU Count
+
+        /// <summary>
+        /// Gets the total number of TMU resources available for each instrument session in the <see cref="DigitalSessionsBundle"/>.
+        /// </summary>
+        /// <remarks>
+        /// This value is session-level and reflects the total TMU count across all modules in each instrument session.
+        /// The returned array contains one value per instrument session, in the same order as <see cref="ISessionsBundle{TSessionInformation}.InstrumentSessions"/>.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <returns>An array containing the total number of TMU resources available, one value per instrument session.</returns>
+        public static int[] GetTMUCount(this DigitalSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.InstrumentSessions
+                .Select(sessionInfo => GetDigitalTmus(sessionInfo.Session).GetTmuCount())
+                .ToArray();
+        }
+
+        #endregion
+
         private static void AssignTMUContexts(this DigitalSessionInformation digitalSessionInformation, string[] pins = null)
         {
             // Filter sitePinInfo based on specified pins.
