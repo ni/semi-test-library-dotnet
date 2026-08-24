@@ -5862,7 +5862,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SMUDevicesMerged_GetVoltageLevelRange_ReturnsPrimaryPinValue()
+        public void SMUDevicesMerged_GetVoltageLevelRange_ReturnsMergedPinGroupValue()
         {
             var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
             var primaryPin = "VCCPrimary";
@@ -8492,7 +8492,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SMUDevicesMerged_GetCurrentLimitHigh_ReturnsPrimaryPinValue()
+        public void SMUDevicesMerged_GetCurrentLimitHigh_ReturnsMergedPinGroupValue()
         {
             var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
             var primaryPin = "VCCPrimary";
@@ -8517,16 +8517,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevicesGangedConfigureCurrentLimitHigh_GetCurrentLimitHigh_ReturnsCorrectValue(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
-            var allPinsGangedGroup = "AllPinsGangedGroup";
             var expectedCurrentLimitHigh = 4E-1;
-            var sessionsBundle = sessionManager.DCPower(allPinsGangedGroup);
-            sessionsBundle.GangPinGroup(allPinsGangedGroup);
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
             sessionsBundle.ConfigureCurrentLimitHigh(expectedCurrentLimitHigh);
 
             var currentLimitHigh = sessionsBundle.GetCurrentLimitHigh();
 
             Assert.Single(currentLimitHigh.PinNames);
-            Assert.Equal(allPinsGangedGroup, currentLimitHigh.PinNames.FirstOrDefault());
+            Assert.Equal(AllPinsGangedGroup, currentLimitHigh.PinNames.FirstOrDefault());
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedCurrentLimitHigh, currentLimitHigh.GetValue(sitePinInfo), 6);
@@ -8594,7 +8593,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SMUDevicesMerged_GetCurrentLimitLow_ReturnsPrimaryPinValue()
+        public void SMUDevicesMerged_GetCurrentLimitLow_ReturnsMergedPinGroupValue()
         {
             var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
             var primaryPin = "VCCPrimary";
@@ -8619,16 +8618,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevicesGangedConfigureCurrentLimitLow_GetCurrentLimitLow_ReturnsCorrectValue(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
-            var allPinsGangedGroup = "AllPinsGangedGroup";
             var expectedCurrentLimitLow = -4E-1;
-            var sessionsBundle = sessionManager.DCPower(allPinsGangedGroup);
-            sessionsBundle.GangPinGroup(allPinsGangedGroup);
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
             sessionsBundle.ConfigureCurrentLimitLow(expectedCurrentLimitLow);
 
             var currentLimitLow = sessionsBundle.GetCurrentLimitLow();
 
             Assert.Single(currentLimitLow.PinNames);
-            Assert.Equal(allPinsGangedGroup, currentLimitLow.PinNames.FirstOrDefault());
+            Assert.Equal(AllPinsGangedGroup, currentLimitLow.PinNames.FirstOrDefault());
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedCurrentLimitLow, currentLimitLow.GetValue(sitePinInfo), 6);
@@ -8695,7 +8693,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SMUDevicesMerged_GetCurrentLevel_ReturnsPrimaryPinValue()
+        public void SMUDevicesMerged_GetCurrentLevel_ReturnsMergedPinGroupValue()
         {
             var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
             var primaryPin = "VCCPrimary";
@@ -8720,16 +8718,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevicesGangedConfigureCurrentLevel_GetCurrentLevel_ReturnsCorrectValue(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
-            var allPinsGangedGroup = "AllPinsGangedGroup";
             var expectedCurrentLevel = 4E-1;
-            var sessionsBundle = sessionManager.DCPower(allPinsGangedGroup);
-            sessionsBundle.GangPinGroup(allPinsGangedGroup);
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
             sessionsBundle.ConfigureCurrentLevel(expectedCurrentLevel);
 
             var currentLevel = sessionsBundle.GetCurrentLevel();
 
             Assert.Single(currentLevel.PinNames);
-            Assert.Equal(allPinsGangedGroup, currentLevel.PinNames.FirstOrDefault());
+            Assert.Equal(AllPinsGangedGroup, currentLevel.PinNames.FirstOrDefault());
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedCurrentLevel, currentLevel.GetValue(sitePinInfo), 6);
@@ -8796,7 +8793,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SMUDevicesMerged_GetCurrentLevelRange_ReturnsPrimaryPinValue()
+        public void SMUDevicesMerged_GetCurrentLevelRange_ReturnsMergedPinGroupValue()
         {
             var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
             var primaryPin = "VCCPrimary";
@@ -8821,16 +8818,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevicesGangedConfigureCurrentLevelRange_GetCurrentLevelRange_ReturnsCorrectValue(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
-            var allPinsGangedGroup = "AllPinsGangedGroup";
             var expectedCurrentLevelRange = 5E-1;
-            var sessionsBundle = sessionManager.DCPower(allPinsGangedGroup);
-            sessionsBundle.GangPinGroup(allPinsGangedGroup);
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
             sessionsBundle.ConfigureCurrentLevelRange(expectedCurrentLevelRange);
 
             var currentLevelRange = sessionsBundle.GetCurrentLevelRange();
 
             Assert.Single(currentLevelRange.PinNames);
-            Assert.Equal(allPinsGangedGroup, currentLevelRange.PinNames.FirstOrDefault());
+            Assert.Equal(AllPinsGangedGroup, currentLevelRange.PinNames.FirstOrDefault());
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedCurrentLevelRange, currentLevelRange.GetValue(sitePinInfo), 6);
@@ -8897,7 +8893,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SMUDevicesMerged_GetCurrentLimitRange_ReturnsPrimaryPinValue()
+        public void SMUDevicesMerged_GetCurrentLimitRange_ReturnsMergedPinGroupValue()
         {
             var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
             var primaryPin = "VCCPrimary";
@@ -8919,16 +8915,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevicesGangedConfigureCurrentLimitRange_GetCurrentLimitRange_ReturnsCorrectValue()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
-            var allPinsGangedGroup = "AllPinsGangedGroup";
             var expectedCurrentLimitRange = 5E-1;
-            var sessionsBundle = sessionManager.DCPower(allPinsGangedGroup);
-            sessionsBundle.GangPinGroup(allPinsGangedGroup);
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
             sessionsBundle.ConfigureCurrentLimitRange(expectedCurrentLimitRange);
 
             var currentLimitRange = sessionsBundle.GetCurrentLimitRange();
 
             Assert.Single(currentLimitRange.PinNames);
-            Assert.Equal(allPinsGangedGroup, currentLimitRange.PinNames.FirstOrDefault());
+            Assert.Equal(AllPinsGangedGroup, currentLimitRange.PinNames.FirstOrDefault());
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedCurrentLimitRange, currentLimitRange.GetValue(sitePinInfo), 6);
@@ -8995,7 +8990,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SMUDevicesMerged_GetLimitSymmetry_ReturnsPrimaryPinValue()
+        public void SMUDevicesMerged_GetLimitSymmetry_ReturnsMergedPinGroupValue()
         {
             var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
             var primaryPin = "VCCPrimary";
@@ -9023,16 +9018,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevicesGangedConfigureLimitSymmetry_GetLimitSymmetry_ReturnsCorrectValue(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
-            var allPinsGangedGroup = "AllPinsGangedGroup";
             var expectedLimitSymmetry = DCPowerComplianceLimitSymmetry.Asymmetric;
-            var sessionsBundle = sessionManager.DCPower(allPinsGangedGroup);
-            sessionsBundle.GangPinGroup(allPinsGangedGroup);
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
             sessionsBundle.ConfigureLimitSymmetry(expectedLimitSymmetry);
 
             var limitSymmetry = sessionsBundle.GetLimitSymmetry();
 
             Assert.Single(limitSymmetry.PinNames);
-            Assert.Equal(allPinsGangedGroup, limitSymmetry.PinNames.FirstOrDefault());
+            Assert.Equal(AllPinsGangedGroup, limitSymmetry.PinNames.FirstOrDefault());
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedLimitSymmetry, limitSymmetry.GetValue(sitePinInfo));
@@ -9097,7 +9091,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SMUDevicesMerged_GetVoltageLimitHigh_ReturnsPrimaryPinValue()
+        public void SMUDevicesMerged_GetVoltageLimitHigh_ReturnsMergedPinGroupValue()
         {
             var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
             var primaryPin = "VCCPrimary";
@@ -9125,16 +9119,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevicesGangedConfigureVoltageLimitHigh_GetVoltageLimitHigh_ReturnsCorrectValue(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
-            var allPinsGangedGroup = "AllPinsGangedGroup";
             var expectedVoltageLimitHigh = 15.0;
-            var sessionsBundle = sessionManager.DCPower(allPinsGangedGroup);
-            sessionsBundle.GangPinGroup(allPinsGangedGroup);
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
             sessionsBundle.ConfigureVoltageLimitHigh(expectedVoltageLimitHigh);
 
             var voltageLimitHigh = sessionsBundle.GetVoltageLimitHigh();
 
             Assert.Single(voltageLimitHigh.PinNames);
-            Assert.Equal(allPinsGangedGroup, voltageLimitHigh.PinNames.FirstOrDefault());
+            Assert.Equal(AllPinsGangedGroup, voltageLimitHigh.PinNames.FirstOrDefault());
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedVoltageLimitHigh, voltageLimitHigh.GetValue(sitePinInfo), 4);
@@ -9201,7 +9194,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SMUDevicesMerged_GetVoltageLimitLow_ReturnsPrimaryPinValue()
+        public void SMUDevicesMerged_GetVoltageLimitLow_ReturnsMergedPinGRoupValue()
         {
             var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
             var primaryPin = "VCCPrimary";
@@ -9229,16 +9222,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevicesGangedConfigureVoltageLimitLow_GetVoltageLimitLow_ReturnsCorrectValue(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
-            var allPinsGangedGroup = "AllPinsGangedGroup";
             var expectedVoltageLimitLow = -15.0;
-            var sessionsBundle = sessionManager.DCPower(allPinsGangedGroup);
-            sessionsBundle.GangPinGroup(allPinsGangedGroup);
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
             sessionsBundle.ConfigureVoltageLimitLow(expectedVoltageLimitLow);
 
             var voltageLimitLow = sessionsBundle.GetVoltageLimitLow();
 
             Assert.Single(voltageLimitLow.PinNames);
-            Assert.Equal(allPinsGangedGroup, voltageLimitLow.PinNames.FirstOrDefault());
+            Assert.Equal(AllPinsGangedGroup, voltageLimitLow.PinNames.FirstOrDefault());
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedVoltageLimitLow, voltageLimitLow.GetValue(sitePinInfo), 4);
@@ -9345,7 +9337,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SMUDevicesMerged_GetVoltageLevel_ReturnsPrimaryPinValue()
+        public void SMUDevicesMerged_GetVoltageLevel_ReturnsMergedPinGroupValue()
         {
             var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
             var primaryPin = "VCCPrimary";
@@ -9407,7 +9399,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SMUDevicesMerged_GetVoltageLimitRange_ReturnsPrimaryPinValue()
+        public void SMUDevicesMerged_GetVoltageLimitRange_ReturnsMergedPinGroupValue()
         {
             var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
             var primaryPin = "VCCPrimary";
@@ -9509,7 +9501,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SMUDevicesMerged_GetVoltageLimit_ReturnsPrimaryPinValue()
+        public void SMUDevicesMerged_GetVoltageLimit_ReturnsAllMergedPinGroupValue()
         {
             var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
             var primaryPin = "VCCPrimary";
@@ -9545,6 +9537,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var voltageLimit = sessionsBundle.GetVoltageLimit();
 
             Assert.Single(voltageLimit.PinNames);
+            Assert.Equal(ThreePinsGangedGroup, voltageLimit.PinNames.FirstOrDefault());
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedVoltageLimit, voltageLimit.GetValue(sitePinInfo), 4);
@@ -9610,7 +9603,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SMUDevicesMerged_GetTransientResponse_ReturnsPrimaryPinValue()
+        public void SMUDevicesMerged_GetTransientResponse_ReturnsMergedPinGroupValue()
         {
             var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
             var primaryPin = "VCCPrimary";
@@ -9638,15 +9631,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevicesGangedConfigureTransientResponse_GetTransientResponse_ReturnsCorrectValue(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
-            var allPinsGangedGroup = "AllPinsGangedGroup";
             var expectedTransientResponse = DCPowerSourceTransientResponse.Fast;
-            var sessionsBundle = sessionManager.DCPower(allPinsGangedGroup);
-            sessionsBundle.GangPinGroup(allPinsGangedGroup);
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
             ConfigureTransientResponse(sessionsBundle, expectedTransientResponse);
 
             var transientResponse = sessionsBundle.GetTransientResponse();
 
             Assert.Single(transientResponse.PinNames);
+            Assert.Equal(AllPinsGangedGroup, transientResponse.PinNames.FirstOrDefault());
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedTransientResponse, transientResponse.GetValue(sitePinInfo));
@@ -9717,18 +9710,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.Equal(expectedTransientResponse, transientResponse.GetValue(sitePinInfo));
             });
-        }
-
-        /// <summary>
-        /// Configures the same <see cref="DCPowerSourceTransientResponse"/> on all channels of the given bundle
-        /// by writing directly to the hardware property via <see cref="DCPowerSessionsBundle.Do"/>,
-        /// without going through <c>ConfigureSourceSettings</c>.
-        /// </summary>
-        /// <param name="sessionsBundle">The sessions bundle to configure.</param>
-        /// <param name="transientResponse">The transient response value to apply to every channel.</param>
-        private static void ConfigureTransientResponse(DCPowerSessionsBundle sessionsBundle, DCPowerSourceTransientResponse transientResponse)
-        {
-            sessionsBundle.Do(sessionInfo => sessionInfo.AllChannelsOutput.Source.TransientResponse = transientResponse);
         }
 
         [Theory]
@@ -10124,6 +10105,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
 
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        private static void ConfigureTransientResponse(DCPowerSessionsBundle sessionsBundle, DCPowerSourceTransientResponse transientResponse)
+        {
+            sessionsBundle.Do(sessionInfo => sessionInfo.AllChannelsOutput.Source.TransientResponse = transientResponse);
         }
 
         private void AssertVoltageSettings(DCPowerOutput channelOutput, double expectedVoltageLevel, double expectedCurrentLimit, int precision = 6)

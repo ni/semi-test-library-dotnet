@@ -628,17 +628,17 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void SMUDevicesGanged_GetApertureTimeInSeconds_ValuesAreReturnedInPinGroupName()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
-            var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
-            sessionsBundle.GangPinGroup("AllPinsGangedGroup");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
 
             var apertureTimes = sessionsBundle.GetApertureTimeInSeconds(out _);
 
             Assert.Single(apertureTimes.PinNames);
-            Assert.Equal("AllPinsGangedGroup", apertureTimes.PinNames[0]);
+            Assert.Equal(AllPinsGangedGroup, apertureTimes.PinNames[0]);
         }
 
         [Fact]
-        public void SMUDevicesMerged_GetApertureTimeUnits_ReturnsPrimaryPinValue()
+        public void SMUDevicesMerged_GetApertureTimeUnits_ReturnsMergedPinGroupValue()
         {
             var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
             var primaryPin = "VCCPrimary";
@@ -1335,7 +1335,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(DCPowerMeasurementSense.Local)]
         [InlineData(DCPowerMeasurementSense.Remote)]
-        public void SMUDevicesMerged_GetMeasurementSense_ReturnsPrimaryPinValue(DCPowerMeasurementSense expectedSense)
+        public void SMUDevicesMerged_GetMeasurementSense_ReturnsMergedPinGroupValue(DCPowerMeasurementSense expectedSense)
         {
             var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
             var primaryPin = "VCCPrimary";
