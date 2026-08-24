@@ -4873,6 +4873,12 @@
             <param name="tmuContext">The TMU context string (e.g., "PXI1Slot2/tmu0").</param>
             <returns>The <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu"/> object associated with the specified context.</returns>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuCollections.GetTmuCount">
+            <summary>
+            Gets the total number of TMU resources available across all modules in the session.
+            </summary>
+            <returns>The total number of TMU resources.</returns>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuEdgeArm">
             <summary>
             Provides access to the configuration of the TMU edge-sensitive arm source for a TMU context.
@@ -5080,32 +5086,29 @@
             TMU Context Manager, ensures safe and consistent assignment and release of TMU resources, preventing conflicts and partial allocations.
             </summary>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TMUContextManager.AddAvailableTMUs(System.String)">
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TMUContextManager.Instance">
             <summary>
-            Adds available TMU contexts to the global TMU resource map. The input is expected to be a comma-separated list of TMU context strings (e.g., "PXI1Slot2/tmu0, PXI1Slot2/tmu1, PXI1Slot3/tmu0").
+            Global Access point for the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TMUContextManager"/>
             </summary>
-            <param name="availableTMUContexts">A comma-separated list of TMU context strings to add to the global TMU resource map, where each entry is in the format "InstrumentName/tmuN" (e.g., "PXI1Slot2/tmu0, PXI1Slot2/tmu1, PXI1Slot3/tmu0").</param>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TMUContextManager.TryCheckOutTMU(System.String,System.String@)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TMUContextManager.TryAssignTMUContext(System.String,System.String)">
             <summary>
-            Attempts to check out a TMU (Test Measurement Unit) associated with the specified device name.
+            Soft assign the tmu.
             </summary>
-            <remarks>This method is thread-safe and ensures that the operation is performed atomically. If
-            no TMUs are available for the specified device, the method returns <see langword="false"/> and <paramref
-            name="tmuName"/> will be an empty string.</remarks>
-            <param name="deviceName">The name of the device for which a TMU is to be checked out. Cannot be <see langword="null"/> or empty.</param>
-            <param name="tmuName">When this method returns, contains the name of the checked-out TMU if the operation succeeds; otherwise, an
-            empty string.</param>
-            <returns><see langword="true"/> if a TMU was successfully checked out for the specified device; otherwise, <see
-            langword="false"/>.</returns>
+            <param name="deviceName">The device for which the tmu belong to.</param>
+            <param name="tmuContext">TMU Context to be assigned</param>
+            <returns>
+            <see langword="true"/> if the TMU context was newly soft assigned to the specified device;
+            <see langword="false"/> if it was already assigned to that device, or if either
+            <paramref name="deviceName"/> or <paramref name="tmuContext"/> is <see langword="null"/> or empty.
+            </returns>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TMUContextManager.TryCheckInTMU(System.String,System.String)">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TMUContextManager.UnAssignTMUContext(System.String,System.String)">
             <summary>
-            Attempts to check in a TMU (Test Measurement Unit) associated with the specified device name.
+            Unassign the soft assignment of the given device and tmu.
             </summary>
-            <param name="deviceName">The name of the device for which a TMU is to be checked in. Cannot be <see langword="null"/> or empty.</param>
-            <param name="tmuName">The name of the TMU to check in.</param>
-            <returns><see langword="true"/> if the TMU was successfully checked in for the specified device; otherwise, <see langword="false"/>.</returns>
+            <param name="deviceName">The device for which the tmu belong to.</param>
+            <param name="tmuContext">TMU Context to be unassigned</param>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes">
             <summary>
@@ -5253,6 +5256,32 @@
         <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuArmSetting.StopEdge">
             <summary>
             Arm each sample on the rising or falling edge of a signal with the same properties as the Stop Source.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.UpdateMode">
+            <summary>
+            Specifies the type of update operation to perform when Digital session properties are updated.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.UpdateMode.Deferred">
+            <summary>
+            Default (existing) behavior.
+            The session will be aborted and the driver property will be set.
+            The property update will be deferred until the next commit or initiate operation,
+            but the result may not be reflected in the output of the device until the session has been initiated.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.UpdateMode.Immediate">
+            <summary>
+            The session will be aborted and the driver property will be set.
+            Additionally, the session will be initiated.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.UpdateMode.Commit">
+            <summary>
+            The session will be aborted and the driver property will be set.
+            The property update will be committed to the instrument,
+            but the result may not be reflected in the output of the device until the session has been initiated.
             </summary>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionInformation">
@@ -6367,7 +6396,7 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Digital_TMUEmptyOrNullTMUContext">
             <summary>
-              Looks up a localized string similar to TMU context must not be null or empty..
+              Looks up a localized string similar to No TMU resource has been assigned to one or more pins. Call AssignTMUResources() before invoking this method..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Digital_TMUNativeCallFailed">
