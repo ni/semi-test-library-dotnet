@@ -9435,6 +9435,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var voltageLimitRange = sessionsBundle.GetVoltageLimitRange();
 
             Assert.Single(voltageLimitRange.PinNames);
+            Assert.Equal(TwoPinsGangedGroup, voltageLimitRange.PinNames.FirstOrDefault());
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedVoltageLimitRange, voltageLimitRange.GetValue(sitePinInfo), 4);
