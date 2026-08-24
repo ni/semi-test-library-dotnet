@@ -1287,7 +1287,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete, true)]
         [InlineData(DCPowerMeasurementWhen.OnDemand, false)]
-        public void DifferentSMUDevicesConfigureMeasureWhenAndForceVoltage_MeasureVoltageWithInCompliance_AllChannelsMeasured(DCPowerMeasurementWhen measureWhen, bool pinMapWithChannelGroup)
+        public void DifferentSMUDevicesConfigureMeasureWhenAndForceVoltage_MeasureVoltageAndInCompliance_AllChannelsMeasured(DCPowerMeasurementWhen measureWhen, bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -1295,7 +1295,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ConfigureMeasureWhen(measureWhen);
             sessionsBundle.ForceVoltage(voltageLevel, waitForSourceCompletion: true);
 
-            var results = sessionsBundle.MeasureVoltageWithInCompliance();
+            var results = sessionsBundle.MeasureVoltageAndInCompliance();
 
             AssertAllChannelsHaveCorrectResult(results, voltageLevel);
         }
@@ -1304,7 +1304,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(true)]
         [InlineData(false)]
-        public void DifferentSMUDevicesOneChannelMeasureOnTriggerOthersMeasureOnDemand_ForceVoltageMeasureVoltageWithInCompliance_ReturnsCorrectValue(bool pinMapWithChannelGroup)
+        public void DifferentSMUDevicesOneChannelMeasureOnTriggerOthersMeasureOnDemand_ForceVoltageMeasureVoltageAndInCompliance_ReturnsCorrectValue(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -1314,7 +1314,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.InstrumentSessions.ElementAt(0).Session.Outputs[firstChannelString].Measurement.MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete;
             sessionsBundle.ForceVoltage(voltageLevel, waitForSourceCompletion: true);
 
-            var results = sessionsBundle.MeasureVoltageWithInCompliance();
+            var results = sessionsBundle.MeasureVoltageAndInCompliance();
 
             AssertAllChannelsHaveCorrectResult(results, voltageLevel);
         }
@@ -1323,7 +1323,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("VCC1")]
         [InlineData("VDET")]
-        public void SharedPinsAllChannelsMeasureOnDemand_ForceVoltageMeasureVoltageWithInCompliance_ReturnsSameValueForSharedAndShadowPins(string pinName)
+        public void SharedPinsAllChannelsMeasureOnDemand_ForceVoltageMeasureVoltageAndInCompliance_ReturnsSameValueForSharedAndShadowPins(string pinName)
         {
             var sessionManager = Initialize("SharedPinTests_MultiSite.pinmap");
             var sessionsBundle = sessionManager.DCPower(pinName);
@@ -1332,7 +1332,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             filteredBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnDemand);
             filteredBundle.ForceVoltage(voltageLevel, waitForSourceCompletion: true);
 
-            var results = sessionsBundle.MeasureVoltageWithInCompliance();
+            var results = sessionsBundle.MeasureVoltageAndInCompliance();
 
             AssertAllChannelsHaveCorrectResult(results, voltageLevel);
         }
@@ -1341,7 +1341,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete, true)]
         [InlineData(DCPowerMeasurementWhen.OnDemand, false)]
-        public void DifferentSMUDevicesConfigureMeasureWhenAndForceCurrent_MeasureCurrentWithInCompliance_AllChannelsMeasured(DCPowerMeasurementWhen measureWhen, bool pinMapWithChannelGroup)
+        public void DifferentSMUDevicesConfigureMeasureWhenAndForceCurrent_MeasureCurrentAndInCompliance_AllChannelsMeasured(DCPowerMeasurementWhen measureWhen, bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -1349,7 +1349,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ConfigureMeasureWhen(measureWhen);
             sessionsBundle.ForceCurrent(currentLevel, waitForSourceCompletion: true);
 
-            var results = sessionsBundle.MeasureCurrentWithInCompliance();
+            var results = sessionsBundle.MeasureCurrentAndInCompliance();
 
             AssertAllChannelsHaveCorrectResult(results, currentLevel);
         }
@@ -1358,7 +1358,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(true)]
         [InlineData(false)]
-        public void DifferentSMUDevicesOneChannelMeasureOnTriggerOthersMeasureOnDemand_ForceCurrentMeasureCurrentWithInCompliance_ReturnsCorrectValue(bool pinMapWithChannelGroup)
+        public void DifferentSMUDevicesOneChannelMeasureOnTriggerOthersMeasureOnDemand_ForceCurrentMeasureCurrentAndInCompliance_ReturnsCorrectValue(bool pinMapWithChannelGroup)
         {
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -1368,7 +1368,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.InstrumentSessions.ElementAt(0).Session.Outputs[firstChannelString].Measurement.MeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger;
             sessionsBundle.ForceCurrent(currentLevel, waitForSourceCompletion: true);
 
-            var results = sessionsBundle.MeasureCurrentWithInCompliance();
+            var results = sessionsBundle.MeasureCurrentAndInCompliance();
 
             AssertAllChannelsHaveCorrectResult(results, currentLevel);
         }
@@ -1377,7 +1377,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("VCC1")]
         [InlineData("VDET")]
-        public void SharedPinsAllChannelsMeasureOnDemand_ForceCurrentMeasureCurrentWithInCompliance_ReturnsSameValueForSharedAndShadowPins(string pinName)
+        public void SharedPinsAllChannelsMeasureOnDemand_ForceCurrentMeasureCurrentAndInCompliance_ReturnsSameValueForSharedAndShadowPins(string pinName)
         {
             var sessionManager = Initialize("SharedPinTests_MultiSite.pinmap");
             var sessionsBundle = sessionManager.DCPower(pinName);
@@ -1386,7 +1386,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             filteredBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnDemand);
             filteredBundle.ForceCurrent(currentLevel, waitForSourceCompletion: true);
 
-            var results = sessionsBundle.MeasureCurrentWithInCompliance();
+            var results = sessionsBundle.MeasureCurrentAndInCompliance();
 
             AssertAllChannelsHaveCorrectResult(results, currentLevel);
         }
@@ -1428,11 +1428,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("G1_1mA")]
         [InlineData("G1_2mA")]
         [InlineData("G1_4mA")]
-        public void MergePinGroupAndForceVoltage_MeasureCurrentWithInComplianceAsGroup_ResultsAssociatedWithPinGroupName(string pinGroupName)
+        public void MergePinGroupAndForceVoltage_MeasureCurrentAndInComplianceAsGroup_ResultsAssociatedWithPinGroupName(string pinGroupName)
         {
             var sessionsBundle = MergeAndForceVoltage(pinGroupName, out string primaryPin);
 
-            var results = sessionsBundle.MeasureCurrentWithInCompliance(gangedPinsAsGroup: true);
+            var results = sessionsBundle.MeasureCurrentAndInCompliance(gangedPinsAsGroup: true);
 
             sessionsBundle.UnmergePinGroup(pinGroupName);
             AssertResultAssociatedWithPinGroupName(results, pinGroupName, primaryPin);
@@ -1442,11 +1442,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("G1_1mA")]
         [InlineData("G1_2mA")]
         [InlineData("G1_4mA")]
-        public void MergePinGroupAndForceVoltage_MeasureVoltageWithInComplianceAsGroup_ResultsAssociatedWithPinGroupName(string pinGroupName)
+        public void MergePinGroupAndForceVoltage_MeasureVoltageAndInComplianceAsGroup_ResultsAssociatedWithPinGroupName(string pinGroupName)
         {
             var sessionsBundle = MergeAndForceVoltage(pinGroupName, out string primaryPin);
 
-            var results = sessionsBundle.MeasureVoltageWithInCompliance(gangedPinsAsGroup: true);
+            var results = sessionsBundle.MeasureVoltageAndInCompliance(gangedPinsAsGroup: true);
 
             sessionsBundle.UnmergePinGroup(pinGroupName);
             AssertResultAssociatedWithPinGroupName(results, pinGroupName, primaryPin);
@@ -1470,11 +1470,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("AllPinsGangedGroup")]
         [InlineData("TwoPinsGangedGroup")]
         [InlineData("ThreePinsGangedGroup")]
-        public void GangPinGroupAndForceCurrent_MeasureCurrentWithInComplianceAsGroup_ResultsAssociatedWithPinGroupName(string pinGroupName)
+        public void GangPinGroupAndForceCurrent_MeasureCurrentAndInComplianceAsGroup_ResultsAssociatedWithPinGroupName(string pinGroupName)
         {
             var sessionsBundle = GangAndForceCurrent(pinGroupName, out string leaderPin);
 
-            var results = sessionsBundle.MeasureCurrentWithInCompliance(gangedPinsAsGroup: true);
+            var results = sessionsBundle.MeasureCurrentAndInCompliance(gangedPinsAsGroup: true);
 
             sessionsBundle.UngangPinGroup(pinGroupName);
             AssertResultAssociatedWithPinGroupName(results, pinGroupName, leaderPin);
@@ -1484,11 +1484,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("AllPinsGangedGroup")]
         [InlineData("TwoPinsGangedGroup")]
         [InlineData("ThreePinsGangedGroup")]
-        public void GangPinGroupAndForceCurrent_MeasureVoltageWithInComplianceAsGroup_ResultsAssociatedWithPinGroupName(string pinGroupName)
+        public void GangPinGroupAndForceCurrent_MeasureVoltageAndInComplianceAsGroup_ResultsAssociatedWithPinGroupName(string pinGroupName)
         {
             var sessionsBundle = GangAndForceCurrent(pinGroupName, out string leaderPin);
 
-            var results = sessionsBundle.MeasureVoltageWithInCompliance(gangedPinsAsGroup: true);
+            var results = sessionsBundle.MeasureVoltageAndInCompliance(gangedPinsAsGroup: true);
 
             sessionsBundle.UngangPinGroup(pinGroupName);
             AssertResultAssociatedWithPinGroupName(results, pinGroupName, leaderPin);

@@ -288,9 +288,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="gangedPinsAsGroup">When false (default), each channel in a ganged/merged pin group is returned under its individual pin name. When true, the group is returned as a single value under the pin group name (current accumulated, in compliance only if all channels are in compliance).</param>
         /// <returns>The per-pin per-site current measurements and incompliance results. Item1 is the current measurement, Item2 is the incompliance result.</returns>
-        public static PinSiteData<Tuple<double, bool>> MeasureCurrentWithInCompliance(this DCPowerSessionsBundle sessionsBundle, bool gangedPinsAsGroup = false)
+        public static PinSiteData<Tuple<double, bool>> MeasureCurrentAndInCompliance(this DCPowerSessionsBundle sessionsBundle, bool gangedPinsAsGroup = false)
         {
-            return sessionsBundle.MeasureWithInCompliance(results => results.Item2, CurrentPinSiteResultsFilling, gangedPinsAsGroup);
+            return sessionsBundle.MeasureAndInCompliance(results => results.Item2, CurrentPinSiteResultsFilling, gangedPinsAsGroup);
         }
 
         /// <summary>
@@ -303,9 +303,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="gangedPinsAsGroup">When false (default), each channel in a ganged/merged pin group is returned under its individual pin name. When true, the group is returned as a single value under the pin group name (voltage as the common value, in compliance only if all channels are in compliance).</param>
         /// <returns>The per-pin per-site voltage measurements and incompliance results. Item1 is the voltage measurement, Item2 is the incompliance result.</returns>
-        public static PinSiteData<Tuple<double, bool>> MeasureVoltageWithInCompliance(this DCPowerSessionsBundle sessionsBundle, bool gangedPinsAsGroup = false)
+        public static PinSiteData<Tuple<double, bool>> MeasureVoltageAndInCompliance(this DCPowerSessionsBundle sessionsBundle, bool gangedPinsAsGroup = false)
         {
-            return sessionsBundle.MeasureWithInCompliance(results => results.Item1, VoltagePinSiteResultsFilling, gangedPinsAsGroup);
+            return sessionsBundle.MeasureAndInCompliance(results => results.Item1, VoltagePinSiteResultsFilling, gangedPinsAsGroup);
         }
 
         /// <summary>
@@ -932,7 +932,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="measurementFilling">The pin-site results filling used to aggregate the selected measurement across merged/ganged pins (average for voltage, accumulate for current) when <paramref name="gangedPinsAsGroup"/> is true.</param>
         /// <param name="gangedPinsAsGroup">When false, each channel is returned under its individual pin name. When true, ganged/merged pins are aggregated to a single value under the pin group name.</param>
         /// <returns>The per-pin per-site measurements and incompliance results. Item1 is the selected measurement, Item2 is the incompliance result.</returns>
-        private static PinSiteData<Tuple<double, bool>> MeasureWithInCompliance(this DCPowerSessionsBundle sessionsBundle, Func<Tuple<double[], double[], bool[]>, double[]> measurementSelector, PinSiteResultsFilling<double> measurementFilling, bool gangedPinsAsGroup)
+        private static PinSiteData<Tuple<double, bool>> MeasureAndInCompliance(this DCPowerSessionsBundle sessionsBundle, Func<Tuple<double[], double[], bool[]>, double[]> measurementSelector, PinSiteResultsFilling<double> measurementFilling, bool gangedPinsAsGroup)
         {
             sessionsBundle.ClearBacklogIfSoftwareEdgeTrigger();
             if (!gangedPinsAsGroup)
