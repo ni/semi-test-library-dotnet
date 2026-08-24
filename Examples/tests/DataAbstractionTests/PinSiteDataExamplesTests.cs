@@ -22,5 +22,71 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.DataAbstractionTest
         {
             ConstructWithPinNamesAndSiteNumbers();
         }
+
+        [Fact]
+        public void BuildWithWithArraysAndSetValueWithPerPinData_Succeeds()
+        {
+            BuildWithWithArraysAndSetValueWithPerPinData();
+        }
+
+        [Fact]
+        public void BuildWithArraysAndSetValueWithPerPinPerSiteData_Succeeds()
+        {
+            BuildWithArraysAndSetValueWithPerPinPerSiteData();
+        }
+
+        [Fact]
+        public void BuildWithArraysWithSystemPin_Succeeds()
+        {
+            BuildWithArraysWithSystemPin();
+        }
+
+        [Fact]
+        public void BuildWithDictionaryWithSystemPin_Succeeds()
+        {
+            BuildWithDictionaryWithSystemPin();
+        }
+
+        [Fact]
+        public void BuildWithPinDataDictionaryAndSiteNumbersArray_Succeeds()
+        {
+            BuildWithPinDataDictionaryAndSiteNumbersArray();
+        }
+
+        [Fact]
+        public void BuildWithPinDataDictionaryAndSiteNumbersArrayWithSystemPin_Succeeds()
+        {
+            BuildWithPinDataDictionaryAndSiteNumbersArrayWithSystemPin();
+        }
+
+        [Fact]
+        public void BuildWithArraysForCommonDataValue_Succeeds()
+        {
+            BuildWithArraysForCommonDataValue();
+        }
+
+        [Fact]
+        public void BuildWithPinUniqueDataArray_Succeeds()
+        {
+            BuildWithPinUniqueDataArray();
+        }
+
+        [Fact]
+        public void BuildWithSiteUniqueDataArray_Succeeds()
+        {
+            BuildWithSiteUniqueDataArray();
+        }
+
+        [Fact]
+        public void BuildWithPinAndSiteUniqueDataArray_Succeeds()
+        {
+            BuildWithPinAndSiteUniqueDataArray();
+        }
+
+        [Fact]
+        public void BuildWithSiteAndPinUniqueDataArray_Succeeds()
+        {
+            BuildWithSiteAndPinUniqueDataArray();
+        }
     }
 }
