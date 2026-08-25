@@ -61,36 +61,26 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            if (updateMode == UpdateMode.Immediate)
-            {
-                sessionsBundle.ConfigurePattern("TX_50_Duty_Cycle");
-            }
+            PrepareForUpdateMode(sessionsBundle, updateMode, "TX_50_Duty_Cycle");
             sessionsBundle.ConfigureSingleLevel(LevelsAndTiming.LevelType.Vih, levelValue: 3.5, updateMode: updateMode);
 
-            sessionsBundle.Do(sessionInfo =>
-            {
-                Assert.Equal(3.5, sessionInfo.PinSet.DigitalLevels.Vih, 1);
-            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
         [Theory]
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void SessionsInitialized_ConfigurePerSiteSingleLevelWithUpdateMode_ValueCorrectlySet(UpdateMode updateMode)
+        public void SessionsInitialized_ConfigurePerSiteSingleLevelWithUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            if (updateMode == UpdateMode.Immediate)
-            {
-                sessionsBundle.ConfigurePattern("TX_50_Duty_Cycle");
-            }
+            PrepareForUpdateMode(sessionsBundle, updateMode, "TX_50_Duty_Cycle");
             var levels = new SiteData<double>(new Dictionary<int, double>() { [0] = 0.1, [1] = 0.2 });
             sessionsBundle.ConfigureSingleLevel(LevelsAndTiming.LevelType.Vil, levels, updateMode: updateMode);
 
-            Assert.Equal(0.1, sessionsBundle.InstrumentSessions.ElementAt(0).PinSet.DigitalLevels.Vil, 1);
-            Assert.Equal(0.2, sessionsBundle.InstrumentSessions.ElementAt(1).PinSet.DigitalLevels.Vil, 1);
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
         [Fact]
