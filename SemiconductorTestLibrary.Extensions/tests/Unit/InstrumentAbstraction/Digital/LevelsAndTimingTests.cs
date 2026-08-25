@@ -56,7 +56,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void SessionsInitialized_ConfigureSingleLevelWithUpdateMode_ValueCorrectlySet(UpdateMode updateMode)
+        public void SessionsInitialized_ConfigureSingleLevelWithUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
 
