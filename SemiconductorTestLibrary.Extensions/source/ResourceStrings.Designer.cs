@@ -232,6 +232,15 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The requested pin for TMU operation cannot be null or empty..
+        /// </summary>
+        internal static string Digital_TMUPinsNullOrEmpty {
+            get {
+                return ResourceManager.GetString("Digital_TMUPinsNullOrEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot release TMUs: One or more assigned TMUs are in use. Call DisableTMU before clearing resources..
         /// </summary>
         internal static string Digital_TMUResourcesInUse {
@@ -286,7 +295,16 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Given arm type is not supported for TMU measurements..
+        ///   Looks up a localized string similar to The arm setting &quot;{0}&quot; is not supported, use either &quot;Immediate&quot;. &quot;StartEdge&quot; or &quot;StopEdge&quot; as arm setting..
+        /// </summary>
+        internal static string Digital_TMUUnsupportedArmSetting {
+            get {
+                return ResourceManager.GetString("Digital_TMUUnsupportedArmSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The arm type &quot;{0}&quot; is not supported, use either &quot;Immediate&quot; or &quot;Edge&quot; as arm type..
         /// </summary>
         internal static string Digital_TMUUnsupportedArmType {
             get {
@@ -295,11 +313,29 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unsupported Polarity..
+        ///   Looks up a localized string similar to The duty cycle &quot;{0}&quot; is not supported, use either &quot;Low&quot; or &quot;High&quot; as duty cycle..
+        /// </summary>
+        internal static string Digital_TMUUnsupportedDuty {
+            get {
+                return ResourceManager.GetString("Digital_TMUUnsupportedDuty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The polarity &quot;{0}&quot; is not supported, use either &quot;RisingEdge&quot; or &quot;FallingEdge&quot; as polarity..
         /// </summary>
         internal static string Digital_TMUUnsupportedPolarity {
             get {
                 return ResourceManager.GetString("Digital_TMUUnsupportedPolarity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The pulse width &quot;{0}&quot; is not supported, use either &quot;Low&quot; or &quot;High&quot; as pulse width..
+        /// </summary>
+        internal static string Digital_TMUUnsupportedPulseWidth {
+            get {
+                return ResourceManager.GetString("Digital_TMUUnsupportedPulseWidth", resourceCulture);
             }
         }
     }

@@ -58,7 +58,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="settings">The source settings to configure.</param>
-        public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, DCPowerSourceSettings settings)
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, DCPowerSourceSettings settings, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do(sessionInfo =>
@@ -66,10 +67,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionInfo.Session.Control.Abort();
                 sessionInfo.ConfigureSourceSettings(settings);
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
-        /// <inheritdoc cref="ConfigureSourceSettings(DCPowerSessionsBundle, DCPowerSourceSettings)"/>
-        public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, SiteData<DCPowerSourceSettings> settings)
+        /// <inheritdoc cref="ConfigureSourceSettings(DCPowerSessionsBundle, DCPowerSourceSettings, UpdateMode)"/>
+        public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, SiteData<DCPowerSourceSettings> settings, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -78,10 +80,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 channelOutput.Control.Abort();
                 sessionInfo.ConfigureSourceSettings(settings.GetValue(sitePinInfo.SiteNumber), channelOutput, sitePinInfo);
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
-        /// <inheritdoc cref="ConfigureSourceSettings(DCPowerSessionsBundle, DCPowerSourceSettings)"/>
-        public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, PinSiteData<DCPowerSourceSettings> settings)
+        /// <inheritdoc cref="ConfigureSourceSettings(DCPowerSessionsBundle, DCPowerSourceSettings, UpdateMode)"/>
+        public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, PinSiteData<DCPowerSourceSettings> settings, UpdateMode updateMode = UpdateMode.Deferred)
         {
             var hasGangedChannels = sessionsBundle.HasGangedChannels;
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
@@ -93,6 +96,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 channelOutput.Control.Abort();
                 sessionInfo.ConfigureSourceSettings(settings.GetValue(sitePinInfo, out bool isGroupData), channelOutput, sitePinInfo, isGroupData);
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
@@ -100,7 +104,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="settings">The specific settings to configure.</param>
-        public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, DCPowerSourceSettings> settings)
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, DCPowerSourceSettings> settings, UpdateMode updateMode = UpdateMode.Deferred)
         {
             var hasGangedChannels = sessionsBundle.HasGangedChannels;
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
@@ -112,6 +117,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 channelOutput.Control.Abort();
                 sessionInfo.ConfigureSourceSettings(settings.GetValue(sitePinInfo, out bool isGroupData), channelOutput, sitePinInfo, isGroupData);
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
@@ -324,7 +330,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <remarks>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
-        /// If measurements are required, call <see cref="ConfigureVoltageSequence(DCPowerSessionsBundle, string, double[], int, double?, bool)"/>
+        /// If measurements are required, call <see cref="ConfigureVoltageSequence(DCPowerSessionsBundle, string, double[], int, double?, bool, UpdateMode)"/>
         /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.<br/>
         /// This method will set the Source Mode back to SinglePoint mode upon returning.
         /// </remarks>
@@ -390,7 +396,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         /// <remarks>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
-        /// If measurements are required, call <see cref="ConfigureVoltageSequence(DCPowerSessionsBundle, string, SiteData{double[]}, int, double?, bool)"/>
+        /// If measurements are required, call <see cref="ConfigureVoltageSequence(DCPowerSessionsBundle, string, SiteData{double[]}, int, double?, bool, UpdateMode)"/>
         /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.<br/>
         /// This method will set the Source Mode back to SinglePoint mode upon returning.
         /// </remarks>
@@ -442,7 +448,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         /// <remarks>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
-        /// If measurements are required, call <see cref="ConfigureVoltageSequence(DCPowerSessionsBundle, string, PinSiteData{double[]}, int, double?, bool)"/>
+        /// If measurements are required, call <see cref="ConfigureVoltageSequence(DCPowerSessionsBundle, string, PinSiteData{double[]}, int, double?, bool, UpdateMode)"/>
         /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.
         /// This method will set the Source Mode back to SinglePoint mode upon returning.
         /// </remarks>
@@ -1047,7 +1053,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 channelOutput.Source.SourceDelay = sourceDelayInSeconds.HasValue
                     ? PrecisionTimeSpan.FromSeconds(sourceDelayInSeconds.Value)
                     : PrecisionTimeSpan.Zero;
-                sessionInfo.ConfigureTransientResponce(settings, perChannelString);
+                sessionInfo.ConfigureTransientResponse(settings, perChannelString);
 
                 if (IsPrimaryOutput(sessionIndex, sitePinInfo, sessionInfo))
                 {
@@ -1499,7 +1505,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <remarks>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
-        /// If measurements are required, call <see cref="ConfigureCurrentSequence(DCPowerSessionsBundle, string, double[], int, double?, bool)"/>
+        /// If measurements are required, call <see cref="ConfigureCurrentSequence(DCPowerSessionsBundle, string, double[], int, double?, bool, UpdateMode)"/>
         /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.<br/>
         /// This method will set the Source Mode back to SinglePoint mode upon returning.
         /// </remarks>
@@ -1566,7 +1572,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         /// <remarks>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
-        /// If measurements are required, call <see cref="ConfigureCurrentSequence(DCPowerSessionsBundle, string, SiteData{double[]}, int, double?, bool)"/>
+        /// If measurements are required, call <see cref="ConfigureCurrentSequence(DCPowerSessionsBundle, string, SiteData{double[]}, int, double?, bool, UpdateMode)"/>
         /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.<br/>
         /// This method will set the Source Mode back to SinglePoint mode upon returning.
         /// </remarks>
@@ -1617,7 +1623,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         /// <remarks>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
-        /// If measurements are required, call <see cref="ConfigureCurrentSequence(DCPowerSessionsBundle, string, PinSiteData{double[]}, int, double?, bool)"/>
+        /// If measurements are required, call <see cref="ConfigureCurrentSequence(DCPowerSessionsBundle, string, PinSiteData{double[]}, int, double?, bool, UpdateMode)"/>
         /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.<br/>
         /// This method will set the Source Mode back to SinglePoint mode upon returning.
         /// </remarks>
@@ -1697,10 +1703,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Powers down the channel by disabling output generation on the underlying device channel(s).
         /// </summary>
         /// <Remarks>
-        /// This method is similar to <see cref="ConfigureOutputEnabled(DCPowerSessionsBundle,bool)"/> but will automatically initiate the underlying driver session.
+        /// This method is similar to <see cref="ConfigureOutputEnabled(DCPowerSessionsBundle, bool, UpdateMode)"/> but will automatically initiate the underlying driver session.
         /// <para>
         /// This method does not physically disconnect the output channel.
-        /// Use the <see cref="ConfigureOutputConnected(DCPowerSessionsBundle, bool)"/> method to physically disconnect the connected output channel on supported instruments.
+        /// Use the <see cref="ConfigureOutputConnected(DCPowerSessionsBundle, bool, UpdateMode)"/> method to physically disconnect the connected output channel on supported instruments.
         /// </para>
         /// </Remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
@@ -1726,13 +1732,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentLimit">The current limit to set.</param>
         /// <param name="currentLimitRange">The current limit range to set. Use the absolute value of current limit to set current limit range when this parameter is not specified.</param>
-        public static void ConfigureCurrentLimit(this DCPowerSessionsBundle sessionsBundle, double currentLimit, double? currentLimitRange = null)
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        public static void ConfigureCurrentLimit(this DCPowerSessionsBundle sessionsBundle, double currentLimit, double? currentLimitRange = null, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.Control.Abort();
                 sessionInfo.AllChannelsOutput.ConfigureCurrentLimit(currentLimit, currentLimitRange);
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
@@ -1741,7 +1749,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentLimits">The per-pin current limits to set.</param>
         /// <param name="currentLimitRanges">The current limit ranges to set. Use the absolute value of current limit to set current limit range when this parameter is not specified.</param>
-        public static void ConfigureCurrentLimits(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, double> currentLimits, IDictionary<string, double> currentLimitRanges = null)
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        public static void ConfigureCurrentLimits(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, double> currentLimits, IDictionary<string, double> currentLimitRanges = null, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -1749,6 +1758,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 channelOutput.Control.Abort();
                 channelOutput.ConfigureCurrentLimit(currentLimits[sitePinInfo.PinName], currentLimitRanges?[sitePinInfo.PinName]);
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
@@ -1756,7 +1766,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentLevelRange">The current level range to set, in Amps.</param>
-        public static void ConfigureCurrentLevelRange(this DCPowerSessionsBundle sessionsBundle, double currentLevelRange)
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        public static void ConfigureCurrentLevelRange(this DCPowerSessionsBundle sessionsBundle, double currentLevelRange, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.DoPerChannelIfGangedElsePerSession(
                perChannelAction: (sessionInfo, sitePinInfo) =>
@@ -1768,10 +1779,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                    sessionInfo.AllChannelsOutput.Control.Abort();
                    sessionInfo.AllChannelsOutput.Source.Current.CurrentLevelRange = currentLevelRange;
                });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
-        /// <inheritdoc cref="ConfigureCurrentLevelRange(DCPowerSessionsBundle, double)"/>
-        public static void ConfigureCurrentLevelRange(this DCPowerSessionsBundle sessionsBundle, SiteData<double> currentLevelRange)
+        /// <inheritdoc cref="ConfigureCurrentLevelRange(DCPowerSessionsBundle, double, UpdateMode)"/>
+        public static void ConfigureCurrentLevelRange(this DCPowerSessionsBundle sessionsBundle, SiteData<double> currentLevelRange, UpdateMode updateMode = UpdateMode.Deferred)
         {
             var hasGangedChannels = sessionsBundle.HasGangedChannels;
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
@@ -1779,15 +1791,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 SetCurrentLevelRange(sessionInfo, sitePinInfo, currentLevelRange.GetValue(sitePinInfo.SiteNumber));
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
-        /// <inheritdoc cref="ConfigureCurrentLevelRange(DCPowerSessionsBundle, double)"/>
+        /// <inheritdoc cref="ConfigureCurrentLevelRange(DCPowerSessionsBundle, double, UpdateMode)"/>
         /// <remarks>
         /// When the session bundle contains a ganged pin group and the <paramref name="currentLevelRange"/> value is associated with the ganged pin group name,
         /// the current range for each pin in the group is selected as the nearest range to the specified value divided by the number of pins in the group.
         /// Otherwise, when the value is associated with individual pin names, the current range for each pin is selected as the nearest range to the specified value.
         /// </remarks>
-        public static void ConfigureCurrentLevelRange(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> currentLevelRange)
+        public static void ConfigureCurrentLevelRange(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> currentLevelRange, UpdateMode updateMode = UpdateMode.Deferred)
         {
             var hasGangedChannels = sessionsBundle.HasGangedChannels;
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
@@ -1795,6 +1808,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 SetCurrentLevelRange(sessionInfo, sitePinInfo, currentLevelRange.GetValue(sitePinInfo, out bool isGroupData), isGroupData);
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
@@ -1802,7 +1816,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentLimitLow">The current limit low to set, in Amps.</param>
-        public static void ConfigureCurrentLimitLow(this DCPowerSessionsBundle sessionsBundle, double currentLimitLow)
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        public static void ConfigureCurrentLimitLow(this DCPowerSessionsBundle sessionsBundle, double currentLimitLow, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.DoPerChannelIfGangedElsePerSession(
                perChannelAction: (sessionInfo, sitePinInfo) =>
@@ -1814,10 +1829,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                    sessionInfo.AllChannelsOutput.Control.Abort();
                    sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimitLow = currentLimitLow;
                });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
-        /// <inheritdoc cref="ConfigureCurrentLimitLow(DCPowerSessionsBundle, double)"/>
-        public static void ConfigureCurrentLimitLow(this DCPowerSessionsBundle sessionsBundle, SiteData<double> currentLimitLow)
+        /// <inheritdoc cref="ConfigureCurrentLimitLow(DCPowerSessionsBundle, double, UpdateMode)"/>
+        public static void ConfigureCurrentLimitLow(this DCPowerSessionsBundle sessionsBundle, SiteData<double> currentLimitLow, UpdateMode updateMode = UpdateMode.Deferred)
         {
             var hasGangedChannels = sessionsBundle.HasGangedChannels;
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
@@ -1825,15 +1841,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 SetCurrentLimitLow(sessionInfo, sitePinInfo, currentLimitLow.GetValue(sitePinInfo.SiteNumber));
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
-        /// <inheritdoc cref="ConfigureCurrentLimitLow(DCPowerSessionsBundle, double)"/>
+        /// <inheritdoc cref="ConfigureCurrentLimitLow(DCPowerSessionsBundle, double, UpdateMode)"/>
         /// <remarks>
         /// When the session bundle contains a ganged pin group and the <paramref name="currentLimitLow"/> value is associated with the ganged pin group name,
         /// the current limit low for each pin in the group is set to the specified value divided by the number of pins in the group.
         /// Otherwise, when the value is associated with individual pin names, the current limit low for each pin is set to the specified value.
         /// </remarks>
-        public static void ConfigureCurrentLimitLow(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> currentLimitLow)
+        public static void ConfigureCurrentLimitLow(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> currentLimitLow, UpdateMode updateMode = UpdateMode.Deferred)
         {
             var hasGangedChannels = sessionsBundle.HasGangedChannels;
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
@@ -1841,6 +1858,516 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 SetCurrentLimitLow(sessionInfo, sitePinInfo, currentLimitLow.GetValue(sitePinInfo, out bool isGroupData), isGroupData);
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <summary>
+        /// Configures the current limit high.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="currentLimitHigh">The current limit high to set, in Amps.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        public static void ConfigureCurrentLimitHigh(this DCPowerSessionsBundle sessionsBundle, double currentLimitHigh, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            sessionsBundle.DoPerChannelIfGangedElsePerSession(
+               perChannelAction: (sessionInfo, sitePinInfo) =>
+               {
+                   SetCurrentLimitHigh(sessionInfo, sitePinInfo, currentLimitHigh);
+               },
+               perSessionAction: sessionInfo =>
+               {
+                   sessionInfo.AllChannelsOutput.Control.Abort();
+                   sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimitHigh = currentLimitHigh;
+               });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureCurrentLimitHigh(DCPowerSessionsBundle, double, UpdateMode)"/>
+        public static void ConfigureCurrentLimitHigh(this DCPowerSessionsBundle sessionsBundle, SiteData<double> currentLimitHigh, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetCurrentLimitHigh(sessionInfo, sitePinInfo, currentLimitHigh.GetValue(sitePinInfo.SiteNumber));
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureCurrentLimitHigh(DCPowerSessionsBundle, double, UpdateMode)"/>
+        /// <remarks>
+        /// When the session bundle contains a ganged pin group and the <paramref name="currentLimitHigh"/> value is applied to the entire pin group.
+        /// the current limit high for each pin in the group is set to the specified value divided by the number of pins in the group.
+        /// Otherwise, when the value is associated with individual pin names, the current limit high for each pin is set to the specified value.
+        /// </remarks>
+        public static void ConfigureCurrentLimitHigh(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> currentLimitHigh, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetCurrentLimitHigh(sessionInfo, sitePinInfo, currentLimitHigh.GetValue(sitePinInfo, out bool isGroupData), isGroupData);
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <summary>
+        /// Configures the current limit range.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="currentLimitRange">The current limit range to set, in Amps.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        public static void ConfigureCurrentLimitRange(this DCPowerSessionsBundle sessionsBundle, double currentLimitRange, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            sessionsBundle.DoPerChannelIfGangedElsePerSession(
+               perChannelAction: (sessionInfo, sitePinInfo) =>
+               {
+                   SetCurrentLimitRange(sessionInfo, sitePinInfo, currentLimitRange);
+               },
+               perSessionAction: sessionInfo =>
+               {
+                   sessionInfo.AllChannelsOutput.Control.Abort();
+                   sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimitRange = currentLimitRange;
+               });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureCurrentLimitRange(DCPowerSessionsBundle, double, UpdateMode)"/>
+        public static void ConfigureCurrentLimitRange(this DCPowerSessionsBundle sessionsBundle, SiteData<double> currentLimitRange, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetCurrentLimitRange(sessionInfo, sitePinInfo, currentLimitRange.GetValue(sitePinInfo.SiteNumber));
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureCurrentLimitRange(DCPowerSessionsBundle, double, UpdateMode)"/>
+        /// <remarks>
+        /// The range defines the valid values to which the current limit can be set.
+        /// When the session bundle contains a ganged pin group and the <paramref name="currentLimitRange"/> value is associated with the ganged pin group name,
+        /// the current limit range for each pin in the group is selected as the nearest range to the specified value divided by the number of pins in the group.
+        /// Otherwise, when the value is associated with individual pin names, the current limit range for each pin is selected as the nearest range to the specified value.
+        /// </remarks>
+        public static void ConfigureCurrentLimitRange(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> currentLimitRange, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetCurrentLimitRange(sessionInfo, sitePinInfo, currentLimitRange.GetValue(sitePinInfo, out bool isGroupData), isGroupData);
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <summary>
+        /// Configures whether compliance limits for current generation and voltage generation are applied symmetrically about 0 V and 0 A or asymmetrically with respect to 0 V and 0 A.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="complianceLimitSymmetry">The compliance limit symmetry value to set, either <see cref="DCPowerComplianceLimitSymmetry.Symmetric"/> or <see cref="DCPowerComplianceLimitSymmetry.Asymmetric"/></param>
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        public static void ConfigureLimitSymmetry(this DCPowerSessionsBundle sessionsBundle, DCPowerComplianceLimitSymmetry complianceLimitSymmetry, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            sessionsBundle.DoPerChannelIfGangedElsePerSession(
+               perChannelAction: (sessionInfo, sitePinInfo) =>
+               {
+                   SetLimitSymmetry(sessionInfo, sitePinInfo, complianceLimitSymmetry);
+               },
+               perSessionAction: sessionInfo =>
+               {
+                   sessionInfo.AllChannelsOutput.Control.Abort();
+                   sessionInfo.AllChannelsOutput.Source.ComplianceLimitSymmetry = complianceLimitSymmetry;
+               });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureLimitSymmetry(DCPowerSessionsBundle, DCPowerComplianceLimitSymmetry, UpdateMode)"/>
+        public static void ConfigureLimitSymmetry(this DCPowerSessionsBundle sessionsBundle, SiteData<DCPowerComplianceLimitSymmetry> complianceLimitSymmetry, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetLimitSymmetry(sessionInfo, sitePinInfo, complianceLimitSymmetry.GetValue(sitePinInfo.SiteNumber));
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureLimitSymmetry(DCPowerSessionsBundle, DCPowerComplianceLimitSymmetry, UpdateMode)"/>
+        public static void ConfigureLimitSymmetry(this DCPowerSessionsBundle sessionsBundle, PinSiteData<DCPowerComplianceLimitSymmetry> complianceLimitSymmetry, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetLimitSymmetry(sessionInfo, sitePinInfo, complianceLimitSymmetry.GetValue(sitePinInfo));
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <summary>
+        /// Configures the current level.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="currentLevel">The current level to set, in Amps.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        public static void ConfigureCurrentLevel(this DCPowerSessionsBundle sessionsBundle, double currentLevel, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            sessionsBundle.DoPerChannelIfGangedElsePerSession(
+               perChannelAction: (sessionInfo, sitePinInfo) =>
+               {
+                   SetCurrentLevel(sessionInfo, sitePinInfo, currentLevel);
+               },
+               perSessionAction: sessionInfo =>
+               {
+                   sessionInfo.AllChannelsOutput.Control.Abort();
+                   sessionInfo.AllChannelsOutput.Source.Current.CurrentLevel = currentLevel;
+               });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureCurrentLevel(DCPowerSessionsBundle, double, UpdateMode)"/>
+        public static void ConfigureCurrentLevel(this DCPowerSessionsBundle sessionsBundle, SiteData<double> currentLevel, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetCurrentLevel(sessionInfo, sitePinInfo, currentLevel.GetValue(sitePinInfo.SiteNumber));
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureCurrentLevel(DCPowerSessionsBundle, double, UpdateMode)"/>
+        /// <remarks>
+        /// When the session bundle contains a ganged pin group and the <paramref name="currentLevel"/> value is associated with the ganged pin group name,
+        /// the current level for each pin in the group is set to the specified value divided by the number of pins in the group.
+        /// Otherwise, when the value is associated with individual pin names, the current level for each pin is set to the specified value.
+        /// </remarks>
+        public static void ConfigureCurrentLevel(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> currentLevel, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetCurrentLevel(sessionInfo, sitePinInfo, currentLevel.GetValue(sitePinInfo, out bool isGroupData), isGroupData);
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <summary>
+        /// Configures the voltage limit range.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="voltageLimitRange">The voltage limit range to set, in Volts.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        public static void ConfigureVoltageLimitRange(this DCPowerSessionsBundle sessionsBundle, double voltageLimitRange, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            sessionsBundle.DoPerChannelIfGangedElsePerSession(
+               perChannelAction: (sessionInfo, sitePinInfo) =>
+               {
+                   SetVoltageLimitRange(sessionInfo, sitePinInfo, voltageLimitRange);
+               },
+               perSessionAction: sessionInfo =>
+               {
+                   sessionInfo.AllChannelsOutput.Control.Abort();
+                   sessionInfo.AllChannelsOutput.Source.Current.VoltageLimitRange = voltageLimitRange;
+               });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureVoltageLimitRange(DCPowerSessionsBundle, double, UpdateMode)"/>
+        public static void ConfigureVoltageLimitRange(this DCPowerSessionsBundle sessionsBundle, SiteData<double> voltageLimitRange, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetVoltageLimitRange(sessionInfo, sitePinInfo, voltageLimitRange.GetValue(sitePinInfo.SiteNumber));
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureVoltageLimitRange(DCPowerSessionsBundle, double, UpdateMode)"/>
+        /// <remarks>
+        /// The range defines the valid values to which the voltage limit can be set.
+        /// When the session bundle contains a ganged pin group and the <paramref name="voltageLimitRange"/> value is associated with the ganged pin group name, the voltage limit range is applied to all channels in the pin group.
+        /// When ganged pins are configured using individual pin names, all pins in the ganged group must have the same value; otherwise an exception is thrown.
+        /// Otherwise, when the value is associated with individual pin names, the voltage limit range for each pin is selected as the nearest range to the specified value.
+        /// </remarks>
+        /// <exception cref="NISemiconductorTestException">Thrown when the ganged pins are configured using individual pin names with different values.</exception>
+        public static void ConfigureVoltageLimitRange(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> voltageLimitRange, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, voltageLimitRange);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetVoltageLimitRange(sessionInfo, sitePinInfo, voltageLimitRange.GetValue(sitePinInfo));
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <summary>
+        /// Configures the voltage level.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="voltageLevel">The voltage level to set, in Volts.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        public static void ConfigureVoltageLevel(this DCPowerSessionsBundle sessionsBundle, double voltageLevel, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            sessionsBundle.DoPerChannelIfGangedElsePerSession(
+               perChannelAction: (sessionInfo, sitePinInfo) =>
+               {
+                   SetVoltageLevel(sessionInfo, sitePinInfo, voltageLevel);
+               },
+               perSessionAction: sessionInfo =>
+               {
+                   sessionInfo.AllChannelsOutput.Control.Abort();
+                   sessionInfo.AllChannelsOutput.Source.Voltage.VoltageLevel = voltageLevel;
+               });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureVoltageLevel(DCPowerSessionsBundle, double, UpdateMode)"/>
+        public static void ConfigureVoltageLevel(this DCPowerSessionsBundle sessionsBundle, SiteData<double> voltageLevel, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetVoltageLevel(sessionInfo, sitePinInfo, voltageLevel.GetValue(sitePinInfo.SiteNumber));
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureVoltageLevel(DCPowerSessionsBundle, double, UpdateMode)"/>
+        /// <remarks>
+        /// When the session bundle contains a ganged pin group, the <paramref name="voltageLevel"/> value is associated with the ganged pin group name, the voltage level is applied to all channels in the pin group.
+        /// When ganged pins are configured using individual pin names, all pins in the ganged group must have the same value; otherwise an exception is thrown.
+        /// Otherwise, when the value is associated with individual pin names, the voltage level for each pin is set to the specified value.
+        /// </remarks>
+        /// <exception cref="NISemiconductorTestException">Thrown when the ganged pins are configured using individual pin names with different values.</exception>
+        public static void ConfigureVoltageLevel(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> voltageLevel, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, voltageLevel);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetVoltageLevel(sessionInfo, sitePinInfo, voltageLevel.GetValue(sitePinInfo, out _));
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <summary>
+        /// Configures the voltage limit high.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="voltageLimitHigh">The voltage limit high to set, in Volts.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        public static void ConfigureVoltageLimitHigh(this DCPowerSessionsBundle sessionsBundle, double voltageLimitHigh, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            sessionsBundle.DoPerChannelIfGangedElsePerSession(
+               perChannelAction: (sessionInfo, sitePinInfo) =>
+               {
+                   SetVoltageLimitHigh(sessionInfo, sitePinInfo, voltageLimitHigh);
+               },
+               perSessionAction: sessionInfo =>
+               {
+                   sessionInfo.AllChannelsOutput.Control.Abort();
+                   sessionInfo.AllChannelsOutput.Source.Current.VoltageLimitHigh = voltageLimitHigh;
+               });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureVoltageLimitHigh(DCPowerSessionsBundle, double, UpdateMode)"/>
+        public static void ConfigureVoltageLimitHigh(this DCPowerSessionsBundle sessionsBundle, SiteData<double> voltageLimitHigh, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetVoltageLimitHigh(sessionInfo, sitePinInfo, voltageLimitHigh.GetValue(sitePinInfo.SiteNumber));
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureVoltageLimitHigh(DCPowerSessionsBundle, double, UpdateMode)"/>
+        /// <remarks>
+        /// When the session bundle contains a ganged pin group and the <paramref name="voltageLimitHigh"/> value is associated with the ganged pin group name, the voltage limit high is applied to all channels in the pin group.
+        /// When ganged pins are configured using individual pin names, all pins in the ganged group must have the same value; otherwise an exception is thrown.
+        /// Otherwise, when the value is associated with individual pin names, the voltage limit high for each pin is set to the specified value.
+        /// </remarks>
+        /// <exception cref="NISemiconductorTestException">Thrown when the ganged pins are configured using individual pin names with different values.</exception>
+        public static void ConfigureVoltageLimitHigh(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> voltageLimitHigh, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, voltageLimitHigh);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetVoltageLimitHigh(sessionInfo, sitePinInfo, voltageLimitHigh.GetValue(sitePinInfo));
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <summary>
+        /// Configures the voltage limit low.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="voltageLimitLow">The voltage limit low to set, in Volts.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        public static void ConfigureVoltageLimitLow(this DCPowerSessionsBundle sessionsBundle, double voltageLimitLow, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            sessionsBundle.DoPerChannelIfGangedElsePerSession(
+               perChannelAction: (sessionInfo, sitePinInfo) =>
+               {
+                   SetVoltageLimitLow(sessionInfo, sitePinInfo, voltageLimitLow);
+               },
+               perSessionAction: sessionInfo =>
+               {
+                   sessionInfo.AllChannelsOutput.Control.Abort();
+                   sessionInfo.AllChannelsOutput.Source.Current.VoltageLimitLow = voltageLimitLow;
+               });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureVoltageLimitLow(DCPowerSessionsBundle, double, UpdateMode)"/>
+        public static void ConfigureVoltageLimitLow(this DCPowerSessionsBundle sessionsBundle, SiteData<double> voltageLimitLow, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetVoltageLimitLow(sessionInfo, sitePinInfo, voltageLimitLow.GetValue(sitePinInfo.SiteNumber));
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureVoltageLimitLow(DCPowerSessionsBundle, double, UpdateMode)"/>
+        /// <remarks>
+        /// When the session bundle contains a ganged pin group and the <paramref name="voltageLimitLow"/> value is associated with the ganged pin group name, the voltage limit low is applied to all channels in the pin group.
+        /// When ganged pins are configured using individual pin names, all pins in the ganged group must have the same value; otherwise an exception is thrown.
+        /// Otherwise, when the value is associated with individual pin names, the voltage limit low for each pin is set to the specified value.
+        /// </remarks>
+        /// <exception cref="NISemiconductorTestException">Thrown when the ganged pins are configured using individual pin names with different values.</exception>
+        public static void ConfigureVoltageLimitLow(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> voltageLimitLow, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, voltageLimitLow);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetVoltageLimitLow(sessionInfo, sitePinInfo, voltageLimitLow.GetValue(sitePinInfo));
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <summary>
+        /// Configures the voltage limit.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="voltageLimit">The voltage limit to set, in Volts.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        public static void ConfigureVoltageLimit(this DCPowerSessionsBundle sessionsBundle, double voltageLimit, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            sessionsBundle.DoPerChannelIfGangedElsePerSession(
+               perChannelAction: (sessionInfo, sitePinInfo) =>
+               {
+                   SetVoltageLimit(sessionInfo, sitePinInfo, voltageLimit);
+               },
+               perSessionAction: sessionInfo =>
+               {
+                   sessionInfo.AllChannelsOutput.Control.Abort();
+                   sessionInfo.AllChannelsOutput.Source.Current.VoltageLimit = voltageLimit;
+               });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureVoltageLimit(DCPowerSessionsBundle, double, UpdateMode)"/>
+        public static void ConfigureVoltageLimit(this DCPowerSessionsBundle sessionsBundle, SiteData<double> voltageLimit, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetVoltageLimit(sessionInfo, sitePinInfo, voltageLimit.GetValue(sitePinInfo.SiteNumber));
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureVoltageLimit(DCPowerSessionsBundle, double, UpdateMode)"/>
+        /// <remarks>
+        /// When the session bundle contains a ganged pin group and the <paramref name="voltageLimit"/> value is associated with the ganged pin group name, the voltage limit is applied to all channels in the pin group.
+        /// When ganged pins are configured using individual pin names, all pins in the ganged group must have the same value; otherwise an exception is thrown.
+        /// Otherwise, when the value is associated with individual pin names, the voltage limit for each pin is set to the specified value.
+        /// </remarks>
+        /// <exception cref="NISemiconductorTestException">Thrown when the ganged pins are configured using individual pin names with different values.</exception>
+        public static void ConfigureVoltageLimit(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> voltageLimit, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, voltageLimit);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetVoltageLimit(sessionInfo, sitePinInfo, voltageLimit.GetValue(sitePinInfo));
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <summary>
+        /// Configures the voltage level range.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="voltageLevelRange">The voltage level range to set, in Volts.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        public static void ConfigureVoltageLevelRange(this DCPowerSessionsBundle sessionsBundle, double voltageLevelRange, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            sessionsBundle.DoPerChannelIfGangedElsePerSession(
+               perChannelAction: (sessionInfo, sitePinInfo) =>
+               {
+                   SetVoltageLevelRange(sessionInfo, sitePinInfo, voltageLevelRange);
+               },
+               perSessionAction: sessionInfo =>
+               {
+                   sessionInfo.AllChannelsOutput.Control.Abort();
+                   sessionInfo.AllChannelsOutput.Source.Voltage.VoltageLevelRange = voltageLevelRange;
+               });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureVoltageLevelRange(DCPowerSessionsBundle, double, UpdateMode)"/>
+        public static void ConfigureVoltageLevelRange(this DCPowerSessionsBundle sessionsBundle, SiteData<double> voltageLevelRange, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetVoltageLevelRange(sessionInfo, sitePinInfo, voltageLevelRange.GetValue(sitePinInfo.SiteNumber));
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureVoltageLevelRange(DCPowerSessionsBundle, double, UpdateMode)"/>
+        /// <remarks>
+        /// When the session bundle contains a ganged pin group and the <paramref name="voltageLevelRange"/> value is associated with the ganged pin group name, the voltage level range is applied to all channels in the pin group.
+        /// When ganged pins are configured using individual pin names, all pins in the ganged group must have the same value; otherwise an exception is thrown.
+        /// Otherwise, when the value is associated with individual pin names, the voltage range for each pin is selected as the nearest range to the specified value.
+        /// </remarks>
+        /// <exception cref="NISemiconductorTestException">Thrown when the ganged pins are configured using individual pin names with different values.</exception>
+        public static void ConfigureVoltageLevelRange(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> voltageLevelRange, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            var hasGangedChannels = sessionsBundle.HasGangedChannels;
+            sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
+            sessionsBundle.ValidatePinValuesForCascading(hasGangedChannels, voltageLevelRange);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                SetVoltageLevelRange(sessionInfo, sitePinInfo, voltageLevelRange.GetValue(sitePinInfo));
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
@@ -1873,7 +2400,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// If <see langword="true"/>, sets the configured sequence as the active sequence.
         /// If <see langword="false"/> (default), clears the active sequence to allow configuring multiple sequences before initiating.
         /// </param>
-        public static void ConfigureVoltageSequence(this DCPowerSessionsBundle sessionsBundle, string sequenceName, double[] sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null, bool setAsActiveSequence = false)
+        /// <param name="updateMode">Specifies when the configured settings are applied:
+        /// <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation,
+        /// <see cref="UpdateMode.Commit"/> commits immediately, and
+        /// <see cref="UpdateMode.Immediate"/> initiates immediately.
+        /// </param>
+        public static void ConfigureVoltageSequence(
+            this DCPowerSessionsBundle sessionsBundle,
+            string sequenceName,
+            double[] sequence,
+            int sequenceLoopCount = 1,
+            double? sequenceStepDeltaTimeInSeconds = null,
+            bool setAsActiveSequence = false,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             if (sessionsBundle.HasGangedChannels)
             {
@@ -1905,10 +2444,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                         setAsActiveSequence: setAsActiveSequence);
                 });
             }
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
-        /// <inheritdoc cref="ConfigureVoltageSequence(DCPowerSessionsBundle,string, double[], int, double?, bool)"/>
-        public static void ConfigureVoltageSequence(this DCPowerSessionsBundle sessionsBundle, string sequenceName, SiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null, bool setAsActiveSequence = false)
+        /// <inheritdoc cref="ConfigureVoltageSequence(DCPowerSessionsBundle,string, double[], int, double?, bool, UpdateMode)"/>
+        public static void ConfigureVoltageSequence(
+            this DCPowerSessionsBundle sessionsBundle,
+            string sequenceName,
+            SiteData<double[]> sequence,
+            int sequenceLoopCount = 1,
+            double? sequenceStepDeltaTimeInSeconds = null,
+            bool setAsActiveSequence = false,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -1922,10 +2469,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     sequenceStepDeltaTimeInSeconds: sequenceStepDeltaTimeInSeconds,
                     setAsActiveSequence: setAsActiveSequence);
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
-        /// <inheritdoc cref="ConfigureVoltageSequence(DCPowerSessionsBundle,string, double[], int, double?, bool)"/>
-        public static void ConfigureVoltageSequence(this DCPowerSessionsBundle sessionsBundle, string sequenceName, PinSiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null, bool setAsActiveSequence = false)
+        /// <inheritdoc cref="ConfigureVoltageSequence(DCPowerSessionsBundle,string, double[], int, double?, bool, UpdateMode)"/>
+        public static void ConfigureVoltageSequence(
+            this DCPowerSessionsBundle sessionsBundle,
+            string sequenceName,
+            PinSiteData<double[]> sequence,
+            int sequenceLoopCount = 1,
+            double? sequenceStepDeltaTimeInSeconds = null,
+            bool setAsActiveSequence = false,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             var hasGangedChannels = sessionsBundle.HasGangedChannels;
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
@@ -1941,6 +2496,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     sequenceStepDeltaTimeInSeconds,
                     setAsActiveSequence: setAsActiveSequence);
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
@@ -1955,7 +2511,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// If <see langword="true"/>, sets the configured sequence as the active sequence.
         /// If <see langword="false"/> (default), clears the active sequence to allow configuring multiple sequences before initiating.
         /// </param>
-        public static void ConfigureCurrentSequence(this DCPowerSessionsBundle sessionsBundle, string sequenceName, double[] sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null, bool setAsActiveSequence = false)
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        public static void ConfigureCurrentSequence(
+            this DCPowerSessionsBundle sessionsBundle,
+            string sequenceName,
+            double[] sequence,
+            int sequenceLoopCount = 1,
+            double? sequenceStepDeltaTimeInSeconds = null,
+            bool setAsActiveSequence = false,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             if (sessionsBundle.HasGangedChannels)
             {
@@ -1987,10 +2551,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                         setAsActiveSequence: setAsActiveSequence);
                 });
             }
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
-        /// <inheritdoc cref="ConfigureCurrentSequence(DCPowerSessionsBundle,string, double[], int, double?, bool)"/>
-        public static void ConfigureCurrentSequence(this DCPowerSessionsBundle sessionsBundle, string sequenceName, SiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null, bool setAsActiveSequence = false)
+        /// <inheritdoc cref="ConfigureCurrentSequence(DCPowerSessionsBundle,string, double[], int, double?, bool, UpdateMode)"/>
+        public static void ConfigureCurrentSequence(
+            this DCPowerSessionsBundle sessionsBundle,
+            string sequenceName,
+            SiteData<double[]> sequence,
+            int sequenceLoopCount = 1,
+            double? sequenceStepDeltaTimeInSeconds = null,
+            bool setAsActiveSequence = false,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -2004,10 +2576,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     sequenceStepDeltaTimeInSeconds,
                     setAsActiveSequence: setAsActiveSequence);
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
-        /// <inheritdoc cref="ConfigureCurrentSequence(DCPowerSessionsBundle,string, double[], int, double?, bool)"/>
-        public static void ConfigureCurrentSequence(this DCPowerSessionsBundle sessionsBundle, string sequenceName, PinSiteData<double[]> sequence, int sequenceLoopCount = 1, double? sequenceStepDeltaTimeInSeconds = null, bool setAsActiveSequence = false)
+        /// <inheritdoc cref="ConfigureCurrentSequence(DCPowerSessionsBundle,string, double[], int, double?, bool, UpdateMode)"/>
+        public static void ConfigureCurrentSequence(
+            this DCPowerSessionsBundle sessionsBundle,
+            string sequenceName,
+            PinSiteData<double[]> sequence,
+            int sequenceLoopCount = 1,
+            double? sequenceStepDeltaTimeInSeconds = null,
+            bool setAsActiveSequence = false,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -2022,6 +2602,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     needDataAdjustment: isGroupData,
                     setAsActiveSequence: setAsActiveSequence);
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
@@ -2035,39 +2616,59 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// If <see langword="false"/> (default), clears the active sequence to allow configuring multiple sequences before initiating.
         /// </param>
         /// <param name="commitFirstElementAsInitialState">If true, uses the first element in perStepProperties as a commit step. Default is false.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
         public static void ConfigureAdvancedSequence(
             this DCPowerSessionsBundle sessionsBundle,
             string sequenceName,
             IList<DCPowerAdvancedSequenceStepProperties> perStepProperties,
             bool setAsActiveSequence = false,
-            bool commitFirstElementAsInitialState = false)
+            bool commitFirstElementAsInitialState = false,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             IEnumerableProvider<DCPowerAdvancedSequenceStepProperties> getPerStepProperties = _ => perStepProperties;
             sessionsBundle.ConfigureAdvancedSequenceCore(sequenceName, getPerStepProperties, setAsActiveSequence, commitFirstElementAsInitialState);
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
-        /// <inheritdoc cref="ConfigureAdvancedSequence(DCPowerSessionsBundle, string, IList{DCPowerAdvancedSequenceStepProperties}, bool, bool)"/>
+        /// <inheritdoc cref="ConfigureAdvancedSequence(DCPowerSessionsBundle, string, IList{DCPowerAdvancedSequenceStepProperties}, bool, bool, UpdateMode)"/>
         public static void ConfigureAdvancedSequence(
             this DCPowerSessionsBundle sessionsBundle,
             string sequenceName,
             SiteData<IList<DCPowerAdvancedSequenceStepProperties>> perStepProperties,
             bool setAsActiveSequence = false,
-            bool commitFirstElementAsInitialState = false)
+            bool commitFirstElementAsInitialState = false,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             IEnumerableProvider<DCPowerAdvancedSequenceStepProperties> getPerStepProperties = sitePinInfo => perStepProperties.GetValue(sitePinInfo.SiteNumber);
             sessionsBundle.ConfigureAdvancedSequenceCore(sequenceName, getPerStepProperties, setAsActiveSequence, commitFirstElementAsInitialState);
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
-        /// <inheritdoc cref="ConfigureAdvancedSequence(DCPowerSessionsBundle, string, IList{DCPowerAdvancedSequenceStepProperties}, bool, bool)"/>
+        /// <inheritdoc cref="ConfigureAdvancedSequence(DCPowerSessionsBundle, string, IList{DCPowerAdvancedSequenceStepProperties}, bool, bool, UpdateMode)"/>
         public static void ConfigureAdvancedSequence(
             this DCPowerSessionsBundle sessionsBundle,
             string sequenceName,
             PinSiteData<IList<DCPowerAdvancedSequenceStepProperties>> perStepProperties,
             bool setAsActiveSequence = false,
-            bool commitFirstElementAsInitialState = false)
+            bool commitFirstElementAsInitialState = false,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             IEnumerableProvider<DCPowerAdvancedSequenceStepProperties> getPerStepProperties = sitePinInfo => perStepProperties.GetValue(sitePinInfo);
             sessionsBundle.ConfigureAdvancedSequenceCore(sequenceName, getPerStepProperties, setAsActiveSequence, commitFirstElementAsInitialState);
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <summary>
+        /// Gets the current limit high.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin upper current limit, in Amps.</returns>
+        public static PinSiteData<double> GetCurrentLimitHigh(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
+            });
         }
 
         /// <summary>
@@ -2080,6 +2681,162 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
                 return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimit;
+            });
+        }
+
+        /// <summary>
+        /// Gets the current limit low.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin lower current limit, in Amps.</returns>
+        public static PinSiteData<double> GetCurrentLimitLow(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitLow;
+            });
+        }
+
+        /// <summary>
+        /// Gets the current level.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin current level, in Amps.</returns>
+        public static PinSiteData<double> GetCurrentLevel(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevel;
+            });
+        }
+
+        /// <summary>
+        /// Gets the current level range.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin current level range, in Amps.</returns>
+        public static PinSiteData<double> GetCurrentLevelRange(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange;
+            });
+        }
+
+        /// <summary>
+        /// Gets the current limit range.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin current limit range, in Amps.</returns>
+        public static PinSiteData<double> GetCurrentLimitRange(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitRange;
+            });
+        }
+
+        /// <summary>
+        /// Gets the compliance limit symmetry.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin compliance limit symmetry.</returns>
+        public static PinSiteData<DCPowerComplianceLimitSymmetry> GetLimitSymmetry(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
+            });
+        }
+
+        /// <summary>
+        /// Gets the voltage limit high.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-pin per-site voltage limit high.</returns>
+        public static PinSiteData<double> GetVoltageLimitHigh(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitHigh;
+            });
+        }
+
+        /// <summary>
+        /// Gets the voltage limit low.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin voltage limit low.</returns>
+        public static PinSiteData<double> GetVoltageLimitLow(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitLow;
+            });
+        }
+
+        /// <summary>
+        /// Gets the voltage level range.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin voltage level range.</returns>
+        public static PinSiteData<double> GetVoltageLevelRange(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevelRange;
+            });
+        }
+
+        /// <summary>
+        /// Gets the voltage level.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin voltage level.</returns>
+        public static PinSiteData<double> GetVoltageLevel(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevel;
+            });
+        }
+
+        /// <summary>
+        /// Gets the voltage limit range.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin voltage limit range.</returns>
+        public static PinSiteData<double> GetVoltageLimitRange(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitRange;
+            });
+        }
+
+        /// <summary>
+        /// Gets the voltage limit.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The per-site per-pin voltage limit.</returns>
+        public static PinSiteData<double> GetVoltageLimit(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimit;
+            });
+        }
+
+        /// <summary>
+        /// Gets the transient response for each of the underlying device channel(s), per-pin and per-site.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <returns>The transient response (<see cref="PinSiteData{T}"/>, where T is of type <see cref="DCPowerSourceTransientResponse"/>).</returns>
+        public static PinSiteData<DCPowerSourceTransientResponse> GetTransientResponse(this DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.TransientResponse;
             });
         }
 
@@ -2119,77 +2876,85 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Refer to the Supported Properties by Device topic in the NI-DCPower User Manual for information about supported devices.
         /// </para>
         /// <para>
-        /// This method is independent from the <see cref="ConfigureOutputEnabled(DCPowerSessionsBundle, bool)"/> method.
+        /// This method is independent from the <see cref="ConfigureOutputEnabled(DCPowerSessionsBundle, bool, UpdateMode)"/> method.
         /// It does not affect the <see cref="DCPowerOutputSourceOutput.Enabled"/> property.
         /// </para>
         /// </remarks>
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="connectOutput">The boolean value to either connect (true) or disconnect (false) the output terminal.</param>
-        public static void ConfigureOutputConnected(this DCPowerSessionsBundle sessionsBundle, bool connectOutput)
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        public static void ConfigureOutputConnected(this DCPowerSessionsBundle sessionsBundle, bool connectOutput, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.Control.Abort();
                 sessionInfo.AllChannelsOutput.Source.Output.Connected = connectOutput;
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
-        /// <inheritdoc cref="ConfigureOutputConnected(DCPowerSessionsBundle, bool)"/>
-        public static void ConfigureOutputConnected(this DCPowerSessionsBundle sessionsBundle, SiteData<bool> connectOutput)
+        /// <inheritdoc cref="ConfigureOutputConnected(DCPowerSessionsBundle, bool, UpdateMode)"/>
+        public static void ConfigureOutputConnected(this DCPowerSessionsBundle sessionsBundle, SiteData<bool> connectOutput, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
                 sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
                 sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Source.Output.Connected = connectOutput.GetValue(pinSiteInfo.SiteNumber);
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
-        /// <inheritdoc cref="ConfigureOutputConnected(DCPowerSessionsBundle, bool)"/>
-        public static void ConfigureOutputConnected(this DCPowerSessionsBundle sessionsBundle, PinSiteData<bool> connectOutput)
+        /// <inheritdoc cref="ConfigureOutputConnected(DCPowerSessionsBundle, bool, UpdateMode)"/>
+        public static void ConfigureOutputConnected(this DCPowerSessionsBundle sessionsBundle, PinSiteData<bool> connectOutput, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
                 sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
                 sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Source.Output.Connected = connectOutput.GetValue(pinSiteInfo);
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
         /// Configures whether to enable (true) or disable (false) output generation on the underlying device channel(s).
         /// </summary>
         /// <remarks>
-        /// Note: This method is independent from the <see cref="ConfigureOutputConnected(DCPowerSessionsBundle, bool)"/> method. It does not affect the <see cref="DCPowerOutputSourceOutput.Connected"/> property.
+        /// Note: This method is independent from the <see cref="ConfigureOutputConnected(DCPowerSessionsBundle, bool, UpdateMode)"/> method. It does not affect the <see cref="DCPowerOutputSourceOutput.Connected"/> property.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="enableOutput">The boolean value to either enable (true) or disable (false) the output .</param>
-        public static void ConfigureOutputEnabled(this DCPowerSessionsBundle sessionsBundle, bool enableOutput)
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        public static void ConfigureOutputEnabled(this DCPowerSessionsBundle sessionsBundle, bool enableOutput, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.AllChannelsOutput.Control.Abort();
                 sessionInfo.AllChannelsOutput.Source.Output.Enabled = enableOutput;
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
-        /// <inheritdoc cref="ConfigureOutputEnabled(DCPowerSessionsBundle, bool)"/>
-        public static void ConfigureOutputEnabled(this DCPowerSessionsBundle sessionsBundle, SiteData<bool> enableOutput)
+        /// <inheritdoc cref="ConfigureOutputEnabled(DCPowerSessionsBundle, bool, UpdateMode)"/>
+        public static void ConfigureOutputEnabled(this DCPowerSessionsBundle sessionsBundle, SiteData<bool> enableOutput, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
                 sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
                 sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Source.Output.Enabled = enableOutput.GetValue(pinSiteInfo.SiteNumber);
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
-        /// <inheritdoc cref="ConfigureOutputEnabled(DCPowerSessionsBundle, bool)"/>
-        public static void ConfigureOutputEnabled(this DCPowerSessionsBundle sessionsBundle, PinSiteData<bool> enableOutput)
+        /// <inheritdoc cref="ConfigureOutputEnabled(DCPowerSessionsBundle, bool, UpdateMode)"/>
+        public static void ConfigureOutputEnabled(this DCPowerSessionsBundle sessionsBundle, PinSiteData<bool> enableOutput, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
                 sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
                 sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Source.Output.Enabled = enableOutput.GetValue(pinSiteInfo);
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
@@ -2198,33 +2963,37 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="sourceDelayInSeconds">The double value of the source delay in seconds.</param>
-        public static void ConfigureSourceDelay(this DCPowerSessionsBundle sessionsBundle, double sourceDelayInSeconds)
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        public static void ConfigureSourceDelay(this DCPowerSessionsBundle sessionsBundle, double sourceDelayInSeconds, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.AllChannelsOutput.Control.Abort();
                 sessionInfo.AllChannelsOutput.Source.SourceDelay = PrecisionTimeSpan.FromSeconds(sourceDelayInSeconds);
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
-        /// <inheritdoc cref="ConfigureSourceDelay(DCPowerSessionsBundle, double)"/>
-        public static void ConfigureSourceDelay(this DCPowerSessionsBundle sessionsBundle, SiteData<double> sourceDelayInSeconds)
+        /// <inheritdoc cref="ConfigureSourceDelay(DCPowerSessionsBundle, double, UpdateMode)"/>
+        public static void ConfigureSourceDelay(this DCPowerSessionsBundle sessionsBundle, SiteData<double> sourceDelayInSeconds, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
                 sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
                 sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Source.SourceDelay = PrecisionTimeSpan.FromSeconds(sourceDelayInSeconds.GetValue(pinSiteInfo.SiteNumber));
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
-        /// <inheritdoc cref="ConfigureSourceDelay(DCPowerSessionsBundle, double)"/>
-        public static void ConfigureSourceDelay(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> sourceDelayInSeconds)
+        /// <inheritdoc cref="ConfigureSourceDelay(DCPowerSessionsBundle, double, UpdateMode)"/>
+        public static void ConfigureSourceDelay(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> sourceDelayInSeconds, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
                 sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
                 sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Source.SourceDelay = PrecisionTimeSpan.FromSeconds(sourceDelayInSeconds.GetValue(pinSiteInfo));
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
@@ -2239,13 +3008,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// If <see langword="true"/>, sets the configured sequence as the active sequence.
         /// If <see langword="false"/> (default), clears the active sequence to allow configuring multiple sequences before initiating.
         /// </param>
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
         public static void ConfigureVoltageSequenceWithSourceDelays(
            this DCPowerSessionsBundle sessionsBundle,
            string sequenceName,
            double[] sequence,
            double[] sourceDelaysInSeconds,
            int sequenceLoopCount = 1,
-           bool setAsActiveSequence = false)
+           bool setAsActiveSequence = false,
+           UpdateMode updateMode = UpdateMode.Deferred)
         {
             if (sessionsBundle.HasGangedChannels)
             {
@@ -2277,16 +3048,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                         setAsActiveSequence: setAsActiveSequence);
                 });
             }
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
-        /// <inheritdoc cref="ConfigureVoltageSequenceWithSourceDelays(DCPowerSessionsBundle, string, double[], double[], int, bool)"/>
+        /// <inheritdoc cref="ConfigureVoltageSequenceWithSourceDelays(DCPowerSessionsBundle, string, double[], double[], int, bool, UpdateMode)"/>
         public static void ConfigureVoltageSequenceWithSourceDelays(
             this DCPowerSessionsBundle sessionsBundle,
             string sequenceName,
             SiteData<double[]> sequence,
             SiteData<double[]> sourceDelaysInSeconds,
             int sequenceLoopCount = 1,
-            bool setAsActiveSequence = false)
+            bool setAsActiveSequence = false,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -2300,16 +3073,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     sourceDelay: sourceDelaysInSeconds.GetValue(sitePinInfo.SiteNumber),
                     setAsActiveSequence: setAsActiveSequence);
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
-        /// <inheritdoc cref="ConfigureVoltageSequenceWithSourceDelays(DCPowerSessionsBundle, string, double[], double[], int, bool)"/>
+        /// <inheritdoc cref="ConfigureVoltageSequenceWithSourceDelays(DCPowerSessionsBundle, string, double[], double[], int, bool, UpdateMode)"/>
         public static void ConfigureVoltageSequenceWithSourceDelays(
             this DCPowerSessionsBundle sessionsBundle,
             string sequenceName,
             PinSiteData<double[]> sequence,
             PinSiteData<double[]> sourceDelaysInSeconds,
             int sequenceLoopCount = 1,
-            bool setAsActiveSequence = false)
+            bool setAsActiveSequence = false,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             var hasGangedChannels = sessionsBundle.HasGangedChannels;
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
@@ -2326,6 +3101,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     sourceDelay: sourceDelaysInSeconds.GetValue(sitePinInfo),
                     setAsActiveSequence: setAsActiveSequence);
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
@@ -2340,13 +3116,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// If <see langword="true"/>, sets the configured sequence as the active sequence.
         /// If <see langword="false"/> (default), clears the active sequence to allow configuring multiple sequences before initiating.
         /// </param>
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
         public static void ConfigureCurrentSequenceWithSourceDelays(
            this DCPowerSessionsBundle sessionsBundle,
            string sequenceName,
            double[] sequence,
            double[] sourceDelaysInSeconds,
            int sequenceLoopCount = 1,
-           bool setAsActiveSequence = false)
+           bool setAsActiveSequence = false,
+           UpdateMode updateMode = UpdateMode.Deferred)
         {
             if (sessionsBundle.HasGangedChannels)
             {
@@ -2378,16 +3156,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                         setAsActiveSequence: setAsActiveSequence);
                 });
             }
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
-        /// <inheritdoc cref="ConfigureCurrentSequenceWithSourceDelays(DCPowerSessionsBundle, string, double[], double[], int, bool)"/>
+        /// <inheritdoc cref="ConfigureCurrentSequenceWithSourceDelays(DCPowerSessionsBundle, string, double[], double[], int, bool, UpdateMode)"/>
         public static void ConfigureCurrentSequenceWithSourceDelays(
             this DCPowerSessionsBundle sessionsBundle,
             string sequenceName,
             SiteData<double[]> sequence,
             SiteData<double[]> sourceDelaysInSeconds,
             int sequenceLoopCount = 1,
-            bool setAsActiveSequence = false)
+            bool setAsActiveSequence = false,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -2401,16 +3181,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     sourceDelay: sourceDelaysInSeconds.GetValue(sitePinInfo.SiteNumber),
                     setAsActiveSequence: setAsActiveSequence);
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
-        /// <inheritdoc cref="ConfigureCurrentSequenceWithSourceDelays(DCPowerSessionsBundle, string, double[], double[], int, bool)"/>
+        /// <inheritdoc cref="ConfigureCurrentSequenceWithSourceDelays(DCPowerSessionsBundle, string, double[], double[], int, bool, UpdateMode)"/>
         public static void ConfigureCurrentSequenceWithSourceDelays(
             this DCPowerSessionsBundle sessionsBundle,
             string sequenceName,
             PinSiteData<double[]> sequence,
             PinSiteData<double[]> sourceDelaysInSeconds,
             int sequenceLoopCount = 1,
-            bool setAsActiveSequence = false)
+            bool setAsActiveSequence = false,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             var hasGangedChannels = sessionsBundle.HasGangedChannels;
             sessionsBundle.ValidatePinsForGanging(hasGangedChannels);
@@ -2428,6 +3210,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     sourceDelay: sourceDelaysInSeconds.GetValue(sitePinInfo),
                     setAsActiveSequence: setAsActiveSequence);
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
@@ -2592,7 +3375,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 channelOutput.Source.SourceDelay = PrecisionTimeSpan.FromSeconds(settings.SourceDelayInSeconds.Value);
             }
 
-            sessionInfo.ConfigureTransientResponce(settings, channelString);
+            sessionInfo.ConfigureTransientResponse(settings, channelString);
             if (sessionInfo.HasGangedChannels)
             {
                 var sitePinInfoList = sitePinInfo != null ? new List<SitePinInfo>() { sitePinInfo } : sessionInfo.AssociatedSitePinList.Where(sitePin => channelString.Contains(sitePin.IndividualChannelString));
@@ -2644,7 +3427,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             return result.ToArray();
         }
 
-        private static void ConfigureTransientResponce(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "")
+        private static void ConfigureTransientResponse(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "")
         {
             if (settings.TransientResponse.HasValue)
             {
@@ -3141,6 +3924,40 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             channelOutput.Source.Current.CurrentLevelRange = currentLevelRangeToSet;
         }
 
+        private static void SetCurrentLimitRange(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double currentLimitRange, bool isGroupData = true)
+        {
+            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+            var currentLimitRangeToSet = currentLimitRange;
+
+            if (isGroupData && sitePinInfo?.CascadingInfo is GangingInfo gangingInfo)
+            {
+                currentLimitRangeToSet = currentLimitRange / gangingInfo.ChannelsCount;
+            }
+
+            channelOutput.Control.Abort();
+            channelOutput.Source.Voltage.CurrentLimitRange = currentLimitRangeToSet;
+        }
+
+        private static void SetLimitSymmetry(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, DCPowerComplianceLimitSymmetry complianceLimitSymmetry)
+        {
+            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+            channelOutput.Control.Abort();
+            channelOutput.Source.ComplianceLimitSymmetry = complianceLimitSymmetry;
+        }
+
+        private static void SetCurrentLevel(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double currentLevel, bool isGroupData = true)
+        {
+            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+            var currentLevelToSet = currentLevel;
+
+            if (isGroupData && sitePinInfo?.CascadingInfo is GangingInfo gangingInfo)
+            {
+                currentLevelToSet = currentLevel / gangingInfo.ChannelsCount;
+            }
+
+            channelOutput.Control.Abort();
+            channelOutput.Source.Current.CurrentLevel = currentLevelToSet;
+        }
         internal static void ValidateNoChannelGanged(this DCPowerSessionsBundle sessionsBundle)
         {
             if (sessionsBundle.HasGangedChannels)
@@ -3163,6 +3980,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             channelOutput.Source.Voltage.CurrentLimitLow = currentLimitLowToSet;
         }
 
+        private static void SetCurrentLimitHigh(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double currentLimitHigh, bool isGroupData = true)
+        {
+            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+            var currentLimitHighToSet = currentLimitHigh;
+
+            if (isGroupData && sitePinInfo?.CascadingInfo is GangingInfo gangingInfo)
+            {
+                currentLimitHighToSet = currentLimitHigh / gangingInfo.ChannelsCount;
+            }
+
+            channelOutput.Control.Abort();
+            channelOutput.Source.Voltage.CurrentLimitHigh = currentLimitHighToSet;
+        }
+
         internal static void DoPerChannelIfGangedElsePerSession(this DCPowerSessionsBundle sessionsBundle, Action<DCPowerSessionInformation, SitePinInfo> perChannelAction, Action<DCPowerSessionInformation> perSessionAction)
         {
             var hasGangedChannels = sessionsBundle.HasGangedChannels;
@@ -3177,6 +4008,50 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
+        private static void SetVoltageLimitRange(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double voltageLimitRange)
+        {
+            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+            channelOutput.Control.Abort();
+            channelOutput.Source.Current.VoltageLimitRange = voltageLimitRange;
+        }
+
+        private static void SetVoltageLimitHigh(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double voltageLimitHigh)
+        {
+            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+            channelOutput.Control.Abort();
+            // Note: Voltage limits are NOT divided across ganged channels. Each channel maintains the full specified voltage limit.
+            channelOutput.Source.Current.VoltageLimitHigh = voltageLimitHigh;
+        }
+
+        private static void SetVoltageLevel(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double voltageLevel)
+        {
+            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+            channelOutput.Control.Abort();
+            channelOutput.Source.Voltage.VoltageLevel = voltageLevel;
+        }
+
+        private static void SetVoltageLimitLow(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double voltageLimitLow)
+        {
+            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+            channelOutput.Control.Abort();
+            // Note: Voltage limits are NOT divided across ganged channels. Each channel maintains the full specified voltage limit.
+            channelOutput.Source.Current.VoltageLimitLow = voltageLimitLow;
+        }
+
+        private static void SetVoltageLevelRange(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double voltageLevelRange)
+        {
+            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+            channelOutput.Control.Abort();
+            channelOutput.Source.Voltage.VoltageLevelRange = voltageLevelRange;
+        }
+
+        private static void SetVoltageLimit(DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, double voltageLimit)
+        {
+            var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+            channelOutput.Control.Abort();
+            // Note: Voltage limits are NOT divided across ganged channels. Each channel maintains the full specified voltage limit.
+            channelOutput.Source.Current.VoltageLimit = voltageLimit;
+        }
         #endregion private and internal methods
     }
 }

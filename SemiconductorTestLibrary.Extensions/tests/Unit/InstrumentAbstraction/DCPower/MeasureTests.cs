@@ -637,6 +637,142 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.DoesNotContain("AllPinsGangedGroup", apertureTimes.PinNames);
         }
 
+        [Fact]
+        public void SMUDevicesMerged_GetApertureTimeUnits_ReturnsPrimaryPinValue()
+        {
+            var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
+            var primaryPin = "VCCPrimary";
+            var allPinsMergedGroup = "AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin";
+            var sessionsBundle = sessionManager.DCPower(allPinsMergedGroup);
+            sessionsBundle.MergePinGroup(allPinsMergedGroup);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.Session.ConfigureApertureTimeUnits(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, DCPowerMeasureApertureTimeUnits.Seconds);
+            });
+
+            var apertureTimeUnits = sessionsBundle.GetApertureTimeUnits();
+
+            Assert.Single(apertureTimeUnits.PinNames);
+            Assert.Equal(primaryPin, apertureTimeUnits.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(allPinsMergedGroup, apertureTimeUnits.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(DCPowerMeasureApertureTimeUnits.Seconds, apertureTimeUnits.GetValue(sitePinInfo));
+            });
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGangedConfigureApertureTimeUnits_GetApertureTimeUnits_ReturnsCorrectValue(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var expectedUnits = DCPowerMeasureApertureTimeUnits.Seconds;
+            var sessionsBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            sessionsBundle.GangPinGroup(TwoPinsGangedGroup);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.Session.ConfigureApertureTimeUnits(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, expectedUnits);
+            });
+
+            var apertureTimeUnits = sessionsBundle.GetApertureTimeUnits();
+
+            Assert.Equal(2, apertureTimeUnits.PinNames.Length);
+            Assert.DoesNotContain(TwoPinsGangedGroup, apertureTimeUnits.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedUnits, apertureTimeUnits.GetValue(sitePinInfo));
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevicesConfigureApertureTimeUnits_GetApertureTimeUnits_ReturnsCorrectValue(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var expectedUnits = DCPowerMeasureApertureTimeUnits.PowerLineCycles;
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.Session.ConfigureApertureTimeUnits(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, expectedUnits);
+            });
+
+            var apertureTimeUnits = sessionsBundle.GetApertureTimeUnits();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedUnits, apertureTimeUnits.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesConfigurePerPinPerSiteApertureTimeUnits_GetApertureTimeUnits_ReturnsCorrectValue()
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var pinNames = new string[] { "VCC1", "VCC2" };
+            var sessionsBundle = sessionManager.DCPower(pinNames);
+            var activeSites = GetActiveSites(sessionsBundle);
+            var expectedUnits = new PinSiteData<DCPowerMeasureApertureTimeUnits>(activeSites, new Dictionary<string, DCPowerMeasureApertureTimeUnits>()
+            {
+                [pinNames[0]] = DCPowerMeasureApertureTimeUnits.PowerLineCycles,
+                [pinNames[1]] = DCPowerMeasureApertureTimeUnits.PowerLineCycles
+            });
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.Session.ConfigureApertureTimeUnits(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, expectedUnits.GetValue(sitePinInfo));
+            });
+
+            var values = sessionsBundle.GetApertureTimeUnits();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedUnits.GetValue(sitePinInfo), values.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void SharedPinsConfigureApertureTimeUnitsOnFilteredSites_GetApertureTimeUnits_ReturnsSameValueForAllSites()
+        {
+            var sessionManager = Initialize("SharedPinTests.pinmap");
+            var expectedUnits = DCPowerMeasureApertureTimeUnits.PowerLineCycles;
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var filteredBundle = sessionsBundle.FilterBySite(new[] { 0, 1 });
+            filteredBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.Session.ConfigureApertureTimeUnits(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, expectedUnits);
+            });
+
+            var apertureTimeUnits = filteredBundle.GetApertureTimeUnits();
+
+            filteredBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedUnits, apertureTimeUnits.GetValue(sitePinInfo));
+            });
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void ConfigureApertureTimeUnitsIsNoOp_GetApertureTimeUnits_ReturnsSeconds(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var pinName = "VCC";
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.Session.ConfigureApertureTimeUnits(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, DCPowerMeasureApertureTimeUnits.PowerLineCycles);
+            });
+
+            var apertureTimeUnits = sessionsBundle.GetApertureTimeUnits();
+
+            Assert.Equal(DCPowerMeasureApertureTimeUnits.Seconds, apertureTimeUnits.ExtractSite(0)[pinName]);
+            Assert.Equal(DCPowerMeasureApertureTimeUnits.Seconds, apertureTimeUnits.ExtractSite(1)[pinName]);
+            Assert.Equal(DCPowerMeasureApertureTimeUnits.Seconds, apertureTimeUnits.ExtractSite(2)[pinName]);
+            Assert.Equal(DCPowerMeasureApertureTimeUnits.PowerLineCycles, apertureTimeUnits.ExtractSite(3)[pinName]);
+        }
+
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
@@ -1194,6 +1330,234 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                     Assert.NotEqual(0, results.GetValue(siteNumber, pin));
                 }
             }
+        }
+
+        [Theory]
+        [InlineData(DCPowerMeasurementSense.Local)]
+        [InlineData(DCPowerMeasurementSense.Remote)]
+        public void SMUDevicesMerged_GetMeasurementSense_ReturnsPrimaryPinValue(DCPowerMeasurementSense expectedSense)
+        {
+            var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
+            var primaryPin = "VCCPrimary";
+            var allPinsMergedGroup = "AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin";
+            var sessionsBundle = sessionManager.DCPower(allPinsMergedGroup);
+            sessionsBundle.MergePinGroup(allPinsMergedGroup);
+            sessionsBundle.ConfigureMeasurementSense(expectedSense);
+
+            var measurementSense = sessionsBundle.GetMeasurementSense();
+
+            Assert.Single(measurementSense.PinNames);
+            Assert.Equal(primaryPin, measurementSense.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(allPinsMergedGroup, measurementSense.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedSense, measurementSense.GetValue(sitePinInfo));
+            });
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap", DCPowerMeasurementSense.Local)]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap", DCPowerMeasurementSense.Remote)]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap", DCPowerMeasurementSense.Local)]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap", DCPowerMeasurementSense.Remote)]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap", DCPowerMeasurementSense.Local)]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap", DCPowerMeasurementSense.Remote)]
+        public void DifferentSMUDevicesGangedConfigureMeasurementSense_GetMeasurementSense_ReturnsCorrectValue(string pinMap, DCPowerMeasurementSense expectedSense)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            sessionsBundle.GangPinGroup(TwoPinsGangedGroup);
+            sessionsBundle.ConfigureMeasurementSense(expectedSense);
+
+            var measurementSense = sessionsBundle.GetMeasurementSense();
+
+            Assert.Equal(2, measurementSense.PinNames.Length);
+            Assert.DoesNotContain(TwoPinsGangedGroup, measurementSense.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedSense, measurementSense.GetValue(sitePinInfo));
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementSense.Local)]
+        [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementSense.Remote)]
+        [InlineData("SharedPinTests.pinmap", DCPowerMeasurementSense.Local)]
+        [InlineData("SharedPinTests.pinmap", DCPowerMeasurementSense.Remote)]
+        public void DifferentSMUDevicesConfigureMeasurementSense_GetMeasurementSense_ReturnsCorrectValue(string pinMap, DCPowerMeasurementSense expectedSense)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            sessionsBundle.ConfigureMeasurementSense(expectedSense);
+
+            var measurementSense = sessionsBundle.GetMeasurementSense();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedSense, measurementSense.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesConfigurePerPinPerSiteMeasurementSense_GetMeasurementSense_ReturnsCorrectValue()
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var pinNames = new string[] { "VCC1", "VCC2" };
+            var sessionsBundle = sessionManager.DCPower(pinNames);
+            var activeSites = GetActiveSites(sessionsBundle);
+            var expectedSense = new PinSiteData<DCPowerMeasurementSense>(new Dictionary<string, IDictionary<int, DCPowerMeasurementSense>>
+            {
+                [pinNames[0]] = activeSites.ToDictionary(site => site, site => site % 2 == 0 ? DCPowerMeasurementSense.Local : DCPowerMeasurementSense.Remote),
+                [pinNames[1]] = activeSites.ToDictionary(site => site, site => site % 2 == 0 ? DCPowerMeasurementSense.Remote : DCPowerMeasurementSense.Local),
+            });
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Measurement.Sense = expectedSense.GetValue(sitePinInfo);
+            });
+
+            var values = sessionsBundle.GetMeasurementSense();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedSense.GetValue(sitePinInfo), values.GetValue(sitePinInfo));
+            });
+        }
+
+        [Theory]
+        [InlineData(DCPowerMeasurementSense.Local)]
+        [InlineData(DCPowerMeasurementSense.Remote)]
+        public void SharedPinsConfigureMeasurementSenseOnFilteredSites_GetMeasurementSense_ReturnsSameValueForAllSites(DCPowerMeasurementSense expectedSense)
+        {
+            var sessionManager = Initialize("SharedPinTests.pinmap");
+            var pinName = "VCC2";
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            var filteredBundle = sessionsBundle.FilterBySite(new[] { 0, 1 });
+            filteredBundle.ConfigureMeasurementSense(expectedSense);
+
+            var measurementSense = filteredBundle.GetMeasurementSense();
+
+            filteredBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedSense, measurementSense.GetValue(sitePinInfo));
+            });
+        }
+
+        [Theory]
+        [InlineData(DCPowerMeasurementWhen.OnDemand)]
+        [InlineData(DCPowerMeasurementWhen.OnMeasureTrigger)]
+        [InlineData(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        public void SMUDevicesMerged_GetMeasureWhen_ReturnsPrimaryPinValue(DCPowerMeasurementWhen expectedMeasureWhen)
+        {
+            var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
+            var primaryPin = "VCCPrimary";
+            var allPinsMergedGroup = "AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin";
+            var sessionsBundle = sessionManager.DCPower(allPinsMergedGroup);
+            sessionsBundle.MergePinGroup(allPinsMergedGroup);
+            sessionsBundle.ConfigureMeasureWhen(expectedMeasureWhen);
+
+            var measureWhen = sessionsBundle.GetMeasureWhen();
+
+            Assert.Single(measureWhen.PinNames);
+            Assert.Equal(primaryPin, measureWhen.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(allPinsMergedGroup, measureWhen.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedMeasureWhen, measureWhen.GetValue(sitePinInfo));
+            });
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap", DCPowerMeasurementWhen.OnDemand)]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap", DCPowerMeasurementWhen.OnMeasureTrigger)]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap", DCPowerMeasurementWhen.OnDemand)]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap", DCPowerMeasurementWhen.OnMeasureTrigger)]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap", DCPowerMeasurementWhen.OnDemand)]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap", DCPowerMeasurementWhen.OnMeasureTrigger)]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        public void DifferentSMUDevicesGangedConfigureMeasureWhen_GetMeasureWhen_ReturnsCorrectValue(string pinMap, DCPowerMeasurementWhen expectedMeasureWhen)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            sessionsBundle.GangPinGroup(TwoPinsGangedGroup);
+            sessionsBundle.ConfigureMeasureWhen(expectedMeasureWhen);
+
+            var measureWhen = sessionsBundle.GetMeasureWhen();
+
+            Assert.Equal(2, measureWhen.PinNames.Length);
+            Assert.DoesNotContain(TwoPinsGangedGroup, measureWhen.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                var expectedValue = IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo) ? DCPowerMeasurementWhen.OnMeasureTrigger : expectedMeasureWhen;
+                Assert.Equal(expectedValue, measureWhen.GetValue(sitePinInfo));
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementWhen.OnDemand)]
+        [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementWhen.OnMeasureTrigger)]
+        [InlineData("Mixed Signal Tests.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        [InlineData("SharedPinTests.pinmap", DCPowerMeasurementWhen.OnDemand)]
+        [InlineData("SharedPinTests.pinmap", DCPowerMeasurementWhen.OnMeasureTrigger)]
+        [InlineData("SharedPinTests.pinmap", DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        public void DifferentSMUDevicesConfigureMeasureWhen_GetMeasureWhen_ReturnsCorrectValue(string pinMap, DCPowerMeasurementWhen expectedMeasureWhen)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            sessionsBundle.ConfigureMeasureWhen(expectedMeasureWhen);
+
+            var measureWhen = sessionsBundle.GetMeasureWhen();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedMeasureWhen, measureWhen.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesConfigurePerPinPerSiteMeasureWhen_GetMeasureWhen_ReturnsCorrectValue()
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var pinNames = new string[] { "VCC1", "VCC2" };
+            var sessionsBundle = sessionManager.DCPower(pinNames);
+            var activeSites = GetActiveSites(sessionsBundle);
+            var expectedMeasureWhen = new PinSiteData<DCPowerMeasurementWhen>(activeSites, new Dictionary<string, DCPowerMeasurementWhen>()
+            {
+                [pinNames[0]] = DCPowerMeasurementWhen.OnDemand,
+                [pinNames[1]] = DCPowerMeasurementWhen.OnDemand
+            });
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Measurement.MeasureWhen = expectedMeasureWhen.GetValue(sitePinInfo);
+            });
+
+            var values = sessionsBundle.GetMeasureWhen();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedMeasureWhen.GetValue(sitePinInfo), values.GetValue(sitePinInfo));
+            });
+        }
+
+        [Theory]
+        [InlineData(DCPowerMeasurementWhen.OnDemand)]
+        [InlineData(DCPowerMeasurementWhen.OnMeasureTrigger)]
+        [InlineData(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete)]
+        public void SharedPinsConfigureMeasureWhenOnFilteredSites_GetMeasureWhen_ReturnsSameValueForAllSites(DCPowerMeasurementWhen expectedMeasureWhen)
+        {
+            var sessionManager = Initialize("SharedPinTests.pinmap");
+            var pinName = "VCC2";
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            var filteredBundle = sessionsBundle.FilterBySite(new[] { 0, 1 });
+            filteredBundle.ConfigureMeasureWhen(expectedMeasureWhen);
+
+            var measureWhen = filteredBundle.GetMeasureWhen();
+
+            filteredBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedMeasureWhen, measureWhen.GetValue(sitePinInfo));
+            });
         }
 
         private DCPowerSessionsBundle MergeAndForceVoltage(string pinGroupName, out string primaryPin)

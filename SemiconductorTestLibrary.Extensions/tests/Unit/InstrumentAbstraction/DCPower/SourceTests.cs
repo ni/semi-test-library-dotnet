@@ -2991,6 +2991,238 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureSourceSettingsWithScalarAndUpdateMode_CorrectValuesAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(false);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            var settings = new DCPowerSourceSettings
+            {
+                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                Level = 1.8,
+                Limit = 0.05
+            };
+
+            sessionsBundle.ConfigureSourceSettings(settings, updateMode);
+
+            sessionsBundle.Do(sessionInfo =>
+            {
+                Assert.Equal(1.8, sessionInfo.AllChannelsOutput.Source.Voltage.VoltageLevel);
+                Assert.Equal(0.05, sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimit);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureSourceSettingsWithPerSiteAndUpdateMode_CorrectValuesAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("DifferentSMUDevices.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            var settings = new SiteData<DCPowerSourceSettings>(new[]
+            {
+                new DCPowerSourceSettings { OutputFunction = DCPowerSourceOutputFunction.DCVoltage, LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric, Level = 1.1, Limit = 0.1 },
+                new DCPowerSourceSettings { OutputFunction = DCPowerSourceOutputFunction.DCVoltage, LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric, Level = 1.2, Limit = 0.1 },
+                new DCPowerSourceSettings { OutputFunction = DCPowerSourceOutputFunction.DCVoltage, LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric, Level = 1.3, Limit = 0.1 },
+                new DCPowerSourceSettings { OutputFunction = DCPowerSourceOutputFunction.DCVoltage, LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric, Level = 1.4, Limit = 0.1 }
+            });
+
+            sessionsBundle.ConfigureSourceSettings(settings, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                Assert.Equal(settings.GetValue(sitePinInfo.SiteNumber).Level, sessionInfo.AllChannelsOutput.Source.Voltage.VoltageLevel);
+                Assert.Equal(settings.GetValue(sitePinInfo.SiteNumber).Limit, sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimit);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureSourceSettingsWithPerPinPerSiteAndUpdateMode_CorrectValuesAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(false);
+            var sessionsBundle = sessionManager.DCPower(new[] { "VCC", "VDET" });
+            var settings = new PinSiteData<DCPowerSourceSettings>(new Dictionary<string, IDictionary<int, DCPowerSourceSettings>>
+            {
+                ["VCC"] = new Dictionary<int, DCPowerSourceSettings>
+                {
+                    [0] = new DCPowerSourceSettings { OutputFunction = DCPowerSourceOutputFunction.DCVoltage, LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric, Level = 1.0, Limit = 0.1 },
+                    [1] = new DCPowerSourceSettings { OutputFunction = DCPowerSourceOutputFunction.DCVoltage, LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric, Level = 1.1, Limit = 0.1 },
+                    [2] = new DCPowerSourceSettings { OutputFunction = DCPowerSourceOutputFunction.DCVoltage, LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric, Level = 1.2, Limit = 0.1 },
+                    [3] = new DCPowerSourceSettings { OutputFunction = DCPowerSourceOutputFunction.DCVoltage, LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric, Level = 1.3, Limit = 0.1 }
+                },
+                ["VDET"] = new Dictionary<int, DCPowerSourceSettings>
+                {
+                    [0] = new DCPowerSourceSettings { OutputFunction = DCPowerSourceOutputFunction.DCVoltage, LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric, Level = 2.0, Limit = 0.2 },
+                    [1] = new DCPowerSourceSettings { OutputFunction = DCPowerSourceOutputFunction.DCVoltage, LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric, Level = 2.1, Limit = 0.2 },
+                    [2] = new DCPowerSourceSettings { OutputFunction = DCPowerSourceOutputFunction.DCVoltage, LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric, Level = 2.2, Limit = 0.2 },
+                    [3] = new DCPowerSourceSettings { OutputFunction = DCPowerSourceOutputFunction.DCVoltage, LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric, Level = 2.3, Limit = 0.2 }
+                }
+            });
+
+            sessionsBundle.ConfigureSourceSettings(settings, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expected = settings.GetValue(sitePinInfo, out _);
+                Assert.Equal(expected.Level, sessionInfo.AllChannelsOutput.Source.Voltage.VoltageLevel);
+                Assert.Equal(expected.Limit, sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimit);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureSourceSettingsWithPerPinAndUpdateMode_CorrectValuesAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(false);
+            var sessionsBundle = sessionManager.DCPower(new[] { "VCC", "VDET" });
+            var settings = new Dictionary<string, DCPowerSourceSettings>
+            {
+                ["VCC"] = new DCPowerSourceSettings { OutputFunction = DCPowerSourceOutputFunction.DCVoltage, LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric, Level = 1.6, Limit = 0.11 },
+                ["VDET"] = new DCPowerSourceSettings { OutputFunction = DCPowerSourceOutputFunction.DCVoltage, LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric, Level = 2.6, Limit = 0.21 }
+            };
+
+            sessionsBundle.ConfigureSourceSettings(settings, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expected = settings[sitePinInfo.PinName];
+                Assert.Equal(expected.Level, sessionInfo.AllChannelsOutput.Source.Voltage.VoltageLevel);
+                Assert.Equal(expected.Limit, sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimit);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureCurrentLimitWithUpdateMode_CorrectValuesAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(false);
+            var sessionsBundle = sessionManager.DCPower("VCC");
+
+            sessionsBundle.ConfigureCurrentLimit(0.123, updateMode: updateMode);
+
+            sessionsBundle.Do(sessionInfo =>
+            {
+                Assert.Equal(0.123, sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimit);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureCurrentLimitsWithUpdateMode_CorrectValuesAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(false);
+            var sessionsBundle = sessionManager.DCPower(new[] { "VCC", "VDD", "VDET" });
+            var currentLimits = new Dictionary<string, double>
+            {
+                ["VCC"] = 0.1,
+                ["VDD"] = 0.2,
+                ["VDET"] = 0.3
+            };
+
+            sessionsBundle.ConfigureCurrentLimits(currentLimits, updateMode: updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                Assert.Equal(currentLimits[sitePinInfo.PinName], sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimit);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(false, UpdateMode.Deferred)]
+        [InlineData(false, UpdateMode.Commit)]
+        [InlineData(false, UpdateMode.Immediate)]
+        [InlineData(true, UpdateMode.Deferred)]
+        [InlineData(true, UpdateMode.Commit)]
+        [InlineData(true, UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureSourceDelayWithScalarValueAndUpdateMode_CorrectValuesAreSetAndMatchUpdateMode(bool pinMapWithChannelGroup, UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            var expectedSourceDelay = 0.02;
+
+            sessionsBundle.ConfigureSourceDelay(expectedSourceDelay, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualSourceDelay = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.SourceDelay.TotalSeconds;
+                Assert.Equal(expectedSourceDelay, actualSourceDelay);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(false, UpdateMode.Deferred)]
+        [InlineData(false, UpdateMode.Commit)]
+        [InlineData(false, UpdateMode.Immediate)]
+        [InlineData(true, UpdateMode.Deferred)]
+        [InlineData(true, UpdateMode.Commit)]
+        [InlineData(true, UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureSourceDelayWithPerSiteValuesAndUpdateMode_CorrectValuesAreSetAndMatchUpdateMode(bool pinMapWithChannelGroup, UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            var sourceDelays = new SiteData<double>(new[] { 0.01, 0.02, 0.03, 0.04 });
+
+            sessionsBundle.ConfigureSourceDelay(sourceDelays, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedSourceDelay = sourceDelays.GetValue(sitePinInfo.SiteNumber);
+                var actualSourceDelay = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.SourceDelay.TotalSeconds;
+                Assert.Equal(expectedSourceDelay, actualSourceDelay);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(false, UpdateMode.Deferred)]
+        [InlineData(false, UpdateMode.Commit)]
+        [InlineData(false, UpdateMode.Immediate)]
+        [InlineData(true, UpdateMode.Deferred)]
+        [InlineData(true, UpdateMode.Commit)]
+        [InlineData(true, UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureSourceDelayWithPerPinPerSiteValuesAndUpdateMode_CorrectValuesAreSetAndMatchUpdateMode(bool pinMapWithChannelGroup, UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC", "VDD", "VDET" });
+            var sourceDelays = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC"] = new Dictionary<int, double>() { [0] = 0.01, [1] = 0.02, [2] = 0.03, [3] = 0.04 },
+                ["VDD"] = new Dictionary<int, double>() { [0] = 0.02, [1] = 0.03, [2] = 0.04, [3] = 0.05 },
+                ["VDET"] = new Dictionary<int, double>() { [0] = 0.03, [1] = 0.04, [2] = 0.05, [3] = 0.06 }
+            });
+
+            sessionsBundle.ConfigureSourceDelay(sourceDelays, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedSourceDelay = sourceDelays.GetValue(sitePinInfo);
+                var actualSourceDelay = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.SourceDelay.TotalSeconds;
+                Assert.Equal(expectedSourceDelay, actualSourceDelay);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
         [InlineData(false)]
         [InlineData(true)]
         public void DifferentSMUDevices_ConfigureSourceSettings_CorrectValuesAreSetWithPerPinValues(bool pinMapWithChannelGroup)
@@ -3681,6 +3913,85 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
+        [InlineData(false, false, UpdateMode.Commit)]
+        [InlineData(false, false, UpdateMode.Deferred)]
+        [InlineData(false, false, UpdateMode.Immediate)]
+        [InlineData(true, false, UpdateMode.Commit)]
+        [InlineData(true, false, UpdateMode.Deferred)]
+        [InlineData(true, false, UpdateMode.Immediate)]
+        [InlineData(false, true, UpdateMode.Commit)]
+        [InlineData(false, true, UpdateMode.Deferred)]
+        [InlineData(false, true, UpdateMode.Immediate)]
+        [InlineData(true, true, UpdateMode.Commit)]
+        [InlineData(true, true, UpdateMode.Deferred)]
+        [InlineData(true, true, UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureOutputConnectedWithScalarValueAndUpdateMode_CorrectOutputConnectedSetAndMatchUpdateMode(bool pinMapWithChannelGroup, bool outputConnected, UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+
+            sessionsBundle.ConfigureOutputConnected(outputConnected, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualOutputConnected = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Output.Connected;
+                Assert.Equal(outputConnected, actualOutputConnected);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(false, UpdateMode.Commit)]
+        [InlineData(false, UpdateMode.Deferred)]
+        [InlineData(false, UpdateMode.Immediate)]
+        [InlineData(true, UpdateMode.Commit)]
+        [InlineData(true, UpdateMode.Deferred)]
+        [InlineData(true, UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureOutputConnectedWithPerSiteValuesAndUpdateMode_CorrectOutputConnectedSetAndMatchUpdateMode(bool pinMapWithChannelGroup, UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            var outputConnected = new SiteData<bool>(new[] { true, false, true, false });
+
+            sessionsBundle.ConfigureOutputConnected(outputConnected, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedOutputConnected = outputConnected.GetValue(sitePinInfo.SiteNumber);
+                var actualOutputConnected = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Output.Connected;
+                Assert.Equal(expectedOutputConnected, actualOutputConnected);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(false, UpdateMode.Commit)]
+        [InlineData(false, UpdateMode.Deferred)]
+        [InlineData(false, UpdateMode.Immediate)]
+        [InlineData(true, UpdateMode.Commit)]
+        [InlineData(true, UpdateMode.Deferred)]
+        [InlineData(true, UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureOutputConnectedWithPerPinPerSiteValuesAndUpdateMode_CorrectOutputConnectedSetAndMatchUpdateMode(bool pinMapWithChannelGroup, UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            var outputConnected = new PinSiteData<bool>(new Dictionary<string, IDictionary<int, bool>>()
+            {
+                ["VDD"] = new Dictionary<int, bool>() { [0] = true, [1] = false, [2] = true, [3] = false }
+            });
+
+            sessionsBundle.ConfigureOutputConnected(outputConnected, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedOutputConnected = outputConnected.GetValue(sitePinInfo);
+                var actualOutputConnected = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Output.Connected;
+                Assert.Equal(expectedOutputConnected, actualOutputConnected);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
         [InlineData(false)]
         [InlineData(true)]
         public void DifferentSMUDevices_ConfigureOutputEnabled_OutputEnabled(bool pinMapWithChannelGroup)
@@ -3754,6 +4065,86 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Assert.False(sessionsBundle.InstrumentSessions.ElementAt(6).AllChannelsOutput.Source.Output.Enabled);
                 Assert.False(sessionsBundle.InstrumentSessions.ElementAt(7).AllChannelsOutput.Source.Output.Enabled);
             }
+        }
+
+        [Theory]
+        [InlineData(false, UpdateMode.Commit)]
+        [InlineData(false, UpdateMode.Deferred)]
+        [InlineData(false, UpdateMode.Immediate)]
+        [InlineData(true, UpdateMode.Commit)]
+        [InlineData(true, UpdateMode.Deferred)]
+        [InlineData(true, UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureOutputEnabledWithPerSiteValuesAndUpdateMode_CorrectOutputEnabledSetAndMatchUpdateMode(bool pinMapWithChannelGroup, UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            var outputEnabled = new SiteData<bool>(new[] { true, false, true, false });
+
+            sessionsBundle.ConfigureOutputEnabled(outputEnabled, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedOutputEnabled = outputEnabled.GetValue(sitePinInfo.SiteNumber);
+                var actualOutputEnabled = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Output.Enabled;
+                Assert.Equal(expectedOutputEnabled, actualOutputEnabled);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(false, true, UpdateMode.Commit)]
+        [InlineData(false, true, UpdateMode.Deferred)]
+        [InlineData(false, true, UpdateMode.Immediate)]
+        [InlineData(true, true, UpdateMode.Commit)]
+        [InlineData(true, true, UpdateMode.Deferred)]
+        [InlineData(true, true, UpdateMode.Immediate)]
+        [InlineData(false, false, UpdateMode.Commit)]
+        [InlineData(false, false, UpdateMode.Deferred)]
+        [InlineData(false, false, UpdateMode.Immediate)]
+        [InlineData(true, false, UpdateMode.Commit)]
+        [InlineData(true, false, UpdateMode.Deferred)]
+        [InlineData(true, false, UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureOutputEnabledWithScalarValueAndUpdateMode_CorrectOutputEnabledSetAndMatchUpdateMode(bool pinMapWithChannelGroup, bool outputEnabled, UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+
+            sessionsBundle.ConfigureOutputEnabled(outputEnabled, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedOutputEnabled = outputEnabled;
+                var actualOutputEnabled = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Output.Enabled;
+                Assert.Equal(expectedOutputEnabled, actualOutputEnabled);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(false, UpdateMode.Commit)]
+        [InlineData(false, UpdateMode.Deferred)]
+        [InlineData(false, UpdateMode.Immediate)]
+        [InlineData(true, UpdateMode.Commit)]
+        [InlineData(true, UpdateMode.Deferred)]
+        [InlineData(true, UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureOutputEnabledWithPerPinPerSiteValuesAndUpdateMode_CorrectOutputEnabledSetAndMatchUpdateMode(bool pinMapWithChannelGroup, UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            var outputEnabled = new PinSiteData<bool>(new Dictionary<string, IDictionary<int, bool>>()
+            {
+                ["VDD"] = new Dictionary<int, bool>() { [0] = true, [1] = false, [2] = true, [3] = false }
+            });
+
+            sessionsBundle.ConfigureOutputEnabled(outputEnabled, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedOutputEnabled = outputEnabled.GetValue(sitePinInfo);
+                var actualOutputEnabled = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Output.Enabled;
+                Assert.Equal(expectedOutputEnabled, actualOutputEnabled);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
         [Fact]
@@ -4023,6 +4414,416 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Assert.Equal(expectedSequence, results[0][2].CurrentMeasurements);
                 Assert.Equal(expectedSequence, results[0][3].CurrentMeasurements);
             }
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence(sequenceName);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureVoltageSequenceWithUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup: false);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            string sequenceName = "VoltageSequenceWithUpdateMode";
+            var expectedSequence = new double[] { 1, 2, 3, 4, 5 };
+
+            sessionsBundle.ConfigureVoltageSequence(sequenceName, expectedSequence, sequenceLoopCount: 1, setAsActiveSequence: true, updateMode: updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence(sequenceName);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureVoltageSequenceWithSiteDataAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup: false);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            string sequenceName = "VoltageSequenceWithSiteDataAndUpdateMode";
+            var expectedSequences = new SiteData<double[]>(new double[][]
+            {
+                new[] { 1.0, 2.0, 3.0, 4.0, 5.0 },
+                new[] { 1.5, 2.5, 3.5, 4.5, 5.5 },
+                new[] { 2.0, 3.0, 4.0, 5.0, 6.0 },
+                new[] { 2.5, 3.5, 4.5, 5.5, 6.5 }
+            });
+
+            sessionsBundle.ConfigureVoltageSequence(sequenceName, expectedSequences, sequenceLoopCount: 1, setAsActiveSequence: true, updateMode: updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence(sequenceName);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureVoltageSequenceWithPinSiteDataAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup: false);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            string sequenceName = "VoltageSequenceWithPinSiteDataAndUpdateMode";
+            var expectedSequences = new PinSiteData<double[]>(new Dictionary<string, IDictionary<int, double[]>>()
+            {
+                ["VDD"] = new Dictionary<int, double[]>()
+                {
+                    [0] = new[] { 1.0, 2.0, 3.0, 4.0, 5.0 },
+                    [1] = new[] { 1.5, 2.5, 3.5, 4.5, 5.5 },
+                    [2] = new[] { 2.0, 3.0, 4.0, 5.0, 6.0 },
+                    [3] = new[] { 2.5, 3.5, 4.5, 5.5, 6.5 }
+                }
+            });
+
+            sessionsBundle.ConfigureVoltageSequence(sequenceName, expectedSequences, sequenceLoopCount: 1, setAsActiveSequence: true, updateMode: updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence(sequenceName);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureCurrentSequenceWithUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup: false);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            string sequenceName = "CurrentSequenceWithUpdateMode";
+            var expectedSequence = new double[] { 0.5, 1, 1.5, 2, 2.5 };
+
+            sessionsBundle.ConfigureCurrentSequence(sequenceName, expectedSequence, sequenceLoopCount: 1, setAsActiveSequence: true, updateMode: updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence(sequenceName);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureCurrentSequenceWithSiteDataAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup: false);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            string sequenceName = "CurrentSequenceWithSiteDataAndUpdateMode";
+            var expectedSequences = new SiteData<double[]>(new double[][]
+            {
+                new[] { 0.5, 1.0, 1.5, 2.0, 2.5 },
+                new[] { 0.6, 1.1, 1.6, 2.1, 2.6 },
+                new[] { 0.7, 1.2, 1.7, 2.2, 2.7 },
+                new[] { 0.8, 1.3, 1.8, 2.3, 2.8 }
+            });
+
+            sessionsBundle.ConfigureCurrentSequence(sequenceName, expectedSequences, sequenceLoopCount: 1, setAsActiveSequence: true, updateMode: updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence(sequenceName);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureCurrentSequenceWithPinSiteDataAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup: false);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            string sequenceName = "CurrentSequenceWithPinSiteDataAndUpdateMode";
+            var expectedSequences = new PinSiteData<double[]>(new Dictionary<string, IDictionary<int, double[]>>()
+            {
+                ["VDD"] = new Dictionary<int, double[]>()
+                {
+                    [0] = new[] { 0.5, 1.0, 1.5, 2.0, 2.5 },
+                    [1] = new[] { 0.6, 1.1, 1.6, 2.1, 2.6 },
+                    [2] = new[] { 0.7, 1.2, 1.7, 2.2, 2.7 },
+                    [3] = new[] { 0.8, 1.3, 1.8, 2.3, 2.8 }
+                }
+            });
+
+            sessionsBundle.ConfigureCurrentSequence(sequenceName, expectedSequences, sequenceLoopCount: 1, setAsActiveSequence: true, updateMode: updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence(sequenceName);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureAdvancedSequenceWithUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup: false);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+            string sequenceName = "AdvancedSequenceWithUpdateMode";
+            var stepProperties = new List<DCPowerAdvancedSequenceStepProperties>
+            {
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 2.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+            };
+
+            sessionsBundle.ConfigureAdvancedSequence(sequenceName, stepProperties, setAsActiveSequence: true, updateMode: updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence(sequenceName);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureAdvancedSequenceWithSiteDataAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup: false);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+            string sequenceName = "AdvancedSequenceWithSiteDataAndUpdateMode";
+            var stepProperties = new SiteData<IList<DCPowerAdvancedSequenceStepProperties>>(new IList<DCPowerAdvancedSequenceStepProperties>[]
+            {
+                new List<DCPowerAdvancedSequenceStepProperties>
+                {
+                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 2.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+                },
+                new List<DCPowerAdvancedSequenceStepProperties>
+                {
+                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 4.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+                },
+                new List<DCPowerAdvancedSequenceStepProperties>
+                {
+                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 5.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 6.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+                },
+                new List<DCPowerAdvancedSequenceStepProperties>
+                {
+                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 7.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                    new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 8.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+                }
+            });
+
+            sessionsBundle.ConfigureAdvancedSequence(sequenceName, stepProperties, setAsActiveSequence: true, updateMode: updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence(sequenceName);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureAdvancedSequenceWithPinSiteDataAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup: false);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+            string sequenceName = "AdvancedSequenceWithPinSiteDataAndUpdateMode";
+            IList<DCPowerAdvancedSequenceStepProperties> CreateSteps(double startLevel) => new List<DCPowerAdvancedSequenceStepProperties>
+            {
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = startLevel, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = startLevel + 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+            };
+            var stepProperties = new PinSiteData<IList<DCPowerAdvancedSequenceStepProperties>>(new Dictionary<string, IDictionary<int, IList<DCPowerAdvancedSequenceStepProperties>>>()
+            {
+                ["VDD"] = new Dictionary<int, IList<DCPowerAdvancedSequenceStepProperties>>()
+                {
+                    [0] = CreateSteps(1.0),
+                    [1] = CreateSteps(2.0),
+                    [2] = CreateSteps(3.0),
+                    [3] = CreateSteps(4.0)
+                }
+            });
+
+            sessionsBundle.ConfigureAdvancedSequence(sequenceName, stepProperties, setAsActiveSequence: true, updateMode: updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence(sequenceName);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureVoltageSequenceWithSourceDelaysAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup: false);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            string sequenceName = "VoltageSequenceWithSourceDelaysAndUpdateMode";
+            var expectedSequence = new double[] { 1, 2, 3 };
+            var sourceDelays = new double[] { 0.01, 0.02, 0.03 };
+
+            sessionsBundle.ConfigureVoltageSequenceWithSourceDelays(sequenceName, expectedSequence, sourceDelays, sequenceLoopCount: 1, setAsActiveSequence: true, updateMode: updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence(sequenceName);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureVoltageSequenceWithSourceDelaysAndSiteDataAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup: false);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            string sequenceName = "VoltageSequenceWithSourceDelaysAndSiteDataAndUpdateMode";
+            var expectedSequences = new SiteData<double[]>(new double[][]
+            {
+                new[] { 1.0, 2.0, 3.0 },
+                new[] { 1.5, 2.5, 3.5 },
+                new[] { 2.0, 3.0, 4.0 },
+                new[] { 2.5, 3.5, 4.5 }
+            });
+            var sourceDelays = new SiteData<double[]>(new double[][]
+            {
+                new[] { 0.01, 0.02, 0.03 },
+                new[] { 0.01, 0.02, 0.03 },
+                new[] { 0.01, 0.02, 0.03 },
+                new[] { 0.01, 0.02, 0.03 }
+            });
+
+            sessionsBundle.ConfigureVoltageSequenceWithSourceDelays(sequenceName, expectedSequences, sourceDelays, sequenceLoopCount: 1, setAsActiveSequence: true, updateMode: updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence(sequenceName);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureVoltageSequenceWithSourceDelaysAndPinSiteDataAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup: false);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            string sequenceName = "VoltageSequenceWithSourceDelaysAndPinSiteDataAndUpdateMode";
+            var expectedSequences = new PinSiteData<double[]>(new Dictionary<string, IDictionary<int, double[]>>()
+            {
+                ["VDD"] = new Dictionary<int, double[]>()
+                {
+                    [0] = new[] { 1.0, 2.0, 3.0 },
+                    [1] = new[] { 1.5, 2.5, 3.5 },
+                    [2] = new[] { 2.0, 3.0, 4.0 },
+                    [3] = new[] { 2.5, 3.5, 4.5 }
+                }
+            });
+            var sourceDelays = new PinSiteData<double[]>(new Dictionary<string, IDictionary<int, double[]>>()
+            {
+                ["VDD"] = new Dictionary<int, double[]>()
+                {
+                    [0] = new[] { 0.01, 0.02, 0.03 },
+                    [1] = new[] { 0.01, 0.02, 0.03 },
+                    [2] = new[] { 0.01, 0.02, 0.03 },
+                    [3] = new[] { 0.01, 0.02, 0.03 }
+                }
+            });
+
+            sessionsBundle.ConfigureVoltageSequenceWithSourceDelays(sequenceName, expectedSequences, sourceDelays, sequenceLoopCount: 1, setAsActiveSequence: true, updateMode: updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence(sequenceName);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureCurrentSequenceWithSourceDelaysAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup: false);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            string sequenceName = "CurrentSequenceWithSourceDelaysAndUpdateMode";
+            var expectedSequence = new double[] { 0.5, 1, 1.5 };
+            var sourceDelays = new double[] { 0.01, 0.02, 0.03 };
+
+            sessionsBundle.ConfigureCurrentSequenceWithSourceDelays(sequenceName, expectedSequence, sourceDelays, sequenceLoopCount: 1, setAsActiveSequence: true, updateMode: updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence(sequenceName);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureCurrentSequenceWithSourceDelaysAndSiteDataAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup: false);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            string sequenceName = "CurrentSequenceWithSourceDelaysAndSiteDataAndUpdateMode";
+            var expectedSequences = new SiteData<double[]>(new double[][]
+            {
+                new[] { 0.5, 1.0, 1.5 },
+                new[] { 0.6, 1.1, 1.6 },
+                new[] { 0.7, 1.2, 1.7 },
+                new[] { 0.8, 1.3, 1.8 }
+            });
+            var sourceDelays = new SiteData<double[]>(new double[][]
+            {
+                new[] { 0.01, 0.02, 0.03 },
+                new[] { 0.01, 0.02, 0.03 },
+                new[] { 0.01, 0.02, 0.03 },
+                new[] { 0.01, 0.02, 0.03 }
+            });
+
+            sessionsBundle.ConfigureCurrentSequenceWithSourceDelays(sequenceName, expectedSequences, sourceDelays, sequenceLoopCount: 1, setAsActiveSequence: true, updateMode: updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+            sessionsBundle.ClearActiveAdvancedSequence();
+            sessionsBundle.DeleteAdvancedSequence(sequenceName);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureCurrentSequenceWithSourceDelaysAndPinSiteDataAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup: false);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            string sequenceName = "CurrentSequenceWithSourceDelaysAndPinSiteDataAndUpdateMode";
+            var expectedSequences = new PinSiteData<double[]>(new Dictionary<string, IDictionary<int, double[]>>()
+            {
+                ["VDD"] = new Dictionary<int, double[]>()
+                {
+                    [0] = new[] { 0.5, 1.0, 1.5 },
+                    [1] = new[] { 0.6, 1.1, 1.6 },
+                    [2] = new[] { 0.7, 1.2, 1.7 },
+                    [3] = new[] { 0.8, 1.3, 1.8 }
+                }
+            });
+            var sourceDelays = new PinSiteData<double[]>(new Dictionary<string, IDictionary<int, double[]>>()
+            {
+                ["VDD"] = new Dictionary<int, double[]>()
+                {
+                    [0] = new[] { 0.01, 0.02, 0.03 },
+                    [1] = new[] { 0.01, 0.02, 0.03 },
+                    [2] = new[] { 0.01, 0.02, 0.03 },
+                    [3] = new[] { 0.01, 0.02, 0.03 }
+                }
+            });
+
+            sessionsBundle.ConfigureCurrentSequenceWithSourceDelays(sequenceName, expectedSequences, sourceDelays, sequenceLoopCount: 1, setAsActiveSequence: true, updateMode: updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
             sessionsBundle.ClearActiveAdvancedSequence();
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
         }
@@ -5304,6 +6105,441 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("Mixed Signal Tests.pinmap")]
         [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureVoltageLevelRangeWithScalarValue_CorrectVoltageLevelRangeSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var expectedVoltageLevelRange = 8.0;
+
+            sessionsBundle.ConfigureVoltageLevelRange(expectedVoltageLevelRange);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualVoltageLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevelRange;
+                Assert.Equal(expectedVoltageLevelRange, actualVoltageLevelRange);
+            });
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLevelRangeWithScalarValue_CorrectVoltageLevelRangeSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            var expectedVoltageLevelRange = 8.0;
+            sessionsBundle.GangPinGroup(TwoPinsGangedGroup);
+
+            sessionsBundle.ConfigureVoltageLevelRange(expectedVoltageLevelRange);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualVoltageLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevelRange;
+                Assert.Equal(expectedVoltageLevelRange, actualVoltageLevelRange);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureVoltageLevelRangeWithPerSiteValues_CorrectVoltageLevelRangesSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var voltageLevelRanges = new SiteData<double>(new[] { 1.0, 8.0 });
+
+            sessionsBundle.ConfigureVoltageLevelRange(voltageLevelRanges);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLevelRange = voltageLevelRanges.GetValue(sitePinInfo.SiteNumber);
+                var actualVoltageLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevelRange;
+                Assert.Equal(expectedVoltageLevelRange, actualVoltageLevelRange);
+            });
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLevelRangeWithPerSiteValues_CorrectVoltageLevelRangesSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            var voltageLevelRanges = new SiteData<double>(new[] { 1.0, 8.0 });
+            sessionsBundle.GangPinGroup(TwoPinsGangedGroup);
+
+            sessionsBundle.ConfigureVoltageLevelRange(voltageLevelRanges);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLevelRange = voltageLevelRanges.GetValue(sitePinInfo.SiteNumber);
+                var actualVoltageLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevelRange;
+                Assert.Equal(expectedVoltageLevelRange, actualVoltageLevelRange);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureVoltageLevelRangeWithPerPinPerSiteValues_CorrectVoltageLevelRangesSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
+            var voltageLevelRanges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 1, [1] = 8 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 1, [1] = 8 }
+            });
+
+            sessionsBundle.ConfigureVoltageLevelRange(voltageLevelRanges);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLevelRange = voltageLevelRanges.GetValue(sitePinInfo);
+                var actualVoltageLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevelRange;
+                Assert.Equal(expectedVoltageLevelRange, actualVoltageLevelRange);
+            });
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureVoltageLevelRangeWithScalarValueAndUpdateMode_CorrectVoltageLevelRangeIsSetAndMatchesUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var expectedVoltageLevelRange = 8.0;
+
+            sessionsBundle.ConfigureVoltageLevelRange(expectedVoltageLevelRange, updateMode);
+            void InitiateTest()
+            {
+                sessionsBundle.Initiate();
+            }
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualVoltageLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevelRange;
+                Assert.Equal(expectedVoltageLevelRange, actualVoltageLevelRange);
+            });
+            if (updateMode == UpdateMode.Immediate)
+            {
+                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
+                Assert.Contains("The session is already running.", exception.Message);
+            }
+            else
+            {
+                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
+            }
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureVoltageLevelRangeWithPerSiteValuesAndUpdateMode_CorrectVoltageLevelRangesAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var voltageLevelRanges = new SiteData<double>(new[] { 1.0, 8.0 });
+
+            sessionsBundle.ConfigureVoltageLevelRange(voltageLevelRanges, updateMode);
+            void InitiateTest()
+            {
+                sessionsBundle.Initiate();
+            }
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLevelRange = voltageLevelRanges.GetValue(sitePinInfo.SiteNumber);
+                var actualVoltageLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevelRange;
+                Assert.Equal(expectedVoltageLevelRange, actualVoltageLevelRange);
+            });
+            if (updateMode == UpdateMode.Immediate)
+            {
+                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
+                Assert.Contains("The session is already running.", exception.Message);
+            }
+            else
+            {
+                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
+            }
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureVoltageLevelRangeWithPerPinPerSiteValuesAndUpdateMode_CorrectVoltageLevelRangesAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
+            var voltageLevelRanges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 1.0, [1] = 8.0 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 1.0, [1] = 8.0 }
+            });
+
+            sessionsBundle.ConfigureVoltageLevelRange(voltageLevelRanges, updateMode);
+            void InitiateTest()
+            {
+                sessionsBundle.Initiate();
+            }
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLevelRange = voltageLevelRanges.GetValue(sitePinInfo);
+                var actualVoltageLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevelRange;
+                Assert.Equal(expectedVoltageLevelRange, actualVoltageLevelRange);
+            });
+            if (updateMode == UpdateMode.Immediate)
+            {
+                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
+                Assert.Contains("The session is already running.", exception.Message);
+            }
+            else
+            {
+                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
+            }
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLevelRangeWithSamePerPinPerSiteValues_CorrectVoltageLevelRangesSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower(new string[] { TwoPinsGangedGroup, "VCC2" });
+            var voltageLevelRanges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                [TwoPinsGangedGroup] = new Dictionary<int, double>() { [0] = 1.0, [1] = 8.0 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 1.0, [1] = 8.0 }
+            });
+            sessionsBundle.GangPinGroup(TwoPinsGangedGroup);
+
+            sessionsBundle.ConfigureVoltageLevelRange(voltageLevelRanges);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLevelRange = voltageLevelRanges.GetValue(sitePinInfo);
+                var actualVoltageLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevelRange;
+                Assert.Equal(expectedVoltageLevelRange, actualVoltageLevelRange);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLevelRangeWithSameValuesForIndividualGangedPins_CorrectVoltageLevelRangesSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            var voltageLevelRanges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC4"] = new Dictionary<int, double>() { [0] = 1.0, [1] = 8.0 },
+                ["VCC5"] = new Dictionary<int, double>() { [0] = 1.0, [1] = 8.0 }
+            });
+            sessionsBundle.GangPinGroup(TwoPinsGangedGroup);
+
+            sessionsBundle.ConfigureVoltageLevelRange(voltageLevelRanges);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualVoltageLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevelRange;
+                var expectedVoltageLevelRange = voltageLevelRanges.GetValue(sitePinInfo);
+                Assert.Equal(expectedVoltageLevelRange, actualVoltageLevelRange);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLevelRangeWithDifferentPerPinPerSiteValues_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var voltageLevelRanges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 5.0, [1] = 10.0 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 10.0, [1] = 10.0 },
+                ["VCC3"] = new Dictionary<int, double>() { [0] = 5.0, [1] = 10.0 }
+            });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            void ConfigureVoltageLevelRange() => sessionsBundle.ConfigureVoltageLevelRange(voltageLevelRanges);
+
+            var exception = Assert.Throws<AggregateException>(ConfigureVoltageLevelRange);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("The parameter contains different values for cascaded pins", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLevelRangeOnFilteredBundleWithFewPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            void ConfigureVoltageLevelRange()
+            {
+                filteredBundle.ConfigureVoltageLevelRange(5.0);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureVoltageLevelRange);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLevelRangeOnSubsetBundleWithTwoPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var subsetBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            void ConfigureVoltageLevelRange()
+            {
+                subsetBundle.ConfigureVoltageLevelRange(5.0);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureVoltageLevelRange);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_FilterBundleWithFewPinsAndUngangThenConfigureVoltageLevelRange_CorrectVoltageLevelRangeSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            var expectedVoltageLevelRange = 1.0;
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC2", "VCC3" });
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
+            filteredBundle.ConfigureVoltageLevelRange(expectedVoltageLevelRange);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                if (sitePinInfo.PinName == "VCC2" || sitePinInfo.PinName == "VCC3")
+                {
+                    Assert.Equal(expectedVoltageLevelRange, channelOutput.Source.Voltage.VoltageLevelRange);
+                }
+                else
+                {
+                    Assert.NotEqual(expectedVoltageLevelRange, channelOutput.Source.Voltage.VoltageLevelRange);
+                }
+            });
+        }
+
+        [Fact]
+        public void SMUDevicesMerged_GetVoltageLevelRange_ReturnsPrimaryPinValue()
+        {
+            var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
+            var primaryPin = "VCCPrimary";
+            var allPinsMergedGroup = "AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin";
+            var expectedVoltageLevelRange = 8.0;
+            var sessionsBundle = sessionManager.DCPower(allPinsMergedGroup);
+            sessionsBundle.MergePinGroup(allPinsMergedGroup);
+            sessionsBundle.ConfigureVoltageLevelRange(expectedVoltageLevelRange);
+
+            var voltageLevelRange = sessionsBundle.GetVoltageLevelRange();
+
+            Assert.Single(voltageLevelRange.PinNames);
+            Assert.Equal(primaryPin, voltageLevelRange.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(allPinsMergedGroup, voltageLevelRange.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLevelRange, voltageLevelRange.GetValue(sitePinInfo));
+            });
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGangedConfigureVoltageLevelRange_GetVoltageLevelRange_ReturnsCorrectValue(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var expectedVoltageLevelRange = 8.0;
+            var sessionsBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            sessionsBundle.GangPinGroup(TwoPinsGangedGroup);
+            sessionsBundle.ConfigureVoltageLevelRange(expectedVoltageLevelRange);
+
+            var voltageLevelRange = sessionsBundle.GetVoltageLevelRange();
+
+            Assert.Equal(2, voltageLevelRange.PinNames.Length);
+            Assert.DoesNotContain(TwoPinsGangedGroup, voltageLevelRange.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLevelRange, voltageLevelRange.GetValue(sitePinInfo), 4);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevicesConfigureVoltageLevelRange_GetVoltageLevelRange_ReturnsCorrectValue(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var expectedVoltageLevelRange = 8.0;
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            sessionsBundle.ConfigureVoltageLevelRange(expectedVoltageLevelRange);
+
+            var voltageLevelRange = sessionsBundle.GetVoltageLevelRange();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLevelRange, voltageLevelRange.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesSetPerPinPerSiteVoltageLevelRange_GetVoltageLevelRange_ReturnsCorrectValue()
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var pinNames = new string[] { "VCC1", "VCC2", "VDET" };
+            var sessionsBundle = sessionManager.DCPower(pinNames);
+            var activeSites = GetActiveSites(sessionsBundle);
+            var expectedVoltageLevelRange = new PinSiteData<double>(activeSites, new Dictionary<string, double>()
+            {
+                [pinNames[0]] = 1.0,
+                [pinNames[1]] = 8.0,
+                [pinNames[2]] = 1.0
+            });
+            sessionsBundle.ConfigureVoltageLevelRange(expectedVoltageLevelRange);
+
+            var values = sessionsBundle.GetVoltageLevelRange();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLevelRange.GetValue(sitePinInfo), values.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void SharedPinsConfigureVoltageLevelRangeOnFilteredSites_GetVoltageLevelRange_ReturnsSameValueForAllPrimaryAndShadowSites()
+        {
+            var sessionManager = Initialize("SharedPinTests.pinmap");
+            var pinName = "VCC2";
+            var expectedVoltageLevelRange = 8.0;
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            var nonSharedAndPrimaryBundle = sessionsBundle.FilterBySite(new[] { 0, 1 });
+            nonSharedAndPrimaryBundle.ConfigureVoltageLevelRange(expectedVoltageLevelRange);
+
+            var voltageLevelRange = nonSharedAndPrimaryBundle.GetVoltageLevelRange();
+
+            nonSharedAndPrimaryBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLevelRange, voltageLevelRange.GetValue(sitePinInfo));
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
         public void DifferentSMUDevices_ConfigureCurrentLimitLowWithScalarValues_CorrectCurrentLimitLowSet(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
@@ -5503,6 +6739,3974 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
         }
 
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureCurrentLimitHighWithScalarValue_CorrectCurrentLimitHighSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var expectedCurrentLimitHigh = 1E-3;
+
+            sessionsBundle.ConfigureCurrentLimitHigh(expectedCurrentLimitHigh);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualCurrentLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
+                Assert.Equal(expectedCurrentLimitHigh, actualCurrentLimitHigh);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitHighWithScalarValue_CurrentLimitHighDividedByGangSizeSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var expectedCurrentLimitHigh = 1E-2;
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureCurrentLimitHigh(expectedCurrentLimitHigh);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var currentLimitHighDivisor = sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                var actualCurrentLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
+                Assert.Equal(expectedCurrentLimitHigh / currentLimitHighDivisor, actualCurrentLimitHigh, 4);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureCurrentLimitHighWithPerSiteValues_CorrectCurrentLimitHighSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var currentLimitHigh = new SiteData<double>(new[] { 1E-2, 1E-3 });
+
+            sessionsBundle.ConfigureCurrentLimitHigh(currentLimitHigh);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLimitHigh = currentLimitHigh.GetValue(sitePinInfo.SiteNumber);
+                var actualCurrentLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
+                Assert.Equal(expectedCurrentLimitHigh, actualCurrentLimitHigh);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitHighWithPerSiteValues_CurrentLimitHighDividedByGangSizeSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var currentLimitHigh = new SiteData<double>(new[] { 1E-2, 2E-2 });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureCurrentLimitHigh(currentLimitHigh);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var currentLimitHighDivisor = sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                var expectedCurrentLimitHigh = currentLimitHigh.GetValue(sitePinInfo.SiteNumber);
+                var actualCurrentLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
+                Assert.Equal(expectedCurrentLimitHigh / currentLimitHighDivisor, actualCurrentLimitHigh, 4);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureCurrentLimitHighWithPerPinPerSiteValues_CorrectCurrentLimitHighSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
+            var currentLimitHigh = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 1E-2, [1] = 1E-3 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 1E-2, [1] = 1E-3 }
+            });
+
+            sessionsBundle.ConfigureCurrentLimitHigh(currentLimitHigh);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLimitHigh = currentLimitHigh.GetValue(sitePinInfo);
+                var actualCurrentLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
+                Assert.Equal(expectedCurrentLimitHigh, actualCurrentLimitHigh);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitHighWithSamePerPinPerSiteValues_CurrentLimitHighDividedByGangSizeSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(new string[] { ThreePinsGangedGroup, "VCC4" });
+            var currentLimitHigh = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                [ThreePinsGangedGroup] = new Dictionary<int, double>() { [0] = 3E-2, [1] = 3E-2 },
+                ["VCC4"] = new Dictionary<int, double>() { [0] = 1E-2, [1] = 1E-2 }
+            });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureCurrentLimitHigh(currentLimitHigh);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLimitHigh = currentLimitHigh.GetValue(sitePinInfo, out bool isGroupData);
+                var actualCurrentLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
+                var currentLimitHighDivisor = isGroupData && sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                Assert.Equal(expectedCurrentLimitHigh / currentLimitHighDivisor, actualCurrentLimitHigh, 4);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitHighWithDifferentPerPinPerSiteValues_CorrectCurrentLimitHighSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var currentLimitHigh = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 0.01, [1] = 0.02 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 0.01, [1] = 0.02 },
+                ["VCC3"] = new Dictionary<int, double>() { [0] = 0.01, [1] = 0.02 }
+            });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureCurrentLimitHigh(currentLimitHigh);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLimitHigh = currentLimitHigh.GetValue(sitePinInfo, out bool isGroupData);
+                var actualCurrentLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
+                var currentLimitHighDivisor = isGroupData && sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                Assert.Equal(expectedCurrentLimitHigh / currentLimitHighDivisor, actualCurrentLimitHigh, 4);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitHighOnFilteredBundleWithFewPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            void ConfigureCurrentLimitHigh()
+            {
+                filteredBundle.ConfigureCurrentLimitHigh(1E-2);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureCurrentLimitHigh);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitHighOnSubsetBundleWithTwoPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var subsetBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            void ConfigureCurrentLimitHigh()
+            {
+                subsetBundle.ConfigureCurrentLimitHigh(1E-2);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureCurrentLimitHigh);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_FilterBundleWithFewPinsAndUngangThenConfigureCurrentLimitHigh_CorrectCurrentLimitHighSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            var expectedCurrentLimitHigh = 1E-2;
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
+            filteredBundle.ConfigureCurrentLimitHigh(expectedCurrentLimitHigh);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (sitePinInfo.PinName == "VCC1" || sitePinInfo.PinName == "VCC2")
+                {
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    Assert.Equal(expectedCurrentLimitHigh, channelOutput.Source.Voltage.CurrentLimitHigh);
+                }
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureCurrentLimitRangeWithScalarValues_CorrectCurrentLimitRangeSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var expectedCurrentLimitRange = 0.1;
+
+            sessionsBundle.ConfigureCurrentLimitRange(expectedCurrentLimitRange);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualCurrentLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitRange;
+                Assert.Equal(expectedCurrentLimitRange, actualCurrentLimitRange);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitRangeWithScalarValues_CurrentLimitRangeDividedByGangSizeSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var currentLimitRange = 0.3;
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureCurrentLimitRange(currentLimitRange);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var currentLimitRangeDivisor = sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                var actualCurrentLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitRange;
+                Assert.Equal(currentLimitRange / currentLimitRangeDivisor, actualCurrentLimitRange, 4);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureCurrentLimitRangeWithPerSiteValues_CorrectCurrentLimitRangeSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var currentLimitRange = new SiteData<double>(new[] { 1E-1, 1E-1 });
+
+            sessionsBundle.ConfigureCurrentLimitRange(currentLimitRange);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLimitRange = currentLimitRange.GetValue(sitePinInfo.SiteNumber);
+                var actualCurrentLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitRange;
+                Assert.Equal(expectedCurrentLimitRange, actualCurrentLimitRange);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitRangeWithPerSiteValues_CurrentLimitRangeDividedByGangSizeSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var currentLimitRange = new SiteData<double>(new[] { 3E-1, 3E-1 });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureCurrentLimitRange(currentLimitRange);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var currentLimitRangeDivisor = sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                var expectedCurrentLimitRange = currentLimitRange.GetValue(sitePinInfo.SiteNumber) / currentLimitRangeDivisor;
+                var actualCurrentLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitRange;
+                Assert.Equal(expectedCurrentLimitRange, actualCurrentLimitRange, 4);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureCurrentLimitRangeWithPerPinPerSiteValues_CorrectCurrentLimitRangeSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
+            var currentLimitRange = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 1E-1, [1] = 1E-1 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 1E-1, [1] = 1E-1 }
+            });
+
+            sessionsBundle.ConfigureCurrentLimitRange(currentLimitRange);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLimitRange = currentLimitRange.GetValue(sitePinInfo);
+                var actualCurrentLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitRange;
+                Assert.Equal(expectedCurrentLimitRange, actualCurrentLimitRange);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitRangeWithSamePerPinPerSiteValues_CurrentLimitRangeDividedByGangSizeSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var currentLimitRange = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                [ThreePinsGangedGroup] = new Dictionary<int, double>() { [0] = 3E-1, [1] = 3E-1 },
+                ["VCC4"] = new Dictionary<int, double>() { [0] = 1E-1, [1] = 1E-1 }
+            });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureCurrentLimitRange(currentLimitRange);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLimitRange = currentLimitRange.GetValue(sitePinInfo, out bool isGroupData);
+                var currentLimitRangeDivisor = isGroupData && sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                var actualCurrentLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitRange;
+                Assert.Equal(expectedCurrentLimitRange / currentLimitRangeDivisor, actualCurrentLimitRange, 4);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitRangeWithDifferentPerPinPerSiteValues_CorrectCurrentLimitRangeSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var currentLimitRange = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 1E-1, [1] = 1 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 1E-1, [1] = 1E-1 },
+                ["VCC3"] = new Dictionary<int, double>() { [0] = 1E-1, [1] = 1E-1 }
+            });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureCurrentLimitRange(currentLimitRange);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLimitRange = currentLimitRange.GetValue(sitePinInfo, out bool isGroupData);
+                var currentLimitRangeDivisor = isGroupData && sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                var actualCurrentLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitRange;
+                Assert.Equal(expectedCurrentLimitRange / currentLimitRangeDivisor, actualCurrentLimitRange, 4);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitRangeOnFilteredBundleWithFewPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            void ConfigureCurrentLimitRange()
+            {
+                filteredBundle.ConfigureCurrentLimitRange(1E-2);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureCurrentLimitRange);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLimitRangeOnSubsetBundleWithTwoPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var subsetBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            void ConfigureCurrentLimitRange()
+            {
+                subsetBundle.ConfigureCurrentLimitRange(1E-2);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureCurrentLimitRange);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_FilterBundleWithFewPinsAndUngangThenConfigureCurrentLimitRange_CorrectCurrentLimitRangeSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            var expectedCurrentLimitRange = 1E-1;
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
+            filteredBundle.ConfigureCurrentLimitRange(expectedCurrentLimitRange);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (sitePinInfo.PinName == "VCC1" || sitePinInfo.PinName == "VCC2")
+                {
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    Assert.Equal(expectedCurrentLimitRange, channelOutput.Source.Voltage.CurrentLimitRange);
+                }
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap", DCPowerComplianceLimitSymmetry.Asymmetric)]
+        [InlineData("Mixed Signal Tests.pinmap", DCPowerComplianceLimitSymmetry.Symmetric)]
+        [InlineData("SharedPinTests.pinmap", DCPowerComplianceLimitSymmetry.Asymmetric)]
+        [InlineData("SharedPinTests.pinmap", DCPowerComplianceLimitSymmetry.Symmetric)]
+        public void DifferentSMUDevices_ConfigureLimitSymmetryWithScalarValues_CorrectLimitSymmetrySet(string pinMap, DCPowerComplianceLimitSymmetry limitSymmetry)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+
+            sessionsBundle.ConfigureLimitSymmetry(limitSymmetry);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualLimitSymmetry = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
+                Assert.Equal(limitSymmetry, actualLimitSymmetry);
+            });
+        }
+
+        [Theory]
+        [InlineData(DCPowerComplianceLimitSymmetry.Asymmetric)]
+        [InlineData(DCPowerComplianceLimitSymmetry.Symmetric)]
+        public void DifferentSMUDevicesGanged_ConfigureLimitSymmetryWithScalarValues_CorrectLimitSymmetrySet(DCPowerComplianceLimitSymmetry limitSymmetry)
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureLimitSymmetry(limitSymmetry);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualLimitSymmetry = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
+                Assert.Equal(limitSymmetry, actualLimitSymmetry);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureLimitSymmetryWithPerSiteValues_CorrectLimitSymmetrySet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var limitSymmetry = new SiteData<DCPowerComplianceLimitSymmetry>(new[] { DCPowerComplianceLimitSymmetry.Symmetric, DCPowerComplianceLimitSymmetry.Asymmetric });
+
+            sessionsBundle.ConfigureLimitSymmetry(limitSymmetry);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedLimitSymmetry = limitSymmetry.GetValue(sitePinInfo.SiteNumber);
+                var actualLimitSymmetry = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
+                Assert.Equal(expectedLimitSymmetry, actualLimitSymmetry);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureLimitSymmetryWithPerSiteValues_CorrectLimitSymmetrySet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var limitSymmetry = new SiteData<DCPowerComplianceLimitSymmetry>(new[] { DCPowerComplianceLimitSymmetry.Symmetric, DCPowerComplianceLimitSymmetry.Asymmetric });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureLimitSymmetry(limitSymmetry);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedLimitSymmetry = limitSymmetry.GetValue(sitePinInfo.SiteNumber);
+                var actualLimitSymmetry = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
+                Assert.Equal(expectedLimitSymmetry, actualLimitSymmetry);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureLimitSymmetryWithPerPinPerSiteValues_CorrectLimitSymmetrySet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
+            var limitSymmetry = new PinSiteData<DCPowerComplianceLimitSymmetry>(new Dictionary<string, IDictionary<int, DCPowerComplianceLimitSymmetry>>()
+            {
+                ["VCC1"] = new Dictionary<int, DCPowerComplianceLimitSymmetry>() { [0] = DCPowerComplianceLimitSymmetry.Symmetric, [1] = DCPowerComplianceLimitSymmetry.Asymmetric },
+                ["VCC2"] = new Dictionary<int, DCPowerComplianceLimitSymmetry>() { [0] = DCPowerComplianceLimitSymmetry.Asymmetric, [1] = DCPowerComplianceLimitSymmetry.Symmetric }
+            });
+
+            sessionsBundle.ConfigureLimitSymmetry(limitSymmetry);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedLimitSymmetry = limitSymmetry.GetValue(sitePinInfo);
+                var actualLimitSymmetry = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
+                Assert.Equal(expectedLimitSymmetry, actualLimitSymmetry);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureLimitSymmetryWithPerPinPerSiteValues_CorrectLimitSymmetrySet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(new string[] { ThreePinsGangedGroup, "VCC4" });
+            var limitSymmetry = new PinSiteData<DCPowerComplianceLimitSymmetry>(new Dictionary<string, IDictionary<int, DCPowerComplianceLimitSymmetry>>()
+            {
+                [ThreePinsGangedGroup] = new Dictionary<int, DCPowerComplianceLimitSymmetry>() { [0] = DCPowerComplianceLimitSymmetry.Symmetric, [1] = DCPowerComplianceLimitSymmetry.Asymmetric },
+                ["VCC4"] = new Dictionary<int, DCPowerComplianceLimitSymmetry>() { [0] = DCPowerComplianceLimitSymmetry.Asymmetric, [1] = DCPowerComplianceLimitSymmetry.Symmetric }
+            });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureLimitSymmetry(limitSymmetry);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedLimitSymmetry = limitSymmetry.GetValue(sitePinInfo);
+                var actualLimitSymmetry = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
+                Assert.Equal(expectedLimitSymmetry, actualLimitSymmetry);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureLimitSymmetryOnFilteredBundleWithFewPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            void ConfigureLimitSymmetry()
+            {
+                filteredBundle.ConfigureLimitSymmetry(DCPowerComplianceLimitSymmetry.Asymmetric);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureLimitSymmetry);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureLimitSymmetryOnSubsetBundleWithTwoPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var subsetBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            void ConfigureLimitSymmetry()
+            {
+                subsetBundle.ConfigureLimitSymmetry(DCPowerComplianceLimitSymmetry.Asymmetric);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureLimitSymmetry);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_FilterBundleWithFewPinsAndUngangThenConfigureLimitSymmetry_CorrectLimitSymmetrySet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            var expectedLimitSymmetry = DCPowerComplianceLimitSymmetry.Asymmetric;
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
+            filteredBundle.ConfigureLimitSymmetry(expectedLimitSymmetry);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (sitePinInfo.PinName == "VCC1" || sitePinInfo.PinName == "VCC2")
+                {
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    Assert.Equal(expectedLimitSymmetry, channelOutput.Source.ComplianceLimitSymmetry);
+                }
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureCurrentLevelWithScalarValues_CorrectCurrentLevelSet(string pinmap)
+        {
+            var sessionManager = Initialize(pinmap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var expectedCurrentLevel = 1E-2;
+
+            sessionsBundle.ConfigureCurrentLevel(expectedCurrentLevel);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualCurrentLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevel;
+                Assert.Equal(expectedCurrentLevel, actualCurrentLevel);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLevelWithScalarValues_CurrentLevelDividedByGangSizeSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var expectedCurrentLevel = 1E-2;
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureCurrentLevel(expectedCurrentLevel);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var currentLevelDivisor = sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                var actualCurrentLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevel;
+                Assert.Equal(expectedCurrentLevel / currentLevelDivisor, actualCurrentLevel, 4);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureCurrentLevelWithPerSiteValues_CorrectCurrentLevelSet(string pinmap)
+        {
+            var sessionManager = Initialize(pinmap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var currentLevel = new SiteData<double>(new[] { 1E-2, 2E-2 });
+
+            sessionsBundle.ConfigureCurrentLevel(currentLevel);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLevel = currentLevel.GetValue(sitePinInfo.SiteNumber);
+                var actualCurrentLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevel;
+                Assert.Equal(expectedCurrentLevel, actualCurrentLevel);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLevelWithPerSiteValues_CurrentLevelDividedByGangSizeSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var currentLevel = new SiteData<double>(new[] { 1E-2, 2E-2 });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureCurrentLevel(currentLevel);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var currentLevelDivisor = sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                var actualCurrentLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevel;
+                var expectedCurrentLevel = currentLevel.GetValue(sitePinInfo.SiteNumber) / currentLevelDivisor;
+                Assert.Equal(expectedCurrentLevel, actualCurrentLevel, 4);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureCurrentLevelWithPerPinPerSiteValues_CorrectCurrentLevelSet(string pinmap)
+        {
+            var sessionManager = Initialize(pinmap);
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
+            var currentLevel = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 1E-2, [1] = 2E-2 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 1E-2, [1] = 2E-2 }
+            });
+
+            sessionsBundle.ConfigureCurrentLevel(currentLevel);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLevel = currentLevel.GetValue(sitePinInfo);
+                var actualCurrentLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevel;
+                Assert.Equal(expectedCurrentLevel, actualCurrentLevel);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLevelWithPerPinPerSiteValues_CurrentLevelDividedByGangSizeSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var currentLevel = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                [ThreePinsGangedGroup] = new Dictionary<int, double>() { [0] = 1E-2, [1] = 1E-3 },
+                ["VCC4"] = new Dictionary<int, double>() { [0] = 1E-2, [1] = 1E-3 }
+            });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureCurrentLevel(currentLevel);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLevel = currentLevel.GetValue(sitePinInfo, out bool isGroupData);
+                var currentLevelDivisor = isGroupData && sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                var actualCurrentLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevel;
+                Assert.Equal(expectedCurrentLevel / currentLevelDivisor, actualCurrentLevel, 4);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLevelWithDifferentPerPinPerSiteValues_CorrectCurrentLevelSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var currentLevel = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 1E-2, [1] = 1E-3 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 1E-3, [1] = 1E-3 },
+                ["VCC3"] = new Dictionary<int, double>() { [0] = 1E-2, [1] = 1E-3 }
+            });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureCurrentLevel(currentLevel);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLevel = currentLevel.GetValue(sitePinInfo, out bool isGroupData);
+                var currentLevelDivisor = isGroupData && sitePinInfo.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                var actualCurrentLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevel;
+                Assert.Equal(expectedCurrentLevel / currentLevelDivisor, actualCurrentLevel, 4);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLevelOnFilteredBundleWithFewPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            void ConfigureCurrentLevel()
+            {
+                filteredBundle.ConfigureCurrentLevel(1E-2);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureCurrentLevel);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureCurrentLevelOnSubsetBundleWithTwoPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var subsetBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            void ConfigureCurrentLimitHigh()
+            {
+                subsetBundle.ConfigureCurrentLevel(1E-2);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureCurrentLimitHigh);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_FilterBundleWithFewPinsAndUngangThenConfigureCurrentLevel_CorrectCurrentLimitHighSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            var expectedCurrentLevel = 1E-2;
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
+            filteredBundle.ConfigureCurrentLevel(expectedCurrentLevel);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (sitePinInfo.PinName == "VCC1" || sitePinInfo.PinName == "VCC2")
+                {
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    Assert.Equal(expectedCurrentLevel, channelOutput.Source.Current.CurrentLevel);
+                }
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureVoltageLimitWithScalarValues_CorrectVoltageLimitSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower("VCC1");
+            var expectedVoltageLimit = 1E-1;
+
+            sessionsBundle.ConfigureVoltageLimit(expectedVoltageLimit);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualVoltageLimit = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimit;
+                Assert.Equal(expectedVoltageLimit, actualVoltageLimit);
+            });
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitWithScalarValue_CorrectVoltageLimitSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var expectedVoltageLimit = 1.0;
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureVoltageLimit(expectedVoltageLimit);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualVoltageLimit = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimit;
+                Assert.Equal(expectedVoltageLimit, actualVoltageLimit);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureVoltageLimitWithPerSiteValues_CorrectVoltageLimitSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower("VCC1");
+            var voltageLimit = new SiteData<double>(new[] { 1E-1, 2E-1 });
+
+            sessionsBundle.ConfigureVoltageLimit(voltageLimit);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLimit = voltageLimit.GetValue(sitePinInfo.SiteNumber);
+                var actualVoltageLimit = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimit;
+                Assert.Equal(expectedVoltageLimit, actualVoltageLimit);
+            });
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitWithPerSiteValues_CorrectVoltageLimitSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var voltageLimit = new SiteData<double>(new[] { 1.0, 3.0 });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureVoltageLimit(voltageLimit);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLimit = voltageLimit.GetValue(sitePinInfo.SiteNumber);
+                var actualVoltageLimit = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimit;
+                Assert.Equal(expectedVoltageLimit, actualVoltageLimit);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureVoltageLimitWithPerPinPerSiteValues_CorrectVoltageLimitSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
+            var voltageLimit = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 1E-1, [1] = 3.0 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 2E-1, [1] = 2.0 }
+            });
+
+            sessionsBundle.ConfigureVoltageLimit(voltageLimit);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLimit = voltageLimit.GetValue(sitePinInfo);
+                var actualVoltageLimit = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimit;
+                Assert.Equal(expectedVoltageLimit, actualVoltageLimit);
+            });
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureVoltageLimitWithScalarValueAndUpdateMode_CorrectVoltageLimitIsSetAndMatchesUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC1");
+            var expectedVoltageLimit = 1E-1;
+
+            sessionsBundle.ConfigureVoltageLimit(expectedVoltageLimit, updateMode);
+            void InitiateTest()
+            {
+                sessionsBundle.Initiate();
+            }
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualVoltageLimit = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimit;
+                Assert.Equal(expectedVoltageLimit, actualVoltageLimit);
+            });
+            if (updateMode == UpdateMode.Immediate)
+            {
+                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
+                Assert.Contains("The session is already running.", exception.Message);
+            }
+            else
+            {
+                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
+            }
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureVoltageLimitWithPerSiteValuesAndUpdateMode_CorrectVoltageLimitsAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC1");
+            var voltageLimits = new SiteData<double>(new[] { 1E-1, 2E-1 });
+
+            sessionsBundle.ConfigureVoltageLimit(voltageLimits, updateMode);
+            void InitiateTest()
+            {
+                sessionsBundle.Initiate();
+            }
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLimit = voltageLimits.GetValue(sitePinInfo.SiteNumber);
+                var actualVoltageLimit = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimit;
+                Assert.Equal(expectedVoltageLimit, actualVoltageLimit);
+            });
+            if (updateMode == UpdateMode.Immediate)
+            {
+                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
+                Assert.Contains("The session is already running.", exception.Message);
+            }
+            else
+            {
+                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
+            }
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureVoltageLimitWithPerPinPerSiteValuesAndUpdateMode_CorrectVoltageLimitsAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
+            var voltageLimits = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 1E-1, [1] = 3.0 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 2E-1, [1] = 2.0 }
+            });
+
+            sessionsBundle.ConfigureVoltageLimit(voltageLimits, updateMode);
+            void InitiateTest()
+            {
+                sessionsBundle.Initiate();
+            }
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLimit = voltageLimits.GetValue(sitePinInfo);
+                var actualVoltageLimit = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimit;
+                Assert.Equal(expectedVoltageLimit, actualVoltageLimit);
+            });
+            if (updateMode == UpdateMode.Immediate)
+            {
+                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
+                Assert.Contains("The session is already running.", exception.Message);
+            }
+            else
+            {
+                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
+            }
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitWithSamePerPinPerSiteValues_CorrectVoltageLimitSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower(new string[] { ThreePinsGangedGroup, "VCC4" });
+            var voltageLimit = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                [ThreePinsGangedGroup] = new Dictionary<int, double>() { [0] = 3.3, [1] = 6.6 },
+                ["VCC4"] = new Dictionary<int, double>() { [0] = 3E-1, [1] = 4 }
+            });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureVoltageLimit(voltageLimit);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLimit = voltageLimit.GetValue(sitePinInfo);
+                var actualVoltageLimit = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimit;
+                Assert.Equal(expectedVoltageLimit, actualVoltageLimit);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitWithDifferentPerPinPerSiteValues_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var voltageLimit = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 1E-1, [1] = 2E-1 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 2E-1, [1] = 2E-1 },
+                ["VCC3"] = new Dictionary<int, double>() { [0] = 1E-1, [1] = 2E-1 },
+            });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            void ConfigureVoltageLimit() => sessionsBundle.ConfigureVoltageLimit(voltageLimit);
+
+            var exception = Assert.Throws<AggregateException>(ConfigureVoltageLimit);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("The parameter contains different values for cascaded pins", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitOnFilteredBundleWithFewPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            void ConfigureVoltageLimit()
+            {
+                filteredBundle.ConfigureVoltageLimit(1E-2);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureVoltageLimit);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitOnSubsetBundleWithTwoPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var subsetBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            void ConfigureVoltageLimit()
+            {
+                subsetBundle.ConfigureVoltageLimit(1E-2);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureVoltageLimit);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_FilterBundleWithFewPinsAndUngangThenConfigureVoltageLimit_CorrectVoltageLimitSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            var expectedVoltageLimit = 1E-1;
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
+            filteredBundle.ConfigureVoltageLimit(expectedVoltageLimit);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (sitePinInfo.PinName == "VCC1" || sitePinInfo.PinName == "VCC2")
+                {
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    Assert.Equal(expectedVoltageLimit, channelOutput.Source.Current.VoltageLimit);
+                }
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureVoltageLimitLowWithScalarValues_CorrectVoltageLimitLowSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var expectedVoltageLimitLow = -5.0;
+
+            sessionsBundle.ConfigureVoltageLimitLow(expectedVoltageLimitLow);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualVoltageLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitLow;
+                Assert.Equal(expectedVoltageLimitLow, actualVoltageLimitLow);
+            });
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitLowWithScalarValue_CorrectVoltageLimitLowSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var expectedVoltageLimitLow = -15.0;
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureVoltageLimitLow(expectedVoltageLimitLow);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualVoltageLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitLow;
+                Assert.Equal(expectedVoltageLimitLow, actualVoltageLimitLow);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureVoltageLimitLowWithPerSiteValues_CorrectVoltageLimitLowSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var voltageLimitLow = new SiteData<double>(new[] { -3.0, -5.0 });
+
+            sessionsBundle.ConfigureVoltageLimitLow(voltageLimitLow);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLimitLow = voltageLimitLow.GetValue(sitePinInfo.SiteNumber);
+                var actualVoltageLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitLow;
+                Assert.Equal(expectedVoltageLimitLow, actualVoltageLimitLow);
+            });
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitLowWithPerSiteValues_CorrectVoltageLimitLowSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var voltageLimitLow = new SiteData<double>(new[] { -9.0, -18.0 });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureVoltageLimitLow(voltageLimitLow);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLimitLow = voltageLimitLow.GetValue(sitePinInfo.SiteNumber);
+                var actualVoltageLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitLow;
+                Assert.Equal(expectedVoltageLimitLow, actualVoltageLimitLow);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureVoltageLimitLowWithPerPinPerSiteValues_CorrectVoltageLimitLowSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
+            var voltageLimitLow = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = -3.0, [1] = -5.0 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = -3.0, [1] = -5.0 }
+            });
+
+            sessionsBundle.ConfigureVoltageLimitLow(voltageLimitLow);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLimitLow = voltageLimitLow.GetValue(sitePinInfo);
+                var actualVoltageLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitLow;
+                Assert.Equal(expectedVoltageLimitLow, actualVoltageLimitLow);
+            });
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureVoltageLimitLowWithScalarValueAndUpdateMode_CorrectVoltageLimitLowIsSetAndMatchesUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var expectedVoltageLimitLow = -5.0;
+
+            sessionsBundle.ConfigureVoltageLimitLow(expectedVoltageLimitLow, updateMode);
+            void InitiateTest()
+            {
+                sessionsBundle.Initiate();
+            }
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualVoltageLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitLow;
+                Assert.Equal(expectedVoltageLimitLow, actualVoltageLimitLow);
+            });
+            if (updateMode == UpdateMode.Immediate)
+            {
+                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
+                Assert.Contains("The session is already running.", exception.Message);
+            }
+            else
+            {
+                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
+            }
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureVoltageLimitLowWithPerSiteValuesAndUpdateMode_CorrectVoltageLimitLowsAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var voltageLimitLows = new SiteData<double>(new[] { -3.0, -5.0 });
+
+            sessionsBundle.ConfigureVoltageLimitLow(voltageLimitLows, updateMode);
+            void InitiateTest()
+            {
+                sessionsBundle.Initiate();
+            }
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLimitLow = voltageLimitLows.GetValue(sitePinInfo.SiteNumber);
+                var actualVoltageLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitLow;
+                Assert.Equal(expectedVoltageLimitLow, actualVoltageLimitLow);
+            });
+            if (updateMode == UpdateMode.Immediate)
+            {
+                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
+                Assert.Contains("The session is already running.", exception.Message);
+            }
+            else
+            {
+                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
+            }
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureVoltageLimitLowWithPerPinPerSiteValuesAndUpdateMode_CorrectVoltageLimitLowsAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
+            var voltageLimitLows = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = -3.0, [1] = -5.0 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = -3.0, [1] = -5.0 }
+            });
+
+            sessionsBundle.ConfigureVoltageLimitLow(voltageLimitLows, updateMode);
+            void InitiateTest()
+            {
+                sessionsBundle.Initiate();
+            }
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLimitLow = voltageLimitLows.GetValue(sitePinInfo);
+                var actualVoltageLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitLow;
+                Assert.Equal(expectedVoltageLimitLow, actualVoltageLimitLow);
+            });
+            if (updateMode == UpdateMode.Immediate)
+            {
+                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
+                Assert.Contains("The session is already running.", exception.Message);
+            }
+            else
+            {
+                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
+            }
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitLowWithSamePerPinPerSiteValues_CorrectVoltageLimitLowSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower(new string[] { ThreePinsGangedGroup, "VCC4" });
+            var voltageLimitLow = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                [ThreePinsGangedGroup] = new Dictionary<int, double>() { [0] = -9.0, [1] = -18.0 },
+                ["VCC4"] = new Dictionary<int, double>() { [0] = -9.0, [1] = -18.0 }
+            });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureVoltageLimitLow(voltageLimitLow);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLimitLow = voltageLimitLow.GetValue(sitePinInfo);
+                var actualVoltageLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitLow;
+                Assert.Equal(expectedVoltageLimitLow, actualVoltageLimitLow);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitLowWithDifferentPerPinPerSiteValues_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var voltageLimitLow = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = -5.0, [1] = -10.0 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = -10.0, [1] = -10.0 },
+                ["VCC3"] = new Dictionary<int, double>() { [0] = -5.0, [1] = -10.0 }
+            });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            void ConfigureVoltageLimitLow() => sessionsBundle.ConfigureVoltageLimitLow(voltageLimitLow);
+
+            var exception = Assert.Throws<AggregateException>(ConfigureVoltageLimitLow);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("The parameter contains different values for cascaded pins", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitLowOnFilteredBundleWithFewPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            void ConfigureVoltageLimitLow()
+            {
+                filteredBundle.ConfigureVoltageLimitLow(-5.0);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureVoltageLimitLow);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitLowOnSubsetBundleWithTwoPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var subsetBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            void ConfigureVoltageLimitLow()
+            {
+                subsetBundle.ConfigureVoltageLimitLow(-5.0);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureVoltageLimitLow);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_FilterBundleWithFewPinsAndUngangThenConfigureVoltageLimitLow_CorrectVoltageLimitLowSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            var expectedVoltageLimitLow = -1.0;
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
+            filteredBundle.ConfigureVoltageLimitLow(expectedVoltageLimitLow);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                if (sitePinInfo.PinName == "VCC1" || sitePinInfo.PinName == "VCC2")
+                {
+                    Assert.Equal(expectedVoltageLimitLow, channelOutput.Source.Current.VoltageLimitLow);
+                }
+                else
+                {
+                    Assert.NotEqual(expectedVoltageLimitLow, channelOutput.Source.Current.VoltageLimitLow);
+                }
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureVoltageLimitHighWithScalarValue_CorrectVoltageLimitHighSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var expectedVoltageLimitHigh = 5.0;
+
+            sessionsBundle.ConfigureVoltageLimitHigh(expectedVoltageLimitHigh);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualVoltageLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitHigh;
+                Assert.Equal(expectedVoltageLimitHigh, actualVoltageLimitHigh);
+            });
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitHighWithScalarValue_CorrectVoltageLimitHighSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var expectedVoltageLimitHigh = 15.0;
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureVoltageLimitHigh(expectedVoltageLimitHigh);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualVoltageLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitHigh;
+                Assert.Equal(expectedVoltageLimitHigh, actualVoltageLimitHigh);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureVoltageLimitHighWithPerSiteValues_CorrectVoltageLimitHighSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var voltageLimitHigh = new SiteData<double>(new[] { 3.0, 5.0 });
+
+            sessionsBundle.ConfigureVoltageLimitHigh(voltageLimitHigh);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLimitHigh = voltageLimitHigh.GetValue(sitePinInfo.SiteNumber);
+                var actualVoltageLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitHigh;
+                Assert.Equal(expectedVoltageLimitHigh, actualVoltageLimitHigh);
+            });
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitHighWithPerSiteValues_CorrectVoltageLimitHighSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var voltageLimitHigh = new SiteData<double>(new[] { 9.0, 18.0 });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureVoltageLimitHigh(voltageLimitHigh);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLimitHigh = voltageLimitHigh.GetValue(sitePinInfo.SiteNumber);
+                var actualVoltageLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitHigh;
+                Assert.Equal(expectedVoltageLimitHigh, actualVoltageLimitHigh);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureVoltageLimitHighWithPerPinPerSiteValues_CorrectVoltageLimitHighSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
+            var voltageLimitHigh = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 3.0, [1] = 5.0 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 3.0, [1] = 5.0 }
+            });
+
+            sessionsBundle.ConfigureVoltageLimitHigh(voltageLimitHigh);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLimitHigh = voltageLimitHigh.GetValue(sitePinInfo);
+                var actualVoltageLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitHigh;
+                Assert.Equal(expectedVoltageLimitHigh, actualVoltageLimitHigh);
+            });
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureVoltageLimitHighWithScalarValueAndUpdateMode_CorrectVoltageLimitHighIsSetAndMatchesUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var expectedVoltageLimitHigh = 5.0;
+
+            sessionsBundle.ConfigureVoltageLimitHigh(expectedVoltageLimitHigh, updateMode);
+            void InitiateTest()
+            {
+                sessionsBundle.Initiate();
+            }
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualVoltageLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitHigh;
+                Assert.Equal(expectedVoltageLimitHigh, actualVoltageLimitHigh);
+            });
+            if (updateMode == UpdateMode.Immediate)
+            {
+                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
+                Assert.Contains("The session is already running.", exception.Message);
+            }
+            else
+            {
+                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
+            }
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureVoltageLimitHighWithPerSiteValuesAndUpdateMode_CorrectVoltageLimitHighsAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var voltageLimitHighs = new SiteData<double>(new[] { 3.0, 5.0 });
+
+            sessionsBundle.ConfigureVoltageLimitHigh(voltageLimitHighs, updateMode);
+            void InitiateTest()
+            {
+                sessionsBundle.Initiate();
+            }
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLimitHigh = voltageLimitHighs.GetValue(sitePinInfo.SiteNumber);
+                var actualVoltageLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitHigh;
+                Assert.Equal(expectedVoltageLimitHigh, actualVoltageLimitHigh);
+            });
+            if (updateMode == UpdateMode.Immediate)
+            {
+                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
+                Assert.Contains("The session is already running.", exception.Message);
+            }
+            else
+            {
+                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
+            }
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureVoltageLimitHighWithPerPinPerSiteValuesAndUpdateMode_CorrectVoltageLimitHighsAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
+            var voltageLimitHighs = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 3.0, [1] = 5.0 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 3.0, [1] = 5.0 }
+            });
+
+            sessionsBundle.ConfigureVoltageLimitHigh(voltageLimitHighs, updateMode);
+            void InitiateTest()
+            {
+                sessionsBundle.Initiate();
+            }
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLimitHigh = voltageLimitHighs.GetValue(sitePinInfo);
+                var actualVoltageLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitHigh;
+                Assert.Equal(expectedVoltageLimitHigh, actualVoltageLimitHigh);
+            });
+            if (updateMode == UpdateMode.Immediate)
+            {
+                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
+                Assert.Contains("The session is already running.", exception.Message);
+            }
+            else
+            {
+                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
+            }
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitHighWithSamePerPinPerSiteValues_CorrectVoltageLimitHighSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower(new string[] { ThreePinsGangedGroup, "VCC4" });
+            var voltageLimitHigh = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                [ThreePinsGangedGroup] = new Dictionary<int, double>() { [0] = 9.0, [1] = 18.0 },
+                ["VCC4"] = new Dictionary<int, double>() { [0] = 9.0, [1] = 18.0 }
+            });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureVoltageLimitHigh(voltageLimitHigh);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLimitHigh = voltageLimitHigh.GetValue(sitePinInfo);
+                var actualVoltageLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitHigh;
+                Assert.Equal(expectedVoltageLimitHigh, actualVoltageLimitHigh);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitHighWithDifferentPerPinPerSiteValues_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var voltageLimitHigh = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 5.0, [1] = 10.0 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 10.0, [1] = 10.0 },
+                ["VCC3"] = new Dictionary<int, double>() { [0] = 5.0, [1] = 10.0 }
+            });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            void ConfigureVoltageLimitHigh() => sessionsBundle.ConfigureVoltageLimitHigh(voltageLimitHigh);
+
+            var exception = Assert.Throws<AggregateException>(ConfigureVoltageLimitHigh);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("The parameter contains different values for cascaded pins", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitHighOnFilteredBundleWithFewPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            void ConfigureVoltageLimitHigh()
+            {
+                filteredBundle.ConfigureVoltageLimitHigh(5.0);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureVoltageLimitHigh);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitHighOnSubsetBundleWithTwoPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var subsetBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            void ConfigureVoltageLimitHigh()
+            {
+                subsetBundle.ConfigureVoltageLimitHigh(5.0);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureVoltageLimitHigh);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_FilterBundleWithFewPinsAndUngangThenConfigureVoltageLimitHigh_CorrectVoltageLimitHighSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            var expectedVoltageLimitHigh = 1.0;
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
+            filteredBundle.ConfigureVoltageLimitHigh(expectedVoltageLimitHigh);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                if (sitePinInfo.PinName == "VCC1" || sitePinInfo.PinName == "VCC2")
+                {
+                    Assert.Equal(expectedVoltageLimitHigh, channelOutput.Source.Current.VoltageLimitHigh);
+                }
+                else
+                {
+                    Assert.NotEqual(expectedVoltageLimitHigh, channelOutput.Source.Current.VoltageLimitHigh);
+                }
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureVoltageLimitRangeWithScalarValues_CorrectVoltageLimitRangeSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var expectedVoltageLimitRange = 8.0;
+
+            sessionsBundle.ConfigureVoltageLimitRange(expectedVoltageLimitRange);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualVoltageLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitRange;
+                Assert.Equal(expectedVoltageLimitRange, actualVoltageLimitRange);
+            });
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitRangeWithScalarValue_CorrectVoltageLimitRangeSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            var expectedVoltageLimitRange = 8.0;
+            sessionsBundle.GangPinGroup(TwoPinsGangedGroup);
+
+            sessionsBundle.ConfigureVoltageLimitRange(expectedVoltageLimitRange);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualVoltageLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitRange;
+                Assert.Equal(expectedVoltageLimitRange, actualVoltageLimitRange, 4);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureVoltageLimitRangeWithPerSiteValues_CorrectVoltageLimitRangeSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var voltageLimitRanges = new SiteData<double>(new[] { 8.0, 8.0 });
+
+            sessionsBundle.ConfigureVoltageLimitRange(voltageLimitRanges);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLimitRange = voltageLimitRanges.GetValue(sitePinInfo.SiteNumber);
+                var actualVoltageLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitRange;
+                Assert.Equal(expectedVoltageLimitRange, actualVoltageLimitRange);
+            });
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitRangeWithPerSiteValues_CorrectVoltageLimitRangeSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            var voltageLimitRanges = new SiteData<double>(new[] { 8.0, 8.0 });
+            sessionsBundle.GangPinGroup(TwoPinsGangedGroup);
+
+            sessionsBundle.ConfigureVoltageLimitRange(voltageLimitRanges);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLimitRange = voltageLimitRanges.GetValue(sitePinInfo.SiteNumber);
+                var actualVoltageLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitRange;
+                Assert.Equal(expectedVoltageLimitRange, actualVoltageLimitRange, 4);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureVoltageLimitRangeWithPerPinPerSiteValues_CorrectVoltageLimitRangeSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
+            var voltageLimitRanges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 8.0, [1] = 8.0 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 8.0, [1] = 8.0 }
+            });
+
+            sessionsBundle.ConfigureVoltageLimitRange(voltageLimitRanges);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLimitRange = voltageLimitRanges.GetValue(sitePinInfo);
+                var actualVoltageLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitRange;
+                Assert.Equal(expectedVoltageLimitRange, actualVoltageLimitRange);
+            });
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureVoltageLimitRangeWithScalarValueAndUpdateMode_CorrectVoltageLimitRangeIsSetAndMatchesUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var expectedVoltageLimitRange = 8.0;
+
+            sessionsBundle.ConfigureVoltageLimitRange(expectedVoltageLimitRange, updateMode);
+            void InitiateTest()
+            {
+                sessionsBundle.Initiate();
+            }
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualVoltageLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitRange;
+                Assert.Equal(expectedVoltageLimitRange, actualVoltageLimitRange);
+            });
+            if (updateMode == UpdateMode.Immediate)
+            {
+                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
+                Assert.Contains("The session is already running.", exception.Message);
+            }
+            else
+            {
+                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
+            }
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureVoltageLimitRangeWithPerSiteValuesAndUpdateMode_CorrectVoltageLimitRangesAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var voltageLimitRanges = new SiteData<double>(new[] { 8.0, 8.0 });
+
+            sessionsBundle.ConfigureVoltageLimitRange(voltageLimitRanges, updateMode);
+            void InitiateTest()
+            {
+                sessionsBundle.Initiate();
+            }
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLimitRange = voltageLimitRanges.GetValue(sitePinInfo.SiteNumber);
+                var actualVoltageLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitRange;
+                Assert.Equal(expectedVoltageLimitRange, actualVoltageLimitRange);
+            });
+            if (updateMode == UpdateMode.Immediate)
+            {
+                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
+                Assert.Contains("The session is already running.", exception.Message);
+            }
+            else
+            {
+                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
+            }
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureVoltageLimitRangeWithPerPinPerSiteValuesAndUpdateMode_CorrectVoltageLimitRangesAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
+            var voltageLimitRanges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 8.0, [1] = 8.0 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 8.0, [1] = 8.0 }
+            });
+
+            sessionsBundle.ConfigureVoltageLimitRange(voltageLimitRanges, updateMode);
+            void InitiateTest()
+            {
+                sessionsBundle.Initiate();
+            }
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLimitRange = voltageLimitRanges.GetValue(sitePinInfo);
+                var actualVoltageLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitRange;
+                Assert.Equal(expectedVoltageLimitRange, actualVoltageLimitRange);
+            });
+            if (updateMode == UpdateMode.Immediate)
+            {
+                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
+                Assert.Contains("The session is already running.", exception.Message);
+            }
+            else
+            {
+                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
+            }
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitRangeWithSamePerPinPerSiteValues_CorrectVoltageLimitRangeSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower(new string[] { TwoPinsGangedGroup, "VCC1" });
+            var voltageLimitRanges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                [TwoPinsGangedGroup] = new Dictionary<int, double>() { [0] = 8.0, [1] = 8.0 },
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 8.0, [1] = 8.0 }
+            });
+            sessionsBundle.GangPinGroup(TwoPinsGangedGroup);
+
+            sessionsBundle.ConfigureVoltageLimitRange(voltageLimitRanges);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLimitRange = voltageLimitRanges.GetValue(sitePinInfo);
+                var actualVoltageLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.VoltageLimitRange;
+                Assert.Equal(expectedVoltageLimitRange, actualVoltageLimitRange, 4);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitRangeWithDifferentPerPinPerSiteValues_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var voltageLimitRanges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 6.0, [1] = 20.0 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 8.0, [1] = 8.0 },
+                ["VCC3"] = new Dictionary<int, double>() { [0] = 8.0, [1] = 8.0 }
+            });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            void ConfigureVoltageLimitRange() => sessionsBundle.ConfigureVoltageLimitRange(voltageLimitRanges);
+
+            var exception = Assert.Throws<AggregateException>(ConfigureVoltageLimitRange);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("The parameter contains different values for cascaded pins", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitRangeOnFilteredBundleWithFewPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            void ConfigureVoltageLimitRange()
+            {
+                filteredBundle.ConfigureVoltageLimitRange(8.0);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureVoltageLimitRange);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLimitRangeOnSubsetBundleWithTwoPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var subsetBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            void ConfigureVoltageLimitRange()
+            {
+                subsetBundle.ConfigureVoltageLimitRange(8.0);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureVoltageLimitRange);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_FilterBundleWithFewPinsAndUngangThenConfigureVoltageLimitRange_CorrectVoltageLimitRangeSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            var expectedVoltageLimitRange = 8.0;
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
+            filteredBundle.ConfigureVoltageLimitRange(expectedVoltageLimitRange);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (sitePinInfo.PinName == "VCC1" || sitePinInfo.PinName == "VCC2")
+                {
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    Assert.Equal(expectedVoltageLimitRange, channelOutput.Source.Current.VoltageLimitRange);
+                }
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureVoltageLevelWithScalarValues_CorrectVoltageLevelSet(string pinmap)
+        {
+            var sessionManager = Initialize(pinmap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var expectedVoltageLevel = 1.0;
+
+            sessionsBundle.ConfigureVoltageLevel(expectedVoltageLevel);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualVoltageLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevel;
+                Assert.Equal(expectedVoltageLevel, actualVoltageLevel);
+            });
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLevelWithScalarValues_CorrectVoltageLevelSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var expectedVoltageLevel = 1.0;
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureVoltageLevel(expectedVoltageLevel);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualVoltageLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevel;
+                Assert.Equal(expectedVoltageLevel, actualVoltageLevel);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureVoltageLevelWithPerSiteValues_CorrectVoltageLevelSet(string pinmap)
+        {
+            var sessionManager = Initialize(pinmap);
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var voltageLevel = new SiteData<double>(new[] { 1.0, 2.0 });
+
+            sessionsBundle.ConfigureVoltageLevel(voltageLevel);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLevel = voltageLevel.GetValue(sitePinInfo.SiteNumber);
+                var actualVoltageLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevel;
+                Assert.Equal(expectedVoltageLevel, actualVoltageLevel);
+            });
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLevelWithPerSiteValues_CorrectVoltageLevelSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var voltageLevel = new SiteData<double>(new[] { 1.0, 2.0 });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureVoltageLevel(voltageLevel);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualVoltageLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevel;
+                var expectedVoltageLevel = voltageLevel.GetValue(sitePinInfo.SiteNumber);
+                Assert.Equal(expectedVoltageLevel, actualVoltageLevel);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevices_ConfigureVoltageLevelWithPerPinPerSiteValues_CorrectVoltageLevelSet(string pinmap)
+        {
+            var sessionManager = Initialize(pinmap);
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
+            var voltageLevel = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 1.0, [1] = 2.0 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 1.0, [1] = 2.0 }
+            });
+
+            sessionsBundle.ConfigureVoltageLevel(voltageLevel);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLevel = voltageLevel.GetValue(sitePinInfo);
+                var actualVoltageLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevel;
+                Assert.Equal(expectedVoltageLevel, actualVoltageLevel);
+            });
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureVoltageLevelWithScalarValueAndUpdateMode_CorrectVoltageLevelIsSetAndMatchesUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var expectedVoltageLevel = 1.0;
+
+            sessionsBundle.ConfigureVoltageLevel(expectedVoltageLevel, updateMode);
+            void InitiateTest()
+            {
+                sessionsBundle.Initiate();
+            }
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualVoltageLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevel;
+                Assert.Equal(expectedVoltageLevel, actualVoltageLevel);
+            });
+            if (updateMode == UpdateMode.Immediate)
+            {
+                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
+                Assert.Contains("The session is already running.", exception.Message);
+            }
+            else
+            {
+                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
+            }
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureVoltageLevelWithPerSiteValuesAndUpdateMode_CorrectVoltageLevelsAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var voltageLevels = new SiteData<double>(new[] { 1.0, 2.0 });
+
+            sessionsBundle.ConfigureVoltageLevel(voltageLevels, updateMode);
+            void InitiateTest()
+            {
+                sessionsBundle.Initiate();
+            }
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLevel = voltageLevels.GetValue(sitePinInfo.SiteNumber);
+                var actualVoltageLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevel;
+                Assert.Equal(expectedVoltageLevel, actualVoltageLevel);
+            });
+            if (updateMode == UpdateMode.Immediate)
+            {
+                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
+                Assert.Contains("The session is already running.", exception.Message);
+            }
+            else
+            {
+                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
+            }
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureVoltageLevelWithPerPinPerSiteValuesAndUpdateMode_CorrectVoltageLevelsAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
+            var voltageLevels = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 1.0, [1] = 2.0 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 1.0, [1] = 2.0 }
+            });
+
+            sessionsBundle.ConfigureVoltageLevel(voltageLevels, updateMode);
+            void InitiateTest()
+            {
+                sessionsBundle.Initiate();
+            }
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLevel = voltageLevels.GetValue(sitePinInfo);
+                var actualVoltageLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevel;
+                Assert.Equal(expectedVoltageLevel, actualVoltageLevel);
+            });
+            if (updateMode == UpdateMode.Immediate)
+            {
+                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
+                Assert.Contains("The session is already running.", exception.Message);
+            }
+            else
+            {
+                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
+            }
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLevelWithPerPinPerSiteValues_CorrectVoltageLevelSet(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var voltageLevel = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                [ThreePinsGangedGroup] = new Dictionary<int, double>() { [0] = 1.0, [1] = 2.0 },
+                ["VCC4"] = new Dictionary<int, double>() { [0] = 1.0, [1] = 2.0 }
+            });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            sessionsBundle.ConfigureVoltageLevel(voltageLevel);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedVoltageLevel = voltageLevel.GetValue(sitePinInfo, out _);
+                var actualVoltageLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.VoltageLevel;
+                Assert.Equal(expectedVoltageLevel, actualVoltageLevel);
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLevelWithDifferentPerPinPerSiteValues_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            var voltageLevel = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 1.0, [1] = 2.0 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 2.0, [1] = 2.0 },
+                ["VCC3"] = new Dictionary<int, double>() { [0] = 1.0, [1] = 2.0 }
+            });
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+
+            void ConfigureVoltageLevel() => sessionsBundle.ConfigureVoltageLevel(voltageLevel);
+
+            var exception = Assert.Throws<AggregateException>(ConfigureVoltageLevel);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("The parameter contains different values for cascaded pins", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLevelOnFilteredBundleWithFewPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            void ConfigureVoltageLevel()
+            {
+                filteredBundle.ConfigureVoltageLevel(1.0);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureVoltageLevel);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_ConfigureVoltageLevelOnSubsetBundleWithTwoPins_ThrowsException()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var subsetBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            void ConfigureVoltageLevel()
+            {
+                subsetBundle.ConfigureVoltageLevel(1.0);
+            }
+
+            var exception = Assert.Throws<AggregateException>(ConfigureVoltageLevel);
+            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
+            Assert.Contains("not present in DCPowerSessionsBundle", exception.InnerException.Message);
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGanged_FilterBundleWithFewPinsAndUngangThenConfigureVoltageLevel_CorrectVoltageLevelSet()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            var expectedVoltageLevel = 1.0;
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
+
+            var filteredBundle = sessionsBundle.FilterByPin(new string[] { "VCC1", "VCC2" });
+            sessionsBundle.UngangPinGroup(AllPinsGangedGroup);
+            filteredBundle.ConfigureVoltageLevel(expectedVoltageLevel);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                if (sitePinInfo.PinName == "VCC1" || sitePinInfo.PinName == "VCC2")
+                {
+                    Assert.Equal(expectedVoltageLevel, channelOutput.Source.Voltage.VoltageLevel);
+                }
+                else
+                {
+                    Assert.NotEqual(expectedVoltageLevel, channelOutput.Source.Voltage.VoltageLevel);
+                }
+            });
+        }
+
+        [Fact]
+        public void SMUDevicesMerged_GetCurrentLimitHigh_ReturnsPrimaryPinValue()
+        {
+            var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
+            var primaryPin = "VCCPrimary";
+            var allPinsMergedGroup = "AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin";
+            var expectedCurrentLimitHigh = 3E-1;
+            var sessionsBundle = sessionManager.DCPower(allPinsMergedGroup);
+            sessionsBundle.MergePinGroup(allPinsMergedGroup);
+            sessionsBundle.ConfigureCurrentLimitHigh(expectedCurrentLimitHigh);
+
+            var currentLimitHigh = sessionsBundle.GetCurrentLimitHigh();
+
+            Assert.Single(currentLimitHigh.PinNames);
+            Assert.Equal(primaryPin, currentLimitHigh.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(allPinsMergedGroup, currentLimitHigh.PinNames);
+            Assert.Equal(expectedCurrentLimitHigh, currentLimitHigh.GetValue(0, primaryPin));
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGangedConfigureCurrentLimitHigh_GetCurrentLimitHigh_ReturnsCorrectValue(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var allPinsGangedGroup = "AllPinsGangedGroup";
+            var expectedCurrentLimitHigh = 4E-1;
+            var sessionsBundle = sessionManager.DCPower(allPinsGangedGroup);
+            sessionsBundle.GangPinGroup(allPinsGangedGroup);
+            sessionsBundle.ConfigureCurrentLimitHigh(expectedCurrentLimitHigh);
+
+            var currentLimitHigh = sessionsBundle.GetCurrentLimitHigh();
+
+            Assert.Equal(5, currentLimitHigh.PinNames.Length);
+            Assert.DoesNotContain(allPinsGangedGroup, currentLimitHigh.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                var currentLimitHighDivisor = sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                Assert.Equal(expectedCurrentLimitHigh / currentLimitHighDivisor, currentLimitHigh.GetValue(sitePinInfo), 6);
+            });
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevicesConfigureCurrentLimitHigh_GetCurrentLimitHigh_ReturnsTheCurrentLimitHigh(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var pinName = "VDD";
+            var expectedCurrentLimitHigh = 2E-1;
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            sessionsBundle.ConfigureCurrentLimitHigh(expectedCurrentLimitHigh);
+
+            var currentLimitHigh = sessionsBundle.GetCurrentLimitHigh();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedCurrentLimitHigh, currentLimitHigh.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesSetPerPinPerSiteCurrentLimitHigh_GetCurrentLimitHigh_ReturnsCorrectValue()
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var pinNames = new string[] { "VCC1", "VCC2", "VDET" };
+            var sessionsBundle = sessionManager.DCPower(pinNames);
+            var activeSites = GetActiveSites(sessionsBundle);
+            var currentLimitHigh = new PinSiteData<double>(activeSites, new Dictionary<string, double>()
+            {
+                [pinNames[0]] = 1E-1,
+                [pinNames[1]] = 1E-3,
+                [pinNames[2]] = 1E-2
+            });
+            sessionsBundle.ConfigureCurrentLimitHigh(currentLimitHigh);
+
+            var values = sessionsBundle.GetCurrentLimitHigh();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(currentLimitHigh.GetValue(sitePinInfo), values.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void SharedPinsConfigureCurrentLimitHighOnFilteredSites_GetCurrentLimitHigh_ReturnsSameValueForAllPrimaryAndShadowSites()
+        {
+            var sessionManager = Initialize("SharedPinTests.pinmap");
+            var pinName = "VDD";
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            var filteredBySite0Bundle = sessionsBundle.FilterBySite(0);
+            var expectedCurrentLimitHigh = 25E-2;
+            filteredBySite0Bundle.ConfigureCurrentLimitHigh(expectedCurrentLimitHigh);
+
+            var currentLimitHigh = sessionsBundle.GetCurrentLimitHigh();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedCurrentLimitHigh, currentLimitHigh.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void SMUDevicesMerged_GetCurrentLimitLow_ReturnsPrimaryPinValue()
+        {
+            var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
+            var primaryPin = "VCCPrimary";
+            var allPinsMergedGroup = "AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin";
+            var expectedCurrentLimitLow = -3E-1;
+            var sessionsBundle = sessionManager.DCPower(allPinsMergedGroup);
+            sessionsBundle.MergePinGroup(allPinsMergedGroup);
+            sessionsBundle.ConfigureCurrentLimitLow(expectedCurrentLimitLow);
+
+            var currentLimitLow = sessionsBundle.GetCurrentLimitLow();
+
+            Assert.Single(currentLimitLow.PinNames);
+            Assert.Equal(primaryPin, currentLimitLow.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(allPinsMergedGroup, currentLimitLow.PinNames);
+            Assert.Equal(expectedCurrentLimitLow, currentLimitLow.GetValue(0, primaryPin));
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGangedConfigureCurrentLimitLow_GetCurrentLimitLow_ReturnsCorrectValue(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var allPinsGangedGroup = "AllPinsGangedGroup";
+            var expectedCurrentLimitLow = -4E-1;
+            var sessionsBundle = sessionManager.DCPower(allPinsGangedGroup);
+            sessionsBundle.GangPinGroup(allPinsGangedGroup);
+            sessionsBundle.ConfigureCurrentLimitLow(expectedCurrentLimitLow);
+
+            var currentLimitLow = sessionsBundle.GetCurrentLimitLow();
+
+            Assert.Equal(5, currentLimitLow.PinNames.Length);
+            Assert.DoesNotContain(allPinsGangedGroup, currentLimitLow.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                var currentLimitLowDivisor = sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                Assert.Equal(expectedCurrentLimitLow / currentLimitLowDivisor, currentLimitLow.GetValue(sitePinInfo), 6);
+            });
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevicesConfigureCurrentLimitLow_GetCurrentLimitLow_ReturnsCorrectValue(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var expectedCurrentLimitLow = -2E-1;
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            sessionsBundle.ConfigureCurrentLimitLow(expectedCurrentLimitLow);
+
+            var currentLimitLow = sessionsBundle.GetCurrentLimitLow();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedCurrentLimitLow, currentLimitLow.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesConfigurePerPinPerSiteCurrentLimitLow_GetCurrentLimitLow_ReturnsCorrectValue()
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var pinNames = new string[] { "VCC1", "VCC2", "VDET" };
+            var sessionsBundle = sessionManager.DCPower(pinNames);
+            var activeSites = GetActiveSites(sessionsBundle);
+            var currentLimitLow = new PinSiteData<double>(activeSites, new Dictionary<string, double>()
+            {
+                [pinNames[0]] = -1E-1,
+                [pinNames[1]] = -1E-3,
+                [pinNames[2]] = -1E-2
+            });
+            sessionsBundle.ConfigureCurrentLimitLow(currentLimitLow);
+
+            var values = sessionsBundle.GetCurrentLimitLow();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(currentLimitLow.GetValue(sitePinInfo), values.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void SharedPinConfigureCurrentLimitLowOnFilteredSites_GetCurrentLimitLow_ReturnsSameValueForAllPrimaryAndShadowSites()
+        {
+            var sessionManager = Initialize("SharedPinTests.pinmap");
+            var pinName = "VDD";
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            var filteredBySite0Bundle = sessionsBundle.FilterBySite(0);
+            var expectedCurrentLimitLow = -25E-2;
+            filteredBySite0Bundle.ConfigureCurrentLimitLow(expectedCurrentLimitLow);
+
+            var currentLimitLow = sessionsBundle.GetCurrentLimitLow();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedCurrentLimitLow, currentLimitLow.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void SMUDevicesMerged_GetCurrentLevel_ReturnsPrimaryPinValue()
+        {
+            var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
+            var primaryPin = "VCCPrimary";
+            var allPinsMergedGroup = "AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin";
+            var expectedCurrentLevel = 3E-1;
+            var sessionsBundle = sessionManager.DCPower(allPinsMergedGroup);
+            sessionsBundle.MergePinGroup(allPinsMergedGroup);
+            sessionsBundle.ConfigureCurrentLevel(expectedCurrentLevel);
+
+            var currentLevel = sessionsBundle.GetCurrentLevel();
+
+            Assert.Single(currentLevel.PinNames);
+            Assert.Equal(primaryPin, currentLevel.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(allPinsMergedGroup, currentLevel.PinNames);
+            Assert.Equal(expectedCurrentLevel, currentLevel.GetValue(0, primaryPin));
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGangedConfigureCurrentLevel_GetCurrentLevel_ReturnsCorrectValue(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var allPinsGangedGroup = "AllPinsGangedGroup";
+            var expectedCurrentLevel = 4E-1;
+            var sessionsBundle = sessionManager.DCPower(allPinsGangedGroup);
+            sessionsBundle.GangPinGroup(allPinsGangedGroup);
+            sessionsBundle.ConfigureCurrentLevel(expectedCurrentLevel);
+
+            var currentLevel = sessionsBundle.GetCurrentLevel();
+
+            Assert.Equal(5, currentLevel.PinNames.Length);
+            Assert.DoesNotContain(allPinsGangedGroup, currentLevel.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                var currentLevelDivisor = sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                Assert.Equal(expectedCurrentLevel / currentLevelDivisor, currentLevel.GetValue(sitePinInfo), 6);
+            });
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevicesConfigureCurrentLevel_GetCurrentLevel_ReturnsCorrectValue(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var expectedCurrentLevel = 2E-1;
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            sessionsBundle.ConfigureCurrentLevel(expectedCurrentLevel);
+
+            var currentLevel = sessionsBundle.GetCurrentLevel();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedCurrentLevel, currentLevel.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesSetPerPinPerSiteCurrentLevel_GetCurrentLevel_ReturnsCorrectValue()
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var pinNames = new string[] { "VCC1", "VCC2", "VDET" };
+            var sessionsBundle = sessionManager.DCPower(pinNames);
+            var activeSites = GetActiveSites(sessionsBundle);
+            var currentLevel = new PinSiteData<double>(activeSites, new Dictionary<string, double>()
+            {
+                [pinNames[0]] = 1E-1,
+                [pinNames[1]] = 1E-3,
+                [pinNames[2]] = 1E-2
+            });
+            sessionsBundle.ConfigureCurrentLevel(currentLevel);
+
+            var values = sessionsBundle.GetCurrentLevel();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(currentLevel.GetValue(sitePinInfo), values.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void SharedPinsConfigureCurrentLevelOnFilteredSites_GetCurrentLevel_ReturnsSameValueForAllPrimaryAndShadowSites()
+        {
+            var sessionManager = Initialize("SharedPinTests.pinmap");
+            var pinName = "VDD";
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            var filteredBySite0Bundle = sessionsBundle.FilterBySite(0);
+            var expectedCurrentLevel = 25E-2;
+            filteredBySite0Bundle.ConfigureCurrentLevel(expectedCurrentLevel);
+
+            var currentLevel = sessionsBundle.GetCurrentLevel();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedCurrentLevel, currentLevel.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void SMUDevicesMerged_GetCurrentLevelRange_ReturnsPrimaryPinValue()
+        {
+            var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
+            var primaryPin = "VCCPrimary";
+            var allPinsMergedGroup = "AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin";
+            var expectedCurrentLevelRange = 4E-1;
+            var sessionsBundle = sessionManager.DCPower(allPinsMergedGroup);
+            sessionsBundle.MergePinGroup(allPinsMergedGroup);
+            sessionsBundle.ConfigureCurrentLevelRange(expectedCurrentLevelRange);
+
+            var currentLevelRange = sessionsBundle.GetCurrentLevelRange();
+
+            Assert.Single(currentLevelRange.PinNames);
+            Assert.Equal(primaryPin, currentLevelRange.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(allPinsMergedGroup, currentLevelRange.PinNames);
+            Assert.Equal(expectedCurrentLevelRange, currentLevelRange.GetValue(0, primaryPin));
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGangedConfigureCurrentLevelRange_GetCurrentLevelRange_ReturnsCorrectValue(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var allPinsGangedGroup = "AllPinsGangedGroup";
+            var expectedCurrentLevelRange = 5E-1;
+            var sessionsBundle = sessionManager.DCPower(allPinsGangedGroup);
+            sessionsBundle.GangPinGroup(allPinsGangedGroup);
+            sessionsBundle.ConfigureCurrentLevelRange(expectedCurrentLevelRange);
+
+            var currentLevelRange = sessionsBundle.GetCurrentLevelRange();
+
+            Assert.Equal(5, currentLevelRange.PinNames.Length);
+            Assert.DoesNotContain(allPinsGangedGroup, currentLevelRange.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                var currentLevelRangeDivisor = sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                Assert.Equal(expectedCurrentLevelRange / currentLevelRangeDivisor, currentLevelRange.GetValue(sitePinInfo), 6);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevicesConfigureCurrentLevelRange_GetCurrentLevelRange_ReturnsCorrectValue(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var expectedCurrentLevelRange = 1E-3;
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            sessionsBundle.ConfigureCurrentLevelRange(expectedCurrentLevelRange);
+
+            var currentLevelRange = sessionsBundle.GetCurrentLevelRange();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedCurrentLevelRange, currentLevelRange.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesSetPerPinPerSiteCurrentLevelRange_GetCurrentLevelRange_ReturnsCorrectValue()
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var pinNames = new string[] { "VCC1", "VCC2", "VDET" };
+            var sessionsBundle = sessionManager.DCPower(pinNames);
+            var activeSites = GetActiveSites(sessionsBundle);
+            var currentLevelRange = new PinSiteData<double>(activeSites, new Dictionary<string, double>()
+            {
+                [pinNames[0]] = 1E-1,
+                [pinNames[1]] = 1E-3,
+                [pinNames[2]] = 1E-2
+            });
+            sessionsBundle.ConfigureCurrentLevelRange(currentLevelRange);
+
+            var values = sessionsBundle.GetCurrentLevelRange();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(currentLevelRange.GetValue(sitePinInfo), values.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void SharedPinConfigureCurrentLevelRangeOnFilteredSites_GetCurrentLevelRange_ReturnsSameValueForAllPrimaryAndShadowSites()
+        {
+            var sessionManager = Initialize("SharedPinTests.pinmap");
+            var pinName = "VCC2";
+            var expectedCurrentLevelRange = 1E-3;
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            var sharedSitesBundle = sessionsBundle.FilterBySite(new[] { 1, 2 });
+            sharedSitesBundle.ConfigureCurrentLevelRange(new SiteData<double>(new[] { 1, 2 }, expectedCurrentLevelRange));
+
+            var currentLevelRange = sharedSitesBundle.GetCurrentLevelRange();
+
+            sharedSitesBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedCurrentLevelRange, currentLevelRange.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void SMUDevicesMerged_GetCurrentLimitRange_ReturnsPrimaryPinValue()
+        {
+            var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
+            var primaryPin = "VCCPrimary";
+            var allPinsMergedGroup = "AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin";
+            var expectedCurrentLimitRange = 4E-1;
+            var sessionsBundle = sessionManager.DCPower(allPinsMergedGroup);
+            sessionsBundle.MergePinGroup(allPinsMergedGroup);
+            sessionsBundle.ConfigureCurrentLimitRange(expectedCurrentLimitRange);
+
+            var currentLimitRange = sessionsBundle.GetCurrentLimitRange();
+
+            Assert.Single(currentLimitRange.PinNames);
+            Assert.Equal(primaryPin, currentLimitRange.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(allPinsMergedGroup, currentLimitRange.PinNames);
+            Assert.Equal(expectedCurrentLimitRange, currentLimitRange.GetValue(0, primaryPin));
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesGangedConfigureCurrentLimitRange_GetCurrentLimitRange_ReturnsCorrectValue()
+        {
+            var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
+            var allPinsGangedGroup = "AllPinsGangedGroup";
+            var expectedCurrentLimitRange = 5E-1;
+            var sessionsBundle = sessionManager.DCPower(allPinsGangedGroup);
+            sessionsBundle.GangPinGroup(allPinsGangedGroup);
+            sessionsBundle.ConfigureCurrentLimitRange(expectedCurrentLimitRange);
+
+            var currentLimitRange = sessionsBundle.GetCurrentLimitRange();
+
+            Assert.Equal(5, currentLimitRange.PinNames.Length);
+            Assert.DoesNotContain(allPinsGangedGroup, currentLimitRange.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                var currentLimitRangeDivisor = sitePinInfo?.CascadingInfo is GangingInfo gangingInfo ? gangingInfo.ChannelsCount : 1;
+                Assert.Equal(expectedCurrentLimitRange / currentLimitRangeDivisor, currentLimitRange.GetValue(sitePinInfo), 6);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevicesConfigureCurrentLimitRange_GetCurrentLimitRange_ReturnsTheCurrentLimitRange(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var expectedCurrentLimitRange = 1E-1;
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            sessionsBundle.ConfigureCurrentLimitRange(expectedCurrentLimitRange);
+
+            var currentLimitRange = sessionsBundle.GetCurrentLimitRange();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedCurrentLimitRange, currentLimitRange.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesSetPerPinPerSiteCurrentLimitRange_GetCurrentLimitRange_ReturnsCorrectValue()
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var pinNames = new string[] { "VCC1", "VCC2", "VDET" };
+            var sessionsBundle = sessionManager.DCPower(pinNames);
+            var activeSites = GetActiveSites(sessionsBundle);
+            var currentLimitRange = new PinSiteData<double>(activeSites, new Dictionary<string, double>()
+            {
+                [pinNames[0]] = 1E-1,
+                [pinNames[1]] = 1E-1,
+                [pinNames[2]] = 1E-1
+            });
+            sessionsBundle.ConfigureCurrentLimitRange(currentLimitRange);
+
+            var values = sessionsBundle.GetCurrentLimitRange();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(currentLimitRange.GetValue(sitePinInfo), values.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void SharedPinConfigureCurrentLimitRangeOnFilteredSites_GetCurrentLimitRange_ReturnsSameValueForAllPrimaryAndShadowSites()
+        {
+            var sessionManager = Initialize("SharedPinTests.pinmap");
+            var pinName = "VCC2";
+            var expectedCurrentLimitRange = 1E-1;
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            var sharedSitesBundle = sessionsBundle.FilterBySite(new[] { 1, 2 });
+            sharedSitesBundle.ConfigureCurrentLimitRange(new SiteData<double>(new[] { 1, 2 }, expectedCurrentLimitRange));
+
+            var currentLimitRange = sharedSitesBundle.GetCurrentLimitRange();
+
+            sharedSitesBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedCurrentLimitRange, currentLimitRange.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void SMUDevicesMerged_GetLimitSymmetry_ReturnsPrimaryPinValue()
+        {
+            var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
+            var primaryPin = "VCCPrimary";
+            var allPinsMergedGroup = "AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin";
+            var expectedLimitSymmetry = DCPowerComplianceLimitSymmetry.Asymmetric;
+            var sessionsBundle = sessionManager.DCPower(allPinsMergedGroup);
+            sessionsBundle.MergePinGroup(allPinsMergedGroup);
+            sessionsBundle.ConfigureLimitSymmetry(expectedLimitSymmetry);
+
+            var limitSymmetry = sessionsBundle.GetLimitSymmetry();
+
+            Assert.Single(limitSymmetry.PinNames);
+            Assert.Equal(primaryPin, limitSymmetry.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(allPinsMergedGroup, limitSymmetry.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedLimitSymmetry, limitSymmetry.GetValue(sitePinInfo));
+            });
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGangedConfigureLimitSymmetry_GetLimitSymmetry_ReturnsCorrectValue(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var allPinsGangedGroup = "AllPinsGangedGroup";
+            var expectedLimitSymmetry = DCPowerComplianceLimitSymmetry.Asymmetric;
+            var sessionsBundle = sessionManager.DCPower(allPinsGangedGroup);
+            sessionsBundle.GangPinGroup(allPinsGangedGroup);
+            sessionsBundle.ConfigureLimitSymmetry(expectedLimitSymmetry);
+
+            var limitSymmetry = sessionsBundle.GetLimitSymmetry();
+
+            Assert.Equal(5, limitSymmetry.PinNames.Length);
+            Assert.DoesNotContain(allPinsGangedGroup, limitSymmetry.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedLimitSymmetry, limitSymmetry.GetValue(sitePinInfo));
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevicesConfigureLimitSymmetry_GetLimitSymmetry_ReturnsTheLimitSymmetry(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var expectedLimitSymmetry = DCPowerComplianceLimitSymmetry.Asymmetric;
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            sessionsBundle.ConfigureLimitSymmetry(expectedLimitSymmetry);
+
+            var limitSymmetry = sessionsBundle.GetLimitSymmetry();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedLimitSymmetry, limitSymmetry.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesSetPerPinPerSiteLimitSymmetry_GetLimitSymmetry_ReturnsCorrectValue()
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var pinNames = new string[] { "VCC1", "VCC2" };
+            var sessionsBundle = sessionManager.DCPower(pinNames);
+            var limitSymmetry = new PinSiteData<DCPowerComplianceLimitSymmetry>(new Dictionary<string, IDictionary<int, DCPowerComplianceLimitSymmetry>>()
+            {
+                [pinNames[0]] = new Dictionary<int, DCPowerComplianceLimitSymmetry>() { [0] = DCPowerComplianceLimitSymmetry.Symmetric, [1] = DCPowerComplianceLimitSymmetry.Asymmetric },
+                [pinNames[1]] = new Dictionary<int, DCPowerComplianceLimitSymmetry>() { [0] = DCPowerComplianceLimitSymmetry.Asymmetric, [1] = DCPowerComplianceLimitSymmetry.Symmetric }
+            });
+            sessionsBundle.ConfigureLimitSymmetry(limitSymmetry);
+
+            var values = sessionsBundle.GetLimitSymmetry();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(limitSymmetry.GetValue(sitePinInfo), values.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void SharedPinConfigureLimitSymmetryOnFilteredSites_GetLimitSymmetry_ReturnsSameValueForAllPrimaryAndShadowSites()
+        {
+            var sessionManager = Initialize("SharedPinTests.pinmap");
+            var pinName = "VCC2";
+            var expectedLimitSymmetry = DCPowerComplianceLimitSymmetry.Asymmetric;
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            var sharedSitesBundle = sessionsBundle.FilterBySite(new[] { 1, 2 });
+            sharedSitesBundle.ConfigureLimitSymmetry(new SiteData<DCPowerComplianceLimitSymmetry>(new[] { 1, 2 }, expectedLimitSymmetry));
+
+            var limitSymmetry = sharedSitesBundle.GetLimitSymmetry();
+
+            sharedSitesBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedLimitSymmetry, limitSymmetry.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void SMUDevicesMerged_GetVoltageLimitHigh_ReturnsPrimaryPinValue()
+        {
+            var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
+            var primaryPin = "VCCPrimary";
+            var allPinsMergedGroup = "AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin";
+            var expectedVoltageLimitHigh = 5.0;
+            var sessionsBundle = sessionManager.DCPower(allPinsMergedGroup);
+            sessionsBundle.MergePinGroup(allPinsMergedGroup);
+            sessionsBundle.ConfigureVoltageLimitHigh(expectedVoltageLimitHigh);
+
+            var voltageLimitHigh = sessionsBundle.GetVoltageLimitHigh();
+
+            Assert.Single(voltageLimitHigh.PinNames);
+            Assert.Equal(primaryPin, voltageLimitHigh.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(allPinsMergedGroup, voltageLimitHigh.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLimitHigh, voltageLimitHigh.GetValue(sitePinInfo));
+            });
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGangedConfigureVoltageLimitHigh_GetVoltageLimitHigh_ReturnsCorrectValue(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var allPinsGangedGroup = "AllPinsGangedGroup";
+            var expectedVoltageLimitHigh = 15.0;
+            var sessionsBundle = sessionManager.DCPower(allPinsGangedGroup);
+            sessionsBundle.GangPinGroup(allPinsGangedGroup);
+            sessionsBundle.ConfigureVoltageLimitHigh(expectedVoltageLimitHigh);
+
+            var voltageLimitHigh = sessionsBundle.GetVoltageLimitHigh();
+
+            Assert.Equal(5, voltageLimitHigh.PinNames.Length);
+            Assert.DoesNotContain(allPinsGangedGroup, voltageLimitHigh.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLimitHigh, voltageLimitHigh.GetValue(sitePinInfo), 4);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevicesConfigureVoltageLimitHigh_GetVoltageLimitHigh_ReturnsCorrectValue(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var expectedVoltageLimitHigh = 3.0;
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            sessionsBundle.ConfigureVoltageLimitHigh(expectedVoltageLimitHigh);
+
+            var voltageLimitHigh = sessionsBundle.GetVoltageLimitHigh();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLimitHigh, voltageLimitHigh.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesSetPerPinPerSiteVoltageLimitHigh_GetVoltageLimitHigh_ReturnsCorrectValue()
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var pinNames = new string[] { "VCC1", "VCC2", "VDET" };
+            var sessionsBundle = sessionManager.DCPower(pinNames);
+            var activeSites = GetActiveSites(sessionsBundle);
+            var expectedVoltageLimitHigh = new PinSiteData<double>(activeSites, new Dictionary<string, double>()
+            {
+                [pinNames[0]] = 3.0,
+                [pinNames[1]] = 5.0,
+                [pinNames[2]] = 10.0
+            });
+            sessionsBundle.ConfigureVoltageLimitHigh(expectedVoltageLimitHigh);
+
+            var values = sessionsBundle.GetVoltageLimitHigh();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLimitHigh.GetValue(sitePinInfo), values.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void SharedPinsConfigureVoltageLimitHighOnFilteredSites_GetVoltageLimitHigh_ReturnsSameValueForAllPrimaryAndShadowSites()
+        {
+            var sessionManager = Initialize("SharedPinTests.pinmap");
+            var pinName = "VCC2";
+            var expectedVoltageLimitHigh = 3.0;
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            var nonSharedAndPrimaryBundle = sessionsBundle.FilterBySite(new[] { 0, 1 });
+            nonSharedAndPrimaryBundle.ConfigureVoltageLimitHigh(expectedVoltageLimitHigh);
+
+            var voltageLimitHigh = nonSharedAndPrimaryBundle.GetVoltageLimitHigh();
+
+            nonSharedAndPrimaryBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLimitHigh, voltageLimitHigh.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void SMUDevicesMerged_GetVoltageLimitLow_ReturnsPrimaryPinValue()
+        {
+            var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
+            var primaryPin = "VCCPrimary";
+            var allPinsMergedGroup = "AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin";
+            var expectedVoltageLimitLow = -5.0;
+            var sessionsBundle = sessionManager.DCPower(allPinsMergedGroup);
+            sessionsBundle.MergePinGroup(allPinsMergedGroup);
+            sessionsBundle.ConfigureVoltageLimitLow(expectedVoltageLimitLow);
+
+            var voltageLimitLow = sessionsBundle.GetVoltageLimitLow();
+
+            Assert.Single(voltageLimitLow.PinNames);
+            Assert.Equal(primaryPin, voltageLimitLow.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(allPinsMergedGroup, voltageLimitLow.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLimitLow, voltageLimitLow.GetValue(sitePinInfo));
+            });
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGangedConfigureVoltageLimitLow_GetVoltageLimitLow_ReturnsCorrectValue(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var allPinsGangedGroup = "AllPinsGangedGroup";
+            var expectedVoltageLimitLow = -15.0;
+            var sessionsBundle = sessionManager.DCPower(allPinsGangedGroup);
+            sessionsBundle.GangPinGroup(allPinsGangedGroup);
+            sessionsBundle.ConfigureVoltageLimitLow(expectedVoltageLimitLow);
+
+            var voltageLimitLow = sessionsBundle.GetVoltageLimitLow();
+
+            Assert.Equal(5, voltageLimitLow.PinNames.Length);
+            Assert.DoesNotContain(allPinsGangedGroup, voltageLimitLow.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLimitLow, voltageLimitLow.GetValue(sitePinInfo), 4);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevicesConfigureVoltageLimitLow_GetVoltageLimitLow_ReturnsCorrectValue(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var expectedVoltageLimitLow = -3.0;
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            sessionsBundle.ConfigureVoltageLimitLow(expectedVoltageLimitLow);
+
+            var voltageLimitLow = sessionsBundle.GetVoltageLimitLow();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLimitLow, voltageLimitLow.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesSetPerPinPerSiteVoltageLimitLow_GetVoltageLimitLow_ReturnsCorrectValue()
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var pinNames = new string[] { "VCC1", "VCC2", "VDET" };
+            var sessionsBundle = sessionManager.DCPower(pinNames);
+            var activeSites = GetActiveSites(sessionsBundle);
+            var expectedVoltageLimitLow = new PinSiteData<double>(activeSites, new Dictionary<string, double>()
+            {
+                [pinNames[0]] = -3.0,
+                [pinNames[1]] = -5.0,
+                [pinNames[2]] = -10.0
+            });
+            sessionsBundle.ConfigureVoltageLimitLow(expectedVoltageLimitLow);
+
+            var values = sessionsBundle.GetVoltageLimitLow();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLimitLow.GetValue(sitePinInfo), values.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void SharedPinsConfigureVoltageLimitLowOnFilteredSites_GetVoltageLimitLow_ReturnsSameValueForAllPrimaryAndShadowSites()
+        {
+            var sessionManager = Initialize("SharedPinTests.pinmap");
+            var pinName = "VCC2";
+            var expectedVoltageLimitLow = -3.0;
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            var nonSharedAndPrimaryBundle = sessionsBundle.FilterBySite(new[] { 0, 1 });
+            nonSharedAndPrimaryBundle.ConfigureVoltageLimitLow(expectedVoltageLimitLow);
+
+            var voltageLimitLow = sessionsBundle.GetVoltageLimitLow();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLimitLow, voltageLimitLow.GetValue(sitePinInfo));
+            });
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGangedConfigureVoltageLevel_GetVoltageLevel_ReturnsCorrectValue(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var expectedVoltageLevel = 3.3;
+            var sessionsBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            sessionsBundle.GangPinGroup(TwoPinsGangedGroup);
+            sessionsBundle.ConfigureVoltageLevel(expectedVoltageLevel);
+
+            var voltageLevel = sessionsBundle.GetVoltageLevel();
+
+            Assert.Equal(2, voltageLevel.PinNames.Length);
+            Assert.DoesNotContain(TwoPinsGangedGroup, voltageLevel.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLevel, voltageLevel.GetValue(sitePinInfo), 6);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevicesConfigureVoltageLevel_GetVoltageLevel_ReturnsCorrectValue(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var expectedVoltageLevel = 3.3;
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            sessionsBundle.ConfigureVoltageLevel(expectedVoltageLevel);
+
+            var voltageLevel = sessionsBundle.GetVoltageLevel();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLevel, voltageLevel.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void SMUDevicesMerged_GetVoltageLevel_ReturnsPrimaryPinValue()
+        {
+            var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
+            var primaryPin = "VCCPrimary";
+            var allPinsMergedGroup = "AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin";
+            var expectedVoltageLevel = 3.3;
+            var sessionsBundle = sessionManager.DCPower(allPinsMergedGroup);
+            sessionsBundle.MergePinGroup(allPinsMergedGroup);
+            sessionsBundle.ConfigureVoltageLevel(expectedVoltageLevel);
+
+            var voltageLevel = sessionsBundle.GetVoltageLevel();
+
+            Assert.Single(voltageLevel.PinNames);
+            Assert.Equal(primaryPin, voltageLevel.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(allPinsMergedGroup, voltageLevel.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLevel, voltageLevel.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesSetPerPinPerSiteVoltageLevel_GetVoltageLevel_ReturnsCorrectValue()
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var pinNames = new string[] { "VCC1", "VCC2" };
+            var sessionsBundle = sessionManager.DCPower(pinNames);
+            var activeSites = GetActiveSites(sessionsBundle);
+            var expectedVoltageLevel = new PinSiteData<double>(activeSites, new Dictionary<string, double>()
+            {
+                [pinNames[0]] = 1.8,
+                [pinNames[1]] = 3.3
+            });
+            sessionsBundle.ConfigureVoltageLevel(expectedVoltageLevel);
+
+            var values = sessionsBundle.GetVoltageLevel();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLevel.GetValue(sitePinInfo), values.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void SharedPinsConfigureVoltageLevelOnFilteredSites_GetVoltageLevel_ReturnsSameValueForAllPrimaryAndShadowSites()
+        {
+            var sessionManager = Initialize("SharedPinTests.pinmap");
+            var pinName = "VCC2";
+            var expectedVoltageLevel = 3.3;
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            var nonSharedAndPrimaryBundle = sessionsBundle.FilterBySite(new[] { 0, 1 });
+            nonSharedAndPrimaryBundle.ConfigureVoltageLevel(expectedVoltageLevel);
+
+            var voltageLevel = nonSharedAndPrimaryBundle.GetVoltageLevel();
+
+            nonSharedAndPrimaryBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLevel, voltageLevel.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void SMUDevicesMerged_GetVoltageLimitRange_ReturnsPrimaryPinValue()
+        {
+            var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
+            var primaryPin = "VCCPrimary";
+            var allPinsMergedGroup = "AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin";
+            var expectedVoltageLimitRange = 8.0;
+            var sessionsBundle = sessionManager.DCPower(allPinsMergedGroup);
+            sessionsBundle.MergePinGroup(allPinsMergedGroup);
+            sessionsBundle.ConfigureVoltageLimitRange(expectedVoltageLimitRange);
+
+            var voltageLimitRange = sessionsBundle.GetVoltageLimitRange();
+
+            Assert.Single(voltageLimitRange.PinNames);
+            Assert.Equal(primaryPin, voltageLimitRange.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(allPinsMergedGroup, voltageLimitRange.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLimitRange, voltageLimitRange.GetValue(sitePinInfo));
+            });
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGangedConfigureVoltageLimitRange_GetVoltageLimitRange_ReturnsCorrectValue(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var expectedVoltageLimitRange = 8.0;
+            var sessionsBundle = sessionManager.DCPower(TwoPinsGangedGroup);
+            sessionsBundle.GangPinGroup(TwoPinsGangedGroup);
+            sessionsBundle.ConfigureVoltageLimitRange(expectedVoltageLimitRange);
+
+            var voltageLimitRange = sessionsBundle.GetVoltageLimitRange();
+
+            Assert.Equal(2, voltageLimitRange.PinNames.Length);
+            Assert.DoesNotContain(TwoPinsGangedGroup, voltageLimitRange.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLimitRange, voltageLimitRange.GetValue(sitePinInfo), 4);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevicesConfigureVoltageLimitRange_GetVoltageLimitRange_ReturnsCorrectValue(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var expectedVoltageLimitRange = 8.0;
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            sessionsBundle.ConfigureVoltageLimitRange(expectedVoltageLimitRange);
+
+            var voltageLimitRange = sessionsBundle.GetVoltageLimitRange();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLimitRange, voltageLimitRange.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesConfigurePerPinPerSiteVoltageLimitRange_GetVoltageLimitRange_ReturnsCorrectValue()
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var pinNames = new string[] { "VCC1", "VCC2", "VDET" };
+            var sessionsBundle = sessionManager.DCPower(pinNames);
+            var activeSites = GetActiveSites(sessionsBundle);
+            var expectedVoltageLimitRange = new PinSiteData<double>(activeSites, new Dictionary<string, double>()
+            {
+                [pinNames[0]] = 8.0,
+                [pinNames[1]] = 8.0,
+                [pinNames[2]] = 8.0
+            });
+            sessionsBundle.ConfigureVoltageLimitRange(expectedVoltageLimitRange);
+
+            var values = sessionsBundle.GetVoltageLimitRange();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLimitRange.GetValue(sitePinInfo), values.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void SharedPinsConfigureVoltageLimitRangeOnFilteredSites_GetVoltageLimitRange_ReturnsSameValueForAllPrimaryAndShadowSites()
+        {
+            var sessionManager = Initialize("SharedPinTests.pinmap");
+            var pinName = "VCC2";
+            var expectedVoltageLimitRange = 8.0;
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            var nonSharedAndPrimaryBundle = sessionsBundle.FilterBySite(new[] { 0, 1 });
+            nonSharedAndPrimaryBundle.ConfigureVoltageLimitRange(expectedVoltageLimitRange);
+
+            var voltageLimitRange = nonSharedAndPrimaryBundle.GetVoltageLimitRange();
+
+            nonSharedAndPrimaryBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLimitRange, voltageLimitRange.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void SMUDevicesMerged_GetVoltageLimit_ReturnsPrimaryPinValue()
+        {
+            var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
+            var primaryPin = "VCCPrimary";
+            var allPinsMergedGroup = "AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin";
+            var expectedVoltageLimit = 3.0;
+            var sessionsBundle = sessionManager.DCPower(allPinsMergedGroup);
+            sessionsBundle.MergePinGroup(allPinsMergedGroup);
+            sessionsBundle.ConfigureVoltageLimit(expectedVoltageLimit);
+
+            var voltageLimit = sessionsBundle.GetVoltageLimit();
+
+            Assert.Single(voltageLimit.PinNames);
+            Assert.Equal(primaryPin, voltageLimit.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(allPinsMergedGroup, voltageLimit.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLimit, voltageLimit.GetValue(sitePinInfo));
+            });
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGangedConfigureVoltageLimit_GetVoltageLimit_ReturnsCorrectValue(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var expectedVoltageLimit = 8.0;
+            var sessionsBundle = sessionManager.DCPower(ThreePinsGangedGroup);
+            sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
+            sessionsBundle.ConfigureVoltageLimit(expectedVoltageLimit);
+
+            var voltageLimit = sessionsBundle.GetVoltageLimit();
+
+            Assert.Equal(3, voltageLimit.PinNames.Length);
+            Assert.DoesNotContain(ThreePinsGangedGroup, voltageLimit.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLimit, voltageLimit.GetValue(sitePinInfo), 4);
+            });
+        }
+
+        [Theory]
+        [InlineData("Mixed Signal Tests.pinmap")]
+        [InlineData("SharedPinTests.pinmap")]
+        public void DifferentSMUDevicesConfigureVoltageLimit_GetVoltageLimit_ReturnsCorrectValue(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var expectedVoltageLimit = 1E-1;
+            var sessionsBundle = sessionManager.DCPower("VCC1");
+            sessionsBundle.ConfigureVoltageLimit(expectedVoltageLimit);
+
+            var voltageLimit = sessionsBundle.GetVoltageLimit();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLimit, voltageLimit.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesSetPerPinPerSiteVoltageLimit_GetVoltageLimit_ReturnsCorrectValue()
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var pinNames = new string[] { "VCC1", "VCC2" };
+            var sessionsBundle = sessionManager.DCPower(pinNames);
+            var activeSites = GetActiveSites(sessionsBundle);
+            var expectedVoltageLimit = new PinSiteData<double>(activeSites, new Dictionary<string, double>()
+            {
+                [pinNames[0]] = 1E-1,
+                [pinNames[1]] = 3.0
+            });
+            sessionsBundle.ConfigureVoltageLimit(expectedVoltageLimit);
+
+            var values = sessionsBundle.GetVoltageLimit();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLimit.GetValue(sitePinInfo), values.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void SharedPinsConfigureVoltageLimitOnFilteredSites_GetVoltageLimit_ReturnsSameValueForAllPrimaryAndShadowSites()
+        {
+            var sessionManager = Initialize("SharedPinTests.pinmap");
+            var pinName = "VCC1";
+            var expectedVoltageLimit = 1E-1;
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            var nonSharedAndPrimaryBundle = sessionsBundle.FilterBySite(new[] { 0, 1 });
+            nonSharedAndPrimaryBundle.ConfigureVoltageLimit(expectedVoltageLimit);
+
+            var voltageLimit = nonSharedAndPrimaryBundle.GetVoltageLimit();
+
+            nonSharedAndPrimaryBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedVoltageLimit, voltageLimit.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void SMUDevicesMerged_GetTransientResponse_ReturnsPrimaryPinValue()
+        {
+            var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
+            var primaryPin = "VCCPrimary";
+            var allPinsMergedGroup = "AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin";
+            var expectedTransientResponse = DCPowerSourceTransientResponse.Fast;
+            var sessionsBundle = sessionManager.DCPower(allPinsMergedGroup);
+            sessionsBundle.MergePinGroup(allPinsMergedGroup);
+            ConfigureTransientResponse(sessionsBundle, expectedTransientResponse);
+
+            var transientResponse = sessionsBundle.GetTransientResponse();
+
+            Assert.Single(transientResponse.PinNames);
+            Assert.Equal(primaryPin, transientResponse.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(allPinsMergedGroup, transientResponse.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedTransientResponse, transientResponse.GetValue(sitePinInfo));
+            });
+        }
+
+        [Theory]
+        [InlineData("SMUGangPinGroup_SessionPerChannel.pinmap")]
+        [InlineData("SMUGangPinGroup_SessionPerInstrument.pinmap")]
+        [InlineData("SMUGangPinGroup_SingleSessionForAllInstruments.pinmap")]
+        public void DifferentSMUDevicesGangedConfigureTransientResponse_GetTransientResponse_ReturnsCorrectValue(string pinMap)
+        {
+            var sessionManager = Initialize(pinMap);
+            var allPinsGangedGroup = "AllPinsGangedGroup";
+            var expectedTransientResponse = DCPowerSourceTransientResponse.Fast;
+            var sessionsBundle = sessionManager.DCPower(allPinsGangedGroup);
+            sessionsBundle.GangPinGroup(allPinsGangedGroup);
+            ConfigureTransientResponse(sessionsBundle, expectedTransientResponse);
+
+            var transientResponse = sessionsBundle.GetTransientResponse();
+
+            Assert.Equal(5, transientResponse.PinNames.Length);
+            Assert.DoesNotContain(allPinsGangedGroup, transientResponse.PinNames);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedTransientResponse, transientResponse.GetValue(sitePinInfo));
+            });
+        }
+
+        [Theory]
+        [InlineData(false, DCPowerSourceTransientResponse.Fast)]
+        [InlineData(false, DCPowerSourceTransientResponse.Slow)]
+        [InlineData(false, DCPowerSourceTransientResponse.Custom)]
+        [InlineData(true, DCPowerSourceTransientResponse.Fast)]
+        [InlineData(true, DCPowerSourceTransientResponse.Slow)]
+        [InlineData(true, DCPowerSourceTransientResponse.Custom)]
+        public void DifferentSMUDevicesConfigureTransientResponse_GetTransientResponse_ReturnsCorrectValue(bool pinMapWithChannelGroup, DCPowerSourceTransientResponse expectedTransientResponse)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            ConfigureTransientResponse(sessionsBundle, expectedTransientResponse);
+
+            var transientResponse = sessionsBundle.GetTransientResponse();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedTransientResponse, transientResponse.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void DifferentSMUDevicesSetPerPinPerSiteTransientResponse_GetTransientResponse_ReturnsCorrectValue()
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var pinNames = new string[] { "VCC1", "VCC2", "VDET" };
+            var sessionsBundle = sessionManager.DCPower(pinNames);
+            var activeSites = GetActiveSites(sessionsBundle);
+            var expectedTransientResponse = new PinSiteData<DCPowerSourceTransientResponse>(
+                new Dictionary<string, IDictionary<int, DCPowerSourceTransientResponse>>
+                {
+                    [pinNames[0]] = activeSites.ToDictionary(site => site, site => site % 3 == 0 ? DCPowerSourceTransientResponse.Normal : DCPowerSourceTransientResponse.Fast),
+                    [pinNames[1]] = activeSites.ToDictionary(site => site, site => site % 3 == 1 ? DCPowerSourceTransientResponse.Fast : DCPowerSourceTransientResponse.Slow),
+                    [pinNames[2]] = activeSites.ToDictionary(site => site, site => site % 3 == 2 ? DCPowerSourceTransientResponse.Slow : DCPowerSourceTransientResponse.Normal)
+                });
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.TransientResponse = expectedTransientResponse.GetValue(sitePinInfo);
+            });
+
+            var transientResponse = sessionsBundle.GetTransientResponse();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedTransientResponse.GetValue(sitePinInfo), transientResponse.GetValue(sitePinInfo));
+            });
+        }
+
+        [Fact]
+        public void SharedPinConfigureTransientResponseOnFilteredSites_GetTransientResponse_ReturnsSameValueForAllPrimaryAndShadowSites()
+        {
+            var sessionManager = Initialize("SharedPinTests.pinmap");
+            var pinName = "VDD";
+            var expectedTransientResponse = DCPowerSourceTransientResponse.Fast;
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            var filteredBySiteBundle = sessionsBundle.FilterBySite(0);
+            ConfigureTransientResponse(filteredBySiteBundle, expectedTransientResponse);
+
+            var transientResponse = sessionsBundle.GetTransientResponse();
+
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedTransientResponse, transientResponse.GetValue(sitePinInfo));
+            });
+        }
+
+        /// <summary>
+        /// Configures the same <see cref="DCPowerSourceTransientResponse"/> on all channels of the given bundle
+        /// by writing directly to the hardware property via <see cref="DCPowerSessionsBundle.Do"/>,
+        /// without going through <c>ConfigureSourceSettings</c>.
+        /// </summary>
+        /// <param name="sessionsBundle">The sessions bundle to configure.</param>
+        /// <param name="transientResponse">The transient response value to apply to every channel.</param>
+        private static void ConfigureTransientResponse(DCPowerSessionsBundle sessionsBundle, DCPowerSourceTransientResponse transientResponse)
+        {
+            sessionsBundle.Do(sessionInfo => sessionInfo.AllChannelsOutput.Source.TransientResponse = transientResponse);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureCurrentLevelRangeWithScalarValueAndUpdateMode_CorrectCurrentLevelRangeIsSetAndMatchesUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var expectedCurrentLevelRange = 1E-2;
+
+            sessionsBundle.ConfigureCurrentLevelRange(expectedCurrentLevelRange, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualCurrentLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange;
+                Assert.Equal(expectedCurrentLevelRange, actualCurrentLevelRange);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureCurrentLevelRangeWithPerSiteValuesAndUpdateMode_CorrectCurrentLevelRangesAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var currentLevelRanges = new SiteData<double>(new[] { 1E-2, 1E-3 });
+
+            sessionsBundle.ConfigureCurrentLevelRange(currentLevelRanges, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLevelRange = currentLevelRanges.GetValue(sitePinInfo.SiteNumber);
+                var actualCurrentLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange;
+                Assert.Equal(expectedCurrentLevelRange, actualCurrentLevelRange);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureCurrentLevelRangeWithPerPinPerSiteValuesAndUpdateMode_CorrectCurrentLevelRangesAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
+            var currentLevelRanges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 1E-2, [1] = 1E-3 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 1E-3, [1] = 1E-2 }
+            });
+
+            sessionsBundle.ConfigureCurrentLevelRange(currentLevelRanges, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLevelRange = currentLevelRanges.GetValue(sitePinInfo);
+                var actualCurrentLevelRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevelRange;
+                Assert.Equal(expectedCurrentLevelRange, actualCurrentLevelRange);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureCurrentLimitLowWithScalarValueAndUpdateMode_CorrectCurrentLimitLowIsSetAndMatchesUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var expectedCurrentLimitLow = -1E-3;
+
+            sessionsBundle.ConfigureCurrentLimitLow(expectedCurrentLimitLow, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualCurrentLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitLow;
+                Assert.Equal(expectedCurrentLimitLow, actualCurrentLimitLow);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureCurrentLimitLowWithPerSiteValuesAndUpdateMode_CorrectCurrentLimitLowsAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var currentLimitLow = new SiteData<double>(new[] { -1E-3, -2E-3 });
+
+            sessionsBundle.ConfigureCurrentLimitLow(currentLimitLow, updateMode);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLimitLow = currentLimitLow.GetValue(sitePinInfo.SiteNumber);
+                var actualCurrentLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitLow;
+                Assert.Equal(expectedCurrentLimitLow, actualCurrentLimitLow);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureCurrentLimitLowWithPerPinPerSiteValuesAndUpdateMode_CorrectCurrentLimitLowsAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
+            var currentLimitLow = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = -1E-3, [1] = -2E-3 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = -3E-3, [1] = -4E-3 }
+            });
+
+            sessionsBundle.ConfigureCurrentLimitLow(currentLimitLow, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLimitLow = currentLimitLow.GetValue(sitePinInfo);
+                var actualCurrentLimitLow = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitLow;
+                Assert.Equal(expectedCurrentLimitLow, actualCurrentLimitLow);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureCurrentLimitHighWithScalarValueAndUpdateMode_CorrectCurrentLimitHighIsSetAndMatchesUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var expectedCurrentLimitHigh = 1E-3;
+
+            sessionsBundle.ConfigureCurrentLimitHigh(expectedCurrentLimitHigh, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualCurrentLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
+                Assert.Equal(expectedCurrentLimitHigh, actualCurrentLimitHigh);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureCurrentLimitHighWithPerSiteValuesAndUpdateMode_CorrectCurrentLimitHighsAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var currentLimitHigh = new SiteData<double>(new[] { 1E-3, 2E-3 });
+
+            sessionsBundle.ConfigureCurrentLimitHigh(currentLimitHigh, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLimitHigh = currentLimitHigh.GetValue(sitePinInfo.SiteNumber);
+                var actualCurrentLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
+                Assert.Equal(expectedCurrentLimitHigh, actualCurrentLimitHigh);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureCurrentLimitHighWithPerPinPerSiteValuesAndUpdateMode_CorrectCurrentLimitHighsAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
+            var currentLimitHigh = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 1E-3, [1] = 2E-3 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 3E-3, [1] = 4E-3 }
+            });
+
+            sessionsBundle.ConfigureCurrentLimitHigh(currentLimitHigh, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLimitHigh = currentLimitHigh.GetValue(sitePinInfo);
+                var actualCurrentLimitHigh = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitHigh;
+                Assert.Equal(expectedCurrentLimitHigh, actualCurrentLimitHigh);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureCurrentLimitRangeWithScalarValueAndUpdateMode_CorrectCurrentLimitRangeIsSetAndMatchesUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var expectedCurrentLimitRange = 0.1;
+
+            sessionsBundle.ConfigureCurrentLimitRange(expectedCurrentLimitRange, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualCurrentLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitRange;
+                Assert.Equal(expectedCurrentLimitRange, actualCurrentLimitRange);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureCurrentLimitRangeWithPerSiteValuesAndUpdateMode_CorrectCurrentLimitRangesAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var currentLimitRanges = new SiteData<double>(new[] { 1E-1, 1E-1 });
+
+            sessionsBundle.ConfigureCurrentLimitRange(currentLimitRanges, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLimitRange = currentLimitRanges.GetValue(sitePinInfo.SiteNumber);
+                var actualCurrentLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitRange;
+                Assert.Equal(expectedCurrentLimitRange, actualCurrentLimitRange);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureCurrentLimitRangeWithPerPinPerSiteValuesAndUpdateMode_CorrectCurrentLimitRangesAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
+            var currentLimitRanges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 1E-1, [1] = 1E-1 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 1E-1, [1] = 1E-1 }
+            });
+
+            sessionsBundle.ConfigureCurrentLimitRange(currentLimitRanges, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLimitRange = currentLimitRanges.GetValue(sitePinInfo);
+                var actualCurrentLimitRange = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Voltage.CurrentLimitRange;
+                Assert.Equal(expectedCurrentLimitRange, actualCurrentLimitRange);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureLimitSymmetryWithScalarValueAndUpdateMode_CorrectLimitSymmetryIsSetAndMatchesUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var expectedLimitSymmetry = DCPowerComplianceLimitSymmetry.Asymmetric;
+
+            sessionsBundle.ConfigureLimitSymmetry(expectedLimitSymmetry, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualLimitSymmetry = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
+                Assert.Equal(expectedLimitSymmetry, actualLimitSymmetry);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureLimitSymmetryWithPerSiteValuesAndUpdateMode_CorrectLimitSymmetriesAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var limitSymmetry = new SiteData<DCPowerComplianceLimitSymmetry>(new[] { DCPowerComplianceLimitSymmetry.Symmetric, DCPowerComplianceLimitSymmetry.Asymmetric });
+
+            sessionsBundle.ConfigureLimitSymmetry(limitSymmetry, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedLimitSymmetry = limitSymmetry.GetValue(sitePinInfo.SiteNumber);
+                var actualLimitSymmetry = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
+                Assert.Equal(expectedLimitSymmetry, actualLimitSymmetry);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureLimitSymmetryWithPerPinPerSiteValuesAndUpdateMode_CorrectLimitSymmetriesAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
+            var limitSymmetry = new PinSiteData<DCPowerComplianceLimitSymmetry>(new Dictionary<string, IDictionary<int, DCPowerComplianceLimitSymmetry>>()
+            {
+                ["VCC1"] = new Dictionary<int, DCPowerComplianceLimitSymmetry>() { [0] = DCPowerComplianceLimitSymmetry.Symmetric, [1] = DCPowerComplianceLimitSymmetry.Asymmetric },
+                ["VCC2"] = new Dictionary<int, DCPowerComplianceLimitSymmetry>() { [0] = DCPowerComplianceLimitSymmetry.Asymmetric, [1] = DCPowerComplianceLimitSymmetry.Symmetric }
+            });
+
+            sessionsBundle.ConfigureLimitSymmetry(limitSymmetry, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedLimitSymmetry = limitSymmetry.GetValue(sitePinInfo);
+                var actualLimitSymmetry = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.ComplianceLimitSymmetry;
+                Assert.Equal(expectedLimitSymmetry, actualLimitSymmetry);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureCurrentLevelWithScalarValueAndUpdateMode_CorrectCurrentLevelIsSetAndMatchesUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var expectedCurrentLevel = 1E-2;
+
+            sessionsBundle.ConfigureCurrentLevel(expectedCurrentLevel, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var actualCurrentLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevel;
+                Assert.Equal(expectedCurrentLevel, actualCurrentLevel);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureCurrentLevelWithPerSiteValuesAndUpdateMode_CorrectCurrentLevelsAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var currentLevel = new SiteData<double>(new[] { 1E-2, 2E-2 });
+
+            sessionsBundle.ConfigureCurrentLevel(currentLevel, updateMode);
+
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLevel = currentLevel.GetValue(sitePinInfo.SiteNumber);
+                var actualCurrentLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevel;
+                Assert.Equal(expectedCurrentLevel, actualCurrentLevel);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureCurrentLevelWithPerPinPerSiteValuesAndUpdateMode_CorrectCurrentLevelsAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
+            var currentLevel = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 1E-2, [1] = 2E-2 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 3E-2, [1] = 4E-2 }
+            });
+
+            sessionsBundle.ConfigureCurrentLevel(currentLevel, updateMode);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var expectedCurrentLevel = currentLevel.GetValue(sitePinInfo);
+                var actualCurrentLevel = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Source.Current.CurrentLevel;
+                Assert.Equal(expectedCurrentLevel, actualCurrentLevel);
+            });
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
         private void AssertVoltageSettings(DCPowerOutput channelOutput, double expectedVoltageLevel, double expectedCurrentLimit, int precision = 6)
         {
             Assert.Equal(expectedVoltageLevel, channelOutput.Source.Voltage.VoltageLevel, precision);
@@ -5650,6 +10854,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
             sessionsBundle.ClearActiveAdvancedSequence();
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
+        }
+
+        private static void AssertInitiateBehaviorMatchesUpdateMode(DCPowerSessionsBundle sessionsBundle, UpdateMode updateMode)
+        {
+            if (updateMode == UpdateMode.Immediate)
+            {
+                var exception = Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.Initiate());
+                Assert.Contains("The session is already running.", exception.Message);
+            }
+            else
+            {
+                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
+            }
         }
     }
 }

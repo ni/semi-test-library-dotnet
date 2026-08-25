@@ -169,15 +169,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
             return dcPower.DoAndReturnPerSitePerPinResults((sessionInfo, pinSiteInfo) => sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Source.Current.VoltageLimitRange);
         }
 
-        private static void ConfigureVoltageLimitRange(this DCPowerSessionsBundle dcPower, PinSiteData<double> voltageLimitRange)
-        {
-            dcPower.Do((sessionInfo, pinSiteInfo) =>
-            {
-                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Control.Abort();
-                sessionInfo.Session.Outputs[pinSiteInfo.IndividualChannelString].Source.Current.VoltageLimitRange = voltageLimitRange.GetValue(pinSiteInfo.SiteNumber, pinSiteInfo.PinName);
-            });
-        }
-
         private static IDictionary<string, DCPowerSourceSettings> BuildDCPowerSourceSettings(IList<string[]> pins, IList<int> pinIndexes, double[] currentLimits)
         {
             var settings = new Dictionary<string, DCPowerSourceSettings>();
