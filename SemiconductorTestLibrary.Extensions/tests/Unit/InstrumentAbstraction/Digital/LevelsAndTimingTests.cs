@@ -1571,104 +1571,79 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void SessionsInitialized_ConfigureVoltageLevelsWithUpdateMode_ValueCorrectlySet(UpdateMode updateMode)
+        public void SessionsInitialized_ConfigureVoltageLevelsWithUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            if (updateMode == UpdateMode.Immediate)
-            {
-                sessionsBundle.ConfigurePattern("TX_50_Duty_Cycle");
-            }
+            PrepareForUpdateMode(sessionsBundle, updateMode, "TX_50_Duty_Cycle");
             sessionsBundle.ConfigureVoltageLevels(vil: 1, vih: 3.6, vol: 1.5, voh: 3, vterm: 2, updateMode: updateMode);
 
-            sessionsBundle.Do(sessionInfo =>
-            {
-                Assert.Equal(1, sessionInfo.PinSet.DigitalLevels.Vil, 1);
-                Assert.Equal(3.6, sessionInfo.PinSet.DigitalLevels.Vih, 1);
-                Assert.Equal(1.5, sessionInfo.PinSet.DigitalLevels.Vol, 1);
-                Assert.Equal(3, sessionInfo.PinSet.DigitalLevels.Voh, 1);
-                Assert.Equal(2, sessionInfo.PinSet.DigitalLevels.Vterm, 1);
-            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
         [Theory]
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void SessionsInitialized_ConfigureTerminationModeWithUpdateMode_ValueCorrectlySet(UpdateMode updateMode)
+        public void SessionsInitialized_ConfigureTerminationModeWithUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            if (updateMode == UpdateMode.Immediate)
-            {
-                sessionsBundle.ConfigurePattern("TX_50_Duty_Cycle");
-            }
+            PrepareForUpdateMode(sessionsBundle, updateMode, "TX_50_Duty_Cycle");
             sessionsBundle.ConfigureTerminationMode(TerminationMode.Vterm, updateMode: updateMode);
 
-            sessionsBundle.Do(sessionInfo =>
-            {
-                Assert.Equal(TerminationMode.Vterm, sessionInfo.PinSet.DigitalLevels.TerminationMode);
-            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
         [Theory]
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void SessionsInitialized_ConfigureTimeSetCompareEdgesStrobeWithUpdateMode_ValueCorrectlySet(UpdateMode updateMode)
+        public void SessionsInitialized_ConfigureTimeSetCompareEdgesStrobeWithUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            if (updateMode == UpdateMode.Immediate)
-            {
-                sessionsBundle.ConfigurePattern("TX_50_Duty_Cycle");
-            }
+            PrepareForUpdateMode(sessionsBundle, updateMode, "TX_50_Duty_Cycle");
+            sessionsBundle.ConfigurePattern("TX_50_Duty_Cycle");
             sessionsBundle.ConfigureTimeSetCompareEdgesStrobe("TS_SW", compareEdge: 5e-6, updateMode: updateMode);
 
             sessionsBundle.Do(sessionInfo =>
             {
                 Assert.Equal(5e-6, sessionInfo.Session.Timing.GetTimeSet("TS_SW").GetEdge(sessionInfo.PinSet, TimeSetEdge.CompareStrobe).TotalSeconds);
             });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
         [Theory]
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void SessionsInitialized_ConfigurePerSiteTimeSetCompareEdgesStrobeWithUpdateMode_ValueCorrectlySet(UpdateMode updateMode)
+        public void SessionsInitialized_ConfigurePerSiteTimeSetCompareEdgesStrobeWithUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            if (updateMode == UpdateMode.Immediate)
-            {
-                sessionsBundle.ConfigurePattern("TX_50_Duty_Cycle");
-            }
+            PrepareForUpdateMode(sessionsBundle, updateMode, "TX_50_Duty_Cycle");
             var compareEdges = new SiteData<double>(new Dictionary<int, double>() { [0] = 5e-6, [1] = 8e-6 });
             sessionsBundle.ConfigureTimeSetCompareEdgesStrobe("TS_SW", compareEdges, updateMode: updateMode);
 
-            var sessionInfo0 = sessionsBundle.InstrumentSessions.ElementAt(0);
-            Assert.Equal(5e-6, sessionInfo0.Session.Timing.GetTimeSet("TS_SW").GetEdge(sessionInfo0.PinSet, TimeSetEdge.CompareStrobe).TotalSeconds);
-            var sessionInfo1 = sessionsBundle.InstrumentSessions.ElementAt(1);
-            Assert.Equal(8e-6, sessionInfo1.Session.Timing.GetTimeSet("TS_SW").GetEdge(sessionInfo1.PinSet, TimeSetEdge.CompareStrobe).TotalSeconds);
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
         [Theory]
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void SessionsInitialized_ConfigurePerSitePerPinTimeSetCompareEdgesStrobeWithUpdateMode_ValueCorrectlySet(UpdateMode updateMode)
+        public void SessionsInitialized_ConfigurePerSitePerPinTimeSetCompareEdgesStrobeWithUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            if (updateMode == UpdateMode.Immediate)
-            {
-                sessionsBundle.ConfigurePattern("TX_50_Duty_Cycle");
-            }
+            PrepareForUpdateMode(sessionsBundle, updateMode);
+
             var compareEdges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
                 ["C0"] = new Dictionary<int, double>() { [0] = 5e-6, [1] = 7e-6 },
@@ -1676,12 +1651,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
             sessionsBundle.ConfigureTimeSetCompareEdgesStrobe("TS_SW", compareEdges, updateMode: updateMode);
 
-            var session0 = sessionsBundle.InstrumentSessions.ElementAt(0).Session;
-            Assert.Equal(5e-6, session0.Timing.GetTimeSet("TS_SW").GetEdge(session0.PinAndChannelMap.GetPinSet("site0/C0"), TimeSetEdge.CompareStrobe).TotalSeconds);
-            Assert.Equal(6e-6, session0.Timing.GetTimeSet("TS_SW").GetEdge(session0.PinAndChannelMap.GetPinSet("site0/C1"), TimeSetEdge.CompareStrobe).TotalSeconds);
-            var session1 = sessionsBundle.InstrumentSessions.ElementAt(1).Session;
-            Assert.Equal(7e-6, session1.Timing.GetTimeSet("TS_SW").GetEdge(session1.PinAndChannelMap.GetPinSet("site1/C0"), TimeSetEdge.CompareStrobe).TotalSeconds);
-            Assert.Equal(8e-6, session1.Timing.GetTimeSet("TS_SW").GetEdge(session1.PinAndChannelMap.GetPinSet("site1/C1"), TimeSetEdge.CompareStrobe).TotalSeconds);
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
         /// <summary>
@@ -1694,6 +1664,40 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             if (File.Exists(fileName))
             {
                 File.Delete(fileName);
+            }
+        }
+
+        /// <summary>
+        /// Prepares the sessions for a configuration call that uses the specified <paramref name="updateMode"/>.
+        /// When the update mode is <see cref="UpdateMode.Immediate"/>, a pattern must be configured beforehand
+        /// because the configuration API initiates the pattern burst immediately.
+        /// </summary>
+        private static void PrepareForUpdateMode(DigitalSessionsBundle sessionsBundle, UpdateMode updateMode, string patternName = "TX_50_Duty_Cycle")
+        {
+            if (updateMode == UpdateMode.Immediate)
+            {
+                sessionsBundle.ConfigurePattern(patternName);
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the initiate behavior of the sessions matches the specified <paramref name="updateMode"/>.
+        /// For <see cref="UpdateMode.Immediate"/> the configuration call already initiated the pattern burst, so
+        /// calling <see cref="Pattern.Initiate"/> again is expected to fail because the session is already running.
+        /// For <see cref="UpdateMode.Deferred"/> and <see cref="UpdateMode.Commit"/> the session is not running yet,
+        /// so <see cref="Pattern.Initiate"/> is expected to succeed.
+        /// </summary>
+        private static void AssertInitiateBehaviorMatchesUpdateMode(DigitalSessionsBundle sessionsBundle, UpdateMode updateMode)
+        {
+            void Initiate() => sessionsBundle.Initiate();
+
+            if (updateMode == UpdateMode.Immediate)
+            {
+                Assert.Throws<NISemiconductorTestException>(Initiate);
+            }
+            else
+            {
+                Initiate(); // Should not throw for Deferred or Commit update modes because the session is not running yet.
             }
         }
     }
