@@ -42,7 +42,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void Initialize_ConfigureTMUStartSourceSucceeds(bool useSpecificPins)
+        public void Initialize_ConfigureTMUStartSource_Succeeds(bool useSpecificPins)
         {
             var sessionsBundle = InitializeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -58,7 +58,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void Initialize_ConfigureTMUStopSourceSucceeds(bool useSpecificPins)
+        public void Initialize_ConfigureTMUStopSource_Succeeds(bool useSpecificPins)
         {
             var sessionsBundle = InitializeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -76,7 +76,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(TmuSourceEvent.Vol, true)]
         [InlineData(TmuSourceEvent.Voh, false)]
         [InlineData(TmuSourceEvent.Voh, true)]
-        public void Initialize_ConfigureTMUStartSourceEventSucceeds(TmuSourceEvent sourceEvent, bool useSpecificPins)
+        public void Initialize_ConfigureTMUStartSourceEvent_Succeeds(TmuSourceEvent sourceEvent, bool useSpecificPins)
         {
             var sessionsBundle = InitializeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -94,7 +94,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(TmuSourceEvent.Vol, true)]
         [InlineData(TmuSourceEvent.Voh, false)]
         [InlineData(TmuSourceEvent.Voh, true)]
-        public void Initialize_ConfigureTMUStopSourceEventSucceeds(TmuSourceEvent sourceEvent, bool useSpecificPins)
+        public void Initialize_ConfigureTMUStopSourceEvent_Succeeds(TmuSourceEvent sourceEvent, bool useSpecificPins)
         {
             var sessionsBundle = InitializeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -114,7 +114,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(TmuPolarity.FallingEdge, true)]
         [InlineData(TmuPolarity.EitherEdge, false)]
         [InlineData(TmuPolarity.EitherEdge, true)]
-        public void Initialize_ConfigureTMUStartSourceEventPolaritySucceeds(TmuPolarity polarity, bool useSpecificPins)
+        public void Initialize_ConfigureTMUStartSourceEventPolarity_Succeeds(TmuPolarity polarity, bool useSpecificPins)
         {
             var sessionsBundle = InitializeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -134,7 +134,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(TmuPolarity.FallingEdge, true)]
         [InlineData(TmuPolarity.EitherEdge, false)]
         [InlineData(TmuPolarity.EitherEdge, true)]
-        public void Initialize_ConfigureTMUStopSourceEventPolaritySucceeds(TmuPolarity polarity, bool useSpecificPins)
+        public void Initialize_ConfigureTMUStopSourceEventPolarity_Succeeds(TmuPolarity polarity, bool useSpecificPins)
         {
             var sessionsBundle = InitializeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -152,7 +152,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(TmuArmType.Immediate, true)]
         [InlineData(TmuArmType.Edge, false)]
         [InlineData(TmuArmType.Edge, true)]
-        public void Initialize_ConfigureTMUArmTypeSucceeds(TmuArmType armType, bool useSpecificPins)
+        public void Initialize_ConfigureTMUArmType_Succeeds(TmuArmType armType, bool useSpecificPins)
         {
             var sessionsBundle = InitializeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -171,7 +171,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void Initialize_ConfigureTMUEdgeArmSourceSucceeds(bool useSpecificPins)
+        public void Initialize_ConfigureTMUEdgeArmSource_Succeeds(bool useSpecificPins)
         {
             var sessionsBundle = InitializeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -189,7 +189,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(TmuSourceEvent.Vol, true)]
         [InlineData(TmuSourceEvent.Voh, false)]
         [InlineData(TmuSourceEvent.Voh, true)]
-        public void Initialize_ConfigureTMUEdgeArmSourceEventSucceeds(TmuSourceEvent sourceEvent, bool useSpecificPins)
+        public void Initialize_ConfigureTMUEdgeArmSourceEvent_Succeeds(TmuSourceEvent sourceEvent, bool useSpecificPins)
         {
             var sessionsBundle = InitializeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -207,7 +207,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(TmuPolarity.RisingEdge, true)]
         [InlineData(TmuPolarity.FallingEdge, false)]
         [InlineData(TmuPolarity.FallingEdge, true)]
-        public void Initialize_ConfigureTMUEdgeArmPolaritySucceeds(TmuPolarity polarity, bool useSpecificPins)
+        public void Initialize_ConfigureTMUEdgeArmPolarity_Succeeds(TmuPolarity polarity, bool useSpecificPins)
         {
             var sessionsBundle = InitializeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -224,7 +224,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(100, false)]
         [InlineData(1, false)]
         [InlineData(50, true)]
-        public void Initialize_ConfigureTMUSamplesToAcquireSucceeds(long sampleNumber, bool useSpecificPins)
+        public void Initialize_ConfigureTMUSamplesToAcquire_Succeeds(long sampleNumber, bool useSpecificPins)
         {
             var sessionsBundle = InitializeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -241,7 +241,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(10.0, false)]
         [InlineData(0.001, false)]
         [InlineData(10.0, true)]
-        public void Initialize_ConfigureTMUSampleTimeoutSucceeds(double timeout, bool useSpecificPins)
+        public void Initialize_ConfigureTMUSampleTimeout_Succeeds(double timeout, bool useSpecificPins)
         {
             var sessionsBundle = InitializeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -258,7 +258,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(TmuPolarity.RisingEdge, 1, false)]
         [InlineData(TmuPolarity.RisingEdge, 100, true)]
-        public void Initialize_ConfigurePeriodMeasurementSucceeds(TmuPolarity edgeType, long samplesToAcquire, bool useSpecificPins)
+        public void Initialize_ConfigurePeriodMeasurement_Succeeds(TmuPolarity edgeType, long samplesToAcquire, bool useSpecificPins)
         {
             var sessionsBundle = InitializeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -308,7 +308,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(1, false)]
         [InlineData(100, false)]
         [InlineData(1, true)]
-        public void Initialize_ConfigureTMURiseTimeMeasurementSucceeds(long samplesToAcquire, bool useSpecificPins)
+        public void Initialize_ConfigureTMURiseTimeMeasurement_Succeeds(long samplesToAcquire, bool useSpecificPins)
         {
             var sessionsBundle = InitializeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -319,7 +319,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Initialize_ConfigureTMURiseTimeMeasurementWithArmTypeSucceeds()
+        public void Initialize_ConfigureTMURiseTimeMeasurementWithArmType_Succeeds()
         {
             var sessionsBundle = InitializeAndCreateBundle();
 
@@ -352,7 +352,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(1, false)]
         [InlineData(100, false)]
         [InlineData(1, true)]
-        public void Initialize_ConfigureTMUFallTimeMeasurementSucceeds(long samplesToAcquire, bool useSpecificPins)
+        public void Initialize_ConfigureTMUFallTimeMeasurement_Succeeds(long samplesToAcquire, bool useSpecificPins)
         {
             var sessionsBundle = InitializeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -363,7 +363,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Initialize_ConfigureTMUFallTimeMeasurementWithArmTypeSucceeds()
+        public void Initialize_ConfigureTMUFallTimeMeasurementWithArmType_Succeeds()
         {
             var sessionsBundle = InitializeAndCreateBundle();
 
@@ -397,7 +397,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(TmuDutyCycle.High, 100, true)]
         [InlineData(TmuDutyCycle.Low, 1, false)]
         [InlineData(TmuDutyCycle.Low, 100, true)]
-        public void Initialize_ConfigureTMUDutyCycleMeasurementSucceeds(TmuDutyCycle dutyCycleType, long samplesToAcquire, bool useSpecificPins)
+        public void Initialize_ConfigureTMUDutyCycleMeasurement_Succeeds(TmuDutyCycle dutyCycleType, long samplesToAcquire, bool useSpecificPins)
         {
             var sessionsBundle = InitializeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -408,7 +408,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Initialize_ConfigureTMUDutyCycleMeasurementWithInvalidDutyCycleTypeThrowsArgumentOutOfRangeException()
+        public void Initialize_ConfigureTMUDutyCycleMeasurementWithInvalidDutyCycleType_ThrowsArgumentOutOfRangeException()
         {
             var sessionsBundle = InitializeAndCreateBundle();
 
@@ -443,7 +443,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(TmuPulseWidth.High, 100, true)]
         [InlineData(TmuPulseWidth.Low, 1, false)]
         [InlineData(TmuPulseWidth.Low, 100, true)]
-        public void Initialize_ConfigureTMUPulseWidthMeasurementSucceeds(TmuPulseWidth pulseWidthType, long samplesToAcquire, bool useSpecificPins)
+        public void Initialize_ConfigureTMUPulseWidthMeasurement_Succeeds(TmuPulseWidth pulseWidthType, long samplesToAcquire, bool useSpecificPins)
         {
             var sessionsBundle = InitializeAndCreateBundle();
             var pinNames = useSpecificPins ? new string[] { "C0" } : null;
@@ -454,7 +454,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Initialize_ConfigureTMUPulseWidthMeasurementWithInvalidPulseWidthTypeThrowsArgumentOutOfRangeException()
+        public void Initialize_ConfigureTMUPulseWidthMeasurementWithInvalidPulseWidthType_ThrowsArgumentOutOfRangeException()
         {
             var sessionsBundle = InitializeAndCreateBundle();
 
@@ -487,7 +487,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(TmuPolarity.RisingEdge)]
         [InlineData(TmuPolarity.FallingEdge)]
-        public void Initialize_ConfigureSkewMeasurementSucceeds(TmuPolarity edgeType)
+        public void Initialize_ConfigureSkewMeasurement_Succeeds(TmuPolarity edgeType)
         {
             var sessionsBundle = InitializeAndCreateBundle();
 
@@ -637,7 +637,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(TmuPolarity.RisingEdge)]
         [InlineData(TmuPolarity.FallingEdge)]
-        public void Initialize_ConfigureSkewMeasurementWithUniquePinsSucceeds(TmuPolarity edgeType)
+        public void Initialize_ConfigureSkewMeasurementWithUniquePins_Succeeds(TmuPolarity edgeType)
         {
             var sessionsBundle = InitializeAndCreateBundle();
 
@@ -685,7 +685,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         #region Single Pin Overload Tests
 
         [Fact]
-        public void Initialize_ConfigureTMUStartSourceWithSinglePinSucceeds()
+        public void Initialize_ConfigureTMUStartSourceWithSinglePin_Succeeds()
         {
             var sessionsBundle = InitializeAndCreateBundle();
 
@@ -694,7 +694,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Initialize_ConfigureTMUStopSourceWithSinglePinSucceeds()
+        public void Initialize_ConfigureTMUStopSourceWithSinglePin_Succeeds()
         {
             var sessionsBundle = InitializeAndCreateBundle();
 
@@ -703,7 +703,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Initialize_ConfigureTMUStartSourceEventWithSinglePinSucceeds()
+        public void Initialize_ConfigureTMUStartSourceEventWithSinglePin_Succeeds()
         {
             var sessionsBundle = InitializeAndCreateBundle();
 
@@ -712,7 +712,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Initialize_ConfigureTMUStopSourceEventWithSinglePinSucceeds()
+        public void Initialize_ConfigureTMUStopSourceEventWithSinglePin_Succeeds()
         {
             var sessionsBundle = InitializeAndCreateBundle();
 
@@ -721,7 +721,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Initialize_ConfigureTMUStartSourceEventPolarityWithSinglePinSucceeds()
+        public void Initialize_ConfigureTMUStartSourceEventPolarityWithSinglePin_Succeeds()
         {
             var sessionsBundle = InitializeAndCreateBundle();
 
@@ -730,7 +730,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Initialize_ConfigureTMUStopSourceEventPolarityWithSinglePinSucceeds()
+        public void Initialize_ConfigureTMUStopSourceEventPolarityWithSinglePin_Succeeds()
         {
             var sessionsBundle = InitializeAndCreateBundle();
 
@@ -739,7 +739,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Initialize_ConfigureTMUArmTypeWithSinglePinSucceeds()
+        public void Initialize_ConfigureTMUArmTypeWithSinglePin_Succeeds()
         {
             var sessionsBundle = InitializeAndCreateBundle();
             sessionsBundle.ConfigureTMUStartSource("C0");
@@ -751,7 +751,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Initialize_ConfigureTMUEdgeArmSourceWithSinglePinSucceeds()
+        public void Initialize_ConfigureTMUEdgeArmSourceWithSinglePin_Succeeds()
         {
             var sessionsBundle = InitializeAndCreateBundle();
 
@@ -760,7 +760,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Initialize_ConfigureTMUEdgeArmSourceEventWithSinglePinSucceeds()
+        public void Initialize_ConfigureTMUEdgeArmSourceEventWithSinglePin_Succeeds()
         {
             var sessionsBundle = InitializeAndCreateBundle();
 
@@ -769,7 +769,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Initialize_ConfigureTMUEdgeArmPolarityWithSinglePinSucceeds()
+        public void Initialize_ConfigureTMUEdgeArmPolarityWithSinglePin_Succeeds()
         {
             var sessionsBundle = InitializeAndCreateBundle();
 
@@ -778,7 +778,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Initialize_ConfigureTMUSamplesToAcquireWithSinglePinSucceeds()
+        public void Initialize_ConfigureTMUSamplesToAcquireWithSinglePin_Succeeds()
         {
             var sessionsBundle = InitializeAndCreateBundle();
 
@@ -787,7 +787,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Initialize_ConfigureTMUSampleTimeoutWithSinglePinSucceeds()
+        public void Initialize_ConfigureTMUSampleTimeoutWithSinglePin_Succeeds()
         {
             var sessionsBundle = InitializeAndCreateBundle();
 
@@ -797,7 +797,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Initialize_ConfigurePeriodMeasurementWithSinglePinSucceeds()
+        public void Initialize_ConfigurePeriodMeasurementWithSinglePin_Succeeds()
         {
             var sessionsBundle = InitializeAndCreateBundle();
 
@@ -807,7 +807,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Initialize_ConfigureTMURiseTimeMeasurementWithSinglePinSucceeds()
+        public void Initialize_ConfigureTMURiseTimeMeasurementWithSinglePin_Succeeds()
         {
             var sessionsBundle = InitializeAndCreateBundle();
 
@@ -817,7 +817,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Initialize_ConfigureTMUFallTimeMeasurementWithSinglePinSucceeds()
+        public void Initialize_ConfigureTMUFallTimeMeasurementWithSinglePin_Succeeds()
         {
             var sessionsBundle = InitializeAndCreateBundle();
 
@@ -827,7 +827,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Initialize_ConfigureTMUDutyCycleMeasurementWithSinglePinSucceeds()
+        public void Initialize_ConfigureTMUDutyCycleMeasurementWithSinglePin_Succeeds()
         {
             var sessionsBundle = InitializeAndCreateBundle();
 
@@ -837,7 +837,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Initialize_ConfigureTMUPulseWidthMeasurementWithSinglePinSucceeds()
+        public void Initialize_ConfigureTMUPulseWidthMeasurementWithSinglePin_Succeeds()
         {
             var sessionsBundle = InitializeAndCreateBundle();
 
@@ -847,7 +847,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Initialize_ConfigureTMUSkewMeasurementWithSinglePinPairSucceeds()
+        public void Initialize_ConfigureTMUSkewMeasurementWithSinglePinPair_Succeeds()
         {
             var sessionsBundle = InitializeAndCreateBundle();
 
@@ -857,7 +857,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Initialize_AssignTMUResourcesAndClearTMUAssignmentWithSinglePinSucceeds()
+        public void Initialize_AssignTMUResourcesAndClearTMUAssignmentWithSinglePin_Succeeds()
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager();
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
@@ -867,7 +867,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Initialize_EnableAndDisableTMUWithSinglePinSucceeds()
+        public void Initialize_EnableAndDisableTMUWithSinglePin_Succeeds()
         {
             var sessionsBundle = InitializeAndCreateBundle();
             sessionsBundle.ConfigurePeriodMeasurement(TmuPolarity.RisingEdge, 1, "C0");
@@ -878,7 +878,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Initialize_TMUInitiateAndAbortWithSinglePinSucceeds()
+        public void Initialize_TMUInitiateAndAbortWithSinglePin_Succeeds()
         {
             var sessionsBundle = InitializeAndCreateBundle();
             sessionsBundle.ConfigurePeriodMeasurement(TmuPolarity.RisingEdge, 1, "C0");
@@ -897,7 +897,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(TmuArmSetting.Immediate)]
         [InlineData(TmuArmSetting.StartEdge)]
         [InlineData(TmuArmSetting.StopEdge)]
-        public void Initialize_ConfigurePeriodMeasurementWithArmSettingSucceeds(TmuArmSetting armSetting)
+        public void Initialize_ConfigurePeriodMeasurementWithArmSetting_Succeeds(TmuArmSetting armSetting)
         {
             var sessionsBundle = InitializeAndCreateBundle();
 
@@ -910,7 +910,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(TmuArmSetting.Immediate)]
         [InlineData(TmuArmSetting.StartEdge)]
         [InlineData(TmuArmSetting.StopEdge)]
-        public void Initialize_ConfigureTMURiseTimeMeasurementWithArmSettingSucceeds(TmuArmSetting armSetting)
+        public void Initialize_ConfigureTMURiseTimeMeasurementWithArmSetting_Succeeds(TmuArmSetting armSetting)
         {
             var sessionsBundle = InitializeAndCreateBundle();
 
@@ -923,7 +923,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(TmuArmSetting.Immediate)]
         [InlineData(TmuArmSetting.StartEdge)]
         [InlineData(TmuArmSetting.StopEdge)]
-        public void Initialize_ConfigureTMUFallTimeMeasurementWithArmSettingSucceeds(TmuArmSetting armSetting)
+        public void Initialize_ConfigureTMUFallTimeMeasurementWithArmSetting_Succeeds(TmuArmSetting armSetting)
         {
             var sessionsBundle = InitializeAndCreateBundle();
 
@@ -936,7 +936,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(TmuArmSetting.Immediate)]
         [InlineData(TmuArmSetting.StartEdge)]
         [InlineData(TmuArmSetting.StopEdge)]
-        public void Initialize_ConfigureTMUDutyCycleMeasurementWithArmSettingSucceeds(TmuArmSetting armSetting)
+        public void Initialize_ConfigureTMUDutyCycleMeasurementWithArmSetting_Succeeds(TmuArmSetting armSetting)
         {
             var sessionsBundle = InitializeAndCreateBundle();
 
@@ -949,7 +949,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(TmuArmSetting.Immediate)]
         [InlineData(TmuArmSetting.StartEdge)]
         [InlineData(TmuArmSetting.StopEdge)]
-        public void Initialize_ConfigureTMUPulseWidthMeasurementWithArmSettingSucceeds(TmuArmSetting armSetting)
+        public void Initialize_ConfigureTMUPulseWidthMeasurementWithArmSetting_Succeeds(TmuArmSetting armSetting)
         {
             var sessionsBundle = InitializeAndCreateBundle();
 
@@ -991,7 +991,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void Initialize_ConfigureTMUPulseWidthMeasurementWithArmSettingAndSinglePinSucceeds()
+        public void Initialize_ConfigureTMUPulseWidthMeasurementWithArmSettingAndSinglePin_Succeeds()
         {
             var sessionsBundle = InitializeAndCreateBundle();
 
@@ -1004,7 +1004,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(TmuArmSetting.Immediate)]
         [InlineData(TmuArmSetting.StartEdge)]
         [InlineData(TmuArmSetting.StopEdge)]
-        public void Initialize_ConfigureTMUSkewMeasurementWithArmSettingSucceeds(TmuArmSetting armSetting)
+        public void Initialize_ConfigureTMUSkewMeasurementWithArmSetting_Succeeds(TmuArmSetting armSetting)
         {
             var sessionsBundle = InitializeAndCreateBundle();
 
@@ -1017,7 +1017,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(TmuArmSetting.Immediate)]
         [InlineData(TmuArmSetting.StartEdge)]
         [InlineData(TmuArmSetting.StopEdge)]
-        public void Initialize_ConfigureTMUSkewMeasurementWithArmSettingAndSinglePinPairSucceeds(TmuArmSetting armSetting)
+        public void Initialize_ConfigureTMUSkewMeasurementWithArmSettingAndSinglePinPair_Succeeds(TmuArmSetting armSetting)
         {
             var sessionsBundle = InitializeAndCreateBundle();
 
@@ -1685,6 +1685,57 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var result = sessionsBundle.GetTMUCount();
 
             Assert.True(Array.TrueForAll(result, count => count >= 2));
+        }
+
+        #endregion
+
+        #region Assign TMU Resources Across Multiple Bundles Tests
+
+        [Fact]
+        public void Inititalize_AssignTMUResourcesOnSeparateBundlesForDifferentPins_Succeeds()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager();
+            var bundle1 = sessionManager.Digital(new string[] { "C0" });
+            var bundle2 = sessionManager.Digital(new string[] { "C1" });
+
+            bundle1.AssignTMUResources();
+            bundle2.AssignTMUResources();
+
+            bundle1.ClearTMUAssignment();
+            bundle2.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void InititalizeAndAssignTMUResourcesOnFirstBundle_AssignTMUResourcesForSamePinOnSecondBundle_Succeeds()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager();
+            var bundle1 = sessionManager.Digital(new string[] { "C0" });
+            var bundle2 = sessionManager.Digital(new string[] { "C0" });
+            bundle1.AssignTMUResources();
+
+            bundle2.AssignTMUResources();
+
+            // Releasing the first bundle should not affect the second bundle's assignment.
+            bundle1.ClearTMUAssignment();
+            bundle2.ClearTMUAssignment();
+        }
+
+        [Fact]
+        public void InititalizeAndAssignTMUResourcesOnFirstBundle_AssignTMUResourcesExhaustsResourcesOnSecondBundle_ThrowsAndCleansUp()
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager();
+            var bundle1 = sessionManager.Digital(new string[] { "C0", "C1" });
+            var bundle2 = sessionManager.Digital(new string[] { "C0", "C1" });
+
+            // First bundle claims the available TMU resources.
+            bundle1.AssignTMUResources();
+
+            // Second bundle attempts to claim the same already-assigned resources and should fail.
+            Assert.Throws<NISemiconductorTestException>(() => bundle2.AssignTMUResources());
+            // The failed assignment should have rolled back its partial claims,
+            // so releasing the first bundle must still succeed.
+            bundle1.ClearTMUAssignment();
+            bundle2.ClearTMUAssignment();
         }
 
         #endregion

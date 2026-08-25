@@ -71,7 +71,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <remarks>
         /// Invoking this method creates a clear separation between TMU configuration and resource reservation.<br/>
         /// The assigned TMU resource is reserved when this method is called.<br/>
-        /// Enabling a TMU with invalid configuration will result in an error when <see cref="TMUInitiate" /> is called.
+        /// Enabling a TMU with invalid configuration will result in an error when <see cref="TMUInitiate(DigitalSessionsBundle, string[])" /> is called.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="pinNames">Specific pins for which to enable the assigned TMU resource. When <c>null</c>, all pins are targeted.</param>
@@ -209,7 +209,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 // Clear partially assigned TMU resources in case of exception
                 sessionsBundle.Do(sessionInfo =>
                 {
-                    sessionInfo.ClearAssignedTMUContexts(pinNames);
+                    sessionInfo.ClearAssignedTMUContexts(pinNames, doTMUReleaseCheck: false);
                 });
 
                 throw; // rethrow the original exception.
@@ -1353,7 +1353,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <returns>The start source channel string for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
-        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources"/> before invoking this method.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<string> GetTMUStartSource(this DigitalSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
@@ -1372,7 +1372,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <returns>The stop source channel string for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
-        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources"/> before invoking this method.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<string> GetTMUStopSource(this DigitalSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
@@ -1391,7 +1391,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <returns>The start source event for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
-        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources"/> before invoking this method.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<TmuSourceEvent> GetTMUStartSourceEvent(this DigitalSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
@@ -1410,7 +1410,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <returns>The stop source event for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
-        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources"/> before invoking this method.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<TmuSourceEvent> GetTMUStopSourceEvent(this DigitalSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
@@ -1429,7 +1429,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <returns>The start source event polarity for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
-        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources"/> before invoking this method.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<TmuPolarity> GetTMUStartSourceEventPolarity(this DigitalSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
@@ -1448,7 +1448,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <returns>The stop source event polarity for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
-        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources"/> before invoking this method.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<TmuPolarity> GetTMUStopSourceEventPolarity(this DigitalSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
@@ -1467,7 +1467,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <returns>A value indicating whether the TMU is enabled for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
-        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources"/> before invoking this method.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<bool> GetTMUEnabled(this DigitalSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
@@ -1486,7 +1486,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <returns>The arm type for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
-        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources"/> before invoking this method.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<TmuArmType> GetTMUArmType(this DigitalSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
@@ -1506,7 +1506,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <returns>The edge arm source channel string for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
-        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources"/> before invoking this method.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<string> GetTMUEdgeArmSource(this DigitalSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
@@ -1526,7 +1526,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <returns>The edge arm source event for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
-        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources"/> before invoking this method.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<TmuSourceEvent> GetTMUEdgeArmSourceEvent(this DigitalSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
@@ -1546,7 +1546,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <returns>The edge arm polarity for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
-        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources"/> before invoking this method.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<TmuPolarity> GetTMUEdgeArmPolarity(this DigitalSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
@@ -1565,7 +1565,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <returns>The number of samples to acquire for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
-        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources"/> before invoking this method.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<long> GetTMUSamplesToAcquire(this DigitalSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
@@ -1584,7 +1584,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <returns>The sample timeout in seconds for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
-        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources"/> before invoking this method.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<double> GetTMUSampleTimeout(this DigitalSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
@@ -1603,7 +1603,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <returns>The start input debounce time in seconds for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
-        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources"/> before invoking this method.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<double> GetTMUStartInputDebounceTime(this DigitalSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
@@ -1622,7 +1622,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
         /// <returns>The stop input debounce time in seconds for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
-        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources"/> before invoking this method.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<double> GetTMUStopInputDebounceTime(this DigitalSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
@@ -1663,44 +1663,39 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
 
             // Initialize the TMUAssignmentManager with the available TMU resources for the devices within the current session.
             List<string> availableTMUContexts = GetDigitalTmus(digitalSessionInformation.Session).GetDisabledTmuContexts();
-            TMUContextManager.AddAvailableTMUs(string.Join(", ", availableTMUContexts));
+            Dictionary<string, Queue<string>> tmuContextsPerInstrument = CategorizeTMUContextsByInstrument(availableTMUContexts);
 
             // Assign TMU resources to each target pin/site pair within the session.
             foreach (SitePinInfo sitePinInfo in sitePinInfos)
             {
                 var digitalSitePinInfo = sitePinInfo as DigitalSitePinInfo;
-
+                var assignedTmuContext = digitalSitePinInfo?.AssignedTmuContext;
                 // Assign TMU only if it is not already assigned.
                 // It may already be assigned if:
                 // - AssignTMUResources() is invoked twice on the same bundle object.
                 // - AssignTMUResources() is invoked after having already invoked AssignTMUResources(pinNames) on the same the bundle object for a subset of pins.
                 // - AssignTMUResources(pinNames1) is invoked after having already invoked AssignTMUResources(pinNames2) on the same the bundle object,
                 // where pinNames1 and pinNames2 contain overlapping pins.
-                if (string.IsNullOrEmpty(digitalSitePinInfo.AssignedTmuContext))
+                if (string.IsNullOrEmpty(assignedTmuContext))
                 {
                     string deviceName = digitalSitePinInfo.InstrumentName;
-                    var success = TMUContextManager.TryCheckOutTMU(deviceName, out string tmuName);
-                    if (!success)
+                    if (!TryGetTMUContext(tmuContextsPerInstrument, deviceName, out string tmuContext))
                     {
-                        throw new NISemiconductorTestException(
-                            string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUNotEnoughResources, deviceName, sitePinInfo.SitePinString));
+                        throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUNotEnoughResources, deviceName, sitePinInfo.PinName));
                     }
-                    digitalSitePinInfo.AssignedTmuContext = tmuName;
+                    digitalSitePinInfo.AssignedTmuContext = tmuContext;
                 }
             }
         }
 
-        private static void ClearAssignedTMUContexts(this DigitalSessionInformation digitalSessionInformation, string[] pins = null)
+        private static void ClearAssignedTMUContexts(this DigitalSessionInformation digitalSessionInformation, string[] pins = null, bool doTMUReleaseCheck = true)
         {
             // Filter sitePinInfo based on specified pins.
             var sitePinInfos = (pins != null && pins.Any())
                 ? digitalSessionInformation.AssociatedSitePinList.Where(sp => pins.Contains(sp.PinName))
                 : digitalSessionInformation.AssociatedSitePinList;
-
-            List<string> availableTMUList = GetDigitalTmus(digitalSessionInformation.Session).GetDisabledTmuContexts();
-
             // Check if all the assigned TMUs of site/pin pair are safe to release.
-            if (!IsSafeToReleaseAllTMUs(sitePinInfos, availableTMUList))
+            if (doTMUReleaseCheck && !IsSafeToReleaseAllTMUs(digitalSessionInformation.Session, sitePinInfos))
             {
                 throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUResourcesInUse));
             }
@@ -1709,30 +1704,29 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             foreach (SitePinInfo sitePinInfo in sitePinInfos)
             {
                 var digitalSitePinInfo = sitePinInfo as DigitalSitePinInfo;
-
+                var assignedTmuContext = digitalSitePinInfo?.AssignedTmuContext;
                 // Clear only if TMU resource is assigned for a site/pin pair.
                 // This can happen when:
                 // - 'ClearTMUAssignment' is invoked twice on the same bundle object.
                 // - 'ClearTMUAssignment' is invoked before invoking 'AssignTMUResources'.
                 // - 'ClearTMUAssignment(pinNames)' is invoked, targeting only a subset of pins within the bundle object, and then the 'ClearTMUAssignment()' is invoked on whole bundle object.
-                if (!string.IsNullOrEmpty(digitalSitePinInfo.AssignedTmuContext))
+                if (!string.IsNullOrEmpty(assignedTmuContext))
                 {
-                    string deviceName = digitalSitePinInfo.InstrumentName;
-                    string tmuName = digitalSitePinInfo.AssignedTmuContext;
                     digitalSitePinInfo.AssignedTmuContext = string.Empty;
-                    TMUContextManager.TryCheckInTMU(deviceName, tmuName);
+                    TMUContextManager.Instance.UnAssignTMUContext(digitalSitePinInfo.InstrumentName, assignedTmuContext);
                 }
             }
         }
 
-        private static bool IsSafeToReleaseAllTMUs(IEnumerable<SitePinInfo> sitePinInfos, List<string> availableTMUList)
+        private static bool IsSafeToReleaseAllTMUs(NIDigital session, IEnumerable<SitePinInfo> sitePinInfos)
         {
+            List<string> availableTMUContexts = GetDigitalTmus(session).GetDisabledTmuContexts();
             foreach (var sitePinInfo in sitePinInfos)
             {
-                string tmuName = (sitePinInfo as DigitalSitePinInfo).AssignedTmuContext;
+                string tmuContext = (sitePinInfo as DigitalSitePinInfo)?.AssignedTmuContext;
 
-                // Break the loop when the TMUname is not in the 'availableTMUList', TMU resource is reserved at the driver level.
-                if (!string.IsNullOrEmpty(tmuName) && !availableTMUList.Contains(tmuName))
+                // Break the loop when the TMU context is not in the 'availableTMUContexts', TMU resource is reserved at the driver level.
+                if (!string.IsNullOrEmpty(tmuContext) && !availableTMUContexts.Contains(tmuContext))
                 {
                     return false;
                 }
@@ -1790,6 +1784,38 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
 
             // Enable the TMU (reserve it).
             tmu.Enabled = true;
+        }
+
+        private static bool TryGetTMUContext(Dictionary<string, Queue<string>> tmuContextsPerInstrument, string deviceName, out string tmuContext)
+        {
+            tmuContext = null;
+            if (tmuContextsPerInstrument.TryGetValue(deviceName, out var tmuContexts))
+            {
+                while (tmuContexts.Any())
+                {
+                    var availableTMUContext = tmuContexts.Dequeue();
+                    if (TMUContextManager.Instance.TryAssignTMUContext(deviceName, availableTMUContext))
+                    {
+                        tmuContext = availableTMUContext;
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private static Dictionary<string, Queue<string>> CategorizeTMUContextsByInstrument(List<string> availableTMUContexts)
+        {
+            // A null or empty list yields an empty dictionary, so downstream TryGetTMUContext simply
+            // reports that no TMU resources are available rather than faulting here.
+            if (availableTMUContexts == null || availableTMUContexts.Count == 0)
+            {
+                return new Dictionary<string, Queue<string>>();
+            }
+            // Build a dictionary with device name as key and queue of available TMU contexts as value.
+            return availableTMUContexts.GroupBy(tmuContext => tmuContext.Split('/')[0])
+                .ToDictionary(g => g.Key, g => new Queue<string>(g));
         }
 
         private static void ValidateSkewPins(string[] referencePinNames, string[] targetPinNames)
