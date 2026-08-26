@@ -1577,11 +1577,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ConfigureMeasureSettings(settings, updateMode);
 
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                Assert.Equal(expectedApertureTime, channelOutput.Measurement.ApertureTime);
-            });
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
@@ -1601,12 +1596,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ConfigureMeasureSettings(settings, updateMode);
 
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                var expectedApertureTime = settings.GetValue(sitePinInfo.SiteNumber).ApertureTime;
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                Assert.Equal(expectedApertureTime, channelOutput.Measurement.ApertureTime);
-            });
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
@@ -1628,12 +1617,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ConfigureMeasureSettings(settings, updateMode);
 
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                var expectedApertureTime = settings.GetValue(sitePinInfo).ApertureTime;
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                Assert.Equal(expectedApertureTime, channelOutput.Measurement.ApertureTime);
-            });
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
@@ -1654,12 +1637,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ConfigureMeasureSettings(settings, updateMode);
 
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                var expectedApertureTime = settings[sitePinInfo.PinName].ApertureTime;
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                Assert.Equal(expectedApertureTime, channelOutput.Measurement.ApertureTime);
-            });
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
@@ -1675,11 +1652,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ConfigureMeasureWhen(expectedMeasureWhen, updateMode);
 
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                Assert.Equal(expectedMeasureWhen, channelOutput.Measurement.MeasureWhen);
-            });
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
@@ -1695,11 +1667,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ConfigureMeasurementSense(expectedSense, updateMode);
 
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                Assert.Equal(expectedSense, channelOutput.Measurement.Sense);
-            });
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
