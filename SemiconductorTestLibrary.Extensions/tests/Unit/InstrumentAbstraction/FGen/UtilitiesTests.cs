@@ -1,4 +1,6 @@
 ﻿using System;
+using NationalInstruments.ModularInstruments.NIFgen;
+using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
@@ -27,23 +29,37 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
         [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
-        public void InitializeBundleWithSinglePin_PerformResetOperationSucceeds(string pinmap)
+        public void InitializeBundleWithSinglePinAndSetNonDefaultProperties_Reset_PropertiesRestoredToDefault(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen("A");
+            var outputModeDefault = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo => sessionInfo.Session.Output.OutputMode);
+            sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo => sessionInfo.Session.Output.OutputMode = OutputMode.Sequence);
+            var outputModeNonDefault = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo => sessionInfo.Session.Output.OutputMode);
 
             sessionsBundle.Reset();
+
+            var outputModeDefaultAfterReset = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo => sessionInfo.Session.Output.OutputMode);
+            Assert.NotEqual(outputModeNonDefault, outputModeDefault);
+            Assert.Equal(outputModeDefaultAfterReset, outputModeDefault);
         }
 
         [Theory]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
         [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
-        public void InitializeBundleWithSinglePin_PerformResetDeviceOperationSucceeds(string pinmap)
+        public void InitializeBundleWithSinglePinAndSetNonDefaultProperties_ResetDevice_PropertiesRestoredToDefault(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen("A");
+            var outputModeDefault = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo => sessionInfo.Session.Output.OutputMode);
+            sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo => sessionInfo.Session.Output.OutputMode = OutputMode.Sequence);
+            var outputModeNonDefault = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo => sessionInfo.Session.Output.OutputMode);
 
             sessionsBundle.ResetDevice();
+
+            var outputModeDefaultAfterResetDevice = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo => sessionInfo.Session.Output.OutputMode);
+            Assert.NotEqual(outputModeNonDefault, outputModeDefault);
+            Assert.Equal(outputModeDefaultAfterResetDevice, outputModeDefault);
         }
 
         [Theory]
@@ -51,12 +67,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("FgenSingleInstrumentPerSite.pinmap")]
         [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
         [InlineData("FgenSingleInstrumentSharedAcrossPinsAndSites.pinmap")]
-        public void InitializeBundleWithMultiplePins_PerformResetOperationSucceeds(string pinmap)
+        public void InitializeBundleWithMultiplePinsAndSetNonDefaultProperties_Reset_PropertiesRestoredToDefault(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B", "SystemPin" });
+            var outputModeDefault = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo => sessionInfo.Session.Output.OutputMode);
+            sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo => sessionInfo.Session.Output.OutputMode = OutputMode.Sequence);
+            var outputModeNonDefault = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo => sessionInfo.Session.Output.OutputMode);
 
             sessionsBundle.Reset();
+
+            var outputModeDefaultAfterReset = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo => sessionInfo.Session.Output.OutputMode);
+            Assert.NotEqual(outputModeNonDefault, outputModeDefault);
+            Assert.Equal(outputModeDefaultAfterReset, outputModeDefault);
         }
 
         [Theory]
@@ -64,12 +87,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("FgenSingleInstrumentPerSite.pinmap")]
         [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
         [InlineData("FgenSingleInstrumentSharedAcrossPinsAndSites.pinmap")]
-        public void InitializeBundleWithMultiplePins_PerformResetDeviceOperationSucceeds(string pinmap)
+        public void InitializeBundleWithMultiplePinsAndSetNonDefaultProperties_ResetDevice_PropertiesRestoredToDefault(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B", "SystemPin" });
+            var outputModeDefault = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo => sessionInfo.Session.Output.OutputMode);
+            sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo => sessionInfo.Session.Output.OutputMode = OutputMode.Sequence);
+            var outputModeNonDefault = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo => sessionInfo.Session.Output.OutputMode);
 
             sessionsBundle.ResetDevice();
+
+            var outputModeDefaultAfterResetDevice = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo => sessionInfo.Session.Output.OutputMode);
+            Assert.NotEqual(outputModeNonDefault, outputModeDefault);
+            Assert.Equal(outputModeDefaultAfterResetDevice, outputModeDefault);
         }
     }
 }
