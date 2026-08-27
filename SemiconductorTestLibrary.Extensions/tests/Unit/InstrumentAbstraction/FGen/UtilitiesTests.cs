@@ -40,8 +40,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Reset();
 
             var outputModeDefaultAfterReset = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo => sessionInfo.Session.Output.OutputMode);
-            Assert.NotEqual(outputModeNonDefault, outputModeDefault);
-            Assert.Equal(outputModeDefaultAfterReset, outputModeDefault);
+            Assert.NotEqual(outputModeDefault, outputModeNonDefault);
+            Assert.Equal(outputModeDefault, outputModeDefaultAfterReset);
         }
 
         [Theory]
@@ -58,8 +58,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ResetDevice();
 
             var outputModeDefaultAfterResetDevice = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo => sessionInfo.Session.Output.OutputMode);
-            Assert.NotEqual(outputModeNonDefault, outputModeDefault);
-            Assert.Equal(outputModeDefaultAfterResetDevice, outputModeDefault);
+            Assert.NotEqual(outputModeDefault, outputModeNonDefault);
+            Assert.Equal(outputModeDefault, outputModeDefaultAfterResetDevice);
         }
 
         [Theory]
@@ -78,8 +78,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Reset();
 
             var outputModeDefaultAfterReset = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo => sessionInfo.Session.Output.OutputMode);
-            Assert.NotEqual(outputModeNonDefault, outputModeDefault);
-            Assert.Equal(outputModeDefaultAfterReset, outputModeDefault);
+            Assert.NotEqual(outputModeDefault, outputModeNonDefault);
+            Assert.Equal(outputModeDefault, outputModeDefaultAfterReset);
         }
 
         [Theory]
@@ -98,8 +98,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ResetDevice();
 
             var outputModeDefaultAfterResetDevice = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo => sessionInfo.Session.Output.OutputMode);
-            Assert.NotEqual(outputModeNonDefault, outputModeDefault);
-            Assert.Equal(outputModeDefaultAfterResetDevice, outputModeDefault);
+            Assert.NotEqual(outputModeDefault, outputModeNonDefault);
+            Assert.Equal(outputModeDefault, outputModeDefaultAfterResetDevice);
         }
     }
 }
