@@ -189,7 +189,7 @@ jobs:
           # Move the expected files to the current directory (they are in flat layout already)
           mv jfrog-artifacts/NationalInstruments.SemiconductorTestLibrary.$VERSION.nupkg .
           mv jfrog-artifacts/SemiconductorTestLibrary.$VERSION.Assemblies.zip .
-
+          mv jfrog-artifacts/SemiconductorTestLibrary.$VERSION.Examples.zip .
       # Create Release Notes Draft
       - name: Create Release Notes Draft
         uses: softprops/action-gh-release@v1
@@ -202,6 +202,7 @@ jobs:
           files: |
             NationalInstruments.SemiconductorTestLibrary.${{ github.event.inputs.version }}.nupkg
             SemiconductorTestLibrary.${{ github.event.inputs.version }}.Assemblies.zip
+            SemiconductorTestLibrary.${{ github.event.inputs.version }}.Examples.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
