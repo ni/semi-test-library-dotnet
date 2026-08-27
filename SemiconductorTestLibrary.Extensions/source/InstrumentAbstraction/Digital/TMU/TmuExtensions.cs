@@ -245,10 +245,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         public static void ClearTMUAssignment(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
             ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            sessionsBundle.Do(sessionInfo =>
+            try
             {
-                sessionInfo.ClearAssignedTMUContexts(pinNames);
-            });
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    sessionInfo.ClearAssignedTMUContexts(pinNames);
+                });
+            }
+            catch
+            {
+                // Clear all the assigned TMU resources in case of exception
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    sessionInfo.ClearAssignedTMUContexts(pinNames, doTMUReleaseCheck: false);
+                });
+
+                throw; // rethrow the original exception.
+            }
         }
 
         /// <inheritdoc cref="ClearTMUAssignment(DigitalSessionsBundle, string[])"/>
