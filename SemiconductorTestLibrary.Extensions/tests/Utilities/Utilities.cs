@@ -1,9 +1,7 @@
-﻿using NationalInstruments.SemiconductorTestLibrary.Common;
+﻿using System.Linq;
+using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.TestStand.SemiconductorModule.Restricted;
-
-using System.Linq;
-
 using Xunit;
 
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Utilities
