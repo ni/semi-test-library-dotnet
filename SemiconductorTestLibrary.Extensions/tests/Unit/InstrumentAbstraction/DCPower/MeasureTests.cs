@@ -1298,6 +1298,289 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             dcPower.UngangPinGroup("MergedPowerPins");
         }
 
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        [Fact]
+        public void ChannelsHavePendingFetchData_ClearFetchBacklog_BacklogIsCleared()
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC1");
+            sessionsBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
+            sessionsBundle.ForceVoltage(voltageLevel: 1, currentLimit: 0.1, waitForSourceCompletion: true);
+
+            // Confirm there is pending fetch data before clearing.
+            Assert.True(GetTotalFetchBacklog(sessionsBundle) > 0);
+
+            sessionsBundle.ClearFetchBacklog();
+
+            Assert.Equal(0, GetTotalFetchBacklog(sessionsBundle));
+        }
+
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        [Fact]
+        public void FilteredBundle_ClearFetchBacklog_OnlyFilteredChannelsAreProcessed()
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup: true);
+            var sessionsBundle = sessionManager.DCPower(new[] { "VCC", "VDD" });
+            sessionsBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
+            sessionsBundle.ForceVoltage(voltageLevel: 1, currentLimit: 0.1, waitForSourceCompletion: true);
+            var filteredBundle = sessionsBundle.FilterByPin("VDD");
+            var originalVCCBacklog = GetTotalFetchBacklog(sessionsBundle.FilterByPin("VCC"));
+
+            // Confirm there is pending fetch data before clearing.
+            Assert.True(GetTotalFetchBacklog(sessionsBundle) > 0);
+
+            filteredBundle.ClearFetchBacklog();
+
+            Assert.Equal(0, GetTotalFetchBacklog(filteredBundle));
+            Assert.Equal(originalVCCBacklog, GetTotalFetchBacklog(sessionsBundle.FilterByPin("VCC")));
+        }
+
+        [Fact]
+        public void SessionsClosed_ClearFetchBacklog_ThrowsException()
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup: true);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            InitializeAndClose.Close(_tsmContext);
+
+            void ClearFetchBacklog() => sessionsBundle.ClearFetchBacklog();
+
+            Assert.Throws<NISemiconductorTestException>(ClearFetchBacklog);
+
+            // Re-initialize so the Dispose call in the test teardown succeeds.
+            InitializeAndClose.Initialize(_tsmContext);
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ConfigureApertureTimeInSeconds_CorrectValuesAreSet(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VCC");
+            var expectedApertureTimeInSeconds = 0.05;
+
+            sessionsBundle.ConfigureApertureTimeInSeconds(expectedApertureTimeInSeconds);
+
+            var apertureTimes = sessionsBundle.GetApertureTimeInSeconds(out _);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedApertureTimeInSeconds, apertureTimes.GetValue(sitePinInfo), 4);
+            });
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ConfigureApertureTimeInSecondsWithPerSiteValues_CorrectValuesAreSet(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower("VCC");
+            var apertureTimesToSet = new SiteData<double>(new[] { 0.001, 0.002, 0.003, 0.004 });
+
+            sessionsBundle.ConfigureApertureTimeInSeconds(apertureTimesToSet);
+
+            var apertureTimes = sessionsBundle.GetApertureTimeInSeconds(out _);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(apertureTimesToSet.GetValue(sitePinInfo.SiteNumber), apertureTimes.GetValue(sitePinInfo), 4);
+            });
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void DifferentSMUDevices_ConfigureApertureTimeInSecondsWithPerPinPerSiteValues_CorrectValuesAreSet(bool pinMapWithChannelGroup)
+        {
+            var sessionManager = Initialize(pinMapWithChannelGroup);
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC", "VDET" });
+            var apertureTimesToSet = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC"] = new Dictionary<int, double>() { [0] = 0.001, [1] = 0.002, [2] = 0.003, [3] = 0.004 },
+                ["VDET"] = new Dictionary<int, double>() { [0] = 0.005, [1] = 0.006, [2] = 0.007, [3] = 0.008 }
+            });
+
+            sessionsBundle.ConfigureApertureTimeInSeconds(apertureTimesToSet);
+
+            var apertureTimes = sessionsBundle.GetApertureTimeInSeconds(out _);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(apertureTimesToSet.GetValue(sitePinInfo), apertureTimes.GetValue(sitePinInfo), 4);
+            });
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureApertureTimeInSecondsWithScalarValueAndUpdateMode_CorrectValueIsSetAndMatchesUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var expectedApertureTimeInSeconds = 1E-3;
+
+            sessionsBundle.ConfigureApertureTimeInSeconds(expectedApertureTimeInSeconds, updateMode);
+            void InitiateTest()
+            {
+                sessionsBundle.Initiate();
+            }
+
+            var apertureTimes = sessionsBundle.GetApertureTimeInSeconds(out _);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedApertureTimeInSeconds, apertureTimes.GetValue(sitePinInfo), 4);
+            });
+            if (updateMode == UpdateMode.Immediate)
+            {
+                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
+                Assert.Contains("The session is already running.", exception.Message);
+            }
+            else
+            {
+                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
+            }
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureApertureTimeInSecondsWithPerSiteValuesAndUpdateMode_CorrectValuesAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var apertureTimesToSet = new SiteData<double>(new[] { 1E-3, 2E-3 });
+
+            sessionsBundle.ConfigureApertureTimeInSeconds(apertureTimesToSet, updateMode);
+            void InitiateTest()
+            {
+                sessionsBundle.Initiate();
+            }
+
+            var apertureTimes = sessionsBundle.GetApertureTimeInSeconds(out _);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(apertureTimesToSet.GetValue(sitePinInfo.SiteNumber), apertureTimes.GetValue(sitePinInfo), 4);
+            });
+            if (updateMode == UpdateMode.Immediate)
+            {
+                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
+                Assert.Contains("The session is already running.", exception.Message);
+            }
+            else
+            {
+                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
+            }
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureApertureTimeInSecondsWithPerPinPerSiteValuesAndUpdateMode_CorrectValuesAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2" });
+            var apertureTimesToSet = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["VCC1"] = new Dictionary<int, double>() { [0] = 1E-3, [1] = 2E-3 },
+                ["VCC2"] = new Dictionary<int, double>() { [0] = 2E-3, [1] = 1E-3 }
+            });
+
+            sessionsBundle.ConfigureApertureTimeInSeconds(apertureTimesToSet, updateMode);
+            void InitiateTest()
+            {
+                sessionsBundle.Initiate();
+            }
+
+            var apertureTimes = sessionsBundle.GetApertureTimeInSeconds(out _);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(apertureTimesToSet.GetValue(sitePinInfo), apertureTimes.GetValue(sitePinInfo), 4);
+            });
+            if (updateMode == UpdateMode.Immediate)
+            {
+                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
+                Assert.Contains("The session is already running.", exception.Message);
+            }
+            else
+            {
+                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
+            }
+        }
+
+        [Fact]
+        public void GangedPinGroup_ConfigureApertureTimeInSeconds_CorrectValuesAreSet()
+        {
+            var sessionsBundle = GangAndForceCurrent("AllPinsGangedGroup", out _);
+            var expectedApertureTimeInSeconds = 0.005;
+
+            sessionsBundle.ConfigureApertureTimeInSeconds(expectedApertureTimeInSeconds);
+
+            var apertureTimes = sessionsBundle.GetApertureTimeInSeconds(out _);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedApertureTimeInSeconds, apertureTimes.GetValue(sitePinInfo), 4);
+            });
+        }
+
+        [Theory]
+        [InlineData("G1_1mA")]
+        [InlineData("G1_2mA")]
+        [InlineData("G1_4mA")]
+        public void MergedPinGroup_ConfigureApertureTimeInSeconds_CorrectValuesAreSet(string pinGroupName)
+        {
+            var sessionsBundle = MergeAndForceVoltage(pinGroupName, out _);
+            var expectedApertureTimeInSeconds = 0.005;
+
+            sessionsBundle.ConfigureApertureTimeInSeconds(expectedApertureTimeInSeconds);
+
+            var apertureTimes = sessionsBundle.GetApertureTimeInSeconds(out _);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedApertureTimeInSeconds, apertureTimes.GetValue(sitePinInfo), 4);
+            });
+        }
+
+        [Theory]
+        [InlineData("VCC1")]
+        [InlineData("VCC2")]
+        [InlineData("VDET")]
+        public void SharedPinConfiguration_ConfigureApertureTimeInSeconds_OnlyNonSharedChannelsAreProcessed(string pinName)
+        {
+            var sessionManager = Initialize("SharedPinTests_MultiSite.pinmap");
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            var expectedApertureTimeInSeconds = 0.005;
+
+            sessionsBundle.ConfigureApertureTimeInSeconds(expectedApertureTimeInSeconds);
+
+            var apertureTimes = sessionsBundle.GetApertureTimeInSeconds(out _);
+            sessionsBundle.Do((_, sitePinInfo) =>
+            {
+                Assert.Equal(expectedApertureTimeInSeconds, apertureTimes.GetValue(sitePinInfo), 4);
+            });
+        }
+
+        private static int GetTotalFetchBacklog(DCPowerSessionsBundle sessionsBundle)
+        {
+            int totalBacklog = 0;
+            sessionsBundle.Do(sessionInfo =>
+            {
+                foreach (var sitePinInfo in sessionInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations))
+                {
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                    // The FetchBacklog property is only valid when the channel is running (non-OnDemand measure modes).
+                    if (channelOutput.Measurement.MeasureWhen == DCPowerMeasurementWhen.OnDemand)
+                    {
+                        continue;
+                    }
+                    totalBacklog += channelOutput.Measurement.FetchBacklog;
+                }
+            });
+            return totalBacklog;
+        }
+
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
