@@ -164,6 +164,56 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
+        /// Configures the measurement aperture time in seconds.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="apertureTime">The measurement aperture time in seconds to set.</param>
+        /// <param name="updateMode">The <see cref="UpdateMode"/> value. Specifies when the configured settings are applied:
+        /// <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation,
+        /// <see cref="UpdateMode.Commit"/> commits immediately,
+        /// and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <remarks>
+        /// For the PXI-4110, PXI-4130, and PXIe-4154 models, the aperture time is converted to the equivalent SamplesToAverage value
+        /// using the model's fixed sample rate (3 kHz for the PXI-4110 and PXI-4130, 300 kHz for the PXIe-4154).
+        /// </remarks>
+        public static void ConfigureApertureTimeInSeconds(this DCPowerSessionsBundle sessionsBundle, double apertureTime, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.AbortAndConfigure((channelString, modelString) =>
+                {
+                    sessionInfo.Session.ConfigureApertureTime(channelString, modelString, sessionInfo.PowerLineFrequency, apertureTime, DCPowerMeasureApertureTimeUnits.Seconds);
+                });
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureApertureTimeInSeconds(DCPowerSessionsBundle, double, UpdateMode)"/>
+        public static void ConfigureApertureTimeInSeconds(this DCPowerSessionsBundle sessionsBundle, SiteData<double> apertureTime, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
+                sessionInfo.Session.ConfigureApertureTime(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, sessionInfo.PowerLineFrequency, apertureTime.GetValue(sitePinInfo.SiteNumber), DCPowerMeasureApertureTimeUnits.Seconds);
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <inheritdoc cref="ConfigureApertureTimeInSeconds(DCPowerSessionsBundle, double, UpdateMode)"/>
+        public static void ConfigureApertureTimeInSeconds(this DCPowerSessionsBundle sessionsBundle, PinSiteData<double> apertureTime, UpdateMode updateMode = UpdateMode.Deferred)
+        {
+            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
+                sessionInfo.Session.ConfigureApertureTime(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, sessionInfo.PowerLineFrequency, apertureTime.GetValue(sitePinInfo), DCPowerMeasureApertureTimeUnits.Seconds);
+            });
+            sessionsBundle.ApplyUpdateMode(updateMode);
+        }
+
+        /// <summary>
         /// Gets aperture time in seconds.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
@@ -488,6 +538,38 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
+        /// <summary>
+        /// Clears any pending fetch data from the buffer for all non-shared/primary channels in the sessions bundle.
+        /// </summary>
+        /// <remarks>
+        /// Iterates over each filtered channel, checks the <see cref="DCPowerMeasurement.FetchBacklog"/> property,
+        /// and if greater than zero, fetches and discards the backlog data. Continues fetching until the backlog is zero
+        /// to handle any potential race conditions between reading the backlog and fetching the data.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        public static void ClearFetchBacklog(this DCPowerSessionsBundle sessionsBundle)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                foreach (var sitePinInfo in sessionInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations))
+                {
+                    var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+
+                    // FetchBacklog is only valid when the channel is running (non-OnDemand measure modes).
+                    if (channelOutput.Measurement.MeasureWhen == DCPowerMeasurementWhen.OnDemand)
+                    {
+                        continue;
+                    }
+
+                    int fetchBacklog = channelOutput.Measurement.FetchBacklog;
+                    if (fetchBacklog > 0)
+                    {
+                        sessionInfo.Session.Measurement.Fetch(sitePinInfo.IndividualChannelString, new PrecisionTimeSpan(20), fetchBacklog);
+                    }
+                }
+            });
+        }
+
         private static void ClearBacklogIfSoftwareEdgeTrigger(this DCPowerSessionsBundle sessionsBundle)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -533,7 +615,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     // The 4154 has a fixed sample rate of 300kHz, while 4110 and 4130 have a fixed sample rate of 3kHz.
                     double sampleRate = modelString == DCPowerModelStrings.PXIe_4154 ? 300000.0 : 3000.0;
                     // These models use samples to average instead of aperture time.
-                    session.Outputs[channelString].Measurement.SamplesToAverage = Convert.ToInt32(sampleRate * apertureTimeInSeconds);
+                    // Ensure at least 1 sample is averaged to avoid potential driver issues with zero samples.
+                    int samplesToAverage = Math.Max(1, Convert.ToInt32(sampleRate * apertureTimeInSeconds));
+                    session.Outputs[channelString].Measurement.SamplesToAverage = samplesToAverage;
                     break;
 
                 default:
