@@ -1564,7 +1564,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureMeasureSettingsWithScalarValueAndUpdateMode_CorrectSettingsAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        public void DifferentSMUDevices_ConfigureMeasureSettingsWithScalarValueAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = Initialize("Mixed Signal Tests.pinmap");
             var sessionsBundle = sessionManager.DCPower("VCC2");
@@ -1584,7 +1584,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureMeasureSettingsWithPerSiteValuesAndUpdateMode_CorrectSettingsAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        public void DifferentSMUDevices_ConfigureMeasureSettingsWithPerSiteValuesAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = Initialize("Mixed Signal Tests.pinmap");
             var sessionsBundle = sessionManager.DCPower("VCC2");
@@ -1603,7 +1603,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureMeasureSettingsWithPerPinPerSiteValuesAndUpdateMode_CorrectSettingsAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        public void DifferentSMUDevices_ConfigureMeasureSettingsWithPerPinPerSiteValuesAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = Initialize("Mixed Signal Tests.pinmap");
             var pinNames = new string[] { "VCC1", "VCC2" };
@@ -1624,7 +1624,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureMeasureSettingsWithPerPinValuesAndUpdateMode_CorrectSettingsAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        public void DifferentSMUDevices_ConfigureMeasureSettingsWithPerPinValuesAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = Initialize("Mixed Signal Tests.pinmap");
             var pinNames = new string[] { "VCC1", "VCC2" };
@@ -1644,7 +1644,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureMeasureWhenWithUpdateMode_CorrectMeasureWhenIsSetAndMatchesUpdateMode(UpdateMode updateMode)
+        public void DifferentSMUDevices_ConfigureMeasureWhenWithUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = Initialize("Mixed Signal Tests.pinmap");
             var sessionsBundle = sessionManager.DCPower("VCC2");
@@ -1659,7 +1659,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureMeasurementSenseWithUpdateMode_CorrectSenseIsSetAndMatchesUpdateMode(UpdateMode updateMode)
+        public void DifferentSMUDevices_ConfigureMeasurementSenseWithUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = Initialize("Mixed Signal Tests.pinmap");
             var sessionsBundle = sessionManager.DCPower("VCC2");
