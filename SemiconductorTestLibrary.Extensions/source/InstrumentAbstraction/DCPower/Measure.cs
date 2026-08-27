@@ -166,36 +166,30 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <returns>The per-site per-pin aperture times.</returns>
         public static PinSiteData<double> GetApertureTimeInSeconds(this DCPowerSessionsBundle sessionsBundle, out double maximumApertureTime)
         {
-            var apertureTimes = sessionsBundle.DoAndReturnPerSitePerPinResults(
-                sessionInfo => sessionInfo.AssociatedSitePinList
-                    .Where(sitePinInfo => !sitePinInfo.SkipOperations)
-                    .Select(sitePinInfo =>
-                    {
-                        var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-                        switch (sitePinInfo.ModelString)
+            var apertureTimes = sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                var channelOutput = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
+                switch (sitePinInfo.ModelString)
+                {
+                    case DCPowerModelStrings.PXI_4110:
+                    case DCPowerModelStrings.PXI_4130:
+                        // The 4110 and 4130 use samples to average and have a fixed sample rate of 3 kHz, convert this to an aperture time in seconds.
+                        return channelOutput.Measurement.SamplesToAverage / 3000.0;
+
+                    case DCPowerModelStrings.PXIe_4154:
+                        // The 4154 uses samples to average and has a fixed sample rate of 300 kHz, convert this to an aperture time in seconds.
+                        return channelOutput.Measurement.SamplesToAverage / 300000.0;
+
+                    default:
+                        var apertureTime = channelOutput.Measurement.ApertureTime;
+                        var apertureTimeUnits = channelOutput.Measurement.ApertureTimeUnits;
+                        if (apertureTimeUnits == DCPowerMeasureApertureTimeUnits.PowerLineCycles)
                         {
-                            case DCPowerModelStrings.PXI_4110:
-                            case DCPowerModelStrings.PXI_4130:
-                                // The 4110 and 4130 use samples to average and have a fixed sample rate of 3 kHz, convert this to an aperture time in seconds.
-                                return channelOutput.Measurement.SamplesToAverage / 3000.0;
-
-                            case DCPowerModelStrings.PXIe_4154:
-                                // The 4154 uses samples to average and has a fixed sample rate of 300 kHz, convert this to an aperture time in seconds.
-                                return channelOutput.Measurement.SamplesToAverage / 300000.0;
-
-                            default:
-                                var apertureTime = channelOutput.Measurement.ApertureTime;
-                                var apertureTimeUnits = channelOutput.Measurement.ApertureTimeUnits;
-                                if (apertureTimeUnits == DCPowerMeasureApertureTimeUnits.PowerLineCycles)
-                                {
-                                    apertureTime /= channelOutput.Measurement.PowerLineFrequency;
-                                }
-                                return apertureTime;
+                            apertureTime /= channelOutput.Measurement.PowerLineFrequency;
                         }
-                    })
-                    .ToArray(),
-                caseDescription: string.Empty,
-                GroupPinSiteResultsFilling);
+                        return apertureTime;
+                }
+            });
             maximumApertureTime = apertureTimes.SiteNumbers.Select(siteNumber => apertureTimes.ExtractSite(siteNumber).Values.Max()).Max();
             return apertureTimes;
         }

@@ -619,9 +619,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var apertureTimes = sessionsBundle.GetApertureTimeInSeconds(out _);
 
-            Assert.Single(apertureTimes.PinNames);
-            Assert.Equal("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin", apertureTimes.PinNames[0]);
-            Assert.DoesNotContain("VCCPrimary", apertureTimes.PinNames);
+            Assert.Equal("VCCPrimary", apertureTimes.PinNames[0]);
+            Assert.DoesNotContain("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin", apertureTimes.PinNames);
         }
 
         [Fact]
@@ -633,8 +632,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var apertureTimes = sessionsBundle.GetApertureTimeInSeconds(out _);
 
-            Assert.Single(apertureTimes.PinNames);
-            Assert.Equal(AllPinsGangedGroup, apertureTimes.PinNames[0]);
+            Assert.Equal(5, apertureTimes.PinNames.Length);
+            Assert.DoesNotContain(AllPinsGangedGroup, apertureTimes.PinNames);
         }
 
         [Fact]
