@@ -210,4 +210,7 @@
   <data name="Digital_TMUUnsupportedDuty" xml:space="preserve">
     <value>The duty cycle "{0}" is not supported, use either "Low" or "High" as duty cycle.</value>
   </data>
+  <data name="DCPower_InvalidPublishDataIdFormatter" xml:space="preserve">
+    <value>The publishDataIdFormatter parameter cannot be null or empty and must contain a format placeholder '{{0}}'.</value>
+  </data>
 </root>
