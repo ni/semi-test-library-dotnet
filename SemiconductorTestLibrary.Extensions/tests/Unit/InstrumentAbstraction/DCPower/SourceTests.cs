@@ -10855,6 +10855,5 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ClearActiveAdvancedSequence();
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
         }
-
     }
 }
