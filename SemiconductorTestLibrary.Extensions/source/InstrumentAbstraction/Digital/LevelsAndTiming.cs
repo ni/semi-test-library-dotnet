@@ -6,7 +6,6 @@ using System.Linq;
 using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
-
 using IviDriverPrecisionTimeSpan = Ivi.Driver.PrecisionTimeSpan;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital

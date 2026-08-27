@@ -61,7 +61,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            PrepareForUpdateMode(sessionsBundle, updateMode, "TX_50_Duty_Cycle");
+            PrepareForUpdateMode(sessionsBundle, updateMode, "TX_RF");
             sessionsBundle.ConfigureSingleLevel(LevelsAndTiming.LevelType.Vih, levelValue: 3.5, updateMode: updateMode);
 
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
@@ -1597,7 +1597,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             PrepareForUpdateMode(sessionsBundle, updateMode, "TX_50_Duty_Cycle");
-            sessionsBundle.ConfigurePattern("TX_50_Duty_Cycle");
             sessionsBundle.ConfigureTimeSetCompareEdgesStrobe("TS_SW", compareEdge: 5e-6, updateMode: updateMode);
 
             sessionsBundle.Do(sessionInfo =>
