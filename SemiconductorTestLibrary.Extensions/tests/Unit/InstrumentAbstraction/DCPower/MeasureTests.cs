@@ -1670,24 +1670,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
-        private static void AssertInitiateBehaviorMatchesUpdateMode(DCPowerSessionsBundle sessionsBundle, UpdateMode updateMode)
-        {
-            void InitiateTest()
-            {
-                sessionsBundle.Initiate();
-            }
-
-            if (updateMode == UpdateMode.Immediate)
-            {
-                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
-                Assert.Contains("The session is already running.", exception.Message);
-            }
-            else
-            {
-                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
-            }
-        }
-
         private DCPowerSessionsBundle MergeAndForceVoltage(string pinGroupName, out string primaryPin)
         {
             _tsmContext = CreateTSMContext("Merged_4163.pinmap");
