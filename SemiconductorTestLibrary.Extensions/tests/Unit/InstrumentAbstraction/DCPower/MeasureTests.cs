@@ -652,8 +652,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var apertureTimeUnits = sessionsBundle.GetApertureTimeUnits();
 
             Assert.Single(apertureTimeUnits.PinNames);
-            Assert.Equal(allPinsMergedGroup, apertureTimeUnits.PinNames.FirstOrDefault());
-            Assert.DoesNotContain(primaryPin, apertureTimeUnits.PinNames);
+            Assert.Equal(primaryPin, apertureTimeUnits.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(allPinsMergedGroup, apertureTimeUnits.PinNames);
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(DCPowerMeasureApertureTimeUnits.Seconds, apertureTimeUnits.GetValue(sitePinInfo));
@@ -677,8 +677,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var apertureTimeUnits = sessionsBundle.GetApertureTimeUnits();
 
-            Assert.Single(apertureTimeUnits.PinNames);
-            Assert.Equal(TwoPinsGangedGroup, apertureTimeUnits.PinNames.FirstOrDefault());
+            Assert.Equal(2, apertureTimeUnits.PinNames.Length);
+            Assert.DoesNotContain(TwoPinsGangedGroup, apertureTimeUnits.PinNames);
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedUnits, apertureTimeUnits.GetValue(sitePinInfo));

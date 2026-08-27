@@ -201,25 +201,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <returns>The per-site per-pin aperture time units.</returns>
         public static PinSiteData<DCPowerMeasureApertureTimeUnits> GetApertureTimeUnits(this DCPowerSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults(
-                sessionInfo => sessionInfo.AssociatedSitePinList
-                    .Where(sitePinInfo => !sitePinInfo.SkipOperations)
-                    .Select(sitePinInfo =>
-                    {
-                        switch (sitePinInfo.ModelString)
-                        {
-                            case DCPowerModelStrings.PXI_4110:
-                            case DCPowerModelStrings.PXI_4130:
-                            case DCPowerModelStrings.PXIe_4154:
-                                return DCPowerMeasureApertureTimeUnits.Seconds; // They use samples to average and do not support the ApertureTimeUnits attribute.
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            {
+                switch (sitePinInfo.ModelString)
+                {
+                    case DCPowerModelStrings.PXI_4110:
+                    case DCPowerModelStrings.PXI_4130:
+                    case DCPowerModelStrings.PXIe_4154:
+                        return DCPowerMeasureApertureTimeUnits.Seconds; // They use samples to average and do not support the ApertureTimeUnits attribute.
 
-                            default:
-                                return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Measurement.ApertureTimeUnits;
-                        }
-                    })
-                    .ToArray(),
-                caseDescription: string.Empty,
-                GroupPinSiteResultsFilling);
+                    default:
+                        return sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Measurement.ApertureTimeUnits;
+                }
+            });
         }
 
         /// <summary>
