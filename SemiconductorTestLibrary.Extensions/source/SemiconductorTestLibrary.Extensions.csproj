@@ -19,6 +19,7 @@
   <ItemGroup>
     <PackageReference Include="NationalInstruments.SemiconductorTestLibrary.Analyzers" Version="1.0.0" />
     <PackageReference Include="NI.CSharp.Analyzers" Version="1.2.8" />
+    <ProjectReference Include="..\..\TestAssets\Tests.SemiconductorTestLibrary.Utilities\Tests.SemiconductorTestLibrary.Utilities.csproj" />
     <Reference Include="Ivi.Driver">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
@@ -37,6 +38,9 @@
     </Reference>
     <Reference Include="NationalInstruments.ModularInstruments.NIDmm.Fx40">
       <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="NationalInstruments.ModularInstruments.NIFgen.Fx40">
+      <HintPath>..\..\..\..\Windows\Microsoft.NET\assembly\GAC_MSIL\NationalInstruments.ModularInstruments.NIFgen.Fx40\v4.0_24.5.0.49332__dc6ad606294fc298\NationalInstruments.ModularInstruments.NIFgen.Fx40.dll</HintPath>
     </Reference>
     <Reference Include="NationalInstruments.ModularInstruments.NISwitch.Fx40">
       <SpecificVersion>False</SpecificVersion>
