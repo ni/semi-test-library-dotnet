@@ -133,6 +133,15 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The publishDataIdFormatter parameter cannot be null or empty and must contain a format placeholder &apos;{{0}}&apos;..
+        /// </summary>
+        internal static string DCPower_InvalidPublishDataIdFormatter {
+            get {
+                return ResourceManager.GetString("DCPower_InvalidPublishDataIdFormatter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The channelOutput contains more than one channel ({0}). This method overload only supports single-channel operation when a valid SitePinInfo object is passed..
         /// </summary>
         internal static string DCPower_MultipleChannelOutputsDetected {
