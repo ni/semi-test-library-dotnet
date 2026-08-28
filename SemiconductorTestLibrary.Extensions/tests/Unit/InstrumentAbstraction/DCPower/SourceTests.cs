@@ -10855,18 +10855,5 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ClearActiveAdvancedSequence();
             sessionsBundle.DeleteAdvancedSequence(sequenceName);
         }
-
-        private static void AssertInitiateBehaviorMatchesUpdateMode(DCPowerSessionsBundle sessionsBundle, UpdateMode updateMode)
-        {
-            if (updateMode == UpdateMode.Immediate)
-            {
-                var exception = Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.Initiate());
-                Assert.Contains("The session is already running.", exception.Message);
-            }
-            else
-            {
-                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
-            }
-        }
     }
 }
