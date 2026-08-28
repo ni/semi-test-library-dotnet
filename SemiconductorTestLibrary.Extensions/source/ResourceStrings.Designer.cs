@@ -10,8 +10,8 @@
 
 namespace NationalInstruments.SemiconductorTestLibrary {
     using System;
-    
-    
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -59,9 +59,9 @@ namespace NationalInstruments.SemiconductorTestLibrary {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
-        ///   Looks up a localized string similar to Number of points must be greater than one. .
+        ///   Looks up a localized string similar to Number of points must be greater than one..
         /// </summary>
         internal static string CreateRamp_InvalidNumberOfPoints {
             get {
@@ -122,18 +122,18 @@ namespace NationalInstruments.SemiconductorTestLibrary {
                 return ResourceManager.GetString("DCPower_GangedPinGroupDetected", resourceCulture);
             }
         }
-        
+
         /// <summary>
-        ///   Looks up a localized string similar to Inconsistent advanced sequence properties. The following properties must be either specified or omitted for all steps in the sequence: {0}.
+        ///   Looks up a localized string similar to Inconsistent advanced sequence properties. The following properties must be specified or omitted for all steps in the sequence: {0}.
         /// </summary>
         internal static string DCPower_InconsistentAdvancedSequenceProperties {
             get {
                 return ResourceManager.GetString("DCPower_InconsistentAdvancedSequenceProperties", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to The channelOutput contains more than one channel &quot;{0}&quot;. This method overload only supports single channel operation when a valid SitePinInfo object is passed.&quot;.
+        ///   Looks up a localized string similar to The channelOutput contains more than one channel ({0}). This method overload only supports single-channel operation when a valid SitePinInfo object is passed..
         /// </summary>
         internal static string DCPower_MultipleChannelOutputsDetected {
             get {
@@ -232,6 +232,15 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The requested pin for TMU operation cannot be null or empty..
+        /// </summary>
+        internal static string Digital_TMUPinsNullOrEmpty {
+            get {
+                return ResourceManager.GetString("Digital_TMUPinsNullOrEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot release TMUs: One or more assigned TMUs are in use. Call DisableTMU before clearing resources..
         /// </summary>
         internal static string Digital_TMUResourcesInUse {
@@ -241,11 +250,103 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unsupported Polarity..
+        ///   Looks up a localized string similar to &apos;{0}&apos; cannot be empty..
+        /// </summary>
+        internal static string Digital_TMUSkewEmptyReferenceOrTargetPins {
+            get {
+                return ResourceManager.GetString("Digital_TMUSkewEmptyReferenceOrTargetPins", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; cannot be null for skew measurement. Please provide valid &apos;{0}&apos; values..
+        /// </summary>
+        internal static string Digital_TMUSkewMeasurementNullReferencePinsOrTargetPins {
+            get {
+                return ResourceManager.GetString("Digital_TMUSkewMeasurementNullReferencePinsOrTargetPins", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A pin cannot be used as both a reference and a target in the same skew measurement configuration. The following pin(s) appear in both reference and target arrays: {0}.
+        /// </summary>
+        internal static string Digital_TMUSkewOverlappingPins {
+            get {
+                return ResourceManager.GetString("Digital_TMUSkewOverlappingPins", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The number of reference pins ({0}) must match the number of target pins ({1})..
+        /// </summary>
+        internal static string Digital_TMUSkewPinCountMismatch {
+            get {
+                return ResourceManager.GetString("Digital_TMUSkewPinCountMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Target pin &apos;{0}&apos; was not found in the session for site {1}..
+        /// </summary>
+        internal static string Digital_TMUSkewTargetPinNotFound {
+            get {
+                return ResourceManager.GetString("Digital_TMUSkewTargetPinNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The arm setting &quot;{0}&quot; is not supported, use either &quot;Immediate&quot;. &quot;StartEdge&quot; or &quot;StopEdge&quot; as arm setting..
+        /// </summary>
+        internal static string Digital_TMUUnsupportedArmSetting {
+            get {
+                return ResourceManager.GetString("Digital_TMUUnsupportedArmSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The arm type &quot;{0}&quot; is not supported, use either &quot;Immediate&quot; or &quot;Edge&quot; as arm type..
+        /// </summary>
+        internal static string Digital_TMUUnsupportedArmType {
+            get {
+                return ResourceManager.GetString("Digital_TMUUnsupportedArmType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The duty cycle &quot;{0}&quot; is not supported, use either &quot;Low&quot; or &quot;High&quot; as duty cycle..
+        /// </summary>
+        internal static string Digital_TMUUnsupportedDuty {
+            get {
+                return ResourceManager.GetString("Digital_TMUUnsupportedDuty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The polarity &quot;{0}&quot; is not supported, use either &quot;RisingEdge&quot; or &quot;FallingEdge&quot; as polarity..
         /// </summary>
         internal static string Digital_TMUUnsupportedPolarity {
             get {
                 return ResourceManager.GetString("Digital_TMUUnsupportedPolarity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The pulse width &quot;{0}&quot; is not supported, use either &quot;Low&quot; or &quot;High&quot; as pulse width..
+        /// </summary>
+        internal static string Digital_TMUUnsupportedPulseWidth {
+            get {
+                return ResourceManager.GetString("Digital_TMUUnsupportedPulseWidth", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The publishDataIdFormatter parameter cannot be null or empty and must contain a format placeholder &apos;{{0}}&apos;..
+        /// </summary>
+        internal static string DCPower_InvalidPublishDataIdFormatter
+        {
+            get
+            {
+                return ResourceManager.GetString("DCPower_InvalidPublishDataIdFormatter", resourceCulture);
             }
         }
     }
