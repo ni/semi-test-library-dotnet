@@ -10,8 +10,8 @@
 
 namespace NationalInstruments.SemiconductorTestLibrary {
     using System;
-
-
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -19,7 +19,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class ResourceStrings {
@@ -59,7 +59,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
                 resourceCulture = value;
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Number of points must be greater than one..
         /// </summary>
@@ -122,13 +122,22 @@ namespace NationalInstruments.SemiconductorTestLibrary {
                 return ResourceManager.GetString("DCPower_GangedPinGroupDetected", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Inconsistent advanced sequence properties. The following properties must be specified or omitted for all steps in the sequence: {0}.
         /// </summary>
         internal static string DCPower_InconsistentAdvancedSequenceProperties {
             get {
                 return ResourceManager.GetString("DCPower_InconsistentAdvancedSequenceProperties", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The publishDataIdFormatter parameter cannot be null or empty and must contain a format placeholder &apos;{{0}}&apos;..
+        /// </summary>
+        internal static string DCPower_InvalidPublishDataIdFormatter {
+            get {
+                return ResourceManager.GetString("DCPower_InvalidPublishDataIdFormatter", resourceCulture);
             }
         }
         
@@ -338,15 +347,13 @@ namespace NationalInstruments.SemiconductorTestLibrary {
                 return ResourceManager.GetString("Digital_TMUUnsupportedPulseWidth", resourceCulture);
             }
         }
-
+        
         /// <summary>
-        ///   Looks up a localized string similar to The publishDataIdFormatter parameter cannot be null or empty and must contain a format placeholder &apos;{{0}}&apos;..
+        ///   Looks up a localized string similar to Output mode &apos;{0}&apos; is not supported, only &apos;Function&apos; is supported in STL..
         /// </summary>
-        internal static string DCPower_InvalidPublishDataIdFormatter
-        {
-            get
-            {
-                return ResourceManager.GetString("DCPower_InvalidPublishDataIdFormatter", resourceCulture);
+        internal static string FGen_InvalidOutputModeException {
+            get {
+                return ResourceManager.GetString("FGen_InvalidOutputModeException", resourceCulture);
             }
         }
     }
