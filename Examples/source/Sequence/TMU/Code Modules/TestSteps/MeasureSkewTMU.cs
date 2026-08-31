@@ -1,4 +1,5 @@
-﻿using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
+﻿using NationalInstruments.SemiconductorTestLibrary.Common;
+using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU;
@@ -67,13 +68,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
             // - samplesToAcquire: Number of skew measurements to collect.
             // - armType: Start measurement immediately without waiting for an arm event.
             // This method also enables (reserves) the TMU resource at the hardware level.
-            digitalPins.ConfigureSkewMeasurement(
+            digitalPins.ConfigureTMUSkewMeasurement(
                 referencePinNames: referencePinNames,
                 targetPinNames: targetPinNames,
                 edgeType: TmuPolarity.RisingEdge,
-                samplesToAcquire: numberOfSamples,
-                armType: TmuArmType.Immediate);
-
+                samplesToAcquire: numberOfSamples);
             // Step 4: Initiate the TMU measurement on the reference pin(s).
             digitalPins.TMUInitiate(pinNames: referencePinNames);
 
@@ -81,6 +80,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
             PinSiteData<double> skewMeasurements = digitalPins.FetchAveragedTMUMeasurement(
                 timeoutInSeconds: timeoutInSeconds,
                 pinNames: referencePinNames);
+            tsmContext.PublishResults(skewMeasurements, "res");
 
             // Step 6: Clean up TMU resources.
             // Always disable the TMU and clear assignments when finished to free up resources.

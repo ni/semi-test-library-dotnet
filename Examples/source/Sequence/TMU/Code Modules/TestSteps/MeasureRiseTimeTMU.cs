@@ -1,7 +1,6 @@
 ﻿using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
-using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
@@ -81,7 +80,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
             // Step 6: Fetch the averaged measurement results.
             // The TMU collects multiple samples and returns the average rise time.
             PinSiteData<double> riseTimeMeasurements = digitalPins.FetchAveragedTMUMeasurement(timeoutInSeconds);
-
+            tsmContext.PublishResults(riseTimeMeasurements, "res");
             // Step 7: Clean up TMU resources.
             // Always disable the TMU and clear assignments when finished to free up resources.
             digitalPins.DisableTMU();

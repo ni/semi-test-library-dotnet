@@ -1,7 +1,7 @@
-﻿using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
+﻿using NationalInstruments.SemiconductorTestLibrary.Common;
+using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
-using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
@@ -65,8 +65,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
             // - armType: Start measurement immediately without waiting for an arm event.
             // Note: This method does NOT enable (reserve) the TMU resource at the hardware level.
             digitalPins.ConfigureTMUFallTimeMeasurement(
-                samplesToAcquire: numberOfSamples,
-                armType: TmuArmType.Immediate);
+                samplesToAcquire: numberOfSamples);
 
             // Step 4: Enable (reserve) the TMU resource at the hardware level.
             // This step is required when using ConfigureTMUFallTimeMeasurement.
@@ -78,6 +77,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
             // Step 6: Fetch the averaged measurement results.
             // The TMU collects multiple samples and returns the average fall time.
             PinSiteData<double> fallTimeMeasurements = digitalPins.FetchAveragedTMUMeasurement(timeoutInSeconds);
+            tsmContext.PublishResults(fallTimeMeasurements, "res");
 
             // Step 7: Clean up TMU resources.
             // Always disable the TMU and clear assignments when finished to free up resources.

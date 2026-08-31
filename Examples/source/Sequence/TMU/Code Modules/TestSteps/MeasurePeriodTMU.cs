@@ -61,6 +61,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
                 samplesToAcquire: numberOfSamples,
                 armType: TmuArmType.Immediate);
 
+            digitalPins.EnableTMU();
             // Step 4: Initiate the TMU measurement.
             digitalPins.TMUInitiate();
 

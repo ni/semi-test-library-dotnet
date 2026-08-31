@@ -1,4 +1,5 @@
-﻿using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
+﻿using NationalInstruments.SemiconductorTestLibrary.Common;
+using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU;
@@ -81,7 +82,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
             // Step 6: Fetch the averaged measurement results.
             // The TMU collects multiple samples and returns the average high pulse width in seconds.
             PinSiteData<double> pulseWidthMeasurements = digitalPins.FetchAveragedTMUMeasurement(timeoutInSeconds);
-
+            tsmContext.PublishResults(pulseWidthMeasurements, "res");
             // Step 7: Clean up TMU resources.
             // Always disable the TMU and clear assignments when finished to free up resources.
             digitalPins.DisableTMU();

@@ -1,4 +1,5 @@
-﻿using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
+﻿using NationalInstruments.SemiconductorTestLibrary.Common;
+using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU;
@@ -33,12 +34,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
         /// </list>
         /// </para>
         /// <para>
-        /// Unlike <see cref="TmuExtensions.ConfigurePeriodMeasurement"/>, the
-        /// <see cref="TmuExtensions.ConfigureTMUDutyCycleMeasurement"/> method does not enable the TMU.
-        /// An explicit call to <see cref="TmuExtensions.EnableTMU"/> is required after configuration
-        /// and before initiating the measurement.
-        /// </para>
-        /// <para>
         /// Ensure that the pin map includes "C0" and that the hardware
         /// is properly configured before calling this method.
         /// </para>
@@ -70,20 +65,26 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
             //       To convert to percentage duty cycle, divide by the signal period.
             digitalPins.ConfigureTMUDutyCycleMeasurement(
                 dutyCycleType: TmuDutyCycle.High,
-                samplesToAcquire: numberOfSamples,
-                armType: TmuArmType.Immediate);
-
+                samplesToAcquire: numberOfSamples);
             // Step 4: Enable (reserve) the TMU resource at the hardware level.
             // This step is required when using ConfigureTMUDutyCycleMeasurement.
-            digitalPins.EnableTMU();
 
             // Step 5: Initiate the TMU measurement.
             digitalPins.TMUInitiate();
 
             // Step 6: Fetch the averaged measurement results.
             // The TMU collects multiple samples and returns the average high duration in seconds.
-            PinSiteData<double> dutyCycleMeasurements = digitalPins.FetchAveragedTMUMeasurement(timeoutInSeconds);
+            PinSiteData<double> dutyCycleTimeMeasurements = digitalPins.FetchAveragedTMUMeasurement(timeoutInSeconds);
+            digitalPins.ConfigurePeriodMeasurement(
+                edgeType: TmuPolarity.RisingEdge,
+                samplesToAcquire: numberOfSamples);
 
+            digitalPins.TMUInitiate();
+            PinSiteData<double> periodMeasurements = digitalPins.FetchAveragedTMUMeasurement(timeoutInSeconds);
+
+            var dutyCycleMeasurements = dutyCycleTimeMeasurements.Divide(periodMeasurements);
+
+            tsmContext.PublishResults(dutyCycleMeasurements, "res");
             // Step 7: Clean up TMU resources.
             // Always disable the TMU and clear assignments when finished to free up resources.
             digitalPins.DisableTMU();
