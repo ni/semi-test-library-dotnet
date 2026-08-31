@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using NationalInstruments.ModularInstruments.NIDCPower;
@@ -30,7 +31,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="settings">The measure settings to configure.</param>
-        public static void ConfigureMeasureSettings(this DCPowerSessionsBundle sessionsBundle, DCPowerMeasureSettings settings)
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next initiate operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        public static void ConfigureMeasureSettings(this DCPowerSessionsBundle sessionsBundle, DCPowerMeasureSettings settings, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do(sessionInfo =>
@@ -40,10 +42,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     sessionInfo.ConfigureMeasureSettings(channelString, modelString, sessionInfo.PowerLineFrequency, settings);
                 });
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
-        /// <inheritdoc cref="ConfigureMeasureSettings(DCPowerSessionsBundle, DCPowerMeasureSettings)"/>
-        public static void ConfigureMeasureSettings(this DCPowerSessionsBundle sessionsBundle, SiteData<DCPowerMeasureSettings> settings)
+        /// <inheritdoc cref="ConfigureMeasureSettings(DCPowerSessionsBundle, DCPowerMeasureSettings, UpdateMode)"/>
+        public static void ConfigureMeasureSettings(this DCPowerSessionsBundle sessionsBundle, SiteData<DCPowerMeasureSettings> settings, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -51,10 +54,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
                 sessionInfo.ConfigureMeasureSettings(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, sessionInfo.PowerLineFrequency, settings.GetValue(sitePinInfo.SiteNumber));
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
-        /// <inheritdoc cref="ConfigureMeasureSettings(DCPowerSessionsBundle, DCPowerMeasureSettings)"/>
-        public static void ConfigureMeasureSettings(this DCPowerSessionsBundle sessionsBundle, PinSiteData<DCPowerMeasureSettings> settings)
+        /// <inheritdoc cref="ConfigureMeasureSettings(DCPowerSessionsBundle, DCPowerMeasureSettings, UpdateMode)"/>
+        public static void ConfigureMeasureSettings(this DCPowerSessionsBundle sessionsBundle, PinSiteData<DCPowerMeasureSettings> settings, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -62,6 +66,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
                 sessionInfo.ConfigureMeasureSettings(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, sessionInfo.PowerLineFrequency, settings.GetValue(sitePinInfo));
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
@@ -69,7 +74,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="settings">The specific settings to configure.</param>
-        public static void ConfigureMeasureSettings(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, DCPowerMeasureSettings> settings)
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next initiate operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        public static void ConfigureMeasureSettings(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, DCPowerMeasureSettings> settings, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -77,6 +83,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Control.Abort();
                 sessionInfo.ConfigureMeasureSettings(sitePinInfo.IndividualChannelString, sitePinInfo.ModelString, sessionInfo.PowerLineFrequency, settings[sitePinInfo.PinName]);
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
@@ -84,7 +91,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="measureWhen">The MeasurementWhen property to set.</param>
-        public static void ConfigureMeasureWhen(this DCPowerSessionsBundle sessionsBundle, DCPowerMeasurementWhen measureWhen)
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next initiate operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        public static void ConfigureMeasureWhen(this DCPowerSessionsBundle sessionsBundle, DCPowerMeasurementWhen measureWhen, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
             sessionsBundle.Do(sessionInfo =>
@@ -94,6 +102,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     sessionInfo.ConfigureMeasureWhen(channelString, modelString, measureWhen);
                 });
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
@@ -131,7 +140,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="sense">The measurement sense to set.</param>
-        public static void ConfigureMeasurementSense(this DCPowerSessionsBundle sessionsBundle, DCPowerMeasurementSense sense)
+        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next initiate operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        public static void ConfigureMeasurementSense(this DCPowerSessionsBundle sessionsBundle, DCPowerMeasurementSense sense, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do(sessionInfo =>
             {
@@ -140,6 +150,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     sessionInfo.Session.ConfigureMeasurementSense(channelString, modelString, sense);
                 });
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
@@ -613,6 +624,44 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
+        /// <summary>
+        /// Fetches <paramref name="pointsToFetch"/> voltage measurements in a single bulk fetch and publishes each sample individually.
+        /// </summary>
+        /// <remarks>
+        /// This method should not be used when the MeasureWhen property is configured to OnDemand.
+        /// The workflow performs a single bulk fetch of all requested points, then publishes each fetched sample individually
+        /// using a data ID generated via <c>string.Format(CultureInfo.InvariantCulture, publishDataIdFormatter, i)</c>,
+        /// where <c>i</c> is the zero-based sample index.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="publishDataIdFormatter">A .NET composite format string used to build the unique published data ID for each fetched sample. It must contain a single format item, <c>{0}</c>, which is replaced with the zero-based sample index (for example, "Voltage{0}" produces "Voltage0", "Voltage1", and so on).</param>
+        /// <param name="pointsToFetch">The number of points to fetch. This also determines the length of each returned <see cref="double"/> array.</param>
+        /// <param name="timeoutInSeconds">The maximum time, in seconds, to wait for the fetch to complete before the operation is aborted.</param>
+        /// <returns>The pin-site aware voltage measurements, where each <see cref="double"/> array contains all fetched samples for that pin-site and has a length equal to <paramref name="pointsToFetch"/>. The voltage result of the primary pin is returned with the pin group name in case of merging, and the voltage results of individual pins are averaged and returned with the pin group name in case of ganging.</returns>
+        public static PinSiteData<double[]> FetchAndPublishVoltage(this DCPowerSessionsBundle sessionsBundle, string publishDataIdFormatter, int pointsToFetch = 1, double timeoutInSeconds = 10)
+        {
+            return FetchAndPublishMeasurement(sessionsBundle, publishDataIdFormatter, pointsToFetch, timeoutInSeconds, measurements => measurements.Item1, VoltagePinSiteResultsFilling);
+        }
+
+        /// <summary>
+        /// Fetches <paramref name="pointsToFetch"/> current measurements in a single bulk fetch and publishes each sample individually.
+        /// </summary>
+        /// <remarks>
+        /// This method should not be used when the MeasureWhen property is configured to OnDemand.
+        /// The workflow performs a single bulk fetch of all requested points, then publishes each fetched sample individually
+        /// using a data ID generated via <c>string.Format(CultureInfo.InvariantCulture, publishDataIdFormatter, i)</c>,
+        /// where <c>i</c> is the zero-based sample index.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="publishDataIdFormatter">A .NET composite format string used to build the unique published data ID for each fetched sample. It must contain a single format item, <c>{0}</c>, which is replaced with the zero-based sample index (for example, "Current{0}" produces "Current0", "Current1", and so on).</param>
+        /// <param name="pointsToFetch">The number of points to fetch. This also determines the length of each returned <see cref="double"/> array.</param>
+        /// <param name="timeoutInSeconds">The maximum time, in seconds, to wait for the fetch to complete before the operation is aborted.</param>
+        /// <returns>The pin-site aware current measurements, where each <see cref="double"/> array contains all fetched samples for that pin-site and has a length equal to <paramref name="pointsToFetch"/>. The current result of the primary pin is returned with the pin group name in case of merging, and the current results of individual pins are accumulated and returned with the pin group name in case of ganging.</returns>
+        public static PinSiteData<double[]> FetchAndPublishCurrent(this DCPowerSessionsBundle sessionsBundle, string publishDataIdFormatter, int pointsToFetch = 1, double timeoutInSeconds = 10)
+        {
+            return FetchAndPublishMeasurement(sessionsBundle, publishDataIdFormatter, pointsToFetch, timeoutInSeconds, measurements => measurements.Item2, CurrentPinSiteResultsFilling);
+        }
+
         private static void ClearBacklogIfSoftwareEdgeTrigger(this DCPowerSessionsBundle sessionsBundle)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -834,6 +883,27 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             return new Tuple<double[], double[], bool[]>(voltageMeasurements, currentMeasurements, inComplianceResults);
         }
 
+        /// <summary>
+        /// Fetches the specified number of voltage and current measurement points for each channel that is not skipped.
+        /// </summary>
+        /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>
+        /// <param name="pointsToFetch">The number of points to fetch per channel.</param>
+        /// <param name="timeoutInSeconds">The time to wait before the operation is aborted.</param>
+        /// <returns>The measurements in per-channel format. Item1 is voltage measurements, Item2 is current measurements. The outer index is the channel, and the inner index is the sample point.</returns>
+        public static Tuple<double[][], double[][]> FetchVoltageAndCurrent(this DCPowerSessionInformation sessionInfo, int pointsToFetch, double timeoutInSeconds)
+        {
+            var channelsToFetch = sessionInfo.AssociatedSitePinList.Where(sitePin => !sitePin.SkipOperations).ToList();
+            var voltageMeasurements = new double[channelsToFetch.Count][];
+            var currentMeasurements = new double[channelsToFetch.Count][];
+            for (int i = 0; i < channelsToFetch.Count; i++)
+            {
+                var fetchResult = sessionInfo.Session.Measurement.Fetch(channelsToFetch[i].IndividualChannelString, PrecisionTimeSpan.FromSeconds(timeoutInSeconds), pointsToFetch);
+                voltageMeasurements[i] = fetchResult.VoltageMeasurements;
+                currentMeasurements[i] = fetchResult.CurrentMeasurements;
+            }
+            return new Tuple<double[][], double[][]>(voltageMeasurements, currentMeasurements);
+        }
+
         #endregion methods on DCPowerSessionInformation
 
         #region private methods
@@ -1006,6 +1076,51 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             int pointsToFetch = fetchWaveformLength == 0 ? channelOutput.Measurement.FetchBacklog : Convert.ToInt32(Math.Round(fetchWaveformLength / deltaTime));
             var result = session.Measurement.Fetch(channelString, timeout: PrecisionTimeSpan.FromSeconds(fetchWaveformLength + 1), pointsToFetch);
             return new DCPowerWaveformResults(result, deltaTime);
+        }
+
+        private static PinSiteData<double[]> FetchAndPublishMeasurement(
+            this DCPowerSessionsBundle sessionsBundle,
+            string publishDataIdFormatter,
+            int pointsToFetch,
+            double timeoutInSeconds,
+            Func<Tuple<double[][], double[][]>, double[][]> measurementSelector,
+            PinSiteResultsFilling<double> pinSiteResultsFilling)
+        {
+            if (string.IsNullOrEmpty(publishDataIdFormatter))
+            {
+                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_InvalidPublishDataIdFormatter));
+            }
+
+            // Bulk fetch all points per channel, then aggregate ganged/merged pins one sample point at a time using the provided filling.
+            var perInstrumentPerChannelSamples = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(
+                sessionInfo => measurementSelector(sessionInfo.FetchVoltageAndCurrent(pointsToFetch, timeoutInSeconds)));
+
+            var perPointResults = new PinSiteData<double>[pointsToFetch];
+            for (int i = 0; i < pointsToFetch; i++)
+            {
+                int pointIndex = i;
+                var perInstrumentPerChannelForPoint = perInstrumentPerChannelSamples
+                    .Select(perInstrumentSamples => perInstrumentSamples.Select(perChannelSamples => perChannelSamples[pointIndex]).ToArray())
+                    .ToArray();
+                var pointResult = sessionsBundle.InstrumentSessions.PerInstrumentPerChannelResultsToPinSiteData(perInstrumentPerChannelForPoint, pinSiteResultsFilling);
+                string publishedDataId = string.Format(CultureInfo.InvariantCulture, publishDataIdFormatter, i);
+                sessionsBundle.TSMContext.PublishResults(pointResult, publishedDataId);
+                perPointResults[i] = pointResult;
+            }
+
+            return CombinePerPointResults(perPointResults);
+        }
+
+        private static PinSiteData<double[]> CombinePerPointResults(PinSiteData<double>[] perPointResults)
+        {
+            // Reshapes point-major results (one PinSiteData per fetched sample point) into pin-major arrays (one array of all sample points per pin/site). This is only a transpose; the ganged/merged aggregation already happened per point.
+            var pinSiteResults = perPointResults[0].SiteNumbersByPin.ToDictionary(
+                pinAndSites => pinAndSites.Key,
+                pinAndSites => (IDictionary<int, double[]>)pinAndSites.Value.ToDictionary(
+                    siteNumber => siteNumber,
+                    siteNumber => perPointResults.Select(pointResult => pointResult.GetValue(siteNumber, pinAndSites.Key)).ToArray()));
+
+            return new PinSiteData<double[]>(pinSiteResults);
         }
 
         /// <summary>

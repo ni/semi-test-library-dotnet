@@ -8,10 +8,13 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
+using NationalInstruments.TestStand.SemiconductorModule.Restricted;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
+using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.Utilities;
+using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities;
 
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.DCPower
 {
@@ -32,6 +35,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public TSMSessionManager Initialize(string pinMapFileName)
         {
             _tsmContext = CreateTSMContext(pinMapFileName);
+            InitializeAndClose.Initialize(_tsmContext);
+            return new TSMSessionManager(_tsmContext);
+        }
+
+        public TSMSessionManager Initialize(bool pinMapWithChannelGroup, out IPublishedDataReader publishedDataReader)
+        {
+            string pinMapFileName = pinMapWithChannelGroup ? "DifferentSMUDevicesWithChannelGroup.pinmap" : "DifferentSMUDevices.pinmap";
+            return Initialize(pinMapFileName, out publishedDataReader);
+        }
+
+        public TSMSessionManager Initialize(string pinMapFileName, out IPublishedDataReader publishedDataReader)
+        {
+            _tsmContext = CreateTSMContext(pinMapFileName, out publishedDataReader);
             InitializeAndClose.Initialize(_tsmContext);
             return new TSMSessionManager(_tsmContext);
         }
@@ -1568,6 +1584,252 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void DifferentSMUDevice_FetchAndPublishCurrentWithSinglePointToFetch_ReturnsArrayWithLengthEqualToPointsToFetch(bool pinMapWithChannelGroup)
+        {
+            var pinName = "VCC";
+            var expectedCurrent = 1E-3;
+            var publishDataIdFormatter = "Current{0}";
+            var sessionManager = Initialize(pinMapWithChannelGroup, out var publishedDataReader);
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            sessionsBundle.ForceCurrent(expectedCurrent, waitForSourceCompletion: true);
+
+            var results = sessionsBundle.FetchAndPublishCurrent(publishDataIdFormatter, pointsToFetch: 1);
+
+            AssertPublishedValues(sessionsBundle, publishedDataReader, expectedCount: 1, pinName, results, publishDataIdFormatter, expectedCurrent);
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void DifferentSMUDevice_FetchAndPublishCurrentWithMultiplePointsToFetch_ReturnsArrayWithLengthEqualToPointsToFetch(bool pinMapWithChannelGroup)
+        {
+            var pointsToFetch = 3;
+            var pinName = "VCC";
+            var publishDataIdFormatter = "Current{0}";
+            var expectedCurrentLevel = new double[] { 1E-3, 2E-4, 3E-5 };
+            var sessionManager = Initialize(pinMapWithChannelGroup, out var publishedDataReader);
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            var steps = new List<DCPowerAdvancedSequenceStepProperties>
+            {
+                new DCPowerAdvancedSequenceStepProperties { CurrentLevel = expectedCurrentLevel[0], OutputFunction = DCPowerSourceOutputFunction.DCCurrent },
+                new DCPowerAdvancedSequenceStepProperties { CurrentLevel = expectedCurrentLevel[1], ApertureTime = 0.016, OutputFunction = DCPowerSourceOutputFunction.DCCurrent },
+                new DCPowerAdvancedSequenceStepProperties { CurrentLevel = expectedCurrentLevel[2], SourceDelay = 0.5, OutputFunction = DCPowerSourceOutputFunction.DCCurrent }
+            };
+            const string sequenceName = "ScalarAdvancedSequence";
+            sessionsBundle.ConfigureAdvancedSequence(
+                sequenceName,
+                steps,
+                setAsActiveSequence: true,
+                commitFirstElementAsInitialState: false);
+            sessionsBundle.Initiate();
+
+            var results = sessionsBundle.FetchAndPublishCurrent(publishDataIdFormatter, pointsToFetch);
+
+            AssertPublishedValues(sessionsBundle, publishedDataReader, pointsToFetch, pinName, results, publishDataIdFormatter, expectedCurrentLevel);
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        [InlineData("AllPinsGangedGroup")]
+        [InlineData("TwoPinsGangedGroup")]
+        [InlineData("ThreePinsGangedGroup")]
+        public void GangPinGroupAndForceCurrent_FetchAndPublishCurrent_ResultsAssociatedWithPinGroupName(string pinGroupName)
+        {
+            var sessionsBundle = GangAndForceCurrent(pinGroupName, out string leaderPin);
+
+            var results = sessionsBundle.FetchAndPublishCurrent("Current{0}");
+
+            sessionsBundle.UngangPinGroup(pinGroupName);
+            AssertResultAssociatedWithPinGroupName(results, pinGroupName, leaderPin);
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        [InlineData("G1_1mA")]
+        [InlineData("G1_2mA")]
+        [InlineData("G1_4mA")]
+        public void MergePinGroupAndForceVoltage_FetchAndPublishCurrent_ResultsAssociatedWithPinGroupName(string pinGroupName)
+        {
+            var sessionsBundle = MergeAndForceVoltage(pinGroupName, out string primaryPin);
+
+            var results = sessionsBundle.FetchAndPublishCurrent("Current{0}");
+
+            sessionsBundle.UnmergePinGroup(pinGroupName);
+            AssertResultAssociatedWithPinGroupName(results, pinGroupName, primaryPin);
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        [InlineData("G1_1mA")]
+        [InlineData("G1_2mA")]
+        [InlineData("G1_4mA")]
+        public void MergePinGroup_FetchAndPublishCurrentWithMultiplePointsToFetch_ResultsAssociatedWithPinGroupName(string pinGroupName)
+        {
+            var pointsToFetch = 3;
+            var expectedCurrentLevel = new double[] { 1E-3, 2E-4, 3E-5 };
+            _tsmContext = CreateTSMContext("Merged_4163.pinmap");
+            InitializeAndClose.Initialize(_tsmContext);
+            var sessionManager = new TSMSessionManager(_tsmContext);
+            var sessionsBundle = sessionManager.DCPower(pinGroupName);
+            var primaryPin = _tsmContext.GetPinsInPinGroup(pinGroupName).First();
+            sessionsBundle.MergePinGroup(pinGroupName);
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            var steps = new List<DCPowerAdvancedSequenceStepProperties>
+            {
+                new DCPowerAdvancedSequenceStepProperties { CurrentLevel = expectedCurrentLevel[0], OutputFunction = DCPowerSourceOutputFunction.DCCurrent },
+                new DCPowerAdvancedSequenceStepProperties { CurrentLevel = expectedCurrentLevel[1], ApertureTime = 0.016, OutputFunction = DCPowerSourceOutputFunction.DCCurrent },
+                new DCPowerAdvancedSequenceStepProperties { CurrentLevel = expectedCurrentLevel[2], SourceDelay = 0.5, OutputFunction = DCPowerSourceOutputFunction.DCCurrent }
+            };
+            const string sequenceName = "ScalarAdvancedSequence";
+            sessionsBundle.ConfigureAdvancedSequence(
+                sequenceName,
+                steps,
+                setAsActiveSequence: true,
+                commitFirstElementAsInitialState: false);
+            sessionsBundle.Initiate();
+
+            var results = sessionsBundle.FetchAndPublishCurrent("Current{0}", pointsToFetch);
+
+            sessionsBundle.UnmergePinGroup(pinGroupName);
+            AssertResultArrayAssociatedWithPinGroupName(results, pinGroupName, primaryPin, pointsToFetch);
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void DifferentSMUDevice_FetchAndPublishVoltageWithSinglePointToFetch_ReturnsArrayWithLengthEqualToPointsToFetch(bool pinMapWithChannelGroup)
+        {
+            var pinName = "VCC";
+            var expectedVoltage = 1.0;
+            var publishDataIdFormatter = "Voltage{0}";
+            var sessionManager = Initialize(pinMapWithChannelGroup, out var publishedDataReader);
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            sessionsBundle.ForceVoltage(expectedVoltage, waitForSourceCompletion: true);
+
+            var results = sessionsBundle.FetchAndPublishVoltage(publishDataIdFormatter, pointsToFetch: 1);
+
+            AssertPublishedValues(sessionsBundle, publishedDataReader, expectedCount: 1, pinName, results, publishDataIdFormatter, expectedVoltage);
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void DifferentSMUDevice_FetchAndPublishVoltageWithMultiplePointsToFetch_ReturnsArrayWithLengthEqualToPointsToFetch(bool pinMapWithChannelGroup)
+        {
+            var pointsToFetch = 3;
+            var pinName = "VCC";
+            var publishDataIdFormatter = "Voltage{0}";
+            var sessionManager = Initialize(pinMapWithChannelGroup, out var publishedDataReader);
+            var sessionsBundle = sessionManager.DCPower(pinName);
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            var steps = new List<DCPowerAdvancedSequenceStepProperties>
+            {
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 2.0, ApertureTime = 0.016, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.0, SourceDelay = 0.5, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+            };
+            const string sequenceName = "ScalarAdvancedSequence";
+            sessionsBundle.ConfigureAdvancedSequence(
+                sequenceName,
+                steps,
+                setAsActiveSequence: true,
+                commitFirstElementAsInitialState: false);
+            sessionsBundle.Initiate();
+
+            var results = sessionsBundle.FetchAndPublishVoltage(publishDataIdFormatter, pointsToFetch);
+
+            AssertPublishedValues(sessionsBundle, publishedDataReader, pointsToFetch, pinName, results, publishDataIdFormatter, 1.0, 2.0, 3.0);
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        [InlineData("AllPinsGangedGroup")]
+        [InlineData("TwoPinsGangedGroup")]
+        [InlineData("ThreePinsGangedGroup")]
+        public void GangPinGroupAndForceCurrent_FetchAndPublishVoltage_ResultsAssociatedWithPinGroupName(string pinGroupName)
+        {
+            var sessionsBundle = GangAndForceCurrent(pinGroupName, out string leaderPin);
+
+            var results = sessionsBundle.FetchAndPublishVoltage("Voltage{0}");
+
+            sessionsBundle.UngangPinGroup(pinGroupName);
+            AssertResultAssociatedWithPinGroupName(results, pinGroupName, leaderPin);
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        [InlineData("G1_1mA")]
+        [InlineData("G1_2mA")]
+        [InlineData("G1_4mA")]
+        public void MergePinGroupAndForceVoltage_FetchAndPublishVoltage_ResultsAssociatedWithPinGroupName(string pinGroupName)
+        {
+            var sessionsBundle = MergeAndForceVoltage(pinGroupName, out string primaryPin);
+
+            var results = sessionsBundle.FetchAndPublishVoltage("Voltage{0}");
+
+            sessionsBundle.UnmergePinGroup(pinGroupName);
+            AssertResultAssociatedWithPinGroupName(results, pinGroupName, primaryPin);
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        [InlineData("G1_1mA")]
+        [InlineData("G1_2mA")]
+        [InlineData("G1_4mA")]
+        public void MergePinGroup_FetchAndPublishVoltageWithMultiplePointsToFetch_ResultsAssociatedWithPinGroupName(string pinGroupName)
+        {
+            var pointsToFetch = 3;
+            _tsmContext = CreateTSMContext("Merged_4163.pinmap");
+            InitializeAndClose.Initialize(_tsmContext);
+            var sessionManager = new TSMSessionManager(_tsmContext);
+            var sessionsBundle = sessionManager.DCPower(pinGroupName);
+            var primaryPin = _tsmContext.GetPinsInPinGroup(pinGroupName).First();
+            sessionsBundle.MergePinGroup(pinGroupName);
+            CreateDCPowerAdvancedSequencePropertyMappingsCache();
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
+            var steps = new List<DCPowerAdvancedSequenceStepProperties>
+            {
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 1.0, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 2.0, ApertureTime = 0.016, OutputFunction = DCPowerSourceOutputFunction.DCVoltage },
+                new DCPowerAdvancedSequenceStepProperties { VoltageLevel = 3.0, SourceDelay = 0.5, OutputFunction = DCPowerSourceOutputFunction.DCVoltage }
+            };
+            const string sequenceName = "ScalarAdvancedSequence";
+            sessionsBundle.ConfigureAdvancedSequence(
+                sequenceName,
+                steps,
+                setAsActiveSequence: true,
+                commitFirstElementAsInitialState: false);
+            sessionsBundle.Initiate();
+
+            var results = sessionsBundle.FetchAndPublishVoltage("Voltage{0}", pointsToFetch);
+
+            sessionsBundle.UnmergePinGroup(pinGroupName);
+            AssertResultArrayAssociatedWithPinGroupName(results, pinGroupName, primaryPin, pointsToFetch);
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete, true)]
         [InlineData(DCPowerMeasurementWhen.OnDemand, false)]
         public void DifferentSMUDevicesConfigureMeasureWhenAndForceVoltage_MeasureVoltageAndInCompliance_AllChannelsMeasured(DCPowerMeasurementWhen measureWhen, bool pinMapWithChannelGroup)
@@ -2068,6 +2330,116 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
         }
 
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureMeasureSettingsWithScalarValueAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var expectedApertureTime = 0.05;
+            var settings = new DCPowerMeasureSettings()
+            {
+                ApertureTime = expectedApertureTime,
+                ApertureTimeUnits = DCPowerMeasureApertureTimeUnits.Seconds,
+            };
+
+            sessionsBundle.ConfigureMeasureSettings(settings, updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureMeasureSettingsWithPerSiteValuesAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var settings = new SiteData<DCPowerMeasureSettings>(new[]
+            {
+                new DCPowerMeasureSettings() { ApertureTime = 0.05, ApertureTimeUnits = DCPowerMeasureApertureTimeUnits.Seconds },
+                new DCPowerMeasureSettings() { ApertureTime = 0.06, ApertureTimeUnits = DCPowerMeasureApertureTimeUnits.Seconds },
+            });
+
+            sessionsBundle.ConfigureMeasureSettings(settings, updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureMeasureSettingsWithPerPinPerSiteValuesAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var pinNames = new string[] { "VCC1", "VCC2" };
+            var sessionsBundle = sessionManager.DCPower(pinNames);
+            var activeSites = GetActiveSites(sessionsBundle);
+            var settings = new PinSiteData<DCPowerMeasureSettings>(new Dictionary<string, IDictionary<int, DCPowerMeasureSettings>>()
+            {
+                [pinNames[0]] = activeSites.ToDictionary(site => site, site => new DCPowerMeasureSettings() { ApertureTime = 0.05, ApertureTimeUnits = DCPowerMeasureApertureTimeUnits.Seconds }),
+                [pinNames[1]] = activeSites.ToDictionary(site => site, site => new DCPowerMeasureSettings() { ApertureTime = 0.06, ApertureTimeUnits = DCPowerMeasureApertureTimeUnits.Seconds }),
+            });
+
+            sessionsBundle.ConfigureMeasureSettings(settings, updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureMeasureSettingsWithPerPinValuesAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var pinNames = new string[] { "VCC1", "VCC2" };
+            var sessionsBundle = sessionManager.DCPower(pinNames);
+            var settings = new Dictionary<string, DCPowerMeasureSettings>()
+            {
+                [pinNames[0]] = new DCPowerMeasureSettings() { ApertureTime = 0.05, ApertureTimeUnits = DCPowerMeasureApertureTimeUnits.Seconds },
+                [pinNames[1]] = new DCPowerMeasureSettings() { ApertureTime = 0.06, ApertureTimeUnits = DCPowerMeasureApertureTimeUnits.Seconds },
+            };
+
+            sessionsBundle.ConfigureMeasureSettings(settings, updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureMeasureWhenWithUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var expectedMeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger;
+
+            sessionsBundle.ConfigureMeasureWhen(expectedMeasureWhen, updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureMeasurementSenseWithUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
+            var sessionsBundle = sessionManager.DCPower("VCC2");
+            var expectedSense = DCPowerMeasurementSense.Remote;
+
+            sessionsBundle.ConfigureMeasurementSense(expectedSense, updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
         private DCPowerSessionsBundle MergeAndForceVoltage(string pinGroupName, out string primaryPin)
         {
             _tsmContext = CreateTSMContext("Merged_4163.pinmap");
@@ -2077,6 +2449,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             primaryPin = _tsmContext.GetPinsInPinGroup(pinGroupName).First();
             sessionsBundle.MergePinGroup(pinGroupName);
             sessionsBundle.ConfigureSourceDelay(0);
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             sessionsBundle.ForceVoltage(voltageLevel: 3.6, waitForSourceCompletion: true);
             return sessionsBundle;
         }
@@ -2089,6 +2462,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower(pinGroupName);
             leaderPin = sessionsBundle.AggregateSitePinList.First().PinName;
             sessionsBundle.GangPinGroup(pinGroupName);
+            sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             sessionsBundle.ForceCurrent(currentLevel: 3, waitForSourceCompletion: true);
             return sessionsBundle;
         }
@@ -2141,6 +2515,71 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 .SelectMany(siteNumber => results.PinNames.Select(pin => results.GetValue(siteNumber, pin)))
                 .Distinct();
             Assert.Single(distinctValues);
+        }
+
+        private void AssertResultAssociatedWithPinGroupName<T>(PinSiteData<T> results, string pinGroup, string primaryPin)
+        {
+            foreach (var siteNumber in results.SiteNumbers)
+            {
+                Assert.True(results.TryGetValue(siteNumber, pinGroup, out _));
+                Assert.False(results.TryGetValue(siteNumber, primaryPin, out _));
+            }
+        }
+
+        private void AssertResultArrayAssociatedWithPinGroupName(PinSiteData<double[]> results, string pinGroup, string memberPin, int expectedLength)
+        {
+            foreach (var siteNumber in results.SiteNumbers)
+            {
+                Assert.True(results.TryGetValue(siteNumber, pinGroup, out var samples));
+                Assert.False(results.TryGetValue(siteNumber, memberPin, out _));
+                Assert.Equal(expectedLength, samples.Length);
+            }
+        }
+
+        private void AssertPublishedValues(DCPowerSessionsBundle sessionsBundle, IPublishedDataReader publishedDataReader, int expectedCount, string pinName, PinSiteData<double[]> results, string publishDataIdFormatter, params double[] expectedValue)
+        {
+            var activeSites = GetActiveSites(sessionsBundle).Length;
+            var expectedPublishedDataCount = activeSites * expectedCount;
+            var publishedData = publishedDataReader.GetAndClearPublishedData();
+            Utilities.Utilities.AssertPublishedDataCountPerPins(expectedPublishedDataCount, publishedData, pinName);
+            AssertPublishedDataValue(publishedData, pinName, expectedValue);
+            AssertPublishedDataIds(publishedData, pinName, publishDataIdFormatter, expectedCount, activeSites);
+            AssertExpectedSequenceMeasurements(results, (_, __) => expectedValue);
+        }
+
+        private void AssertPublishedDataIds(IPublishedData[] publishedData, string pinName, string publishDataIdFormatter, int pointsToFetch, int activeSites)
+        {
+            var pinData = publishedData.Where(d => d.Pin == pinName).ToList();
+            for (int i = 0; i < pointsToFetch; i++)
+            {
+                var expectedId = string.Format(System.Globalization.CultureInfo.InvariantCulture, publishDataIdFormatter, i);
+                Assert.Equal(activeSites, pinData.Count(d => d.PublishedDataId == expectedId));
+            }
+        }
+
+        private void AssertExpectedSequenceMeasurements(
+            PinSiteData<double[]> results,
+            Func<int, string, double[]> getExpectedSequence,
+            int precision = 3)
+        {
+            foreach (var siteNumber in results.SiteNumbers)
+            {
+                foreach (var pinName in results.PinNames)
+                {
+                    var expectedSequence = getExpectedSequence(siteNumber, pinName);
+                    var actualSequence = results.GetValue(siteNumber, pinName);
+                    Utilities.Utilities.AssertEqualForDoubleArrays(expectedSequence, actualSequence, precision);
+                }
+            }
+        }
+
+        private void AssertPublishedDataValue(IPublishedData[] publishedData, string pinName, params double[] expectedValue)
+        {
+            var data = publishedData.Where(d => d.Pin == pinName).ToList();
+            for (int i = 0; i < expectedValue.Length; i++)
+            {
+                Assert.Equal(expectedValue[i], data[i].DoubleValue, 3);
+            }
         }
     }
 }
