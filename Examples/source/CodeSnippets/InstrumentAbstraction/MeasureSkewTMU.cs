@@ -30,7 +30,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         /// </list>
         /// </para>
         /// <para>
-        /// The <see cref="TmuExtensions.ConfigureSkewMeasurement"/> method enables the TMU resource
+        /// The <see cref="TmuExtensions.ConfigureTMUSkewMeasurement(DigitalSessionsBundle, string[], string[], TmuPolarity, long, TmuArmSetting)"/> method enables the TMU resource
         /// internally, so no separate <see cref="TmuExtensions.EnableTMU"/> call is required.
         /// </para>
         /// <para>
@@ -42,7 +42,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         public static void MeasureSkewWithSTL(ISemiconductorModuleContext tsmContext)
         {
             // Configuration parameters for TMU skew measurement.
-            int numberOfSamples = 100;              // Number of skew samples to collect.
+            long numberOfSamples = 100;             // Number of skew samples to collect.
             double timeoutInSeconds = 5.0;          // Maximum time to wait for measurement completion.
 
             // Reference and target pin names. The number of reference pins must equal the number of target pins.
@@ -64,14 +64,14 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             // - targetPinNames: The pin(s) that act as the stop (target) source.
             // - edgeType: Trigger on rising edge transitions on both pins.
             // - samplesToAcquire: Number of skew measurements to collect.
-            // - armType: Start measurement immediately without waiting for an arm event.
+            // - armSetting: Start measurement immediately without waiting for an arm event.
             // This method also enables (reserves) the TMU resource at the hardware level.
-            digitalPins.ConfigureSkewMeasurement(
+            digitalPins.ConfigureTMUSkewMeasurement(
                 referencePinNames: referencePinNames,
                 targetPinNames: targetPinNames,
                 edgeType: TmuPolarity.RisingEdge,
                 samplesToAcquire: numberOfSamples,
-                armType: TmuArmType.Immediate);
+                armSetting: TmuArmSetting.Immediate);
 
             // Step 4: Initiate the TMU measurement on the reference pin(s).
             digitalPins.TMUInitiate(pinNames: referencePinNames);

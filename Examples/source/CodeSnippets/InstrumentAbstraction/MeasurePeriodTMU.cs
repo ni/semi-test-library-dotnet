@@ -37,7 +37,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         public static void MeasurePeriodWithSTL(ISemiconductorModuleContext tsmContext)
         {
             // Configuration parameters for TMU period measurement.
-            int numberOfSamples = 100;           // Number of period samples to collect.
+            long numberOfSamples = 100;          // Number of period samples to collect.
             double timeoutInSeconds = 5.0;       // Maximum time to wait for measurement completion.
 
             // Step 1: Query TSM session manager to get the digital sessions bundle associated with the "C0" pin.
@@ -45,7 +45,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             var digitalPins = sessionManager.Digital("C0");
 
             // Step 2: (Mandatory) Assign TMU resources to the digital pins.
-            // This assign's a TMU resource to each of the pins in the digital sessions bundle object,
+            // This assigns a TMU resource to each of the pins in the digital sessions bundle object,
             // in this case just the "C0" pin.
             // Note that the TMU hardware resource is not reserved until step 3.
             digitalPins.AssignTMUResources();
@@ -54,6 +54,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             // - edgeType: Trigger on rising edge transitions.
             // - samplesToAcquire: Number of period measurements to collect.
             // - armSetting: Start measurement immediately without waiting for an arm event.
+            // This method also enables (reserves) the TMU resource at the hardware level.
             digitalPins.ConfigurePeriodMeasurement(
                 edgeType: TmuPolarity.RisingEdge,
                 samplesToAcquire: numberOfSamples,
