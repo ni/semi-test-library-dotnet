@@ -635,26 +635,25 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var apertureTimes = sessionsBundle.GetApertureTimeInSeconds(out _);
 
-            Assert.Single(apertureTimes.PinNames);
             Assert.Equal("VCCPrimary", apertureTimes.PinNames[0]);
             Assert.DoesNotContain("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin", apertureTimes.PinNames);
         }
 
         [Fact]
-        public void SMUDevicesGanged_GetApertureTimeInSeconds_ValuesDontHavePinGroupName()
+        public void SMUDevicesGanged_GetApertureTimeInSeconds_ValuesAreReturnedInPinGroupName()
         {
             var sessionManager = Initialize("SMUGangPinGroup_SessionPerChannel.pinmap");
-            var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
-            sessionsBundle.GangPinGroup("AllPinsGangedGroup");
+            var sessionsBundle = sessionManager.DCPower(AllPinsGangedGroup);
+            sessionsBundle.GangPinGroup(AllPinsGangedGroup);
 
             var apertureTimes = sessionsBundle.GetApertureTimeInSeconds(out _);
 
             Assert.Equal(5, apertureTimes.PinNames.Length);
-            Assert.DoesNotContain("AllPinsGangedGroup", apertureTimes.PinNames);
+            Assert.DoesNotContain(AllPinsGangedGroup, apertureTimes.PinNames);
         }
 
         [Fact]
-        public void SMUDevicesMerged_GetApertureTimeUnits_ReturnsPrimaryPinValue()
+        public void SMUDevicesMerged_GetApertureTimeUnits_ReturnsMergedPinGroupValue()
         {
             var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
             var primaryPin = "VCCPrimary";
@@ -2105,7 +2104,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(DCPowerMeasurementSense.Local)]
         [InlineData(DCPowerMeasurementSense.Remote)]
-        public void SMUDevicesMerged_GetMeasurementSense_ReturnsPrimaryPinValue(DCPowerMeasurementSense expectedSense)
+        public void SMUDevicesMerged_GetMeasurementSense_ReturnsMergedPinGroupValue(DCPowerMeasurementSense expectedSense)
         {
             var sessionManager = Initialize("MergedPinGroupTest_SessionPerChannel.pinmap");
             var primaryPin = "VCCPrimary";
@@ -2117,8 +2116,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var measurementSense = sessionsBundle.GetMeasurementSense();
 
             Assert.Single(measurementSense.PinNames);
-            Assert.Equal(primaryPin, measurementSense.PinNames.FirstOrDefault());
-            Assert.DoesNotContain(allPinsMergedGroup, measurementSense.PinNames);
+            Assert.Equal(allPinsMergedGroup, measurementSense.PinNames.FirstOrDefault());
+            Assert.DoesNotContain(primaryPin, measurementSense.PinNames);
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedSense, measurementSense.GetValue(sitePinInfo));
@@ -2141,8 +2140,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var measurementSense = sessionsBundle.GetMeasurementSense();
 
-            Assert.Equal(2, measurementSense.PinNames.Length);
-            Assert.DoesNotContain(TwoPinsGangedGroup, measurementSense.PinNames);
+            Assert.Single(measurementSense.PinNames);
+            Assert.Equal(TwoPinsGangedGroup, measurementSense.PinNames.FirstOrDefault());
             sessionsBundle.Do((_, sitePinInfo) =>
             {
                 Assert.Equal(expectedSense, measurementSense.GetValue(sitePinInfo));
