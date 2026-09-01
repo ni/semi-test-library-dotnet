@@ -1544,6 +1544,26 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(8e-6, edge.GetValue(1, "C1").TotalSeconds);
         }
 
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void SessionsInitialized_ConfigureEdgeWithChannelSpecificValues_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+
+            var time = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>
+            {
+                ["C0"] = new Dictionary<int, double> { [0] = 5e-6, [1] = 6e-6 },
+                ["C1"] = new Dictionary<int, double> { [0] = 7e-6, [1] = 8e-6 },
+            });
+            sessionsBundle.ConfigurePattern("TX_50_Duty_Cycle");
+            sessionsBundle.ConfigureTimeSetEdge("TS", TimeSetEdge.CompareStrobe, time, updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
         [Fact]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
