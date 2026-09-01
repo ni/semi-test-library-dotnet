@@ -1377,6 +1377,21 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
         }
 
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void SessionsInitialized_ConfigureTimeSetPeriodWithoutSpecifyingPins_UpdatedModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
+
+            var sessionsBundle = sessionManager.Digital();
+            sessionsBundle.ConfigurePattern("TX_50_Duty_Cycle");
+            sessionsBundle.ConfigureTimeSetPeriod("TS_SW", 5e-6, updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
         [Fact]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
