@@ -349,7 +349,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Output mode &apos;{0}&apos; is not supported, only &apos;Function&apos; is supported in STL..
+        ///   Looks up a localized string similar to Output mode &apos;{0}&apos; is not supported, only &apos;Function&apos; is supported..
         /// </summary>
         internal static string FGen_InvalidOutputModeException {
             get {
