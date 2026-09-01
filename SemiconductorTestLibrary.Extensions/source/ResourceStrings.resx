@@ -213,7 +213,4 @@
   <data name="DCPower_InvalidPublishDataIdFormatter" xml:space="preserve">
     <value>The publishDataIdFormatter parameter cannot be null or empty and must contain a format placeholder '{{0}}'.</value>
   </data>
-  <data name="FGen_InvalidOutputModeException" xml:space="preserve">
-    <value>Output mode '{0}' is not supported, only 'Function' is supported in STL.</value>
-  </data>
 </root>
