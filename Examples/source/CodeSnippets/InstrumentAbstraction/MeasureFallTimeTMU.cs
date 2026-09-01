@@ -14,8 +14,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         /// <summary>
         /// Demonstrates how to measure the fall time of a digital signal using the TMU.
         /// Fall time is defined as the time for a signal to transition from the high voltage
-        /// threshold (Voh) to the low voltage threshold (Vol). This measurement requires
-        /// 2 comparators per pin.
+        /// threshold (Voh) to the low voltage threshold (Vol).
         /// </summary>
         /// <remarks>
         /// <para>

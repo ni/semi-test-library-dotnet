@@ -22,7 +22,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         /// This method performs the following steps:
         /// <list type="number">
         ///   <item>Queries the TSM session manager to get the digital sessions bundle containing both reference and target pins.</item>
-        ///   <item>Assigns TMU resources to the reference pin only.</item>
+        ///   <item>Assigns TMU resources to the reference pin(s), since only the reference pin's TMU resource is used to perform the skew measurement.</item>
         ///   <item>Configures the TMU for skew measurement using the reference and target pins.</item>
         ///   <item>Initiates the TMU measurement on the reference pin.</item>
         ///   <item>Fetches and averages the skew measurement results.</item>
@@ -54,8 +54,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             var sessionManager = new TSMSessionManager(tsmContext);
             var digitalPins = sessionManager.Digital(new[] { "C0", "C1" });
 
-            // Step 2: (Mandatory) Assign TMU resources to the reference pin(s) only.
-            // The TMU resource is managed from the reference pin for skew measurements.
+            // Step 2: (Mandatory) Assign TMU resources to the reference pin(s).
+            // Assigning TMU resources to the target pin(s) is not required, since only the
+            // reference pin's TMU resource is used to perform the skew measurement; however,
+            // it is not an error to assign TMU resources to the target pin(s) as well.
             // Note that the TMU hardware resource is not reserved until step 3.
             digitalPins.AssignTMUResources(pinNames: referencePinNames);
 

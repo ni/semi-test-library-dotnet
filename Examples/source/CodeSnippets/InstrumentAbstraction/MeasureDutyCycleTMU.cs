@@ -16,7 +16,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         /// Demonstrates how to measure the low duty cycle ratio of a digital signal using the TMU.
         /// The TMU measures the time duration the signal spends in the low state and the signal period,
         /// then divides the two to compute the duty cycle as a ratio (0.0 to 1.0).
-        /// This measurement requires 1 comparator per pin.
         /// </summary>
         /// <remarks>
         /// <para>
@@ -76,8 +75,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             PinSiteData<double> dutyCycleTimeMeasurements = digitalPins.FetchAveragedTMUMeasurement(timeoutInSeconds);
 
             // Step 6: Reconfigure the TMU to measure the signal period.
-            // DisableTMU must be called before reconfiguring.
-            digitalPins.DisableTMU();
             digitalPins.ConfigurePeriodMeasurement(
                 edgeType: TmuPolarity.RisingEdge,
                 samplesToAcquire: numberOfSamples);

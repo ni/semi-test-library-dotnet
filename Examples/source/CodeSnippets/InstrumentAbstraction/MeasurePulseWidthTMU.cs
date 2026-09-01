@@ -16,7 +16,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         /// Pulse width measures the duration of a single pulse — the time from the rising edge to
         /// the subsequent falling edge at Voh (for <see cref="TmuPulseWidth.High"/>), or from the
         /// falling edge to the subsequent rising edge at Vol (for <see cref="TmuPulseWidth.Low"/>).
-        /// This measurement requires 1 comparator per pin.
         /// </summary>
         /// <remarks>
         /// <para>

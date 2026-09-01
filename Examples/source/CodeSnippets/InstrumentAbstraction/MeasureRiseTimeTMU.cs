@@ -14,8 +14,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         /// <summary>
         /// Demonstrates how to measure the rise time of a digital signal using the TMU.
         /// Rise time is defined as the time for a signal to transition from the low voltage
-        /// threshold (Vol) to the high voltage threshold (Voh). This measurement requires
-        /// 2 comparators per pin.
+        /// threshold (Vol) to the high voltage threshold (Voh).
         /// </summary>
         /// <remarks>
         /// <para>
