@@ -1485,6 +1485,21 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void SessionsInitialized_ConfigureEdgeWithSingleValue_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            sessionsBundle.ConfigurePattern("TX_50_Duty_Cycle");
+
+            sessionsBundle.ConfigureTimeSetEdge("TS", TimeSetEdge.CompareStrobe, 5e-6, updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
