@@ -1665,18 +1665,26 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         /// </summary>
         private static void AssertInitiateBehaviorMatchesUpdateMode(DigitalSessionsBundle sessionsBundle, UpdateMode updateMode)
         {
-            void Initiate() => sessionsBundle.Initiate();
+            void GetResults() => GetSitePassFailResults(sessionsBundle);
 
-            if (updateMode == UpdateMode.Immediate)
+            if (updateMode != UpdateMode.Immediate)
             {
-                Assert.Throws<NISemiconductorTestException>(Initiate);
+                Assert.Throws<NISemiconductorTestException>(GetResults);
+                // Should throw for Deferred or Commit update modes because the session is bursted yet.
             }
             else
             {
-                // var temp = sessionsBundle.doandreturn(sessionInfo,SitePinInfo) { return GetSitePassFailResults(); }
-                sessionsBundle.Initiate(); // Should not throw for Deferred or Commit update modes because the session is not running yet.
-                sessionsBundle.AbortKeepAlivePattern();
+                GetResults();
+                // Should not throw for Immediate update modes because the session is already bursted.
             }
+        }
+
+        private static SiteData<bool> GetSitePassFailResults(DigitalSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSiteResults(sessionInfo =>
+            {
+                return sessionInfo.Session.PatternControl.GetSitePassFail(sessionInfo.SiteListString);
+            });
         }
     }
 }
