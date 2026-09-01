@@ -7,7 +7,7 @@ using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen
 {
     /// <summary>
-    ///  Defines methods for output configurations.
+    ///  Defines methods for NI-Fgen output configurations.
     /// </summary>
     public static class Output
     {
