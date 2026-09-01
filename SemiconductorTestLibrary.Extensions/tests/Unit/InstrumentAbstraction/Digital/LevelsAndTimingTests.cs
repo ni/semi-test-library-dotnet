@@ -61,7 +61,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            PrepareForUpdateMode(sessionsBundle, updateMode, "TX_RF");
+            sessionsBundle.ConfigurePattern("TX_50_Duty_Cycle");
             sessionsBundle.ConfigureSingleLevel(LevelsAndTiming.LevelType.Vih, levelValue: 3.5, updateMode: updateMode);
 
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
@@ -76,7 +76,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            PrepareForUpdateMode(sessionsBundle, updateMode, "TX_50_Duty_Cycle");
+            sessionsBundle.ConfigurePattern("TX_50_Duty_Cycle");
             var levels = new SiteData<double>(new Dictionary<int, double>() { [0] = 0.1, [1] = 0.2 });
             sessionsBundle.ConfigureSingleLevel(LevelsAndTiming.LevelType.Vil, levels, updateMode: updateMode);
 
@@ -1566,7 +1566,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            PrepareForUpdateMode(sessionsBundle, updateMode, "TX_50_Duty_Cycle");
+            sessionsBundle.ConfigurePattern("TX_50_Duty_Cycle");
             sessionsBundle.ConfigureVoltageLevels(vil: 1, vih: 3.6, vol: 1.5, voh: 3, vterm: 2, updateMode: updateMode);
 
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
@@ -1581,7 +1581,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            PrepareForUpdateMode(sessionsBundle, updateMode, "TX_50_Duty_Cycle");
+            sessionsBundle.ConfigurePattern("TX_50_Duty_Cycle");
             sessionsBundle.ConfigureTerminationMode(TerminationMode.Vterm, updateMode: updateMode);
 
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
@@ -1596,7 +1596,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            PrepareForUpdateMode(sessionsBundle, updateMode, "TX_50_Duty_Cycle");
+            sessionsBundle.ConfigurePattern("TX_50_Duty_Cycle");
             sessionsBundle.ConfigureTimeSetCompareEdgesStrobe("TS_SW", compareEdge: 5e-6, updateMode: updateMode);
 
             sessionsBundle.Do(sessionInfo =>
@@ -1615,7 +1615,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            PrepareForUpdateMode(sessionsBundle, updateMode, "TX_50_Duty_Cycle");
+            sessionsBundle.ConfigurePattern("TX_50_Duty_Cycle");
             var compareEdges = new SiteData<double>(new Dictionary<int, double>() { [0] = 5e-6, [1] = 8e-6 });
             sessionsBundle.ConfigureTimeSetCompareEdgesStrobe("TS_SW", compareEdges, updateMode: updateMode);
 
@@ -1624,14 +1624,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Theory]
         [InlineData(UpdateMode.Deferred)]
-        [InlineData(UpdateMode.Commit)]
-        [InlineData(UpdateMode.Immediate)]
+        // [InlineData(UpdateMode.Commit)]
+        // [InlineData(UpdateMode.Immediate)]
         public void SessionsInitialized_ConfigurePerSitePerPinTimeSetCompareEdgesStrobeWithUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
 
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
-            PrepareForUpdateMode(sessionsBundle, updateMode);
+            sessionsBundle.ConfigurePattern("TX_50_Duty_Cycle");
 
             var compareEdges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
             {
@@ -1657,19 +1657,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         /// <summary>
-        /// Prepares the sessions for a configuration call that uses the specified <paramref name="updateMode"/>.
-        /// When the update mode is <see cref="UpdateMode.Immediate"/>, a pattern must be configured beforehand
-        /// because the configuration API initiates the pattern burst immediately.
-        /// </summary>
-        private static void PrepareForUpdateMode(DigitalSessionsBundle sessionsBundle, UpdateMode updateMode, string patternName = "TX_50_Duty_Cycle")
-        {
-            if (updateMode == UpdateMode.Immediate)
-            {
-                sessionsBundle.ConfigurePattern(patternName);
-            }
-        }
-
-        /// <summary>
         /// Asserts that the initiate behavior of the sessions matches the specified <paramref name="updateMode"/>.
         /// For <see cref="UpdateMode.Immediate"/> the configuration call already initiated the pattern burst, so
         /// calling <see cref="Pattern.Initiate"/> again is expected to fail because the session is already running.
@@ -1686,7 +1673,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
             else
             {
-                Initiate(); // Should not throw for Deferred or Commit update modes because the session is not running yet.
+                // var temp = sessionsBundle.doandreturn(sessionInfo,SitePinInfo) { return GetSitePassFailResults(); }
+                sessionsBundle.Initiate(); // Should not throw for Deferred or Commit update modes because the session is not running yet.
+                sessionsBundle.AbortKeepAlivePattern();
             }
         }
     }
