@@ -1381,7 +1381,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void SessionsInitialized_ConfigureTimeSetPeriodWithoutSpecifyingPins_UpdatedModeSetCorrectly(UpdateMode updateMode)
+        public void SessionsInitialized_ConfigureTimeSetPeriodWithoutSpecifyingPins_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
 
