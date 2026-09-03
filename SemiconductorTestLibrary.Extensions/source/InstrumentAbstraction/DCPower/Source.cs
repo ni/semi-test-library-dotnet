@@ -410,7 +410,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                         sequenceLoopCount,
                         setAsActiveSequence: true);
                 });
-                sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion: true, sequenceTimeoutInSeconds);
+                sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion: true, timeoutInSeconds: sequenceTimeoutInSeconds);
             }
             else
             {
