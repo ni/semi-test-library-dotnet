@@ -7,14 +7,15 @@ using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.InstrumentAbstraction
 {
     /// <summary>
-    /// Provides an example method demonstrating TMU functionality using STL.
+    /// Provides an example method demonstrating TMU pulse width measurement functionality using STL.
     /// </summary>
-    public static class MeasurePeriodTMU
+    public static class MeasurePulseWidthTMU
     {
         /// <summary>
-        /// Demonstrates how to measure the period of a digital signal using the TMU.
-        /// This example configures the TMU to measure period by detecting rising edges,
-        /// collects the specified number of samples, and returns the averaged measurement.
+        /// Demonstrates how to measure the high pulse width of a digital signal using the TMU.
+        /// Pulse width measures the duration of a single pulse — the time from the rising edge to
+        /// the subsequent falling edge at Voh (for <see cref="TmuPulseWidth.High"/>), or from the
+        /// falling edge to the subsequent rising edge at Vol (for <see cref="TmuPulseWidth.Low"/>).
         /// </summary>
         /// <remarks>
         /// <para>
@@ -22,7 +23,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         /// <list type="number">
         ///   <item>Queries the TSM session manager to get the digital sessions bundle associated with the "C0" pin.</item>
         ///   <item>Assigns TMU resources to the specified pins.</item>
-        ///   <item>Configures the TMU for period measurement with rising edge detection.</item>
+        ///   <item>Configures the TMU for pulse width measurement.</item>
         ///   <item>Initiates the TMU measurement.</item>
         ///   <item>Fetches and averages the measurement results.</item>
         ///   <item>Cleans up by disabling the TMU and clearing assignments.</item>
@@ -33,11 +34,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         /// is properly configured before calling this method.
         /// </para>
         /// </remarks>
-        /// <param name = "tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
-        public static void MeasurePeriodWithSTL(ISemiconductorModuleContext tsmContext)
+        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
+        public static void MeasurePulseWidthWithSTL(ISemiconductorModuleContext tsmContext)
         {
-            // Configuration parameters for TMU period measurement.
-            long numberOfSamples = 100;          // Number of period samples to collect.
+            // Configuration parameters for TMU pulse width measurement.
+            long numberOfSamples = 100;          // Number of pulse width samples to collect.
             double timeoutInSeconds = 5.0;       // Maximum time to wait for measurement completion.
 
             // Step 1: Query TSM session manager to get the digital sessions bundle associated with the "C0" pin.
@@ -50,13 +51,14 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             // Note that the TMU hardware resource is not reserved until step 3.
             digitalPins.AssignTMUResources();
 
-            // Step 3: Configure the TMU to perform a period rise measurement.
-            // - edgeType: Trigger on rising edge transitions.
-            // - samplesToAcquire: Number of period measurements to collect.
+            // Step 3: Configure the TMU to perform a high pulse width measurement.
+            // - pulseWidthType: Measure the duration from the rising edge to the subsequent falling edge at Voh.
+            //   Use TmuPulseWidth.Low to instead measure from the falling edge to the subsequent rising edge at Vol.
+            // - samplesToAcquire: Number of pulse width measurements to collect.
             // - armSetting: Start measurement immediately without waiting for an arm event.
             // This method also enables (reserves) the TMU resource at the hardware level.
-            digitalPins.ConfigurePeriodMeasurement(
-                edgeType: TmuPolarity.RisingEdge,
+            digitalPins.ConfigureTMUPulseWidthMeasurement(
+                pulseWidthType: TmuPulseWidth.High,
                 samplesToAcquire: numberOfSamples,
                 armSetting: TmuArmSetting.Immediate);
 
@@ -64,8 +66,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             digitalPins.TMUInitiate();
 
             // Step 5: Fetch the averaged measurement results.
-            // The TMU collects multiple samples and returns the average period.
-            PinSiteData<double> periodMeasurements = digitalPins.FetchAveragedTMUMeasurement(timeoutInSeconds);
+            // The TMU collects multiple samples and returns the average high pulse width in seconds.
+            PinSiteData<double> pulseWidthMeasurements = digitalPins.FetchAveragedTMUMeasurement(timeoutInSeconds);
 
             // Step 6: Clean up TMU resources.
             // Always disable the TMU and clear assignments when finished to free up resources.
