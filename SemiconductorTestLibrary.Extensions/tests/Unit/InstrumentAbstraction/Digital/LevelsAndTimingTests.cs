@@ -380,7 +380,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
             sessionsBundle.ConfigurePattern("TX_50_Duty_Cycle");
 
-            sessionsBundle.ConfigureTimeSetDriveEdges("TS_SW", DriveFormat.ReturnToLow, driveOn: 5e-6, driveData: 5e-6, driveReturn: 1e-5, driveOff: 2e-5, driveData2: 1.5e-5, driveReturn2: 2e-5, updateMode);
+            sessionsBundle.ConfigureTimeSetDriveEdges("TS_SW", DriveFormat.ReturnToLow, driveOn: 5e-6, driveData: 5e-6, driveReturn: 1e-5, driveOff: 2e-5, driveData2: 1.5e-5, driveReturn2: 2e-5, updateMode: updateMode);
 
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
@@ -1381,7 +1381,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void SessionsInitialized_ConfigureTimeSetPeriodWithoutSpecifyingPins_UpdatedModeSetCorrectly(UpdateMode updateMode)
+        public void SessionsInitialized_ConfigureTimeSetPeriodWithoutSpecifyingPins_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
 
