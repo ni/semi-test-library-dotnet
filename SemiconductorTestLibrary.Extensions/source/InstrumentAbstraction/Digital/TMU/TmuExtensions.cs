@@ -5,17 +5,6 @@ using System.Linq;
 using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
-// Following namespaces are required for 26.5
-using DigitalTmu = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu;
-using DigitalTmuCollections = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuCollections;
-using TMUContextManager = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TMUContextManager;
-using TmuAttributes = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes;
-using TmuArmType = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuArmType;
-using TmuArmSetting = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuArmSetting;
-using TmuDutyCycle = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuDutyCycle;
-using TmuPolarity = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuPolarity;
-using TmuPulseWidth = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuPulseWidth;
-using TmuSourceEvent = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuSourceEvent;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
 {
@@ -275,27 +264,27 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </para>
         /// <para>
         /// For rising edge period (<see cref="TmuPolarity.RisingEdge"/>):<br/>
-        /// - <see cref="TmuAttributes.TmuStartSource"/> = the associated pin<br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSource"/> = same pin as start source<br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
-        /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuEnabled"/> = <c>true</c>
+        /// - <see cref="DigitalTmuSource.Source"/> (Start) = the associated pin<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Start) = <see cref="TmuSourceEvent.Voh"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Start) = <see cref="TmuPolarity.RisingEdge"/><br/>
+        /// - <see cref="DigitalTmuSource.Source"/> (Stop) = same pin as start source<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Stop) = <see cref="TmuSourceEvent.Voh"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Stop) = <see cref="TmuPolarity.RisingEdge"/><br/>
+        /// - <see cref="DigitalTmu.SamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
+        /// - <see cref="DigitalTmu.ArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
+        /// - <see cref="DigitalTmu.Enabled"/> = <c>true</c>
         /// </para>
         /// <para>
         /// For falling edge period (<see cref="TmuPolarity.FallingEdge"/>):<br/>
-        /// - <see cref="TmuAttributes.TmuStartSource"/> = the associated pin<br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSource"/> = same pin as start source<br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
-        /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuEnabled"/> = <c>true</c>
+        /// - <see cref="DigitalTmuSource.Source"/> (Start) = the associated pin<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Start) = <see cref="TmuSourceEvent.Vol"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Start) = <see cref="TmuPolarity.FallingEdge"/><br/>
+        /// - <see cref="DigitalTmuSource.Source"/> (Stop) = same pin as start source<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Stop) = <see cref="TmuSourceEvent.Vol"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Stop) = <see cref="TmuPolarity.FallingEdge"/><br/>
+        /// - <see cref="DigitalTmu.SamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
+        /// - <see cref="DigitalTmu.ArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
+        /// - <see cref="DigitalTmu.Enabled"/> = <c>true</c>
         /// </para>
         /// If the <paramref name="edgeType"/> parameter is set to<see cref="TmuPolarity.EitherEdge"/>, an exception will be thrown.<br/>
         /// </remarks>
@@ -370,27 +359,27 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </para>
         /// <para>
         /// For rising edge skew (<see cref="TmuPolarity.RisingEdge"/>):<br/>
-        /// - <see cref="TmuAttributes.TmuStartSource"/> = Reference channel<br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSource"/> = Target channel<br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
-        /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuEnabled"/> = <c>true</c>
+        /// - <see cref="DigitalTmuSource.Source"/> (Start) = Reference channel<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Start) = <see cref="TmuSourceEvent.Voh"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Start) = <see cref="TmuPolarity.RisingEdge"/><br/>
+        /// - <see cref="DigitalTmuSource.Source"/> (Stop) = Target channel<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Stop) = <see cref="TmuSourceEvent.Voh"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Stop) = <see cref="TmuPolarity.RisingEdge"/><br/>
+        /// - <see cref="DigitalTmu.SamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
+        /// - <see cref="DigitalTmu.ArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
+        /// - <see cref="DigitalTmu.Enabled"/> = <c>true</c>
         /// </para>
         /// <para>
         /// For falling edge skew (<see cref="TmuPolarity.FallingEdge"/>):<br/>
-        /// - <see cref="TmuAttributes.TmuStartSource"/> = Reference channel<br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSource"/> = Target channel<br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
-        /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuEnabled"/> = <c>true</c>
+        /// - <see cref="DigitalTmuSource.Source"/> (Start) = Reference channel<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Start) = <see cref="TmuSourceEvent.Vol"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Start) = <see cref="TmuPolarity.FallingEdge"/><br/>
+        /// - <see cref="DigitalTmuSource.Source"/> (Stop) = Target channel<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Stop) = <see cref="TmuSourceEvent.Vol"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Stop) = <see cref="TmuPolarity.FallingEdge"/><br/>
+        /// - <see cref="DigitalTmu.SamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
+        /// - <see cref="DigitalTmu.ArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
+        /// - <see cref="DigitalTmu.Enabled"/> = <c>true</c>
         /// </para>
         /// If the <paramref name="edgeType"/> parameter is set to <see cref="TmuPolarity.EitherEdge"/>, an exception will be thrown.
         /// </remarks>
@@ -491,15 +480,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// This method sets the following attributes for the assigned TMU resource:
         /// </para>
         /// <para>
-        /// - <see cref="TmuAttributes.TmuStartSource"/> = the associated pin<br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSource"/> = same pin as start source<br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
-        /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuEnabled"/> = <c>true</c>
+        /// - <see cref="DigitalTmuSource.Source"/> (Start) = the associated pin<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Start) = <see cref="TmuSourceEvent.Vol"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Start) = <see cref="TmuPolarity.RisingEdge"/><br/>
+        /// - <see cref="DigitalTmuSource.Source"/> (Stop) = same pin as start source<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Stop) = <see cref="TmuSourceEvent.Voh"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Stop) = <see cref="TmuPolarity.RisingEdge"/><br/>
+        /// - <see cref="DigitalTmu.SamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
+        /// - <see cref="DigitalTmu.ArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
+        /// - <see cref="DigitalTmu.Enabled"/> = <c>true</c>
         /// </para>
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
@@ -562,15 +551,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// This method sets the following attributes for the assigned TMU resource:
         /// </para>
         /// <para>
-        /// - <see cref="TmuAttributes.TmuStartSource"/> = the associated pin<br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSource"/> = same pin as start source<br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
-        /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuEnabled"/> = <c>true</c>
+        /// - <see cref="DigitalTmuSource.Source"/> (Start) = the associated pin<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Start) = <see cref="TmuSourceEvent.Voh"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Start) = <see cref="TmuPolarity.FallingEdge"/><br/>
+        /// - <see cref="DigitalTmuSource.Source"/> (Stop) = same pin as start source<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Stop) = <see cref="TmuSourceEvent.Vol"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Stop) = <see cref="TmuPolarity.FallingEdge"/><br/>
+        /// - <see cref="DigitalTmu.SamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
+        /// - <see cref="DigitalTmu.ArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
+        /// - <see cref="DigitalTmu.Enabled"/> = <c>true</c>
         /// </para>
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
@@ -633,26 +622,26 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </para>
         /// <para>
         /// For duty cycle high (<see cref="TmuDutyCycle.High"/>):<br/>
-        /// - <see cref="TmuAttributes.TmuStartSource"/> = the associated pin<br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSource"/> = same pin as start source<br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
+        /// - <see cref="DigitalTmuSource.Source"/> (Start) = the associated pin<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Start) = <see cref="TmuSourceEvent.Voh"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Start) = <see cref="TmuPolarity.RisingEdge"/><br/>
+        /// - <see cref="DigitalTmuSource.Source"/> (Stop) = same pin as start source<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Stop) = <see cref="TmuSourceEvent.Voh"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Stop) = <see cref="TmuPolarity.FallingEdge"/><br/>
         /// </para>
         /// <para>
         /// For duty cycle low (<see cref="TmuDutyCycle.Low"/>):<br/>
-        /// - <see cref="TmuAttributes.TmuStartSource"/> = the associated pin<br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSource"/> = same pin as start source<br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
+        /// - <see cref="DigitalTmuSource.Source"/> (Start) = the associated pin<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Start) = <see cref="TmuSourceEvent.Vol"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Start) = <see cref="TmuPolarity.FallingEdge"/><br/>
+        /// - <see cref="DigitalTmuSource.Source"/> (Stop) = same pin as start source<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Stop) = <see cref="TmuSourceEvent.Vol"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Stop) = <see cref="TmuPolarity.RisingEdge"/><br/>
         /// </para>
         /// <para>
-        /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuEnabled"/> = <c>true</c>
+        /// - <see cref="DigitalTmu.SamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
+        /// - <see cref="DigitalTmu.ArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
+        /// - <see cref="DigitalTmu.Enabled"/> = <c>true</c>
         /// </para>
         /// <para>
         /// TMU samples are signed time intervals, so the measurement result can be negative.<br/>
@@ -747,26 +736,26 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </para>
         /// <para>
         /// For pulse width high (<see cref="TmuPulseWidth.High"/>):<br/>
-        /// - <see cref="TmuAttributes.TmuStartSource"/> = the associated pin<br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSource"/> = same pin as start source<br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
+        /// - <see cref="DigitalTmuSource.Source"/> (Start) = the associated pin<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Start) = <see cref="TmuSourceEvent.Voh"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Start) = <see cref="TmuPolarity.RisingEdge"/><br/>
+        /// - <see cref="DigitalTmuSource.Source"/> (Stop) = same pin as start source<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Stop) = <see cref="TmuSourceEvent.Vol"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Stop) = <see cref="TmuPolarity.FallingEdge"/><br/>
         /// </para>
         /// <para>
         /// For pulse width low (<see cref="TmuPulseWidth.Low"/>):<br/>
-        /// - <see cref="TmuAttributes.TmuStartSource"/> = the associated pin<br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSource"/> = same pin as start source<br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
+        /// - <see cref="DigitalTmuSource.Source"/> (Start) = the associated pin<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Start) = <see cref="TmuSourceEvent.Vol"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Start) = <see cref="TmuPolarity.FallingEdge"/><br/>
+        /// - <see cref="DigitalTmuSource.Source"/> (Stop) = same pin as start source<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Stop) = <see cref="TmuSourceEvent.Voh"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Stop) = <see cref="TmuPolarity.RisingEdge"/><br/>
         /// </para>
         /// <para>
-        /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuEnabled"/> = <c>true</c>
+        /// - <see cref="DigitalTmu.SamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
+        /// - <see cref="DigitalTmu.ArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
+        /// - <see cref="DigitalTmu.Enabled"/> = <c>true</c>
         /// </para>
         /// <para>
         /// TMU samples are signed time intervals, so the measurement result can be negative.<br/>
@@ -1634,25 +1623,30 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
 
         #endregion
 
-        #region Get TMU Count
+        // #region Get TMU Count
 
-        /// <summary>
-        /// Gets the total number of TMU resources available for each instrument session in the <see cref="DigitalSessionsBundle"/>.
-        /// </summary>
-        /// <remarks>
-        /// This value is session-level and reflects the total TMU count across all modules in each instrument session.
-        /// The returned array contains one value per instrument session, in the same order as <see cref="ISessionsBundle{TSessionInformation}.InstrumentSessions"/>.
-        /// </remarks>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
-        /// <returns>An array containing the total number of TMU resources available, one value per instrument session.</returns>
-        public static int[] GetTMUCount(this DigitalSessionsBundle sessionsBundle)
-        {
-            return sessionsBundle.InstrumentSessions
-                .Select(sessionInfo => GetDigitalTmus(sessionInfo.Session).GetTmuCount())
-                .ToArray();
-        }
+        // NOTE (POC): GetTMUCount() is temporarily disabled. The driver-native DigitalTmuCollection
+        // (NIDigital.Tmu) only exposes GetDisabledTmuContexts() and GetTmu(string) -- there is no
+        // native API to query the total number of TMU resources available per instrument session.
+        // This needs a follow-up decision on how (or whether) to support this API going forward.
 
-        #endregion
+        // /// <summary>
+        // /// Gets the total number of TMU resources available for each instrument session in the<see cref = "DigitalSessionsBundle" />.
+        // /// </ summary >
+        // /// < remarks >
+        // /// This value is session-level and reflects the total TMU count across all modules in each instrument session.
+        // /// The returned array contains one value per instrument session, in the same order as <see cref = "ISessionsBundle{TSessionInformation}.InstrumentSessions" />.
+        // /// </ remarks >
+        // /// < param name="sessionsBundle">The<see cref = "DigitalSessionsBundle" />.</ param >
+        // ///< returns > An array containing the total number of TMU resources available, one value per instrument session.</returns>
+        // public static int[] GetTMUCount(this DigitalSessionsBundle sessionsBundle)
+        // {
+        //    return sessionsBundle.InstrumentSessions
+        //        .Select(sessionInfo => GetDigitalTmus(sessionInfo.Session).GetTmuCount())
+        //        .ToArray();
+        // }
+
+        // #endregion
 
         private static void AssignTMUContexts(this DigitalSessionInformation digitalSessionInformation, string[] pins = null)
         {
@@ -1869,9 +1863,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             return GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
         }
 
-        private static DigitalTmuCollections GetDigitalTmus(NIDigital session)
+        private static DigitalTmuCollection GetDigitalTmus(NIDigital session)
         {
-            return new DigitalTmuCollections(session);
+            return session.Tmu;
         }
 
         private static void ValidateTmuArmType(TmuArmType armType)
