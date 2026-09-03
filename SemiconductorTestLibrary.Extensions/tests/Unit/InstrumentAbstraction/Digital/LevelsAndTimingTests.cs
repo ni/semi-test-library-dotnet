@@ -1754,32 +1754,22 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         /// <summary>
         /// Asserts that the initiate behavior of the sessions matches the specified <paramref name="updateMode"/>.
         /// For <see cref="UpdateMode.Immediate"/> the configuration call already initiated the pattern burst, so
-        /// calling <see cref="Pattern.Initiate"/> again is expected to fail because the session is already running.
+        /// calling <see cref="Pattern.GetPassFailResults"/> is expected to succeed.
         /// For <see cref="UpdateMode.Deferred"/> and <see cref="UpdateMode.Commit"/> the session is not running yet,
-        /// so <see cref="Pattern.Initiate"/> is expected to succeed.
+        /// so <see cref="Pattern.GetPassFailResults"/> is expected to fail.
         /// </summary>
         private static void AssertInitiateBehaviorMatchesUpdateMode(DigitalSessionsBundle sessionsBundle, UpdateMode updateMode)
         {
-            void GetResults() => GetSitePassFailResults(sessionsBundle);
+            void GetResults() => Pattern.GetSitePassFail(sessionsBundle);
 
             if (updateMode != UpdateMode.Immediate)
             {
                 Assert.Throws<NISemiconductorTestException>(GetResults);
-                // Should throw for Deferred or Commit update modes because the session is bursted yet.
             }
             else
             {
                 GetResults();
-                // Should not throw for Immediate update modes because the session is already bursted.
             }
-        }
-
-        private static SiteData<bool> GetSitePassFailResults(DigitalSessionsBundle sessionsBundle)
-        {
-            return sessionsBundle.DoAndReturnPerSiteResults(sessionInfo =>
-            {
-                return sessionInfo.Session.PatternControl.GetSitePassFail(sessionInfo.SiteListString);
-            });
         }
     }
 }

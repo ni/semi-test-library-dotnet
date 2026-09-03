@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using NationalInstruments.SemiconductorTestLibrary.Common;
+using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.TestStand.SemiconductorModule.Restricted;
 using Xunit;
 
@@ -32,6 +33,23 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Utilities
                 return $"/{channel.Remove(channel.Length - 2)}/Immediate";
             }
             return string.Empty;
+        }
+        internal static void AssertInitiateBehaviorMatchesUpdateMode(DCPowerSessionsBundle sessionsBundle, UpdateMode updateMode)
+        {
+            void InitiateTest()
+            {
+                sessionsBundle.Initiate();
+            }
+
+            if (updateMode == UpdateMode.Immediate)
+            {
+                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
+                Assert.Contains("The session is already running.", exception.Message);
+            }
+            else
+            {
+                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
+            }
         }
 
         internal static void AssertPublishedDataCountPerPins(int expectedCount, IPublishedDataReader publishedDataReader, params string[] pins)
