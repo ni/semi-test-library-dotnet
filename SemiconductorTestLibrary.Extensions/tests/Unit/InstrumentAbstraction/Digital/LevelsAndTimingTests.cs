@@ -331,6 +331,21 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        [InlineData(UpdateMode.Deferred)]
+        public void SessionsInitialized_ConfigureTimeSetDriverEdges_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            sessionsBundle.ConfigurePattern("TX_50_Duty_Cycle");
+
+            sessionsBundle.ConfigureTimeSetDriveEdges("TS_SW", DriveFormat.ReturnToHigh, driveOn: 5e-6, driveData: 5e-6, driveReturn: 1e-5, driveOff: 1e-5, updateMode: updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
@@ -353,6 +368,21 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Assert.Equal(1.5e-5, sessionInfo.Session.Timing.GetTimeSet("TS_SW").GetEdge(sessionInfo.PinSet, TimeSetEdge.DriveData2).TotalSeconds);
                 Assert.Equal(2e-5, sessionInfo.Session.Timing.GetTimeSet("TS_SW").GetEdge(sessionInfo.PinSet, TimeSetEdge.DriveReturn2).TotalSeconds);
             });
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        [InlineData(UpdateMode.Deferred)]
+        public void SessionsInitialized_ConfigureTimeSetDriverEdgesWithTwoDriveData_UpdateModeCorrectlySet(UpdateMode updateMode)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            sessionsBundle.ConfigurePattern("TX_50_Duty_Cycle");
+
+            sessionsBundle.ConfigureTimeSetDriveEdges("TS_SW", DriveFormat.ReturnToLow, driveOn: 5e-6, driveData: 5e-6, driveReturn: 1e-5, driveOff: 2e-5, driveData2: 1.5e-5, driveReturn2: 2e-5, updateMode: updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
         [Fact]
@@ -1347,6 +1377,21 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
         }
 
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void SessionsInitialized_ConfigureTimeSetPeriodWithoutSpecifyingPins_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
+
+            var sessionsBundle = sessionManager.Digital();
+            sessionsBundle.ConfigurePattern("TX_50_Duty_Cycle");
+            sessionsBundle.ConfigureTimeSetPeriod("TS_SW", 5e-6, updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
         [Fact]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
@@ -1485,6 +1530,21 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void SessionsInitialized_ConfigureEdgeWithSingleValue_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            sessionsBundle.ConfigurePattern("TX_50_Duty_Cycle");
+
+            sessionsBundle.ConfigureTimeSetEdge("TS", TimeSetEdge.CompareStrobe, 5e-6, updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
@@ -1502,6 +1562,21 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(5e-6, edge.GetValue(0, "C1").TotalSeconds);
             Assert.Equal(6e-6, edge.GetValue(1, "C0").TotalSeconds);
             Assert.Equal(6e-6, edge.GetValue(1, "C1").TotalSeconds);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void SessionsInitialized_ConfigureEdgeWithSiteSpecificValues_UpdateModeCorrectlySet(UpdateMode updateMode)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            sessionsBundle.ConfigurePattern("TX_50_Duty_Cycle");
+
+            sessionsBundle.ConfigureTimeSetEdge("TS", TimeSetEdge.CompareStrobe, new SiteData<double>(new[] { 5e-6, 6e-6 }), updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
         [Theory]
@@ -1527,6 +1602,26 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(6e-6, edge.GetValue(1, "C0").TotalSeconds);
             Assert.Equal(7e-6, edge.GetValue(0, "C1").TotalSeconds);
             Assert.Equal(8e-6, edge.GetValue(1, "C1").TotalSeconds);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void SessionsInitialized_ConfigureEdgeWithChannelSpecificValues_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+
+            var time = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>
+            {
+                ["C0"] = new Dictionary<int, double> { [0] = 5e-6, [1] = 6e-6 },
+                ["C1"] = new Dictionary<int, double> { [0] = 7e-6, [1] = 8e-6 },
+            });
+            sessionsBundle.ConfigurePattern("TX_50_Duty_Cycle");
+            sessionsBundle.ConfigureTimeSetEdge("TS", TimeSetEdge.CompareStrobe, time, updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
         [Fact]
