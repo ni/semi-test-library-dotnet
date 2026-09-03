@@ -160,8 +160,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <returns>The per-site per-pin measurement sense values.</returns>
         public static PinSiteData<DCPowerMeasurementSense> GetMeasurementSense(this DCPowerSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
-                sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Measurement.Sense);
+            return sessionsBundle.DoAndReturnPerSitePerPinResults(
+                sessionInfo => sessionInfo.AssociatedSitePinList
+                    .Where(sitePinInfo => !sitePinInfo.SkipOperations)
+                    .Select(sitePinInfo => sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString].Measurement.Sense)
+                    .ToArray(),
+                caseDescription: string.Empty,
+                GroupPinSiteResultsFilling);
         }
 
         /// <summary>
