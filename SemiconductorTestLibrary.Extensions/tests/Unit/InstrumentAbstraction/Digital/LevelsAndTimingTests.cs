@@ -52,6 +52,37 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
         }
 
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void SessionsInitialized_ConfigureSingleLevelWithUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            sessionsBundle.ConfigurePattern("TX_50_Duty_Cycle");
+            sessionsBundle.ConfigureSingleLevel(LevelsAndTiming.LevelType.Vih, levelValue: 3.5, updateMode: updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void SessionsInitialized_ConfigurePerSiteSingleLevelWithUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            sessionsBundle.ConfigurePattern("TX_50_Duty_Cycle");
+            var levels = new SiteData<double>(new Dictionary<int, double>() { [0] = 0.1, [1] = 0.2 });
+            sessionsBundle.ConfigureSingleLevel(LevelsAndTiming.LevelType.Vil, levels, updateMode: updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
         [Fact]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
@@ -1526,6 +1557,92 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
         }
 
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void SessionsInitialized_ConfigureVoltageLevelsWithUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            sessionsBundle.ConfigurePattern("TX_50_Duty_Cycle");
+            sessionsBundle.ConfigureVoltageLevels(vil: 1, vih: 3.6, vol: 1.5, voh: 3, vterm: 2, updateMode: updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void SessionsInitialized_ConfigureTerminationModeWithUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            sessionsBundle.ConfigurePattern("TX_50_Duty_Cycle");
+            sessionsBundle.ConfigureTerminationMode(TerminationMode.Vterm, updateMode: updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void SessionsInitialized_ConfigureTimeSetCompareEdgesStrobeWithUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            sessionsBundle.ConfigurePattern("TX_50_Duty_Cycle");
+            sessionsBundle.ConfigureTimeSetCompareEdgesStrobe("TS_SW", compareEdge: 5e-6, updateMode: updateMode);
+
+            sessionsBundle.Do(sessionInfo =>
+            {
+                Assert.Equal(5e-6, sessionInfo.Session.Timing.GetTimeSet("TS_SW").GetEdge(sessionInfo.PinSet, TimeSetEdge.CompareStrobe).TotalSeconds);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void SessionsInitialized_ConfigurePerSiteTimeSetCompareEdgesStrobeWithUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            sessionsBundle.ConfigurePattern("TX_50_Duty_Cycle");
+            var compareEdges = new SiteData<double>(new Dictionary<int, double>() { [0] = 5e-6, [1] = 8e-6 });
+            sessionsBundle.ConfigureTimeSetCompareEdgesStrobe("TS_SW", compareEdges, updateMode: updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void SessionsInitialized_ConfigurePerSitePerPinTimeSetCompareEdgesStrobeWithUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
+        {
+            var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
+
+            var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
+            sessionsBundle.ConfigurePattern("TX_50_Duty_Cycle");
+
+            var compareEdges = new PinSiteData<double>(new Dictionary<string, IDictionary<int, double>>()
+            {
+                ["C0"] = new Dictionary<int, double>() { [0] = 5e-6, [1] = 7e-6 },
+                ["C1"] = new Dictionary<int, double>() { [0] = 6e-6, [1] = 8e-6 }
+            });
+            sessionsBundle.ConfigureTimeSetCompareEdgesStrobe("TS_SW", compareEdges, updateMode: updateMode);
+
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
         /// <summary>
         /// Removes a temporary file, if it exists.
         /// This method is intended to be called at the end of the unit test that saving information to a temporary file.
@@ -1536,6 +1653,27 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             if (File.Exists(fileName))
             {
                 File.Delete(fileName);
+            }
+        }
+
+        /// <summary>
+        /// Asserts that the initiate behavior of the sessions matches the specified <paramref name="updateMode"/>.
+        /// For <see cref="UpdateMode.Immediate"/> the configuration call already initiated the pattern burst, so
+        /// calling <see cref="Pattern.GetPassFailResults"/> is expected to succeed.
+        /// For <see cref="UpdateMode.Deferred"/> and <see cref="UpdateMode.Commit"/> the session is not running yet,
+        /// so <see cref="Pattern.GetPassFailResults"/> is expected to fail.
+        /// </summary>
+        private static void AssertInitiateBehaviorMatchesUpdateMode(DigitalSessionsBundle sessionsBundle, UpdateMode updateMode)
+        {
+            void GetResults() => Pattern.GetSitePassFail(sessionsBundle);
+
+            if (updateMode != UpdateMode.Immediate)
+            {
+                Assert.Throws<NISemiconductorTestException>(GetResults);
+            }
+            else
+            {
+                GetResults();
             }
         }
     }

@@ -4,6 +4,7 @@ using Ivi.Driver;
 using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
+using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
 {
@@ -178,6 +179,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 sessionInfo.Session.PatternControl.WaitUntilDone(TimeSpan.FromSeconds(timeoutInSeconds));
             });
+        }
+
+        internal static void ApplyUpdateMode(
+            this DigitalSessionsBundle sessionsBundle, UpdateMode updateMode)
+        {
+            switch (updateMode)
+            {
+                case UpdateMode.Commit:
+                    sessionsBundle.Commit();
+                    break;
+                case UpdateMode.Immediate:
+                    sessionsBundle.Initiate();
+                    break;
+                case UpdateMode.Deferred:
+                default:
+                    break;
+            }
         }
     }
 }
