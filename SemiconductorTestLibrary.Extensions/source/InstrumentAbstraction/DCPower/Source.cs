@@ -350,7 +350,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? voltageLevelRange = null,
             double? currentLimitRange = null,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = true,
+            bool waitForSequenceCompletion,
             double sequenceTimeoutInSeconds = DefaultTimeout)
         {
             ForceVoltageSequence(
