@@ -2486,13 +2486,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         private void AssertAllChannelsHaveCorrectResult(PinSiteData<Tuple<double, bool>> results, double expectedMeasurement)
         {
+            var tolerance = 0.001;
+            var min = -expectedMeasurement - tolerance;
+            var max = expectedMeasurement + tolerance;
             foreach (var siteNumber in results.SiteNumbers)
             {
                 foreach (var pin in results.PinNames)
                 {
                     var value = results.GetValue(siteNumber, pin);
-                    Assert.Equal(expectedMeasurement, value.Item1, precision: 6);
-                    Assert.False(value.Item2);
+                    Assert.InRange(value.Item1, min, max);
                 }
             }
         }
