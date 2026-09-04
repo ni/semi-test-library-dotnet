@@ -2516,15 +2516,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Single(distinctValues);
         }
 
-        private void AssertResultAssociatedWithPinGroupName<T>(PinSiteData<T> results, string pinGroup, string primaryPin)
-        {
-            foreach (var siteNumber in results.SiteNumbers)
-            {
-                Assert.True(results.TryGetValue(siteNumber, pinGroup, out _));
-                Assert.False(results.TryGetValue(siteNumber, primaryPin, out _));
-            }
-        }
-
         private void AssertResultArrayAssociatedWithPinGroupName(PinSiteData<double[]> results, string pinGroup, string memberPin, int expectedLength)
         {
             foreach (var siteNumber in results.SiteNumbers)
