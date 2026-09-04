@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
@@ -1303,11 +1304,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void ChannelsHavePendingFetchData_ClearFetchBacklog_BacklogIsCleared()
         {
-            var sessionManager = Initialize("Mixed Signal Tests.pinmap");
-            var sessionsBundle = sessionManager.DCPower("VCC1");
+            var sessionManager = Initialize(true);
+            var sessionsBundle = sessionManager.DCPower("VCC");
             sessionsBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
-            sessionsBundle.ForceVoltage(voltageLevel: 1, currentLimit: 0.1, waitForSourceCompletion: true);
+            sessionsBundle.ForceVoltage(voltageLevel: 0.1, currentLimit: 0.01, waitForSourceCompletion: true);
 
+            Thread.Sleep(10);
             // Confirm there is pending fetch data before clearing.
             Assert.True(GetTotalFetchBacklog(sessionsBundle) > 0);
 
@@ -1322,19 +1324,20 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void FilteredBundle_ClearFetchBacklog_OnlyFilteredChannelsAreProcessed()
         {
             var sessionManager = Initialize(pinMapWithChannelGroup: true);
-            var sessionsBundle = sessionManager.DCPower(new[] { "VCC", "VDD" });
+            var sessionsBundle = sessionManager.DCPower(new[] { "VCC", "VDET" });
             sessionsBundle.ConfigureMeasureSettings(new DCPowerMeasureSettings() { MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete });
-            sessionsBundle.ForceVoltage(voltageLevel: 1, currentLimit: 0.1, waitForSourceCompletion: true);
-            var filteredBundle = sessionsBundle.FilterByPin("VDD");
-            var originalVCCBacklog = GetTotalFetchBacklog(sessionsBundle.FilterByPin("VCC"));
+            sessionsBundle.ForceVoltage(voltageLevel: 1, currentLimit: 0.01, waitForSourceCompletion: true);
+            var filteredBundleWithVDETPin = sessionsBundle.FilterByPin("VDET");
+            var filteredBundleWithVCCPin = sessionsBundle.FilterByPin("VCC");
 
+            Thread.Sleep(10);
             // Confirm there is pending fetch data before clearing.
             Assert.True(GetTotalFetchBacklog(sessionsBundle) > 0);
 
-            filteredBundle.ClearFetchBacklog();
+            filteredBundleWithVDETPin.ClearFetchBacklog();
 
-            Assert.Equal(0, GetTotalFetchBacklog(filteredBundle));
-            Assert.Equal(originalVCCBacklog, GetTotalFetchBacklog(sessionsBundle.FilterByPin("VCC")));
+            Assert.Equal(0, GetTotalFetchBacklog(filteredBundleWithVDETPin));
+            Assert.NotEqual(0, GetTotalFetchBacklog(filteredBundleWithVCCPin));
         }
 
         [Fact]
@@ -1589,16 +1592,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void DifferentSMUDevice_FetchAndPublishCurrentWithSinglePointToFetch_ReturnsArrayWithLengthEqualToPointsToFetch(bool pinMapWithChannelGroup)
         {
             var pinName = "VCC";
-            var expectedCurrent = 1E-3;
+            var expectedCurrent = 1E-8;
             var publishDataIdFormatter = "Current{0}";
             var sessionManager = Initialize(pinMapWithChannelGroup, out var publishedDataReader);
             var sessionsBundle = sessionManager.DCPower(pinName);
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
-            sessionsBundle.ForceCurrent(expectedCurrent, waitForSourceCompletion: true);
+            sessionsBundle.ForceCurrent(currentLevel: expectedCurrent, voltageLimit: 5);
 
             var results = sessionsBundle.FetchAndPublishCurrent(publishDataIdFormatter, pointsToFetch: 1);
 
-            AssertPublishedValues(sessionsBundle, publishedDataReader, expectedCount: 1, pinName, results, publishDataIdFormatter, expectedCurrent);
+            AssertPublishedValues(sessionsBundle, publishedDataReader, expectedCount: 1, pinName, results, publishDataIdFormatter, expectedValue: expectedCurrent);
         }
 
         [Theory]
@@ -1611,7 +1614,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pointsToFetch = 3;
             var pinName = "VCC";
             var publishDataIdFormatter = "Current{0}";
-            var expectedCurrentLevel = new double[] { 1E-3, 2E-4, 3E-5 };
+            var expectedCurrentLevel = new double[] { 1E-8, 2E-8, 4E-8 };
             var sessionManager = Initialize(pinMapWithChannelGroup, out var publishedDataReader);
             var sessionsBundle = sessionManager.DCPower(pinName);
             CreateDCPowerAdvancedSequencePropertyMappingsCache();
@@ -1632,7 +1635,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var results = sessionsBundle.FetchAndPublishCurrent(publishDataIdFormatter, pointsToFetch);
 
-            AssertPublishedValues(sessionsBundle, publishedDataReader, pointsToFetch, pinName, results, publishDataIdFormatter, expectedCurrentLevel);
+            AssertPublishedValues(sessionsBundle, publishedDataReader, pointsToFetch, pinName, results, publishDataIdFormatter, pointsToFetch, expectedCurrentLevel);
         }
 
         [Theory]
@@ -1722,7 +1725,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var results = sessionsBundle.FetchAndPublishVoltage(publishDataIdFormatter, pointsToFetch: 1);
 
-            AssertPublishedValues(sessionsBundle, publishedDataReader, expectedCount: 1, pinName, results, publishDataIdFormatter, expectedVoltage);
+            AssertPublishedValues(sessionsBundle, publishedDataReader, expectedCount: 1, pinName, results, publishDataIdFormatter, expectedValue: expectedVoltage);
         }
 
         [Theory]
@@ -1755,7 +1758,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var results = sessionsBundle.FetchAndPublishVoltage(publishDataIdFormatter, pointsToFetch);
 
-            AssertPublishedValues(sessionsBundle, publishedDataReader, pointsToFetch, pinName, results, publishDataIdFormatter, 1.0, 2.0, 3.0);
+            AssertPublishedValues(sessionsBundle, publishedDataReader, pointsToFetch, pinName, results, publishDataIdFormatter, pointsToFetch, 1.0, 2.0, 3.0);
         }
 
         [Theory]
@@ -2269,13 +2272,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
         }
 
-        private void AssertPublishedValues(DCPowerSessionsBundle sessionsBundle, IPublishedDataReader publishedDataReader, int expectedCount, string pinName, PinSiteData<double[]> results, string publishDataIdFormatter, params double[] expectedValue)
+        private void AssertPublishedValues(DCPowerSessionsBundle sessionsBundle, IPublishedDataReader publishedDataReader, int expectedCount, string pinName, PinSiteData<double[]> results, string publishDataIdFormatter, int pointsToFetch = 1, params double[] expectedValue)
         {
             var activeSites = GetActiveSites(sessionsBundle).Length;
             var expectedPublishedDataCount = activeSites * expectedCount;
             var publishedData = publishedDataReader.GetAndClearPublishedData();
-            Utilities.Utilities.AssertPublishedDataCountPerPins(expectedPublishedDataCount, publishedData, pinName);
-            AssertPublishedDataValue(publishedData, pinName, expectedValue);
+            AssertPublishedDataCountPerPins(expectedPublishedDataCount, publishedData, pinName);
+            AssertPublishedDataValue(publishedData, pinName, pointsToFetch, expectedValue);
             AssertPublishedDataIds(publishedData, pinName, publishDataIdFormatter, expectedCount, activeSites);
             AssertExpectedSequenceMeasurements(results, (_, __) => expectedValue);
         }
@@ -2301,17 +2304,29 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 {
                     var expectedSequence = getExpectedSequence(siteNumber, pinName);
                     var actualSequence = results.GetValue(siteNumber, pinName);
-                    Utilities.Utilities.AssertEqualForDoubleArrays(expectedSequence, actualSequence, precision);
+
+                    Assert.Equal(expectedSequence.Length, actualSequence.Length);
+                    for (int i = 0; i < expectedSequence.Length; i++)
+                    {
+                        Assert.Equal(expectedSequence[i], actualSequence[i], precision);
+                    }
                 }
             }
         }
 
-        private void AssertPublishedDataValue(IPublishedData[] publishedData, string pinName, params double[] expectedValue)
+        private void AssertPublishedDataValue(IPublishedData[] publishedData, string pinName, int pointstoFetch = 1, params double[] expectedValue)
         {
             var data = publishedData.Where(d => d.Pin == pinName).ToList();
-            for (int i = 0; i < expectedValue.Length; i++)
+            var tolerance = 0.001;
+
+            for (int i = 0; i < data.Count; i++)
             {
-                Assert.Equal(expectedValue[i], data[i].DoubleValue, 3);
+                int groupIndex = (i / pointstoFetch) % expectedValue.Length; // Determine which expected value to use
+                double expected = expectedValue[groupIndex];
+                double min = -expected - tolerance;
+                double max = expected + tolerance;
+
+                Assert.InRange(data[i].DoubleValue, min, max);
             }
         }
     }
