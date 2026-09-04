@@ -2304,6 +2304,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 {
                     var expectedSequence = getExpectedSequence(siteNumber, pinName);
                     var actualSequence = results.GetValue(siteNumber, pinName);
+
+                    Assert.Equal(expectedSequence.Length, actualSequence.Length);
+                    for (int i = 0; i < expectedSequence.Length; i++)
+                    {
+                        Assert.Equal(expectedSequence[i], actualSequence[i], precision);
+                    }
                 }
             }
         }
