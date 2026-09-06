@@ -1,3 +1,4 @@
+using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
@@ -12,7 +13,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
     public static class MeasurePulseWidthTMU
     {
         /// <summary>
-        /// Demonstrates how to measure the high pulse width of a digital signal using the TMU.
+        /// Demonstrates how to measure the high pulse width of a digital signal using the PXIe-657x's TMU.
         /// Pulse width measures the duration of a single pulse — the time from the rising edge to
         /// the subsequent falling edge at Voh (for <see cref="TmuPulseWidth.High"/>), or from the
         /// falling edge to the subsequent rising edge at Vol (for <see cref="TmuPulseWidth.Low"/>).
@@ -25,7 +26,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         ///   <item>Assigns TMU resources to the specified pins.</item>
         ///   <item>Configures the TMU for pulse width measurement.</item>
         ///   <item>Initiates the TMU measurement.</item>
-        ///   <item>Fetches and averages the measurement results.</item>
+        ///   <item>Fetches and averages the measurement results, then publishes them.</item>
         ///   <item>Cleans up by disabling the TMU and clearing assignments.</item>
         /// </list>
         /// </para>
@@ -69,7 +70,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             // The TMU collects multiple samples and returns the average high pulse width in seconds.
             PinSiteData<double> pulseWidthMeasurements = digitalPins.FetchAveragedTMUMeasurement(timeoutInSeconds);
 
-            // Step 6: Clean up TMU resources.
+            // Step 6: Publish the pulse width measurement results.
+            tsmContext.PublishResults(pulseWidthMeasurements, publishedDataId: "PulseWidth");
+
+            // Step 7: Clean up TMU resources.
             // Always disable the TMU and clear assignments when finished to free up resources.
             digitalPins.DisableTMU();
             digitalPins.ClearTMUAssignment();

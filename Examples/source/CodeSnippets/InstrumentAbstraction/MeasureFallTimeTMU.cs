@@ -1,3 +1,4 @@
+using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
@@ -12,7 +13,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
     public static class MeasureFallTimeTMU
     {
         /// <summary>
-        /// Demonstrates how to measure the fall time of a digital signal using the TMU.
+        /// Demonstrates how to measure the fall time of a digital signal using the PXIe-657x's TMU.
         /// Fall time is defined as the time for a signal to transition from the high voltage
         /// threshold (Voh) to the low voltage threshold (Vol).
         /// </summary>
@@ -24,7 +25,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         ///   <item>Assigns TMU resources to the specified pins.</item>
         ///   <item>Configures the TMU for fall time measurement.</item>
         ///   <item>Initiates the TMU measurement.</item>
-        ///   <item>Fetches and averages the measurement results.</item>
+        ///   <item>Fetches and averages the measurement results, then publishes them.</item>
         ///   <item>Cleans up by disabling the TMU and clearing assignments.</item>
         /// </list>
         /// </para>
@@ -66,7 +67,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             // The TMU collects multiple samples and returns the average fall time.
             PinSiteData<double> fallTimeMeasurements = digitalPins.FetchAveragedTMUMeasurement(timeoutInSeconds);
 
-            // Step 6: Clean up TMU resources.
+            // Step 6: Publish the fall time measurement results.
+            tsmContext.PublishResults(fallTimeMeasurements, publishedDataId: "FallTime");
+
+            // Step 7: Clean up TMU resources.
             // Always disable the TMU and clear assignments when finished to free up resources.
             digitalPins.DisableTMU();
             digitalPins.ClearTMUAssignment();

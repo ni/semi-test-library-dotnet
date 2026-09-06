@@ -13,7 +13,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
     public static class MeasureDutyCycleTMU
     {
         /// <summary>
-        /// Demonstrates how to measure the low duty cycle ratio of a digital signal using the TMU.
+        /// Demonstrates how to measure the low duty cycle ratio of a digital signal using the PXIe-657x's TMU.
         /// The TMU measures the time duration the signal spends in the low state and the signal period,
         /// then divides the two to compute the duty cycle as a ratio (0.0 to 1.0).
         /// </summary>
@@ -60,7 +60,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
 
             // Step 3: Configure the TMU to measure the low duration of the duty cycle.
             // - dutyCycleType: Measure the time from the falling edge to the subsequent rising edge at Vol.
-            //   Use TmuDutyCycle.High to instead measure the time from the rising edge to the subsequent falling edge.
+            //   Alternatively, use TmuDutyCycle.High to measure the time from the rising edge to the subsequent falling edge.
             // - samplesToAcquire: Number of duty cycle time measurements to collect.
             // This method also enables (reserves) the TMU resource at the hardware level.
             // Note: The returned measurement is a time duration in seconds, not a ratio or percentage.

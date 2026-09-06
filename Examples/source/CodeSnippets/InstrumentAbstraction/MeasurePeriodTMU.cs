@@ -1,3 +1,4 @@
+using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
@@ -12,7 +13,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
     public static class MeasurePeriodTMU
     {
         /// <summary>
-        /// Demonstrates how to measure the period of a digital signal using the TMU.
+        /// Demonstrates how to measure the period of a digital signal using the PXIe-657x's TMU.
         /// This example configures the TMU to measure period by detecting rising edges,
         /// collects the specified number of samples, and returns the averaged measurement.
         /// </summary>
@@ -24,7 +25,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         ///   <item>Assigns TMU resources to the specified pins.</item>
         ///   <item>Configures the TMU for period measurement with rising edge detection.</item>
         ///   <item>Initiates the TMU measurement.</item>
-        ///   <item>Fetches and averages the measurement results.</item>
+        ///   <item>Fetches and averages the measurement results, then publishes them.</item>
         ///   <item>Cleans up by disabling the TMU and clearing assignments.</item>
         /// </list>
         /// </para>
@@ -67,7 +68,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             // The TMU collects multiple samples and returns the average period.
             PinSiteData<double> periodMeasurements = digitalPins.FetchAveragedTMUMeasurement(timeoutInSeconds);
 
-            // Step 6: Clean up TMU resources.
+            // Step 6: Publish the period measurement results.
+            tsmContext.PublishResults(periodMeasurements, publishedDataId: "Period");
+
+            // Step 7: Clean up TMU resources.
             // Always disable the TMU and clear assignments when finished to free up resources.
             digitalPins.DisableTMU();
             digitalPins.ClearTMUAssignment();

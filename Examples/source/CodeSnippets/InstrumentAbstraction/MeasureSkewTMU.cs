@@ -1,3 +1,4 @@
+using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
@@ -12,7 +13,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
     public static class MeasureSkewTMU
     {
         /// <summary>
-        /// Demonstrates how to measure the skew between a reference pin and a target pin using the TMU.
+        /// Demonstrates how to measure the skew between a reference pin and a target pin using the PXIe-657x's TMU.
         /// Skew is defined as the time difference between the same edge type occurring on the reference
         /// channel and the target channel. A positive result means the target edge occurs after the
         /// reference edge; a negative result means it occurs before.
@@ -25,7 +26,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         ///   <item>Assigns TMU resources to the reference pin(s), since only the reference pin's TMU resource is used to perform the skew measurement.</item>
         ///   <item>Configures the TMU for skew measurement using the reference and target pins.</item>
         ///   <item>Initiates the TMU measurement on the reference pin.</item>
-        ///   <item>Fetches and averages the skew measurement results.</item>
+        ///   <item>Fetches and averages the skew measurement results, then publishes them.</item>
         ///   <item>Cleans up by disabling the TMU and clearing assignments.</item>
         /// </list>
         /// </para>
@@ -83,7 +84,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
                 timeoutInSeconds: timeoutInSeconds,
                 pinNames: referencePinNames);
 
-            // Step 6: Clean up TMU resources.
+            // Step 6: Publish the skew measurement results.
+            tsmContext.PublishResults(skewMeasurements, publishedDataId: "Skew");
+
+            // Step 7: Clean up TMU resources.
             // Always disable the TMU and clear assignments when finished to free up resources.
             digitalPins.DisableTMU(pinNames: referencePinNames);
             digitalPins.ClearTMUAssignment(pinNames: referencePinNames);
