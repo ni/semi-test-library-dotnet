@@ -70,7 +70,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="levelType">The type of level to configure.</param>
         /// <param name="levelValue">The value of level to configure.</param>
         /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next burst or initiate operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
-        public static void ConfigureSingleLevel(this DigitalSessionsBundle sessionsBundle, LevelType levelType, double levelValue, UpdateMode updateMode = UpdateMode.Deferred)
+        public static void ConfigureSingleLevel(
+            this DigitalSessionsBundle sessionsBundle,
+            LevelType levelType,
+            double levelValue,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do(sessionInfo =>
             {
@@ -86,7 +90,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="levelType">The type of level to configure.</param>
         /// <param name="perSiteLevelValues">The per-site value of level to configure.</param>
         /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next burst or initiate operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
-        public static void ConfigureSingleLevel(this DigitalSessionsBundle sessionsBundle, LevelType levelType, SiteData<double> perSiteLevelValues, UpdateMode updateMode = UpdateMode.Deferred)
+        public static void ConfigureSingleLevel(
+            this DigitalSessionsBundle sessionsBundle,
+            LevelType levelType,
+            SiteData<double> perSiteLevelValues,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -105,7 +113,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="voh">The voh value to configure.</param>
         /// <param name="vterm">The vterm value to configure.</param>
         /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next burst or initiate operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
-        public static void ConfigureVoltageLevels(this DigitalSessionsBundle sessionsBundle, double vil, double vih, double vol, double voh, double vterm, UpdateMode updateMode = UpdateMode.Deferred)
+        public static void ConfigureVoltageLevels(
+            this DigitalSessionsBundle sessionsBundle,
+            double vil,
+            double vih,
+            double vol,
+            double voh,
+            double vterm,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do(sessionInfo =>
             {
@@ -120,7 +135,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="terminationMode">The termination mode to configure.</param>
         /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next burst or initiate operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
-        public static void ConfigureTerminationMode(this DigitalSessionsBundle sessionsBundle, TerminationMode terminationMode, UpdateMode updateMode = UpdateMode.Deferred)
+        public static void ConfigureTerminationMode(
+            this DigitalSessionsBundle sessionsBundle,
+            TerminationMode terminationMode,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do(sessionInfo =>
             {
@@ -136,7 +154,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="timeSet">The name of the time set.</param>
         /// <param name="compareEdge">The strobe edge time to configure.</param>
         /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next burst or initiate operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
-        public static void ConfigureTimeSetCompareEdgesStrobe(this DigitalSessionsBundle sessionsBundle, string timeSet, double compareEdge, UpdateMode updateMode = UpdateMode.Deferred)
+        public static void ConfigureTimeSetCompareEdgesStrobe(
+            this DigitalSessionsBundle sessionsBundle,
+            string timeSet,
+            double compareEdge,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do(sessionInfo =>
             {
@@ -152,7 +174,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="timeSet">The name of the time set.</param>
         /// <param name="compareEdges">The per-site strobe edge time to configure.</param>
         /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next burst or initiate operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
-        public static void ConfigureTimeSetCompareEdgesStrobe(this DigitalSessionsBundle sessionsBundle, string timeSet, SiteData<double> compareEdges, UpdateMode updateMode = UpdateMode.Deferred)
+        public static void ConfigureTimeSetCompareEdgesStrobe(
+            this DigitalSessionsBundle sessionsBundle,
+            string timeSet,
+            SiteData<double> compareEdges,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
