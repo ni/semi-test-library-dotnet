@@ -54,11 +54,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             // Step 3: Configure the TMU to perform a fall time measurement.
             // Sets the start source to Voh on falling edge and the stop source to Vol on falling edge.
             // - samplesToAcquire: Number of fall time measurements to collect.
-            // - armSetting: Start measurement immediately without waiting for an arm event.
+            // - armSetting: Use the start edge to arm the measurement.
             // This method also enables (reserves) the TMU resource at the hardware level.
             digitalPins.ConfigureTMUFallTimeMeasurement(
                 samplesToAcquire: numberOfSamples,
-                armSetting: TmuArmSetting.Immediate);
+                armSetting: TmuArmSetting.StartEdge);
 
             // Step 4: Initiate the TMU measurement.
             digitalPins.TMUInitiate();

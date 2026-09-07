@@ -27,7 +27,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         ///   <item>Fetches the averaged low duration result.</item>
         ///   <item>Configures the TMU for period measurement and initiates it.</item>
         ///   <item>Fetches the averaged period result.</item>
-        ///   <item>Divides the high duration by the period to obtain the duty cycle ratio and publishes the result.</item>
+        ///   <item>Divides the low duration by the period to obtain the duty cycle ratio and publishes the result.</item>
         ///   <item>Cleans up by disabling the TMU and clearing assignments.</item>
         /// </list>
         /// </para>
@@ -62,11 +62,13 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             // - dutyCycleType: Measure the time from the falling edge to the subsequent rising edge at Vol.
             //   Alternatively, use TmuDutyCycle.High to measure the time from the rising edge to the subsequent falling edge.
             // - samplesToAcquire: Number of duty cycle time measurements to collect.
+            // - armSetting: Use the start edge to arm the measurement.
             // This method also enables (reserves) the TMU resource at the hardware level.
             // Note: The returned measurement is a time duration in seconds, not a ratio or percentage.
             digitalPins.ConfigureTMUDutyCycleMeasurement(
                 dutyCycleType: TmuDutyCycle.Low,
-                samplesToAcquire: numberOfSamples);
+                samplesToAcquire: numberOfSamples,
+                armSetting: TmuArmSetting.StartEdge);
 
             // Step 4: Initiate the duty cycle time measurement.
             digitalPins.TMUInitiate();
@@ -77,7 +79,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             // Step 6: Reconfigure the TMU to measure the signal period.
             digitalPins.ConfigurePeriodMeasurement(
                 edgeType: TmuPolarity.RisingEdge,
-                samplesToAcquire: numberOfSamples);
+                samplesToAcquire: numberOfSamples,
+                armSetting: TmuArmSetting.StartEdge);
 
             // Step 7: Initiate the period measurement.
             digitalPins.TMUInitiate();

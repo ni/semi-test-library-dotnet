@@ -15,8 +15,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         /// <summary>
         /// Demonstrates how to measure the high pulse width of a digital signal using the PXIe-657x's TMU.
         /// Pulse width measures the duration of a single pulse — the time from the rising edge to
-        /// the subsequent falling edge at Voh (for <see cref="TmuPulseWidth.High"/>), or from the
-        /// falling edge to the subsequent rising edge at Vol (for <see cref="TmuPulseWidth.Low"/>).
+        /// the subsequent falling edge at Voh (for <see cref="TmuPulseWidth.High"/>).
         /// </summary>
         /// <remarks>
         /// <para>
@@ -54,14 +53,14 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
 
             // Step 3: Configure the TMU to perform a high pulse width measurement.
             // - pulseWidthType: Measure the duration from the rising edge to the subsequent falling edge at Voh.
-            //   Use TmuPulseWidth.Low to instead measure from the falling edge to the subsequent rising edge at Vol.
+            //   Alternatively, use TmuPulseWidth.Low to measure from the falling edge to the subsequent rising edge at Vol.
             // - samplesToAcquire: Number of pulse width measurements to collect.
-            // - armSetting: Start measurement immediately without waiting for an arm event.
+            // - armSetting: Use the start edge to arm the measurement.
             // This method also enables (reserves) the TMU resource at the hardware level.
             digitalPins.ConfigureTMUPulseWidthMeasurement(
                 pulseWidthType: TmuPulseWidth.High,
                 samplesToAcquire: numberOfSamples,
-                armSetting: TmuArmSetting.Immediate);
+                armSetting: TmuArmSetting.StartEdge);
 
             // Step 4: Initiate the TMU measurement.
             digitalPins.TMUInitiate();

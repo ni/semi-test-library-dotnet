@@ -57,8 +57,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
 
             // Step 2: (Mandatory) Assign TMU resources to the reference pin(s).
             // Assigning TMU resources to the target pin(s) is not required, since only the
-            // reference pin's TMU resource is used to perform the skew measurement; however,
-            // it is not an error to assign TMU resources to the target pin(s) as well.
+            // reference pin's TMU resource is used to perform the skew measurement.
             // Note that the TMU hardware resource is not reserved until step 3.
             digitalPins.AssignTMUResources(pinNames: referencePinNames);
 
@@ -67,14 +66,14 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             // - targetPinNames: The pin(s) that act as the stop (target) source.
             // - edgeType: Trigger on rising edge transitions on both pins.
             // - samplesToAcquire: Number of skew measurements to collect.
-            // - armSetting: Start measurement immediately without waiting for an arm event.
+            // - armSetting: Use the start edge to arm the measurement.
             // This method also enables (reserves) the TMU resource at the hardware level.
             digitalPins.ConfigureTMUSkewMeasurement(
                 referencePinNames: referencePinNames,
                 targetPinNames: targetPinNames,
                 edgeType: TmuPolarity.RisingEdge,
                 samplesToAcquire: numberOfSamples,
-                armSetting: TmuArmSetting.Immediate);
+                armSetting: TmuArmSetting.StartEdge);
 
             // Step 4: Initiate the TMU measurement on the reference pin(s).
             digitalPins.TMUInitiate(pinNames: referencePinNames);

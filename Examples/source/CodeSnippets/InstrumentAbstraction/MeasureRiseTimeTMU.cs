@@ -54,11 +54,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             // Step 3: Configure the TMU to perform a rise time measurement.
             // Sets the start source to Vol on rising edge and the stop source to Voh on rising edge.
             // - samplesToAcquire: Number of rise time measurements to collect.
-            // - armSetting: Start measurement immediately without waiting for an arm event.
+            // - armSetting: Use the start edge to arm the measurement.
             // This method also enables (reserves) the TMU resource at the hardware level.
             digitalPins.ConfigureTMURiseTimeMeasurement(
                 samplesToAcquire: numberOfSamples,
-                armSetting: TmuArmSetting.Immediate);
+                armSetting: TmuArmSetting.StartEdge);
 
             // Step 4: Initiate the TMU measurement.
             digitalPins.TMUInitiate();
