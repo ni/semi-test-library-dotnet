@@ -66,8 +66,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
             digitalPins.ConfigureTMUDutyCycleMeasurement(
                 dutyCycleType: TmuDutyCycle.High,
                 samplesToAcquire: numberOfSamples);
-            // Step 4: Enable (reserve) the TMU resource at the hardware level.
-            // This step is required when using ConfigureTMUDutyCycleMeasurement.
 
             // Step 5: Initiate the TMU measurement.
             digitalPins.TMUInitiate();
@@ -75,6 +73,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
             // Step 6: Fetch the averaged measurement results.
             // The TMU collects multiple samples and returns the average high duration in seconds.
             PinSiteData<double> dutyCycleTimeMeasurements = digitalPins.FetchAveragedTMUMeasurement(timeoutInSeconds);
+
             digitalPins.ConfigurePeriodMeasurement(
                 edgeType: TmuPolarity.RisingEdge,
                 samplesToAcquire: numberOfSamples);

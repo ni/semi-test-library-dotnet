@@ -58,8 +58,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
             // - armType: Start measurement immediately without waiting for an arm event.
             digitalPins.ConfigurePeriodMeasurement(
                 edgeType: TmuPolarity.RisingEdge,
-                samplesToAcquire: numberOfSamples,
-                armType: TmuArmType.Immediate);
+                samplesToAcquire: numberOfSamples);
 
             digitalPins.EnableTMU();
             // Step 4: Initiate the TMU measurement.

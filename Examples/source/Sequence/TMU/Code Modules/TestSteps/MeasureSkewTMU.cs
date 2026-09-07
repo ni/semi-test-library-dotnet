@@ -66,13 +66,13 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
             // - targetPinNames: The pin(s) that act as the stop (target) source.
             // - edgeType: Trigger on rising edge transitions on both pins.
             // - samplesToAcquire: Number of skew measurements to collect.
-            // - armType: Start measurement immediately without waiting for an arm event.
             // This method also enables (reserves) the TMU resource at the hardware level.
             digitalPins.ConfigureTMUSkewMeasurement(
                 referencePinNames: referencePinNames,
                 targetPinNames: targetPinNames,
                 edgeType: TmuPolarity.RisingEdge,
                 samplesToAcquire: numberOfSamples);
+
             // Step 4: Initiate the TMU measurement on the reference pin(s).
             digitalPins.TMUInitiate(pinNames: referencePinNames);
 

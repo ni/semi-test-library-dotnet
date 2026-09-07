@@ -2,7 +2,6 @@
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
-using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using System.Linq;
 
@@ -64,11 +63,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
             // Step 3: Configure the TMU to perform a rise time measurement.
             // Sets the start source to Vol on rising edge and the stop source to Voh on rising edge.
             // - samplesToAcquire: Number of rise time measurements to collect.
-            // - armType: Start measurement immediately without waiting for an arm event.
             // Note: This method does NOT enable (reserve) the TMU resource at the hardware level.
             digitalPins.ConfigureTMURiseTimeMeasurement(
-                samplesToAcquire: numberOfSamples,
-                armType: TmuArmType.Immediate);
+                samplesToAcquire: numberOfSamples);
 
             // Step 4: Enable (reserve) the TMU resource at the hardware level.
             // This step is required when using ConfigureTMURiseTimeMeasurement.

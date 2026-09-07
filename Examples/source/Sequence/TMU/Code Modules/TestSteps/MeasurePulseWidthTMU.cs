@@ -65,12 +65,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
             // - pulseWidthType: Measure the duration from the rising edge to the subsequent falling edge at Voh.
             //   Use TmuPulseWidth.Low to instead measure from the falling edge to the subsequent rising edge at Vol.
             // - samplesToAcquire: Number of pulse width measurements to collect.
-            // - armType: Start measurement immediately without waiting for an arm event.
             // Note: This method does NOT enable (reserve) the TMU resource at the hardware level.
             digitalPins.ConfigureTMUPulseWidthMeasurement(
                 pulseWidthType: TmuPulseWidth.High,
-                samplesToAcquire: numberOfSamples,
-                armType: TmuArmType.Immediate);
+                samplesToAcquire: numberOfSamples);
 
             // Step 4: Enable (reserve) the TMU resource at the hardware level.
             // This step is required when using ConfigureTMUPulseWidthMeasurement.
