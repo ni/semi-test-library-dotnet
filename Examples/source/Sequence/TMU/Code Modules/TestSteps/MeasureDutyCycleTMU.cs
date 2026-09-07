@@ -18,7 +18,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
         /// The duty cycle measurement returns the time duration the signal spends in the high state
         /// (for <see cref="TmuDutyCycle.High"/>) or the low state (for <see cref="TmuDutyCycle.Low"/>).
         /// To convert the result to a percentage, divide the returned duration by the signal period.
-        /// This measurement requires 1 comparator per pin.
         /// </summary>
         /// <remarks>
         /// <para>
