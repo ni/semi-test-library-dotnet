@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TimingFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" schemaVersion="1.0" xmlns="http://www.ni.com/Semiconductor/Timing">
+  <TimingSheet>
+    <TimeSets>
+      <TimeSet name="Idle">
+        <Period>t.SCLK</Period>
+        <PinEdges>
+          <PinEdge pin="DigitalPins">
+            <DriveNonReturn>
+              <On>0</On>
+              <Data>0</Data>
+              <Off>t.SCLK</Off>
+            </DriveNonReturn>
+            <CompareStrobe>
+              <Strobe>0</Strobe>
+            </CompareStrobe>
+            <DataSource>Pattern</DataSource>
+            <Comment>Timing while the bus is idle</Comment>
+          </PinEdge>
+        </PinEdges>
+      </TimeSet>
+      <TimeSet name="Start">
+        <Period>t.SCLK</Period>
+        <PinEdges>
+          <PinEdge pin="CSB">
+            <DriveNonReturn>
+              <On>0</On>
+              <Data>0</Data>
+              <Off>t.SCLK</Off>
+            </DriveNonReturn>
+            <CompareStrobe>
+              <Strobe>0</Strobe>
+            </CompareStrobe>
+            <DataSource>Pattern</DataSource>
+            <Comment>Chip select line START condition timing</Comment>
+          </PinEdge>
+          <PinEdge pin="SCLK">
+            <ReturnToLow>
+              <On>0</On>
+              <Data>0</Data>
+              <Return>t.setup_cs</Return>
+              <Off>t.SCLK</Off>
+            </ReturnToLow>
+            <CompareStrobe>
+              <Strobe>0</Strobe>
+            </CompareStrobe>
+            <DataSource>Pattern</DataSource>
+            <Comment>Clock line START condition timing</Comment>
+          </PinEdge>
+          <PinEdge pin="SDI">
+            <DriveNonReturn>
+              <On>0</On>
+              <Data>0</Data>
+              <Off>t.SCLK</Off>
+            </DriveNonReturn>
+            <CompareStrobe>
+              <Strobe>0</Strobe>
+            </CompareStrobe>
+            <DataSource>Pattern</DataSource>
+            <Comment>SDI line START condition timing</Comment>
+          </PinEdge>
+          <PinEdge pin="SDO">
+            <DriveNonReturn>
+              <On>0</On>
+              <Data>0</Data>
+              <Off>t.SCLK</Off>
+            </DriveNonReturn>
+            <CompareStrobe>
+              <Strobe>0</Strobe>
+            </CompareStrobe>
+            <DataSource>Pattern</DataSource>
+            <Comment>SDO line START condition timing</Comment>
+          </PinEdge>
+        </PinEdges>
+      </TimeSet>
+      <TimeSet name="Busy">
+        <Period>t.SCLK</Period>
+        <PinEdges>
+          <PinEdge pin="CSB">
+            <DriveNonReturn>
+              <On>0</On>
+              <Data>0</Data>
+              <Off>t.SCLK</Off>
+            </DriveNonReturn>
+            <CompareStrobe>
+              <Strobe>0</Strobe>
+            </CompareStrobe>
+            <DataSource>Pattern</DataSource>
+            <Comment>Chip select line timing while transferring data</Comment>
+          </PinEdge>
+          <PinEdge pin="SCLK">
+            <ReturnToLow>
+              <On>0</On>
+              <Data>t.LOW</Data>
+              <Return>t.LOW + t.HIGH</Return>
+              <Off>t.SCLK</Off>
+            </ReturnToLow>
+            <CompareStrobe>
+              <Strobe>0</Strobe>
+            </CompareStrobe>
+            <DataSource>Pattern</DataSource>
+            <Comment>Clock line timing while transferring data</Comment>
+          </PinEdge>
+          <PinEdge pin="SDI">
+            <DriveNonReturn>
+              <On>0</On>
+              <Data>t.LOW - t.setup_mosi</Data>
+              <Off>t.SCLK</Off>
+            </DriveNonReturn>
+            <CompareStrobe>
+              <Strobe>0</Strobe>
+            </CompareStrobe>
+            <DataSource>Pattern</DataSource>
+            <Comment>SDI (host-to-DUT) line timing while transferring data</Comment>
+          </PinEdge>
+          <PinEdge pin="SDO">
+            <DriveNonReturn>
+              <On>0</On>
+              <Data>t.LOW - t.delay_miso</Data>
+              <Off>t.SCLK</Off>
+            </DriveNonReturn>
+            <CompareStrobe>
+              <Strobe>(t.LOW - t.delay_miso) + t.HIGH/2</Strobe>
+            </CompareStrobe>
+            <DataSource>Pattern</DataSource>
+            <Comment>SDO (DUT-to-host) line timing while transferring data</Comment>
+          </PinEdge>
+        </PinEdges>
+      </TimeSet>
+      <TimeSet name="Stop">
+        <Period>t.SCLK</Period>
+        <PinEdges>
+          <PinEdge pin="CSB">
+            <DriveNonReturn>
+              <On>0</On>
+              <Data>0</Data>
+              <Off>t.SCLK</Off>
+            </DriveNonReturn>
+            <CompareStrobe>
+              <Strobe>0</Strobe>
+            </CompareStrobe>
+            <DataSource>Pattern</DataSource>
+            <Comment>Chip select line STOP condition timing</Comment>
+          </PinEdge>
+          <PinEdge pin="SCLK">
+            <DriveNonReturn>
+              <On>0</On>
+              <Data>t.LOW</Data>
+              <Off>t.SCLK</Off>
+            </DriveNonReturn>
+            <CompareStrobe>
+              <Strobe>0</Strobe>
+            </CompareStrobe>
+            <DataSource>Pattern</DataSource>
+            <Comment>Clock line STOP condition timing</Comment>
+          </PinEdge>
+          <PinEdge pin="SDI">
+            <DriveNonReturn>
+              <On>0</On>
+              <Data>0</Data>
+              <Off>t.SCLK</Off>
+            </DriveNonReturn>
+            <CompareStrobe>
+              <Strobe>0</Strobe>
+            </CompareStrobe>
+            <DataSource>Pattern</DataSource>
+            <Comment>SDI line STOP condition timing</Comment>
+          </PinEdge>
+          <PinEdge pin="SDO">
+            <DriveNonReturn>
+              <On>0</On>
+              <Data>0</Data>
+              <Off>t.SCLK</Off>
+            </DriveNonReturn>
+            <CompareStrobe>
+              <Strobe>0</Strobe>
+            </CompareStrobe>
+            <DataSource>Pattern</DataSource>
+            <Comment>SDO line STOP condition timing</Comment>
+          </PinEdge>
+        </PinEdges>
+      </TimeSet>
+      <TimeSet name="SourceStartSetup">
+        <Period>3 µs</Period>
+        <PinEdges>
+          <PinEdge pin="DigitalPins">
+            <DriveNonReturn>
+              <On>0</On>
+              <Data>0</Data>
+              <Off>0</Off>
+            </DriveNonReturn>
+            <CompareStrobe>
+              <Strobe>0</Strobe>
+            </CompareStrobe>
+            <DataSource>Pattern</DataSource>
+            <Comment>A setup delay required by the source_start opcode</Comment>
+          </PinEdge>
+        </PinEdges>
+      </TimeSet>
+    </TimeSets>
+  </TimingSheet>
+</TimingFile>
