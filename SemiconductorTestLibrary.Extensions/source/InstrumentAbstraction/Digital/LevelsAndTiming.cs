@@ -210,7 +210,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="timeSet">The name of the time set.</param>
         /// <param name="period">The period to configure.</param>
         /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next burst or initiate operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
-        public static void ConfigureTimeSetPeriod(this DigitalSessionsBundle sessionsBundle, string timeSet, double period, UpdateMode updateMode = UpdateMode.Deferred)
+        public static void ConfigureTimeSetPeriod(
+            this DigitalSessionsBundle sessionsBundle,
+            string timeSet,
+            double period,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do(sessionInfo =>
             {
@@ -316,7 +320,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="edge">The edge of the time set to configure.</param>
         /// <param name="time">The time of the edge to configure.</param>
         /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next burst or initiate operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
-        public static void ConfigureTimeSetEdge(this DigitalSessionsBundle sessionsBundle, string timeSet, TimeSetEdge edge, double time, UpdateMode updateMode = UpdateMode.Deferred)
+        public static void ConfigureTimeSetEdge(
+            this DigitalSessionsBundle sessionsBundle,
+            string timeSet,
+            TimeSetEdge edge,
+            double time,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do(sessionInfo =>
             {
@@ -333,7 +342,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="edge">The edge of the time set to configure.</param>
         /// <param name="time">The time of the edge to configure for different sites.</param>
         /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next burst or initiate operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
-        public static void ConfigureTimeSetEdge(this DigitalSessionsBundle sessionsBundle, string timeSet, TimeSetEdge edge, SiteData<double> time, UpdateMode updateMode = UpdateMode.Deferred)
+        public static void ConfigureTimeSetEdge(
+            this DigitalSessionsBundle sessionsBundle,
+            string timeSet,
+            TimeSetEdge edge,
+            SiteData<double> time,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
@@ -350,7 +364,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="edge">The edge of the time set to configure.</param>
         /// <param name="time">The time of the edge to configure for different site-pin pairs.</param>
         /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next burst or initiate operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
-        public static void ConfigureTimeSetEdge(this DigitalSessionsBundle sessionsBundle, string timeSet, TimeSetEdge edge, PinSiteData<double> time, UpdateMode updateMode = UpdateMode.Deferred)
+        public static void ConfigureTimeSetEdge(
+            this DigitalSessionsBundle sessionsBundle,
+            string timeSet,
+            TimeSetEdge edge,
+            PinSiteData<double> time,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
