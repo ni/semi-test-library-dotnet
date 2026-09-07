@@ -334,7 +334,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
         [InlineData(UpdateMode.Deferred)]
-        public void SessionsInitialized_ConfigureTimeSetDriverEdges_UpdateModeSetCorrectly(UpdateMode updateMode)
+        public void SessionsInitialized_ConfigureTimeSetDriverEdgesWithUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
@@ -374,7 +374,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
         [InlineData(UpdateMode.Deferred)]
-        public void SessionsInitialized_ConfigureTimeSetDriverEdgesWithTwoDriveData_UpdateModeCorrectlySet(UpdateMode updateMode)
+        public void SessionsInitialized_ConfigureTimeSetDriverEdgesWithTwoDriveDataAndUpdateMode_UpdateModeCorrectlySet(UpdateMode updateMode)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
@@ -1381,7 +1381,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void SessionsInitialized_ConfigureTimeSetPeriodWithoutSpecifyingPins_UpdateModeSetCorrectly(UpdateMode updateMode)
+        public void SessionsInitialized_ConfigureTimeSetPeriodWithoutSpecifyingPinsAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("Mixed Signal Tests.pinmap", "Mixed Signal Tests.digiproj");
 
@@ -1533,7 +1533,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void SessionsInitialized_ConfigureEdgeWithSingleValue_UpdateModeSetCorrectly(UpdateMode updateMode)
+        public void SessionsInitialized_ConfigureEdgeWithSingleValueAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
@@ -1568,7 +1568,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void SessionsInitialized_ConfigureEdgeWithSiteSpecificValues_UpdateModeCorrectlySet(UpdateMode updateMode)
+        public void SessionsInitialized_ConfigureEdgeWithSiteSpecificValuesAndUpdateMode_UpdateModeCorrectlySet(UpdateMode updateMode)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
@@ -1608,7 +1608,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(UpdateMode.Deferred)]
         [InlineData(UpdateMode.Commit)]
         [InlineData(UpdateMode.Immediate)]
-        public void SessionsInitialized_ConfigureEdgeWithChannelSpecificValues_UpdateModeSetCorrectly(UpdateMode updateMode)
+        public void SessionsInitialized_ConfigureEdgeWithChannelSpecificValuesAndUpdateMode_UpdateModeSetCorrectly(UpdateMode updateMode)
         {
             var sessionManager = InitializeSessionsAndCreateSessionManager("TwoDevicesWorkForTwoSitesSeparately.pinmap", "TwoDevicesWorkForTwoSitesSeparately.digiproj");
             var sessionsBundle = sessionManager.Digital(new string[] { "C0", "C1" });
