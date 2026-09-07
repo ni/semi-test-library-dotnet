@@ -90,7 +90,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="levelType">The type of level to configure.</param>
         /// <param name="perSiteLevelValues">The per-site value of level to configure.</param>
         /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next burst or initiate operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
-        public static void ConfigureSingleLevel(this DigitalSessionsBundle sessionsBundle, LevelType levelType, SiteData<double> perSiteLevelValues, UpdateMode updateMode = UpdateMode.Deferred)
+        public static void ConfigureSingleLevel(
+            this DigitalSessionsBundle sessionsBundle,
+            LevelType levelType,
+            SiteData<double> perSiteLevelValues,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
