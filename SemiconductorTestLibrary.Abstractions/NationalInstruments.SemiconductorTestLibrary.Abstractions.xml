@@ -1067,6 +1067,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractPin(System.String)">
             <summary>
             Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> for a given pin.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty.
             </summary>
             <param name="pinName">The specified pin name.</param>
             <returns>The <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> for the specified pin.</returns>
@@ -1075,6 +1076,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractPins(System.String[])">
             <summary>
             Gets a new <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> object for the specified pins.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with the specified pin names is empty.
             </summary>
             <param name="pinNames">The specified pin names.</param>
             <returns>A new PinSiteData object that contains data for given pins.</returns>
@@ -1083,6 +1085,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractSite(System.Int32)">
             <summary>
             Gets the data for a given site number.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="siteNumber">The specified site number.</param>
             <returns>The data for the specified site number.</returns>
@@ -1091,6 +1094,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ExtractSites(System.Int32[])">
             <summary>
             Gets a new <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> object for the specified sites.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="siteNumbers">The specified site numbers.</param>
             <returns>A new PinSiteData object that contains data for given sites.</returns>
@@ -1099,6 +1103,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.GetValue(System.Int32,System.String)">
             <summary>
             Gets the data for a given site number-pin name pair.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if the SiteData object associated with the specified pin is empty.
             </summary>
             <param name="siteNumber">The specified site number.</param>
             <param name="pinName">The specified pin name.</param>
@@ -1107,6 +1112,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.GetValue(NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,System.Boolean@)">
             <summary>
             Gets the data for the site number and pin name pair associated with the given <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if the SiteData object associated with the specified <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> object is empty.
             </summary>
             <param name="sitePinInfo">The associated SitePinInfo object.</param>
             <returns>The data for the site number and the pin name of the SitePinInfo object that is provided.</returns>
@@ -1115,6 +1121,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.GetValue(NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo)">
             <summary>
             Gets the data for the site number and pin name pair associated with the given <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if the SiteData object associated with the specified <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> object is empty.
             </summary>
             <param name="sitePinInfo">The associated SitePinInfo object.</param>
             <returns>The data for the site number and the pin name of the SitePinInfo object that is provided.</returns>
@@ -1122,6 +1129,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.TryGetValue(System.Int32,System.String,`0@)">
             <summary>
             Tries to get the data for a given site number-pin name pair.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object corresponding to the pin is empty.
             </summary>
             <param name="siteNumber">The specified site number.</param>
             <param name="pinName">The specified pin name.</param>
@@ -1140,6 +1148,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Max">
             <summary>
             Gets the maximum value across pins for each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <returns>The maximum value across pins for each site.</returns>
             <remarks>
@@ -1151,6 +1160,7 @@
             <summary>
             Gets the maximum value across pins for each site, and returns both the maximum value
             and which pin(s) the maximum value was found for each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <returns>The maximum value and which pin(s) that value was found for each site.</returns>
             <remarks>Note that the maximum value may be repeated across multiple pins.</remarks>
@@ -1159,6 +1169,7 @@
             <summary>
             Gets the maximum value across sites for each pin, and returns both the maximum value
             and which site(s) the maximum value was found for each pin.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <returns>The maximum value and which site(s) that value was found for each pin.</returns>
             <remarks>Note that the maximum value may be repeated across multiple sites.</remarks>
@@ -1166,6 +1177,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Min">
             <summary>
             Gets the minimum value across pins for each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <returns>The minimum value across pins for each site.</returns>
             <remarks>
@@ -1177,6 +1189,7 @@
             <summary>
             Gets the minimum value across pins for each site, and returns both the minimum value
             and which pin(s) the minimum value was found for each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <returns>The minimum value and which pin(s) that value was found for each site.</returns>
             <remarks>Note that the minimum value may be repeated across multiple pins.</remarks>
@@ -1185,6 +1198,7 @@
             <summary>
             Gets the minimum value across sites for each pin, and returns both the minimum value
             and which site(s) the minimum value was found for each pin.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <returns>The minimum value and which site(s) that value was found for each pin.</returns>
             <remarks>Note that the minimum value may be repeated across multiple sites.</remarks>
@@ -1192,6 +1206,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Mean">
             <summary>
             Calculates the mean value across pins for each site, and returns the mean value for each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <returns>The mean value for each site.</returns>
             <remarks>Alternatively, you can use the MeanBySite method to calculate the mean value across sites for each pin.</remarks>
@@ -1199,12 +1214,14 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.MeanBySite">
             <summary>
             Calculates the mean value across sites for each pin, and returns the site-to-site mean value for each pin.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <returns>The mean value for each pin.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Select``1(System.Func{`0,``0})">
             <summary>
             Selects each element of the PinSiteData object to perform an operation on that element.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <typeparam name="TResult">The output type of the result from the operation.</typeparam>
             <param name="operation">The operation to be performed on each element.</param>
@@ -1213,12 +1230,14 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Abs">
             <summary>
             Performs Math.Abs operation on every element in current PinSiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <returns>A new PinSiteData object that contains absolute value for each element in current PinSiteData.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Addition(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},`0)">
             <summary>
             Performs add operation between a PinSiteData object and a given value, for each element across each pin and each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="value1">The PinSiteData object.</param>
             <param name="value2">The scalar value to be added.</param>
@@ -1227,6 +1246,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Add``1(``0)">
             <summary>
             Performs add operation between every element in current PinSiteData object and the given value.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="value">The scalar value to be added.</param>
             <returns>A new PinSiteData object that contains the result of the addition.</returns>
@@ -1238,6 +1258,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Addition(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Performs add operation between a PinSiteData object and a SiteData object, for each element across each pin and each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either of the PinSiteData objects is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="value1">The PinSiteData object.</param>
             <param name="value2">The SiteData object to be added.</param>
@@ -1246,6 +1267,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Add``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Performs add operation between every element in current PinSiteData object and the given SiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty, <paramref name="other"/> is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> to be added.</param>
             <returns>A new PinSiteData object that contains the result of the addition.</returns>
@@ -1257,6 +1279,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Addition(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
             <summary>
             Performs add operation between two PinSiteData objects, for each element across each pin and each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either of the PinSiteData objects is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="value1">The first PinSiteData object.</param>
             <param name="value2">The second PinSiteData object.</param>
@@ -1265,6 +1288,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Add``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})">
             <summary>
             Performs add operation between every element in current PinSiteData object and the given PinSiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either of the PinSiteData objects is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> to be added.</param>
             <returns>A new PinSiteData object that contains the result of the addition.</returns>
@@ -1276,6 +1300,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,`0)">
             <summary>
             Performs compare operation between every element in current PinSiteData object and the given value.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with the specified pin names is empty.
             </summary>
             <param name="comparisonType">The comparison type to use.</param>
             <param name="value">The scalar value to compare to.</param>
@@ -1288,6 +1313,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare``2(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,``0)">
             <summary>
             Performs compare operation between every element in current PinSiteData object and the given value.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with the specified pin names is empty.
             </summary>
             <typeparam name="TResult">
             The output type of the result from the operation.
@@ -1304,6 +1330,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Performs compare operation between every element in current PinSiteData object and the given SiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty, <paramref name="other"/> is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="comparisonType">The comparison type to use.</param>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> to compare to.</param>
@@ -1316,6 +1343,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare``2(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Performs compare operation between every element in current PinSiteData object and the given SiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty, <paramref name="other"/> is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <typeparam name="TResult">
             The output type of the result from the operation.
@@ -1332,6 +1360,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
             <summary>
             Performs compare operation between every element in current PinSiteData object and the given PinSiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either of the PinSiteData objects is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="comparisonType">The comparison type to use.</param>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> to compare to.</param>
@@ -1344,6 +1373,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Compare``2(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})">
             <summary>
             Performs compare operation between every element in current PinSiteData object and the given PinSiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either of the PinSiteData objects is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <typeparam name="TResult">
             The output type of the result from the operation.
@@ -1360,6 +1390,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Division(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},`0)">
             <summary>
             Performs divide operation between a PinSiteData object and a given value, for each element across each pin and each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with the specified pin names is empty.
             </summary>
             <param name="value1">The PinSiteData object.</param>
             <param name="value2">The divisor value.</param>
@@ -1368,6 +1399,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide(`0)">
             <summary>
             Performs divide operation between every element in current PinSiteData object and the given value.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with the specified pin names is empty.
             </summary>
             <param name="value">The divisor value.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
@@ -1379,6 +1411,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide``2(``0)">
             <summary>
             Performs divide operation between every element in current PinSiteData object and the given value.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with the specified pin names is empty.
             </summary>
             <typeparam name="TResult">
             The output type of the result from the operation.
@@ -1394,6 +1427,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Division(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Performs divide operation between a PinSiteData object and a SiteData object, for each element across each pin and each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty, <paramref name="value2"/> is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="value1">The PinSiteData object.</param>
             <param name="value2">The SiteData object that contains the divisors.</param>
@@ -1402,6 +1436,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Performs divide operation between every element in current PinSiteData object and the given SiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty, <paramref name="other"/> is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the divisors.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
@@ -1413,6 +1448,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide``2(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Performs divide operation between every element in current PinSiteData object and the given SiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty, <paramref name="other"/> is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <typeparam name="TResult">
             The output type of the result from the operation.
@@ -1428,6 +1464,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Division(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
             <summary>
             Performs divide operation between two PinSiteData objects, for each element across each pin and each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either of the PinSiteData objects is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="value1">The first PinSiteData object.</param>
             <param name="value2">The second PinSiteData object that contains the divisors.</param>
@@ -1436,6 +1473,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
             <summary>
             Performs divide operation between every element in current PinSiteData object and the given PinSiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either of the PinSiteData objects is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> that contains the divisors.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
@@ -1447,6 +1485,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Divide``2(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})">
             <summary>
             Performs divide operation between every element in current PinSiteData object and the given PinSiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty, <paramref name="other"/> is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <typeparam name="TResult">
             The output type of the result from the operation.
@@ -1462,12 +1501,14 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Invert">
             <summary>
             Performs invert operation on every element in current PinSiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with the specified pin names is empty.
             </summary>
             <returns>A new PinSiteData object that contains the inverted results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Invert``1">
             <summary>
             Performs invert operation on every element in current PinSiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with the specified pin names is empty.
             </summary>
             <typeparam name="TResult">
             The output type of the result from the operation.
@@ -1478,12 +1519,14 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Log10">
             <summary>
             Performs Math.Log10 operation on every element in current PinSiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with the specified pin names is empty.
             </summary>
             <returns>A new PinSiteData object that contains the log10 results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Log10``1">
             <summary>
             Performs Math.Log10 operation on every element in current PinSiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with the specified pin names is empty.
             </summary>
             <typeparam name="TResult">
             The output type of the result from the operation.
@@ -1494,6 +1537,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum``1(``0)">
             <summary>
             Returns the larger one of the element in current PinSiteData object and the given value.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with the specified pin names is empty.
             </summary>
             <param name="value">The value to compare.</param>
             <returns>A new PinSiteData object that contains the larger values.</returns>
@@ -1505,6 +1549,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Returns the larger one of the element in current PinSiteData object and the given SiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty, <paramref name="other"/> is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the values to compare.</param>
             <returns>A new PinSiteData object that contains the larger values.</returns>
@@ -1516,6 +1561,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Maximum``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})">
             <summary>
             Returns the larger one of the element in current PinSiteData object and the given PinSiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either of the PinSiteData objects is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> that contains the values to compare.</param>
             <returns>A new PinSiteData object that contains the larger values.</returns>
@@ -1527,6 +1573,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Minimum``1(``0)">
             <summary>
             Returns the smaller one of the element in current PinSiteData object and the given value.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with the specified pin names is empty.
             </summary>
             <param name="value">The value to compare.</param>
             <returns>A new PinSiteData object that contains the smaller values.</returns>
@@ -1538,6 +1585,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Minimum``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Returns the smaller one of the element in current PinSiteData object and the given SiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty, <paramref name="other"/> is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the values to compare.</param>
             <returns>A new PinSiteData object that contains the smaller values.</returns>
@@ -1549,6 +1597,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Minimum``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})">
             <summary>
             Returns the smaller one of the element in current PinSiteData object and the given PinSiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either of the PinSiteData objects is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> that contains the values to compare.</param>
             <returns>A new PinSiteData object that contains the smaller values.</returns>
@@ -1560,6 +1609,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},`0)">
             <summary>
             Performs multiply operation between a PinSiteData object and a given value, for each element across each pin and each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="value1">The PinSiteData object.</param>
             <param name="value2">The multiplier.</param>
@@ -1568,6 +1618,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Multiply``1(``0)">
             <summary>
             Performs multiply operation on every element in current PinSiteData object and the given value.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="value">The multiplier.</param>
             <returns>A new PinSiteData object that contains the multiply results.</returns>
@@ -1579,6 +1630,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Performs multiply operation between a PinSiteData object and a SiteData object, for each element across each pin and each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty, <paramref name="value2"/> is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="value1">The PinSiteData object.</param>
             <param name="value2">The SiteData object that contains multipliers.</param>
@@ -1587,6 +1639,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Multiply``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Performs multiply operation on every element in current PinSiteData object and the given SiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty, <paramref name="other"/> is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains multipliers.</param>
             <returns>A new PinSiteData object that contains the multiply results.</returns>
@@ -1598,6 +1651,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
             <summary>
             Performs multiply operation between two PinSiteData objects, for each element across each pin and each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either of the PinSiteData objects is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="value1">The first PinSiteData object.</param>
             <param name="value2">The second PinSiteData object that contains multipliers.</param>
@@ -1606,6 +1660,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Multiply``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})">
             <summary>
             Performs multiply operation on every element in current PinSiteData object and the given PinSiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either of the PinSiteData objects is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> that contains multipliers.</param>
             <returns>A new PinSiteData object that contains the multiply results.</returns>
@@ -1617,12 +1672,14 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Negate">
             <summary>
             Returns the negative value of every element in current PinSiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <returns>A new PinSiteData object that contains the negative values.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Power``1(``0)">
             <summary>
             Raises every element in current PinSiteData object to the power of the given value.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="value">The value to use as the power.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
@@ -1634,6 +1691,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Power``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Raises every element in current PinSiteData object to the power of every element in given SiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty, <paramref name="other"/> is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains power values.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
@@ -1645,6 +1703,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Power``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})">
             <summary>
             Raises every element in current PinSiteData object to the power of every element in given PinSiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either of the PinSiteData objects is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> that contains power values.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
@@ -1656,12 +1715,14 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.SquareRoot">
             <summary>
             Returns the square root of every element in current PinSiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <returns>A new PinSiteData object that contains the square root values.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.SquareRoot``1">
             <summary>
             Returns the square root of every element in current PinSiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <typeparam name="TResult">
             The output type of the result from the operation.
@@ -1672,6 +1733,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Subtraction(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},`0)">
             <summary>
             Subtracts the given value from a PinSiteData object, for each element across each pin and each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="value1">The PinSiteData object.</param>
             <param name="value2">The value to subtract.</param>
@@ -1680,6 +1742,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Subtract``1(``0)">
             <summary>
             Subtracts the given value from every element in current PinSiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="value">The value to subtract.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
@@ -1691,6 +1754,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Subtraction(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Subtracts a SiteData object from a PinSiteData object, for each element across each pin and each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty, <paramref name="value2"/> is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="value1">The PinSiteData object.</param>
             <param name="value2">The SiteData object that contains values to subtract.</param>
@@ -1699,6 +1763,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Subtract``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Subtracts every element in given SiteData object from every element in current PinSiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty, <paramref name="other"/> is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains values to subtract.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
@@ -1710,6 +1775,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_Subtraction(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
             <summary>
             Subtracts one PinSiteData object from another PinSiteData object, for each element across each pin and each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either of the PinSiteData objects is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="value1">The first PinSiteData object.</param>
             <param name="value2">The second PinSiteData object that contains values to subtract.</param>
@@ -1718,6 +1784,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Subtract``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})">
             <summary>
             Subtracts every element in given PinSiteData object from every element in current PinSiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either of the PinSiteData objects is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> that contains values to subtract.</param>
             <returns>A new PinSiteData object that contains the results.</returns>
@@ -1729,12 +1796,14 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.Truncate">
             <summary>
             Returns integer portion of every element in current PinSiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <returns>A new PinSiteData object that contains integer values.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_LeftShift(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},System.Int32)">
             <summary>
             Shifts the value to the left by the specified bit count, for each element, per site. The count must be positive.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="value">The PinSiteData to operate.</param>
             <param name="count">The number of bits to shift.</param>
@@ -1744,6 +1813,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ShiftLeft(System.Int32)">
             <summary>
             Shifts the value to the left by the specified bit count, for each element, per site. The count must be positive.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="count">The number of bits to shift.</param>
             <returns>A new PinSiteData that contains shifted values.</returns>
@@ -1752,6 +1822,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_RightShift(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},System.Int32)">
             <summary>
             Shifts the value to the right by the specified bit count, for each element, per site. The count must be positive.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="value">The PinSiteData to operate.</param>
             <param name="count">The number of bits to shift.</param>
@@ -1761,6 +1832,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.ShiftRight(System.Int32)">
             <summary>
             Shifts the value to the right by the specified bit count, for each element, per site. The count must be positive.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="count">The number of bits to shift.</param>
             <returns>A new PinSiteData that contains shifted values.</returns>
@@ -1769,6 +1841,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_BitwiseAnd(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},`0)">
             <summary>
             Performs a bitwise AND operation with a scalar, for each element across each pin and each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="value1">The PinSiteData object.</param>
             <param name="value2">The scalar value.</param>
@@ -1778,6 +1851,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.BitwiseAnd``1(``0)">
             <summary>
             Performs a bitwise AND operation with a scalar, for each element across each pin and each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="value">The scalar value.</param>
             <returns>A new PinSiteData object that contains result values.</returns>
@@ -1790,6 +1864,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_BitwiseAnd(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Performs a bitwise AND operation with a SiteData object, for each element across each pin and each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty, <paramref name="value2"/> is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="value1">The PinSiteData object.</param>
             <param name="value2">The SiteData object.</param>
@@ -1799,6 +1874,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.BitwiseAnd``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Performs a bitwise AND operation with a SiteData object, for each element across each pin and each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty, <paramref name="other"/> is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="other">The SiteData object.</param>
             <returns>A new PinSiteData object that contains result values.</returns>
@@ -1811,6 +1887,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_BitwiseAnd(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
             <summary>
             Performs a bitwise AND operation with another PinSiteData object, for each element across each pin and each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either of the PinSiteData objects is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="value1">The first PinSiteData object.</param>
             <param name="value2">The second PinSiteData object.</param>
@@ -1820,6 +1897,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.BitwiseAnd``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})">
             <summary>
             Performs a bitwise AND operation with another PinSiteData object, for each element across each pin and each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either of the PinSiteData objects is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="other">The other PinSiteData object.</param>
             <returns>A new PinSiteData object that contains result values.</returns>
@@ -1832,6 +1910,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_BitwiseOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},`0)">
             <summary>
             Performs a bitwise OR operation with a scalar, for each element across each pin and each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="value1">The PinSiteData object.</param>
             <param name="value2">The scalar value.</param>
@@ -1841,6 +1920,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.BitwiseOr``1(``0)">
             <summary>
             Performs a bitwise OR operation with a scalar, for each element across each pin and each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="value">The scalar value.</param>
             <returns>A new PinSiteData object that contains the result values.</returns>
@@ -1853,6 +1933,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_BitwiseOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Performs a bitwise OR operation with a SiteData object, for each element across each pin and each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty, <paramref name="value2"/> is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="value1">The PinSiteData object.</param>
             <param name="value2">The SiteData object.</param>
@@ -1862,6 +1943,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.BitwiseOr``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Performs a bitwise OR operation with a SiteData object, for each element across each pin and each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty, <paramref name="other"/> is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="other">The SiteData object.</param>
             <returns>A new PinSiteData object that contains result values.</returns>
@@ -1874,6 +1956,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_BitwiseOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
             <summary>
             Performs a bitwise OR operation with another PinSiteData object, for each element across each pin and each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either of the PinSiteData objects is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="value1">The first PinSiteData object.</param>
             <param name="value2">The second PinSiteData object.</param>
@@ -1883,6 +1966,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.BitwiseOr``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})">
             <summary>
             Performs a bitwise OR operation with another PinSiteData object, for each element across each pin and each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either of the PinSiteData objects is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="other">The other PinSiteData object.</param>
             <returns>A new PinSiteData object that contains the result values.</returns>
@@ -1895,6 +1979,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_ExclusiveOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},`0)">
             <summary>
             Performs a bitwise XOR operation with a scalar, for each element across each pin and each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="value1">The PinSiteData object.</param>
             <param name="value2">The scalar value.</param>
@@ -1904,6 +1989,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.BitwiseXor``1(``0)">
             <summary>
             Performs a bitwise XOR operation with a scalar, for each element across each pin and each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="value">The scalar value.</param>
             <returns>A new PinSiteData object that contains the result values.</returns>
@@ -1916,6 +2002,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_ExclusiveOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Performs a bitwise XOR operation with a SiteData object, for each element across each pin and each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty, <paramref name="value2"/> is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="value1">The PinSiteData object.</param>
             <param name="value2">The SiteData object.</param>
@@ -1925,6 +2012,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.BitwiseXor``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Performs a bitwise XOR operation with a SiteData object, for each element across each pin and each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty, <paramref name="other"/> is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="other">The SiteData object.</param>
             <returns>A new PinSiteData object that contains result values.</returns>
@@ -1937,6 +2025,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_ExclusiveOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
             <summary>
             Performs a bitwise XOR operation with another PinSiteData object, for each element across each pin and each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either of the PinSiteData objects is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="value1">The first PinSiteData object.</param>
             <param name="value2">The second PinSiteData object.</param>
@@ -1946,6 +2035,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.BitwiseXor``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{``0})">
             <summary>
             Performs a bitwise XOR operation with another PinSiteData object, for each element across each pin and each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="other">The other PinSiteData object.</param>
             <returns>A new PinSiteData object that contains the result values.</returns>
@@ -1958,6 +2048,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.op_OnesComplement(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData{`0})">
             <summary>
             Gets the bitwise complement (~) of the original PinSiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <param name="value">The PinSiteData object.</param>
             <returns>A new PinSiteData object that contains the complemented values.</returns>
@@ -1966,6 +2057,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.BitwiseComplement">
             <summary>
             Gets the bitwise complement (~) of the original PinSiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty or if any SiteData object associated with any pin is empty.
             </summary>
             <returns>A new PinSiteData object that contains the complemented values.</returns>
             <remarks>This method is supported only when the underlying data type of the PinSiteData object, T, is an integer type.</remarks>
@@ -2070,6 +2162,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.GetValue(System.Int32)">
             <summary>
             Gets the data for a given site number.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="siteNumber">The site number.</param>
             <returns>Single site data.</returns>
@@ -2086,6 +2179,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.ExtractSites(System.Int32[])">
             <summary>
             Gets a new <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> object with the data for the given sites.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="siteNumbers">The site numbers.</param>
             <returns>A new SiteData object that contains data for the given sites.</returns>
@@ -2103,12 +2197,14 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Max">
             <summary>
             Calculates the maximum value across sites.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <returns>The maximum value across sites.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Max(System.Int32[]@)">
             <summary>
             Gets the maximum value across sites and additionally passes out an array of which site(s) the maximum value was found.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="siteNumbers">The sites for which the maximum value was found.</param>
             <returns>The maximum value across sites.</returns>
@@ -2117,12 +2213,14 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Min">
             <summary>
             Calculates the minimum value across sites.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <returns>The minimum value across sites.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Min(System.Int32[]@)">
             <summary>
             Gets the minimum value across sites and additionally passes out an array of which site(s) the minimum value was found.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="siteNumbers">The sites for which the minimum value was found.</param>
             <returns>The minimum value across sites.</returns>
@@ -2131,12 +2229,14 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Mean">
             <summary>
             Calculates the mean value across sites.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <returns>The mean value across sites.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Select``1(System.Func{`0,``0})">
             <summary>
             Selects each element of the SiteData object to perform an operation on that element.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <typeparam name="TResult">The output type of the result from the operation.</typeparam>
             <param name="operation">The operation to be performed on each element.</param>
@@ -2145,12 +2245,14 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Abs">
             <summary>
             Performs Math.Abs operation on every element in current SiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <returns>A new SiteData object that contains absolute value for each element in current SiteData object.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_Addition(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},`0)">
             <summary>
             Performs add operation between a SiteData object and a given value, for each element across each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="value1">The SiteData object.</param>
             <param name="value2">The scalar value to be added.</param>
@@ -2159,6 +2261,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Add``1(``0)">
             <summary>
             Performs add operation between every element in current SiteData object and the given value.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="value">The scalar value to be added.</param>
             <returns>A new SiteData object that contains the sum of the addition.</returns>
@@ -2170,6 +2273,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_Addition(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Performs add operation between two SiteData objects, for each element across each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="value1">The first SiteData object.</param>
             <param name="value2">The second SiteData object.</param>
@@ -2178,6 +2282,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Add``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Performs add operation between every element in current SiteData object and the given SiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> to be added.</param>
             <returns>A new SiteData object that contains the sum of the addition.</returns>
@@ -2189,6 +2294,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,`0)">
             <summary>
             Performs compare operation between every element in current SiteData object and the given value.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="comparisonType">The comparison type to use.</param>
             <param name="value">The scalar value to compare.</param>
@@ -2201,6 +2307,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Compare``2(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,``0)">
             <summary>
             Performs compare operation between every element in current SiteData object and the given value.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <typeparam name="TResult">
             The output type of the result from the operation.
@@ -2217,6 +2324,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Performs compare operation between every element in current SiteData object and the given SiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="comparisonType">The comparison type to use.</param>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> to compare.</param>
@@ -2229,6 +2337,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Compare``2(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Performs compare operation between every element in current SiteData object and the given SiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <typeparam name="TResult">
             The output type of the result from the operation.
@@ -2245,6 +2354,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_Division(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},`0)">
             <summary>
             Performs divide operation between a SiteData object and a given value, for each element across each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="value1">The SiteData object.</param>
             <param name="value2">The divisor value.</param>
@@ -2253,6 +2363,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Divide(`0)">
             <summary>
             Performs divide operation between every element in current SiteData object and the given value.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="value">The divisor value.</param>
             <returns>A new SiteData object that contains the results.</returns>
@@ -2264,6 +2375,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Divide``2(``0)">
             <summary>
             Performs divide operation between every element in current SiteData object and the given value.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <typeparam name="TResult">
             The output type of the result from the operation.
@@ -2279,6 +2391,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_Division(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Performs divide operation between two SiteData objects, for each element across each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="value1">The first SiteData object.</param>
             <param name="value2">The second divisor SiteData object.</param>
@@ -2287,6 +2400,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Divide(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Performs divide operation between every element in current SiteData object and the given SiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the divisors.</param>
             <returns>A new SiteData object that contains the results.</returns>
@@ -2298,6 +2412,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Divide``2(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Performs divide operation between every element in current SiteData object and the given SiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <typeparam name="TResult">
             The output type of the result from the operation.
@@ -2313,12 +2428,14 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Invert">
             <summary>
             Performs invert operation on every element in current SiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <returns>A new SiteData object that contains the inverted results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Invert``1">
             <summary>
             Performs invert operation on every element in current SiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <typeparam name="TResult">
             The output type of the result from the operation.
@@ -2329,12 +2446,14 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Log10">
             <summary>
             Performs Math.Log10 operation on every element in current SiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <returns>A new SiteData object that contains the log10 results.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Log10``1">
             <summary>
             Performs Math.Log10 operation on every element in current SiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <typeparam name="TResult">
             The output type of the result from the operation.
@@ -2345,6 +2464,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Maximum``1(``0)">
             <summary>
             Returns the larger of the element in current SiteData object and the given value.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="value">The value to compare.</param>
             <returns>A new SiteData object that contains the larger values.</returns>
@@ -2356,6 +2476,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Maximum``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Returns the larger of the element in current SiteData object and the given SiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the values to compare.</param>
             <returns>A new SiteData object that contains the larger values.</returns>
@@ -2367,6 +2488,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Minimum``1(``0)">
             <summary>
             Returns the smaller of the element in current SiteData object and the given value.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="value">The value to compare.</param>
             <returns>A new SiteData object that contains the smaller values.</returns>
@@ -2378,6 +2500,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Minimum``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Returns the smaller of the element in current SiteData object and the given SiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the values to compare.</param>
             <returns>A new SiteData object that contains the smaller values.</returns>
@@ -2389,6 +2512,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},`0)">
             <summary>
             Performs multiply operation between a SiteData object and a given value, for each element across each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="value1">The SiteData object.</param>
             <param name="value2">The multiplier.</param>
@@ -2397,6 +2521,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Multiply``1(``0)">
             <summary>
             Performs multiply operation on every element in current SiteData object and the given value.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="value">The multiplier.</param>
             <returns>A new SiteData object that contains the multiply results.</returns>
@@ -2408,6 +2533,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Performs multiply operation between two SiteData objects, for each element across each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="value1">The first SiteData object.</param>
             <param name="value2">The second SiteData object that contains multipliers.</param>
@@ -2416,6 +2542,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Multiply``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Performs multiply operation on every element in current SiteData object and the given SiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains multipliers.</param>
             <returns>A new SiteData object that contains the multiply results.</returns>
@@ -2427,12 +2554,14 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Negate">
             <summary>
             Returns the negative value of every element in current SiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <returns>A new SiteData object that contains the negative values.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Power``1(``0)">
             <summary>
             Raises every element in current SiteData to the power of the given value.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="value">The value to use as the power.</param>
             <returns>A new SiteData object that contains the results.</returns>
@@ -2444,6 +2573,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Power``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Raises every element in current SiteData to the power of every element in given SiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains power values.</param>
             <returns>A new SiteData object that contains the results.</returns>
@@ -2455,12 +2585,14 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.SquareRoot">
             <summary>
             Returns the square root of every element in current SiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <returns>A new SiteData object that contains the square root values.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.SquareRoot``1">
             <summary>
             Returns the square root of every element in current SiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <typeparam name="TResult">
             The output type of the result from the operation.
@@ -2471,6 +2603,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_Subtraction(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},`0)">
             <summary>
             Subtracts the given value from a SiteData object, for each element across each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="value1">The SiteData object.</param>
             <param name="value2">The value to subtract.</param>
@@ -2479,6 +2612,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Subtract``1(``0)">
             <summary>
             Subtracts the given value from every element in current SiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="value">The value to subtract.</param>
             <returns>A new SiteData object that contains the results.</returns>
@@ -2490,6 +2624,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_Subtraction(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Subtracts one SiteData object from another SiteData object, for each element across each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="value1">The first SiteData object.</param>
             <param name="value2">The second SiteData object that contains values to subtract.</param>
@@ -2498,6 +2633,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Subtract``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Subtracts every element in given SiteData from every element in current SiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains values to subtract.</param>
             <returns>A new SiteData object that contains the results.</returns>
@@ -2509,12 +2645,14 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Truncate">
             <summary>
             Returns integer portion of every element in current SiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <returns>A new SiteData object that contains integer values.</returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_LeftShift(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},System.Int32)">
             <summary>
             Shifts the value to the left by the specified bit count, for each element, per site. The count must be positive.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="value">The SiteData object to operate.</param>
             <param name="count">The number of bits to shift.</param>
@@ -2524,6 +2662,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.ShiftLeft(System.Int32)">
             <summary>
             Shifts the value to the left by the specified bit count, for each element, per site. The count must be positive.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="count">The number of bits to shift.</param>
             <returns>A new SiteData object that contains shifted values.</returns>
@@ -2532,6 +2671,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_RightShift(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},System.Int32)">
             <summary>
             Shifts the value to the right by the specified bit count, for each element, per site. The count must be positive.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="value">The SiteData object to operate.</param>
             <param name="count">The number of bits to shift.</param>
@@ -2541,6 +2681,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.ShiftRight(System.Int32)">
             <summary>
             Shifts the value to the right by the specified bit count, for each element, per site. The count must be positive.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="count">The number of bits to shift.</param>
             <returns>A new SiteData object that contains shifted values.</returns>
@@ -2549,6 +2690,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_BitwiseAnd(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},`0)">
             <summary>
             Performs a bitwise AND operation with a scalar, for each element across each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="value1">The SiteData object.</param>
             <param name="value2">The scalar value.</param>
@@ -2558,6 +2700,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.BitwiseAnd``1(``0)">
             <summary>
             Performs a bitwise AND operation with a scalar, for each element across each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="value">The scalar value.</param>
             <returns>A new SiteData object that contains result values.</returns>
@@ -2570,6 +2713,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_BitwiseAnd(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Performs a bitwise AND operation with another SiteData object, for each element across each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="value1">The first SiteData object.</param>
             <param name="value2">The second SiteData object.</param>
@@ -2579,6 +2723,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.BitwiseAnd``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Performs a bitwise AND operation with another SiteData object, for each element across each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="other">The other SiteData object.</param>
             <returns>A new SiteData object that contains result values.</returns>
@@ -2591,6 +2736,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_BitwiseOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},`0)">
             <summary>
             Performs a bitwise OR operation with a scalar, for each element across each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="value1">The SiteData object.</param>
             <param name="value2">The scalar value.</param>
@@ -2600,6 +2746,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.BitwiseOr``1(``0)">
             <summary>
             Performs a bitwise OR operation with a scalar, for each element across each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="value">The scalar value.</param>
             <returns>A new SiteData object that contains the result values.</returns>
@@ -2612,6 +2759,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_BitwiseOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Performs a bitwise OR operation with another SiteData object, for each element across each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="value1">The first SiteData object.</param>
             <param name="value2">The second SiteData object.</param>
@@ -2621,6 +2769,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.BitwiseOr``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Performs a bitwise OR operation with another SiteData object, for each element across each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="other">The other SiteData object.</param>
             <returns>A new SiteData object that contains the result values.</returns>
@@ -2633,6 +2782,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_ExclusiveOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},`0)">
             <summary>
             Performs a bitwise XOR operation with a scalar, for each element across each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="value1">The SiteData object.</param>
             <param name="value2">The scalar value.</param>
@@ -2642,6 +2792,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.BitwiseXor``1(``0)">
             <summary>
             Performs a bitwise XOR operation with a scalar, for each element across each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="value">The scalar value.</param>
             <returns>A new SiteData object that contains the result values.</returns>
@@ -2654,6 +2805,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_ExclusiveOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Performs a bitwise XOR operation with another SiteData object, for each element across each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="value1">The first SiteData object.</param>
             <param name="value2">The second SiteData object.</param>
@@ -2663,6 +2815,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.BitwiseXor``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Performs a bitwise XOR operation with another SiteData object, for each element across each site.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="other">The other SiteData object.</param>
             <returns>A new SiteData object that contains the result values.</returns>
@@ -2675,6 +2828,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_OnesComplement(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Gets the bitwise complement (~) of the original SiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <param name="value">The SiteData object.</param>
             <returns>A new SiteData object that contains the complemented values.</returns>
@@ -2683,6 +2837,7 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.BitwiseComplement">
             <summary>
             Gets the bitwise complement (~) of the original SiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
             <returns>A new SiteData object that contains the complemented values.</returns>
             <remarks>This method is supported only when the underlying data type of the SiteData object, T, is an integer type.</remarks>
@@ -6334,9 +6489,14 @@
               Looks up a localized string similar to The pin name provided as input is null or an empty string and cannot be processed..
             </summary>
         </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_NoSitesPresent">
+            <summary>
+              Looks up a localized string similar to The PinSiteData object does not contain any site numbers..
+            </summary>
+        </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_NullOrEmptyPinNames">
             <summary>
-              Looks up a localized string similar to The PinNames array provided as input is either null or empty. Please provide valid PinName(s)..
+              Looks up a localized string similar to The PinNames array provided as input is either null or empty. Please provide valid pin name(s)..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_NullOrEmptySiteNumbers">
@@ -6356,17 +6516,17 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_PinSiteDataEmpty">
             <summary>
-              Looks up a localized string similar to The PinSiteData object is empty and does not contain any pin name..
+              Looks up a localized string similar to The PinSiteData object is empty and does not contain any pin names..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_SiteDataEmpty">
             <summary>
-              Looks up a localized string similar to The SiteData object is empty and does not contain any site number..
+              Looks up a localized string similar to The SiteData object is empty and does not contain any site numbers..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_SiteDataEmptyForPins">
             <summary>
-              Looks up a localized string similar to The SiteData object of pin(s) {0} is empty and does not contain any site. Cannot set value..
+              Looks up a localized string similar to The SiteData object of pin(s) {0} is empty and does not contain any site numbers..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_SiteNumberNotFound">
