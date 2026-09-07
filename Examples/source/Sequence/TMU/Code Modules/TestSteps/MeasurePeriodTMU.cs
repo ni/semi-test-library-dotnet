@@ -8,8 +8,8 @@ using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
 {
     /// <summary>
-    /// This class provides example methods demonstrating how to perform Hardware Level Sequencing with SMUs
-    /// using DCPower Instrument Abstraction methods from the Semiconductor Test Library.
+    /// This class provides example methods demonstrating how to perform Time Measurement Unit (TMU) measurements
+    /// using Digital Instrument Abstraction methods from the Semiconductor Test Library.
     /// </summary>
     public static partial class TestSteps
     {
@@ -22,7 +22,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
         /// <para>
         /// This method performs the following steps:
         /// <list type="number">
-        ///   <item>Queries the TSM session manager to` get the digital sessions bundle associated with the "C0" pin.</item>
+        ///   <item>Queries the TSM session manager to get the digital sessions bundle associated with the "C0" pin.</item>
         ///   <item>Assigns TMU resources to the specified pins.</item>
         ///   <item>Configures the TMU for period measurement with rising edge detection.</item>
         ///   <item>Initiates the TMU measurement.</item>
@@ -31,11 +31,15 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
         /// </list>
         /// </para>
         /// <para>
+        /// The <see cref="TmuExtensions.ConfigurePeriodMeasurement"/> method enables the TMU resource
+        /// internally, so no separate <see cref="TmuExtensions.EnableTMU"/> call is required.
+        /// </para>
+        /// <para>
         /// Ensure that the pin map includes "C0" and that the hardware
         /// is properly configured before calling this method.
         /// </para>
         /// </remarks>
-        /// <param name = "tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
+        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         public static void MeasurePeriodWithSTL(ISemiconductorModuleContext tsmContext)
         {
             // Configuration parameters for TMU period measurement.
@@ -47,7 +51,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
             var digitalPins = sessionManager.Digital("C0");
 
             // Step 2: (Mandatory) Assign TMU resources to the digital pins.
-            // This assign's a TMU resource to each of the pins in the digital sessions bundle object,
+            // This assigns a TMU resource to each of the pins in the digital sessions bundle object,
             // in this case just the "C0" pin.
             // Note that the TMU hardware resource is not reserved until step 3.
             digitalPins.AssignTMUResources();
@@ -55,12 +59,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
             // Step 3: Configure the TMU to perform a period rise measurement.
             // - edgeType: Trigger on rising edge transitions.
             // - samplesToAcquire: Number of period measurements to collect.
-            // - armType: Start measurement immediately without waiting for an arm event.
+            // This method also enables (reserves) the TMU resource at the hardware level.
             digitalPins.ConfigurePeriodMeasurement(
                 edgeType: TmuPolarity.RisingEdge,
                 samplesToAcquire: numberOfSamples);
 
-            digitalPins.EnableTMU();
             // Step 4: Initiate the TMU measurement.
             digitalPins.TMUInitiate();
 

@@ -8,8 +8,8 @@ using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
 {
     /// <summary>
-    /// This class provides example methods demonstrating how to perform Hardware Level Sequencing with SMUs
-    /// using DCPower Instrument Abstraction methods from the Semiconductor Test Library.
+    /// This class provides example methods demonstrating how to perform Time Measurement Unit (TMU) measurements
+    /// using Digital Instrument Abstraction methods from the Semiconductor Test Library.
     /// </summary>
     public static partial class TestSteps
     {
@@ -27,17 +27,14 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
         ///   <item>Queries the TSM session manager to get the digital sessions bundle associated with the "C0" pin.</item>
         ///   <item>Assigns TMU resources to the specified pins.</item>
         ///   <item>Configures the TMU for pulse width measurement.</item>
-        ///   <item>Enables the TMU resource at the hardware level.</item>
         ///   <item>Initiates the TMU measurement.</item>
         ///   <item>Fetches and averages the measurement results.</item>
         ///   <item>Cleans up by disabling the TMU and clearing assignments.</item>
         /// </list>
         /// </para>
         /// <para>
-        /// Unlike <see cref="TmuExtensions.ConfigurePeriodMeasurement"/>, the
-        /// <see cref="TmuExtensions.ConfigureTMUPulseWidthMeasurement"/> method does not enable the TMU.
-        /// An explicit call to <see cref="TmuExtensions.EnableTMU"/> is required after configuration
-        /// and before initiating the measurement.
+        /// The <see cref="TmuExtensions.ConfigureTMUPulseWidthMeasurement"/> method enables the TMU resource
+        /// internally, so no separate <see cref="TmuExtensions.EnableTMU"/> call is required.
         /// </para>
         /// <para>
         /// Ensure that the pin map includes "C0" and that the hardware
@@ -58,30 +55,27 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
             // Step 2: (Mandatory) Assign TMU resources to the digital pins.
             // This assigns a TMU resource to each of the pins in the digital sessions bundle object,
             // in this case just the "C0" pin.
-            // Note that the TMU hardware resource is not reserved until step 4.
+            // Note that the TMU hardware resource is not reserved until step 3.
             digitalPins.AssignTMUResources();
 
             // Step 3: Configure the TMU to perform a high pulse width measurement.
             // - pulseWidthType: Measure the duration from the rising edge to the subsequent falling edge at Voh.
             //   Use TmuPulseWidth.Low to instead measure from the falling edge to the subsequent rising edge at Vol.
             // - samplesToAcquire: Number of pulse width measurements to collect.
-            // Note: This method does NOT enable (reserve) the TMU resource at the hardware level.
+            // This method also enables (reserves) the TMU resource at the hardware level.
             digitalPins.ConfigureTMUPulseWidthMeasurement(
                 pulseWidthType: TmuPulseWidth.High,
                 samplesToAcquire: numberOfSamples);
 
-            // Step 4: Enable (reserve) the TMU resource at the hardware level.
-            // This step is required when using ConfigureTMUPulseWidthMeasurement.
-            digitalPins.EnableTMU();
-
-            // Step 5: Initiate the TMU measurement.
+            // Step 4: Initiate the TMU measurement.
             digitalPins.TMUInitiate();
 
-            // Step 6: Fetch the averaged measurement results.
+            // Step 5: Fetch the averaged measurement results.
             // The TMU collects multiple samples and returns the average high pulse width in seconds.
             PinSiteData<double> pulseWidthMeasurements = digitalPins.FetchAveragedTMUMeasurement(timeoutInSeconds);
             tsmContext.PublishResults(pulseWidthMeasurements, "res");
-            // Step 7: Clean up TMU resources.
+
+            // Step 6: Clean up TMU resources.
             // Always disable the TMU and clear assignments when finished to free up resources.
             digitalPins.DisableTMU();
             digitalPins.ClearTMUAssignment();

@@ -8,8 +8,8 @@ using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
 {
     /// <summary>
-    /// This class provides example methods demonstrating how to perform Hardware Level Sequencing with SMUs
-    /// using DCPower Instrument Abstraction methods from the Semiconductor Test Library.
+    /// This class provides example methods demonstrating how to perform Time Measurement Unit (TMU) measurements
+    /// using Digital Instrument Abstraction methods from the Semiconductor Test Library.
     /// </summary>
     public static partial class TestSteps
     {
@@ -27,11 +27,15 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
         ///   <item>Queries the TSM session manager to get the digital sessions bundle associated with the "C0" pin.</item>
         ///   <item>Assigns TMU resources to the specified pins.</item>
         ///   <item>Configures the TMU for duty cycle measurement.</item>
-        ///   <item>Enables the TMU resource at the hardware level.</item>
         ///   <item>Initiates the TMU measurement.</item>
         ///   <item>Fetches and averages the measurement results.</item>
+        ///   <item>Configures, initiates, and fetches a period measurement to convert the duration into a ratio.</item>
         ///   <item>Cleans up by disabling the TMU and clearing assignments.</item>
         /// </list>
+        /// </para>
+        /// <para>
+        /// The <see cref="TmuExtensions.ConfigureTMUDutyCycleMeasurement"/> method enables the TMU resource
+        /// internally, so no separate <see cref="TmuExtensions.EnableTMU"/> call is required.
         /// </para>
         /// <para>
         /// Ensure that the pin map includes "C0" and that the hardware
@@ -52,28 +56,30 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
             // Step 2: (Mandatory) Assign TMU resources to the digital pins.
             // This assigns a TMU resource to each of the pins in the digital sessions bundle object,
             // in this case just the "C0" pin.
-            // Note that the TMU hardware resource is not reserved until step 4.
+            // Note that the TMU hardware resource is not reserved until step 3.
             digitalPins.AssignTMUResources();
 
             // Step 3: Configure the TMU to perform a high duty cycle measurement.
             // - dutyCycleType: Measure the duration of the high portion of the cycle (rising to falling edge at Voh).
             //   Use TmuDutyCycle.Low to instead measure the duration of the low portion of the cycle.
             // - samplesToAcquire: Number of duty cycle measurements to collect.
-            // - armType: Start measurement immediately without waiting for an arm event.
-            // Note: This method does NOT enable (reserve) the TMU resource at the hardware level.
+            // This method also enables (reserves) the TMU resource at the hardware level.
             // Note: The returned measurement value is a time duration, not a percentage.
             //       To convert to percentage duty cycle, divide by the signal period.
             digitalPins.ConfigureTMUDutyCycleMeasurement(
                 dutyCycleType: TmuDutyCycle.High,
                 samplesToAcquire: numberOfSamples);
 
-            // Step 5: Initiate the TMU measurement.
+            // Step 4: Initiate the TMU measurement.
             digitalPins.TMUInitiate();
 
-            // Step 6: Fetch the averaged measurement results.
+            // Step 5: Fetch the averaged measurement results.
             // The TMU collects multiple samples and returns the average high duration in seconds.
             PinSiteData<double> dutyCycleTimeMeasurements = digitalPins.FetchAveragedTMUMeasurement(timeoutInSeconds);
 
+            tsmContext.PublishResults(dutyCycleTimeMeasurements, "dutyCycleTime");
+
+            // Step 6: Measure the signal period, which is required to convert the high duration into a ratio.
             digitalPins.ConfigurePeriodMeasurement(
                 edgeType: TmuPolarity.RisingEdge,
                 samplesToAcquire: numberOfSamples);
@@ -81,10 +87,12 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
             digitalPins.TMUInitiate();
             PinSiteData<double> periodMeasurements = digitalPins.FetchAveragedTMUMeasurement(timeoutInSeconds);
 
+            // Step 7: Divide the high duration by the period to calculate the duty cycle as a ratio.
             var dutyCycleMeasurements = dutyCycleTimeMeasurements.Divide(periodMeasurements);
 
-            tsmContext.PublishResults(dutyCycleMeasurements, "res");
-            // Step 7: Clean up TMU resources.
+            tsmContext.PublishResults(dutyCycleMeasurements, "dutyCycle");
+
+            // Step 8: Clean up TMU resources.
             // Always disable the TMU and clear assignments when finished to free up resources.
             digitalPins.DisableTMU();
             digitalPins.ClearTMUAssignment();

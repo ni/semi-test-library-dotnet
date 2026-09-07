@@ -8,8 +8,8 @@ using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
 {
     /// <summary>
-    /// This class provides example methods demonstrating how to perform Hardware Level Sequencing with SMUs
-    /// using DCPower Instrument Abstraction methods from the Semiconductor Test Library.
+    /// This class provides example methods demonstrating how to perform Time Measurement Unit (TMU) measurements
+    /// using Digital Instrument Abstraction methods from the Semiconductor Test Library.
     /// </summary>
     public static partial class TestSteps
     {
@@ -32,7 +32,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
         /// </list>
         /// </para>
         /// <para>
-        /// The <see cref="TmuExtensions.ConfigureSkewMeasurement"/> method enables the TMU resource
+        /// The <see cref="TmuExtensions.ConfigureTMUSkewMeasurement"/> method enables the TMU resource
         /// internally, so no separate <see cref="TmuExtensions.EnableTMU"/> call is required.
         /// </para>
         /// <para>
