@@ -3,9 +3,8 @@
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope
 {
     /// <summary>
-    /// Defines methods for performing measurements on the NI-Scope session.
+    /// Defines methods for controlling the NI-Scope session.
     /// </summary>
-    public static class Control
     {
         #region methods on ScopeSessionsBundle
 
