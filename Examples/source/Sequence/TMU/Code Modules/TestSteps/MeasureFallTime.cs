@@ -2,6 +2,7 @@
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
+using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
@@ -13,7 +14,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
     public static partial class TestSteps
     {
         /// <summary>
-        /// Demonstrates how to measure the fall time of a digital signal using the TMU.
+        /// Demonstrates how to measure the fall time of a digital signal using the PXIe-657x's TMU.
         /// Fall time is defined as the time for a signal to transition from the high voltage
         /// threshold (Voh) to the low voltage threshold (Vol).
         /// </summary>
@@ -26,6 +27,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
         ///   <item>Configures the TMU for fall time measurement.</item>
         ///   <item>Initiates the TMU measurement.</item>
         ///   <item>Fetches and averages the measurement results.</item>
+        ///   <item>Publishes the averaged fall time using the "FallTime" published data id.</item>
         ///   <item>Cleans up by disabling the TMU and clearing assignments.</item>
         /// </list>
         /// </para>
@@ -58,9 +60,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
             // Step 3: Configure the TMU to perform a fall time measurement.
             // Sets the start source to Voh on falling edge and the stop source to Vol on falling edge.
             // - samplesToAcquire: Number of fall time measurements to collect.
+            // - armSetting: Arm each sample on the edge of a signal with the same properties as the start source.
             // This method also enables (reserves) the TMU resource at the hardware level.
             digitalPins.ConfigureTMUFallTimeMeasurement(
-                samplesToAcquire: numberOfSamples);
+                samplesToAcquire: numberOfSamples,
+                armSetting: TmuArmSetting.StartEdge);
 
             // Step 4: Initiate the TMU measurement.
             digitalPins.TMUInitiate();
@@ -68,7 +72,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
             // Step 5: Fetch the averaged measurement results.
             // The TMU collects multiple samples and returns the average fall time.
             PinSiteData<double> fallTimeMeasurements = digitalPins.FetchAveragedTMUMeasurement(timeoutInSeconds);
-            tsmContext.PublishResults(fallTimeMeasurements, "res");
+            tsmContext.PublishResults(fallTimeMeasurements, publishedDataId: "FallTime");
 
             // Step 6: Clean up TMU resources.
             // Always disable the TMU and clear assignments when finished to free up resources.

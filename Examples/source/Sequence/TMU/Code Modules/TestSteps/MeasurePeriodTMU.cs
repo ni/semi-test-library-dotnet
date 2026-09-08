@@ -14,7 +14,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
     public static partial class TestSteps
     {
         /// <summary>
-        /// Demonstrates how to measure the period of a digital signal using the TMU.
+        /// Demonstrates how to measure the period of a digital signal using the PXIe-657x's TMU.
         /// This example configures the TMU to measure period by detecting rising edges,
         /// collects the specified number of samples, and returns the averaged measurement.
         /// </summary>
@@ -27,6 +27,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
         ///   <item>Configures the TMU for period measurement with rising edge detection.</item>
         ///   <item>Initiates the TMU measurement.</item>
         ///   <item>Fetches and averages the measurement results.</item>
+        ///   <item>Publishes the averaged period using the "Period" published data id.</item>
         ///   <item>Cleans up by disabling the TMU and clearing assignments.</item>
         /// </list>
         /// </para>
@@ -59,10 +60,12 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
             // Step 3: Configure the TMU to perform a period rise measurement.
             // - edgeType: Trigger on rising edge transitions.
             // - samplesToAcquire: Number of period measurements to collect.
+            // - armSetting: Arm each sample on the edge of a signal with the same properties as the start source.
             // This method also enables (reserves) the TMU resource at the hardware level.
             digitalPins.ConfigurePeriodMeasurement(
                 edgeType: TmuPolarity.RisingEdge,
-                samplesToAcquire: numberOfSamples);
+                samplesToAcquire: numberOfSamples,
+                armSetting: TmuArmSetting.StartEdge);
 
             // Step 4: Initiate the TMU measurement.
             digitalPins.TMUInitiate();
@@ -70,7 +73,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
             // Step 5: Fetch the averaged measurement results.
             // The TMU collects multiple samples and returns the average period.
             PinSiteData<double> periodMeasurements = digitalPins.FetchAveragedTMUMeasurement(timeoutInSeconds);
-            tsmContext.PublishResults(periodMeasurements, "res");
+            tsmContext.PublishResults(periodMeasurements, publishedDataId: "Period");
 
             // Step 6: Clean up TMU resources.
             // Always disable the TMU and clear assignments when finished to free up resources.

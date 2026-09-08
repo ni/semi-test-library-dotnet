@@ -14,7 +14,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
     public static partial class TestSteps
     {
         /// <summary>
-        /// Demonstrates how to measure the skew between a reference pin and a target pin using the TMU.
+        /// Demonstrates how to measure the skew between a reference pin and a target pin using the PXIe-657x's TMU.
         /// Skew is defined as the time difference between the same edge type occurring on the reference
         /// channel and the target channel. A positive result means the target edge occurs after the
         /// reference edge; a negative result means it occurs before.
@@ -28,6 +28,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
         ///   <item>Configures the TMU for skew measurement using the reference and target pins.</item>
         ///   <item>Initiates the TMU measurement on the reference pin.</item>
         ///   <item>Fetches and averages the skew measurement results.</item>
+        ///   <item>Publishes the averaged skew using the "Skew" published data id.</item>
         ///   <item>Cleans up by disabling the TMU and clearing assignments.</item>
         /// </list>
         /// </para>
@@ -56,8 +57,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
             var sessionManager = new TSMSessionManager(tsmContext);
             var digitalPins = sessionManager.Digital(new[] { "C0", "C1" });
 
-            // Step 2: (Mandatory) Assign TMU resources to the reference pin(s) only.
-            // The TMU resource is managed from the reference pin for skew measurements.
+            // Step 2: (Mandatory) Assign TMU resources to the reference pin(s).
+            // Assigning TMU resources to the target pin(s) is not required, since only the
+            // reference pin's TMU resource is used to perform the skew measurement.
             // Note that the TMU hardware resource is not reserved until step 3.
             digitalPins.AssignTMUResources(pinNames: referencePinNames);
 
@@ -66,12 +68,14 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
             // - targetPinNames: The pin(s) that act as the stop (target) source.
             // - edgeType: Trigger on rising edge transitions on both pins.
             // - samplesToAcquire: Number of skew measurements to collect.
+            // - armSetting: Arm each sample on the edge of a signal with the same properties as the start source.
             // This method also enables (reserves) the TMU resource at the hardware level.
             digitalPins.ConfigureTMUSkewMeasurement(
                 referencePinNames: referencePinNames,
                 targetPinNames: targetPinNames,
                 edgeType: TmuPolarity.RisingEdge,
-                samplesToAcquire: numberOfSamples);
+                samplesToAcquire: numberOfSamples,
+                armSetting: TmuArmSetting.StartEdge);
 
             // Step 4: Initiate the TMU measurement on the reference pin(s).
             digitalPins.TMUInitiate(pinNames: referencePinNames);
@@ -80,7 +84,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
             PinSiteData<double> skewMeasurements = digitalPins.FetchAveragedTMUMeasurement(
                 timeoutInSeconds: timeoutInSeconds,
                 pinNames: referencePinNames);
-            tsmContext.PublishResults(skewMeasurements, "res");
+            tsmContext.PublishResults(skewMeasurements, publishedDataId: "Skew");
 
             // Step 6: Clean up TMU resources.
             // Always disable the TMU and clear assignments when finished to free up resources.

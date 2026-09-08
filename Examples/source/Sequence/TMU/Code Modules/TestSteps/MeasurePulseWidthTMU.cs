@@ -14,10 +14,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
     public static partial class TestSteps
     {
         /// <summary>
-        /// Demonstrates how to measure the high pulse width of a digital signal using the TMU.
+        /// Demonstrates how to measure the high pulse width of a digital signal using the PXIe-657x's TMU.
         /// Pulse width measures the duration of a single pulse — the time from the rising edge to
-        /// the subsequent falling edge at Voh (for <see cref="TmuPulseWidth.High"/>), or from the
-        /// falling edge to the subsequent rising edge at Vol (for <see cref="TmuPulseWidth.Low"/>).
+        /// the subsequent falling edge at Voh (for <see cref="TmuPulseWidth.High"/>).
         /// </summary>
         /// <remarks>
         /// <para>
@@ -28,6 +27,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
         ///   <item>Configures the TMU for pulse width measurement.</item>
         ///   <item>Initiates the TMU measurement.</item>
         ///   <item>Fetches and averages the measurement results.</item>
+        ///   <item>Publishes the averaged pulse width using the "PulseWidth" published data id.</item>
         ///   <item>Cleans up by disabling the TMU and clearing assignments.</item>
         /// </list>
         /// </para>
@@ -59,7 +59,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
 
             // Step 3: Configure the TMU to perform a high pulse width measurement.
             // - pulseWidthType: Measure the duration from the rising edge to the subsequent falling edge at Voh.
-            //   Use TmuPulseWidth.Low to instead measure from the falling edge to the subsequent rising edge at Vol.
+            //   Alternatively, use TmuPulseWidth.Low to measure from the falling edge to the subsequent rising edge at Vol.
             // - samplesToAcquire: Number of pulse width measurements to collect.
             // This method also enables (reserves) the TMU resource at the hardware level.
             digitalPins.ConfigureTMUPulseWidthMeasurement(
@@ -72,7 +72,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
             // Step 5: Fetch the averaged measurement results.
             // The TMU collects multiple samples and returns the average high pulse width in seconds.
             PinSiteData<double> pulseWidthMeasurements = digitalPins.FetchAveragedTMUMeasurement(timeoutInSeconds);
-            tsmContext.PublishResults(pulseWidthMeasurements, "res");
+            tsmContext.PublishResults(pulseWidthMeasurements, publishedDataId: "PulseWidth");
 
             // Step 6: Clean up TMU resources.
             // Always disable the TMU and clear assignments when finished to free up resources.
