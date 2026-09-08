@@ -27,7 +27,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         ///   <item>Fetches the averaged low duration result.</item>
         ///   <item>Configures the TMU for period measurement and initiates it.</item>
         ///   <item>Fetches the averaged period result.</item>
-        ///   <item>Divides the low duration by the period to obtain the duty cycle ratio and publishes the result.</item>
+        ///   <item>Divides the low duration by the period to obtain the duty cycle ratio and publishes the result using the "DutyCycleRatio" Published Data ID.</item>
         ///   <item>Cleans up by disabling the TMU and clearing assignments.</item>
         /// </list>
         /// </para>
@@ -39,9 +39,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         /// <para>
         /// Ensure that the pin map includes "C0" and that the hardware
         /// is properly configured before calling this method.
-        /// </para>
-        /// <para>
-        /// The Published Data ID used by this method, "DutyCycleRatio", is hardcoded for simplicity.
         /// </para>
         /// </remarks>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>

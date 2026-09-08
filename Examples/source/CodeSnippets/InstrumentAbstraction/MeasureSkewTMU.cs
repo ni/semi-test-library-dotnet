@@ -26,7 +26,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         ///   <item>Assigns TMU resources to the reference pin(s), since only the reference pin's TMU resource is used to perform the skew measurement.</item>
         ///   <item>Configures the TMU for skew measurement using the reference and target pins.</item>
         ///   <item>Initiates the TMU measurement on the reference pin.</item>
-        ///   <item>Fetches and averages the skew measurement results, then publishes them.</item>
+        ///   <item>Fetches and averages the skew measurement results, then publishes them using the "Skew" Published Data ID.</item>
         ///   <item>Cleans up by disabling the TMU and clearing assignments.</item>
         /// </list>
         /// </para>
@@ -37,9 +37,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         /// <para>
         /// Ensure that the pin map includes both "C0" and "C1" and that the hardware
         /// is properly configured before calling this method.
-        /// </para>
-        /// <para>
-        /// The Published Data ID used by this method, "Skew", is hardcoded for simplicity.
         /// </para>
         /// </remarks>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>

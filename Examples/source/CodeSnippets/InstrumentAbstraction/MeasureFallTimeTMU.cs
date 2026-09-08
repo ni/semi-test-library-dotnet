@@ -25,16 +25,13 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         ///   <item>Assigns TMU resources to the specified pins.</item>
         ///   <item>Configures the TMU for fall time measurement.</item>
         ///   <item>Initiates the TMU measurement.</item>
-        ///   <item>Fetches and averages the measurement results, then publishes them.</item>
+        ///   <item>Fetches and averages the measurement results, then publishes them using the "FallTime" Published Data ID.</item>
         ///   <item>Cleans up by disabling the TMU and clearing assignments.</item>
         /// </list>
         /// </para>
         /// <para>
         /// Ensure that the pin map includes "C0" and that the hardware
         /// is properly configured before calling this method.
-        /// </para>
-        /// <para>
-        /// The Published Data ID used by this method, "FallTime", is hardcoded for simplicity.
         /// </para>
         /// </remarks>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
