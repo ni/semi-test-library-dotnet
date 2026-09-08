@@ -38,6 +38,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         /// Ensure that the pin map includes both "C0" and "C1" and that the hardware
         /// is properly configured before calling this method.
         /// </para>
+        /// <para>
+        /// The Published Data ID used by this method, "Skew", is hardcoded for simplicity.
+        /// </para>
         /// </remarks>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         public static void MeasureSkewWithSTL(ISemiconductorModuleContext tsmContext)
