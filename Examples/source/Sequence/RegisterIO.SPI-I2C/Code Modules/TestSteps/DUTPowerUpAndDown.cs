@@ -11,8 +11,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         {
             var sessionManager = new TSMSessionManager(tsmContext);
 
-            // Drive CSB low FIRST so the BME280 latches SPI mode as the rail comes up.
-            sessionManager.Digital("CSB").WriteStatic(PinState._0);
+            // Drive CS low FIRST so the BME280 latches SPI mode as the rail comes up.
+            sessionManager.Digital("CS").WriteStatic(PinState._0);
 
             // Power the DUT: PPMU-force VIN to 3.3 V (2 mA range is ample for this board).
             sessionManager.Digital("VIN").ForceVoltage(voltageLevel: voltageLevel, currentLimitRange: currentLimitRange);
@@ -23,7 +23,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             var sessionManager = new TSMSessionManager(tsmContext);
 
             sessionManager.Digital("VIN").ForceVoltage(voltageLevel: 0.0, currentLimitRange: 0.002); // remove power
-            sessionManager.Digital("CSB").WriteStatic(PinState.X);                                    // stop driving CSB
+            sessionManager.Digital("CS").WriteStatic(PinState.X);                                     // stop driving CS
         }
     }
 }

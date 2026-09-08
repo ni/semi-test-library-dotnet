@@ -29,7 +29,7 @@
     </f:Formula>
     <f:Formula symbol="setup_cs">
       <f:Definition>5 µs</f:Definition>
-      <f:Comment>Chip select (CSB) setup time</f:Comment>
+      <f:Comment>Chip select (CS) setup time</f:Comment>
     </f:Formula>
   </Section>
 </Specifications>

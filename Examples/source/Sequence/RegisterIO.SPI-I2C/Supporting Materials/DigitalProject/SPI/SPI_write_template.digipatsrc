@@ -2,7 +2,7 @@
 file_format_version 1.1;
 timeset Idle, SourceStartSetup, Start, Busy, Stop;
 
-pattern SPI_write_template (SDI, SCLK, CSB)
+pattern SPI_write_template (SDI, SCK, CS)
 {
 set_loop(reg0)						Idle				X		1		1;
 source_start(source_buffer)			Idle				X		1		1;

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<SourceFile Checksum="4E4B853945EED6DE8FAA4C51F18BAFE84E31A570798BBACDD98D60E234E8C067F27AA1326160BA89002C06FDAEB0079AC2EA403A52EDC410942821F567398C0C" xmlns="http://www.ni.com/PlatformFramework">
+<SourceFile Checksum="9E17B0A3919B2C6D8B0CFC7CEDBA0BF8ECAD58F6BBB73A11E438DF12B17B57B1013108D4D299CC1D6ED4F27EAEDD15EC01D3ECE2F6AC46FFA0D10960D39FA388" xmlns="http://www.ni.com/PlatformFramework">
 	<SourceModelFeatureSet>
 		<ParsableNamespace AssemblyFileVersion="9.17.0.49731" FeatureSetName="Digital Pattern Editor" Name="http://www.ni.com/PatternBasedDigital" OldestCompatibleVersion="4.5.0.0" Version="5.3.1.49152" />
 		<ParsableNamespace AssemblyFileVersion="9.17.0.49732" FeatureSetName="Editor" Name="http://www.ni.com/PlatformFramework" OldestCompatibleVersion="8.1.0.49152" Version="8.1.0.49152" />
@@ -27,8 +27,8 @@
 			<FileReference Id="c46c7f9ebccf4ab19648bc6079a94518" ModelDefinitionType="SpecificationsDefinition" Name="SPI Characteristic.specs" StoragePath="SPI Characteristic.specs" />
 			<FileReference Id="deb8888615a74c51bd6cfcef560f3a32" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="SPI_write_template.digipat" StoragePath="SPI\SPI_write_template.digipat" />
 			<FileReference Id="1600508f9d5e4ae18695f90ea4fddace" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="SPI_read_template.digipat" StoragePath="SPI\SPI_read_template.digipat" />
-			<FileReference Bindings=".digipatsrc" Id="645612d1948f478888df40bfb2738651" ModelDefinitionType="{http://www.ni.com/PlatformFramework}ExternalFile" Name="SPI_read_template.digipatsrc" StoragePath="SPI\SPI_read_template.digipatsrc" />
-			<FileReference Bindings=".digipatsrc" Id="a198fed195944c108ecbfef69e85e41a" ModelDefinitionType="{http://www.ni.com/PlatformFramework}ExternalFile" Name="SPI_write_template.digipatsrc" StoragePath="SPI\SPI_write_template.digipatsrc" />
+			<FileReference Bindings=".digipatsrc" Id="4b5f373d0ddc4e6c903f0def803f96c2" ModelDefinitionType="{http://www.ni.com/PlatformFramework}ExternalFile" Name="SPI_read_template.digipatsrc" StoragePath="SPI\SPI_read_template.digipatsrc" />
+			<FileReference Bindings=".digipatsrc" Id="d8ddbb0e5267438e95cccde6786dee30" ModelDefinitionType="{http://www.ni.com/PlatformFramework}ExternalFile" Name="SPI_write_template.digipatsrc" StoragePath="SPI\SPI_write_template.digipatsrc" />
 		</NameScopingEnvoy>
 		<EmbeddedDefinitionReference Id="a96e0a92a1425596bc6a29922b7835" ModelDefinitionType="DigitalPatternEditor.ProjectPropertiesDefinition" Name="ProjectProperties">
 			<ProjectPropertiesDefinition xmlns="http://www.ni.com/PatternBasedDigital" />

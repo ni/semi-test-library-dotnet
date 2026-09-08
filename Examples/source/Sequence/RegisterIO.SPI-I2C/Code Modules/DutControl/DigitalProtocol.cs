@@ -30,6 +30,12 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// <inheritdoc/>
         public string CaptureWaveformName { get; set; } = "capture_buffer";
 
+        /// <summary>The pin that drives outgoing (source) data. For SPI this is SDI (MOSI).</summary>
+        public string SourcePinName { get; set; } = "SDI";
+
+        /// <summary>The pin that captures incoming data. For SPI this is SDO (MISO).</summary>
+        public string CapturePinName { get; set; } = "SDO";
+
         /// <inheritdoc/>
         public uint SampleWidth { get; set; } = 8;
 
@@ -61,6 +67,25 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             // This validation can only be done once we have a session to operate on.
             ValidateBundle(digitalSessionsBundle);
             _digitalSessionsBundle = digitalSessionsBundle;
+
+            // Serial source/capture waveforms must exist on the instrument before they can be written or bursted.
+            // Recreate them for every bundle so a fresh session (for example, a second sequence run after
+            // instrument cleanup) also has the waveforms. Creating a waveform that already exists on the current
+            // session throws; that case is benign and ignored.
+            var bitOrder = BitOrder == BitOrder.MsbFirst
+                ? NationalInstruments.ModularInstruments.NIDigital.BitOrder.MostSignificantBitFirst
+                : NationalInstruments.ModularInstruments.NIDigital.BitOrder.LeastSignificantBitFirst;
+            try
+            {
+                _digitalSessionsBundle.CreateSerialSourceWaveform(
+                    SourcePinName, SourceWaveformName, NationalInstruments.ModularInstruments.NIDigital.SourceDataMapping.Broadcast, SampleWidth, bitOrder);
+                _digitalSessionsBundle.CreateSerialCaptureWaveform(
+                    CapturePinName, CaptureWaveformName, SampleWidth, bitOrder);
+            }
+            catch (Exception)
+            {
+                // Waveforms already exist on the current session; safe to continue.
+            }
         }
 
         #region Single Register Operations

@@ -22,7 +22,7 @@
       <TimeSet name="Start">
         <Period>t.SCLK</Period>
         <PinEdges>
-          <PinEdge pin="CSB">
+          <PinEdge pin="CS">
             <DriveNonReturn>
               <On>0</On>
               <Data>0</Data>
@@ -34,7 +34,7 @@
             <DataSource>Pattern</DataSource>
             <Comment>Chip select line START condition timing</Comment>
           </PinEdge>
-          <PinEdge pin="SCLK">
+          <PinEdge pin="SCK">
             <ReturnToLow>
               <On>0</On>
               <Data>0</Data>
@@ -76,7 +76,7 @@
       <TimeSet name="Busy">
         <Period>t.SCLK</Period>
         <PinEdges>
-          <PinEdge pin="CSB">
+          <PinEdge pin="CS">
             <DriveNonReturn>
               <On>0</On>
               <Data>0</Data>
@@ -88,7 +88,7 @@
             <DataSource>Pattern</DataSource>
             <Comment>Chip select line timing while transferring data</Comment>
           </PinEdge>
-          <PinEdge pin="SCLK">
+          <PinEdge pin="SCK">
             <ReturnToLow>
               <On>0</On>
               <Data>t.LOW</Data>
@@ -130,7 +130,7 @@
       <TimeSet name="Stop">
         <Period>t.SCLK</Period>
         <PinEdges>
-          <PinEdge pin="CSB">
+          <PinEdge pin="CS">
             <DriveNonReturn>
               <On>0</On>
               <Data>0</Data>
@@ -142,7 +142,7 @@
             <DataSource>Pattern</DataSource>
             <Comment>Chip select line STOP condition timing</Comment>
           </PinEdge>
-          <PinEdge pin="SCLK">
+          <PinEdge pin="SCK">
             <DriveNonReturn>
               <On>0</On>
               <Data>t.LOW</Data>

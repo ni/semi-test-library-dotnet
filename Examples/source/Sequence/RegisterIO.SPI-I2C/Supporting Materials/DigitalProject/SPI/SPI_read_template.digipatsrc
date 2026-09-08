@@ -2,7 +2,7 @@
 file_format_version 1.1;
 timeset Idle, SourceStartSetup, Start, Busy, Stop;
 
-pattern SPI_read_template (CSB, SDI, SDO, SCLK)
+pattern SPI_read_template (CS, SDI, SDO, SCK)
 {
 set_loop(reg0)						Idle				1		X		X		1;
 capture_start(capture_buffer)		Idle				1		X		X		1;
