@@ -343,6 +343,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ConfigureTimeSetDriveEdges("TS_SW", DriveFormat.ReturnToHigh, driveOn: 5e-6, driveData: 5e-6, driveReturn: 1e-5, driveOff: 1e-5, updateMode: updateMode);
 
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+            sessionsBundle.Do(sessionInfo =>
+            {
+                Assert.Equal(DriveFormat.ReturnToHigh, sessionInfo.Session.Timing.GetTimeSet("TS_SW").GetDriveFormat(sessionInfo.PinSet));
+                Assert.Equal(5e-6, sessionInfo.Session.Timing.GetTimeSet("TS_SW").GetEdge(sessionInfo.PinSet, TimeSetEdge.DriveOn).TotalSeconds);
+                Assert.Equal(5e-6, sessionInfo.Session.Timing.GetTimeSet("TS_SW").GetEdge(sessionInfo.PinSet, TimeSetEdge.DriveData).TotalSeconds);
+                Assert.Equal(1e-5, sessionInfo.Session.Timing.GetTimeSet("TS_SW").GetEdge(sessionInfo.PinSet, TimeSetEdge.DriveReturn).TotalSeconds);
+                Assert.Equal(1e-5, sessionInfo.Session.Timing.GetTimeSet("TS_SW").GetEdge(sessionInfo.PinSet, TimeSetEdge.DriveOff).TotalSeconds);
+            });
         }
 
         [Theory]
@@ -383,6 +391,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ConfigureTimeSetDriveEdges("TS_SW", DriveFormat.ReturnToLow, driveOn: 5e-6, driveData: 5e-6, driveReturn: 1e-5, driveOff: 2e-5, driveData2: 1.5e-5, driveReturn2: 2e-5, updateMode: updateMode);
 
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+            sessionsBundle.Do(sessionInfo =>
+            {
+                Assert.Equal(DriveFormat.ReturnToLow, sessionInfo.Session.Timing.GetTimeSet("TS_SW").GetDriveFormat(sessionInfo.PinSet));
+                Assert.Equal(5e-6, sessionInfo.Session.Timing.GetTimeSet("TS_SW").GetEdge(sessionInfo.PinSet, TimeSetEdge.DriveOn).TotalSeconds);
+                Assert.Equal(5e-6, sessionInfo.Session.Timing.GetTimeSet("TS_SW").GetEdge(sessionInfo.PinSet, TimeSetEdge.DriveData).TotalSeconds);
+                Assert.Equal(1e-5, sessionInfo.Session.Timing.GetTimeSet("TS_SW").GetEdge(sessionInfo.PinSet, TimeSetEdge.DriveReturn).TotalSeconds);
+                Assert.Equal(2e-5, sessionInfo.Session.Timing.GetTimeSet("TS_SW").GetEdge(sessionInfo.PinSet, TimeSetEdge.DriveOff).TotalSeconds);
+                Assert.Equal(1.5e-5, sessionInfo.Session.Timing.GetTimeSet("TS_SW").GetEdge(sessionInfo.PinSet, TimeSetEdge.DriveData2).TotalSeconds);
+                Assert.Equal(2e-5, sessionInfo.Session.Timing.GetTimeSet("TS_SW").GetEdge(sessionInfo.PinSet, TimeSetEdge.DriveReturn2).TotalSeconds);
+            });
         }
 
         [Fact]
@@ -1390,6 +1408,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ConfigureTimeSetPeriod("TS_SW", 5e-6, updateMode);
 
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+            Assert.Equal(5, sessionsBundle.InstrumentSessions.ElementAt(0).AssociatedSitePinList.Count);
+            sessionsBundle.Do(sessionInfo =>
+            {
+                Assert.Equal(5e-6, sessionInfo.Session.Timing.GetTimeSet("TS_SW").Period.TotalSeconds);
+            });
         }
 
         [Fact]
@@ -1542,6 +1565,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ConfigureTimeSetEdge("TS", TimeSetEdge.CompareStrobe, 5e-6, updateMode);
 
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                var edge = sessionInfo.Session.Timing.GetTimeSet("TS").GetEdge(sitePinInfo.SitePinString, TimeSetEdge.CompareStrobe);
+                Assert.Equal(5e-6, edge.TotalSeconds);
+            });
         }
 
         [Theory]
@@ -1577,6 +1605,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ConfigureTimeSetEdge("TS", TimeSetEdge.CompareStrobe, new SiteData<double>(new[] { 5e-6, 6e-6 }), updateMode);
 
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+            var edge = sessionsBundle.GetTimeSetEdge("TS", TimeSetEdge.CompareStrobe);
+            Assert.Equal(5e-6, edge.GetValue(0, "C0").TotalSeconds);
+            Assert.Equal(5e-6, edge.GetValue(0, "C1").TotalSeconds);
+            Assert.Equal(6e-6, edge.GetValue(1, "C0").TotalSeconds);
+            Assert.Equal(6e-6, edge.GetValue(1, "C1").TotalSeconds);
         }
 
         [Theory]
@@ -1622,6 +1655,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ConfigureTimeSetEdge("TS", TimeSetEdge.CompareStrobe, time, updateMode);
 
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+            var edge = sessionsBundle.GetTimeSetEdge("TS", TimeSetEdge.CompareStrobe);
+            Assert.Equal(5e-6, edge.GetValue(0, "C0").TotalSeconds);
+            Assert.Equal(6e-6, edge.GetValue(1, "C0").TotalSeconds);
+            Assert.Equal(7e-6, edge.GetValue(0, "C1").TotalSeconds);
+            Assert.Equal(8e-6, edge.GetValue(1, "C1").TotalSeconds);
         }
 
         [Fact]
@@ -1739,7 +1777,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         /// <summary>
         /// Removes a temporary file, if it exists.
-        /// This method is intended to be called at the end of the unit test that saving information to a temporary file.
+        /// This method is intended to be called at the end of the unit test that saves information to a temporary file.
         /// </summary>
         /// <param name="fileName">The name of the file.</param>
         private static void RemoveTemporaryFile(string fileName)
