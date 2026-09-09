@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -340,7 +341,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="voltageLevelRange">The voltage level range to use for the sequence.</param>
         /// <param name="currentLimitRange">The current limit range to use for the sequence.</param>
         /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
-        /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event); false to return immediately.</param>
+        /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event).</param>
         /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion when <paramref name="waitForSequenceCompletion"/> is <see langword="true"/>.</param>
         [Obsolete("This method has been deprecated. Use the ForceVoltageSequence() overload without the waitForSequenceCompletion parameter instead.")]
         public static void ForceVoltageSequence(
@@ -421,7 +422,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                        advancedSequenceName,
                        voltageSequence,
                        sequenceLoopCount,
-                       waitForSequenceCompletion: true,
                        sequenceTimeoutInSeconds,
                        setAsActiveSequence: true);
                 });
@@ -478,7 +478,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     sequenceLoopCount,
                     setAsActiveSequence: true);
             });
-            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion: true, sequenceTimeoutInSeconds);
 
             sessionsBundle.ReleaseAdvancedSequenceResources(advancedSequenceName);
         }
@@ -583,7 +583,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     sequenceLoopCount,
                     setAsActiveSequence: true);
             });
-            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion: true, sequenceTimeoutInSeconds);
 
             sessionsBundle.ReleaseAdvancedSequenceResources(advancedSequenceName);
         }
@@ -682,7 +682,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sourceDelayInSeconds">Optional source delay to use uniformly for synchronization.</param>
         /// <param name="transientResponse">Transient response.</param>
         /// <param name="sequenceLoopCount">The number of times to force the sequence.</param>
-        /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event); false to return immediately.</param>
+        /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event).</param>
         /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion when <paramref name="waitForSequenceCompletion"/> is <see langword="true"/>.</param>
         public static void ForceVoltageSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
@@ -1673,7 +1673,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                         sequenceName,
                         currentSequence,
                         sequenceLoopCount,
-                        waitForSequenceCompletion,
                         sequenceTimeoutInSeconds,
                         setAsActiveSequence: true);
                 });
@@ -3928,7 +3927,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             string sequenceName,
             double[] levelSequence,
             int sequenceLoopCount,
-            bool waitForSequenceCompletion,
             double sequenceTimeoutInSeconds,
             bool setAsActiveSequence)
         {
@@ -3941,7 +3939,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 outputFunction: (DCPowerSourceOutputFunction)settings.OutputFunction,
                 setAsActiveSequence: setAsActiveSequence);
 
-            channelOutput.InitiateChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
+            channelOutput.InitiateChannels(waitForCompletion: true, sequenceTimeoutInSeconds);
         }
 
         private static double CalculateLimitRangeFromLimit(DCPowerSourceSettings settings)
