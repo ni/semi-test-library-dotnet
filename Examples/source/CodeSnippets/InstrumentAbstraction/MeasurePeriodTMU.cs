@@ -53,11 +53,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             // Step 3: Configure the TMU to perform a period rise measurement.
             // - edgeType: Trigger on rising edge transitions.
             // - samplesToAcquire: Number of period measurements to collect.
-            // - armType: Start measurement immediately without waiting for an arm event.
+            // - armSetting: Start measurement immediately without waiting for an arm event.
             digitalPins.ConfigurePeriodMeasurement(
                 edgeType: TmuPolarity.RisingEdge,
                 samplesToAcquire: numberOfSamples,
-                armType: TmuArmType.Immediate);
+                armSetting: TmuArmSetting.Immediate);
 
             // Step 4: Initiate the TMU measurement.
             digitalPins.TMUInitiate();
