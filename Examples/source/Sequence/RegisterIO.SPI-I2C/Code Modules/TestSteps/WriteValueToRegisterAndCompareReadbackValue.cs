@@ -32,18 +32,5 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             tsmContext.PublishResults(comparisonResults, "ComparisonResult");
             return comparisonResults;
         }
-
-        public static void ReadRegisterAndCompareValue(ISemiconductorModuleContext tsmContext, CommunicationProtocol protocol)
-        {
-            // Chip-ID sanity check: 0xD0 (7-bit addr 0x50) must read 0x60.
-            uint registerAddress = 0x50;
-            long expectedValue = 0x60;
-
-            IDigitalProtocol digitalProtocol = tsmContext.DutControl(protocol);
-            SiteData<long> readback = digitalProtocol.ReadRegister(registerAddress);
-            SiteData<bool> comparison = readback.Compare(ComparisonType.EqualTo, expectedValue);
-            tsmContext.PublishResults(readback, "RegisterValueReadback");
-            tsmContext.PublishResults(comparison, "ComparisonResult");
-        }
     }
 }

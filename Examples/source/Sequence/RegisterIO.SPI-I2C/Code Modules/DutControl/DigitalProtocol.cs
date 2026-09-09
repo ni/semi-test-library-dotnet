@@ -11,12 +11,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
     /// </summary>
     public abstract class DigitalProtocol : IDigitalProtocol
     {
-        protected DigitalSessionsBundle _digitalSessionsBundle;
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="DigitalProtocol"/> class.
-        /// </summary>
-        protected DigitalProtocol() { }
+        private DigitalSessionsBundle _digitalSessionsBundle;
 
         /// <inheritdoc/>
         public string WritePatternName { get; set; }
@@ -77,8 +72,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
                 : NationalInstruments.ModularInstruments.NIDigital.BitOrder.LeastSignificantBitFirst;
             try
             {
+                // Create the source waveform as SiteUnique so both the broadcast-style writes (same data to
+                // every site) and the site-unique writes share one waveform name. A Broadcast waveform cannot
+                // be written with WriteSourceWaveformSiteUnique, whereas a SiteUnique waveform supports both.
                 _digitalSessionsBundle.CreateSerialSourceWaveform(
-                    SourcePinName, SourceWaveformName, NationalInstruments.ModularInstruments.NIDigital.SourceDataMapping.Broadcast, SampleWidth, bitOrder);
+                    SourcePinName, SourceWaveformName, NationalInstruments.ModularInstruments.NIDigital.SourceDataMapping.SiteUnique, SampleWidth, bitOrder);
                 _digitalSessionsBundle.CreateSerialCaptureWaveform(
                     CapturePinName, CaptureWaveformName, SampleWidth, bitOrder);
             }
@@ -108,7 +106,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             _digitalSessionsBundle.WriteSequencerRegister(ReadWriteCountSequenceRegister, 1);
             _digitalSessionsBundle.WriteSequencerRegister(AddressBitWidthSequenceRegister, (int)addressBitWidth);
             _digitalSessionsBundle.WriteSequencerRegister(ValueBitWidthSequenceRegister, (int)valueBitWidth);
-            _digitalSessionsBundle.WriteSourceWaveformBroadcast(SourceWaveformName, srcWfmSamples);
+            WriteSourceWaveformToAllSites(srcWfmSamples);
             _digitalSessionsBundle.BurstPattern(ReadPatternName, timeoutInSeconds: 10);
 
             uint samplesPerValue = GetSampleCount(valueBitWidth, SampleWidth);
@@ -136,7 +134,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             _digitalSessionsBundle.WriteSequencerRegister(ReadWriteCountSequenceRegister, 1);
             _digitalSessionsBundle.WriteSequencerRegister(AddressBitWidthSequenceRegister, (int)addressBitWidth);
             _digitalSessionsBundle.WriteSequencerRegister(ValueBitWidthSequenceRegister, (int)valueBitWidth);
-            _digitalSessionsBundle.WriteSourceWaveformBroadcast(SourceWaveformName, srcWfmSamples);
+            WriteSourceWaveformToAllSites(srcWfmSamples);
             _digitalSessionsBundle.BurstPattern(WritePatternName, timeoutInSeconds: 10);
         }
 
@@ -189,7 +187,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             _digitalSessionsBundle.WriteSequencerRegister(ReadWriteCountSequenceRegister, addresses.Length);
             _digitalSessionsBundle.WriteSequencerRegister(AddressBitWidthSequenceRegister, (int)addressBitWidth);
             _digitalSessionsBundle.WriteSequencerRegister(ValueBitWidthSequenceRegister, (int)valueBitWidth);
-            _digitalSessionsBundle.WriteSourceWaveformBroadcast(SourceWaveformName, srcWfmSamples);
+            WriteSourceWaveformToAllSites(srcWfmSamples);
             _digitalSessionsBundle.BurstPattern(ReadPatternName, timeoutInSeconds: 10);
 
             uint samplesPerValue = GetSampleCount(valueBitWidth, SampleWidth);
@@ -216,7 +214,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             _digitalSessionsBundle.WriteSequencerRegister(ReadWriteCountSequenceRegister, addresses.Length);
             _digitalSessionsBundle.WriteSequencerRegister(AddressBitWidthSequenceRegister, (int)addressBitWidth);
             _digitalSessionsBundle.WriteSequencerRegister(ValueBitWidthSequenceRegister, (int)valueBitWidth);
-            _digitalSessionsBundle.WriteSourceWaveformBroadcast(SourceWaveformName, srcWfmSamples);
+            WriteSourceWaveformToAllSites(srcWfmSamples);
             _digitalSessionsBundle.BurstPattern(WritePatternName, timeoutInSeconds: 10);
         }
 
@@ -255,6 +253,23 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         #endregion Multi Register Operations
 
         #region Sample Conversion Helpers
+
+        // Writes the same samples to every active site using the SiteUnique source waveform. This lets the
+        // broadcast-style operations share the single SiteUnique waveform used by the site-unique operations.
+        private void WriteSourceWaveformToAllSites(uint[] samples)
+        {
+            int[] siteNumbers = _digitalSessionsBundle.AggregateSitePinList
+                .Select(sitePinInfo => sitePinInfo.SiteNumber)
+                .Distinct()
+                .ToArray();
+            uint[][] perSiteSamples = new uint[siteNumbers.Length][];
+            for (int i = 0; i < siteNumbers.Length; i++)
+            {
+                perSiteSamples[i] = samples;
+            }
+            _digitalSessionsBundle.WriteSourceWaveformSiteUnique(
+                SourceWaveformName, new SiteData<uint[]>(siteNumbers, perSiteSamples));
+        }
 
         private uint[] BuildInterleavedSourceWaveform(uint[] addresses, long[] values, uint addressBitWidth, uint valueBitWidth)
         {
