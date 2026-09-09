@@ -79,9 +79,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             digitalPins.TMUInitiate(pinNames: referencePinNames);
 
             // Step 5: Fetch the averaged skew measurement results, keyed by the reference pin(s).
-            PinSiteData<double> skewMeasurements = digitalPins.FetchAveragedTMUMeasurement(
-                timeoutInSeconds: timeoutInSeconds,
-                pinNames: referencePinNames);
+            // The bundle is filtered to the reference pin(s) so that the resulting PinSiteData
+            // only contains entries for the reference pin, and not the target pin.
+            PinSiteData<double> skewMeasurements = digitalPins.FilterByPin(referencePinNames).FetchAveragedTMUMeasurement(timeoutInSeconds);
 
             // Step 6: Publish the skew measurement results.
             tsmContext.PublishResults(skewMeasurements, publishedDataId: "Skew");
