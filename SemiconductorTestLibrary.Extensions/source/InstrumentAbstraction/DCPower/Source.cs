@@ -421,6 +421,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                        advancedSequenceName,
                        voltageSequence,
                        sequenceLoopCount,
+                       waitForSequenceCompletion: true,
                        sequenceTimeoutInSeconds,
                        setAsActiveSequence: true);
                 });
@@ -1700,6 +1701,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                         sequenceName,
                         currentSequence,
                         sequenceLoopCount,
+                        waitForSequenceCompletion,
                         sequenceTimeoutInSeconds,
                         setAsActiveSequence: true);
                 });
@@ -3954,6 +3956,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             string sequenceName,
             double[] levelSequence,
             int sequenceLoopCount,
+            bool waitForSequenceCompletion,
             double sequenceTimeoutInSeconds,
             bool setAsActiveSequence)
         {
@@ -3966,7 +3969,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 outputFunction: (DCPowerSourceOutputFunction)settings.OutputFunction,
                 setAsActiveSequence: setAsActiveSequence);
 
-            channelOutput.InitiateChannels(true, sequenceTimeoutInSeconds);
+            channelOutput.InitiateChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
         }
 
         private static double CalculateLimitRangeFromLimit(DCPowerSourceSettings settings)
