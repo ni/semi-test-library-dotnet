@@ -1862,14 +1862,43 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Releases the assigned TMU resources back to the TMU resource pool.
+        /// Disables and then releases the assigned TMU resources back to the TMU resource pool.
         /// </summary>
         /// <remarks>
-        /// This is a best effort cleanup performed while an exception is in flight.
+        /// The assigned TMU resources are disabled before they are released, so that they are unreserved in hardware
+        /// and can be reassigned to another site or thread that is still running.<br/>
         /// Any failure here is intentionally suppressed so that the original exception is not masked.
         /// </remarks>
         private static void ReleaseTmuResources(DigitalSessionsBundle sessionsBundle, string[] pinNames)
         {
+            try
+            {
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    // A pin may have no assigned TMU context, since the failure being cleaned up
+                    // after may have occurred part way through assigning TMU resources.
+                    if (!DoForThisPin(pinNames, sitePinInfo.PinName)
+                        || string.IsNullOrEmpty((sitePinInfo as DigitalSitePinInfo)?.AssignedTmuContext))
+                    {
+                        return;
+                    }
+                    try
+                    {
+                        DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                        tmu.Enabled = false;
+                    }
+                    catch
+                    {
+                        // Suppressed per pin, so that a failure for one pin does not
+                        // prevent the remaining TMU resources from being disabled.
+                    }
+                });
+            }
+            catch
+            {
+                // Intentionally suppressed so the original exception is not masked.
+            }
+
             try
             {
                 sessionsBundle.Do(sessionInfo =>
