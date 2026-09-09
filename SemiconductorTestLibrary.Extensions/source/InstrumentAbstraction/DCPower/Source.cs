@@ -350,7 +350,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? voltageLevelRange = null,
             double? currentLimitRange = null,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion,
+            bool waitForSequenceCompletion = true,
             double sequenceTimeoutInSeconds = DefaultTimeout)
         {
             ForceVoltageSequence(
@@ -693,7 +693,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
+            bool waitForSequenceCompletion = true,
             double sequenceTimeoutInSeconds = DefaultTimeout)
         {
             ArrayProvider<double> getVoltageSequence = _ => voltageSequence;
@@ -710,7 +710,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sourceDelayInSeconds,
                 transientResponse,
                 sequenceLoopCount,
-                waitForSequenceCompletion,
                 sequenceTimeoutInSeconds);
         }
 
@@ -739,7 +738,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
+            bool waitForSequenceCompletion = true,
             double sequenceTimeoutInSeconds = DefaultTimeout)
         {
             ArrayProvider<double> getVoltageSequenceForSite = sitePinInfo => voltageSequence?.GetValue(sitePinInfo.SiteNumber);
@@ -756,7 +755,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sourceDelayInSeconds,
                 transientResponse,
                 sequenceLoopCount,
-                waitForSequenceCompletion,
                 sequenceTimeoutInSeconds);
         }
 
@@ -785,7 +783,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
+            bool waitForSequenceCompletion = true,
             double sequenceTimeoutInSeconds = DefaultTimeout)
         {
             ArrayProvider<double> getVoltageSequenceForSitePin = sitePinInfo => voltageSequence?.GetValue(sitePinInfo);
@@ -802,7 +800,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sourceDelayInSeconds,
                 transientResponse,
                 sequenceLoopCount,
-                waitForSequenceCompletion,
                 sequenceTimeoutInSeconds);
         }
 
@@ -1033,7 +1030,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
+            bool waitForSequenceCompletion = true,
             double sequenceTimeoutInSeconds = DefaultTimeout)
         {
             ArrayProvider<double> getCurrentSequence = _ => currentSequence;
@@ -1050,7 +1047,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sourceDelayInSeconds,
                 transientResponse,
                 sequenceLoopCount,
-                waitForSequenceCompletion,
                 sequenceTimeoutInSeconds);
         }
 
@@ -1079,7 +1075,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
+            bool waitForSequenceCompletion = true,
             double sequenceTimeoutInSeconds = DefaultTimeout)
         {
             ArrayProvider<double> getCurrentSequenceForSite = sitePinInfo => currentSequence.GetValue(sitePinInfo.SiteNumber);
@@ -1096,7 +1092,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sourceDelayInSeconds,
                 transientResponse,
                 sequenceLoopCount,
-                waitForSequenceCompletion,
                 sequenceTimeoutInSeconds);
         }
 
@@ -1125,7 +1120,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
+            bool waitForSequenceCompletion = true,
             double sequenceTimeoutInSeconds = DefaultTimeout)
         {
             ArrayProvider<double> getCurrentSequenceForSitePin = sitePinInfo => currentSequence.GetValue(sitePinInfo);
@@ -1142,7 +1137,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sourceDelayInSeconds,
                 transientResponse,
                 sequenceLoopCount,
-                waitForSequenceCompletion,
                 sequenceTimeoutInSeconds);
         }
 
@@ -1159,7 +1153,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? sourceDelayInSeconds,
             DCPowerSourceTransientResponse? transientResponse,
             int sequenceLoopCount,
-            bool waitForSequenceCompletion,
             double sequenceTimeoutInSeconds)
         {
             sessionsBundle.ValidateNoChannelGanged();
@@ -1211,12 +1204,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
             // Start Primary
             primaryOutput.Control.Initiate();
-
-            if (waitForSequenceCompletion)
-            {
-                primaryOutput.Events.SequenceEngineDoneEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
-            }
-
+            primaryOutput.Events.SequenceEngineDoneEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
             sessionsBundle.ReleaseSynchronizedAdvancedSequenceResources(sequenceName);
         }
 
