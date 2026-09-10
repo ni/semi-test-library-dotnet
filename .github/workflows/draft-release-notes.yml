@@ -189,9 +189,32 @@ jobs:
           # Move the expected files to the current directory (they are in flat layout already)
           mv jfrog-artifacts/NationalInstruments.SemiconductorTestLibrary.$VERSION.nupkg .
           mv jfrog-artifacts/SemiconductorTestLibrary.$VERSION.Assemblies.zip .
-
+          if [ "$(printf '%s\n' "$VERSION" "26.0.0" | sort -V | head -n1)" = "26.0.0" ]; then
+            mv jfrog-artifacts/SemiconductorTestLibrary.$VERSION.Examples.zip .
+            echo "INCLUDE_EXAMPLES=true" >> $GITHUB_ENV
+          else
+            echo "::notice::Version $VERSION is below 26.0.0; Examples.zip is not expected. Proceeding with .nupkg and Assemblies.zip only."
+            echo "INCLUDE_EXAMPLES=false" >> $GITHUB_ENV
+          fi
       # Create Release Notes Draft
-      - name: Create Release Notes Draft
+      - name: Create Release Notes Draft (With Examples)
+        if: env.INCLUDE_EXAMPLES == 'true'
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ github.event.inputs.version }}
+          name: v${{ github.event.inputs.version }}
+          body: ${{ steps.extract_changelog.outputs.changelog_section }}
+          # Please do not change the 'draft' parameter to 'false', as we only intend to create a draft of the Release Notes
+          draft: true
+          files: |
+            NationalInstruments.SemiconductorTestLibrary.${{ github.event.inputs.version }}.nupkg
+            SemiconductorTestLibrary.${{ github.event.inputs.version }}.Assemblies.zip
+            SemiconductorTestLibrary.${{ github.event.inputs.version }}.Examples.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Release Notes Draft (Without Examples)
+        if: env.INCLUDE_EXAMPLES != 'true'
         uses: softprops/action-gh-release@v1
         with:
           tag_name: v${{ github.event.inputs.version }}
