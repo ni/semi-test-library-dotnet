@@ -5022,6 +5022,11 @@
             <summary>
             Fetches the averaged measurement result.
             </summary>
+            <remarks>
+            This method takes the session-level lock for the full duration of the fetch.<br/>
+            Because the fetch blocks until the measurement completes or <paramref name="timeout"/> elapses,
+            TMU configuration and resource allocation for every other site sharing this session are stalled for that duration.
+            </remarks>
             <param name="timeout">The maximum time, in seconds, to wait for the measurement to complete.</param>
             <returns>The averaged measurement value.</returns>
         </member>
