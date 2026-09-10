@@ -324,7 +324,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
             sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion);
         }
-
+// temp change
         /// <summary>
         /// Forces a hardware-timed sequence of voltage values on the targeted pins.
         /// </summary>
