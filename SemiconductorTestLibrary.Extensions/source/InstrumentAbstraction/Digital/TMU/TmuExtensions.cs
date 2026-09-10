@@ -1648,7 +1648,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         public static int[] GetTMUCount(this DigitalSessionsBundle sessionsBundle)
         {
             return sessionsBundle.InstrumentSessions
-                .Select(sessionInfo => GetDigitalTmus(sessionInfo.Session).GetTmuCount())
+                .Select(sessionInfo => GetDigitalTmus(sessionInfo.Session).TmuCount)
                 .ToArray();
         }
 
