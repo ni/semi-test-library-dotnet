@@ -1623,30 +1623,25 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
 
         #endregion
 
-        // #region Get TMU Count
+        #region Get TMU Count
 
-        // NOTE (POC): GetTMUCount() is temporarily disabled. The driver-native DigitalTmuCollection
-        // (NIDigital.Tmu) only exposes GetDisabledTmuContexts() and GetTmu(string) -- there is no
-        // native API to query the total number of TMU resources available per instrument session.
-        // This needs a follow-up decision on how (or whether) to support this API going forward.
+         /// <summary>
+         /// Gets the total number of TMU resources available for each instrument session in the<see cref = "DigitalSessionsBundle" />.
+         /// </summary>
+         /// <remarks>
+         /// This value is session-level and reflects the total TMU count across all modules in each instrument session.
+         /// The returned array contains one value per instrument session, in the same order as <see cref = "ISessionsBundle{TSessionInformation}.InstrumentSessions" />.
+         /// </remarks>
+         /// <param name="sessionsBundle">The<see cref = "DigitalSessionsBundle" />.</param>
+         /// <returns> An array containing the total number of TMU resources available, one value per instrument session.</returns>
+         public static int[] GetTMUCount(this DigitalSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.InstrumentSessions
+                .Select(sessionInfo => GetDigitalTmus(sessionInfo.Session).TmuCount())
+                .ToArray();
+        }
 
-        // /// <summary>
-        // /// Gets the total number of TMU resources available for each instrument session in the<see cref = "DigitalSessionsBundle" />.
-        // /// </ summary >
-        // /// < remarks >
-        // /// This value is session-level and reflects the total TMU count across all modules in each instrument session.
-        // /// The returned array contains one value per instrument session, in the same order as <see cref = "ISessionsBundle{TSessionInformation}.InstrumentSessions" />.
-        // /// </ remarks >
-        // /// < param name="sessionsBundle">The<see cref = "DigitalSessionsBundle" />.</ param >
-        // ///< returns > An array containing the total number of TMU resources available, one value per instrument session.</returns>
-        // public static int[] GetTMUCount(this DigitalSessionsBundle sessionsBundle)
-        // {
-        //    return sessionsBundle.InstrumentSessions
-        //        .Select(sessionInfo => GetDigitalTmus(sessionInfo.Session).GetTmuCount())
-        //        .ToArray();
-        // }
-
-        // #endregion
+        #endregion
 
         private static void AssignTMUContexts(this DigitalSessionInformation digitalSessionInformation, string[] pins = null)
         {
