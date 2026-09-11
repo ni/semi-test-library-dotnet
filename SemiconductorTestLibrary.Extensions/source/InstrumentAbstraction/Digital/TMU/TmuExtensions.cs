@@ -910,13 +910,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         {
             return sessionsBundle.DoWithTmuReleaseOnFailure(pinNames, () =>
             {
-              ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-              var filteredSessionsBundle = pinNames == null || pinNames.Length == 0 ? sessionsBundle : sessionsBundle.FilterByPin(pinNames);
-              return filteredSessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
-              {
-                  DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                  return tmu.FetchAveragedMeasurement(timeoutInSeconds);
-              });
+                ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+                var filteredSessionsBundle = pinNames == null || pinNames.Length == 0 ? sessionsBundle : sessionsBundle.FilterByPin(pinNames);
+                return filteredSessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+                {
+                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                    return tmu.FetchAveragedMeasurement(timeoutInSeconds);
+                });
             });
         }
 
