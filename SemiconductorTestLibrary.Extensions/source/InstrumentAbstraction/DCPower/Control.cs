@@ -115,6 +115,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sessionsBundle.WaitForEvent(EventType.SequenceEngineDoneEvent, sequenceTimeoutInSeconds);
             }
         }
+
+        /// <summary>
+        /// Performs a hard reset of the physical device(s) backing the sessions in the bundle, then automatically
+        /// recovers any sibling channel-group sessions on the same device(s) that the reset invalidated, restoring
+        /// their previously exported configuration.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <remarks>
+        /// When a single physical NI-DCPower device is split across multiple channel groups, each group is a separate
+        /// driver session. A hard reset of one session resets the whole device and invalidates the sibling sessions.
+        /// This method resets the device and reinitializes the invalidated siblings in place, so subsequent operations
+        /// on them succeed without re-fetching from the session manager.
+        /// </remarks>
+        public static void ResetDevice(this DCPowerSessionsBundle sessionsBundle)
+        {
+            sessionsBundle.ResetDevices();
+        }
         #endregion methods on DCPowerSessionsBundle
 
         internal static void ApplyUpdateMode(
