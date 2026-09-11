@@ -901,7 +901,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="timeoutInSeconds">Maximum time (in seconds) to wait for the measurement to complete.</param>
-        /// <param name="pinNames">The specific pins to fetch the TMU measurement for. When <c>null</c>, all pins are targeted.</param>
+        /// <param name="pinNames">The specific pins to fetch the TMU measurement for. When <c>null</c>, all pins are targeted. The returned results only contain entries for the requested pins.</param>
         /// <returns>The averaged measurement value fetched from the TMU resource, for each pin and site.</returns>
         /// <exception cref="NISemiconductorTestException">
         /// Thrown when one or more of the requested <paramref name="pinNames"/> are <c>null</c>, empty, or not present in the sessions bundle.
@@ -911,14 +911,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             return sessionsBundle.DoWithTmuReleaseOnFailure(pinNames, () =>
             {
                 ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-                return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+                var filteredSessionsBundle = pinNames == null || pinNames.Length == 0 ? sessionsBundle : sessionsBundle.FilterByPin(pinNames);
+                return filteredSessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
                 {
-                    if (DoForThisPin(pinNames, sitePinInfo.PinName))
-                    {
-                        DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                        return tmu.FetchAveragedMeasurement(timeoutInSeconds);
-                    }
-                    return double.NaN;
+                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                    return tmu.FetchAveragedMeasurement(timeoutInSeconds);
                 });
             });
         }
