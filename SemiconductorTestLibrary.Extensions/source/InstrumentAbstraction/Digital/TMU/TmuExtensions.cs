@@ -1625,16 +1625,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
 
         #region Get TMU Count
 
-         /// <summary>
-         /// Gets the total number of TMU resources available for each instrument session in the<see cref = "DigitalSessionsBundle" />.
-         /// </summary>
-         /// <remarks>
-         /// This value is session-level and reflects the total TMU count across all modules in each instrument session.
-         /// The returned array contains one value per instrument session, in the same order as <see cref = "ISessionsBundle{TSessionInformation}.InstrumentSessions" />.
-         /// </remarks>
-         /// <param name="sessionsBundle">The<see cref = "DigitalSessionsBundle" />.</param>
-         /// <returns> An array containing the total number of TMU resources available, one value per instrument session.</returns>
-         public static int[] GetTMUCount(this DigitalSessionsBundle sessionsBundle)
+        /// <summary>
+        /// Gets the total number of TMU resources available for each instrument session in the <see cref="DigitalSessionsBundle"/>.
+        /// </summary>
+        /// <remarks>
+        /// This value is session-level and reflects the total TMU count across all modules in each instrument session.
+        /// The returned array contains one value per instrument session, in the same order as <see cref="ISessionsBundle{TSessionInformation}.InstrumentSessions"/>.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <returns>An array containing the total number of TMU resources available, one value per instrument session.</returns>
+        public static int[] GetTMUCount(this DigitalSessionsBundle sessionsBundle)
         {
             return sessionsBundle.InstrumentSessions
                 .Select(sessionInfo => GetDigitalTmus(sessionInfo.Session).TmuCount())
