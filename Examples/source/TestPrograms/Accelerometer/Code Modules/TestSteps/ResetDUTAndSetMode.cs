@@ -32,7 +32,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.Accelerometer
 
             rstPin.ForceVoltage(vih, currentLimitRange, settlingTime: rstPinSettlingTime);
 
-            // This is separate from and in addtion to the rstPin settling time.
+            // This is separate from and in addition to the rstPin settling time.
             Utilities.PreciseWait(resetTimeInSeconds);
 
             // Current limit range already set, no need to set it again.
