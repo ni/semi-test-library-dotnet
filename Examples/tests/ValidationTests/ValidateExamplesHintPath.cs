@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Xml.Linq;
 using Xunit;
-//test
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Functionality.HintPathValidation
 {
     public class ValidateExamplesHintPath
