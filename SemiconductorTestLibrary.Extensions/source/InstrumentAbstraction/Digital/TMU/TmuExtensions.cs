@@ -42,15 +42,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </exception>
         public static void TMUInitiate(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
-            ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            sessionsBundle.DoWithTmuReleaseOnFailure(pinNames, () =>
             {
-                if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
-                    SetDigitalHighZState(sessionInfo);
-                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                    tmu.Initiate();
-                }
+                    if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                    {
+                        SetDigitalHighZState(sessionInfo);
+                        DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                        tmu.Initiate();
+                    }
+                });
             });
         }
 
@@ -80,14 +83,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </exception>
         public static void EnableTMU(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
-            ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            sessionsBundle.DoWithTmuReleaseOnFailure(pinNames, () =>
             {
-                if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
-                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                    tmu.Enabled = true;
-                }
+                    if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                    {
+                        DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                        tmu.Enabled = true;
+                    }
+                });
             });
         }
 
@@ -118,15 +124,24 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </exception>
         public static void DisableTMU(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
-            ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            // Not routed through DoWithTmuReleaseOnFailure, since the release itself is part of this method's cleanup path.
+            try
             {
-                if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
-                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                    tmu.Enabled = false;
-                }
-            });
+                    if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                    {
+                        DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                        tmu.Enabled = false;
+                    }
+                });
+            }
+            catch
+            {
+                ReleaseTmuResources(sessionsBundle, pinNames);
+                throw; // rethrow the original exception.
+            }
         }
 
         /// <inheritdoc cref="DisableTMU(DigitalSessionsBundle, string[])"/>
@@ -155,14 +170,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </exception>
         public static void TMUAbort(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
-            ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            sessionsBundle.DoWithTmuReleaseOnFailure(pinNames, () =>
             {
-                if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
-                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                    tmu.Abort();
-                }
+                    if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                    {
+                        DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                        tmu.Abort();
+                    }
+                });
             });
         }
 
@@ -196,9 +214,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </exception>
         public static void AssignTMUResources(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
-            ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+            // Not routed through DoWithTmuReleaseOnFailure, since the release itself is part of this method's cleanup path.
             try
             {
+                ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
                 sessionsBundle.Do(sessionInfo =>
                 {
                     sessionInfo.AssignTMUContexts(pinNames);
@@ -207,11 +226,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             catch
             {
                 // Clear partially assigned TMU resources in case of exception
-                sessionsBundle.Do(sessionInfo =>
-                {
-                    sessionInfo.ClearAssignedTMUContexts(pinNames, doTMUReleaseCheck: false);
-                });
-
+                ReleaseTmuResources(sessionsBundle, pinNames);
                 throw; // rethrow the original exception.
             }
         }
@@ -244,11 +259,21 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </exception>
         public static void ClearTMUAssignment(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
-            ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            sessionsBundle.Do(sessionInfo =>
+            // Not routed through DoWithTmuReleaseOnFailure, since the release itself is part of this method's cleanup path.
+            try
             {
-                sessionInfo.ClearAssignedTMUContexts(pinNames);
-            });
+                ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    sessionInfo.ClearAssignedTMUContexts(pinNames);
+                });
+            }
+            catch
+            {
+                // Clear all the assigned TMU resources in case of exception
+                ReleaseTmuResources(sessionsBundle, pinNames);
+                throw; // rethrow the original exception.
+            }
         }
 
         /// <inheritdoc cref="ClearTMUAssignment(DigitalSessionsBundle, string[])"/>
@@ -316,26 +341,29 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </exception>
         public static void ConfigurePeriodMeasurement(this DigitalSessionsBundle sessionsBundle, TmuPolarity edgeType, long samplesToAcquire, TmuArmSetting armSetting = TmuArmSetting.Immediate, string[] pinNames = null)
         {
-            ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            ValidateTmuArmSetting(armSetting);
-            TmuSourceEvent sourceEvent = ValidateAndGetSourceEventForEdge(edgeType);
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            sessionsBundle.DoWithTmuReleaseOnFailure(pinNames, () =>
             {
-                if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+                ValidateTmuArmSetting(armSetting);
+                TmuSourceEvent sourceEvent = ValidateAndGetSourceEventForEdge(edgeType);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
-                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                    string channel = sitePinInfo.IndividualChannelString;
-                    ConfigureAndEnableTmu(
-                        tmu: tmu,
-                        startSource: channel,
-                        startEvent: sourceEvent,
-                        startPolarity: edgeType,
-                        stopSource: channel,
-                        stopEvent: sourceEvent,
-                        stopPolarity: edgeType,
-                        samplesToAcquire: samplesToAcquire,
-                        armSetting: armSetting);
-                }
+                    if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                    {
+                        DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                        string channel = sitePinInfo.IndividualChannelString;
+                        ConfigureAndEnableTmu(
+                            tmu: tmu,
+                            startSource: channel,
+                            startEvent: sourceEvent,
+                            startPolarity: edgeType,
+                            stopSource: channel,
+                            stopEvent: sourceEvent,
+                            stopPolarity: edgeType,
+                            samplesToAcquire: samplesToAcquire,
+                            armSetting: armSetting);
+                    }
+                });
             });
         }
 
@@ -420,40 +448,43 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             long samplesToAcquire,
             TmuArmSetting armSetting = TmuArmSetting.Immediate)
         {
-            ValidateSkewParameters(referencePinNames, targetPinNames, armSetting, sessionsBundle.Pins);
-            TmuSourceEvent sourceEvent = ValidateAndGetSourceEventForEdge(edgeType);
-
-            // Create a mapping from reference pin to target pin
-            var referenceToTargetMap = new Dictionary<string, string>();
-            for (int i = 0; i < referencePinNames.Length; i++)
+            sessionsBundle.DoWithTmuReleaseOnFailure(null, () =>
             {
-                referenceToTargetMap[referencePinNames[i]] = targetPinNames[i];
-            }
+                ValidateSkewParameters(referencePinNames, targetPinNames, armSetting, sessionsBundle.Pins);
+                TmuSourceEvent sourceEvent = ValidateAndGetSourceEventForEdge(edgeType);
 
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                // Configure only for reference pins (which have the TMU assigned)
-                if (referenceToTargetMap.TryGetValue(sitePinInfo.PinName, out string targetPinName))
+                // Create a mapping from reference pin to target pin
+                var referenceToTargetMap = new Dictionary<string, string>();
+                for (int i = 0; i < referencePinNames.Length; i++)
                 {
-                    // Find the target pin's sitePinInfo in the same site.
-                    var targetSitePinInfo = sessionInfo.AssociatedSitePinList
-                        .FirstOrDefault(sp => sp.PinName == targetPinName && sp.SiteNumber == sitePinInfo.SiteNumber);
-                    if (targetSitePinInfo == null)
-                    {
-                        throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUSkewTargetPinNotFound, targetPinName, sitePinInfo.SiteNumber));
-                    }
-                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                    ConfigureAndEnableTmu(
-                        tmu: tmu,
-                        startSource: sitePinInfo.IndividualChannelString,
-                        startEvent: sourceEvent,
-                        startPolarity: edgeType,
-                        stopSource: targetSitePinInfo.IndividualChannelString,
-                        stopEvent: sourceEvent,
-                        stopPolarity: edgeType,
-                        samplesToAcquire: samplesToAcquire,
-                        armSetting: armSetting);
+                    referenceToTargetMap[referencePinNames[i]] = targetPinNames[i];
                 }
+
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    // Configure only for reference pins (which have the TMU assigned)
+                    if (referenceToTargetMap.TryGetValue(sitePinInfo.PinName, out string targetPinName))
+                    {
+                        // Find the target pin's sitePinInfo in the same site.
+                        var targetSitePinInfo = sessionInfo.AssociatedSitePinList
+                            .FirstOrDefault(sp => sp.PinName == targetPinName && sp.SiteNumber == sitePinInfo.SiteNumber);
+                        if (targetSitePinInfo == null)
+                        {
+                            throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUSkewTargetPinNotFound, targetPinName, sitePinInfo.SiteNumber));
+                        }
+                        DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                        ConfigureAndEnableTmu(
+                            tmu: tmu,
+                            startSource: sitePinInfo.IndividualChannelString,
+                            startEvent: sourceEvent,
+                            startPolarity: edgeType,
+                            stopSource: targetSitePinInfo.IndividualChannelString,
+                            stopEvent: sourceEvent,
+                            stopPolarity: edgeType,
+                            samplesToAcquire: samplesToAcquire,
+                            armSetting: armSetting);
+                    }
+                });
             });
         }
 
@@ -517,25 +548,28 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </exception>
         public static void ConfigureTMURiseTimeMeasurement(this DigitalSessionsBundle sessionsBundle, long samplesToAcquire, TmuArmSetting armSetting = TmuArmSetting.Immediate, string[] pinNames = null)
         {
-            ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            ValidateTmuArmSetting(armSetting);
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            sessionsBundle.DoWithTmuReleaseOnFailure(pinNames, () =>
             {
-                if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+                ValidateTmuArmSetting(armSetting);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
-                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                    string channel = sitePinInfo.IndividualChannelString;
-                    ConfigureAndEnableTmu(
-                        tmu: tmu,
-                        startSource: channel,
-                        startEvent: TmuSourceEvent.Vol,
-                        startPolarity: TmuPolarity.RisingEdge,
-                        stopSource: channel,
-                        stopEvent: TmuSourceEvent.Voh,
-                        stopPolarity: TmuPolarity.RisingEdge,
-                        samplesToAcquire: samplesToAcquire,
-                        armSetting: armSetting);
-                }
+                    if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                    {
+                        DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                        string channel = sitePinInfo.IndividualChannelString;
+                        ConfigureAndEnableTmu(
+                            tmu: tmu,
+                            startSource: channel,
+                            startEvent: TmuSourceEvent.Vol,
+                            startPolarity: TmuPolarity.RisingEdge,
+                            stopSource: channel,
+                            stopEvent: TmuSourceEvent.Voh,
+                            stopPolarity: TmuPolarity.RisingEdge,
+                            samplesToAcquire: samplesToAcquire,
+                            armSetting: armSetting);
+                    }
+                });
             });
         }
 
@@ -588,25 +622,28 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </exception>
         public static void ConfigureTMUFallTimeMeasurement(this DigitalSessionsBundle sessionsBundle, long samplesToAcquire, TmuArmSetting armSetting = TmuArmSetting.Immediate, string[] pinNames = null)
         {
-            ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            ValidateTmuArmSetting(armSetting);
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            sessionsBundle.DoWithTmuReleaseOnFailure(pinNames, () =>
             {
-                if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+                ValidateTmuArmSetting(armSetting);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
-                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                    string channel = sitePinInfo.IndividualChannelString;
-                    ConfigureAndEnableTmu(
-                        tmu: tmu,
-                        startSource: channel,
-                        startEvent: TmuSourceEvent.Voh,
-                        startPolarity: TmuPolarity.FallingEdge,
-                        stopSource: channel,
-                        stopEvent: TmuSourceEvent.Vol,
-                        stopPolarity: TmuPolarity.FallingEdge,
-                        samplesToAcquire: samplesToAcquire,
-                        armSetting: armSetting);
-                }
+                    if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                    {
+                        DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                        string channel = sitePinInfo.IndividualChannelString;
+                        ConfigureAndEnableTmu(
+                            tmu: tmu,
+                            startSource: channel,
+                            startEvent: TmuSourceEvent.Voh,
+                            startPolarity: TmuPolarity.FallingEdge,
+                            stopSource: channel,
+                            stopEvent: TmuSourceEvent.Vol,
+                            stopPolarity: TmuPolarity.FallingEdge,
+                            samplesToAcquire: samplesToAcquire,
+                            armSetting: armSetting);
+                    }
+                });
             });
         }
 
@@ -681,44 +718,47 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </exception>
         public static void ConfigureTMUDutyCycleMeasurement(this DigitalSessionsBundle sessionsBundle, TmuDutyCycle dutyCycleType, long samplesToAcquire, TmuArmSetting armSetting = TmuArmSetting.Immediate, string[] pinNames = null)
         {
-            ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            ValidateTmuArmSetting(armSetting);
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            sessionsBundle.DoWithTmuReleaseOnFailure(pinNames, () =>
             {
-                if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+                ValidateTmuArmSetting(armSetting);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
-                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                    string channel = sitePinInfo.IndividualChannelString;
-                    switch (dutyCycleType)
+                    if (DoForThisPin(pinNames, sitePinInfo.PinName))
                     {
-                        case TmuDutyCycle.High:
-                            ConfigureAndEnableTmu(
-                                tmu: tmu,
-                                startSource: channel,
-                                startEvent: TmuSourceEvent.Voh,
-                                startPolarity: TmuPolarity.RisingEdge,
-                                stopSource: channel,
-                                stopEvent: TmuSourceEvent.Voh,
-                                stopPolarity: TmuPolarity.FallingEdge,
-                                samplesToAcquire: samplesToAcquire,
-                                armSetting: armSetting);
-                            break;
-                        case TmuDutyCycle.Low:
-                            ConfigureAndEnableTmu(
-                                tmu: tmu,
-                                startSource: channel,
-                                startEvent: TmuSourceEvent.Vol,
-                                startPolarity: TmuPolarity.FallingEdge,
-                                stopSource: channel,
-                                stopEvent: TmuSourceEvent.Vol,
-                                stopPolarity: TmuPolarity.RisingEdge,
-                                samplesToAcquire: samplesToAcquire,
-                                armSetting: armSetting);
-                            break;
-                        default:
-                            throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedDuty, dutyCycleType.ToString()));
+                        DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                        string channel = sitePinInfo.IndividualChannelString;
+                        switch (dutyCycleType)
+                        {
+                            case TmuDutyCycle.High:
+                                ConfigureAndEnableTmu(
+                                    tmu: tmu,
+                                    startSource: channel,
+                                    startEvent: TmuSourceEvent.Voh,
+                                    startPolarity: TmuPolarity.RisingEdge,
+                                    stopSource: channel,
+                                    stopEvent: TmuSourceEvent.Voh,
+                                    stopPolarity: TmuPolarity.FallingEdge,
+                                    samplesToAcquire: samplesToAcquire,
+                                    armSetting: armSetting);
+                                break;
+                            case TmuDutyCycle.Low:
+                                ConfigureAndEnableTmu(
+                                    tmu: tmu,
+                                    startSource: channel,
+                                    startEvent: TmuSourceEvent.Vol,
+                                    startPolarity: TmuPolarity.FallingEdge,
+                                    stopSource: channel,
+                                    stopEvent: TmuSourceEvent.Vol,
+                                    stopPolarity: TmuPolarity.RisingEdge,
+                                    samplesToAcquire: samplesToAcquire,
+                                    armSetting: armSetting);
+                                break;
+                            default:
+                                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedDuty, dutyCycleType.ToString()));
+                        }
                     }
-                }
+                });
             });
         }
 
@@ -790,44 +830,47 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </exception>
         public static void ConfigureTMUPulseWidthMeasurement(this DigitalSessionsBundle sessionsBundle, TmuPulseWidth pulseWidthType, long samplesToAcquire, TmuArmSetting armSetting = TmuArmSetting.Immediate, string[] pinNames = null)
         {
-            ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            ValidateTmuArmSetting(armSetting);
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            sessionsBundle.DoWithTmuReleaseOnFailure(pinNames, () =>
             {
-                if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+                ValidateTmuArmSetting(armSetting);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
-                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                    string channel = sitePinInfo.IndividualChannelString;
-                    switch (pulseWidthType)
+                    if (DoForThisPin(pinNames, sitePinInfo.PinName))
                     {
-                        case TmuPulseWidth.High:
-                            ConfigureAndEnableTmu(
-                                tmu: tmu,
-                                startSource: channel,
-                                startEvent: TmuSourceEvent.Voh,
-                                startPolarity: TmuPolarity.RisingEdge,
-                                stopSource: channel,
-                                stopEvent: TmuSourceEvent.Vol,
-                                stopPolarity: TmuPolarity.FallingEdge,
-                                samplesToAcquire: samplesToAcquire,
-                                armSetting: armSetting);
-                            break;
-                        case TmuPulseWidth.Low:
-                            ConfigureAndEnableTmu(
-                                tmu: tmu,
-                                startSource: channel,
-                                startEvent: TmuSourceEvent.Vol,
-                                startPolarity: TmuPolarity.FallingEdge,
-                                stopSource: channel,
-                                stopEvent: TmuSourceEvent.Voh,
-                                stopPolarity: TmuPolarity.RisingEdge,
-                                samplesToAcquire: samplesToAcquire,
-                                armSetting: armSetting);
-                            break;
-                        default:
-                            throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedPulseWidth, pulseWidthType.ToString()));
+                        DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                        string channel = sitePinInfo.IndividualChannelString;
+                        switch (pulseWidthType)
+                        {
+                            case TmuPulseWidth.High:
+                                ConfigureAndEnableTmu(
+                                    tmu: tmu,
+                                    startSource: channel,
+                                    startEvent: TmuSourceEvent.Voh,
+                                    startPolarity: TmuPolarity.RisingEdge,
+                                    stopSource: channel,
+                                    stopEvent: TmuSourceEvent.Vol,
+                                    stopPolarity: TmuPolarity.FallingEdge,
+                                    samplesToAcquire: samplesToAcquire,
+                                    armSetting: armSetting);
+                                break;
+                            case TmuPulseWidth.Low:
+                                ConfigureAndEnableTmu(
+                                    tmu: tmu,
+                                    startSource: channel,
+                                    startEvent: TmuSourceEvent.Vol,
+                                    startPolarity: TmuPolarity.FallingEdge,
+                                    stopSource: channel,
+                                    stopEvent: TmuSourceEvent.Voh,
+                                    stopPolarity: TmuPolarity.RisingEdge,
+                                    samplesToAcquire: samplesToAcquire,
+                                    armSetting: armSetting);
+                                break;
+                            default:
+                                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Digital_TMUUnsupportedPulseWidth, pulseWidthType.ToString()));
+                        }
                     }
-                }
+                });
             });
         }
 
@@ -865,14 +908,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </exception>
         public static PinSiteData<double> FetchAveragedTMUMeasurement(this DigitalSessionsBundle sessionsBundle, double timeoutInSeconds = 5, string[] pinNames = null)
         {
-            ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            var filteredSessionsBundle = pinNames == null || pinNames.Length == 0
-                ? sessionsBundle
-                : sessionsBundle.FilterByPin(pinNames);
-            return filteredSessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            return sessionsBundle.DoWithTmuReleaseOnFailure(pinNames, () =>
             {
-                DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                return tmu.FetchAveragedMeasurement(timeoutInSeconds);
+              ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+              var filteredSessionsBundle = pinNames == null || pinNames.Length == 0 ? sessionsBundle : sessionsBundle.FilterByPin(pinNames);
+              return filteredSessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+              {
+                  DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                  return tmu.FetchAveragedMeasurement(timeoutInSeconds);
+              });
             });
         }
 
@@ -900,14 +944,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </exception>
         public static void ConfigureTMUStartSource(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
-            ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            sessionsBundle.DoWithTmuReleaseOnFailure(pinNames, () =>
             {
-                if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
-                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                    tmu.Start.Source = sitePinInfo.IndividualChannelString;
-                }
+                    if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                    {
+                        DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                        tmu.Start.Source = sitePinInfo.IndividualChannelString;
+                    }
+                });
             });
         }
 
@@ -936,14 +983,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </exception>
         public static void ConfigureTMUStopSource(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
-            ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            sessionsBundle.DoWithTmuReleaseOnFailure(pinNames, () =>
             {
-                if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
-                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                    tmu.Stop.Source = sitePinInfo.IndividualChannelString;
-                }
+                    if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                    {
+                        DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                        tmu.Stop.Source = sitePinInfo.IndividualChannelString;
+                    }
+                });
             });
         }
 
@@ -973,14 +1023,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </exception>
         public static void ConfigureTMUStartSourceEvent(this DigitalSessionsBundle sessionsBundle, TmuSourceEvent sourceEvent, string[] pinNames = null)
         {
-            ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            sessionsBundle.DoWithTmuReleaseOnFailure(pinNames, () =>
             {
-                if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
-                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                    tmu.Start.SourceEvent = sourceEvent;
-                }
+                    if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                    {
+                        DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                        tmu.Start.SourceEvent = sourceEvent;
+                    }
+                });
             });
         }
 
@@ -1011,14 +1064,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </exception>
         public static void ConfigureTMUStopSourceEvent(this DigitalSessionsBundle sessionsBundle, TmuSourceEvent sourceEvent, string[] pinNames = null)
         {
-            ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            sessionsBundle.DoWithTmuReleaseOnFailure(pinNames, () =>
             {
-                if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
-                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                    tmu.Stop.SourceEvent = sourceEvent;
-                }
+                    if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                    {
+                        DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                        tmu.Stop.SourceEvent = sourceEvent;
+                    }
+                });
             });
         }
 
@@ -1049,14 +1105,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </exception>
         public static void ConfigureTMUStartSourceEventPolarity(this DigitalSessionsBundle sessionsBundle, TmuPolarity polarity, string[] pinNames = null)
         {
-            ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            sessionsBundle.DoWithTmuReleaseOnFailure(pinNames, () =>
             {
-                if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
-                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                    tmu.Start.SourceEventPolarity = polarity;
-                }
+                    if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                    {
+                        DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                        tmu.Start.SourceEventPolarity = polarity;
+                    }
+                });
             });
         }
 
@@ -1087,14 +1146,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </exception>
         public static void ConfigureTMUStopSourceEventPolarity(this DigitalSessionsBundle sessionsBundle, TmuPolarity polarity, string[] pinNames = null)
         {
-            ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            sessionsBundle.DoWithTmuReleaseOnFailure(pinNames, () =>
             {
-                if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
-                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                    tmu.Stop.SourceEventPolarity = polarity;
-                }
+                    if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                    {
+                        DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                        tmu.Stop.SourceEventPolarity = polarity;
+                    }
+                });
             });
         }
 
@@ -1126,15 +1188,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </exception>
         public static void ConfigureTMUArmType(this DigitalSessionsBundle sessionsBundle, TmuArmType armType, string[] pinNames = null)
         {
-            ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            ValidateTmuArmType(armType);
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            sessionsBundle.DoWithTmuReleaseOnFailure(pinNames, () =>
             {
-                if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+                ValidateTmuArmType(armType);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
-                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                    tmu.ArmType = armType;
-                }
+                    if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                    {
+                        DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                        tmu.ArmType = armType;
+                    }
+                });
             });
         }
 
@@ -1166,14 +1231,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </exception>
         public static void ConfigureTMUEdgeArmSource(this DigitalSessionsBundle sessionsBundle, string[] pinNames = null)
         {
-            ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            sessionsBundle.DoWithTmuReleaseOnFailure(pinNames, () =>
             {
-                if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
-                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                    tmu.EdgeArm.Source = sitePinInfo.IndividualChannelString;
-                }
+                    if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                    {
+                        DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                        tmu.EdgeArm.Source = sitePinInfo.IndividualChannelString;
+                    }
+                });
             });
         }
 
@@ -1204,14 +1272,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </exception>
         public static void ConfigureTMUEdgeArmSourceEvent(this DigitalSessionsBundle sessionsBundle, TmuSourceEvent sourceEvent, string[] pinNames = null)
         {
-            ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            sessionsBundle.DoWithTmuReleaseOnFailure(pinNames, () =>
             {
-                if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
-                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                    tmu.EdgeArm.SourceEvent = sourceEvent;
-                }
+                    if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                    {
+                        DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                        tmu.EdgeArm.SourceEvent = sourceEvent;
+                    }
+                });
             });
         }
 
@@ -1243,14 +1314,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </exception>
         public static void ConfigureTMUEdgeArmPolarity(this DigitalSessionsBundle sessionsBundle, TmuPolarity polarity, string[] pinNames = null)
         {
-            ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            sessionsBundle.DoWithTmuReleaseOnFailure(pinNames, () =>
             {
-                if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
-                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                    tmu.EdgeArm.Polarity = polarity;
-                }
+                    if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                    {
+                        DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                        tmu.EdgeArm.Polarity = polarity;
+                    }
+                });
             });
         }
 
@@ -1281,14 +1355,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </exception>
         public static void ConfigureTMUSamplesToAcquire(this DigitalSessionsBundle sessionsBundle, long samplesToAcquire, string[] pinNames = null)
         {
-            ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            sessionsBundle.DoWithTmuReleaseOnFailure(pinNames, () =>
             {
-                if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
-                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                    tmu.SamplesToAcquire = samplesToAcquire;
-                }
+                    if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                    {
+                        DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                        tmu.SamplesToAcquire = samplesToAcquire;
+                    }
+                });
             });
         }
 
@@ -1320,14 +1397,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </exception>
         public static void ConfigureTMUSampleTimeout(this DigitalSessionsBundle sessionsBundle, double timeoutInSeconds, string[] pinNames = null)
         {
-            ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            sessionsBundle.DoWithTmuReleaseOnFailure(pinNames, () =>
             {
-                if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                ValidatePinsOfTMU(sessionsBundle.Pins, pinNames);
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
                 {
-                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                    tmu.SampleTimeout = timeoutInSeconds;
-                }
+                    if (DoForThisPin(pinNames, sitePinInfo.PinName))
+                    {
+                        DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                        tmu.SampleTimeout = timeoutInSeconds;
+                    }
+                });
             });
         }
 
@@ -1355,10 +1435,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<string> GetTMUStartSource(this DigitalSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            return sessionsBundle.DoWithTmuReleaseOnFailure(null, () =>
             {
-                DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                return tmu.Start.Source;
+                return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+                {
+                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                    return tmu.Start.Source;
+                });
             });
         }
 
@@ -1374,10 +1457,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<string> GetTMUStopSource(this DigitalSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            return sessionsBundle.DoWithTmuReleaseOnFailure(null, () =>
             {
-                DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                return tmu.Stop.Source;
+                return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+                {
+                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                    return tmu.Stop.Source;
+                });
             });
         }
 
@@ -1393,10 +1479,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<TmuSourceEvent> GetTMUStartSourceEvent(this DigitalSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            return sessionsBundle.DoWithTmuReleaseOnFailure(null, () =>
             {
-                DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                return tmu.Start.SourceEvent;
+                return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+                {
+                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                    return tmu.Start.SourceEvent;
+                });
             });
         }
 
@@ -1412,10 +1501,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<TmuSourceEvent> GetTMUStopSourceEvent(this DigitalSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            return sessionsBundle.DoWithTmuReleaseOnFailure(null, () =>
             {
-                DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                return tmu.Stop.SourceEvent;
+                return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+                {
+                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                    return tmu.Stop.SourceEvent;
+                });
             });
         }
 
@@ -1431,10 +1523,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<TmuPolarity> GetTMUStartSourceEventPolarity(this DigitalSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            return sessionsBundle.DoWithTmuReleaseOnFailure(null, () =>
             {
-                DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                return tmu.Start.SourceEventPolarity;
+                return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+                {
+                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                    return tmu.Start.SourceEventPolarity;
+                });
             });
         }
 
@@ -1450,10 +1545,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<TmuPolarity> GetTMUStopSourceEventPolarity(this DigitalSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            return sessionsBundle.DoWithTmuReleaseOnFailure(null, () =>
             {
-                DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                return tmu.Stop.SourceEventPolarity;
+                return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+                {
+                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                    return tmu.Stop.SourceEventPolarity;
+                });
             });
         }
 
@@ -1469,10 +1567,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<bool> GetTMUEnabled(this DigitalSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            return sessionsBundle.DoWithTmuReleaseOnFailure(null, () =>
             {
-                DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                return tmu.Enabled;
+                return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+                {
+                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                    return tmu.Enabled;
+                });
             });
         }
 
@@ -1488,10 +1589,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<TmuArmType> GetTMUArmType(this DigitalSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            return sessionsBundle.DoWithTmuReleaseOnFailure(null, () =>
             {
-                DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                return tmu.ArmType;
+                return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+                {
+                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                    return tmu.ArmType;
+                });
             });
         }
 
@@ -1508,10 +1612,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<string> GetTMUEdgeArmSource(this DigitalSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            return sessionsBundle.DoWithTmuReleaseOnFailure(null, () =>
             {
-                DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                return tmu.EdgeArm.Source;
+                return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+                {
+                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                    return tmu.EdgeArm.Source;
+                });
             });
         }
 
@@ -1528,10 +1635,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<TmuSourceEvent> GetTMUEdgeArmSourceEvent(this DigitalSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            return sessionsBundle.DoWithTmuReleaseOnFailure(null, () =>
             {
-                DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                return tmu.EdgeArm.SourceEvent;
+                return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+                {
+                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                    return tmu.EdgeArm.SourceEvent;
+                });
             });
         }
 
@@ -1548,10 +1658,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<TmuPolarity> GetTMUEdgeArmPolarity(this DigitalSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            return sessionsBundle.DoWithTmuReleaseOnFailure(null, () =>
             {
-                DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                return tmu.EdgeArm.Polarity;
+                return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+                {
+                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                    return tmu.EdgeArm.Polarity;
+                });
             });
         }
 
@@ -1567,10 +1680,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<long> GetTMUSamplesToAcquire(this DigitalSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            return sessionsBundle.DoWithTmuReleaseOnFailure(null, () =>
             {
-                DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                return tmu.SamplesToAcquire;
+                return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+                {
+                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                    return tmu.SamplesToAcquire;
+                });
             });
         }
 
@@ -1586,10 +1702,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<double> GetTMUSampleTimeout(this DigitalSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            return sessionsBundle.DoWithTmuReleaseOnFailure(null, () =>
             {
-                DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                return tmu.SampleTimeout;
+                return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+                {
+                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                    return tmu.SampleTimeout;
+                });
             });
         }
 
@@ -1605,10 +1724,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<double> GetTMUStartInputDebounceTime(this DigitalSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            return sessionsBundle.DoWithTmuReleaseOnFailure(null, () =>
             {
-                DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                return tmu.Start.InputDebounceTime;
+                return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+                {
+                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                    return tmu.Start.InputDebounceTime;
+                });
             });
         }
 
@@ -1624,10 +1746,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<double> GetTMUStopInputDebounceTime(this DigitalSessionsBundle sessionsBundle)
         {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+            return sessionsBundle.DoWithTmuReleaseOnFailure(null, () =>
             {
-                DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
-                return tmu.Stop.InputDebounceTime;
+                return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
+                {
+                    DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                    return tmu.Stop.InputDebounceTime;
+                });
             });
         }
 
@@ -1731,6 +1856,100 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 }
             }
             return true; // It is safe to release only when all the assigned TMUs are free, resources not reserved at driver level.
+        }
+
+        /// <summary>
+        /// Disables and then releases the assigned TMU resources back to the TMU resource pool.
+        /// </summary>
+        /// <remarks>
+        /// The assigned TMU resources are disabled before they are released, so that they are unreserved in hardware
+        /// and can be reassigned to another site or thread that is still running.<br/>
+        /// Any failure here is intentionally suppressed so that the original exception is not masked.
+        /// </remarks>
+        private static void ReleaseTmuResources(DigitalSessionsBundle sessionsBundle, string[] pinNames)
+        {
+            try
+            {
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    // A pin may have no assigned TMU context, since the failure being cleaned up
+                    // after may have occurred part way through assigning TMU resources.
+                    if (!DoForThisPin(pinNames, sitePinInfo.PinName)
+                        || string.IsNullOrEmpty((sitePinInfo as DigitalSitePinInfo)?.AssignedTmuContext))
+                    {
+                        return;
+                    }
+                    try
+                    {
+                        DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                        tmu.Enabled = false;
+                    }
+                    catch
+                    {
+                        // Suppressed per pin, so that a failure for one pin does not
+                        // prevent the remaining TMU resources from being disabled.
+                    }
+                });
+            }
+            catch
+            {
+                // Intentionally suppressed so the original exception is not masked.
+            }
+
+            try
+            {
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    sessionInfo.ClearAssignedTMUContexts(pinNames, doTMUReleaseCheck: false);
+                });
+            }
+            catch
+            {
+                // Intentionally suppressed so the original exception is not masked.
+            }
+        }
+
+        /// <summary>
+        /// Invokes the specified TMU <paramref name="operation"/> and releases the assigned TMU resources if it fails.
+        /// </summary>
+        /// <remarks>
+        /// Since the TMU resource assignment is virtual and tracked for the lifetime of the process,
+        /// an operation that fails after the resources have been assigned would otherwise strand those assignments,
+        /// making them unavailable to any subsequent call to <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/>.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="pinNames">The pins targeted by the operation. When <c>null</c>, all pins are targeted.</param>
+        /// <param name="operation">The TMU operation to invoke.</param>
+        private static void DoWithTmuReleaseOnFailure(this DigitalSessionsBundle sessionsBundle, string[] pinNames, Action operation)
+        {
+            try
+            {
+                operation();
+            }
+            catch
+            {
+                ReleaseTmuResources(sessionsBundle, pinNames);
+                throw; // rethrow the original exception.
+            }
+        }
+
+        /// <inheritdoc cref="DoWithTmuReleaseOnFailure(DigitalSessionsBundle, string[], Action)"/>
+        /// <typeparam name="TResult">The type of the value returned by the operation.</typeparam>
+        /// <param name="sessionsBundle"/>
+        /// <param name="pinNames"/>
+        /// <param name="operation">The TMU operation to invoke.</param>
+        /// <returns>The value returned by the <paramref name="operation"/>.</returns>
+        private static TResult DoWithTmuReleaseOnFailure<TResult>(this DigitalSessionsBundle sessionsBundle, string[] pinNames, Func<TResult> operation)
+        {
+            try
+            {
+                return operation();
+            }
+            catch
+            {
+                ReleaseTmuResources(sessionsBundle, pinNames);
+                throw; // rethrow the original exception.
+            }
         }
 
         private static void ConfigureAndEnableTmu(
