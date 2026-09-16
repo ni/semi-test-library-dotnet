@@ -356,12 +356,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             ForceVoltageSequence(
                 sessionsBundle,
-                voltageSequence,
-                currentLimit,
-                voltageLevelRange,
-                currentLimitRange,
-                sequenceLoopCount,
-                sequenceTimeoutInSeconds);
+                voltageSequence: voltageSequence,
+                currentLimit: currentLimit,
+                voltageLevelRange: voltageLevelRange,
+                currentLimitRange: currentLimitRange,
+                sequenceLoopCount: sequenceLoopCount,
+                sequenceTimeoutInSeconds: sequenceTimeoutInSeconds);
         }
 
         /// <summary>
