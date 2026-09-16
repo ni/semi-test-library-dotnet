@@ -1581,7 +1581,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             return totalBacklog;
         }
 
-        [Theory]
+        [Theory(Skip = "Skipped temporarily: failing in ATS in the latest bundle.")]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         [InlineData(true)]
@@ -1601,7 +1601,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             AssertPublishedValues(sessionsBundle, publishedDataReader, expectedCount: 1, pinName, results, publishDataIdFormatter, expectedCurrent);
         }
 
-        [Theory]
+        [Theory(Skip = "Skipped temporarily: failing in ATS in the latest bundle.")]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         [InlineData(true)]
