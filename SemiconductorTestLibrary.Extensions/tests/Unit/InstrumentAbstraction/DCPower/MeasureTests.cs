@@ -1300,7 +1300,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
-        [Fact(Skip = "Skipped temporarily: failing in ATS in latest bundle")]
+        [Fact(Skip = "Skipped temporarily: failing in ATS in the latest bundle.")]
         public void ChannelsHavePendingFetchData_ClearFetchBacklog_BacklogIsCleared()
         {
             var sessionManager = Initialize("Mixed Signal Tests.pinmap");
@@ -1318,7 +1318,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
-        [Fact(Skip = "Skipped temporarily: failing in ATS in latest bundle.")]
+        [Fact(Skip = "Skipped temporarily: failing in ATS in the latest bundle.")]
         public void FilteredBundle_ClearFetchBacklog_OnlyFilteredChannelsAreProcessed()
         {
             var sessionManager = Initialize(pinMapWithChannelGroup: true);
@@ -1725,7 +1725,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             AssertPublishedValues(sessionsBundle, publishedDataReader, expectedCount: 1, pinName, results, publishDataIdFormatter, expectedVoltage);
         }
 
-        [Theory(Skip = "Skipped temporarily: failing in ATS iin latest bundle.")]
+        [Theory(Skip = "Skipped temporarily: failing in ATS in the latest bundle.")]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         [InlineData(true)]
@@ -1898,7 +1898,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             AssertAllChannelsHaveCorrectResult(results, currentLevel);
         }
 
-        [Theory(Skip = "Skipped temporarily: failing in ATS in latest bundle.")]
+        [Theory(Skip = "Skipped temporarily: failing in ATS in the latest bundle.")]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(true)]
         [InlineData(false)]
