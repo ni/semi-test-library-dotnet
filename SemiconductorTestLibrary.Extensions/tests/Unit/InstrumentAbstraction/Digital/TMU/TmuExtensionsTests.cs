@@ -17,6 +17,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
     /// </summary>
     [Collection("NonParallelizable")]
     [Trait(nameof(Feature), nameof(Feature.TMU))]
+    [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
     public sealed class TmuExtensionsTests : IDisposable
     {
         private const string PinMapFileName = @"NIDigitalTMUTest.pinmap";
