@@ -1,6 +1,6 @@
 # TMU Example
 
-This example demonstrates how to use the Semiconductor Test Library (STL) extension methods for the Time Measurement Unit (TMU) to perform different timing measurements with an NI Digital Pattern Instrument (PXIe-657X).
+This example demonstrates how to use the Semiconductor Test Library (STL) extension methods for the Time Measurement Unit (TMU) to perform different timing measurements with an NI Digital Pattern Instrument (PXIe-657x).
 
 ## Overview
 
@@ -26,7 +26,7 @@ Each step follows the same general pattern: assign TMU resources, configure the 
 
 ### Hardware Requirements
 
-- An NI Digital Pattern Instrument (PXIe-657X) named `HSD_6571_C1_S03` (or update the pin map with your desired instrument name) as defined in NI MAX
+- An NI Digital Pattern Instrument (PXIe-657x) named `HSD_6571_C1_S03` (or update the pin map with your desired instrument name) as defined in NI MAX
 - A signal source driving the measured pins `C0` and `C1`
 
 > **NOTE**
@@ -82,7 +82,7 @@ Each step follows the same general pattern: assign TMU resources, configure the 
 ### Step 3: Review the Pin Map
 
 1. From the TestStand Sequence Editor, open the pin map by selecting **Semiconductor Module -> Edit Pin Map File...** from the menu bar, or by clicking the **Edit Pin Map File** button on the TSM toolbar.
-2. Review the instrument definitions and pin assignments. Note that the pin map is configured to use an NI Digital Pattern Instrument (PXIe-657X) named `HSD_6571_C1_S03`, with the digital pins `C0` and `C1`.
+2. Review the instrument definitions and pin assignments. Note that the pin map is configured to use an NI Digital Pattern Instrument (PXIe-657x) named `HSD_6571_C1_S03`, with the digital pins `C0` and `C1`.
 3. **If you are using a different digital pattern instrument:**
    - Verify that your instrument model supports the TMU.
    - Locate the instrument entry for `HSD_6571_C1_S03` in the Pin Map Editor.
