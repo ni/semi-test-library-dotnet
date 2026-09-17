@@ -41,7 +41,7 @@ Each step follows the same general pattern: assign TMU resources, configure the 
 > 3. Click the **Start/Resume Lot** button on the TSM toolbar to run the test sequence.
 > 4. Click the **Disable Offline Mode** button to return to the default TSM behavior.
 >
-> Not all digital pattern instruments support the TMU. Refer to the NI Digital Pattern Instruments (PXIe-657X) documentation for details.
+> Not all digital pattern instruments support the TMU. Refer to the NI Digital Pattern Instruments (PXIe-657x) documentation for details.
 
 ## Key Files
 
