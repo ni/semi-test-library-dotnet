@@ -330,6 +330,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// - <see cref="DigitalTmu.Enabled"/> = <c>true</c>
         /// </para>
         /// If the <paramref name="edgeType"/> parameter is set to<see cref="TmuPolarity.EitherEdge"/>, an exception will be thrown.<br/>
+        /// <para>
+        /// TMU samples are signed time intervals, so the measurement result can be negative.<br/>
+        /// With <see cref="TmuArmSetting.Immediate"/>, the TMU looks for the start and stop events as soon as the
+        /// measurement is initiated, so on a free-running signal the stop event can be detected before the start event.<br/>
+        /// Where a positive time interval is desired, use <see cref="TmuArmSetting.StartEdge"/> for the
+        /// <paramref name="armSetting"/> parameter to establish the event ordering.
+        /// </para>
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="edgeType">The type of edge to detect. Only accepts <see cref="TmuPolarity.RisingEdge"/> or <see cref="TmuPolarity.FallingEdge"/>.</param>
@@ -541,6 +548,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// - <see cref="DigitalTmu.ArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
         /// - <see cref="DigitalTmu.Enabled"/> = <c>true</c>
         /// </para>
+        /// <para>
+        /// TMU samples are signed time intervals, so the measurement result can be negative.<br/>
+        /// With <see cref="TmuArmSetting.Immediate"/>, the TMU looks for the start and stop events as soon as the
+        /// measurement is initiated, so on a free-running signal the stop event can be detected before the start event.<br/>
+        /// Where a positive time interval is desired, use <see cref="TmuArmSetting.StartEdge"/> for the
+        /// <paramref name="armSetting"/> parameter to establish the event ordering.
+        /// </para>
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="samplesToAcquire">The number of samples to acquire for the TMU measurement.</param>
@@ -615,6 +629,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// - <see cref="DigitalTmu.SamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
         /// - <see cref="DigitalTmu.ArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
         /// - <see cref="DigitalTmu.Enabled"/> = <c>true</c>
+        /// </para>
+        /// <para>
+        /// TMU samples are signed time intervals, so the measurement result can be negative.<br/>
+        /// With <see cref="TmuArmSetting.Immediate"/>, the TMU looks for the start and stop events as soon as the
+        /// measurement is initiated, so on a free-running signal the stop event can be detected before the start event.<br/>
+        /// Where a positive time interval is desired, use <see cref="TmuArmSetting.StartEdge"/> for the
+        /// <paramref name="armSetting"/> parameter to establish the event ordering.
         /// </para>
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
