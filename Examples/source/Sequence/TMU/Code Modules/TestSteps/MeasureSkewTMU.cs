@@ -24,16 +24,15 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
         /// This method performs the following steps:
         /// <list type="number">
         ///   <item>Queries the TSM session manager to get the digital sessions bundle containing both reference and target pins.</item>
-        ///   <item>Assigns TMU resources to the reference pin only.</item>
+        ///   <item>Assigns TMU resources to the reference pin(s), since only the reference pin's TMU resource is used to perform the skew measurement.</item>
         ///   <item>Configures the TMU for skew measurement using the reference and target pins.</item>
         ///   <item>Initiates the TMU measurement on the reference pin.</item>
-        ///   <item>Fetches and averages the skew measurement results.</item>
-        ///   <item>Publishes the averaged skew using the "Skew" published data id.</item>
+        ///   <item>Fetches and averages the skew measurement results, then publishes them using the "Skew" Published Data ID.</item>
         ///   <item>Cleans up by disabling the TMU and clearing assignments.</item>
         /// </list>
         /// </para>
         /// <para>
-        /// The <see cref="TmuExtensions.ConfigureTMUSkewMeasurement"/> method enables the TMU resource
+        /// The <see cref="TmuExtensions.ConfigureTMUSkewMeasurement(DigitalSessionsBundle, string[], string[], TmuPolarity, long, TmuArmSetting)"/> method enables the TMU resource
         /// internally, so no separate <see cref="TmuExtensions.EnableTMU"/> call is required.
         /// </para>
         /// <para>
@@ -68,7 +67,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
             // - targetPinNames: The pin(s) that act as the stop (target) source.
             // - edgeType: Trigger on rising edge transitions on both pins.
             // - samplesToAcquire: Number of skew measurements to collect.
-            // - armSetting: Arm each sample on the edge of a signal with the same properties as the start source.
+            // - armSetting: Use the start edge to arm the measurement.
             // This method also enables (reserves) the TMU resource at the hardware level.
             digitalPins.ConfigureTMUSkewMeasurement(
                 referencePinNames: referencePinNames,

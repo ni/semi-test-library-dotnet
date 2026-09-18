@@ -26,13 +26,12 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
         ///   <item>Assigns TMU resources to the specified pins.</item>
         ///   <item>Configures the TMU for pulse width measurement.</item>
         ///   <item>Initiates the TMU measurement.</item>
-        ///   <item>Fetches and averages the measurement results.</item>
-        ///   <item>Publishes the averaged pulse width using the "PulseWidth" published data id.</item>
+        ///   <item>Fetches and averages the measurement results, then publishes them using the "PulseWidth" Published Data ID.</item>
         ///   <item>Cleans up by disabling the TMU and clearing assignments.</item>
         /// </list>
         /// </para>
-        /// <para>
-        /// The <see cref="TmuExtensions.ConfigureTMUPulseWidthMeasurement"/> method enables the TMU resource
+        ///<para>
+        /// The <see cref="TmuExtensions.ConfigureTMUPulseWidthMeasurement(DigitalSessionsBundle, TmuPulseWidth, long, TmuArmSetting, string[])"/> method enables the TMU resource
         /// internally, so no separate <see cref="TmuExtensions.EnableTMU"/> call is required.
         /// </para>
         /// <para>

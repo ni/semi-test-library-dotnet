@@ -14,10 +14,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
     public static partial class TestSteps
     {
         /// <summary>
-        /// Demonstrates how to measure the high duty cycle of a digital signal using the PXIe-657x's TMU.
-        /// The duty cycle measurement returns the time duration the signal spends in the high state
-        /// (for <see cref="TmuDutyCycle.High"/>) or the low state (for <see cref="TmuDutyCycle.Low"/>).
-        /// To convert the result to a percentage, divide the returned duration by the signal period.
+        /// Demonstrates how to measure the high duty cycle ratio of a digital signal using the PXIe-657x's TMU.
+        /// The TMU measures the time duration the signal spends in the high state and the signal period,
+        /// then divides the two to compute the duty cycle as a ratio (0.0 to 1.0).
         /// </summary>
         /// <remarks>
         /// <para>
@@ -25,18 +24,18 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
         /// <list type="number">
         ///   <item>Queries the TSM session manager to get the digital sessions bundle associated with the "C0" pin.</item>
         ///   <item>Assigns TMU resources to the specified pins.</item>
-        ///   <item>Configures the TMU for duty cycle measurement.</item>
-        ///   <item>Initiates the TMU measurement.</item>
-        ///   <item>Fetches and averages the measurement results.</item>
-        ///   <item>Publishes the measured duration using the "DutyCycleTime" published data id.</item>
-        ///   <item>Configures, initiates, and fetches a period measurement to convert the duration into a ratio.</item>
-        ///   <item>Publishes the calculated duty cycle ratio using the "DutyCycle" published data id.</item>
+        ///   <item>Configures the TMU for high duty cycle time measurement and initiates it.</item>
+        ///   <item>Fetches the averaged high duration result and publishes it using the "DutyCycleTime" Published Data ID.</item>
+        ///   <item>Configures the TMU for period measurement and initiates it.</item>
+        ///   <item>Fetches the averaged period result.</item>
+        ///   <item>Divides the high duration by the period to obtain the duty cycle ratio and publishes the result using the "DutyCycle" Published Data ID.</item>
         ///   <item>Cleans up by disabling the TMU and clearing assignments.</item>
         /// </list>
         /// </para>
         /// <para>
-        /// The <see cref="TmuExtensions.ConfigureTMUDutyCycleMeasurement"/> method enables the TMU resource
-        /// internally, so no separate <see cref="TmuExtensions.EnableTMU"/> call is required.
+        /// The <see cref="TmuExtensions.ConfigureTMUDutyCycleMeasurement(DigitalSessionsBundle, TmuDutyCycle, long, TmuArmSetting, string[])"/> method returns a time duration in seconds,
+        /// not a ratio or percentage. The duty cycle ratio is computed by dividing that duration by the signal period,
+        /// which is measured separately using <see cref="TmuExtensions.ConfigurePeriodMeasurement(DigitalSessionsBundle, TmuPolarity, long, TmuArmSetting, string[])"/>.
         /// </para>
         /// <para>
         /// Ensure that the pin map includes "C0" and that the hardware
@@ -47,7 +46,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
         public static void MeasureDutyCycleWithSTL(ISemiconductorModuleContext tsmContext)
         {
             // Configuration parameters for TMU duty cycle measurement.
-            int numberOfSamples = 100;           // Number of duty cycle samples to collect.
+            int numberOfSamples = 100;           // Number of samples to collect for each measurement.
             double timeoutInSeconds = 5.0;       // Maximum time to wait for measurement completion.
 
             // Step 1: Query TSM session manager to get the digital sessions bundle associated with the "C0" pin.
@@ -60,13 +59,12 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
             // Note that the TMU hardware resource is not reserved until step 3.
             digitalPins.AssignTMUResources();
 
-            // Step 3: Configure the TMU to perform a high duty cycle measurement.
-            // - dutyCycleType: Measure the duration of the high portion of the cycle (rising to falling edge at Voh).
-            //   Alternatively, use TmuDutyCycle.Low to measure the duration of the low portion of the cycle.
-            // - samplesToAcquire: Number of duty cycle measurements to collect.
+            // Step 3: Configure the TMU to measure the high duration of the duty cycle.
+            // - dutyCycleType: Measure the time from the rising edge to the subsequent falling edge at Voh.
+            //   Alternatively, use TmuDutyCycle.Low to measure the time from the falling edge to the subsequent rising edge at Vol.
+            // - samplesToAcquire: Number of duty cycle time measurements to collect.
             // This method also enables (reserves) the TMU resource at the hardware level.
-            // Note: The returned measurement value is a time duration, not a percentage.
-            //       To convert to percentage duty cycle, divide by the signal period.
+            // Note: The returned measurement is a time duration in seconds, not a ratio or percentage.
             digitalPins.ConfigureTMUDutyCycleMeasurement(
                 dutyCycleType: TmuDutyCycle.High,
                 samplesToAcquire: numberOfSamples);

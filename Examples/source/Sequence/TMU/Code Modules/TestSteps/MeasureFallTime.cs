@@ -26,13 +26,12 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
         ///   <item>Assigns TMU resources to the specified pins.</item>
         ///   <item>Configures the TMU for fall time measurement.</item>
         ///   <item>Initiates the TMU measurement.</item>
-        ///   <item>Fetches and averages the measurement results.</item>
-        ///   <item>Publishes the averaged fall time using the "FallTime" published data id.</item>
+        ///   <item>Fetches and averages the measurement results, then publishes them using the "FallTime" Published Data ID.</item>
         ///   <item>Cleans up by disabling the TMU and clearing assignments.</item>
         /// </list>
         /// </para>
         /// <para>
-        /// The <see cref="TmuExtensions.ConfigureTMUFallTimeMeasurement"/> method enables the TMU resource
+        /// The <see cref="TmuExtensions.ConfigureTMUFallTimeMeasurement(DigitalSessionsBundle, TmuPolarity, long, TmuArmSetting, string[])"/> method enables the TMU resource
         /// internally, so no separate <see cref="TmuExtensions.EnableTMU"/> call is required.
         /// </para>
         /// <para>
@@ -60,7 +59,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
             // Step 3: Configure the TMU to perform a fall time measurement.
             // Sets the start source to Voh on falling edge and the stop source to Vol on falling edge.
             // - samplesToAcquire: Number of fall time measurements to collect.
-            // - armSetting: Arm each sample on the edge of a signal with the same properties as the start source.
+            // - armSetting: Use the start edge to arm the measurement.
             // This method also enables (reserves) the TMU resource at the hardware level.
             digitalPins.ConfigureTMUFallTimeMeasurement(
                 samplesToAcquire: numberOfSamples,

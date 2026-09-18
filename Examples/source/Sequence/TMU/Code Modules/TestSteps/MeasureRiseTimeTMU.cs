@@ -32,10 +32,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
         /// </list>
         /// </para>
         /// <para>
-        /// The <see cref="TmuExtensions.ConfigureTMURiseTimeMeasurement"/> method enables the TMU resource
-        /// internally, so no separate <see cref="TmuExtensions.EnableTMU"/> call is required.
-        /// </para>
-        /// <para>
         /// Ensure that the pin map includes "C0" and that the hardware
         /// is properly configured before calling this method.
         /// </para>
@@ -60,7 +56,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
             // Step 3: Configure the TMU to perform a rise time measurement.
             // Sets the start source to Vol on rising edge and the stop source to Voh on rising edge.
             // - samplesToAcquire: Number of rise time measurements to collect.
-            // - armSetting: Arm each sample on the edge of a signal with the same properties as the start source.
+            // - armSetting: Use the start edge to arm the measurement.
             // This method also enables (reserves) the TMU resource at the hardware level.
             digitalPins.ConfigureTMURiseTimeMeasurement(
                 samplesToAcquire: numberOfSamples,
