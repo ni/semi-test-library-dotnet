@@ -5,8 +5,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
     /// <summary>
     /// Defines methods for controlling the NI-Scope session.
     /// </summary>
+    public static class Control
     {
-        #region methods on ScopeSessionsBundle
+        #region Methods on ScopeSessionsBundle
 
         /// <summary>
         /// Aborts an in-progress acquisition on all sessions in the bundle.
@@ -55,6 +56,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
                 sessionInfo.Session.Measurement.Initiate();
             });
         }
-        #endregion methods on ScopeSessionsBundle
+        #endregion
     }
 }
