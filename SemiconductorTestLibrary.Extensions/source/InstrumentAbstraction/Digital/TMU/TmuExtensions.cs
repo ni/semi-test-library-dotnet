@@ -7,9 +7,9 @@ using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 // Following namespaces are required for 26.5
 using DigitalTmu = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu;
-using DigitalTmuCollections = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuCollections;
+using DigitalTmuCollection = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuCollection;
+using DigitalTmuSource = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuSource;
 using TMUContextManager = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TMUContextManager;
-using TmuAttributes = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes;
 using TmuArmType = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuArmType;
 using TmuArmSetting = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuArmSetting;
 using TmuDutyCycle = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuDutyCycle;
@@ -30,7 +30,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <remarks>
         /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool, regardless of the pins targeted by this method. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.<br/>
         /// Before initiating, the <see cref="SelectedFunction"/> is set to <see cref="SelectedFunction.Digital"/> and the <see cref="TerminationMode"/> is set to <see cref="TerminationMode.HighZ"/> for the associated pin(s).<br/>
-        /// This function validates TMU configuration, clears the measurement buffers for the specified TMU(s), and prepares the hardware for making the a TMU measurement.<br/>
+        /// This function validates TMU configuration, clears the measurement buffers for the specified TMU(s), and prepares the hardware for making a TMU measurement.<br/>
         /// All TMU configuration attributes must be set before calling this function.<br/>
         /// The driver validates and commits TMU configuration parameters when this function is called, not when Commit() is called.<br/>
         /// This function returns immediately, it does not wait for the measurement to complete.<br/>
@@ -307,29 +307,36 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </para>
         /// <para>
         /// For rising edge period (<see cref="TmuPolarity.RisingEdge"/>):<br/>
-        /// - <see cref="TmuAttributes.TmuStartSource"/> = the associated pin<br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSource"/> = same pin as start source<br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
-        /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuEnabled"/> = <c>true</c>
+        /// - <see cref="DigitalTmuSource.Source"/> (Start) = the associated pin<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Start) = <see cref="TmuSourceEvent.Voh"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Start) = <see cref="TmuPolarity.RisingEdge"/><br/>
+        /// - <see cref="DigitalTmuSource.Source"/> (Stop) = same pin as start source<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Stop) = <see cref="TmuSourceEvent.Voh"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Stop) = <see cref="TmuPolarity.RisingEdge"/><br/>
+        /// - <see cref="DigitalTmu.SamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
+        /// - <see cref="DigitalTmu.ArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
+        /// - <see cref="DigitalTmu.Enabled"/> = <c>true</c>
         /// </para>
         /// <para>
         /// For falling edge period (<see cref="TmuPolarity.FallingEdge"/>):<br/>
-        /// - <see cref="TmuAttributes.TmuStartSource"/> = the associated pin<br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSource"/> = same pin as start source<br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
-        /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuEnabled"/> = <c>true</c>
+        /// - <see cref="DigitalTmuSource.Source"/> (Start) = the associated pin<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Start) = <see cref="TmuSourceEvent.Vol"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Start) = <see cref="TmuPolarity.FallingEdge"/><br/>
+        /// - <see cref="DigitalTmuSource.Source"/> (Stop) = same pin as start source<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Stop) = <see cref="TmuSourceEvent.Vol"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Stop) = <see cref="TmuPolarity.FallingEdge"/><br/>
+        /// - <see cref="DigitalTmu.SamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
+        /// - <see cref="DigitalTmu.ArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
+        /// - <see cref="DigitalTmu.Enabled"/> = <c>true</c>
         /// </para>
-        /// If the <paramref name="edgeType"/> parameter is set to<see cref="TmuPolarity.EitherEdge"/>, an exception will be thrown.<br/>
+        /// If the <paramref name="edgeType"/> parameter is set to <see cref="TmuPolarity.EitherEdge"/>, an exception will be thrown.<br/>
+        /// <para>
+        /// TMU samples are signed time intervals, so the measurement result can be negative.<br/>
+        /// With <see cref="TmuArmSetting.Immediate"/>, the TMU looks for the start and stop events as soon as the
+        /// measurement is initiated, so on a free-running signal the stop event can be detected before the start event.<br/>
+        /// Where a positive time interval is desired, use <see cref="TmuArmSetting.StartEdge"/> for the
+        /// <paramref name="armSetting"/> parameter to establish the event ordering.
+        /// </para>
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="edgeType">The type of edge to detect. Only accepts <see cref="TmuPolarity.RisingEdge"/> or <see cref="TmuPolarity.FallingEdge"/>.</param>
@@ -406,27 +413,27 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </para>
         /// <para>
         /// For rising edge skew (<see cref="TmuPolarity.RisingEdge"/>):<br/>
-        /// - <see cref="TmuAttributes.TmuStartSource"/> = Reference channel<br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSource"/> = Target channel<br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
-        /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuEnabled"/> = <c>true</c>
+        /// - <see cref="DigitalTmuSource.Source"/> (Start) = Reference channel<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Start) = <see cref="TmuSourceEvent.Voh"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Start) = <see cref="TmuPolarity.RisingEdge"/><br/>
+        /// - <see cref="DigitalTmuSource.Source"/> (Stop) = Target channel<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Stop) = <see cref="TmuSourceEvent.Voh"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Stop) = <see cref="TmuPolarity.RisingEdge"/><br/>
+        /// - <see cref="DigitalTmu.SamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
+        /// - <see cref="DigitalTmu.ArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
+        /// - <see cref="DigitalTmu.Enabled"/> = <c>true</c>
         /// </para>
         /// <para>
         /// For falling edge skew (<see cref="TmuPolarity.FallingEdge"/>):<br/>
-        /// - <see cref="TmuAttributes.TmuStartSource"/> = Reference channel<br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSource"/> = Target channel<br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
-        /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuEnabled"/> = <c>true</c>
+        /// - <see cref="DigitalTmuSource.Source"/> (Start) = Reference channel<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Start) = <see cref="TmuSourceEvent.Vol"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Start) = <see cref="TmuPolarity.FallingEdge"/><br/>
+        /// - <see cref="DigitalTmuSource.Source"/> (Stop) = Target channel<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Stop) = <see cref="TmuSourceEvent.Vol"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Stop) = <see cref="TmuPolarity.FallingEdge"/><br/>
+        /// - <see cref="DigitalTmu.SamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
+        /// - <see cref="DigitalTmu.ArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
+        /// - <see cref="DigitalTmu.Enabled"/> = <c>true</c>
         /// </para>
         /// If the <paramref name="edgeType"/> parameter is set to <see cref="TmuPolarity.EitherEdge"/>, an exception will be thrown.
         /// </remarks>
@@ -531,15 +538,22 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// This method sets the following attributes for the assigned TMU resource:
         /// </para>
         /// <para>
-        /// - <see cref="TmuAttributes.TmuStartSource"/> = the associated pin<br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSource"/> = same pin as start source<br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
-        /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuEnabled"/> = <c>true</c>
+        /// - <see cref="DigitalTmuSource.Source"/> (Start) = the associated pin<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Start) = <see cref="TmuSourceEvent.Vol"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Start) = <see cref="TmuPolarity.RisingEdge"/><br/>
+        /// - <see cref="DigitalTmuSource.Source"/> (Stop) = same pin as start source<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Stop) = <see cref="TmuSourceEvent.Voh"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Stop) = <see cref="TmuPolarity.RisingEdge"/><br/>
+        /// - <see cref="DigitalTmu.SamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
+        /// - <see cref="DigitalTmu.ArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
+        /// - <see cref="DigitalTmu.Enabled"/> = <c>true</c>
+        /// </para>
+        /// <para>
+        /// TMU samples are signed time intervals, so the measurement result can be negative.<br/>
+        /// With <see cref="TmuArmSetting.Immediate"/>, the TMU looks for the start and stop events as soon as the
+        /// measurement is initiated, so on a free-running signal the stop event can be detected before the start event.<br/>
+        /// Where a positive time interval is desired, use <see cref="TmuArmSetting.StartEdge"/> for the
+        /// <paramref name="armSetting"/> parameter to establish the event ordering.
         /// </para>
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
@@ -606,15 +620,22 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// This method sets the following attributes for the assigned TMU resource:
         /// </para>
         /// <para>
-        /// - <see cref="TmuAttributes.TmuStartSource"/> = the associated pin<br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSource"/> = same pin as start source<br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
-        /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuEnabled"/> = <c>true</c>
+        /// - <see cref="DigitalTmuSource.Source"/> (Start) = the associated pin<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Start) = <see cref="TmuSourceEvent.Voh"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Start) = <see cref="TmuPolarity.FallingEdge"/><br/>
+        /// - <see cref="DigitalTmuSource.Source"/> (Stop) = same pin as start source<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Stop) = <see cref="TmuSourceEvent.Vol"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Stop) = <see cref="TmuPolarity.FallingEdge"/><br/>
+        /// - <see cref="DigitalTmu.SamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
+        /// - <see cref="DigitalTmu.ArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
+        /// - <see cref="DigitalTmu.Enabled"/> = <c>true</c>
+        /// </para>
+        /// <para>
+        /// TMU samples are signed time intervals, so the measurement result can be negative.<br/>
+        /// With <see cref="TmuArmSetting.Immediate"/>, the TMU looks for the start and stop events as soon as the
+        /// measurement is initiated, so on a free-running signal the stop event can be detected before the start event.<br/>
+        /// Where a positive time interval is desired, use <see cref="TmuArmSetting.StartEdge"/> for the
+        /// <paramref name="armSetting"/> parameter to establish the event ordering.
         /// </para>
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
@@ -681,26 +702,26 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </para>
         /// <para>
         /// For duty cycle high (<see cref="TmuDutyCycle.High"/>):<br/>
-        /// - <see cref="TmuAttributes.TmuStartSource"/> = the associated pin<br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSource"/> = same pin as start source<br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
+        /// - <see cref="DigitalTmuSource.Source"/> (Start) = the associated pin<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Start) = <see cref="TmuSourceEvent.Voh"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Start) = <see cref="TmuPolarity.RisingEdge"/><br/>
+        /// - <see cref="DigitalTmuSource.Source"/> (Stop) = same pin as start source<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Stop) = <see cref="TmuSourceEvent.Voh"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Stop) = <see cref="TmuPolarity.FallingEdge"/><br/>
         /// </para>
         /// <para>
         /// For duty cycle low (<see cref="TmuDutyCycle.Low"/>):<br/>
-        /// - <see cref="TmuAttributes.TmuStartSource"/> = the associated pin<br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSource"/> = same pin as start source<br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
+        /// - <see cref="DigitalTmuSource.Source"/> (Start) = the associated pin<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Start) = <see cref="TmuSourceEvent.Vol"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Start) = <see cref="TmuPolarity.FallingEdge"/><br/>
+        /// - <see cref="DigitalTmuSource.Source"/> (Stop) = same pin as start source<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Stop) = <see cref="TmuSourceEvent.Vol"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Stop) = <see cref="TmuPolarity.RisingEdge"/><br/>
         /// </para>
         /// <para>
-        /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuEnabled"/> = <c>true</c>
+        /// - <see cref="DigitalTmu.SamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
+        /// - <see cref="DigitalTmu.ArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
+        /// - <see cref="DigitalTmu.Enabled"/> = <c>true</c>
         /// </para>
         /// <para>
         /// TMU samples are signed time intervals, so the measurement result can be negative.<br/>
@@ -799,26 +820,26 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </para>
         /// <para>
         /// For pulse width high (<see cref="TmuPulseWidth.High"/>):<br/>
-        /// - <see cref="TmuAttributes.TmuStartSource"/> = the associated pin<br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSource"/> = same pin as start source<br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
+        /// - <see cref="DigitalTmuSource.Source"/> (Start) = the associated pin<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Start) = <see cref="TmuSourceEvent.Voh"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Start) = <see cref="TmuPolarity.RisingEdge"/><br/>
+        /// - <see cref="DigitalTmuSource.Source"/> (Stop) = same pin as start source<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Stop) = <see cref="TmuSourceEvent.Vol"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Stop) = <see cref="TmuPolarity.FallingEdge"/><br/>
         /// </para>
         /// <para>
         /// For pulse width low (<see cref="TmuPulseWidth.Low"/>):<br/>
-        /// - <see cref="TmuAttributes.TmuStartSource"/> = the associated pin<br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEvent"/> = <see cref="TmuSourceEvent.Vol"/><br/>
-        /// - <see cref="TmuAttributes.TmuStartSourceEventPolarity"/> = <see cref="TmuPolarity.FallingEdge"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSource"/> = same pin as start source<br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEvent"/> = <see cref="TmuSourceEvent.Voh"/><br/>
-        /// - <see cref="TmuAttributes.TmuStopSourceEventPolarity"/> = <see cref="TmuPolarity.RisingEdge"/><br/>
+        /// - <see cref="DigitalTmuSource.Source"/> (Start) = the associated pin<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Start) = <see cref="TmuSourceEvent.Vol"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Start) = <see cref="TmuPolarity.FallingEdge"/><br/>
+        /// - <see cref="DigitalTmuSource.Source"/> (Stop) = same pin as start source<br/>
+        /// - <see cref="DigitalTmuSource.SourceEvent"/> (Stop) = <see cref="TmuSourceEvent.Voh"/><br/>
+        /// - <see cref="DigitalTmuSource.SourceEventPolarity"/> (Stop) = <see cref="TmuPolarity.RisingEdge"/><br/>
         /// </para>
         /// <para>
-        /// - <see cref="TmuAttributes.TmuSamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
-        /// - <see cref="TmuAttributes.TmuEnabled"/> = <c>true</c>
+        /// - <see cref="DigitalTmu.SamplesToAcquire"/> = value of <paramref name="samplesToAcquire"/> parameter.<br/>
+        /// - <see cref="DigitalTmu.ArmType"/> = derived from the value of the <paramref name="armSetting"/> parameter.<br/>
+        /// - <see cref="DigitalTmu.Enabled"/> = <c>true</c>
         /// </para>
         /// <para>
         /// TMU samples are signed time intervals, so the measurement result can be negative.<br/>
@@ -953,7 +974,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <remarks>
         /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool, regardless of the pins targeted by this method. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
         /// </remarks>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="pinNames">The pin names to configure. When <c>null</c>, all pins are targeted.</param>
         /// <exception cref="NISemiconductorTestException">
         /// Thrown when one or more of the requested <paramref name="pinNames"/> are <c>null</c>, empty, or not present in the sessions bundle.
@@ -995,7 +1016,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <remarks>
         /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool, regardless of the pins targeted by this method. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
         /// </remarks>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="pinNames">The pin names to configure. When <c>null</c>, all pins are targeted.</param>
         /// <exception cref="NISemiconductorTestException">
         /// Thrown when one or more of the requested <paramref name="pinNames"/> are <c>null</c>, empty, or not present in the sessions bundle.
@@ -1037,7 +1058,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <remarks>
         /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool, regardless of the pins targeted by this method. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
         /// </remarks>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="sourceEvent">The source event type.</param>
         /// <param name="pinNames">The pin names to configure. When <c>null</c>, all pins are targeted.</param>
         /// <exception cref="NISemiconductorTestException">
@@ -1081,7 +1102,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <remarks>
         /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool, regardless of the pins targeted by this method. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
         /// </remarks>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="sourceEvent">The source event type.</param>
         /// <param name="pinNames">The pin names to configure. When <c>null</c>, all pins are targeted.</param>
         /// <exception cref="NISemiconductorTestException">
@@ -1125,7 +1146,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <remarks>
         /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool, regardless of the pins targeted by this method. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
         /// </remarks>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="polarity">The source event polarity.</param>
         /// <param name="pinNames">The pin names to configure. When <c>null</c>, all pins are targeted.</param>
         /// <exception cref="NISemiconductorTestException">
@@ -1169,8 +1190,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <remarks>
         /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool, regardless of the pins targeted by this method. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
         /// </remarks>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
-        /// <param name="polarity">The edge polarity.</param>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="polarity">The source event polarity.</param>
         /// <param name="pinNames">The pin names to configure. When <c>null</c>, all pins are targeted.</param>
         /// <exception cref="NISemiconductorTestException">
         /// Thrown when one or more of the requested <paramref name="pinNames"/> are <c>null</c>, empty, or not present in the sessions bundle.
@@ -1213,7 +1234,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <remarks>
         /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool, regardless of the pins targeted by this method. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
         /// </remarks>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="armType">The arm type.</param>
         /// <param name="pinNames">The pin names to configure. When <c>null</c>, all pins are targeted.</param>
         /// <exception cref="NISemiconductorTestException">
@@ -1261,7 +1282,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <remarks>
         /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool, regardless of the pins targeted by this method. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
         /// </remarks>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="pinNames">The pin names to configure. When <c>null</c>, all pins are targeted.</param>
         /// <exception cref="NISemiconductorTestException">
         /// Thrown when one or more of the requested <paramref name="pinNames"/> are <c>null</c>, empty, or not present in the sessions bundle.
@@ -1304,7 +1325,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <remarks>
         /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool, regardless of the pins targeted by this method. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
         /// </remarks>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="sourceEvent">The source event type.</param>
         /// <param name="pinNames">The pin names to configure. When <c>null</c>, all pins are targeted.</param>
         /// <exception cref="NISemiconductorTestException">
@@ -1349,8 +1370,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <remarks>
         /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool, regardless of the pins targeted by this method. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
         /// </remarks>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
-        /// <param name="polarity">The edge polarity.</param>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
+        /// <param name="polarity">The source event polarity.</param>
         /// <param name="pinNames">The pin names to configure. When <c>null</c>, all pins are targeted.</param>
         /// <exception cref="NISemiconductorTestException">
         /// Thrown when one or more of the requested <paramref name="pinNames"/> are <c>null</c>, empty, or not present in the sessions bundle.
@@ -1393,7 +1414,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <remarks>
         /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool, regardless of the pins targeted by this method. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
         /// </remarks>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="samplesToAcquire">The number of samples to acquire.</param>
         /// <param name="pinNames">The pin names to configure. When <c>null</c>, all pins are targeted.</param>
         /// <exception cref="NISemiconductorTestException">
@@ -1438,7 +1459,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <remarks>
         /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool, regardless of the pins targeted by this method. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
         /// </remarks>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="timeoutInSeconds">The timeout in seconds (must be greater than 0).</param>
         /// <param name="pinNames">The pin names to configure. When <c>null</c>, all pins are targeted.</param>
         /// <exception cref="NISemiconductorTestException">
@@ -1480,9 +1501,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Gets the TMU start source channel string for each pin in the <see cref="DigitalSessionsBundle"/>.
         /// </summary>
         /// <remarks>
-        /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool, regardless of the pins targeted by this method. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
+        /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
         /// </remarks>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <returns>The start source channel string for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
         /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<string> GetTMUStartSource(this DigitalSessionsBundle sessionsBundle)
@@ -1505,9 +1526,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Gets the TMU stop source channel string for each pin in the <see cref="DigitalSessionsBundle"/>.
         /// </summary>
         /// <remarks>
-        /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool, regardless of the pins targeted by this method. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
+        /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
         /// </remarks>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <returns>The stop source channel string for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
         /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<string> GetTMUStopSource(this DigitalSessionsBundle sessionsBundle)
@@ -1530,9 +1551,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Gets the TMU start source event for each pin in the <see cref="DigitalSessionsBundle"/>.
         /// </summary>
         /// <remarks>
-        /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool, regardless of the pins targeted by this method. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
+        /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
         /// </remarks>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <returns>The start source event for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
         /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<TmuSourceEvent> GetTMUStartSourceEvent(this DigitalSessionsBundle sessionsBundle)
@@ -1555,9 +1576,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Gets the TMU stop source event for each pin in the <see cref="DigitalSessionsBundle"/>.
         /// </summary>
         /// <remarks>
-        /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool, regardless of the pins targeted by this method. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
+        /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
         /// </remarks>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <returns>The stop source event for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
         /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<TmuSourceEvent> GetTMUStopSourceEvent(this DigitalSessionsBundle sessionsBundle)
@@ -1580,9 +1601,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Gets the TMU start source event polarity for each pin in the <see cref="DigitalSessionsBundle"/>.
         /// </summary>
         /// <remarks>
-        /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool, regardless of the pins targeted by this method. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
+        /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
         /// </remarks>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <returns>The start source event polarity for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
         /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<TmuPolarity> GetTMUStartSourceEventPolarity(this DigitalSessionsBundle sessionsBundle)
@@ -1605,9 +1626,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Gets the TMU stop source event polarity for each pin in the <see cref="DigitalSessionsBundle"/>.
         /// </summary>
         /// <remarks>
-        /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool, regardless of the pins targeted by this method. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
+        /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
         /// </remarks>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <returns>The stop source event polarity for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
         /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<TmuPolarity> GetTMUStopSourceEventPolarity(this DigitalSessionsBundle sessionsBundle)
@@ -1630,9 +1651,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Gets a value indicating whether the assigned TMU resource is enabled for each pin in the <see cref="DigitalSessionsBundle"/>.
         /// </summary>
         /// <remarks>
-        /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool, regardless of the pins targeted by this method. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
+        /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
         /// </remarks>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <returns>A value indicating whether the TMU is enabled for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
         /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<bool> GetTMUEnabled(this DigitalSessionsBundle sessionsBundle)
@@ -1655,9 +1676,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Gets the TMU arm type for each pin in the <see cref="DigitalSessionsBundle"/>.
         /// </summary>
         /// <remarks>
-        /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool, regardless of the pins targeted by this method. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
+        /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
         /// </remarks>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <returns>The arm type for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
         /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<TmuArmType> GetTMUArmType(this DigitalSessionsBundle sessionsBundle)
@@ -1681,9 +1702,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Applicable when arm type is set to <see cref="TmuArmType.Edge"/>.
         /// </summary>
         /// <remarks>
-        /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool, regardless of the pins targeted by this method. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
+        /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
         /// </remarks>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <returns>The edge arm source channel string for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
         /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<string> GetTMUEdgeArmSource(this DigitalSessionsBundle sessionsBundle)
@@ -1707,9 +1728,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Applicable when arm type is set to <see cref="TmuArmType.Edge"/> and arm source is a digital pin or channel.
         /// </summary>
         /// <remarks>
-        /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool, regardless of the pins targeted by this method. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
+        /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
         /// </remarks>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <returns>The edge arm source event for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
         /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<TmuSourceEvent> GetTMUEdgeArmSourceEvent(this DigitalSessionsBundle sessionsBundle)
@@ -1733,9 +1754,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Applicable when arm type is set to <see cref="TmuArmType.Edge"/>.
         /// </summary>
         /// <remarks>
-        /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool, regardless of the pins targeted by this method. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
+        /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
         /// </remarks>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <returns>The edge arm polarity for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
         /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<TmuPolarity> GetTMUEdgeArmPolarity(this DigitalSessionsBundle sessionsBundle)
@@ -1758,9 +1779,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Gets the number of TMU samples to acquire for each pin in the <see cref="DigitalSessionsBundle"/>.
         /// </summary>
         /// <remarks>
-        /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool, regardless of the pins targeted by this method. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
+        /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
         /// </remarks>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <returns>The number of samples to acquire for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
         /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<long> GetTMUSamplesToAcquire(this DigitalSessionsBundle sessionsBundle)
@@ -1783,9 +1804,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Gets the TMU sample timeout for each pin in the <see cref="DigitalSessionsBundle"/>.
         /// </summary>
         /// <remarks>
-        /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool, regardless of the pins targeted by this method. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
+        /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
         /// </remarks>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <returns>The sample timeout in seconds for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
         /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<double> GetTMUSampleTimeout(this DigitalSessionsBundle sessionsBundle)
@@ -1808,9 +1829,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Gets the TMU start input debounce time for each pin in the <see cref="DigitalSessionsBundle"/>.
         /// </summary>
         /// <remarks>
-        /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool, regardless of the pins targeted by this method. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
+        /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
         /// </remarks>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <returns>The start input debounce time in seconds for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
         /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<double> GetTMUStartInputDebounceTime(this DigitalSessionsBundle sessionsBundle)
@@ -1833,9 +1854,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Gets the TMU stop input debounce time for each pin in the <see cref="DigitalSessionsBundle"/>.
         /// </summary>
         /// <remarks>
-        /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool, regardless of the pins targeted by this method. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
+        /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.
         /// </remarks>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <returns>The stop input debounce time in seconds for each pin and site as <see cref="PinSiteData{T}"/>.</returns>
         /// <exception cref="NISemiconductorTestException">Thrown when a TMU resource has not been assigned to one or more pins. Call <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> before invoking this method.</exception>
         public static PinSiteData<double> GetTMUStopInputDebounceTime(this DigitalSessionsBundle sessionsBundle)
@@ -1861,7 +1882,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// This value is session-level and reflects the total TMU count across all modules in each instrument session.
         /// The returned array contains one value per instrument session, in the same order as <see cref="ISessionsBundle{TSessionInformation}.InstrumentSessions"/>.
         /// </remarks>
-        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/>.</param>
+        /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <returns>An array containing the total number of TMU resources available, one value per instrument session.</returns>
         public static int[] GetTMUCount(this DigitalSessionsBundle sessionsBundle)
         {
@@ -2184,9 +2205,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             return GetDigitalTmus(sessionInfo.Session).GetTmu(tmuContext);
         }
 
-        private static DigitalTmuCollections GetDigitalTmus(NIDigital session)
+        private static DigitalTmuCollection GetDigitalTmus(NIDigital session)
         {
-            return new DigitalTmuCollections(session);
+            return new DigitalTmuCollection(session);
         }
 
         private static void ValidateTmuArmType(TmuArmType armType)
