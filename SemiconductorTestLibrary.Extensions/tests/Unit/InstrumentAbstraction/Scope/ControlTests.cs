@@ -27,12 +27,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Close(_tsmContext);
         }
 
-        private ScopeSessionsBundle GetSessionsBundle(string pin)
-        {
-            var sessionManager = new TSMSessionManager(_tsmContext);
-            return sessionManager.Scope(pin);
-        }
-
         [Theory]
         [InlineData(SinglePin)]
         [InlineData(PinGroup)]
@@ -76,15 +70,23 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Abort();
         }
 
-        [Fact]
-        public void SessionsBundle_AutoSetupCommitInitiateThenAbort_Succeeds()
+        [Theory]
+        [InlineData(SinglePin)]
+        [InlineData(PinGroup)]
+        public void SessionsBundle_AutoSetupCommitInitiateThenAbort_Succeeds(string pin)
         {
-            var sessionsBundle = GetSessionsBundle(PinGroup);
+            var sessionsBundle = GetSessionsBundle(pin);
 
             sessionsBundle.AutoSetup();
             sessionsBundle.Commit();
             sessionsBundle.Initiate();
             sessionsBundle.Abort();
+        }
+
+        private ScopeSessionsBundle GetSessionsBundle(string pin)
+        {
+            var sessionManager = new TSMSessionManager(_tsmContext);
+            return sessionManager.Scope(pin);
         }
     }
 }
