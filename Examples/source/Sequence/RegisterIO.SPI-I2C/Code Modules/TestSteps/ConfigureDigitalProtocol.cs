@@ -16,11 +16,16 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// Call this once per test program before any protocol instances are used.
         /// Override only the values you need.
         /// </summary>
+        /// <remarks>
+        /// Any change to <paramref name="writePatternName"/> or <paramref name="readPatternName"/> must be
+        /// reflected in the corresponding <c>.digipat</c> pattern files. When either is left <c>null</c>, the
+        /// selected protocol keeps its default pattern name (<c>SPI_*_template</c> or <c>I2C_*_template</c>).
+        /// </remarks>
         /// <param name="communicationProtocol">The protocol whose parameters to configure.</param>
         /// <param name="addressBitWidth">The number of bits the register address is.</param>
         /// <param name="valueBitWidth">The number of bits the register value holds.</param>
-        /// <param name="writePatternName">The digital pattern name used to write a register value.</param>
-        /// <param name="readPatternName">The digital pattern name used to read a register value.</param>
+        /// <param name="writePatternName">The digital pattern name used to write a register value. When null, the protocol default is kept.</param>
+        /// <param name="readPatternName">The digital pattern name used to read a register value. When null, the protocol default is kept.</param>
         /// <param name="sourceWaveformName">The digital source waveform name.</param>
         /// <param name="captureWaveformName">The digital capture waveform name.</param>
         /// <param name="sampleWidth">The number of bits each digital waveform sample is.</param>
@@ -32,8 +37,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             CommunicationProtocol communicationProtocol = CommunicationProtocol.SPI,
             int addressBitWidth = 16,
             int valueBitWidth = 16,
-            string writePatternName = "SPI_write_template",
-            string readPatternName = "SPI_read_template",
+            string writePatternName = null,
+            string readPatternName = null,
             string sourceWaveformName = "source_buffer",
             string captureWaveformName = "capture_buffer",
             int sampleWidth = 8,
@@ -42,18 +47,35 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             string valueBitWidthSequenceRegister = "reg2",
             string[] pinNames = null)
         {
-            IDigitalProtocol protocol = SPI.Instance;
+            IDigitalProtocol protocol;
+            switch (communicationProtocol)
+            {
+                case CommunicationProtocol.SPI:
+                    protocol = SPI.Instance;
+                    break;
+                case CommunicationProtocol.I2C:
+                    protocol = I2C.Instance;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(communicationProtocol), communicationProtocol, "Unsupported communication protocol.");
+            }
 
             protocol.DefaultAddressBitWidth = (uint)addressBitWidth;
             protocol.DefaultValueBitWidth = (uint)valueBitWidth;
-            protocol.WritePatternName = writePatternName;
-            protocol.ReadPatternName = readPatternName;
             protocol.SourceWaveformName = sourceWaveformName;
             protocol.CaptureWaveformName = captureWaveformName;
             protocol.SampleWidth = (uint)sampleWidth;
             protocol.ReadWriteCountSequenceRegister = readWriteCountSequenceRegister;
             protocol.AddressBitWidthSequenceRegister = addressBitWidthSequenceRegister;
             protocol.ValueBitWidthSequenceRegister = valueBitWidthSequenceRegister;
+            if (writePatternName != null)
+            {
+                protocol.WritePatternName = writePatternName;
+            }
+            if (readPatternName != null)
+            {
+                protocol.ReadPatternName = readPatternName;
+            }
             if (pinNames != null)
             {
                 protocol.PinNames = pinNames;

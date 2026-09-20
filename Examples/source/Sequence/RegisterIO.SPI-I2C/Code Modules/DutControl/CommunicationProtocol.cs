@@ -10,6 +10,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// <summary>
         /// Selects the <see cref="DutControl.SPI"/> implementation.
         /// </summary>
-        SPI
+        SPI,
+
+        /// <summary>
+        /// Selects the <see cref="DutControl.I2C"/> implementation.
+        /// </summary>
+        I2C
     }
 }

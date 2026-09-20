@@ -90,4 +90,103 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             Assert.Equal(new[] { "SDI", "SDO" }, SPI.Instance.PinNames);
         }
     }
+
+    public class ConfigureDigitalProtocolI2CTests
+    {
+        [Fact]
+        public void ConfigureDigitalProtocol_AddressBitWidth_UpdatesI2cInstance()
+        {
+            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.I2C, addressBitWidth: 8);
+
+            Assert.Equal(8u, I2C.Instance.DefaultAddressBitWidth);
+        }
+
+        [Fact]
+        public void ConfigureDigitalProtocol_ValueBitWidth_UpdatesI2cInstance()
+        {
+            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.I2C, valueBitWidth: 32);
+
+            Assert.Equal(32u, I2C.Instance.DefaultValueBitWidth);
+        }
+
+        [Fact]
+        public void ConfigureDigitalProtocol_WritePatternName_UpdatesI2cInstance()
+        {
+            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.I2C, writePatternName: "custom_i2c_write");
+
+            Assert.Equal("custom_i2c_write", I2C.Instance.WritePatternName);
+        }
+
+        [Fact]
+        public void ConfigureDigitalProtocol_ReadPatternName_UpdatesI2cInstance()
+        {
+            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.I2C, readPatternName: "custom_i2c_read");
+
+            Assert.Equal("custom_i2c_read", I2C.Instance.ReadPatternName);
+        }
+
+        [Fact]
+        public void ConfigureDigitalProtocol_PinNames_UpdatesI2cInstance()
+        {
+            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.I2C, pinNames: new[] { "SDA", "SCL" });
+
+            Assert.Equal(new[] { "SDA", "SCL" }, I2C.Instance.PinNames);
+        }
+
+        [Fact]
+        public void ConfigureDigitalProtocol_WaveformNames_UpdatesI2cInstance()
+        {
+            TestStep.ConfigureDigitalProtocol(
+                CommunicationProtocol.I2C,
+                sourceWaveformName: "src_wfm",
+                captureWaveformName: "cap_wfm");
+
+            Assert.Equal("src_wfm", I2C.Instance.SourceWaveformName);
+            Assert.Equal("cap_wfm", I2C.Instance.CaptureWaveformName);
+        }
+
+        [Fact]
+        public void ConfigureDigitalProtocol_SequencerRegisters_UpdatesI2cInstance()
+        {
+            TestStep.ConfigureDigitalProtocol(
+                CommunicationProtocol.I2C,
+                readWriteCountSequenceRegister: "reg3",
+                addressBitWidthSequenceRegister: "reg4",
+                valueBitWidthSequenceRegister: "reg5");
+
+            Assert.Equal("reg3", I2C.Instance.ReadWriteCountSequenceRegister);
+            Assert.Equal("reg4", I2C.Instance.AddressBitWidthSequenceRegister);
+            Assert.Equal("reg5", I2C.Instance.ValueBitWidthSequenceRegister);
+        }
+
+        [Fact]
+        public void ConfigureDigitalProtocol_SampleWidth_UpdatesI2cInstance()
+        {
+            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.I2C, sampleWidth: 16);
+
+            Assert.Equal(16u, I2C.Instance.SampleWidth);
+        }
+
+        [Fact]
+        public void ConfigureDigitalProtocol_NullPinNames_DoesNotOverridePinNames()
+        {
+            I2C.Instance.PinNames = new[] { "SDI", "SDO" };
+
+            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.I2C, pinNames: null);
+
+            Assert.Equal(new[] { "SDI", "SDO" }, I2C.Instance.PinNames);
+        }
+
+        [Fact]
+        public void ConfigureDigitalProtocol_DefaultPatternNames_DoesNotOverrideI2cPatternNames()
+        {
+            I2C.Instance.WritePatternName = "I2C_write_template";
+            I2C.Instance.ReadPatternName = "I2C_read_template";
+
+            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.I2C, addressBitWidth: 8);
+
+            Assert.Equal("I2C_write_template", I2C.Instance.WritePatternName);
+            Assert.Equal("I2C_read_template", I2C.Instance.ReadPatternName);
+        }
+    }
 }

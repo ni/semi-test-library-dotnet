@@ -16,13 +16,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         private const string DigitalPatternProjectName = "STLExample.RegisterIO.SPIAndI2C.digiproj";
 
         [Theory(Skip = "Requires the shared digital project and a digital pattern instrument.")]
-        [InlineData(CommunicationProtocol.SPI)]
-        public void WriteUniqueValuesToMultipleRegistersAndCompareReadbackValues_UniqueValues_ReadbackMatches(CommunicationProtocol protocol)
+        [InlineData(CommunicationProtocol.SPI, 7, 8, "SPI_write_template", "SPI_read_template")]
+        [InlineData(CommunicationProtocol.I2C, 8, 8, "I2C_write_template", "I2C_read_template")]
+        public void WriteUniqueValuesToMultipleRegistersAndCompareReadbackValues_UniqueValues_ReadbackMatches(CommunicationProtocol protocol, int addressBitWidth, int valueBitWidth, string writeTemplate, string readTemplate)
         {
             var tsmContext = CreateTSMContext(SupportingMaterialsFolderPath, PinMapFileName, DigitalPatternProjectName, out _);
             SetupNIDigitalPatternInstrumentation(tsmContext);
             DutPowerUp(tsmContext, new string[] { "VIN" }, new double[] { 3.3 }, new double[] { 0.002 }, 0, false);
-            TestStep.ConfigureDigitalProtocol(protocol, 7, 8, "SPI_write_template", "SPI_read_template", "source_buffer", "capture_buffer", 1, "reg0", "reg1", "reg2", new[] { "CS", "SCK", "SDI", "SDO" });
+            TestStep.ConfigureDigitalProtocol(protocol, addressBitWidth, valueBitWidth, writeTemplate, readTemplate, "source_buffer", "capture_buffer", 1, "reg0", "reg1", "reg2", new[] { "CS", "SCK", "SDI", "SDO" });
 
             SiteData<bool[]> comparisonResults = TestStep.WriteUniqueValuesToMultipleRegistersAndCompareReadbackValues(
                 tsmContext, protocol, registerAddresses: new uint[] { 0xF2 }, valuesToWrite: new long[] { 0x01 });
