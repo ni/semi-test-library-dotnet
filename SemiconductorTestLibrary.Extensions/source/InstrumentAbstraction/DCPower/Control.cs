@@ -135,6 +135,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     break;
             }
         }
+
         internal static void ApplyUpdateMode(
             this DCPowerSessionInformation sessionInfo, UpdateMode updateMode)
         {
@@ -146,7 +147,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 case UpdateMode.Immediate:
                     if (sessionInfo.HasGangedChannels)
                     {
-                        throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_ImmediateUpdateModeNotSupportedForGangedChannels));
+                        throw new NISemiconductorTestException(ResourceStrings.DCPower_ImmediateUpdateModeNotSupportedForGangedChannels);
                     }
                     else
                     {
