@@ -1,3 +1,4 @@
+using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
@@ -12,10 +13,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
     public static class MeasureRiseTimeTMU
     {
         /// <summary>
-        /// Demonstrates how to measure the rise time of a digital signal using the TMU.
+        /// Demonstrates how to measure the rise time of a digital signal using the PXIe-657x's TMU.
         /// Rise time is defined as the time for a signal to transition from the low voltage
-        /// threshold (Vol) to the high voltage threshold (Voh). This measurement requires
-        /// 2 comparators per pin.
+        /// threshold (Vol) to the high voltage threshold (Voh).
         /// </summary>
         /// <remarks>
         /// <para>
@@ -25,7 +25,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         ///   <item>Assigns TMU resources to the specified pins.</item>
         ///   <item>Configures the TMU for rise time measurement.</item>
         ///   <item>Initiates the TMU measurement.</item>
-        ///   <item>Fetches and averages the measurement results.</item>
+        ///   <item>Fetches and averages the measurement results, then publishes them using the "RiseTime" Published Data ID.</item>
         ///   <item>Cleans up by disabling the TMU and clearing assignments.</item>
         /// </list>
         /// </para>
@@ -54,11 +54,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             // Step 3: Configure the TMU to perform a rise time measurement.
             // Sets the start source to Vol on rising edge and the stop source to Voh on rising edge.
             // - samplesToAcquire: Number of rise time measurements to collect.
-            // - armSetting: Start measurement immediately without waiting for an arm event.
+            // - armSetting: Use the start edge to arm the measurement.
             // This method also enables (reserves) the TMU resource at the hardware level.
             digitalPins.ConfigureTMURiseTimeMeasurement(
                 samplesToAcquire: numberOfSamples,
-                armSetting: TmuArmSetting.Immediate);
+                armSetting: TmuArmSetting.StartEdge);
 
             // Step 4: Initiate the TMU measurement.
             digitalPins.TMUInitiate();
@@ -67,7 +67,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             // The TMU collects multiple samples and returns the average rise time.
             PinSiteData<double> riseTimeMeasurements = digitalPins.FetchAveragedTMUMeasurement(timeoutInSeconds);
 
-            // Step 6: Clean up TMU resources.
+            // Step 6: Publish the rise time measurement results.
+            tsmContext.PublishResults(riseTimeMeasurements, publishedDataId: "RiseTime");
+
+            // Step 7: Clean up TMU resources.
             // Always disable the TMU and clear assignments when finished to free up resources.
             digitalPins.DisableTMU();
             digitalPins.ClearTMUAssignment();

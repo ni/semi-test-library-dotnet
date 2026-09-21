@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using NationalInstruments.SemiconductorTestLibrary.Common;
+using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower;
 using NationalInstruments.TestStand.SemiconductorModule.Restricted;
 using Xunit;
 
@@ -33,13 +34,43 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Utilities
             }
             return string.Empty;
         }
+        internal static void AssertInitiateBehaviorMatchesUpdateMode(DCPowerSessionsBundle sessionsBundle, UpdateMode updateMode)
+        {
+            void InitiateTest()
+            {
+                sessionsBundle.Initiate();
+            }
+
+            if (updateMode == UpdateMode.Immediate)
+            {
+                var exception = Assert.Throws<NISemiconductorTestException>(InitiateTest);
+                Assert.Contains("The session is already running.", exception.Message);
+            }
+            else
+            {
+                sessionsBundle.Initiate(); // Should not throw exception for Deferred or Commit update modes
+            }
+        }
 
         internal static void AssertPublishedDataCountPerPins(int expectedCount, IPublishedDataReader publishedDataReader, params string[] pins)
         {
-            var publishedData = publishedDataReader.GetAndClearPublishedData();
+            AssertPublishedDataCountPerPins(expectedCount, publishedDataReader.GetAndClearPublishedData(), pins);
+        }
+
+        internal static void AssertPublishedDataCountPerPins(int expectedCount, IPublishedData[] publishedData, params string[] pins)
+        {
             foreach (var pinName in pins)
             {
                 Assert.Equal(expectedCount, publishedData.Where(d => d.Pin == pinName).Count());
+            }
+        }
+
+        internal static void AssertEqualForDoubleArrays(double[] expected, double[] actual, int precision = 3)
+        {
+            Assert.Equal(expected.Length, actual.Length);
+            for (int i = 0; i < expected.Length; i++)
+            {
+                Assert.Equal(expected[i], actual[i], precision);
             }
         }
     }

@@ -13,10 +13,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
     public static class MeasureDutyCycleTMU
     {
         /// <summary>
-        /// Demonstrates how to measure the low duty cycle ratio of a digital signal using the TMU.
+        /// Demonstrates how to measure the low duty cycle ratio of a digital signal using the PXIe-657x's TMU.
         /// The TMU measures the time duration the signal spends in the low state and the signal period,
         /// then divides the two to compute the duty cycle as a ratio (0.0 to 1.0).
-        /// This measurement requires 1 comparator per pin.
         /// </summary>
         /// <remarks>
         /// <para>
@@ -28,7 +27,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         ///   <item>Fetches the averaged low duration result.</item>
         ///   <item>Configures the TMU for period measurement and initiates it.</item>
         ///   <item>Fetches the averaged period result.</item>
-        ///   <item>Divides the high duration by the period to obtain the duty cycle ratio and publishes the result.</item>
+        ///   <item>Divides the low duration by the period to obtain the duty cycle ratio and publishes the result using the "DutyCycleRatio" Published Data ID.</item>
         ///   <item>Cleans up by disabling the TMU and clearing assignments.</item>
         /// </list>
         /// </para>
@@ -61,13 +60,15 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
 
             // Step 3: Configure the TMU to measure the low duration of the duty cycle.
             // - dutyCycleType: Measure the time from the falling edge to the subsequent rising edge at Vol.
-            //   Use TmuDutyCycle.High to instead measure the time from the rising edge to the subsequent falling edge.
+            //   Alternatively, use TmuDutyCycle.High to measure the time from the rising edge to the subsequent falling edge.
             // - samplesToAcquire: Number of duty cycle time measurements to collect.
+            // - armSetting: Use the start edge to arm the measurement.
             // This method also enables (reserves) the TMU resource at the hardware level.
             // Note: The returned measurement is a time duration in seconds, not a ratio or percentage.
             digitalPins.ConfigureTMUDutyCycleMeasurement(
                 dutyCycleType: TmuDutyCycle.Low,
-                samplesToAcquire: numberOfSamples);
+                samplesToAcquire: numberOfSamples,
+                armSetting: TmuArmSetting.StartEdge);
 
             // Step 4: Initiate the duty cycle time measurement.
             digitalPins.TMUInitiate();
@@ -76,11 +77,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             PinSiteData<double> dutyCycleTimeMeasurements = digitalPins.FetchAveragedTMUMeasurement(timeoutInSeconds);
 
             // Step 6: Reconfigure the TMU to measure the signal period.
-            // DisableTMU must be called before reconfiguring.
-            digitalPins.DisableTMU();
             digitalPins.ConfigurePeriodMeasurement(
                 edgeType: TmuPolarity.RisingEdge,
-                samplesToAcquire: numberOfSamples);
+                samplesToAcquire: numberOfSamples,
+                armSetting: TmuArmSetting.StartEdge);
 
             // Step 7: Initiate the period measurement.
             digitalPins.TMUInitiate();
