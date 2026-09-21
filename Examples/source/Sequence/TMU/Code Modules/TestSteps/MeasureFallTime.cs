@@ -43,7 +43,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
         public static void MeasureFallTimeWithSTL(ISemiconductorModuleContext tsmContext)
         {
             // Configuration parameters for TMU fall time measurement.
-            int numberOfSamples = 100;           // Number of fall time samples to collect.
+            long numberOfSamples = 100;           // Number of fall time samples to collect.
             double timeoutInSeconds = 5.0;       // Maximum time to wait for measurement completion.
 
             // Step 1: Query TSM session manager to get the digital sessions bundle associated with the "C0" pin.

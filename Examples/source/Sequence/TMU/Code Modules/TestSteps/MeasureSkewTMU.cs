@@ -44,7 +44,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
         public static void MeasureSkewWithSTL(ISemiconductorModuleContext tsmContext)
         {
             // Configuration parameters for TMU skew measurement.
-            int numberOfSamples = 100;              // Number of skew samples to collect.
+            long numberOfSamples = 100;              // Number of skew samples to collect.
             double timeoutInSeconds = 5.0;          // Maximum time to wait for measurement completion.
 
             // Reference and target pin names. The number of reference pins must equal the number of target pins.

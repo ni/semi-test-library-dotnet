@@ -46,7 +46,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
         public static void MeasureDutyCycleWithSTL(ISemiconductorModuleContext tsmContext)
         {
             // Configuration parameters for TMU duty cycle measurement.
-            int numberOfSamples = 100;           // Number of samples to collect for each measurement.
+            long numberOfSamples = 100;          // Number of samples to collect for each measurement.
             double timeoutInSeconds = 5.0;       // Maximum time to wait for measurement completion.
 
             // Step 1: Query TSM session manager to get the digital sessions bundle associated with the "C0" pin.
@@ -79,6 +79,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
             tsmContext.PublishResults(dutyCycleTimeMeasurements, publishedDataId: "DutyCycleTime");
 
             // Step 6: Measure the signal period, which is required to convert the high duration into a ratio.
+            // DisableTMU must be called before reconfiguring.
+            digitalPins.DisableTMU();
+
             digitalPins.ConfigurePeriodMeasurement(
                 edgeType: TmuPolarity.RisingEdge,
                 samplesToAcquire: numberOfSamples);
@@ -89,7 +92,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
             // Step 7: Divide the high duration by the period to calculate the duty cycle as a ratio.
             var dutyCycleMeasurements = dutyCycleTimeMeasurements.Divide(periodMeasurements);
 
-            tsmContext.PublishResults(dutyCycleMeasurements, publishedDataId: "DutyCycle");
+            tsmContext.PublishResults(dutyCycleMeasurements, publishedDataId: "DutyCycleRatio");
 
             // Step 8: Clean up TMU resources.
             // Always disable the TMU and clear assignments when finished to free up resources.
