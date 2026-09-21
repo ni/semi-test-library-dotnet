@@ -1,6 +1,4 @@
 ﻿using System.Linq;
-using System.Threading;
-using NationalInstruments;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
@@ -48,7 +46,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.Accelerometer
 
             semiconductorModuleContext.PublishResults(average, "DCValue");
             semiconductorModuleContext.PublishResults(min, "Min");
-            semiconductorModuleContext.PublishResults(average, "Max");
+            semiconductorModuleContext.PublishResults(max, "Max");
         }
     }
 }
