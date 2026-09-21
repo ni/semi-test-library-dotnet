@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
+using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities;
 
@@ -21,12 +24,99 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="signalSource">The signal source to export.</param>
         /// <param name="outputTerminal">The output terminal the signal routes to.</param>
+        [Obsolete("An output terminal is reserved by the first channel that exports a signal to it, which makes exporting the same terminal from every channel in the bundle fail. Use ExportSignal(DCPowerSessionsBundle, DCPowerSignalSource, PinSiteData<string>) to specify a unique output terminal for each site-pin pair instead.")]
         public static void ExportSignal(this DCPowerSessionsBundle sessionsBundle, DCPowerSignalSource signalSource, string outputTerminal)
         {
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.ExportSignal(signalSource, outputTerminal);
             });
+        }
+
+        /// <summary>
+        /// Exports the selected DCPowerSignalSource to the output terminal specified for each site-pin pair.
+        /// </summary>
+        /// <remarks>
+        /// An output terminal is reserved by the channel that exports a signal to it, therefore each site-pin pair requires its own unique output terminal.
+        /// Since a PXIe chassis provides only eight trigger lines, <paramref name="outputTerminals"/> can contain at most
+        /// <see cref="MaximumNumberOfOutputTerminals"/> site-pin pairs.
+        /// Site-pin pairs in the <paramref name="sessionsBundle"/> that are not present in <paramref name="outputTerminals"/> are not exported,
+        /// which allows exporting the signal from a single lead pin per site and synchronizing the remaining pins in code module level.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="signalSource">The signal source to export.</param>
+        /// <param name="outputTerminals">The per-site per-pin output terminals the signal routes to.</param>
+        /// <exception cref="NISemiconductorTestException">
+        /// Thrown when <paramref name="outputTerminals"/> is null or empty, contains a null or empty output terminal,
+        /// assigns the same output terminal to more than one site-pin pair, or contains more than
+        /// <see cref="MaximumNumberOfOutputTerminals"/> site-pin pairs.
+        /// </exception>
+        public static void ExportSignal(this DCPowerSessionsBundle sessionsBundle, DCPowerSignalSource signalSource, PinSiteData<string> outputTerminals)
+        {
+            ValidateOutputTerminals(outputTerminals);
+            var siteNumbersByPin = outputTerminals.SiteNumbersByPin;
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (!siteNumbersByPin.TryGetValue(sitePinInfo.PinName, out var siteNumbers) || !siteNumbers.Contains(sitePinInfo.SiteNumber))
+                {
+                    return;
+                }
+                var outputTerminal = outputTerminals.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName);
+                sessionInfo.Session.ExportSignal(sitePinInfo.IndividualChannelString, signalSource, outputTerminal);
+            });
+        }
+
+        /// <summary>
+        /// The maximum number of site-pin pairs that a signal can be exported for, which is limited by the number of PXIe trigger lines.
+        /// </summary>
+        private const int MaximumNumberOfOutputTerminals = 8;
+
+        /// <summary>
+        /// Validates that every site-pin pair is assigned a unique and non-empty output terminal,
+        /// and that the number of site-pin pairs does not exceed the number of available PXIe trigger lines.
+        /// </summary>
+        /// <param name="outputTerminals">The per-site per-pin output terminals to validate.</param>
+        private static void ValidateOutputTerminals(PinSiteData<string> outputTerminals)
+        {
+            if (outputTerminals is null || !outputTerminals.PinNames.Any())
+            {
+                throw new NISemiconductorTestException(ResourceStrings.DCPower_ExportSignalOutputTerminalsEmpty);
+            }
+
+            var assignments = outputTerminals.PinNames
+                .SelectMany(pinName => outputTerminals.SiteNumbersByPin[pinName].Select(siteNumber => new
+                {
+                    SitePinString = string.Format(CultureInfo.InvariantCulture, "Site{0}/{1}", siteNumber, pinName),
+                    OutputTerminal = outputTerminals.GetValue(siteNumber, pinName)
+                }))
+                .ToList();
+
+            var emptyAssignment = assignments.FirstOrDefault(assignment => string.IsNullOrEmpty(assignment.OutputTerminal));
+            if (emptyAssignment != null)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_ExportSignalOutputTerminalEmpty, emptyAssignment.SitePinString));
+            }
+
+            var duplicateAssignments = assignments
+                .GroupBy(assignment => assignment.OutputTerminal, StringComparer.OrdinalIgnoreCase)
+                .FirstOrDefault(group => group.Count() > 1);
+            if (duplicateAssignments != null)
+            {
+                throw new NISemiconductorTestException(string.Format(
+                    CultureInfo.InvariantCulture,
+                    ResourceStrings.DCPower_ExportSignalOutputTerminalNotUnique,
+                    duplicateAssignments.Key,
+                    string.Join(", ", duplicateAssignments.Select(assignment => assignment.SitePinString))));
+            }
+
+            if (assignments.Count > MaximumNumberOfOutputTerminals)
+            {
+                throw new NISemiconductorTestException(string.Format(
+                    CultureInfo.InvariantCulture,
+                    ResourceStrings.DCPower_ExportSignalTooManyOutputTerminals,
+                    assignments.Count,
+                    MaximumNumberOfOutputTerminals));
+            }
         }
 
         /// <summary>

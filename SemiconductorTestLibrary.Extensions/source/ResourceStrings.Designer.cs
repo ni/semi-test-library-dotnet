@@ -349,5 +349,49 @@ namespace NationalInstruments.SemiconductorTestLibrary {
                 return ResourceManager.GetString("DCPower_InvalidPublishDataIdFormatter", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The outputTerminals parameter cannot be null and must contain at least one site-pin pair..
+        /// </summary>
+        internal static string DCPower_ExportSignalOutputTerminalsEmpty
+        {
+            get
+            {
+                return ResourceManager.GetString("DCPower_ExportSignalOutputTerminalsEmpty", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The output terminal specified for the site-pin pair ({0}) cannot be null or empty..
+        /// </summary>
+        internal static string DCPower_ExportSignalOutputTerminalEmpty
+        {
+            get
+            {
+                return ResourceManager.GetString("DCPower_ExportSignalOutputTerminalEmpty", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The output terminal ({0}) is specified for more than one site-pin pair ({1})..
+        /// </summary>
+        internal static string DCPower_ExportSignalOutputTerminalNotUnique
+        {
+            get
+            {
+                return ResourceManager.GetString("DCPower_ExportSignalOutputTerminalNotUnique", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The outputTerminals parameter specifies output terminals for {0} site-pin pairs, which exceeds the {1} trigger lines available on a PXIe chassis..
+        /// </summary>
+        internal static string DCPower_ExportSignalTooManyOutputTerminals
+        {
+            get
+            {
+                return ResourceManager.GetString("DCPower_ExportSignalTooManyOutputTerminals", resourceCulture);
+            }
+        }
     }
 }

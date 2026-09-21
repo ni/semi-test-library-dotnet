@@ -213,4 +213,16 @@
   <data name="DCPower_InvalidPublishDataIdFormatter" xml:space="preserve">
     <value>The publishDataIdFormatter parameter cannot be null or empty and must contain a format placeholder '{{0}}'.</value>
   </data>
+  <data name="DCPower_ExportSignalOutputTerminalsEmpty" xml:space="preserve">
+    <value>The outputTerminals parameter cannot be null and must contain at least one site-pin pair.</value>
+  </data>
+  <data name="DCPower_ExportSignalOutputTerminalEmpty" xml:space="preserve">
+    <value>The output terminal specified for the site-pin pair ({0}) cannot be null or empty.</value>
+  </data>
+  <data name="DCPower_ExportSignalOutputTerminalNotUnique" xml:space="preserve">
+    <value>The output terminal ({0}) is specified for more than one site-pin pair ({1}). An output terminal is reserved by the channel that exports a signal to it, therefore each site-pin pair requires its own unique output terminal.</value>
+  </data>
+  <data name="DCPower_ExportSignalTooManyOutputTerminals" xml:space="preserve">
+    <value>The outputTerminals parameter specifies output terminals for {0} site-pin pairs, which exceeds the {1} trigger lines available on a PXIe chassis.</value>
+  </data>
 </root>
