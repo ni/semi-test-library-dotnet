@@ -3389,10 +3389,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>
         /// <param name="settings">The source settings to configure.</param>
         /// <param name="channelString">The channel string. Empty string means all channels in the session.</param>
-        public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "")
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
+        public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "", UpdateMode updateMode = UpdateMode.Deferred)
         {
             var channelOutput = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsOutput : sessionInfo.Session.Outputs[channelString];
             sessionInfo.ConfigureSourceSettings(settings, channelOutput, sitePinInfo: null);
+            sessionInfo.ApplyUpdateMode(updateMode);
         }
 
         #endregion methods on DCPowerSessionInformation

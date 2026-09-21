@@ -104,7 +104,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Calling this method moves the session from the Uncommitted state to the Committed state.
         /// </summary>
         /// <remarks>
-        /// Calling this method is optional; however, calling the following methods implicitly commits if <c>Commit</c> has not been previously called:<br />
+        /// Calling this method is optional; however, calling the following methods implicitly commits if <c>Commit</c> has not been previously called:<br/>
         /// <list type="bullet">
         /// <item><see cref="BurstPattern(DigitalSessionsBundle, string, bool, bool, double)"/><br/></item>
         /// <item><see cref="BurstPatternAndPublishResults(DigitalSessionsBundle, string, bool, double, string)"/><br/></item>
@@ -127,14 +127,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <remarks>
         /// Specifies where bursting begins, which can be either a pattern name to begin at the start of that pattern,
-        /// or an exported label to begin at a specific point within a loaded pattern.<br />
+        /// or an exported label to begin at a specific point within a loaded pattern.<br/>
         /// Calling this method is optional,
         /// as the following methods implicitly set the pattern start label and override any previously configured value:<br/>
         /// <list type="bullet">
         /// <item><see cref="BurstPattern(DigitalSessionsBundle, string, bool, bool, double)"/><br/></item>
         /// <item><see cref="BurstPatternAndPublishResults(DigitalSessionsBundle, string, bool, double, string)"/><br/></item>
         /// <item><see cref="BurstPatternSynchronized(DigitalSessionsBundle, string, bool, bool, double)"/><br/></item>
-        /// </list>
+        /// </list><br/>
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="startLabel">The pattern name or exported pattern label to configure.</param>
