@@ -100,8 +100,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Applies previously configured settings to the digital instrument.
+        /// Applies all previously configured pin levels, termination modes, clocks, triggers, and pattern timing to a digital pattern instrument.
+        /// Calling this method moves the session from the Uncommitted state to the Committed state.
         /// </summary>
+        /// <remarks>
+        /// Calling this method is optional; however, calling the following methods implicitly commits if <c>Commit</c> has not been previously called:<br />
+        /// <list type="bullet">
+        /// <item><see cref="BurstPattern(DigitalSessionsBundle, string, bool, bool, double)"/></item>
+        /// <item><see cref="BurstPatternAndPublishResults(DigitalSessionsBundle, string, bool, double, string)"/></item>
+        /// <item><see cref="BurstPatternSynchronized(DigitalSessionsBundle, string, bool, bool, double)"/></item>
+        /// <item><see cref="Initiate(DigitalSessionsBundle)"/></item>
+        /// </list>
+        /// For more information, refer to the Session State Model topic of the Digital Pattern Help.
+        /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         public static void Commit(this DigitalSessionsBundle sessionsBundle)
         {
@@ -114,6 +125,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <summary>
         /// Configures the pattern start label for subsequent pattern execution.
         /// </summary>
+        /// <remarks>
+        /// Specifies where bursting begins, which can be either a pattern name to begin at the start of that pattern,
+        /// or an exported label to begin at a specific point within a loaded pattern.<br />
+        /// Calling this method is optional,
+        /// as the following methods implicitly set the pattern start label and override any previously configured value:<br />
+        /// <list type="bullet">
+        /// <item><see cref="BurstPattern(DigitalSessionsBundle, string, bool, bool, double)"/></item>
+        /// <item><see cref="BurstPatternAndPublishResults(DigitalSessionsBundle, string, bool, double, string)"/></item>
+        /// <item><see cref="BurstPatternSynchronized(DigitalSessionsBundle, string, bool, bool, double)"/></item>
+        /// </list>
+        /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="startLabel">The pattern name or exported pattern label to configure.</param>
         public static void ConfigurePattern(this DigitalSessionsBundle sessionsBundle, string startLabel)
@@ -144,7 +166,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Gets the currently configured pattern name or exported pattern label.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <returns>An array of the currently configured pattern start labels, one value per instrument per channel in the bundle.</returns>
+        /// <returns>An array of the currently configured pattern start labels, one value per session.</returns>
         public static string[] GetPatternStartLabel(this DigitalSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo =>
@@ -154,8 +176,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         }
 
         /// <summary>
-        /// Starts pattern execution, moving the digital instrument to the running state.
+        /// Starts execution of the currently configured pattern.
         /// </summary>
+        /// <remarks>
+        /// Calling this method is optional, as the following methods implicitly call <c>Initiate</c>:<br />
+        /// <list type="bullet">
+        /// <item><see cref="BurstPattern(DigitalSessionsBundle, string, bool, bool, double)"/></item>
+        /// <item><see cref="BurstPatternAndPublishResults(DigitalSessionsBundle, string, bool, double, string)"/></item>
+        /// <item><see cref="BurstPatternSynchronized(DigitalSessionsBundle, string, bool, bool, double)"/></item>
+        /// </list>
+        /// Calling this method transitions the digital instrument session to the Running state, implicitly invoking <see cref="Commit"/> first.<br />
+        /// For more information, refer to the Session State Model topic of the Digital Pattern Help.
+        /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         public static void Initiate(this DigitalSessionsBundle sessionsBundle)
         {
@@ -178,23 +210,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             {
                 sessionInfo.Session.PatternControl.WaitUntilDone(TimeSpan.FromSeconds(timeoutInSeconds));
             });
-        }
-
-        internal static void ApplyUpdateMode(
-            this DigitalSessionsBundle sessionsBundle, UpdateMode updateMode)
-        {
-            switch (updateMode)
-            {
-                case UpdateMode.Commit:
-                    sessionsBundle.Commit();
-                    break;
-                case UpdateMode.Immediate:
-                    sessionsBundle.Initiate();
-                    break;
-                case UpdateMode.Deferred:
-                default:
-                    break;
-            }
         }
     }
 }
