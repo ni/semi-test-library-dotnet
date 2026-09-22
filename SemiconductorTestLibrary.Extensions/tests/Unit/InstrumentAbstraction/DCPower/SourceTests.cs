@@ -3174,9 +3174,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sessionsBundle.Do(sessionInfo => sessionInfo.ConfigureSourceSettings(settings, updateMode: UpdateMode.Immediate));
             }
 
-            var exception = Assert.Throws<AggregateException>(ConfigureSourceSettings);
-            Assert.IsType<NISemiconductorTestException>(exception.InnerException);
-            Assert.Contains("Immediate update mode is not supported for ganged channels.", exception.InnerException.Message);
+            var exception = Assert.Throws<NISemiconductorTestException>(ConfigureSourceSettings);
+            Assert.Contains("Immediate update mode is not supported for ganged channels.", exception.Message);
         }
 
         [Theory]
