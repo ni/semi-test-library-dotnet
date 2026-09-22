@@ -2000,6 +2000,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                     try
                     {
                         DigitalTmu tmu = GetAssignedTmu(sessionInfo, sitePinInfo);
+                        tmu.Abort();
                         tmu.Enabled = false;
                     }
                     catch
