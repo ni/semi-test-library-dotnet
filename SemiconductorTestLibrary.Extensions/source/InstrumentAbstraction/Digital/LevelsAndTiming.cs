@@ -756,7 +756,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
 
         #region private methods
 
-        internal static void ApplyUpdateMode(
+        private static void ApplyUpdateMode(
             this DigitalSessionsBundle sessionsBundle, UpdateMode updateMode)
         {
             switch (updateMode)
