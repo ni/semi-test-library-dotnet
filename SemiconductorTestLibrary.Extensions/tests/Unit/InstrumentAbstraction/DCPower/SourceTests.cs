@@ -3162,11 +3162,25 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sessionsBundle.Do(sessionInfo => sessionInfo.ConfigureSourceSettings(settings, sessionInfo.AssociatedSitePinList.First().IndividualChannelString, updateMode));
             }
 
-            sessionsBundle.Do(sessionInfo =>
+            if (allChannel)
             {
-                Assert.Equal(1.8, sessionInfo.AllChannelsOutput.Source.Voltage.VoltageLevel);
-                Assert.Equal(0.05, sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimit);
-            });
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    Assert.Equal(1.8, sessionInfo.AllChannelsOutput.Source.Voltage.VoltageLevel);
+                    Assert.Equal(0.05, sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimit);
+                });
+            }
+            else
+            {
+                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+                {
+                    if (sitePinInfo.IndividualChannelString == channelString)
+                    {
+                        Assert.Equal(1.8, sessionInfo.AllChannelsOutput.Source.Voltage.VoltageLevel);
+                        Assert.Equal(0.05, sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimit);
+                    }
+                });
+            }
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
