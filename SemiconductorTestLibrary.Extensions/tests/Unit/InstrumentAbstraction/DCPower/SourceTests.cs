@@ -3105,12 +3105,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData(UpdateMode.Deferred)]
-        [InlineData(UpdateMode.Commit)]
-        [InlineData(UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureSourceSettingsOnSessionInformationWithUpdateMode_CorrectValuesAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        [InlineData(true, UpdateMode.Deferred)]
+        [InlineData(true, UpdateMode.Commit)]
+        [InlineData(true, UpdateMode.Immediate)]
+        [InlineData(false, UpdateMode.Deferred)]
+        [InlineData(false, UpdateMode.Commit)]
+        [InlineData(false, UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureSourceSettingsOnSessionInformationWithUpdateMode_CorrectValuesAreSetAndMatchUpdateMode(bool pinMapWithChannelGroup, UpdateMode updateMode)
         {
-            var sessionManager = Initialize(false);
+            var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
             var settings = new DCPowerSourceSettings
             {
@@ -3131,12 +3134,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData(UpdateMode.Deferred)]
-        [InlineData(UpdateMode.Commit)]
-        [InlineData(UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureSourceSettingsOnSessionInformationWithChannelStringAndUpdateMode_CorrectValuesAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        [InlineData(true, UpdateMode.Deferred)]
+        [InlineData(true, UpdateMode.Commit)]
+        [InlineData(true, UpdateMode.Immediate)]
+        [InlineData(false, UpdateMode.Deferred)]
+        [InlineData(false, UpdateMode.Commit)]
+        [InlineData(false, UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureSourceSettingsOnSessionInformationWithChannelStringAndUpdateMode_CorrectValuesAreSetAndMatchUpdateMode(bool allChannel, UpdateMode updateMode)
         {
-            var sessionManager = Initialize(false);
+            var sessionManager = Initialize(true);
             var sessionsBundle = sessionManager.DCPower("VDD");
             var settings = new DCPowerSourceSettings
             {
@@ -3145,8 +3151,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Level = 1.8,
                 Limit = 0.05
             };
+            string channelString = sessionsBundle.InstrumentSessions.First().AllChannelsString;
 
-            sessionsBundle.Do(sessionInfo => sessionInfo.ConfigureSourceSettings(settings, sessionInfo.AllChannelsString, updateMode));
+            if (allChannel)
+            {
+                sessionsBundle.Do(sessionInfo => sessionInfo.ConfigureSourceSettings(settings, sessionInfo.AllChannelsString, updateMode));
+            }
+            else
+            {
+                sessionsBundle.Do(sessionInfo => sessionInfo.ConfigureSourceSettings(settings, sessionInfo.AssociatedSitePinList.First().IndividualChannelString, updateMode));
+            }
 
             sessionsBundle.Do(sessionInfo =>
             {
