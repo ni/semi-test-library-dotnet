@@ -137,12 +137,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         internal static void ApplyUpdateMode(
-            this DCPowerSessionInformation sessionInfo, UpdateMode updateMode)
+            this DCPowerSessionInformation sessionInfo, DCPowerOutput channelOutput, UpdateMode updateMode)
         {
             switch (updateMode)
             {
                 case UpdateMode.Commit:
-                    sessionInfo.AllChannelsOutput.Control.Commit();
+                    channelOutput.Control.Commit();
                     break;
                 case UpdateMode.Immediate:
                     if (sessionInfo.HasGangedChannels)
@@ -151,7 +151,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     }
                     else
                     {
-                        sessionInfo.AllChannelsOutput.Control.Initiate();
+                        channelOutput.Control.Initiate();
                     }
                     break;
                 case UpdateMode.Deferred:

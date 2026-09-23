@@ -3394,7 +3394,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             var channelOutput = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsOutput : sessionInfo.Session.Outputs[channelString];
             sessionInfo.ConfigureSourceSettings(settings, channelOutput, sitePinInfo: null);
-            sessionInfo.ApplyUpdateMode(updateMode);
+            sessionInfo.ApplyUpdateMode(channelOutput, updateMode);
         }
 
         #endregion methods on DCPowerSessionInformation
