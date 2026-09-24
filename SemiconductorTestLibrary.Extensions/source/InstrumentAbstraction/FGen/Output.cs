@@ -63,6 +63,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// If you want to change the device configuration, call 'Abort' extension method or wait for the generation to complete.
         /// </para>
         /// </remarks>
+        /// <exception cref="NISemiconductorTestException">Thrown when the impedance value is not supported.</exception>
         public static void ConfigureOutputImpedance(this FgenSessionsBundle sessionsBundle, double impedance = 50)
         {
             sessionsBundle.Do(sessionInfo =>

@@ -109,6 +109,18 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         #region ConfigureOutputImpedance tests
 
+        [Fact]
+        public void InitializeBundleWithSinglePin_ConfigureOutputImpedanceWithUnsupportedValue_ThrowsException()
+        {
+            var sessionManager = Initialize("FgenSingleInstrumentPerPinPerSite.pinmap");
+            var sessionsBundle = sessionManager.Fgen("A");
+
+            sessionsBundle.ConfigureOutputImpedance(100);
+
+            var exception = Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.Do(sessionInfo => sessionInfo.Session.Commit()));
+            Assert.Equal(-2146233088, exception.HResult);
+        }
+
         [Theory]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
         [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
