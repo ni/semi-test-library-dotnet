@@ -41,7 +41,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(SinglePin)]
         [InlineData(PinGroup)]
-        public void SessionsBundle_AutoSetup_Succeeds(string pin)
+        public void ScopeSessionsBundle_AutoSetup_Succeeds(string pin)
         {
             var sessionsBundle = GetSessionsBundle(pin);
 
@@ -51,7 +51,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(SinglePin)]
         [InlineData(PinGroup)]
-        public void SessionsBundle_Commit_Succeeds(string pin)
+        public void ScopeSessionsBundle_Commit_Succeeds(string pin)
         {
             var sessionsBundle = GetSessionsBundle(pin);
 
@@ -61,7 +61,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(SinglePin)]
         [InlineData(PinGroup)]
-        public void SessionsBundle_Initiate_Succeeds(string pin)
+        public void ScopeSessionsBundle_Initiate_Succeeds(string pin)
         {
             var sessionsBundle = GetSessionsBundle(pin);
 
@@ -73,7 +73,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(SinglePin)]
         [InlineData(PinGroup)]
-        public void SessionsBundle_AutoSetupCommitInitiateThenAbort_Succeeds(string pin)
+        public void ScopeSessionsBundle_AutoSetupCommitInitiateThenAbort_Succeeds(string pin)
         {
             var sessionsBundle = GetSessionsBundle(pin);
 
