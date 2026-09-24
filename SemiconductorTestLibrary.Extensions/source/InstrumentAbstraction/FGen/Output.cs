@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using System.Linq;
 using NationalInstruments.ModularInstruments.NIFgen;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
@@ -32,7 +31,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.Session.Output.SetEnabled(sitePinInfo.IndividualChannelString.Split('/').Last(), outputEnable.GetValue(sitePinInfo.SiteNumber));
+                var channelName = CommonUtils.GetChannelName(sitePinInfo.IndividualChannelString);
+                sessionInfo.Session.Output.SetEnabled(channelName, outputEnable.GetValue(sitePinInfo.SiteNumber));
             });
         }
 
@@ -41,7 +41,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.Session.Output.SetEnabled(sitePinInfo.IndividualChannelString.Split('/').Last(), outputEnable.GetValue(sitePinInfo));
+                var channelName = CommonUtils.GetChannelName(sitePinInfo.IndividualChannelString);
+                sessionInfo.Session.Output.SetEnabled(channelName, outputEnable.GetValue(sitePinInfo));
             });
         }
 
@@ -75,7 +76,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.Session.Output.SetImpedance(sitePinInfo.IndividualChannelString.Split('/').Last(), impedance.GetValue(sitePinInfo.SiteNumber));
+                var channelName = CommonUtils.GetChannelName(sitePinInfo.IndividualChannelString);
+                sessionInfo.Session.Output.SetImpedance(channelName, impedance.GetValue(sitePinInfo.SiteNumber));
             });
         }
 
@@ -84,7 +86,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                sessionInfo.Session.Output.SetImpedance(sitePinInfo.IndividualChannelString.Split('/').Last(), impedance.GetValue(sitePinInfo));
+                var channelName = CommonUtils.GetChannelName(sitePinInfo.IndividualChannelString);
+                sessionInfo.Session.Output.SetImpedance(channelName, impedance.GetValue(sitePinInfo));
             });
         }
 
