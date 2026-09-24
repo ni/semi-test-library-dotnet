@@ -10,8 +10,8 @@
 
 namespace NationalInstruments.SemiconductorTestLibrary {
     using System;
-
-
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -59,7 +59,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
                 resourceCulture = value;
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Number of points must be greater than one..
         /// </summary>
@@ -122,13 +122,31 @@ namespace NationalInstruments.SemiconductorTestLibrary {
                 return ResourceManager.GetString("DCPower_GangedPinGroupDetected", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Immediate update mode is not supported for ganged channels..
+        /// </summary>
+        internal static string DCPower_ImmediateUpdateModeNotSupportedForGangedChannels {
+            get {
+                return ResourceManager.GetString("DCPower_ImmediateUpdateModeNotSupportedForGangedChannels", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Inconsistent advanced sequence properties. The following properties must be specified or omitted for all steps in the sequence: {0}.
         /// </summary>
         internal static string DCPower_InconsistentAdvancedSequenceProperties {
             get {
                 return ResourceManager.GetString("DCPower_InconsistentAdvancedSequenceProperties", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The publishDataIdFormatter parameter cannot be null or empty and must contain a format placeholder &apos;{{0}}&apos;..
+        /// </summary>
+        internal static string DCPower_InvalidPublishDataIdFormatter {
+            get {
+                return ResourceManager.GetString("DCPower_InvalidPublishDataIdFormatter", resourceCulture);
             }
         }
         
@@ -336,17 +354,6 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         internal static string Digital_TMUUnsupportedPulseWidth {
             get {
                 return ResourceManager.GetString("Digital_TMUUnsupportedPulseWidth", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to The publishDataIdFormatter parameter cannot be null or empty and must contain a format placeholder &apos;{{0}}&apos;..
-        /// </summary>
-        internal static string DCPower_InvalidPublishDataIdFormatter
-        {
-            get
-            {
-                return ResourceManager.GetString("DCPower_InvalidPublishDataIdFormatter", resourceCulture);
             }
         }
     }
