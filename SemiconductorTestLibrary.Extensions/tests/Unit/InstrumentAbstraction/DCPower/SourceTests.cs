@@ -26,6 +26,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         private const string ThreePinsGangedGroup = "ThreePinsGangedGroup";
         private const string FourPinsGangedGroup = "FourPinsGangedGroup";
         private const string AllPinsGangedGroup = "AllPinsGangedGroup";
+        private const double DefaultTimeout = 5.0;
 
         public TSMSessionManager Initialize(bool pinMapWithChannelGroup)
         {
@@ -522,7 +523,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                     }
                 }
             });
-            sessionsBundle.ForceAdvancedSequenceSynchronized(sequence, sequenceLoopCount: 1, waitForSequenceCompletion: true, sequenceTimeoutInSeconds: 5.0);
+            sessionsBundle.ForceAdvancedSequenceSynchronized(sequence, sequenceTimeoutInSeconds: 5.0, sequenceLoopCount: 1);
         }
 
         [Theory]
@@ -559,7 +560,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 {
                     new SiteData<DCPowerSourceSettings[]>(sites, vddSequence)
                 });
-            sessionsBundle.ForceAdvancedSequenceSynchronized(sequence, sequenceLoopCount: 1, waitForSequenceCompletion: true, sequenceTimeoutInSeconds: 10.0);
+            sessionsBundle.ForceAdvancedSequenceSynchronized(sequence, sequenceTimeoutInSeconds: 10.0, sequenceLoopCount: 1, waitForSequenceCompletion: true);
         }
 
         [Theory]
@@ -1495,14 +1496,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower("VDD");
 
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
-            var sequence = new[] { 1.0, 1.5, 2.0, 2.5, 3.0 };
+            var voltageSequence = new[] { 1.0, 1.5, 2.0, 2.5, 3.0 };
             var currentLimit = 0.2;
             var currentLimitRange = 3.0;
             sessionsBundle.ForceVoltageSequence(
-                voltageSequence: sequence,
+                voltageSequence,
+                DefaultTimeout,
                 currentLimit: currentLimit,
                 voltageLevelRange: 5.0,
-                currentLimitRange: currentLimitRange,
+                currentLimitRange,
                 sequenceLoopCount: 1);
 
             sessionsBundle.Abort();
@@ -1519,7 +1521,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower("VDD");
 
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
-            var sequence = new SiteData<double[]>(new[]
+            var voltageSequence = new SiteData<double[]>(new[]
             {
                 new[] { 1.0, 1.1, 1.2 },
                 new[] { 2.0, 2.1, 2.2 },
@@ -1529,10 +1531,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var currentLimit = 0.3;
             var currentLimitRange = 3;
             sessionsBundle.ForceVoltageSequence(
-                voltageSequence: sequence,
-                currentLimit: currentLimit,
+                voltageSequence,
+                DefaultTimeout,
+                currentLimit,
                 voltageLevelRange: 6.0,
-                currentLimitRange: currentLimitRange,
+                currentLimitRange,
                 sequenceLoopCount: 1);
 
             sessionsBundle.Abort();
@@ -1548,7 +1551,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinMapWithChannelGroup);
             var sessionsBundle = sessionManager.DCPower("VDD");
 
-            var sequence = new PinSiteData<double[]>(new Dictionary<string, IDictionary<int, double[]>>()
+            var voltageSequence = new PinSiteData<double[]>(new Dictionary<string, IDictionary<int, double[]>>()
             {
                 ["VDD"] = new Dictionary<int, double[]>
                 {
@@ -1561,10 +1564,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var currentLimit = 0.25;
             var currentLimitRange = 3;
             sessionsBundle.ForceVoltageSequence(
-                voltageSequence: sequence,
-                currentLimit: currentLimit,
+                voltageSequence,
+                DefaultTimeout,
+                currentLimit,
                 voltageLevelRange: 7.0,
-                currentLimitRange: currentLimitRange,
+                currentLimitRange,
                 sequenceLoopCount: 1);
 
             sessionsBundle.Abort();
@@ -1582,7 +1586,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower(pinNames);
 
             var sequence = new[] { 0.5, 1.0, 1.5 };
-            sessionsBundle.ForceVoltageSequence(voltageSequence: sequence);
+            sessionsBundle.ForceVoltageSequence(sequence, 5.0);
         }
 
         [Fact]
@@ -1593,9 +1597,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.GangPinGroup(AllPinsGangedGroup);
 
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
-            var sequence = new[] { 0.5, 1.0, 1.5, 2.0 };
+            var voltageSequence = new[] { 0.5, 1.0, 1.5, 2.0 };
             sessionsBundle.ForceVoltageSequence(
-                voltageSequence: sequence,
+                voltageSequence,
+                DefaultTimeout,
                 currentLimit: 1.0,
                 voltageLevelRange: 5.0,
                 currentLimitRange: 3,
@@ -1613,12 +1618,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
 
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
-            var sequence = new SiteData<double[]>(new double[][]
+            var voltageSequence = new SiteData<double[]>(new double[][]
             {
                 new[] { 0.4, 1.0, 1.6 },
                 new[] { 0.6, 1.1, 1.6 }
             });
-            sessionsBundle.ForceVoltageSequence(voltageSequence: sequence, currentLimit: 1.5, sequenceLoopCount: 2);
+            sessionsBundle.ForceVoltageSequence(voltageSequence, DefaultTimeout, currentLimit: 1.5, sequenceLoopCount: 2);
 
             sessionsBundle.Abort();
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -1636,13 +1641,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.GangPinGroup(ThreePinsGangedGroup);
 
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
-            var sequence = new PinSiteData<double[]>(new Dictionary<string, IDictionary<int, double[]>>()
+            var voltageSequence = new PinSiteData<double[]>(new Dictionary<string, IDictionary<int, double[]>>()
             {
                 ["VCC1"] = new Dictionary<int, double[]>() { [0] = new[] { 1.5, 2.1 }, [1] = new[] { 0.8, 1.4 } },
                 ["VCC2"] = new Dictionary<int, double[]>() { [0] = new[] { 1.5, 2.1 }, [1] = new[] { 0.8, 1.4 } },
                 ["VCC3"] = new Dictionary<int, double[]>() { [0] = new[] { 1.5, 2.1 }, [1] = new[] { 0.8, 1.4 } }
             });
-            sessionsBundle.ForceVoltageSequence(voltageSequence: sequence, currentLimit: 1.8, sequenceLoopCount: 2);
+            sessionsBundle.ForceVoltageSequence(voltageSequence, DefaultTimeout, currentLimit: 1.8, sequenceLoopCount: 2);
 
             sessionsBundle.Abort();
             sessionsBundle.Do(sessionInfo => AssertVoltageSettings(sessionInfo.AllChannelsOutput, expectedCurrentLimit: 0.6));
@@ -1664,7 +1669,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
             void ForceVoltageTest()
             {
-                sessionsBundle.ForceVoltageSequence(voltageSequence: sequence, currentLimit: 1.8, sequenceLoopCount: 2);
+                sessionsBundle.ForceVoltageSequence(sequence, DefaultTimeout, currentLimit: 1.8, sequenceLoopCount: 2);
             }
 
             sessionsBundle.Abort();
@@ -5844,9 +5849,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ForceVoltageSequence(
                 voltageSequence,
+                DefaultTimeout,
                 currentLimit: 0.05,
-                sequenceLoopCount: 1,
-                waitForSequenceCompletion: false);
+                sequenceLoopCount: 1);
             var elapsedTime = (DateTime.Now - startTime).TotalMilliseconds;
 
             // Should return quickly without waiting
@@ -5888,9 +5893,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ForceVoltageSequence(
                 voltageSequence,
+                DefaultTimeout,
                 currentLimit: 0.05,
-                sequenceLoopCount: 3,
-                waitForSequenceCompletion: true);
+                sequenceLoopCount: 3);
             var elapsedTime = (DateTime.Now - startTime).TotalMilliseconds;
 
             if (!_tsmContext.IsSemiconductorModuleInOfflineMode)
