@@ -1,6 +1,7 @@
 using NationalInstruments.ModularInstruments.NIDCPower;
-using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
+using NationalInstruments.SemiconductorTestLibrary.Common;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
+using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
 {
@@ -127,6 +128,30 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     break;
                 case UpdateMode.Immediate:
                     sessionsBundle.Initiate();
+                    break;
+                case UpdateMode.Deferred:
+                default:
+                    break;
+            }
+        }
+
+        internal static void ApplyUpdateMode(
+            this DCPowerSessionInformation sessionInfo, DCPowerOutput channelOutput, UpdateMode updateMode)
+        {
+            switch (updateMode)
+            {
+                case UpdateMode.Commit:
+                    channelOutput.Control.Commit();
+                    break;
+                case UpdateMode.Immediate:
+                    if (sessionInfo.HasGangedChannels)
+                    {
+                        throw new NISemiconductorTestException(ResourceStrings.DCPower_ImmediateUpdateModeNotSupportedForGangedChannels);
+                    }
+                    else
+                    {
+                        channelOutput.Control.Initiate();
+                    }
                     break;
                 case UpdateMode.Deferred:
                 default:
