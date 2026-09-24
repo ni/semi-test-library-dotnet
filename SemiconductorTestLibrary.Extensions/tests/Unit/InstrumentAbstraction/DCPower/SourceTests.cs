@@ -3148,7 +3148,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Level = 1.8,
                 Limit = 0.05
             };
-            string channelString = sessionsBundle.InstrumentSessions.First().AllChannelsString;
 
             sessionsBundle.Do(sessionInfo => sessionInfo.ConfigureSourceSettings(settings, sessionInfo.AllChannelsString, updateMode));
 
