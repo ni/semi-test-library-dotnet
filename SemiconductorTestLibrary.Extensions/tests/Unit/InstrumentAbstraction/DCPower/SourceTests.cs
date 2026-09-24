@@ -3134,13 +3134,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData(true, UpdateMode.Deferred)]
-        [InlineData(true, UpdateMode.Commit)]
-        [InlineData(true, UpdateMode.Immediate)]
-        [InlineData(false, UpdateMode.Deferred)]
-        [InlineData(false, UpdateMode.Commit)]
-        [InlineData(false, UpdateMode.Immediate)]
-        public void DifferentSMUDevices_ConfigureSourceSettingsOnSessionInformationWithChannelStringAndUpdateMode_CorrectValuesAreSetAndMatchUpdateMode(bool allChannel, UpdateMode updateMode)
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureSourceSettingsOnSessionInformationWithAllChannelsStringAndUpdateMode_CorrectValuesAreSetAndMatchUpdateMode(UpdateMode updateMode)
         {
             var sessionManager = Initialize(true);
             var sessionsBundle = sessionManager.DCPower("VDD");
@@ -3153,34 +3150,41 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             };
             string channelString = sessionsBundle.InstrumentSessions.First().AllChannelsString;
 
-            if (allChannel)
-            {
-                sessionsBundle.Do(sessionInfo => sessionInfo.ConfigureSourceSettings(settings, sessionInfo.AllChannelsString, updateMode));
-            }
-            else
-            {
-                sessionsBundle.Do(sessionInfo => sessionInfo.ConfigureSourceSettings(settings, sessionInfo.AssociatedSitePinList.First().IndividualChannelString, updateMode));
-            }
+            sessionsBundle.Do(sessionInfo => sessionInfo.ConfigureSourceSettings(settings, sessionInfo.AllChannelsString, updateMode));
 
-            if (allChannel)
+            sessionsBundle.Do(sessionInfo =>
             {
-                sessionsBundle.Do(sessionInfo =>
-                {
-                    Assert.Equal(1.8, sessionInfo.AllChannelsOutput.Source.Voltage.VoltageLevel);
-                    Assert.Equal(0.05, sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimit);
-                });
-            }
-            else
+                Assert.Equal(1.8, sessionInfo.AllChannelsOutput.Source.Voltage.VoltageLevel);
+                Assert.Equal(0.05, sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimit);
+            });
+            AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
+        }
+
+        [Theory]
+        [InlineData(UpdateMode.Deferred)]
+        [InlineData(UpdateMode.Commit)]
+        [InlineData(UpdateMode.Immediate)]
+        public void DifferentSMUDevices_ConfigureSourceSettingsOnSessionInformationWithIndividualChannelStringAndUpdateMode_CorrectValuesAreSetAndMatchUpdateMode(UpdateMode updateMode)
+        {
+            var sessionManager = Initialize(true);
+            var sessionsBundle = sessionManager.DCPower("VDD");
+            var settings = new DCPowerSourceSettings
             {
-                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-                {
-                    if (sitePinInfo.IndividualChannelString == channelString)
-                    {
-                        Assert.Equal(1.8, sessionInfo.AllChannelsOutput.Source.Voltage.VoltageLevel);
-                        Assert.Equal(0.05, sessionInfo.AllChannelsOutput.Source.Voltage.CurrentLimit);
-                    }
-                });
-            }
+                OutputFunction = DCPowerSourceOutputFunction.DCVoltage,
+                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
+                Level = 1.8,
+                Limit = 0.05
+            };
+            string channelString = sessionsBundle.InstrumentSessions.First().AllChannelsString;
+
+            sessionsBundle.Do(sessionInfo => sessionInfo.ConfigureSourceSettings(settings, sessionInfo.AssociatedSitePinList.First().IndividualChannelString, updateMode));
+
+            sessionsBundle.Do(sessionInfo =>
+            {
+                var output = sessionInfo.Session.Outputs[sessionInfo.AssociatedSitePinList.First().IndividualChannelString];
+                Assert.Equal(1.8, output.Source.Voltage.VoltageLevel);
+                Assert.Equal(0.05, output.Source.Voltage.CurrentLimit);
+            });
             AssertInitiateBehaviorMatchesUpdateMode(sessionsBundle, updateMode);
         }
 
