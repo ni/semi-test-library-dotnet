@@ -22,5 +22,17 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Utilities
             var tsmContext = publishedDataReaderFactory.NewSemiconductorModuleContext(pinMapFilePath, digitalPatternProjectFilePath, specificationsFilePaths: null, out publishedDataReader);
             return SemiconductorModuleContextFactory.ConstructSemiconductorModuleContextForDotNet(tsmContext);
         }
+
+        public static ISemiconductorModuleContext CreateTSMContext(string supportingMaterialsFolderPath, string pinMapFileName, string digitalPatternProjectFileName, out IPublishedDataReader publishedDataReader)
+        {
+            var supportingMaterialsDirectory = Path.Combine(TestsBaseDirectory + supportingMaterialsFolderPath);
+            var publishedDataReaderFactory = new PublishedDataReaderFactory();
+            string pinMapFilePath = Path.Combine(supportingMaterialsDirectory, pinMapFileName);
+            string digitalPatternProjectFilePath = string.IsNullOrEmpty(digitalPatternProjectFileName)
+                ? null
+                : Path.Combine(supportingMaterialsDirectory, digitalPatternProjectFileName);
+            var tsmContext = publishedDataReaderFactory.NewSemiconductorModuleContext(pinMapFilePath, digitalPatternProjectFilePath, specificationsFilePaths: null, out publishedDataReader);
+            return SemiconductorModuleContextFactory.ConstructSemiconductorModuleContextForDotNet(tsmContext);
+        }
     }
 }
