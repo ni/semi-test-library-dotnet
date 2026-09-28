@@ -64,14 +64,5 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Utilities
                 Assert.Equal(expectedCount, publishedData.Where(d => d.Pin == pinName).Count());
             }
         }
-
-        internal static void AssertEqualForDoubleArrays(double[] expected, double[] actual, int precision = 3)
-        {
-            Assert.Equal(expected.Length, actual.Length);
-            for (int i = 0; i < expected.Length; i++)
-            {
-                Assert.Equal(expected[i], actual[i], precision);
-            }
-        }
     }
 }
