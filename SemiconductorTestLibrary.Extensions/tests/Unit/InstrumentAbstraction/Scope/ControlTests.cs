@@ -35,7 +35,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = GetSessionsBundle(pin);
             sessionsBundle.Initiate();
 
-            sessionsBundle.Abort();
+            var exception = Record.Exception(() => sessionsBundle.Abort());
+
+            Assert.Null(exception);
         }
 
         [Theory]
@@ -45,7 +47,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionsBundle = GetSessionsBundle(pin);
 
-            sessionsBundle.AutoSetup();
+            var exception = Record.Exception(() => sessionsBundle.AutoSetup());
+
+            Assert.Null(exception);
         }
 
         [Theory]
@@ -55,7 +59,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionsBundle = GetSessionsBundle(pin);
 
-            sessionsBundle.Commit();
+            var exception = Record.Exception(() => sessionsBundle.Commit());
+
+            Assert.Null(exception);
         }
 
         [Theory]
@@ -65,8 +71,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionsBundle = GetSessionsBundle(pin);
 
-            sessionsBundle.Initiate();
+            var exception = Record.Exception(() => sessionsBundle.Initiate());
 
+            Assert.Null(exception);
             sessionsBundle.Abort();
         }
 
@@ -80,7 +87,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.AutoSetup();
             sessionsBundle.Commit();
             sessionsBundle.Initiate();
-            sessionsBundle.Abort();
+            var exception = Record.Exception(() => sessionsBundle.Abort());
+
+            Assert.Null(exception);
         }
 
         private ScopeSessionsBundle GetSessionsBundle(string pin)
