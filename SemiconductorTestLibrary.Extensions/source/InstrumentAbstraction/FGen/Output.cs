@@ -47,52 +47,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         }
 
         /// <summary>
-        /// Configures the output impedance of the signal generator.
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
-        /// <param name="impedance">Specifies the impedance value that you want the signal generator to use.</param>
-        /// <remarks>
-        /// This method specifies the output impedance of the NI signal generator at the output connector.
-        /// NI signal generators have an output impedance of 50 Ω and an optional 75 Ω on select modules.
-        /// <para>
-        /// If the load impedance value matches the output impedance, the voltage at the signal output connector is at the necessary level.
-        /// The voltage at the signal output connector varies with load output impedance, up to doubling the voltage for a high-impedance load.
-        /// </para>
-        /// <para>
-        /// You cannot change terminal configuration while the device is generating a waveform.
-        /// If you want to change the device configuration, call 'Abort' extension method or wait for the generation to complete.
-        /// </para>
-        /// </remarks>
-        /// <exception cref="NISemiconductorTestException">Thrown when the impedance value is not supported.</exception>
-        public static void ConfigureOutputImpedance(this FgenSessionsBundle sessionsBundle, double impedance = 50)
-        {
-            sessionsBundle.Do(sessionInfo =>
-            {
-                sessionInfo.Session.Output.SetImpedance(sessionInfo.AllChannelsString, impedance);
-            });
-        }
-
-        /// <inheritdoc cref="ConfigureOutputImpedance(FgenSessionsBundle, double)"/>
-        public static void ConfigureOutputImpedance(this FgenSessionsBundle sessionsBundle, SiteData<double> impedance)
-        {
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                var channelName = CommonUtils.GetChannelName(sitePinInfo.IndividualChannelString);
-                sessionInfo.Session.Output.SetImpedance(channelName, impedance.GetValue(sitePinInfo.SiteNumber));
-            });
-        }
-
-        /// <inheritdoc cref="ConfigureOutputImpedance(FgenSessionsBundle, double)"/>
-        public static void ConfigureOutputImpedance(this FgenSessionsBundle sessionsBundle, PinSiteData<double> impedance)
-        {
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                var channelName = CommonUtils.GetChannelName(sitePinInfo.IndividualChannelString);
-                sessionInfo.Session.Output.SetImpedance(channelName, impedance.GetValue(sitePinInfo));
-            });
-        }
-
-        /// <summary>
         /// Configures the output mode of the signal generator.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
