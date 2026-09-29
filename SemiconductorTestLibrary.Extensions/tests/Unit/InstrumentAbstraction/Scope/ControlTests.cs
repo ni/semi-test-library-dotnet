@@ -43,6 +43,20 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(SinglePin)]
         [InlineData(PinGroup)]
+        public void InitiatedAcquisition_Initiate_Throws(string pin)
+        {
+            var sessionsBundle = GetSessionsBundle(pin);
+            sessionsBundle.Initiate();
+
+            var exception = Assert.ThrowsAny<Exception>(() => sessionsBundle.Initiate());
+
+            Assert.NotNull(exception);
+            sessionsBundle.Abort();
+        }
+
+        [Theory]
+        [InlineData(SinglePin)]
+        [InlineData(PinGroup)]
         public void ScopeSessionsBundle_AutoSetup_Succeeds(string pin)
         {
             var sessionsBundle = GetSessionsBundle(pin);
