@@ -1516,6 +1516,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
         /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event); false to return immediately.</param>
         /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion when <paramref name="waitForSequenceCompletion"/> is true.</param>
+        [Obsolete("This method has been deprecated. Use the overload without the waitForSequenceCompletion parameter instead.")]
         public static void ForceCurrentSequence(
             this DCPowerSessionsBundle sessionsBundle,
             double[] currentSequence,
@@ -1523,49 +1524,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? currentLevelRange = null,
             double? voltageLimitRange = null,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
+            bool waitForSequenceCompletion = true,
             double sequenceTimeoutInSeconds = DefaultTimeout)
         {
-            var sequenceName = BuildSequenceName();
-            var settings = new DCPowerSourceSettings()
-            {
-                OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
-                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                Limit = voltageLimit,
-                LevelRange = currentLevelRange,
-                LimitRange = voltageLimitRange
-            };
-
-            if (sessionsBundle.HasGangedChannels)
-            {
-                sessionsBundle.ValidatePinsForGanging(hasGangedChannels: true);
-                sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-                {
-                    sessionInfo.ConfigureAllChannelsForSequenceModeAndInitiateGangedFollowerChannels(
-                        sitePinInfo,
-                        settings,
-                        sequenceName,
-                        currentSequence,
-                        sequenceLoopCount,
-                        setAsActiveSequence: true);
-                });
-                sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(true, sequenceTimeoutInSeconds);
-            }
-            else
-            {
-                sessionsBundle.Do(sessionInfo =>
-                {
-                    sessionInfo.AllChannelsOutput.ForceSequenceCore(
-                        settings,
-                        sequenceName,
-                        currentSequence,
-                        sequenceLoopCount,
-                        sequenceTimeoutInSeconds,
-                        setAsActiveSequence: true);
-                });
-            }
-
-            sessionsBundle.ReleaseAdvancedSequenceResources(sequenceName);
+            sessionsBundle.ForceCurrentSequence(
+                currentSequence,
+                sequenceTimeoutInSeconds,
+                voltageLimit,
+                currentLevelRange,
+                voltageLimitRange,
+                sequenceLoopCount);
         }
 
         /// <remarks>
@@ -1583,6 +1551,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sequenceLoopCount"/>
         /// <param name="waitForSequenceCompletion"/>
         /// <param name="sequenceTimeoutInSeconds"/>
+        [Obsolete("This method has been deprecated. Use the overload without the waitForSequenceCompletion parameter instead.")]
         public static void ForceCurrentSequence(
             this DCPowerSessionsBundle sessionsBundle,
             SiteData<double[]> currentSequence,
@@ -1593,30 +1562,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = DefaultTimeout)
         {
-            var sequenceName = BuildSequenceName();
-            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
-            var settings = new DCPowerSourceSettings()
-            {
-                OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
-                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                Limit = voltageLimit,
-                LevelRange = currentLevelRange,
-                LimitRange = voltageLimitRange
-            };
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                var sequence = currentSequence.GetValue(sitePinInfo.SiteNumber);
-                sessionInfo.ConfigureAllChannelsForSequenceModeAndInitiateGangedFollowerChannels(
-                    sitePinInfo,
-                    settings,
-                    sequenceName,
-                    sequence,
-                    sequenceLoopCount,
-                    setAsActiveSequence: true);
-            });
-            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(true, sequenceTimeoutInSeconds);
-
-            sessionsBundle.ReleaseAdvancedSequenceResources(sequenceName);
+            sessionsBundle.ForceCurrentSequence(
+                currentSequence,
+                sequenceTimeoutInSeconds,
+                voltageLimit,
+                currentLevelRange,
+                voltageLimitRange,
+                sequenceLoopCount);
         }
 
         /// <remarks>
@@ -1634,6 +1586,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sequenceLoopCount"/>
         /// <param name="waitForSequenceCompletion"/>
         /// <param name="sequenceTimeoutInSeconds"/>
+        [Obsolete("This method has been deprecated. Use the overload without the waitForSequenceCompletion parameter instead.")]
         public static void ForceCurrentSequence(
             this DCPowerSessionsBundle sessionsBundle,
             PinSiteData<double[]> currentSequence,
@@ -1641,34 +1594,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? currentLevelRange = null,
             double? voltageLimitRange = null,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
+            bool waitForSequenceCompletion = true,
             double sequenceTimeoutInSeconds = DefaultTimeout)
         {
-            var sequenceName = BuildSequenceName();
-            sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
-            var settings = new DCPowerSourceSettings()
-            {
-                OutputFunction = DCPowerSourceOutputFunction.DCCurrent,
-                LimitSymmetry = DCPowerComplianceLimitSymmetry.Symmetric,
-                Limit = voltageLimit,
-                LevelRange = currentLevelRange,
-                LimitRange = voltageLimitRange
-            };
-            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
-            {
-                var sequence = currentSequence.GetValue(sitePinInfo, out bool isGroupData);
-                sessionInfo.ConfigureAllChannelsForSequenceModeAndInitiateGangedFollowerChannels(
-                    sitePinInfo,
-                    settings,
-                    sequenceName,
-                    sequence,
-                    sequenceLoopCount,
-                    isGroupData,
-                    setAsActiveSequence: true);
-            });
-            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(true, sequenceTimeoutInSeconds);
-
-            sessionsBundle.ReleaseAdvancedSequenceResources(sequenceName);
+            sessionsBundle.ForceCurrentSequence(
+                currentSequence,
+                sequenceTimeoutInSeconds,
+                voltageLimit,
+                currentLevelRange,
+                voltageLimitRange,
+                sequenceLoopCount);
         }
 
         /// <summary>
