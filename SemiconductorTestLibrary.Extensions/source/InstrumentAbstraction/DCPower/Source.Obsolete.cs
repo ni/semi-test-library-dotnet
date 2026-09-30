@@ -374,7 +374,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sequenceLoopCount">The number of times to loop through the sequence.</param>
         /// <param name="waitForSequenceCompletion">Indicates whether to wait for the sequence to complete before returning.</param>
         /// <param name="sequenceTimeoutInSeconds">The timeout, in seconds, to wait for sequence completion.</param>
-        [Obsolete("This method has been deprecated. Use the overload without the waitForSequenceCompletion parameter instead.")]
+        [Obsolete("This method has been deprecated. Use the ForceAdvancedSequenceSynchronized() overload without the waitForSequenceCompletion parameter instead.")]
         public static void ForceAdvancedSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             DCPowerSourceSettings[] sequence,
