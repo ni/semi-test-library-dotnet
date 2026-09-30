@@ -3710,7 +3710,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 outputFunction: (DCPowerSourceOutputFunction)settings.OutputFunction,
                 setAsActiveSequence: setAsActiveSequence);
 
-            channelOutput.InitiateChannels(true, sequenceTimeoutInSeconds);
+            channelOutput.InitiateChannels(waitForSequenceCompletion: true, sequenceTimeoutInSeconds);
         }
 
         private static double CalculateLimitRangeFromLimit(DCPowerSourceSettings settings)
