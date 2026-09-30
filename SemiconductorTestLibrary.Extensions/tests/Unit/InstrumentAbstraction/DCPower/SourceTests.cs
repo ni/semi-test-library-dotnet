@@ -1342,7 +1342,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             var sequence = new[] { 0.000, 0.005, 0.010 };
-            sessionsBundle.ForceCurrentSequenceSynchronized(currentSequence: sequence, voltageLimit: 0.5, currentLevelRange: 0.1, voltageLimitRange: 0.5);
+            sessionsBundle.ForceCurrentSequenceSynchronized(sequence, DefaultTimeout, voltageLimit: 0.5, currentLevelRange: 0.1, voltageLimitRange: 0.5);
 
             sessionsBundle.Abort();
             sessionsBundle.Do((sessionInfo, sessionIndex, sitePinInfo) =>
@@ -1383,7 +1383,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 ["VDD"] = new Dictionary<int, double>() { [0] = 1.5, [1] = 1.5, [2] = 1.5, [3] = 1.5 }
             });
             sessionsBundle.ForceCurrentSequenceSynchronized(
-                currentSequence: currentSequence,
+                currentSequence,
+                DefaultTimeout,
                 voltageLimit: voltageLimits,
                 currentLevelRange: currentLevelRanges,
                 voltageLimitRange: voltageLimitRanges);
@@ -1415,7 +1416,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var currentLevelRanges = new SiteData<double>(new double[] { 0.1, 0.1, 0.1, 0.1 });
             var voltageLimitRanges = new SiteData<double>(new double[] { 1.5, 1.5, 1.5, 1.5 });
             sessionsBundle.ForceCurrentSequenceSynchronized(
-                currentSequence: currentSequences,
+                currentSequences,
+                DefaultTimeout,
                 voltageLimit: voltageLimits,
                 currentLevelRange: currentLevelRanges,
                 voltageLimitRange: voltageLimitRanges);
@@ -1436,7 +1438,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
             var sequence = Array.Empty<double>();
-            void ForceCurrentSequenceSynchronizedTest() => sessionsBundle.ForceCurrentSequenceSynchronized(currentSequence: sequence, voltageLimit: 0.5);
+            void ForceCurrentSequenceSynchronizedTest() => sessionsBundle.ForceCurrentSequenceSynchronized(sequence, DefaultTimeout, voltageLimit: 0.5);
 
             var exception = Assert.Throws<NISemiconductorTestException>(ForceCurrentSequenceSynchronizedTest);
             var exceptionMessage = "This feature is not supported on a ganged pin group";

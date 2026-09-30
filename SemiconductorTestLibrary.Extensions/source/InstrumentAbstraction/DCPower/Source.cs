@@ -1164,6 +1164,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sequenceLoopCount">The number of times to force the sequence.</param>
         /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event); false to return immediately.</param>
         /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion when <paramref name="waitForSequenceCompletion"/> is true.</param>
+        [Obsolete("This method has been deprecated. Use the overload without the waitForSequenceCompletion parameter instead.")]
         public static void ForceCurrentSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             double[] currentSequence,
@@ -1175,6 +1176,125 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             int sequenceLoopCount = 1,
             bool waitForSequenceCompletion = false,
             double sequenceTimeoutInSeconds = DefaultTimeout)
+        {
+            sessionsBundle.ForceCurrentSequenceSynchronized(
+                currentSequence,
+                sequenceTimeoutInSeconds,
+                voltageLimit,
+                currentLevelRange,
+                voltageLimitRange,
+                sourceDelayInSeconds,
+                transientResponse,
+                sequenceLoopCount);
+        }
+
+        /// <remarks>
+        /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
+        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, SiteData{ DCPowerSourceSettings[] }, int, bool, double, int?, double)"/> instead.<br/>
+        /// This method will set the Source Mode back to SinglePoint mode upon returning.
+        /// </remarks>
+        /// <inheritdoc cref="ForceCurrentSequenceSynchronized(DCPowerSessionsBundle, double[], double?, double?, double?, double?, DCPowerSourceTransientResponse?, int, bool, double)"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="currentSequence"/>
+        /// <param name="voltageLimit"/>
+        /// <param name="currentLevelRange"/>
+        /// <param name="voltageLimitRange"/>
+        /// <param name="sourceDelayInSeconds"/>
+        /// <param name="transientResponse"/>
+        /// <param name="sequenceLoopCount"/>
+        /// <param name="waitForSequenceCompletion"/>
+        /// <param name="sequenceTimeoutInSeconds"/>
+        [Obsolete("This method has been deprecated. Use the overload without the waitForSequenceCompletion parameter instead.")]
+        public static void ForceCurrentSequenceSynchronized(
+            this DCPowerSessionsBundle sessionsBundle,
+            SiteData<double[]> currentSequence,
+            SiteData<double> voltageLimit = null,
+            SiteData<double> currentLevelRange = null,
+            SiteData<double> voltageLimitRange = null,
+            double? sourceDelayInSeconds = null,
+            DCPowerSourceTransientResponse? transientResponse = null,
+            int sequenceLoopCount = 1,
+            bool waitForSequenceCompletion = false,
+            double sequenceTimeoutInSeconds = DefaultTimeout)
+        {
+            sessionsBundle.ForceCurrentSequenceSynchronized(
+                currentSequence,
+                sequenceTimeoutInSeconds,
+                voltageLimit,
+                currentLevelRange,
+                voltageLimitRange,
+                sourceDelayInSeconds,
+                transientResponse,
+                sequenceLoopCount);
+        }
+
+        /// <remarks>
+        /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
+        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, PinSiteData{ DCPowerSourceSettings[] }, int, bool, double, int?, double)"/> instead.<br/>
+        /// This method will set the Source Mode back to SinglePoint mode upon returning.
+        /// </remarks>
+        /// <inheritdoc cref="ForceCurrentSequenceSynchronized(DCPowerSessionsBundle, double[], double?, double?, double?, double?, DCPowerSourceTransientResponse?, int, bool, double)"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="currentSequence"/>
+        /// <param name="voltageLimit"/>
+        /// <param name="currentLevelRange"/>
+        /// <param name="voltageLimitRange"/>
+        /// <param name="sourceDelayInSeconds"/>
+        /// <param name="transientResponse"/>
+        /// <param name="sequenceLoopCount"/>
+        /// <param name="waitForSequenceCompletion"/>
+        /// <param name="sequenceTimeoutInSeconds"/>
+        [Obsolete("This method has been deprecated. Use the overload without the waitForSequenceCompletion parameter instead.")]
+        public static void ForceCurrentSequenceSynchronized(
+            this DCPowerSessionsBundle sessionsBundle,
+            PinSiteData<double[]> currentSequence,
+            PinSiteData<double> voltageLimit = null,
+            PinSiteData<double> currentLevelRange = null,
+            PinSiteData<double> voltageLimitRange = null,
+            double? sourceDelayInSeconds = null,
+            DCPowerSourceTransientResponse? transientResponse = null,
+            int sequenceLoopCount = 1,
+            bool waitForSequenceCompletion = false,
+            double sequenceTimeoutInSeconds = DefaultTimeout)
+        {
+            sessionsBundle.ForceCurrentSequenceSynchronized(
+            currentSequence,
+            sequenceTimeoutInSeconds,
+            voltageLimit,
+            currentLevelRange,
+            voltageLimitRange,
+            sourceDelayInSeconds,
+            transientResponse,
+            sequenceLoopCount);
+        }
+
+        /// <summary>
+        /// Forces a hardware-timed sequence of current outputs, ensuring synchronized output across all specified target pins.
+        /// </summary>
+        /// <remarks>
+        /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
+        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double, int?, double)"/> instead.<br/>
+        /// This method will set the Source Mode back to SinglePoint mode upon returning.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="currentSequence">Sequence of current values to force.</param>
+        /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion.</param>
+        /// <param name="voltageLimit">Voltage limit for the sequence.</param>
+        /// <param name="currentLevelRange">Current level range.</param>
+        /// <param name="voltageLimitRange">Voltage limit range.</param>
+        /// <param name="sourceDelayInSeconds">Optional source delay to use uniformly for synchronization.</param>
+        /// <param name="transientResponse">Transient response.</param>
+        /// <param name="sequenceLoopCount">The number of times to force the sequence.</param>
+        public static void ForceCurrentSequenceSynchronized(
+            this DCPowerSessionsBundle sessionsBundle,
+            double[] currentSequence,
+            double sequenceTimeoutInSeconds,
+            double? voltageLimit = null,
+            double? currentLevelRange = null,
+            double? voltageLimitRange = null,
+            double? sourceDelayInSeconds = null,
+            DCPowerSourceTransientResponse? transientResponse = null,
+            int sequenceLoopCount = 1)
         {
             ArrayProvider<double> getCurrentSequence = _ => currentSequence;
             ValueProvider getVoltageLimit = _ => voltageLimit;
@@ -1201,25 +1321,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <inheritdoc cref="ForceCurrentSequenceSynchronized(DCPowerSessionsBundle, double[], double?, double?, double?, double?, DCPowerSourceTransientResponse?, int, bool, double)"/>
         /// <param name="sessionsBundle"/>
         /// <param name="currentSequence"/>
+        /// <param name="sequenceTimeoutInSeconds"/>
         /// <param name="voltageLimit"/>
         /// <param name="currentLevelRange"/>
         /// <param name="voltageLimitRange"/>
         /// <param name="sourceDelayInSeconds"/>
         /// <param name="transientResponse"/>
         /// <param name="sequenceLoopCount"/>
-        /// <param name="waitForSequenceCompletion"/>
-        /// <param name="sequenceTimeoutInSeconds"/>
         public static void ForceCurrentSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             SiteData<double[]> currentSequence,
+            double sequenceTimeoutInSeconds,
             SiteData<double> voltageLimit = null,
             SiteData<double> currentLevelRange = null,
             SiteData<double> voltageLimitRange = null,
             double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
-            int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultTimeout)
+            int sequenceLoopCount = 1)
         {
             ArrayProvider<double> getCurrentSequenceForSite = sitePinInfo => currentSequence.GetValue(sitePinInfo.SiteNumber);
             ValueProvider getVoltageLimitForSite = sitePinInfo => voltageLimit?.GetValue(sitePinInfo.SiteNumber);
@@ -1246,25 +1364,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <inheritdoc cref="ForceCurrentSequenceSynchronized(DCPowerSessionsBundle, double[], double?, double?, double?, double?, DCPowerSourceTransientResponse?, int, bool, double)"/>
         /// <param name="sessionsBundle"/>
         /// <param name="currentSequence"/>
+        /// <param name="sequenceTimeoutInSeconds"/>
         /// <param name="voltageLimit"/>
         /// <param name="currentLevelRange"/>
         /// <param name="voltageLimitRange"/>
         /// <param name="sourceDelayInSeconds"/>
         /// <param name="transientResponse"/>
         /// <param name="sequenceLoopCount"/>
-        /// <param name="waitForSequenceCompletion"/>
-        /// <param name="sequenceTimeoutInSeconds"/>
         public static void ForceCurrentSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             PinSiteData<double[]> currentSequence,
+            double sequenceTimeoutInSeconds,
             PinSiteData<double> voltageLimit = null,
             PinSiteData<double> currentLevelRange = null,
             PinSiteData<double> voltageLimitRange = null,
             double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
-            int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultTimeout)
+            int sequenceLoopCount = 1)
         {
             ArrayProvider<double> getCurrentSequenceForSitePin = sitePinInfo => currentSequence.GetValue(sitePinInfo);
             ValueProvider getVoltageLimitForSitePin = sitePinInfo => voltageLimit?.GetValue(sitePinInfo);
