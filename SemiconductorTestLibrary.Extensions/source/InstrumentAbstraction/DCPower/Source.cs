@@ -350,7 +350,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? voltageLevelRange = null,
             double? currentLimitRange = null,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
+            bool waitForSequenceCompletion = true,
             double sequenceTimeoutInSeconds = DefaultTimeout)
         {
             sessionsBundle.ForceVoltageSequence(
@@ -385,7 +385,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? voltageLevelRange = null,
             double? currentLimitRange = null,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
+            bool waitForSequenceCompletion = true,
             double sequenceTimeoutInSeconds = DefaultTimeout)
         {
             sessionsBundle.ForceVoltageSequence(
@@ -420,7 +420,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? voltageLevelRange = null,
             double? currentLimitRange = null,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
+            bool waitForSequenceCompletion = true,
             double sequenceTimeoutInSeconds = DefaultTimeout)
         {
             sessionsBundle.ForceVoltageSequence(
@@ -1572,12 +1572,87 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sequenceLoopCount">The number of times to loop through the sequence.</param>
         /// <param name="waitForSequenceCompletion">Indicates whether to wait for the sequence to complete before returning.</param>
         /// <param name="sequenceTimeoutInSeconds">The timeout, in seconds, to wait for sequence completion.</param>
+        [Obsolete("This method has been deprecated. Use the overload without the waitForSequenceCompletion parameter instead.")]
         public static void ForceAdvancedSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             DCPowerAdvancedSequenceStepProperties[] sequence,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
+            bool waitForSequenceCompletion = true,
             double sequenceTimeoutInSeconds = 5.0)
+        {
+            sessionsBundle.ForceAdvancedSequenceSynchronized(
+                sequence,
+                sequenceTimeoutInSeconds,
+                sequenceLoopCount);
+        }
+
+        /// <remarks>
+        /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
+        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, SiteData{ DCPowerAdvancedSequenceStepProperties[] }, int, bool, double, int?, double)"/> instead.<br/>
+        /// This method will set the Source Mode back to SinglePoint mode upon returning.
+        /// </remarks>
+        /// <inheritdoc cref="ForceAdvancedSequenceSynchronized(DCPowerSessionsBundle, DCPowerAdvancedSequenceStepProperties[], int, bool, double)"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="sequence"/>
+        /// <param name="sequenceLoopCount"/>
+        /// <param name="waitForSequenceCompletion"/>
+        /// <param name="sequenceTimeoutInSeconds"/>
+        [Obsolete("This method has been deprecated. Use the overload without the waitForSequenceCompletion parameter instead.")]
+        public static void ForceAdvancedSequenceSynchronized(
+            this DCPowerSessionsBundle sessionsBundle,
+            SiteData<DCPowerAdvancedSequenceStepProperties[]> sequence,
+            int sequenceLoopCount = 1,
+            bool waitForSequenceCompletion = true,
+            double sequenceTimeoutInSeconds = 5.0)
+        {
+            sessionsBundle.ForceAdvancedSequenceSynchronized(
+                sequence,
+                sequenceTimeoutInSeconds,
+                sequenceLoopCount);
+        }
+
+        /// <remarks>
+        /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
+        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, PinSiteData{ DCPowerAdvancedSequenceStepProperties[] }, int, bool, double, int?, double)"/> instead.<br/>
+        /// This method will set the Source Mode back to SinglePoint mode upon returning.
+        /// </remarks>
+        /// <inheritdoc cref="ForceAdvancedSequenceSynchronized(DCPowerSessionsBundle, DCPowerAdvancedSequenceStepProperties[], int, bool, double)"/>
+        /// <param name="sessionsBundle"/>
+        /// <param name="sequence"/>
+        /// <param name="sequenceLoopCount"/>
+        /// <param name="waitForSequenceCompletion"/>
+        /// <param name="sequenceTimeoutInSeconds"/>
+        [Obsolete("This method has been deprecated. Use the overload without the waitForSequenceCompletion parameter instead.")]
+        public static void ForceAdvancedSequenceSynchronized(
+            this DCPowerSessionsBundle sessionsBundle,
+            PinSiteData<DCPowerAdvancedSequenceStepProperties[]> sequence,
+            int sequenceLoopCount = 1,
+            bool waitForSequenceCompletion = true,
+            double sequenceTimeoutInSeconds = 5.0)
+        {
+            sessionsBundle.ForceAdvancedSequenceSynchronized(
+                sequence,
+                sequenceTimeoutInSeconds,
+                sequenceLoopCount);
+        }
+
+        /// <summary>
+        /// Synchronizes and forces an advanced sequence across all sessions in the bundle.
+        /// </summary>
+        /// <remarks>
+        /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
+        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, DCPowerAdvancedSequenceStepProperties[], int, bool, double, int?, double)"/> instead.<br/>
+        /// This method will set the Source Mode back to SinglePoint mode upon returning.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="sequence">The sequence of <see cref="DCPowerAdvancedSequenceStepProperties"/> to apply.</param>
+        /// <param name="sequenceTimeoutInSeconds">The timeout, in seconds, to wait for sequence completion.</param>
+        /// <param name="sequenceLoopCount">The number of times to loop through the sequence.</param>
+        public static void ForceAdvancedSequenceSynchronized(
+            this DCPowerSessionsBundle sessionsBundle,
+            DCPowerAdvancedSequenceStepProperties[] sequence,
+            double sequenceTimeoutInSeconds,
+            int sequenceLoopCount = 1)
         {
             ArrayProvider<DCPowerAdvancedSequenceStepProperties> getSequence = _ => sequence;
 
@@ -1595,15 +1670,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <inheritdoc cref="ForceAdvancedSequenceSynchronized(DCPowerSessionsBundle, DCPowerAdvancedSequenceStepProperties[], int, bool, double)"/>
         /// <param name="sessionsBundle"/>
         /// <param name="sequence"/>
-        /// <param name="sequenceLoopCount"/>
-        /// <param name="waitForSequenceCompletion"/>
         /// <param name="sequenceTimeoutInSeconds"/>
+        /// <param name="sequenceLoopCount"/>
         public static void ForceAdvancedSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             SiteData<DCPowerAdvancedSequenceStepProperties[]> sequence,
-            int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = 5.0)
+            double sequenceTimeoutInSeconds,
+            int sequenceLoopCount = 1)
         {
             ArrayProvider<DCPowerAdvancedSequenceStepProperties> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo.SiteNumber);
 
@@ -1621,15 +1694,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <inheritdoc cref="ForceAdvancedSequenceSynchronized(DCPowerSessionsBundle, DCPowerAdvancedSequenceStepProperties[], int, bool, double)"/>
         /// <param name="sessionsBundle"/>
         /// <param name="sequence"/>
-        /// <param name="sequenceLoopCount"/>
-        /// <param name="waitForSequenceCompletion"/>
         /// <param name="sequenceTimeoutInSeconds"/>
+        /// <param name="sequenceLoopCount"/>
         public static void ForceAdvancedSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             PinSiteData<DCPowerAdvancedSequenceStepProperties[]> sequence,
-            int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = 5.0)
+            double sequenceTimeoutInSeconds,
+            int sequenceLoopCount = 1)
         {
             ArrayProvider<DCPowerAdvancedSequenceStepProperties> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo);
 
