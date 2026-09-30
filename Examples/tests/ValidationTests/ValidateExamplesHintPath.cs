@@ -9,22 +9,17 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Functionality.Examp
 {
     public class ValidateExamplesHintPath
     {
+        // when this test is run as part of test mode, it tests installed Examples present in this location
+        private const string InstalledExamplesRoot = @"C:\Users\Public\Documents\National Instruments\NI_SemiconductorTestLibrary\Examples";
+
         public static TheoryData<string> GetExampleProjectPaths()
         {
-            string sourceFolderPath = Path.GetFullPath(Path.Combine(
-                Directory.GetCurrentDirectory(),
-                "..",
-                "..",
-                "..",
-                "..",
-                "source"));
-            string[] projectPaths = Directory.GetFiles(sourceFolderPath, "*.csproj", SearchOption.AllDirectories);
+            string[] projectPaths = Directory.GetFiles(InstalledExamplesRoot, "*.csproj", SearchOption.AllDirectories);
             TheoryData<string> data = new TheoryData<string>();
             foreach (string projectPath in projectPaths)
             {
                 data.Add(projectPath);
             }
-
             return data;
         }
 
