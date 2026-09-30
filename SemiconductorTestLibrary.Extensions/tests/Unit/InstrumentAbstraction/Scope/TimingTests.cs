@@ -4,36 +4,33 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
-using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
-using static NationalInstruments.Tests.SemiconductorTestLibrary.InstrumentAbstraction.ScopeTests;
+using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.InitializeAndClose;
+using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
 
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.Scope
 {
     [Collection("NonParallelizable")]
     public sealed class TimingTests : IDisposable
     {
-        private ISemiconductorModuleContext _tsmContext;
+        private readonly ISemiconductorModuleContext _tsmContext;
 
-        public TSMSessionManager Initialize(string pinMapFileName)
+        public TimingTests()
         {
-            return TestSetup(pinMapFileName, out _tsmContext);
+            _tsmContext = CreateTSMContext("ScopeTests.pinmap");
+            Initialize(_tsmContext);
         }
 
         public void Dispose()
         {
-            if (_tsmContext != null)
-            {
-                TestCleanup(_tsmContext);
-            }
+            Close(_tsmContext);
         }
 
         #region ConfigureTiming Tests
 
         [Fact]
-        public void ValidTimingSettings_ConfigureTiming_TimingSettingsCorrectlyConfigured()
+        public void SessionsBundle_ConfigureTimingWithValidSettings_TimingSettingsCorrectlyConfigured()
         {
-            var sessionManager = Initialize("ScopeTests.pinmap");
-            var sessionsBundle = sessionManager.Scope("DUTPin1");
+            var sessionsBundle = GetSessionsBundle("DUTPin1");
             var timingSettings = new TimingSettings
             {
                 MinimumSampleRate = 1000000,
@@ -45,14 +42,57 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ConfigureTiming(timingSettings);
 
-            sessionsBundle.Do(sessionInfo => AssertTimingSettings(sessionInfo.Session, timingSettings));
+            AssertTimingSettings(sessionsBundle, timingSettings);
         }
 
         [Fact]
-        public void ConfiguredTiming_GetNumberOfRecordsToAcquire_ReturnsConfiguredNumberOfRecords()
+        public void SessionsBundle_ConfigureTimingWithMultiplePins_TimingSettingsCorrectlyConfiguredForAllSessions()
         {
-            var sessionManager = Initialize("ScopeTests.pinmap");
-            var sessionsBundle = sessionManager.Scope("DUTPin1");
+            var sessionsBundle = GetSessionsBundle(new[] { "DUTPin1", "DUTPin2", "DUTPin3" });
+            var timingSettings = new TimingSettings
+            {
+                MinimumSampleRate = 2000000,
+                MinimumNumberOfPoints = 2000,
+                ReferencePosition = 25,
+                NumberOfRecords = 2,
+                EnforceRealtime = false
+            };
+
+            sessionsBundle.ConfigureTiming(timingSettings);
+
+            AssertTimingSettings(sessionsBundle, timingSettings);
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureTimingCalledMultipleTimes_LastSettingsApplied()
+        {
+            var sessionsBundle = GetSessionsBundle("DUTPin1");
+            var finalSettings = new TimingSettings
+            {
+                MinimumSampleRate = 1000000,
+                MinimumNumberOfPoints = 1000,
+                ReferencePosition = 50,
+                NumberOfRecords = 3,
+                EnforceRealtime = true
+            };
+
+            sessionsBundle.ConfigureTiming(new TimingSettings
+            {
+                MinimumSampleRate = 500000,
+                MinimumNumberOfPoints = 500,
+                ReferencePosition = 10,
+                NumberOfRecords = 1,
+                EnforceRealtime = false
+            });
+            sessionsBundle.ConfigureTiming(finalSettings);
+
+            AssertTimingSettings(sessionsBundle, finalSettings);
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureTimingThenGetNumberOfRecordsToAcquire_ReturnsConfiguredNumberOfRecords()
+        {
+            var sessionsBundle = GetSessionsBundle("DUTPin1");
             var timingSettings = new TimingSettings
             {
                 MinimumSampleRate = 1000000,
@@ -68,52 +108,24 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.All(numberOfRecordsToAcquire, numberOfRecords => Assert.Equal(3, numberOfRecords));
         }
 
-        [Fact]
-        public void MultiplePinsAcrossMultipleSessions_ConfigureTiming_TimingSettingsCorrectlyConfiguredForAllSessions()
-        {
-            var sessionManager = Initialize("ScopeTests.pinmap");
-            var sessionsBundle = sessionManager.Scope(new string[] { "DUTPin1", "DUTPin2", "DUTPin3" });
-            var timingSettings = new TimingSettings
-            {
-                MinimumSampleRate = 2000000,
-                MinimumNumberOfPoints = 2000,
-                ReferencePosition = 25,
-                NumberOfRecords = 2,
-                EnforceRealtime = false
-            };
-
-            sessionsBundle.ConfigureTiming(timingSettings);
-
-            sessionsBundle.Do(sessionInfo => AssertTimingSettings(sessionInfo.Session, timingSettings));
-        }
-
         #endregion
 
         #region ConfigureClock Tests
 
         [Fact]
-        public void ValidClockSettings_ConfigureClock_ClockSettingsCorrectlyConfigured()
+        public void SessionsBundle_ConfigureClockWithDefaultSettings_ClockSettingsCorrectlyConfigured()
         {
-            var sessionManager = Initialize("ScopeTests.pinmap");
-            var sessionsBundle = sessionManager.Scope("DUTPin1");
-            var clockSettings = new ClockSettings
-            {
-                InputClockSource = ScopeInputClockSource.NoSource,
-                OutputClockSource = ScopeOutputClockSource.NoSource,
-                ClockSynchronizationPulseSource = ScopeClockSynchronizationPulseSource.NoSource,
-                MasterEnabled = false
-            };
+            var sessionsBundle = GetSessionsBundle("DUTPin1");
 
-            sessionsBundle.ConfigureClock(clockSettings);
+            sessionsBundle.ConfigureClock(new ClockSettings());
 
             sessionsBundle.Do(sessionInfo => Assert.Equal(ScopeClockSynchronizationPulseSource.NoSource, sessionInfo.Session.Timing.ClockSynchronizationPulseSource));
         }
 
         [Fact]
-        public void MasterEnabledTrue_ConfigureClock_ClockSettingsCorrectlyConfigured()
+        public void SessionsBundle_ConfigureClockWithMasterEnabled_ClockSettingsCorrectlyConfigured()
         {
-            var sessionManager = Initialize("ScopeTests.pinmap");
-            var sessionsBundle = sessionManager.Scope("DUTPin1");
+            var sessionsBundle = GetSessionsBundle("DUTPin1");
             var clockSettings = new ClockSettings
             {
                 InputClockSource = ScopeInputClockSource.NoSource,
@@ -154,12 +166,27 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         #region Helper Methods
 
-        private void AssertTimingSettings(NationalInstruments.ModularInstruments.NIScope.NIScope session, TimingSettings expectedSettings)
+        private static void AssertTimingSettings(ScopeSessionsBundle sessionsBundle, TimingSettings expected)
         {
-            Assert.True(session.Acquisition.SampleRate >= expectedSettings.MinimumSampleRate);
-            Assert.Equal(expectedSettings.ReferencePosition, session.Trigger.ReferenceTrigger.ReferencePosition);
-            Assert.Equal(expectedSettings.NumberOfRecords, session.Timing.NumberOfRecordsToAcquire);
-            Assert.Equal(expectedSettings.EnforceRealtime, session.Timing.EnforceRealtime);
+            sessionsBundle.Do(sessionInfo =>
+            {
+                var session = sessionInfo.Session;
+                Assert.True(session.Acquisition.SampleRate >= expected.MinimumSampleRate);
+                Assert.Equal(expected.ReferencePosition, session.Trigger.ReferenceTrigger.ReferencePosition);
+                Assert.Equal(expected.NumberOfRecords, session.Timing.NumberOfRecordsToAcquire);
+                Assert.Equal(expected.EnforceRealtime, session.Timing.EnforceRealtime);
+            });
+        }
+
+        private ScopeSessionsBundle GetSessionsBundle(string pin)
+        {
+            return GetSessionsBundle(new[] { pin });
+        }
+
+        private ScopeSessionsBundle GetSessionsBundle(string[] pins)
+        {
+            var sessionManager = new TSMSessionManager(_tsmContext);
+            return sessionManager.Scope(pins);
         }
 
         #endregion
