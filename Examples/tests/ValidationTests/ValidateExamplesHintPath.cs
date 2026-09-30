@@ -11,19 +11,20 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Functionality.Examp
     {
         public static TheoryData<string> GetExampleProjectPaths()
         {
-            var sourceFolderPath = Path.GetFullPath(Path.Combine(
+            string sourceFolderPath = Path.GetFullPath(Path.Combine(
                 Directory.GetCurrentDirectory(),
                 "..",
                 "..",
                 "..",
                 "..",
                 "source"));
-            var projectPaths = Directory.GetFiles(sourceFolderPath, "*.csproj", SearchOption.AllDirectories);
-            var data = new TheoryData<string>();
-            foreach (var projectPath in projectPaths)
+            string[] projectPaths = Directory.GetFiles(sourceFolderPath, "*.csproj", SearchOption.AllDirectories);
+            TheoryData<string> data = new TheoryData<string>();
+            foreach (string projectPath in projectPaths)
             {
                 data.Add(projectPath);
             }
+
             return data;
         }
 
@@ -31,26 +32,39 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Functionality.Examp
         [MemberData(nameof(GetExampleProjectPaths))]
         public void ValidateExamplesHintPaths_WhenPathsAreMissing_ShouldReportInvalidHintPaths(string projectPath)
         {
-            var projectDirectory = Path.GetDirectoryName(projectPath);
-            var projectXml = XDocument.Load(projectPath);
-            var hintPaths = GetHintPaths(projectXml);
-            var invalidHintPaths = GetInvalidHintPaths(hintPaths, projectDirectory, projectPath);
+            List<string> hintPaths = GetHintPaths(projectPath);
+            List<string> absoluteHintPaths = GetAbsoluteHintPaths(hintPaths, projectPath);
+            List<string> invalidHintPaths = new List<string>();
+
+            for (int index = 0; index < absoluteHintPaths.Count; index++)
+            {
+                string absoluteHintPath = absoluteHintPaths[index];
+                if (!File.Exists(absoluteHintPath))
+                {
+                    invalidHintPaths.Add(projectPath + ": " + hintPaths[index]);
+                }
+            }
 
             Assert.False(invalidHintPaths.Any(), $"Invalid hint paths found:{Environment.NewLine}{string.Join(Environment.NewLine, invalidHintPaths)}");
         }
 
-        private static List<string> GetHintPaths(XDocument projectXml)
+        private static List<string> GetHintPaths(string projectPath)
         {
-            var hintPaths = new List<string>();
-            var referenceNodes = projectXml.Descendants().Where(node => node.Name.LocalName == "Reference");
+            XDocument projectXml = XDocument.Load(projectPath);
+            List<string> hintPaths = new List<string>();
+            List<XElement> referenceNodes = projectXml.Descendants()
+                .Where(node => node.Name.LocalName == "Reference")
+                .ToList();
 
-            foreach (var referenceNode in referenceNodes)
+            foreach (XElement referenceNode in referenceNodes)
             {
-                var hintNodes = referenceNode.Elements().Where(node => node.Name.LocalName == "HintPath");
+                List<XElement> hintNodes = referenceNode.Elements()
+                    .Where(node => node.Name.LocalName == "HintPath")
+                    .ToList();
 
-                foreach (var hintNode in hintNodes)
+                foreach (XElement hintNode in hintNodes)
                 {
-                    var rawHintPath = hintNode.Value.Trim();
+                    string rawHintPath = hintNode.Value.Trim();
                     if (!string.IsNullOrEmpty(rawHintPath))
                     {
                         hintPaths.Add(rawHintPath);
@@ -59,25 +73,20 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Functionality.Examp
             }
             return hintPaths;
         }
-        private static List<string> GetInvalidHintPaths(List<string> hintPaths, string projectDirectory, string projectPath)
-        {
-            var invalidHintPaths = new List<string>();
-            foreach (var rawHintPath in hintPaths)
-            {
-                if (!string.IsNullOrEmpty(rawHintPath))
-                {
-                     var expandedHintPath = Environment.ExpandEnvironmentVariables(rawHintPath);
-                     var resolvedPath = Path.IsPathRooted(expandedHintPath)
-                    ? expandedHintPath
-                    : Path.Combine(projectDirectory, expandedHintPath);
 
-                    if (!File.Exists(Path.GetFullPath(resolvedPath)))
-                    {
-                        invalidHintPaths.Add(projectPath + ": " + rawHintPath);
-                    }
-                }
+        private static List<string> GetAbsoluteHintPaths(List<string> hintPaths, string projectPath)
+        {
+            string projectDirectory = Path.GetDirectoryName(projectPath);
+            List<string> absoluteHintPaths = new List<string>();
+            foreach (string rawHintPath in hintPaths)
+            {
+                string resolvedPath = Path.IsPathRooted(rawHintPath)
+                    ? rawHintPath
+                    : Path.Combine(projectDirectory, rawHintPath);
+
+                absoluteHintPaths.Add(Path.GetFullPath(resolvedPath));
             }
-            return invalidHintPaths;
+            return absoluteHintPaths;
         }
     }
 }
