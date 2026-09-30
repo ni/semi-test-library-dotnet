@@ -525,7 +525,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                     }
                 }
             });
-            sessionsBundle.ForceAdvancedSequenceSynchronized(sequence, sequenceLoopCount: 1, waitForSequenceCompletion: true, sequenceTimeoutInSeconds: 5.0);
+            sessionsBundle.ForceAdvancedSequenceSynchronized(sequence, sequenceLoopCount: 1, sequenceTimeoutInSeconds: 5.0);
         }
 
         [Theory]
@@ -562,7 +562,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 {
                     new SiteData<DCPowerSourceSettings[]>(sites, vddSequence)
                 });
-            sessionsBundle.ForceAdvancedSequenceSynchronized(sequence, sequenceLoopCount: 1, waitForSequenceCompletion: true, sequenceTimeoutInSeconds: 10.0);
+            sessionsBundle.ForceAdvancedSequenceSynchronized(sequence, sequenceLoopCount: 1, sequenceTimeoutInSeconds: 10.0);
         }
 
         [Theory]
@@ -603,7 +603,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var exception = Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
                 sequence,
                 sequenceLoopCount: 1,
-                waitForSequenceCompletion: true,
                 sequenceTimeoutInSeconds: 10.0,
                 pointsToFetch: 2,
                 measurementTimeoutInSeconds: 10.0));
@@ -648,7 +647,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var results = sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
                 sequence,
                 sequenceLoopCount: 1,
-                waitForSequenceCompletion: true,
                 sequenceTimeoutInSeconds: 10.0,
                 pointsToFetch: 3,
                 measurementTimeoutInSeconds: 10.0);
@@ -750,7 +748,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var results = sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
                 sequencePerSite,
                 sequenceLoopCount: 1,
-                waitForSequenceCompletion: true,
                 sequenceTimeoutInSeconds: 10.0,
                 pointsToFetch: 2,
                 measurementTimeoutInSeconds: 10.0);
@@ -806,7 +803,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var results = sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
                 sequence,
                 sequenceLoopCount: 1,
-                waitForSequenceCompletion: true,
                 sequenceTimeoutInSeconds: 10.0,
                 pointsToFetch: 2,
                 measurementTimeoutInSeconds: 10.0);
@@ -1028,7 +1024,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             CreateDCPowerAdvancedSequencePropertyMappingsCache();
             var sequence = new SiteData<DCPowerSourceSettings[]>(Array.Empty<DCPowerSourceSettings[]>());
-            void ForceAdvancedSequenceSynchronizedTest() => sessionsBundle.ForceAdvancedSequenceSynchronized(sequence, sequenceLoopCount: 1, waitForSequenceCompletion: true, sequenceTimeoutInSeconds: 5.0);
+            void ForceAdvancedSequenceSynchronizedTest() => sessionsBundle.ForceAdvancedSequenceSynchronized(sequence, sequenceLoopCount: 1, sequenceTimeoutInSeconds: 5.0);
 
             var exception = Assert.Throws<NISemiconductorTestException>(ForceAdvancedSequenceSynchronizedTest);
             var exceptionMessage = "This feature is not supported on a ganged pin group";
@@ -1046,7 +1042,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             CreateDCPowerAdvancedSequencePropertyMappingsCache();
             var sequence = new PinSiteData<DCPowerSourceSettings[]>(Array.Empty<string>(), Array.Empty<int>(), data: null);
-            void ForceAdvancedSequenceSynchronizedTest() => sessionsBundle.ForceAdvancedSequenceSynchronized(sequence, sequenceLoopCount: 1, waitForSequenceCompletion: true, sequenceTimeoutInSeconds: 10.0);
+            void ForceAdvancedSequenceSynchronizedTest() => sessionsBundle.ForceAdvancedSequenceSynchronized(sequence, sequenceLoopCount: 1, sequenceTimeoutInSeconds: 10.0);
 
             var exception = Assert.Throws<NISemiconductorTestException>(ForceAdvancedSequenceSynchronizedTest);
             var exceptionMessage = "This feature is not supported on a ganged pin group";
@@ -1066,7 +1062,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             void ForceAdvancedSequenceSynchronizedAndFetchTest() => sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
                 sequence,
                 sequenceLoopCount: 1,
-                waitForSequenceCompletion: true,
                 sequenceTimeoutInSeconds: 10.0,
                 pointsToFetch: 3,
                 measurementTimeoutInSeconds: 10.0);
@@ -1089,7 +1084,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             void ForceAdvancedSequenceSynchronizedAndFetchTest() => sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
                 sequence,
                 sequenceLoopCount: 1,
-                waitForSequenceCompletion: true,
                 sequenceTimeoutInSeconds: 10.0,
                 pointsToFetch: 2,
                 measurementTimeoutInSeconds: 10.0);
@@ -1113,7 +1107,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             void ForceAdvancedSequenceSynchronizedAndFetchTest() => sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
                 sequence,
                 sequenceLoopCount: 1,
-                waitForSequenceCompletion: true,
                 sequenceTimeoutInSeconds: 10.0,
                 pointsToFetch: 2,
                 measurementTimeoutInSeconds: 10.0);
