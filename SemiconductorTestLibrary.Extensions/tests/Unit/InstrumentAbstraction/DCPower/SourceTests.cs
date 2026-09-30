@@ -5957,9 +5957,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ForceVoltageSequence(
                 voltageSequence,
+                0.005,
                 currentLimit: 0.05,
-                sequenceLoopCount: 1,
-                waitForSequenceCompletion: false);
+                sequenceLoopCount: 1);
             var elapsedTime = (DateTime.Now - startTime).TotalMilliseconds;
 
             // Should return quickly without waiting
@@ -6001,9 +6001,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ForceVoltageSequence(
                 voltageSequence,
+                0.005,
                 currentLimit: 0.05,
-                sequenceLoopCount: 3,
-                waitForSequenceCompletion: true);
+                sequenceLoopCount: 3);
             var elapsedTime = (DateTime.Now - startTime).TotalMilliseconds;
 
             if (!_tsmContext.IsSemiconductorModuleInOfflineMode)
