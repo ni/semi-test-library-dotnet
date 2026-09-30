@@ -654,7 +654,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
+            bool waitForSequenceCompletion = true,
             double sequenceTimeoutInSeconds = DefaultTimeout)
         {
             sessionsBundle.ForceVoltageSequenceSynchronized(
@@ -694,7 +694,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
+            bool waitForSequenceCompletion = true,
             double sequenceTimeoutInSeconds = DefaultTimeout)
         {
             sessionsBundle.ForceVoltageSequenceSynchronized(
@@ -734,7 +734,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
+            bool waitForSequenceCompletion = true,
             double sequenceTimeoutInSeconds = DefaultTimeout)
         {
             sessionsBundle.ForceVoltageSequenceSynchronized(
@@ -1107,7 +1107,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
+            bool waitForSequenceCompletion = true,
             double sequenceTimeoutInSeconds = DefaultTimeout)
         {
             sessionsBundle.ForceCurrentSequenceSynchronized(
@@ -1147,7 +1147,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
+            bool waitForSequenceCompletion = true,
             double sequenceTimeoutInSeconds = DefaultTimeout)
         {
             sessionsBundle.ForceCurrentSequenceSynchronized(
@@ -1187,7 +1187,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
+            bool waitForSequenceCompletion = true,
             double sequenceTimeoutInSeconds = DefaultTimeout)
         {
             sessionsBundle.ForceCurrentSequenceSynchronized(
@@ -1419,7 +1419,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             this DCPowerSessionsBundle sessionsBundle,
             DCPowerSourceSettings[] sequence,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
+            bool waitForSequenceCompletion = true,
             double sequenceTimeoutInSeconds = 5.0)
         {
             ArrayProvider<DCPowerSourceSettings> getSequence = _ => sequence;
@@ -1445,7 +1445,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             this DCPowerSessionsBundle sessionsBundle,
             SiteData<DCPowerSourceSettings[]> sequence,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
+            bool waitForSequenceCompletion = true,
             double sequenceTimeoutInSeconds = 5.0)
         {
             ArrayProvider<DCPowerSourceSettings> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo.SiteNumber);
@@ -1471,7 +1471,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             this DCPowerSessionsBundle sessionsBundle,
             PinSiteData<DCPowerSourceSettings[]> sequence,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
+            bool waitForSequenceCompletion = true,
             double sequenceTimeoutInSeconds = 5.0)
         {
             ArrayProvider<DCPowerSourceSettings> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo);
@@ -1501,7 +1501,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             this DCPowerSessionsBundle sessionsBundle,
             DCPowerSourceSettings[] sequence,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
+            bool waitForSequenceCompletion = true,
             double sequenceTimeoutInSeconds = 5.0,
             int? pointsToFetch = null,
             double measurementTimeoutInSeconds = 10)
@@ -1522,7 +1522,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             this DCPowerSessionsBundle sessionsBundle,
             SiteData<DCPowerSourceSettings[]> sequence,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
+            bool waitForSequenceCompletion = true,
             double sequenceTimeoutInSeconds = 5.0,
             int? pointsToFetch = null,
             double measurementTimeoutInSeconds = 10)
@@ -1543,7 +1543,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             this DCPowerSessionsBundle sessionsBundle,
             PinSiteData<DCPowerSourceSettings[]> sequence,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
+            bool waitForSequenceCompletion = true,
             double sequenceTimeoutInSeconds = 5.0,
             int? pointsToFetch = null,
             double measurementTimeoutInSeconds = 10)
@@ -1729,7 +1729,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             this DCPowerSessionsBundle sessionsBundle,
             DCPowerAdvancedSequenceStepProperties[] sequence,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
+            bool waitForSequenceCompletion = true,
             double sequenceTimeoutInSeconds = 5.0,
             int? pointsToFetch = null,
             double measurementTimeoutInSeconds = 10)
@@ -1750,7 +1750,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             this DCPowerSessionsBundle sessionsBundle,
             SiteData<DCPowerAdvancedSequenceStepProperties[]> sequence,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
+            bool waitForSequenceCompletion = true,
             double sequenceTimeoutInSeconds = 5.0,
             int? pointsToFetch = null,
             double measurementTimeoutInSeconds = 10)
@@ -1771,7 +1771,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             this DCPowerSessionsBundle sessionsBundle,
             PinSiteData<DCPowerAdvancedSequenceStepProperties[]> sequence,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
+            bool waitForSequenceCompletion = true,
             double sequenceTimeoutInSeconds = 5.0,
             int? pointsToFetch = null,
             double measurementTimeoutInSeconds = 10)
@@ -1937,7 +1937,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? currentLevelRange = null,
             double? voltageLimitRange = null,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
+            bool waitForSequenceCompletion = true,
             double sequenceTimeoutInSeconds = DefaultTimeout)
         {
             sessionsBundle.ForceCurrentSequence(
