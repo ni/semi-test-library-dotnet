@@ -46,15 +46,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         }
 
         /// <summary>
-        /// Gets a value indicating whether the current generation is complete.
+        /// Gets a value indicating whether the current generation is complete for each session in the bundle.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
+        /// <returns>
+        /// An array of generation status values, one per session in the bundle.
+        /// Each element is <c>true</c> if generation is complete for the corresponding session; otherwise, <c>false</c>.
+        /// </returns>
         /// <remarks>
-        /// If the session is in the idle or committed states, this property returns 'True'.
+        /// If a session is in the idle or committed state, the corresponding element is <c>true</c>.
         /// </remarks>
         public static bool[] IsDone(this FgenSessionsBundle sessionsBundle)
         {
-            // Returning array of bool for each session in the bundle, indicating whether each session is done.
             return sessionsBundle.DoAndReturnPerInstrumentPerChannelResults((sessionInfo) =>
             {
                 return sessionInfo.Session.IsDone;
@@ -65,10 +68,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// Waits until the device is done generating or until the timeout has expired.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
-        /// <param name="timeout">Max wait time in milliseconds.</param>
+        /// <param name="timeout">The maximum time, in milliseconds, to wait for generation to complete. The value must be non-negative.</param>
         /// <remarks>
         /// Call this method after calling <see cref="Initiate"/>.
+        /// <para>
+        /// Throws exception when the generation initiated by <see cref="Initiate"/> did not complete within the specified timeout for one or more sessions in the bundle,
+        /// or the specified <paramref name="timeout"/> value is invalid.
+        /// </para>
         /// </remarks>
+        /// <exception cref="NISemiconductorTestException">
+        /// The generation initiated by <see cref="Initiate"/> did not complete within the specified timeout for one or more sessions in the bundle,
+        /// or the specified <paramref name="timeout"/> value is invalid.
+        /// </exception>
         public static void WaitUntilDone(this FgenSessionsBundle sessionsBundle, int timeout = 10000)
         {
             TimeSpan timeoutSpan = TimeSpan.FromMilliseconds(timeout);
@@ -76,7 +87,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
             {
                 sessionInfo.Session.WaitUntilDone(timeoutSpan);
             });
-         }
+        }
 
         /// <summary>
         /// Aborts any previously initiated signal generation.
