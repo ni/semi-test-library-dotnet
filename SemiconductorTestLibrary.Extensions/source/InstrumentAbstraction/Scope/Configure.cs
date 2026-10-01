@@ -5,14 +5,14 @@ using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecuti
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope
 {
     /// <summary>
-    /// Defines methods for configuring the NI-Scope session.
+    /// Defines extension methods for configuring the NI-Scope session.
     /// </summary>
     public static class Configure
     {
         #region Methods on ScopeSessionsBundle
 
         /// <summary>
-        /// Configures the vertical settings of all channels in the bundle with the same settings.
+        /// Configures the vertical settings of all channels in the bundle.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
         /// <param name="verticalSettings">The <see cref="VerticalSettings"/> to apply.</param>
@@ -24,11 +24,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
             });
         }
 
-        /// <summary>
-        /// Configures the vertical settings of all channels in the bundle with per-site settings.
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
-        /// <param name="verticalSettings">The per-site <see cref="VerticalSettings"/> to apply.</param>
+        /// <inheritdoc cref="ConfigureVertical(ScopeSessionsBundle, VerticalSettings)"/>
         public static void ConfigureVertical(this ScopeSessionsBundle sessionsBundle, SiteData<VerticalSettings> verticalSettings)
         {
             sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
@@ -37,11 +33,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
             });
         }
 
-        /// <summary>
-        /// Configures the vertical settings of all channels in the bundle with per-pin per-site settings.
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
-        /// <param name="verticalSettings">The per-pin per-site <see cref="VerticalSettings"/> to apply.</param>
+        /// <inheritdoc cref="ConfigureVertical(ScopeSessionsBundle, VerticalSettings)"/>
         public static void ConfigureVertical(this ScopeSessionsBundle sessionsBundle, PinSiteData<VerticalSettings> verticalSettings)
         {
             sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>

@@ -16,7 +16,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
     [Collection("NonParallelizable")]
     public sealed class ConfigureTests : IDisposable
     {
-        private const string SinglePin = "DUTPin4";
+        private const string _SCP_5186_Pin = "SCP_5186_Pin";
+        private const string _SCP_5162_Pin = "SCP_5162_Pin";
 
         private readonly ISemiconductorModuleContext _tsmContext;
 
@@ -34,7 +35,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void SessionsBundle_ConfigureVerticalWithDefaultSettings_ValuesApplied()
         {
-            var sessionsBundle = GetSessionsBundle(SinglePin);
+            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
 
             sessionsBundle.ConfigureVertical(new VerticalSettings());
 
@@ -44,12 +45,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void SessionsBundle_ConfigureVerticalWithCustomSettings_ValuesApplied()
         {
-            var sessionsBundle = GetSessionsBundle(SinglePin);
+            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
             var settings = new VerticalSettings
             {
-                Range = 0.5,
+                Range = 1.0,
                 Offset = 0.25,
-                ProbeAttenuation = 10.0,
+                ProbeAttenuation = 1.0,
                 Enabled = true
             };
 
@@ -60,7 +61,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void SessionsBundle_ConfigureVerticalWithChannelDisabled_ChannelIsDisabled()
         {
-            var sessionsBundle = GetSessionsBundle(SinglePin);
+            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
             var settings = new VerticalSettings { Enabled = false };
 
             sessionsBundle.ConfigureVertical(settings);
@@ -74,7 +75,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void SessionsBundle_ConfigureVerticalWithTimeInterleavedSamplingEnabled_ValueApplied()
         {
-            var sessionsBundle = GetSessionsBundle("DUTPin2");
+            var sessionsBundle = GetSessionsBundle(_SCP_5162_Pin);
             var settings = new VerticalSettings { EnableTimeInterleavedSampling = true };
 
             sessionsBundle.ConfigureVertical(settings);
@@ -88,7 +89,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void SessionsBundle_ConfigureVerticalCalledMultipleTimes_LastSettingsApplied()
         {
-            var sessionsBundle = GetSessionsBundle(SinglePin);
+            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
             var finalSettings = new VerticalSettings { Range = 0.5, Offset = 0.25 };
 
             sessionsBundle.ConfigureVertical(new VerticalSettings { Range = 1.0, Offset = 0.5 });
@@ -100,7 +101,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void InitiatedAcquisition_ConfigureVertical_Succeeds()
         {
-            var sessionsBundle = GetSessionsBundle(SinglePin);
+            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
             sessionsBundle.Initiate();
 
             sessionsBundle.ConfigureVertical(new VerticalSettings { Range = 1.0 });
@@ -111,7 +112,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void SessionsBundle_ConfigureVerticalWithInvalidRange_ThrowsException()
         {
-            var sessionsBundle = GetSessionsBundle(SinglePin);
+            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
 
             var exception = Assert.Throws<NISemiconductorTestException>(
                 () => sessionsBundle.ConfigureVertical(new VerticalSettings { Range = -1.0 }));
@@ -122,7 +123,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void SessionsBundle_ConfigureVerticalWithPerSiteSettings_ValuesApplied()
         {
-            var sessionsBundle = GetSessionsBundle(SinglePin);
+            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
             var siteZeroSettings = new VerticalSettings { Range = 1, Offset = 0.1 };
             var siteOneSettings = new VerticalSettings { Range = 0.5, Offset = 0.2 };
             var perSiteSettings = new SiteData<VerticalSettings>(new Dictionary<int, VerticalSettings>
@@ -145,9 +146,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void SessionsBundle_ConfigureVerticalWithPerPinPerSiteSettings_ValuesApplied()
         {
-            var sessionsBundle = GetSessionsBundle(new[] { "DUTPin4" });
+            var sessionsBundle = GetSessionsBundle(new[] { _SCP_5186_Pin });
             var perPinPerSiteSettings = new PinSiteData<VerticalSettings>(
-                new[] { "DUTPin4" },
+                new[] { _SCP_5186_Pin },
                 new[] { 0, 1 },
                 new[]
                 {
@@ -167,7 +168,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void SessionsBundle_ConfigureVerticalWithPerSiteSettingsMissingSite_ThrowsException()
         {
-            var sessionsBundle = GetSessionsBundle(SinglePin);
+            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
             var perSiteSettings = new SiteData<VerticalSettings>(new Dictionary<int, VerticalSettings>
             {
                 [0] = new VerticalSettings()
