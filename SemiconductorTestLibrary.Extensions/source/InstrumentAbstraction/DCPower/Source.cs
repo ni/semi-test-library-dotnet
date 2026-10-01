@@ -344,7 +344,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static void ForceVoltageSequence(
             this DCPowerSessionsBundle sessionsBundle,
             double[] voltageSequence,
-            double sequenceTimeoutInSeconds = DefaultTimeout,
+            double sequenceTimeoutInSeconds,
             double? currentLimit = null,
             double? voltageLevelRange = null,
             double? currentLimitRange = null,
@@ -408,7 +408,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static void ForceVoltageSequence(
             this DCPowerSessionsBundle sessionsBundle,
             SiteData<double[]> voltageSequence,
-            double sequenceTimeoutInSeconds = DefaultTimeout,
+            double sequenceTimeoutInSeconds,
             double? currentLimit = null,
             double? voltageLevelRange = null,
             double? currentLimitRange = null,
@@ -458,7 +458,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static void ForceVoltageSequence(
             this DCPowerSessionsBundle sessionsBundle,
             PinSiteData<double[]> voltageSequence,
-            double sequenceTimeoutInSeconds = DefaultTimeout,
+            double sequenceTimeoutInSeconds,
             double? currentLimit = null,
             double? voltageLevelRange = null,
             double? currentLimitRange = null,
@@ -1627,7 +1627,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             channelOutput.ConfigureLevelsAndLimits(settings, sitePinInfo, needDataAdjustment);
             if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
             {
-                channelOutput.InitiateChannels(false);
+                channelOutput.InitiateChannels(false, 0.0);
             }
         }
 
@@ -3383,12 +3383,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        private static void Force(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, bool waitForSourceCompletion = false)
+        private static void Force(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, bool waitForSourceCompletion)
         {
             var channelString = sessionInfo.AllChannelsString;
             var channelOutput = sessionInfo.Session.Outputs[channelString];
             sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo: null);
-            channelOutput.InitiateChannels(waitForSourceCompletion);
+            channelOutput.InitiateChannels(waitForSourceCompletion, DefaultTimeout);
         }
 
         private static void ConfigureChannels(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, SitePinInfo sitePinInfo, bool needDataAdjustment = true)
@@ -3428,11 +3428,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo, needDataAdjustment);
             if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
             {
-                channelOutput.InitiateChannels(false);
+                channelOutput.InitiateChannels(false, 0.0);
             }
         }
 
-        private static void InitiateChannels(this DCPowerOutput channelOutput, bool waitForCompletion, double timeoutInSeconds = DefaultTimeout)
+        private static void InitiateChannels(this DCPowerOutput channelOutput, bool waitForCompletion, double timeoutInSeconds)
         {
             channelOutput.Control.Initiate();
             if (waitForCompletion)
@@ -3710,7 +3710,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 outputFunction: (DCPowerSourceOutputFunction)settings.OutputFunction,
                 setAsActiveSequence: setAsActiveSequence);
 
-            channelOutput.InitiateChannels(waitForSequenceCompletion: true, sequenceTimeoutInSeconds);
+            channelOutput.InitiateChannels(waitForCompletion: true, sequenceTimeoutInSeconds);
         }
 
         private static double CalculateLimitRangeFromLimit(DCPowerSourceSettings settings)
