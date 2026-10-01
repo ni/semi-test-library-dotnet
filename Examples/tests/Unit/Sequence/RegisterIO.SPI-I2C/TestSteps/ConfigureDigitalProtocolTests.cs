@@ -90,4 +90,28 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             Assert.Equal(new[] { "SDI", "SDO" }, SPI.Instance.PinNames);
         }
     }
+
+    public class ConfigureDigitalProtocolI2CTests
+    {
+        [Fact]
+        public void ConfigureDigitalProtocol_I2C_UpdatesI2CInstance()
+        {
+            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.I2C);
+
+            Assert.Equal("I2C_write_template", I2C.Instance.WritePatternName);
+            Assert.Equal("I2C_read_template", I2C.Instance.ReadPatternName);
+        }
+
+        [Fact]
+        public void ConfigureDigitalProtocol_I2CCustomPatternNames_UpdatesI2CInstance()
+        {
+            TestStep.ConfigureDigitalProtocol(
+                CommunicationProtocol.I2C,
+                writePatternName: "custom_i2c_write",
+                readPatternName: "custom_i2c_read");
+
+            Assert.Equal("custom_i2c_write", I2C.Instance.WritePatternName);
+            Assert.Equal("custom_i2c_read", I2C.Instance.ReadPatternName);
+        }
+    }
 }

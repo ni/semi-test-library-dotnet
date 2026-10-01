@@ -188,4 +188,5 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             Assert.Same(SPI.Instance, SPI.Instance);
         }
     }
+
 }

@@ -38,7 +38,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// <summary>Gets or sets the digital capture waveform name used by the read pattern.</summary>
         string CaptureWaveformName { get; set; }
 
-        /// <summary>Gets or sets the number of bits each digital waveform sample is.</summary>
+            /// <summary>Gets or sets the number of bits each digital waveform sample is.</summary>
         uint SampleWidth { get; set; }
 
         /// <summary>Gets or sets the sequencer register that controls the transaction count.</summary>

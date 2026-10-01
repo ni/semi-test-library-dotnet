@@ -11,7 +11,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// Writes site-unique values to a single register using the selected protocol and reads it back for comparison.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
-        /// <param name="protocol">The digital communication protocol to use (SPI).</param>
+        /// <param name="protocol">The digital communication protocol to use.</param>
+            /// <param name="protocol">The digital communication protocol to use.</param>
         /// <param name="registerAddress">The address of the register to write and read back.</param>
         /// <param name="perSiteValuesToWrite">The values to write, one per site in site order.</param>
         /// <returns>The per-site comparison of the readback value against the written value.</returns>

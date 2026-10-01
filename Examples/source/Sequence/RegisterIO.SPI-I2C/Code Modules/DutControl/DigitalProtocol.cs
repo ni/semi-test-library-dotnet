@@ -25,10 +25,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// <inheritdoc/>
         public string CaptureWaveformName { get; set; } = "capture_buffer";
 
-        /// <summary>The pin that drives outgoing (source) data. For SPI this is SDI (MOSI).</summary>
+        /// <summary>The pin that drives outgoing (source) data. For SPI and I2C this is SDI.</summary>
         public string SourcePinName { get; set; } = "SDI";
 
-        /// <summary>The pin that captures incoming data. For SPI this is SDO (MISO).</summary>
+        /// <summary>The pin that captures incoming data. For SPI and I2C this is SDO.</summary>
         public string CapturePinName { get; set; } = "SDO";
 
         /// <inheritdoc/>

@@ -4,7 +4,8 @@ using NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAndI2C
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAndI2C
 {
     /// <summary>
-    /// Set of protocol-agnostic examples to demonstrate using the <see cref="SPI"/> class
+    /// Set of protocol-agnostic examples to demonstrate using the <see cref="IDigitalProtocol"/> contract
+        /// Set of protocol-agnostic examples to demonstrate using the <see cref="IDigitalProtocol"/> contract
     /// through the shared <see cref="IDigitalProtocol"/> interface.
     /// The <see cref="CommunicationProtocol"/> parameter selects which implementation is used
     /// at runtime.
@@ -19,8 +20,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// <param name="communicationProtocol">The protocol whose parameters to configure.</param>
         /// <param name="addressBitWidth">The number of bits the register address is.</param>
         /// <param name="valueBitWidth">The number of bits the register value holds.</param>
-        /// <param name="writePatternName">The digital pattern name used to write a register value.</param>
-        /// <param name="readPatternName">The digital pattern name used to read a register value.</param>
+        /// <param name="writePatternName">The digital pattern name used to write a register value. If omitted, the selected protocol default is used.</param>
+        /// <param name="readPatternName">The digital pattern name used to read a register value. If omitted, the selected protocol default is used.</param>
         /// <param name="sourceWaveformName">The digital source waveform name.</param>
         /// <param name="captureWaveformName">The digital capture waveform name.</param>
         /// <param name="sampleWidth">The number of bits each digital waveform sample is.</param>
@@ -32,8 +33,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             CommunicationProtocol communicationProtocol = CommunicationProtocol.SPI,
             int addressBitWidth = 16,
             int valueBitWidth = 16,
-            string writePatternName = "SPI_write_template",
-            string readPatternName = "SPI_read_template",
+            string writePatternName = null,
+            string readPatternName = null,
             string sourceWaveformName = "source_buffer",
             string captureWaveformName = "capture_buffer",
             int sampleWidth = 8,
@@ -42,12 +43,29 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             string valueBitWidthSequenceRegister = "reg2",
             string[] pinNames = null)
         {
-            IDigitalProtocol protocol = SPI.Instance;
+            IDigitalProtocol protocol;
+            string defaultWritePatternName;
+            string defaultReadPatternName;
+            switch (communicationProtocol)
+            {
+                case CommunicationProtocol.SPI:
+                    protocol = SPI.Instance;
+                    defaultWritePatternName = "SPI_write_template";
+                    defaultReadPatternName = "SPI_read_template";
+                    break;
+                case CommunicationProtocol.I2C:
+                    protocol = I2C.Instance;
+                    defaultWritePatternName = "I2C_write_template";
+                    defaultReadPatternName = "I2C_read_template";
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(communicationProtocol), communicationProtocol, "Unsupported communication protocol.");
+            }
 
             protocol.DefaultAddressBitWidth = (uint)addressBitWidth;
             protocol.DefaultValueBitWidth = (uint)valueBitWidth;
-            protocol.WritePatternName = writePatternName;
-            protocol.ReadPatternName = readPatternName;
+            protocol.WritePatternName = writePatternName ?? defaultWritePatternName;
+            protocol.ReadPatternName = readPatternName ?? defaultReadPatternName;
             protocol.SourceWaveformName = sourceWaveformName;
             protocol.CaptureWaveformName = captureWaveformName;
             protocol.SampleWidth = (uint)sampleWidth;

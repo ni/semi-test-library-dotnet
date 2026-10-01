@@ -17,12 +17,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
 
         [Theory(Skip = "Requires the shared digital project and a digital pattern instrument.")]
         [InlineData(CommunicationProtocol.SPI)]
+        [InlineData(CommunicationProtocol.I2C)]
         public void WriteSiteUniqueValueToRegisterAndCompareReadbackValues_SiteUniqueValues_ReadbackMatchesPerSite(CommunicationProtocol protocol)
         {
             var tsmContext = CreateTSMContext(SupportingMaterialsFolderPath, PinMapFileName, DigitalPatternProjectName, out _);
             SetupNIDigitalPatternInstrumentation(tsmContext);
             DutPowerUp(tsmContext, new string[] { "VIN" }, new double[] { 3.3 }, new double[] { 0.002 }, 0, false);
-            TestStep.ConfigureDigitalProtocol(protocol, 7, 8, "SPI_write_template", "SPI_read_template", "source_buffer", "capture_buffer", 1, "reg0", "reg1", "reg2", new[] { "CS", "SCK", "SDI", "SDO" });
+            TestStep.ConfigureDigitalProtocol(protocol, 7, 8,
+                protocol == CommunicationProtocol.SPI ? "SPI_write_template" : "I2C_write_template",
+                protocol == CommunicationProtocol.SPI ? "SPI_read_template" : "I2C_read_template",
+                "source_buffer", "capture_buffer", 1, "reg0", "reg1", "reg2", new[] { "CS", "SCK", "SDI", "SDO" });
 
             SiteData<bool> comparisonResults = TestStep.WriteSiteUniqueValueToRegisterAndCompareReadbackValues(tsmContext, protocol, 0x74, new long[] { 0x33 });
 
