@@ -11,6 +11,7 @@ using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
+using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.Utilities;
 
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.Fgen
 {
@@ -54,7 +55,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("FgenSingleInstrumentPerSite.pinmap")]
         [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
         [InlineData("FgenSingleInstrumentSharedAcrossPinsAndSites.pinmap")]
-        public void InitializeBundleWithMultiplePins_ConfigurOutputEnabled_Succeeds(string pinmap)
+        public void InitializeBundleWithMultiplePins_ConfigureOutputEnabled_Succeeds(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
@@ -181,7 +182,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             sessionsBundle.Do((sessionInformation, sitePinInfo) =>
             {
-                var actualValue = sessionInformation.Session.Output.GetEnabled(sitePinInfo.IndividualChannelString.Split('/').Last());
+                var channelName = GetChannelNameFromIndividualChannelString(sitePinInfo.IndividualChannelString);
+                var actualValue = sessionInformation.Session.Output.GetEnabled(channelName);
                 Assert.Equal(expectedValue, actualValue);
             });
         }
@@ -190,25 +192,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             sessionsBundle.Do((sessionInformation, sitePinInfo) =>
             {
-                var actualValue = sessionInformation.Session.Output.GetEnabled(sitePinInfo.IndividualChannelString.Split('/').Last());
-                Assert.Equal(expectedValue.GetValue(sitePinInfo), actualValue);
-            });
-        }
-
-        private void AssertOutputImpedance(FgenSessionsBundle sessionsBundle, double expectedValue)
-        {
-            sessionsBundle.Do((sessionInformation, sitePinInfo) =>
-            {
-                var actualValue = sessionInformation.Session.Output.GetImpedance(sitePinInfo.IndividualChannelString.Split('/').Last());
-                Assert.Equal(expectedValue, actualValue);
-            });
-        }
-
-        private void AssertOutputImpedance(FgenSessionsBundle sessionsBundle, PinSiteData<double> expectedValue)
-        {
-            sessionsBundle.Do((sessionInformation, sitePinInfo) =>
-            {
-                var actualValue = sessionInformation.Session.Output.GetImpedance(sitePinInfo.IndividualChannelString.Split('/').Last());
+                var channelName = GetChannelNameFromIndividualChannelString(sitePinInfo.IndividualChannelString);
+                var actualValue = sessionInformation.Session.Output.GetEnabled(channelName);
                 Assert.Equal(expectedValue.GetValue(sitePinInfo), actualValue);
             });
         }
