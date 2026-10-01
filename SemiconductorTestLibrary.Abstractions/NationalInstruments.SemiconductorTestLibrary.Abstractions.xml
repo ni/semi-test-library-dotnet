@@ -2127,51 +2127,85 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.AddSite(System.Int32[])">
             <summary>
-            Adds the specified sites to the SiteData object along with the default value of SiteData object's data type.
-            For example, if T is of type int, the site value would be initialized to default(int) which is 0.
-            If a site already exists in the SiteData object, that site is skipped while adding.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if <paramref name="siteNumbers"/> parameter is null, an empty array or not provided.
+            Adds the specified sites to the SiteData object along with the default value of the SiteData object's data type.
             </summary>
+            <remarks>
+            For example, if T is of type int, the site value would be initialized to default(int) which is 0.<br/>
+            If a site already exists in the SiteData object, that site is skipped while adding.<br/>
+            Throws <see cref="T:System.ArgumentException"/> if the <paramref name="siteNumbers"/> parameter is an empty array or not provided.<br/>
+            Throws <see cref="T:System.ArgumentNullException"/> if the <paramref name="siteNumbers"/> parameter is null.
+            </remarks>
             <param name="siteNumbers">The site numbers to be added to SiteData object.</param>
+            <exception cref="T:System.ArgumentException">
+            Thrown when the <paramref name="siteNumbers"/> parameter is an empty array or not provided.
+            </exception>
+            <exception cref="T:System.ArgumentNullException">Thrown when the <paramref name="siteNumbers"/> parameter is null.</exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.RemoveSite(System.Int32[])">
             <summary>
             Removes the specified sites from the SiteData object.
-            If one or more specified sites are not present in the SiteData object, they are skipped.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if <paramref name="siteNumbers"/> parameter is null, an empty array or not provided.
             </summary>
+            <remarks>
+            If one or more specified sites are not present in the SiteData object, they are skipped.<br/>
+            Throws <see cref="T:System.ArgumentException"/> if the <paramref name="siteNumbers"/> parameter is an empty array or not provided.<br/>
+            Throws <see cref="T:System.ArgumentNullException"/> if the <paramref name="siteNumbers"/> parameter is null.
+            </remarks>
             <param name="siteNumbers">The site numbers to be removed from SiteData object.</param>
+            <exception cref="T:System.ArgumentException">
+            Thrown when the <paramref name="siteNumbers"/> parameter is an empty array or not provided.
+            </exception>
+            <exception cref="T:System.ArgumentNullException">Thrown when the <paramref name="siteNumbers"/> parameter is null.</exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.SetValue(`0)">
             <summary>
             Sets the value provided as input to all the sites in the SiteData object.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty.
+            </remarks>
             <param name="value">The value to be set for all sites.</param>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when the SiteData object is empty.</exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.SetValue(`0,System.Int32[])">
             <summary>
-            Sets the provided value to the sites passed as input. Any existing value for the specified sites is overwritten.
-            If the sites are not present in the SiteData object, they are added to the SiteData object and assigned the provided value.
-            If  <paramref name="siteNumbers"/> specified as input is null or an empty array, sets the provided value to all existing site numbers.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty in this case.
+            Sets the provided value to the sites passed as input.
             </summary>
+            <remarks>
+            Any existing value for the specified sites is overwritten.<br/>
+            If the sites are not present in the SiteData object, they are added to the SiteData object and assigned the provided value.<br/>
+            If the <paramref name="siteNumbers"/> parameter is null or an empty array, the provided value is set for all existing site numbers.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the <paramref name="siteNumbers"/> parameter is null or an empty array
+            and the SiteData object is empty.
+            </remarks>
             <param name="value">The value to be set.</param>
             <param name="siteNumbers">The site numbers to which the value is being set.</param>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the <paramref name="siteNumbers"/> parameter is null or an empty array and the SiteData object is empty.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.GetValue(System.Int32)">
             <summary>
             Gets the data for a given site number.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if data for the given site number does not exist.
+            </remarks>
             <param name="siteNumber">The site number.</param>
             <returns>Single site data.</returns>
-            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when data for the given site number does not exist.</exception>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when data for the given site number does not exist.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.TryGetValue(System.Int32,`0@)">
             <summary>
             Attempts to get the data for a given site number.
             </summary>
+            <remarks>
+            Unlike the <see cref="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.GetValue(System.Int32)"/> method, this method does not throw when the SiteData object is empty
+            or when data for the given site number does not exist. In those cases it returns false and
+            <paramref name="value"/> is set to the default value of the data type, T.
+            </remarks>
             <param name="siteNumber">The site number.</param>
             <param name="value">The data for the given site number.</param>
             <returns>Returns true if the data for the given site number exists in the SiteData object.</returns>
@@ -2179,136 +2213,241 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.ExtractSites(System.Int32[])">
             <summary>
             Gets a new <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> object with the data for the given sites.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if data for any of the given site numbers does not exist.
+            </remarks>
             <param name="siteNumbers">The site numbers.</param>
             <returns>A new SiteData object that contains data for the given sites.</returns>
-            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when data for some of the given site numbers does not exist.</exception>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when data for any of the given site numbers does not exist.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Combine(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},System.Boolean)">
             <summary>
             Combines the current SiteData object with another SiteData object and produces a new SiteData object.
             </summary>
+            <remarks>
+            The two SiteData objects are not required to contain the same site numbers.
+            The returned object contains the union of the sites from both objects.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if data for a specific site already exists in the current SiteData object
+            but <paramref name="overrideIfExisting"/> is set to false.
+            </remarks>
             <param name="other">The other SiteData object to combine.</param>
             <param name="overrideIfExisting">Specifies whether to override the existing data for a specific site with data from the other SiteData object.</param>
             <returns>A new SiteData object with data from both SiteData objects.</returns>
-            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when data for a specific site already exists in current SiteData object, but <paramref name="overrideIfExisting"/> is set to false.</exception>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when data for a specific site already exists in the current SiteData object
+            but <paramref name="overrideIfExisting"/> is set to false.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Max">
             <summary>
             Calculates the maximum value across sites.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            This method is supported only when the underlying data type of the SiteData object, T, is a numeric type.<br/>
+            Note that the maximum value may be repeated across multiple sites, use the <see cref="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Max(System.Int32[]@)"/> method
+            if this level of detail is required.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the underlying data type, T, is not a numeric type.
+            </remarks>
             <returns>The maximum value across sites.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the underlying data type, T, is not a numeric type.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Max(System.Int32[]@)">
             <summary>
             Gets the maximum value across sites and additionally passes out an array of which site(s) the maximum value was found.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            Note that the maximum value may be repeated across multiple sites.<br/>
+            This method is supported only when the underlying data type of the SiteData object, T, is a numeric type.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the underlying data type, T, is not a numeric type.
+            </remarks>
             <param name="siteNumbers">The sites for which the maximum value was found.</param>
             <returns>The maximum value across sites.</returns>
-            <remarks>Note that the maximum value may be repeated across multiple sites.</remarks>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the underlying data type, T, is not a numeric type.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Min">
             <summary>
             Calculates the minimum value across sites.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            This method is supported only when the underlying data type of the SiteData object, T, is a numeric type.<br/>
+            Note that the minimum value may be repeated across multiple sites, use the <see cref="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Min(System.Int32[]@)"/> method
+            if this level of detail is required.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the underlying data type, T, is not a numeric type.
+            </remarks>
             <returns>The minimum value across sites.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the underlying data type, T, is not a numeric type.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Min(System.Int32[]@)">
             <summary>
             Gets the minimum value across sites and additionally passes out an array of which site(s) the minimum value was found.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            Note that the minimum value may be repeated across multiple sites.<br/>
+            This method is supported only when the underlying data type of the SiteData object, T, is a numeric type.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the underlying data type, T, is not a numeric type.
+            </remarks>
             <param name="siteNumbers">The sites for which the minimum value was found.</param>
             <returns>The minimum value across sites.</returns>
-            <remarks>Note that the minimum value may be repeated across multiple sites.</remarks>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the underlying data type, T, is not a numeric type.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Mean">
             <summary>
             Calculates the mean value across sites.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            This method is supported only when the underlying data type of the SiteData object, T, is a numeric type.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the underlying data type, T, is not a numeric type.
+            </remarks>
             <returns>The mean value across sites.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the underlying data type, T, is not a numeric type.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Select``1(System.Func{`0,``0})">
             <summary>
             Selects each element of the SiteData object to perform an operation on that element.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the operation fails for any site.
+            </remarks>
             <typeparam name="TResult">The output type of the result from the operation.</typeparam>
             <param name="operation">The operation to be performed on each element.</param>
             <returns>New SiteData object containing the result of the operation.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the operation fails for any site.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Abs">
             <summary>
             Performs Math.Abs operation on every element in current SiteData object.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the operation is not supported for the underlying data type, T, of the SiteData object.
+            </remarks>
             <returns>A new SiteData object that contains absolute value for each element in current SiteData object.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the operation is not supported
+            for the underlying data type, T, of the SiteData object.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_Addition(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},`0)">
             <summary>
             Performs add operation between a SiteData object and a given value, for each element across each site.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the operation is not supported for the underlying data type, T, of the SiteData object.
+            </remarks>
             <param name="value1">The SiteData object.</param>
             <param name="value2">The scalar value to be added.</param>
             <returns>A new SiteData object that contains the sum of the addition.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the operation is not supported
+            for the underlying data type, T, of the SiteData object.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Add``1(``0)">
             <summary>
             Performs add operation between every element in current SiteData object and the given value.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
-            <param name="value">The scalar value to be added.</param>
-            <returns>A new SiteData object that contains the sum of the addition.</returns>
             <remarks>
             This method can accept either a scalar or an array as the input value,
-            but the value must be of the same underlying type, T, as the SiteData object.
+            but the value must be of the same underlying type, T, as the SiteData object.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the operation is not supported for the underlying types of the SiteData object and the input value.
             </remarks>
+            <typeparam name="TOther">The type of the input value.</typeparam>
+            <param name="value">The scalar value to be added.</param>
+            <returns>A new SiteData object that contains the sum of the addition.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the operation is not supported
+            for the underlying types of the SiteData object and the input value.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_Addition(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Performs add operation between two SiteData objects, for each element across each site.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either SiteData object is empty,
+            if the site numbers of the two SiteData objects do not match,
+            or if the operation is not supported for the underlying data type, T.
+            </remarks>
             <param name="value1">The first SiteData object.</param>
             <param name="value2">The second SiteData object.</param>
             <returns>A new SiteData object that contains the sum of the addition.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when either SiteData object is empty, when the site numbers of the two SiteData objects do not match,
+            or when the operation is not supported for the underlying data type, T.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Add``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Performs add operation between every element in current SiteData object and the given SiteData object.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
-            <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> to be added.</param>
-            <returns>A new SiteData object that contains the sum of the addition.</returns>
             <remarks>
             This method can accept a SiteData object of either a scalar or an array type as the input value,
-            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.
+            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either SiteData object is empty,
+            if the site numbers of the two SiteData objects do not match,
+            or if the operation is not supported for the underlying types of the two SiteData objects.
             </remarks>
+            <typeparam name="TOther">The underlying type of the input SiteData object.</typeparam>
+            <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> to be added.</param>
+            <returns>A new SiteData object that contains the sum of the addition.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when either SiteData object is empty, when the site numbers of the two SiteData objects do not match,
+            or when the operation is not supported for the underlying types of the two SiteData objects.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,`0)">
             <summary>
             Performs compare operation between every element in current SiteData object and the given value.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            This method can accept either a scalar or an array as the input value,
+            but the value must be of the same underlying type, T, as the SiteData object.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the operation is not supported for the underlying data type, T, of the SiteData object.
+            </remarks>
             <param name="comparisonType">The comparison type to use.</param>
             <param name="value">The scalar value to compare.</param>
             <returns>A new SiteData object that contains the compare results.</returns>
-            <remarks>
-            This method can accept either a scalar or an array as the input value,
-            but the value must be of the same underlying type, T, as the SiteData object.
-            </remarks>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the operation is not supported
+            for the underlying data type, T, of the SiteData object.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Compare``2(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,``0)">
             <summary>
             Performs compare operation between every element in current SiteData object and the given value.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            This method can accept either a scalar or an array as the input value,
+            but the value must be of the same underlying type, T, as the SiteData object.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the operation is not supported for the underlying types of the SiteData object and the input value.
+            </remarks>
+            <typeparam name="TOther">The type of the input value.</typeparam>
             <typeparam name="TResult">
             The output type of the result from the operation.
             The type must be an array of equal dimensions as the underlying type, T, of current SiteData object.
@@ -2316,29 +2455,42 @@
             <param name="comparisonType">The comparison type to use.</param>
             <param name="value">The scalar value to compare.</param>
             <returns>A new SiteData object that contains the compare results.</returns>
-            <remarks>
-            This method can accept either a scalar or an array as the input value,
-            but the value must be of the same underlying type, T, as the SiteData object.
-            </remarks>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the operation is not supported
+            for the underlying types of the SiteData object and the input value.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Compare(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Performs compare operation between every element in current SiteData object and the given SiteData object.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            This method can accept a SiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either SiteData object is empty,
+            if the site numbers of the two SiteData objects do not match,
+            or if the operation is not supported for the underlying data type, T.
+            </remarks>
             <param name="comparisonType">The comparison type to use.</param>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> to compare.</param>
             <returns>A new SiteData object that contains the compare results.</returns>
-            <remarks>
-            This method can accept a SiteData object of either a scalar or an array type as the input value,
-            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.
-            </remarks>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when either SiteData object is empty, when the site numbers of the two SiteData objects do not match,
+            or when the operation is not supported for the underlying data type, T.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Compare``2(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Performs compare operation between every element in current SiteData object and the given SiteData object.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            This method can accept a SiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either SiteData object is empty,
+            if the site numbers of the two SiteData objects do not match,
+            or if the operation is not supported for the underlying types of the two SiteData objects.
+            </remarks>
+            <typeparam name="TOther">The underlying type of the input SiteData object.</typeparam>
             <typeparam name="TResult">
             The output type of the result from the operation.
             The type must be an array of equal dimensions as the underlying type, T, of current SiteData object.
@@ -2346,501 +2498,809 @@
             <param name="comparisonType">The comparison type to use.</param>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> to compare.</param>
             <returns>A new SiteData object that contains the compare results.</returns>
-            <remarks>
-            This method can accept a SiteData object of either a scalar or an array type as the input value,
-            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.
-            </remarks>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when either SiteData object is empty, when the site numbers of the two SiteData objects do not match,
+            or when the operation is not supported for the underlying types of the two SiteData objects.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_Division(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},`0)">
             <summary>
             Performs divide operation between a SiteData object and a given value, for each element across each site.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the operation is not supported for the underlying data type, T, of the SiteData object.
+            </remarks>
             <param name="value1">The SiteData object.</param>
             <param name="value2">The divisor value.</param>
             <returns>A new SiteData object that contains the results.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the operation is not supported
+            for the underlying data type, T, of the SiteData object.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Divide(`0)">
             <summary>
             Performs divide operation between every element in current SiteData object and the given value.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
-            <param name="value">The divisor value.</param>
-            <returns>A new SiteData object that contains the results.</returns>
             <remarks>
             This method can accept either a scalar or an array as the input value,
-            but the value must be of the same underlying type, T, as the SiteData object.
+            but the value must be of the same underlying type, T, as the SiteData object.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the operation is not supported for the underlying data type, T, of the SiteData object.
             </remarks>
+            <param name="value">The divisor value.</param>
+            <returns>A new SiteData object that contains the results.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the operation is not supported
+            for the underlying data type, T, of the SiteData object.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Divide``2(``0)">
             <summary>
             Performs divide operation between every element in current SiteData object and the given value.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            This method can accept either a scalar or an array as the input value,
+            but the value must be of the same underlying type, T, as the SiteData object.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the operation is not supported for the underlying types of the SiteData object and the input value.
+            </remarks>
+            <typeparam name="TOther">The type of the input value.</typeparam>
             <typeparam name="TResult">
             The output type of the result from the operation.
             The type must be an array of equal dimensions as the underlying type, T, of current SiteData object.
             </typeparam>
             <param name="value">The divisor value.</param>
             <returns>A new SiteData object that contains the results.</returns>
-            <remarks>
-            This method can accept either a scalar or an array as the input value,
-            but the value must be of the same underlying type, T, as the SiteData object.
-            </remarks>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the operation is not supported
+            for the underlying types of the SiteData object and the input value.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_Division(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Performs divide operation between two SiteData objects, for each element across each site.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either SiteData object is empty,
+            if the site numbers of the two SiteData objects do not match,
+            or if the operation is not supported for the underlying data type, T.
+            </remarks>
             <param name="value1">The first SiteData object.</param>
             <param name="value2">The second divisor SiteData object.</param>
             <returns>A new SiteData object that contains the results.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when either SiteData object is empty, when the site numbers of the two SiteData objects do not match,
+            or when the operation is not supported for the underlying data type, T.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Divide(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Performs divide operation between every element in current SiteData object and the given SiteData object.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
-            <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the divisors.</param>
-            <returns>A new SiteData object that contains the results.</returns>
             <remarks>
             This method can accept a SiteData object of either a scalar or an array type as the input value,
-            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.
+            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either SiteData object is empty,
+            if the site numbers of the two SiteData objects do not match,
+            or if the operation is not supported for the underlying data type, T.
             </remarks>
+            <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the divisors.</param>
+            <returns>A new SiteData object that contains the results.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when either SiteData object is empty, when the site numbers of the two SiteData objects do not match,
+            or when the operation is not supported for the underlying data type, T.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Divide``2(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Performs divide operation between every element in current SiteData object and the given SiteData object.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            This method can accept a SiteData object of either a scalar or an array type as the input value,
+            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either SiteData object is empty,
+            if the site numbers of the two SiteData objects do not match,
+            or if the operation is not supported for the underlying types of the two SiteData objects.
+            </remarks>
+            <typeparam name="TOther">The underlying type of the input SiteData object.</typeparam>
             <typeparam name="TResult">
             The output type of the result from the operation.
             The type must be an array of equal dimensions as the underlying type, T, of current SiteData object.
             </typeparam>
             <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the divisors.</param>
             <returns>A new SiteData object that contains the results.</returns>
-            <remarks>
-            This method can accept a SiteData object of either a scalar or an array type as the input value,
-            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.
-            </remarks>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when either SiteData object is empty, when the site numbers of the two SiteData objects do not match,
+            or when the operation is not supported for the underlying types of the two SiteData objects.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Invert">
             <summary>
             Performs invert operation on every element in current SiteData object.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the operation is not supported for the underlying data type, T, of the SiteData object.
+            </remarks>
             <returns>A new SiteData object that contains the inverted results.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the operation is not supported
+            for the underlying data type, T, of the SiteData object.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Invert``1">
             <summary>
             Performs invert operation on every element in current SiteData object.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the operation is not supported for the underlying data type, T, of the SiteData object.
+            </remarks>
             <typeparam name="TResult">
             The output type of the result from the operation.
             The type must be an array of equal dimensions as the underlying type, T, of current SiteData object.
             </typeparam>
             <returns>A new SiteData object that contains the inverted results.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the operation is not supported
+            for the underlying data type, T, of the SiteData object.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Log10">
             <summary>
             Performs Math.Log10 operation on every element in current SiteData object.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the operation is not supported for the underlying data type, T, of the SiteData object.
+            </remarks>
             <returns>A new SiteData object that contains the log10 results.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the operation is not supported
+            for the underlying data type, T, of the SiteData object.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Log10``1">
             <summary>
             Performs Math.Log10 operation on every element in current SiteData object.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the operation is not supported for the underlying data type, T, of the SiteData object.
+            </remarks>
             <typeparam name="TResult">
             The output type of the result from the operation.
             The type must be an array of equal dimensions as the underlying type, T, of current SiteData object.
             </typeparam>
             <returns>A new SiteData object that contains the log10 results.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the operation is not supported
+            for the underlying data type, T, of the SiteData object.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Maximum``1(``0)">
             <summary>
             Returns the larger of the element in current SiteData object and the given value.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
-            <param name="value">The value to compare.</param>
-            <returns>A new SiteData object that contains the larger values.</returns>
             <remarks>
             This method can accept either a scalar or an array as the input value,
-            but the value must be of the same underlying type, T, as the SiteData object.
+            but the value must be of the same underlying type, T, as the SiteData object.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the operation is not supported for the underlying types of the SiteData object and the input value.
             </remarks>
+            <typeparam name="TOther">The type of the input value.</typeparam>
+            <param name="value">The value to compare.</param>
+            <returns>A new SiteData object that contains the larger values.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the operation is not supported
+            for the underlying types of the SiteData object and the input value.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Maximum``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Returns the larger of the element in current SiteData object and the given SiteData object.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
-            <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the values to compare.</param>
-            <returns>A new SiteData object that contains the larger values.</returns>
             <remarks>
             This method can accept a SiteData object of either a scalar or an array type as the input value,
-            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.
+            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either SiteData object is empty,
+            if the site numbers of the two SiteData objects do not match,
+            or if the operation is not supported for the underlying types of the two SiteData objects.
             </remarks>
+            <typeparam name="TOther">The underlying type of the input SiteData object.</typeparam>
+            <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the values to compare.</param>
+            <returns>A new SiteData object that contains the larger values.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when either SiteData object is empty, when the site numbers of the two SiteData objects do not match,
+            or when the operation is not supported for the underlying types of the two SiteData objects.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Minimum``1(``0)">
             <summary>
             Returns the smaller of the element in current SiteData object and the given value.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
-            <param name="value">The value to compare.</param>
-            <returns>A new SiteData object that contains the smaller values.</returns>
             <remarks>
             This method can accept either a scalar or an array as the input value,
-            but the value must be of the same underlying type, T, as the SiteData object.
+            but the value must be of the same underlying type, T, as the SiteData object.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the operation is not supported for the underlying types of the SiteData object and the input value.
             </remarks>
+            <typeparam name="TOther">The type of the input value.</typeparam>
+            <param name="value">The value to compare.</param>
+            <returns>A new SiteData object that contains the smaller values.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the operation is not supported
+            for the underlying types of the SiteData object and the input value.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Minimum``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Returns the smaller of the element in current SiteData object and the given SiteData object.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
-            <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the values to compare.</param>
-            <returns>A new SiteData object that contains the smaller values.</returns>
             <remarks>
             This method can accept a SiteData object of either a scalar or an array type as the input value,
-            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.
+            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either SiteData object is empty,
+            if the site numbers of the two SiteData objects do not match,
+            or if the operation is not supported for the underlying types of the two SiteData objects.
             </remarks>
+            <typeparam name="TOther">The underlying type of the input SiteData object.</typeparam>
+            <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains the values to compare.</param>
+            <returns>A new SiteData object that contains the smaller values.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when either SiteData object is empty, when the site numbers of the two SiteData objects do not match,
+            or when the operation is not supported for the underlying types of the two SiteData objects.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},`0)">
             <summary>
             Performs multiply operation between a SiteData object and a given value, for each element across each site.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the operation is not supported for the underlying data type, T, of the SiteData object.
+            </remarks>
             <param name="value1">The SiteData object.</param>
             <param name="value2">The multiplier.</param>
             <returns>A new SiteData object that contains the multiply results.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the operation is not supported
+            for the underlying data type, T, of the SiteData object.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Multiply``1(``0)">
             <summary>
             Performs multiply operation on every element in current SiteData object and the given value.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
-            <param name="value">The multiplier.</param>
-            <returns>A new SiteData object that contains the multiply results.</returns>
             <remarks>
             This method can accept either a scalar or an array as the input value,
-            but the value must be of the same underlying type, T, as the SiteData object.
+            but the value must be of the same underlying type, T, as the SiteData object.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the operation is not supported for the underlying types of the SiteData object and the input value.
             </remarks>
+            <typeparam name="TOther">The type of the input value.</typeparam>
+            <param name="value">The multiplier.</param>
+            <returns>A new SiteData object that contains the multiply results.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the operation is not supported
+            for the underlying types of the SiteData object and the input value.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_Multiply(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Performs multiply operation between two SiteData objects, for each element across each site.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either SiteData object is empty,
+            if the site numbers of the two SiteData objects do not match,
+            or if the operation is not supported for the underlying data type, T.
+            </remarks>
             <param name="value1">The first SiteData object.</param>
             <param name="value2">The second SiteData object that contains multipliers.</param>
             <returns>A new SiteData object that contains the multiply results.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when either SiteData object is empty, when the site numbers of the two SiteData objects do not match,
+            or when the operation is not supported for the underlying data type, T.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Multiply``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Performs multiply operation on every element in current SiteData object and the given SiteData object.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
-            <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains multipliers.</param>
-            <returns>A new SiteData object that contains the multiply results.</returns>
             <remarks>
             This method can accept a SiteData object of either a scalar or an array type as the input value,
-            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.
+            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either SiteData object is empty,
+            if the site numbers of the two SiteData objects do not match,
+            or if the operation is not supported for the underlying types of the two SiteData objects.
             </remarks>
+            <typeparam name="TOther">The underlying type of the input SiteData object.</typeparam>
+            <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains multipliers.</param>
+            <returns>A new SiteData object that contains the multiply results.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when either SiteData object is empty, when the site numbers of the two SiteData objects do not match,
+            or when the operation is not supported for the underlying types of the two SiteData objects.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Negate">
             <summary>
             Returns the negative value of every element in current SiteData object.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the operation is not supported for the underlying data type, T, of the SiteData object.
+            </remarks>
             <returns>A new SiteData object that contains the negative values.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the operation is not supported
+            for the underlying data type, T, of the SiteData object.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Power``1(``0)">
             <summary>
-            Raises every element in current SiteData to the power of the given value.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
+            Raises every element in current SiteData object to the power of the given value.
             </summary>
-            <param name="value">The value to use as the power.</param>
-            <returns>A new SiteData object that contains the results.</returns>
             <remarks>
             This method can accept either a scalar or an array as the input value,
-            but the value must be of the same underlying type, T, as the SiteData object.
+            but the value must be of the same underlying type, T, as the SiteData object.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the operation is not supported for the underlying types of the SiteData object and the input value.
             </remarks>
+            <typeparam name="TOther">The type of the input value.</typeparam>
+            <param name="value">The value to use as the power.</param>
+            <returns>A new SiteData object that contains the results.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the operation is not supported
+            for the underlying types of the SiteData object and the input value.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Power``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
-            Raises every element in current SiteData to the power of every element in given SiteData object.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
+            Raises every element in current SiteData object to the power of every element in given SiteData object.
             </summary>
-            <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains power values.</param>
-            <returns>A new SiteData object that contains the results.</returns>
             <remarks>
             This method can accept a SiteData object of either a scalar or an array type as the input value,
-            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.
+            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either SiteData object is empty,
+            if the site numbers of the two SiteData objects do not match,
+            or if the operation is not supported for the underlying types of the two SiteData objects.
             </remarks>
+            <typeparam name="TOther">The underlying type of the input SiteData object.</typeparam>
+            <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains power values.</param>
+            <returns>A new SiteData object that contains the results.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when either SiteData object is empty, when the site numbers of the two SiteData objects do not match,
+            or when the operation is not supported for the underlying types of the two SiteData objects.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.SquareRoot">
             <summary>
             Returns the square root of every element in current SiteData object.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the operation is not supported for the underlying data type, T, of the SiteData object.
+            </remarks>
             <returns>A new SiteData object that contains the square root values.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the operation is not supported
+            for the underlying data type, T, of the SiteData object.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.SquareRoot``1">
             <summary>
             Returns the square root of every element in current SiteData object.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the operation is not supported for the underlying data type, T, of the SiteData object.
+            </remarks>
             <typeparam name="TResult">
             The output type of the result from the operation.
             The type must be an array of equal dimensions as the underlying type, T, of current SiteData object.
             </typeparam>
             <returns>A new SiteData object that contains the square root values.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the operation is not supported
+            for the underlying data type, T, of the SiteData object.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_Subtraction(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},`0)">
             <summary>
             Subtracts the given value from a SiteData object, for each element across each site.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the operation is not supported for the underlying data type, T, of the SiteData object.
+            </remarks>
             <param name="value1">The SiteData object.</param>
             <param name="value2">The value to subtract.</param>
             <returns>A new SiteData object that contains the results.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the operation is not supported
+            for the underlying data type, T, of the SiteData object.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Subtract``1(``0)">
             <summary>
             Subtracts the given value from every element in current SiteData object.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
-            <param name="value">The value to subtract.</param>
-            <returns>A new SiteData object that contains the results.</returns>
             <remarks>
             This method can accept either a scalar or an array as the input value,
-            but the value must be of the same underlying type, T, as the SiteData object.
+            but the value must be of the same underlying type, T, as the SiteData object.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the operation is not supported for the underlying types of the SiteData object and the input value.
             </remarks>
+            <typeparam name="TOther">The type of the input value.</typeparam>
+            <param name="value">The value to subtract.</param>
+            <returns>A new SiteData object that contains the results.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the operation is not supported
+            for the underlying types of the SiteData object and the input value.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_Subtraction(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Subtracts one SiteData object from another SiteData object, for each element across each site.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either SiteData object is empty,
+            if the site numbers of the two SiteData objects do not match,
+            or if the operation is not supported for the underlying data type, T.
+            </remarks>
             <param name="value1">The first SiteData object.</param>
             <param name="value2">The second SiteData object that contains values to subtract.</param>
             <returns>A new SiteData object that contains the results.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when either SiteData object is empty, when the site numbers of the two SiteData objects do not match,
+            or when the operation is not supported for the underlying data type, T.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Subtract``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
-            Subtracts every element in given SiteData from every element in current SiteData object.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
+            Subtracts every element in given SiteData object from every element in current SiteData object.
             </summary>
-            <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains values to subtract.</param>
-            <returns>A new SiteData object that contains the results.</returns>
             <remarks>
             This method can accept a SiteData object of either a scalar or an array type as the input value,
-            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.
+            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either SiteData object is empty,
+            if the site numbers of the two SiteData objects do not match,
+            or if the operation is not supported for the underlying types of the two SiteData objects.
             </remarks>
+            <typeparam name="TOther">The underlying type of the input SiteData object.</typeparam>
+            <param name="other">The other <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/> that contains values to subtract.</param>
+            <returns>A new SiteData object that contains the results.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when either SiteData object is empty, when the site numbers of the two SiteData objects do not match,
+            or when the operation is not supported for the underlying types of the two SiteData objects.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.Truncate">
             <summary>
             Returns integer portion of every element in current SiteData object.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the operation is not supported for the underlying data type, T, of the SiteData object.
+            </remarks>
             <returns>A new SiteData object that contains integer values.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the operation is not supported
+            for the underlying data type, T, of the SiteData object.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_LeftShift(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},System.Int32)">
             <summary>
             Shifts the value to the left by the specified bit count, for each element, per site. The count must be positive.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            This method is supported only when the underlying data type of the SiteData object, T, is an integer type.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty,
+            if the underlying data type, T, is not an integer type, or if <paramref name="count"/> is negative.
+            </remarks>
             <param name="value">The SiteData object to operate.</param>
             <param name="count">The number of bits to shift.</param>
             <returns>A new SiteData object that contains shifted values.</returns>
-            <remarks>This method is supported only when the underlying data type of the SiteData object, T, is an integer type.</remarks>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty, when the underlying data type, T, is not an integer type,
+            or when <paramref name="count"/> is negative.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.ShiftLeft(System.Int32)">
             <summary>
             Shifts the value to the left by the specified bit count, for each element, per site. The count must be positive.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            This method is supported only when the underlying data type of the SiteData object, T, is an integer type.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty,
+            if the underlying data type, T, is not an integer type, or if <paramref name="count"/> is negative.
+            </remarks>
             <param name="count">The number of bits to shift.</param>
             <returns>A new SiteData object that contains shifted values.</returns>
-            <remarks>This method is supported only when the underlying data type of the SiteData object, T, is an integer type.</remarks>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty, when the underlying data type, T, is not an integer type,
+            or when <paramref name="count"/> is negative.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_RightShift(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},System.Int32)">
             <summary>
             Shifts the value to the right by the specified bit count, for each element, per site. The count must be positive.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            This method is supported only when the underlying data type of the SiteData object, T, is an integer type.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty,
+            if the underlying data type, T, is not an integer type, or if <paramref name="count"/> is negative.
+            </remarks>
             <param name="value">The SiteData object to operate.</param>
             <param name="count">The number of bits to shift.</param>
             <returns>A new SiteData object that contains shifted values.</returns>
-            <remarks>This method is supported only when the underlying data type of the SiteData object, T, is an integer type.</remarks>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty, when the underlying data type, T, is not an integer type,
+            or when <paramref name="count"/> is negative.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.ShiftRight(System.Int32)">
             <summary>
             Shifts the value to the right by the specified bit count, for each element, per site. The count must be positive.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            This method is supported only when the underlying data type of the SiteData object, T, is an integer type.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty,
+            if the underlying data type, T, is not an integer type, or if <paramref name="count"/> is negative.
+            </remarks>
             <param name="count">The number of bits to shift.</param>
             <returns>A new SiteData object that contains shifted values.</returns>
-            <remarks>This method is supported only when the underlying data type of the SiteData object, T, is an integer type.</remarks>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty, when the underlying data type, T, is not an integer type,
+            or when <paramref name="count"/> is negative.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_BitwiseAnd(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},`0)">
             <summary>
             Performs a bitwise AND operation with a scalar, for each element across each site.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            This method is supported only when the underlying data type of the SiteData object, T, is an integer type.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the underlying data type, T, is not an integer type.
+            </remarks>
             <param name="value1">The SiteData object.</param>
             <param name="value2">The scalar value.</param>
             <returns>A new SiteData object that contains result values.</returns>
-            <remarks>This method is supported only when the underlying data type of the SiteData object, T, is an integer type.</remarks>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the underlying data type, T, is not an integer type.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.BitwiseAnd``1(``0)">
             <summary>
             Performs a bitwise AND operation with a scalar, for each element across each site.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
-            <param name="value">The scalar value.</param>
-            <returns>A new SiteData object that contains result values.</returns>
             <remarks>
             This method can accept either a scalar or an array as the input value,
-            but the value must be of the same underlying type, T, as the SiteData object.
-            This method is supported only when the underlying data type of the SiteData object, T, is an integer type.
+            but the value must be of the same underlying type, T, as the SiteData object.<br/>
+            This method is supported only when the underlying data type of the SiteData object, T, is an integer type.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the underlying data type, T, is not an integer type.
             </remarks>
+            <typeparam name="TOther">The type of the input value.</typeparam>
+            <param name="value">The scalar value.</param>
+            <returns>A new SiteData object that contains result values.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the underlying data type, T, is not an integer type.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_BitwiseAnd(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Performs a bitwise AND operation with another SiteData object, for each element across each site.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            This method is supported only when the underlying data type of the SiteData object, T, is an integer type.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either SiteData object is empty,
+            if the site numbers of the two SiteData objects do not match,
+            or if the underlying data type, T, is not an integer type.
+            </remarks>
             <param name="value1">The first SiteData object.</param>
             <param name="value2">The second SiteData object.</param>
             <returns>A new SiteData object that contains result values.</returns>
-            <remarks>This method is supported only when the underlying data type of the SiteData object, T, is an integer type.</remarks>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when either SiteData object is empty, when the site numbers of the two SiteData objects do not match,
+            or when the underlying data type, T, is not an integer type.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.BitwiseAnd``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Performs a bitwise AND operation with another SiteData object, for each element across each site.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
-            <param name="other">The other SiteData object.</param>
-            <returns>A new SiteData object that contains result values.</returns>
             <remarks>
             This method can accept a SiteData object of either a scalar or an array type as the input value,
-            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.
-            This method is supported only when the underlying data type of the SiteData object, T, is an integer type.
+            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.<br/>
+            This method is supported only when the underlying data type of the SiteData object, T, is an integer type.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either SiteData object is empty,
+            if the site numbers of the two SiteData objects do not match,
+            or if the underlying data type, T, is not an integer type.
             </remarks>
+            <typeparam name="TOther">The underlying type of the input SiteData object.</typeparam>
+            <param name="other">The other SiteData object.</param>
+            <returns>A new SiteData object that contains result values.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when either SiteData object is empty, when the site numbers of the two SiteData objects do not match,
+            or when the underlying data type, T, is not an integer type.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_BitwiseOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},`0)">
             <summary>
             Performs a bitwise OR operation with a scalar, for each element across each site.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            This method is supported only when the underlying data type of the SiteData object, T, is an integer type.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the underlying data type, T, is not an integer type.
+            </remarks>
             <param name="value1">The SiteData object.</param>
             <param name="value2">The scalar value.</param>
             <returns>A new SiteData object that contains the result values.</returns>
-            <remarks>This method is supported only when the underlying data type of the SiteData object, T, is an integer type.</remarks>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the underlying data type, T, is not an integer type.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.BitwiseOr``1(``0)">
             <summary>
             Performs a bitwise OR operation with a scalar, for each element across each site.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
-            <param name="value">The scalar value.</param>
-            <returns>A new SiteData object that contains the result values.</returns>
             <remarks>
             This method can accept either a scalar or an array as the input value,
-            but the value must be of the same underlying type, T, as the SiteData object.
-            This method is supported only when the underlying data type of the SiteData object, T, is an integer type.
+            but the value must be of the same underlying type, T, as the SiteData object.<br/>
+            This method is supported only when the underlying data type of the SiteData object, T, is an integer type.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the underlying data type, T, is not an integer type.
             </remarks>
+            <typeparam name="TOther">The type of the input value.</typeparam>
+            <param name="value">The scalar value.</param>
+            <returns>A new SiteData object that contains the result values.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the underlying data type, T, is not an integer type.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_BitwiseOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Performs a bitwise OR operation with another SiteData object, for each element across each site.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            This method is supported only when the underlying data type of the SiteData object, T, is an integer type.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either SiteData object is empty,
+            if the site numbers of the two SiteData objects do not match,
+            or if the underlying data type, T, is not an integer type.
+            </remarks>
             <param name="value1">The first SiteData object.</param>
             <param name="value2">The second SiteData object.</param>
             <returns>A new SiteData object that contains the result values.</returns>
-            <remarks>This method is supported only when the underlying data type of the SiteData object, T, is an integer type.</remarks>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when either SiteData object is empty, when the site numbers of the two SiteData objects do not match,
+            or when the underlying data type, T, is not an integer type.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.BitwiseOr``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Performs a bitwise OR operation with another SiteData object, for each element across each site.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
-            <param name="other">The other SiteData object.</param>
-            <returns>A new SiteData object that contains the result values.</returns>
             <remarks>
             This method can accept a SiteData object of either a scalar or an array type as the input value,
-            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.
-            This method is supported only when the underlying data type of the SiteData object, T, is an integer type.
+            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.<br/>
+            This method is supported only when the underlying data type of the SiteData object, T, is an integer type.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either SiteData object is empty,
+            if the site numbers of the two SiteData objects do not match,
+            or if the underlying data type, T, is not an integer type.
             </remarks>
+            <typeparam name="TOther">The underlying type of the input SiteData object.</typeparam>
+            <param name="other">The other SiteData object.</param>
+            <returns>A new SiteData object that contains the result values.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when either SiteData object is empty, when the site numbers of the two SiteData objects do not match,
+            or when the underlying data type, T, is not an integer type.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_ExclusiveOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},`0)">
             <summary>
             Performs a bitwise XOR operation with a scalar, for each element across each site.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            This method is supported only when the underlying data type of the SiteData object, T, is an integer type.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the underlying data type, T, is not an integer type.
+            </remarks>
             <param name="value1">The SiteData object.</param>
             <param name="value2">The scalar value.</param>
             <returns>A new SiteData object that contains the result values.</returns>
-            <remarks>This method is supported only when the underlying data type of the SiteData object, T, is an integer type.</remarks>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the underlying data type, T, is not an integer type.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.BitwiseXor``1(``0)">
             <summary>
             Performs a bitwise XOR operation with a scalar, for each element across each site.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
-            <param name="value">The scalar value.</param>
-            <returns>A new SiteData object that contains the result values.</returns>
             <remarks>
             This method can accept either a scalar or an array as the input value,
-            but the value must be of the same underlying type, T, as the SiteData object.
-            This method is supported only when the underlying data type of the SiteData object, T, is an integer type.
+            but the value must be of the same underlying type, T, as the SiteData object.<br/>
+            This method is supported only when the underlying data type of the SiteData object, T, is an integer type.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the underlying data type, T, is not an integer type.
             </remarks>
+            <typeparam name="TOther">The type of the input value.</typeparam>
+            <param name="value">The scalar value.</param>
+            <returns>A new SiteData object that contains the result values.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the underlying data type, T, is not an integer type.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_ExclusiveOr(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0},NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Performs a bitwise XOR operation with another SiteData object, for each element across each site.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            This method is supported only when the underlying data type of the SiteData object, T, is an integer type.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either SiteData object is empty,
+            if the site numbers of the two SiteData objects do not match,
+            or if the underlying data type, T, is not an integer type.
+            </remarks>
             <param name="value1">The first SiteData object.</param>
             <param name="value2">The second SiteData object.</param>
             <returns>A new SiteData object that contains the result values.</returns>
-            <remarks>This method is supported only when the underlying data type of the SiteData object, T, is an integer type.</remarks>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when either SiteData object is empty, when the site numbers of the two SiteData objects do not match,
+            or when the underlying data type, T, is not an integer type.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.BitwiseXor``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0})">
             <summary>
             Performs a bitwise XOR operation with another SiteData object, for each element across each site.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
-            <param name="other">The other SiteData object.</param>
-            <returns>A new SiteData object that contains the result values.</returns>
             <remarks>
             This method can accept a SiteData object of either a scalar or an array type as the input value,
-            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.
-            This method is supported only when the underlying data type of the SiteData object, T, is an integer type.
+            but the underlying type of the input value must be of the same underlying type, T, as the SiteData object being operated on.<br/>
+            This method is supported only when the underlying data type of the SiteData object, T, is an integer type.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if either SiteData object is empty,
+            if the site numbers of the two SiteData objects do not match,
+            or if the underlying data type, T, is not an integer type.
             </remarks>
+            <typeparam name="TOther">The underlying type of the input SiteData object.</typeparam>
+            <param name="other">The other SiteData object.</param>
+            <returns>A new SiteData object that contains the result values.</returns>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when either SiteData object is empty, when the site numbers of the two SiteData objects do not match,
+            or when the underlying data type, T, is not an integer type.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.op_OnesComplement(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0})">
             <summary>
             Gets the bitwise complement (~) of the original SiteData object.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            This method is supported only when the underlying data type of the SiteData object, T, is an integer type.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the underlying data type, T, is not an integer type.
+            </remarks>
             <param name="value">The SiteData object.</param>
             <returns>A new SiteData object that contains the complemented values.</returns>
-            <remarks>This method is supported only when the underlying data type of the SiteData object, T, is an integer type.</remarks>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the underlying data type, T, is not an integer type.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.BitwiseComplement">
             <summary>
             Gets the bitwise complement (~) of the original SiteData object.
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if SiteData object is empty.
             </summary>
+            <remarks>
+            This method is supported only when the underlying data type of the SiteData object, T, is an integer type.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty
+            or if the underlying data type, T, is not an integer type.
+            </remarks>
             <returns>A new SiteData object that contains the complemented values.</returns>
-            <remarks>This method is supported only when the underlying data type of the SiteData object, T, is an integer type.</remarks>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty or when the underlying data type, T, is not an integer type.
+            </exception>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.TSMContextExtensions">
             <summary>
@@ -6485,6 +6945,11 @@
               Looks up a localized string similar to The size of the data array parameter ({0}) must be equal to the length of the site numbers parameter ({1})..
             </summary>
         </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_EmptySiteNumbers">
+            <summary>
+              Looks up a localized string similar to The SiteNumbers array provided as input is empty. Please provide valid site number(s)..
+            </summary>
+        </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_InvalidPinName">
             <summary>
               Looks up a localized string similar to The pin name provided as input is null or an empty string and cannot be processed..
@@ -6500,9 +6965,9 @@
               Looks up a localized string similar to The PinNames array provided as input is either null or empty. Please provide valid pin name(s)..
             </summary>
         </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_NullOrEmptySiteNumbers">
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_NullSiteNumbers">
             <summary>
-              Looks up a localized string similar to The SiteNumbers array provided as input is either null or empty. Please provide site number(s)..
+              Looks up a localized string similar to The SiteNumbers array provided as input is null. Please provide valid site number(s)..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_PinNamesNotUnique">
@@ -6620,6 +7085,11 @@
               Looks up a localized string similar to No TMU resource has been assigned to one or more pins. Call AssignTMUResources() before invoking this method..
             </summary>
         </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Digital_TMUKnownError">
+            <summary>
+              Looks up a localized string similar to Error in {0} (status code {1}): {2}.
+            </summary>
+        </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Digital_TMUNativeCallFailed">
             <summary>
               Looks up a localized string similar to Error in {0}: Status code {1}..
@@ -6726,11 +7196,6 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Sync_FailToConvertErrorCode">
             <summary>
               Looks up a localized string similar to Fail to convert error code {0} to its corresponding error message..
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Digital_TMUKnownError">
-            <summary>
-              Looks up a localized string similar to Error in {0} (status code {1}): {2}.
             </summary>
         </member>
     </members>
