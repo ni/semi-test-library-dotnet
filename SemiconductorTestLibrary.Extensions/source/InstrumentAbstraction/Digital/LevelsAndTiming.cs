@@ -69,7 +69,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="levelType">The type of level to configure.</param>
         /// <param name="levelValue">The value of level to configure.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next burst or initiate operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureSingleLevel(
             this DigitalSessionsBundle sessionsBundle,
             LevelType levelType,
@@ -89,7 +89,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="levelType">The type of level to configure.</param>
         /// <param name="perSiteLevelValues">The per-site value of level to configure.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next burst or initiate operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureSingleLevel(
             this DigitalSessionsBundle sessionsBundle,
             LevelType levelType,
@@ -112,7 +112,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="vol">The vol value to configure.</param>
         /// <param name="voh">The voh value to configure.</param>
         /// <param name="vterm">The vterm value to configure.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next burst or initiate operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureVoltageLevels(
             this DigitalSessionsBundle sessionsBundle,
             double vil,
@@ -134,7 +134,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="terminationMode">The termination mode to configure.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next burst or initiate operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureTerminationMode(
             this DigitalSessionsBundle sessionsBundle,
             TerminationMode terminationMode,
@@ -153,7 +153,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="timeSet">The name of the time set.</param>
         /// <param name="compareEdge">The strobe edge time to configure.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next burst or initiate operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureTimeSetCompareEdgesStrobe(
             this DigitalSessionsBundle sessionsBundle,
             string timeSet,
@@ -173,7 +173,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="timeSet">The name of the time set.</param>
         /// <param name="compareEdges">The per-site strobe edge time to configure.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next burst or initiate operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureTimeSetCompareEdgesStrobe(
             this DigitalSessionsBundle sessionsBundle,
             string timeSet,
@@ -193,7 +193,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="timeSet">The name of the time set.</param>
         /// <param name="compareEdges">The strobe edge time for all site-pin pairs to configure.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next burst or initiate operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureTimeSetCompareEdgesStrobe(this DigitalSessionsBundle sessionsBundle, string timeSet, PinSiteData<double> compareEdges, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -209,7 +209,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="timeSet">The name of the time set.</param>
         /// <param name="period">The period to configure.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next burst or initiate operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureTimeSetPeriod(
             this DigitalSessionsBundle sessionsBundle,
             string timeSet,
@@ -233,7 +233,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="driveData">The delay from the beginning of the vector period until the pattern data is driven to the pattern value.</param>
         /// <param name="driveReturn">The delay from the beginning of the vector period until the pin changes from the pattern data to the return value.</param>
         /// <param name="driveOff">The delay from the beginning of the vector period to turn off the pin driver.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next burst or initiate operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureTimeSetDriveEdges(
             this DigitalSessionsBundle sessionsBundle,
             string timeSet,
@@ -269,7 +269,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="driveOff">The delay from the beginning of the vector period to turn off the pin driver.</param>
         /// <param name="driveData2">The delay from the beginning of the vector period until the pattern data is driven to the second pattern value.</param>
         /// <param name="driveReturn2">The delay from the beginning of the vector period until the pin changes from the second pattern data to the return value.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next burst or initiate operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureTimeSetDriveEdges(
             this DigitalSessionsBundle sessionsBundle,
             string timeSet,
@@ -319,7 +319,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="timeSet">The name of the time set.</param>
         /// <param name="edge">The edge of the time set to configure.</param>
         /// <param name="time">The time of the edge to configure.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next burst or initiate operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureTimeSetEdge(
             this DigitalSessionsBundle sessionsBundle,
             string timeSet,
@@ -341,7 +341,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="timeSet">The name of the time set.</param>
         /// <param name="edge">The edge of the time set to configure.</param>
         /// <param name="time">The time of the edge to configure for different sites.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next burst or initiate operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureTimeSetEdge(
             this DigitalSessionsBundle sessionsBundle,
             string timeSet,
@@ -363,7 +363,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="timeSet">The name of the time set.</param>
         /// <param name="edge">The edge of the time set to configure.</param>
         /// <param name="time">The time of the edge to configure for different site-pin pairs.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next burst or initiate operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureTimeSetEdge(
             this DigitalSessionsBundle sessionsBundle,
             string timeSet,
@@ -755,6 +755,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         #endregion utility methods
 
         #region private methods
+
+        private static void ApplyUpdateMode(
+            this DigitalSessionsBundle sessionsBundle, UpdateMode updateMode)
+        {
+            switch (updateMode)
+            {
+                case UpdateMode.Commit:
+                    sessionsBundle.Commit();
+                    break;
+                case UpdateMode.Immediate:
+                    sessionsBundle.Initiate();
+                    break;
+                case UpdateMode.Deferred:
+                default:
+                    break;
+            }
+        }
 
         private static Dictionary<string, IviDriverPrecisionTimeSpan> ReadTdrOffsetsFromFile(string filePath)
         {
