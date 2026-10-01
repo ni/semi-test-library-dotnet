@@ -1,4 +1,5 @@
-﻿using NationalInstruments.SemiconductorTestLibrary.Common;
+﻿using System.Linq;
+using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
@@ -22,8 +23,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.Accelerometer
         {
             double[] vrefValues = semiconductorModuleContext.GetInputDataAsDoubles(inputDataId: "Vref Value");
             double maxVrefValue = semiconductorModuleContext.GetSpecificationsValue("DC.Max_Vref_Value");
+            var siteNumbers = semiconductorModuleContext.SiteNumbers;
 
-            uint[] perSiteRegisterValues = new uint[vrefValues.Length];
+            // Build SiteData using the default constructor, then add sites and set per-site values.
+            SiteData<uint> registerValues = new SiteData<uint>();
             // Compute register value based on vrefValues (one per site).
             for (int i = 0; i < vrefValues.Length; i++)
             {
@@ -31,9 +34,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.Accelerometer
                 double normalizedValue = (vrefValue / maxVrefValue) * byte.MaxValue;
                 uint registerValue = ConvertDoubleToByte(normalizedValue);
 
-                perSiteRegisterValues[i] = registerValue;
+                registerValues.SetValue(registerValue, siteNumbers.ElementAt(i));
             }
-            SiteData<uint> registerValues = semiconductorModuleContext.NewSiteData(perSiteRegisterValues);
 
             var sessionManager = new TSMSessionManager(semiconductorModuleContext);
             DigitalSessionsBundle spi = sessionManager.Digital(spiPortPins);
