@@ -1,0 +1,17 @@
+
+file_format_version 1.1;
+timeset Idle, SourceStartSetup, Start, Busy, Stop;
+
+pattern SPI_write_template (SDI, SCK, CS)
+{
+set_loop(reg0)						Idle				X		1		1;
+source_start(source_buffer)			Idle				X		1		1;
+									SourceStartSetup	X		1		1;
+repeatWrite:
+									Start				X		1		0;
+									Busy				0		1		0;
+repeat(reg1), source				Busy				D		1		0;
+repeat(reg2), source				Busy				D		1		0;
+end_loop(repeatWrite)				Stop				X		1		1;
+halt								Idle				X		1		1;
+}
