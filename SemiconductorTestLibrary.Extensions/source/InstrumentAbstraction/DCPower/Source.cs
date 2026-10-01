@@ -2581,11 +2581,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Gets the current limits.
+        /// Gets the current limit of all pins.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <returns>The per-site per-pin current limits.</returns>
-        public static PinSiteData<double> GetCurrentLimits(this DCPowerSessionsBundle sessionsBundle)
+        public static PinSiteData<double> GetCurrentLimit(this DCPowerSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
