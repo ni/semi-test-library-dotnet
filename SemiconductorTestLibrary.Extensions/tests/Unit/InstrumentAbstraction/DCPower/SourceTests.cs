@@ -1620,7 +1620,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 new[] { 0.4, 1.0, 1.6 },
                 new[] { 0.6, 1.1, 1.6 }
             });
-            sessionsBundle.ForceVoltageSequence(sequence, DefaultTimeout, 1.5, null, null, 2);
+            sessionsBundle.ForceVoltageSequence(voltageSequence: sequence, sequenceTimeoutInSeconds: DefaultTimeout, currentLimit: 1.5, sequenceLoopCount: 2);
 
             sessionsBundle.Abort();
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
