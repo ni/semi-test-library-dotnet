@@ -7,7 +7,7 @@ using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower
 {
     /// <summary>
-    /// Contains obsolete methods for the <see cref="DCPowerSessionsBundle"/> class.
+    /// Contains obsolete source methods for the <see cref="DCPowerSessionsBundle"/> class.
     /// </summary>
     public static partial class Source
     {
