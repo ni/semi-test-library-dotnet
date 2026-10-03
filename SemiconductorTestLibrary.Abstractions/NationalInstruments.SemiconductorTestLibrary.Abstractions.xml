@@ -799,6 +799,18 @@
             Defines an object containing values for one or more sites that is associated with a particular pin or set of pins, where T can be passed as any data type.
             </summary>
         </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1._pinNamesCache">
+            <summary>
+            This is a backing field for the property <see cref="P:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.PinNames"/>. It is used to cache the pin names associated with the current PinSiteData object.
+            Using this field to get pin names might result in incorrect data or run time error. Instead, use the <see cref="P:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.PinNames"/> property to access the pin names.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1._siteNumbersCache">
+            <summary>
+            This is a backing field for the property <see cref="P:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.SiteNumbers"/>. It is used to cache the site numbers associated with the current PinSiteData object.
+            Using this field to get site numbers might result in incorrect data or run time error. Instead, use the <see cref="P:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.SiteNumbers"/> property to access the site numbers.
+            </summary>
+        </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.PinNames">
             <summary>
             Returns an array of pin names associated with current PinSiteData object.
@@ -811,7 +823,7 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.SiteNumbersByPin">
             <summary>
-            Returns a dictionary where the key is pin name and the value is an array of site numbers associated with that pin.
+            Returns a dictionary where the key is pin name and the value is a list of site numbers associated with that pin.
             </summary>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor">
