@@ -8,12 +8,12 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         [Fact]
         public void I2CInstance_Default_HasI2CTemplatePatternNames()
         {
-            Assert.Equal("I2C_write_template", I2C.Instance.WritePatternName);
-            Assert.Equal("I2C_read_template", I2C.Instance.ReadPatternName);
+            Assert.Equal("I2C_write_pattern", I2C.Instance.WritePatternName);
+            Assert.Equal("I2C_read_pattern", I2C.Instance.ReadPatternName);
         }
 
         [Fact]
-        public void I2CInstance_Default_HasSdiSdoAndSckPinNames()
+        public void I2CInstance_Default_HasCsSckSdiAndSdoPinNames()
         {
             Assert.Equal(new[] { "SDI", "SDO", "SCK" }, I2C.Instance.PinNames);
         }

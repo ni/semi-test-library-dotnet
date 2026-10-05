@@ -50,13 +50,13 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             {
                 case CommunicationProtocol.SPI:
                     protocol = SPI.Instance;
-                    defaultWritePatternName = "SPI_write_template";
-                    defaultReadPatternName = "SPI_read_template";
+                    defaultWritePatternName = "SPI_write_pattern";
+                    defaultReadPatternName = "SPI_read_pattern";
                     break;
                 case CommunicationProtocol.I2C:
                     protocol = I2C.Instance;
-                    defaultWritePatternName = "I2C_write_template";
-                    defaultReadPatternName = "I2C_read_template";
+                    defaultWritePatternName = "I2C_write_pattern";
+                    defaultReadPatternName = "I2C_read_pattern";
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(communicationProtocol), communicationProtocol, "Unsupported communication protocol.");

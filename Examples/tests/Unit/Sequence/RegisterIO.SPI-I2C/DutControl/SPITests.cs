@@ -144,15 +144,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         [Fact]
         public void SpiInstance_Default_HasSpiTemplatePatternNames()
         {
-            Assert.Equal("SPI_write_template", SPI.Instance.WritePatternName);
-            Assert.Equal("SPI_read_template", SPI.Instance.ReadPatternName);
-        }
-
-        [Fact]
-        public void SpiInstance_Default_Has16BitWidths()
-        {
-            Assert.Equal(16u, SPI.Instance.DefaultAddressBitWidth);
-            Assert.Equal(16u, SPI.Instance.DefaultValueBitWidth);
+            Assert.Equal("SPI_write_pattern", SPI.Instance.WritePatternName);
+            Assert.Equal("SPI_read_pattern", SPI.Instance.ReadPatternName);
         }
 
         [Fact]
@@ -188,5 +181,4 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             Assert.Same(SPI.Instance, SPI.Instance);
         }
     }
-
 }

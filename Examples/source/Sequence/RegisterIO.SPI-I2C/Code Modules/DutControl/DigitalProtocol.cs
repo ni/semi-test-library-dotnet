@@ -14,10 +14,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         private DigitalSessionsBundle _digitalSessionsBundle;
 
         /// <inheritdoc/>
-        public string WritePatternName { get; set; }
+        public string WritePatternName { get; set; } = "SPI_write_pattern";
 
         /// <inheritdoc/>
-        public string ReadPatternName { get; set; }
+        public string ReadPatternName { get; set; } = "SPI_read_pattern";
 
         /// <inheritdoc/>
         public string SourceWaveformName { get; set; } = "source_buffer";

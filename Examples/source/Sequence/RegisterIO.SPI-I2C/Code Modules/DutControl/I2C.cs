@@ -15,8 +15,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
 
         private I2C()
         {
-            ReadPatternName = "I2C_read_template";
-            WritePatternName = "I2C_write_template";
+            ReadPatternName = "I2C_read_pattern";
+            WritePatternName = "I2C_write_pattern";
             SourcePinName = "SDI";
             CapturePinName = "SDO";
             PinNames = new[] { "SDI", "SDO", "SCK" };
