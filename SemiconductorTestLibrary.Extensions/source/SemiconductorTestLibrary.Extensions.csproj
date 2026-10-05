@@ -41,6 +41,9 @@
     <Reference Include="NationalInstruments.ModularInstruments.NIFGen.Fx40">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <Reference Include="NationalInstruments.ModularInstruments.NIScope.Fx40">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
     <Reference Include="NationalInstruments.ModularInstruments.NISwitch.Fx40">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
