@@ -28,17 +28,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Functionality.Examp
         public void ValidateExamplesHintPaths_WhenPathsAreMissing_ShouldReportInvalidHintPaths(string projectPath)
         {
             List<string> hintPaths = GetHintPaths(projectPath);
-            List<string> absoluteHintPaths = GetAbsoluteHintPaths(hintPaths, projectPath);
-            List<string> invalidHintPaths = new List<string>();
-
-            for (int index = 0; index < absoluteHintPaths.Count; index++)
-            {
-                string absoluteHintPath = absoluteHintPaths[index];
-                if (!File.Exists(absoluteHintPath))
+            List<string> invalidHintPaths = hintPaths
+                .Select(hintPath => new
                 {
-                    invalidHintPaths.Add(projectPath + ": " + hintPaths[index]);
-                }
-            }
+                    RawHintPath = hintPath,
+                    AbsoluteHintPath = GetAbsoluteHintPaths(hintPath, projectPath)
+                })
+                .Where(x => !File.Exists(x.AbsoluteHintPath))
+                .Select(x => $"{projectPath}: {x.RawHintPath}")
+                .ToList();
 
             Assert.False(invalidHintPaths.Any(), $"Invalid hint paths found:{Environment.NewLine}{string.Join(Environment.NewLine, invalidHintPaths)}");
         }
@@ -46,42 +44,23 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Functionality.Examp
         private static List<string> GetHintPaths(string projectPath)
         {
             XDocument projectXml = XDocument.Load(projectPath);
-            List<string> hintPaths = new List<string>();
-            List<XElement> referenceNodes = projectXml.Descendants()
-                .Where(node => node.Name.LocalName == "Reference")
-                .ToList();
 
-            foreach (XElement referenceNode in referenceNodes)
-            {
-                List<XElement> hintNodes = referenceNode.Elements()
-                    .Where(node => node.Name.LocalName == "HintPath")
-                    .ToList();
-
-                foreach (XElement hintNode in hintNodes)
-                {
-                    string rawHintPath = hintNode.Value.Trim();
-                    if (!string.IsNullOrEmpty(rawHintPath))
-                    {
-                        hintPaths.Add(rawHintPath);
-                    }
-                }
-            }
-            return hintPaths;
+            return projectXml.Descendants()
+               .Where(node => node.Name.LocalName == "Reference")
+               .Elements()
+               .Where(node => node.Name.LocalName == "HintPath")
+               .Select(node => node.Value.Trim())
+               .Where(path => !string.IsNullOrEmpty(path))
+               .ToList();
         }
 
-        private static List<string> GetAbsoluteHintPaths(List<string> hintPaths, string projectPath)
+        private static string GetAbsoluteHintPaths(string hintPath, string projectPath)
         {
             string projectDirectory = Path.GetDirectoryName(projectPath);
-            List<string> absoluteHintPaths = new List<string>();
-            foreach (string rawHintPath in hintPaths)
-            {
-                string resolvedPath = Path.IsPathRooted(rawHintPath)
-                    ? rawHintPath
-                    : Path.Combine(projectDirectory, rawHintPath);
-
-                absoluteHintPaths.Add(Path.GetFullPath(resolvedPath));
-            }
-            return absoluteHintPaths;
+            return Path.GetFullPath(
+                    Path.IsPathRooted(hintPath)
+                    ? hintPath
+                    : Path.Combine(projectDirectory, hintPath));
         }
     }
 }
