@@ -8069,6 +8069,21 @@
                 .
              </summary>
         </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.FGen_InvalidBundleException">
+            <summary>
+              Looks up a localized string similar to The channel &apos;{0}&apos; associated with the Pin &apos;{1}&apos;/Site &apos;{2}&apos; is missing from the &apos;FgenSessionsBundle&apos;..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.FGen_InvalidBundleException_RemediationMessageBundleCreation">
+            <summary>
+              Looks up a localized string similar to All channels of a multi-channel FGEN instrument must be part of the &apos;FgenSessionsBundle&apos;. Ensure the appropriate FGEN Pins are passed to the &apos;TSMSessionManager.Fgen&apos; method..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.FGen_InvalidBundleException_RemediationMessageFilterBundle">
+            <summary>
+              Looks up a localized string similar to All channels of a multi-channel FGEN instrument must be part of the &apos;FgenSessionsBundle&apos;. Do not filter &apos;Pins&apos; or &apos;Sites&apos; in a way that results in a &apos;FgenSessionsBundle&apos; containing partial channels of an FGen instrument..
+            </summary>
+        </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Math_ArrayDimensionMismatch">
             <summary>
               Looks up a localized string similar to When the underlying type, T, of the SiteData or PinSiteData object being operated on is an array, the TResult must also be an array of equal dimensions as the underlying type, T..
