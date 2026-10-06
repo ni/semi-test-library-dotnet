@@ -177,6 +177,132 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ConfigureVertical(perSiteSettings));
         }
 
+        [Fact]
+        public void SessionsBundle_ConfigureCharacteristicsWithDefaultSettings_ValuesApplied()
+        {
+            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
+
+            sessionsBundle.ConfigureElectricalCharacteristics(new ElectricalCharacteristics());
+
+            AssertElectricalCharacteristics(sessionsBundle, new ElectricalCharacteristics());
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureElectricalCharacteristicsWithCustomSettings_ValuesApplied()
+        {
+            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
+            var settings = new ElectricalCharacteristics
+            {
+                InputImpedance = 50,
+                InputFrequencyMax = 1000,
+            };
+
+            sessionsBundle.ConfigureElectricalCharacteristics(settings);
+            AssertElectricalCharacteristics(sessionsBundle, settings);
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureElectricalCharacteristicsCalledMultipleTimes_LastSettingsApplied()
+        {
+            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
+            var finalSettings = new ElectricalCharacteristics { InputImpedance = 50, InputFrequencyMax = 1000 };
+
+            sessionsBundle.ConfigureElectricalCharacteristics(new ElectricalCharacteristics { InputImpedance = 75, InputFrequencyMax = 2000 });
+            sessionsBundle.ConfigureElectricalCharacteristics(finalSettings);
+
+            AssertElectricalCharacteristics(sessionsBundle, finalSettings);
+        }
+
+        [Fact]
+        public void InitiatedAcquisition_ConfigureElectricalCharacteristics_Succeeds()
+        {
+            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
+            sessionsBundle.Initiate();
+
+            sessionsBundle.ConfigureElectricalCharacteristics(new ElectricalCharacteristics { InputImpedance = 50, InputFrequencyMax = 1000 });
+
+            sessionsBundle.Abort();
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureElectricalCharacteristicsWithInvalidInputImpedance_ThrowsException()
+        {
+            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
+
+            var exception = Assert.Throws<NISemiconductorTestException>(
+                () => sessionsBundle.ConfigureElectricalCharacteristics(new ElectricalCharacteristics { InputImpedance = -1 }));
+
+            Assert.NotNull(exception);
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureElectricalCharacteristicsWithPerSiteSettings_ValuesApplied()
+        {
+            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
+            var siteZeroSettings = new ElectricalCharacteristics { InputImpedance = 50, InputFrequencyMax = 1000 };
+            var siteOneSettings = new ElectricalCharacteristics { InputImpedance = 75, InputFrequencyMax = 2000 };
+            var perSiteSettings = new SiteData<ElectricalCharacteristics>(new Dictionary<int, ElectricalCharacteristics>
+            {
+                [0] = siteZeroSettings,
+                [1] = siteOneSettings
+            });
+
+            sessionsBundle.ConfigureElectricalCharacteristics(perSiteSettings);
+
+            sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
+            {
+                var expected = perSiteSettings.GetValue(sitePinInfo.SiteNumber);
+                var channel = sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString];
+                Assert.Equal(expected.InputImpedance, channel.InputImpedance, 3);
+                Assert.Equal(expected.InputFrequencyMax, channel.InputFrequencyMax, 3);
+            });
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureElectricalCharacteristicsWithPerPinPerSiteSettings_ValuesApplied()
+        {
+            var sessionsBundle = GetSessionsBundle(new[] { _SCP_5186_Pin });
+            var perPinPerSiteSettings = new PinSiteData<ElectricalCharacteristics>(
+                new[] { _SCP_5186_Pin },
+                new[] { 0, 1 },
+                new[]
+                {
+                    new[] { new ElectricalCharacteristics { InputImpedance = 50, InputFrequencyMax = 1000 }, new ElectricalCharacteristics { InputImpedance = 75, InputFrequencyMax = 2000 } }
+                });
+
+            sessionsBundle.ConfigureElectricalCharacteristics(perPinPerSiteSettings);
+
+            sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
+            {
+                var expected = perPinPerSiteSettings.GetValue(sitePinInfo);
+                var channel = sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString];
+                Assert.Equal(expected.InputImpedance, channel.InputImpedance, 3);
+                Assert.Equal(expected.InputFrequencyMax, channel.InputFrequencyMax, 3);
+            });
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureElectricalCharacteristicsWithPerSiteSettingsMissingSite_ThrowsException()
+        {
+            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
+            var perSiteSettings = new SiteData<ElectricalCharacteristics>(new Dictionary<int, ElectricalCharacteristics>
+            {
+                [0] = new ElectricalCharacteristics()
+            });
+
+            Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ConfigureElectricalCharacteristics(perSiteSettings));
+        }
+
+        private static void AssertElectricalCharacteristics(ScopeSessionsBundle sessionsBundle, ElectricalCharacteristics expected)
+        {
+            sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
+            {
+                var channel = sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString];
+                Assert.Equal(expected.InputImpedance, channel.InputImpedance, 3);
+                Assert.Equal(expected.InputFrequencyMax, channel.InputFrequencyMax, 3);
+            });
+        }
+
         private static void AssertVerticalSettings(ScopeSessionsBundle sessionsBundle, VerticalSettings expected)
         {
             sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>

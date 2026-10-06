@@ -43,33 +43,33 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         }
 
         /// <summary>
-        /// Configures the vertical settings of all channels in the bundle.
+        /// Configures the electrical characteristics of all channels in the bundle.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
-        /// <param name="electricalSettings">The <see cref="ElectricalCharacteristicsSettings"/> to apply.</param>
-        public static void ConfigureElectricalCharacteristics(this ScopeSessionsBundle sessionsBundle, ElectricalCharacteristicsSettings electricalSettings)
+        /// <param name="electricalCharacteristics">The <see cref="ElectricalCharacteristics"/> to apply.</param>
+        public static void ConfigureElectricalCharacteristics(this ScopeSessionsBundle sessionsBundle, ElectricalCharacteristics electricalCharacteristics)
         {
             sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
             {
-                sessionInfo.ConfigureElectricalCharacteristics(sitePinInfo, electricalSettings);
+                sessionInfo.ConfigureElectricalCharacteristics(sitePinInfo, electricalCharacteristics);
             });
         }
 
-        /// <inheritdoc cref="ConfigureElectricalCharacteristics(ScopeSessionsBundle, ElectricalCharacteristicsSettings)"/>
-        public static void ConfigureElectricalCharacteristics(this ScopeSessionsBundle sessionsBundle, SiteData<ElectricalCharacteristicsSettings> electricalSettings)
+        /// <inheritdoc cref="ConfigureElectricalCharacteristics(ScopeSessionsBundle, ElectricalCharacteristics)"/>
+        public static void ConfigureElectricalCharacteristics(this ScopeSessionsBundle sessionsBundle, SiteData<ElectricalCharacteristics> electricalCharacteristics)
         {
             sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
             {
-                sessionInfo.ConfigureElectricalCharacteristics(sitePinInfo, electricalSettings.GetValue(sitePinInfo.SiteNumber));
+                sessionInfo.ConfigureElectricalCharacteristics(sitePinInfo, electricalCharacteristics.GetValue(sitePinInfo.SiteNumber));
             });
         }
 
-        /// <inheritdoc cref="ConfigureElectricalCharacteristics(ScopeSessionsBundle, ElectricalCharacteristicsSettings)"/>
-        public static void ConfigureElectricalCharacteristics(this ScopeSessionsBundle sessionsBundle, PinSiteData<ElectricalCharacteristicsSettings> electricalSettings)
+        /// <inheritdoc cref="ConfigureElectricalCharacteristics(ScopeSessionsBundle, ElectricalCharacteristics)"/>
+        public static void ConfigureElectricalCharacteristics(this ScopeSessionsBundle sessionsBundle, PinSiteData<ElectricalCharacteristics> electricalCharacteristics)
         {
             sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
             {
-                sessionInfo.ConfigureElectricalCharacteristics(sitePinInfo, electricalSettings.GetValue(sitePinInfo));
+                sessionInfo.ConfigureElectricalCharacteristics(sitePinInfo, electricalCharacteristics.GetValue(sitePinInfo));
             });
         }
 
@@ -96,16 +96,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
             }
         }
 
-        private static void ConfigureElectricalCharacteristics(this ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo, ElectricalCharacteristicsSettings electricalSettings)
+        private static void ConfigureElectricalCharacteristics(this ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo, ElectricalCharacteristics electricalCharacteristics)
         {
-            if (electricalSettings is null)
+            if (electricalCharacteristics is null)
             {
                 return;
             }
             var channel = sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString];
             channel.ConfigureCharacteristics(
-                electricalSettings.Impedance,
-                electricalSettings.InputMaxFrequency);
+                electricalCharacteristics.InputImpedance,
+                electricalCharacteristics.InputFrequencyMax);
         }
         #endregion
     }
