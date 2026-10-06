@@ -97,6 +97,21 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
                     triggerSettings.Delay);
             });
         }
+
+        /// <summary>
+        /// Configures an immediate trigger for all sessions in the bundle.
+        /// </summary>
+        /// <remarks>
+        /// The acquisition starts as soon as the session is initiated, without waiting for a trigger condition.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
+        public static void ConfigureTriggerImmediate(this ScopeSessionsBundle sessionsBundle)
+        {
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.Session.Trigger.ConfigureTriggerImmediate();
+            });
+        }
         #endregion
 
         #region Methods on ScopeSessionInformation

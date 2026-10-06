@@ -44,6 +44,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Do(sessionInfo =>
             {
                 var trigger = sessionInfo.Session.Trigger;
+                var temp = trigger.Source;
                 Assert.Equal(ScopeTriggerType.Edge, trigger.Type);
                 Assert.Equal(settings.TriggerLevel, trigger.Level, 3);
                 Assert.Equal(settings.TriggerSlope, trigger.EdgeTrigger.Slope);
@@ -108,6 +109,27 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
 
             sessionsBundle.ConfigureEdgeTrigger(new TriggerSettings());
+            sessionsBundle.Initiate();
+
+            sessionsBundle.Abort();
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureTriggerImmediate_TypeIsImmediate()
+        {
+            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
+
+            sessionsBundle.ConfigureTriggerImmediate();
+
+            sessionsBundle.Do(sessionInfo => Assert.Equal(ScopeTriggerType.Immediate, sessionInfo.Session.Trigger.Type));
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureTriggerImmediateAndInitiate_Succeeds()
+        {
+            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
+
+            sessionsBundle.ConfigureTriggerImmediate();
             sessionsBundle.Initiate();
 
             sessionsBundle.Abort();
