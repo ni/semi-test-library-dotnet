@@ -26,7 +26,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUHardwareLevel
             DCPowerSessionsBundle dcPowerPins = sessionManager.DCPower(smuPinNames);
 
             double[] voltageSequence = HelperMethods.CreateRampSequence(outputStart: startVoltage, outputStop: stopVoltage, numberOfPoints: numberOfSteps);
-            dcPowerPins.ForceVoltageSequence(voltageSequence);
+            dcPowerPins.ForceVoltageSequence(voltageSequence, 10.0);
         }
     }
 }
