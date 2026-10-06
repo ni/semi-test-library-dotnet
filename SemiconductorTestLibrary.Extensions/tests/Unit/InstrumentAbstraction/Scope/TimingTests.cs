@@ -4,6 +4,7 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
+using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
 using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.InitializeAndClose;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
 
@@ -144,15 +145,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         #region TimingSettings and ClockSettings Default Value Tests
 
         [Fact]
-        public void NewTimingSettings_DefaultConstructor_HasExpectedDefaultValues()
+        public void TimingSettingsConstructedWithDefaults_HasExpectedDefaultValues()
         {
             var timingSettings = new TimingSettings();
 
+            Assert.Equal(0, timingSettings.MinimumSampleRate);
+            Assert.Equal(0, timingSettings.MinimumNumberOfPoints);
+            Assert.Equal(0, timingSettings.ReferencePosition);
+            Assert.Equal(0, timingSettings.NumberOfRecords);
             Assert.True(timingSettings.EnforceRealtime);
         }
 
         [Fact]
-        public void NewClockSettings_DefaultConstructor_HasExpectedDefaultValues()
+        public void ClockSettingsConstructedWithDefaults_HasExpectedDefaultValues()
         {
             var clockSettings = new ClockSettings();
 
