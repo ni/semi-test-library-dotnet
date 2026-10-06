@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen
@@ -35,18 +36,30 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
         /// <remarks>
+        /// Configure the output mode to <c>Function</c> and configure the standard waveform settings before calling Initiate method.
+        /// Other output modes are not currently supported.
+        /// <para>
         /// If you want to abort signal generation, call <see cref="Abort"/>.
         /// After the signal generation is aborted, you can call <see cref="Initiate"/> to cause the signal generator to produce a signal again.
+        /// </para>
         /// </remarks>
-        /// <exception cref="NISemiconductorTestException">"
-        /// The operation cannot be completed because the device is not configurable while it is generating a signal.
+        /// <exception cref="NISemiconductorTestException">
+        /// Operation could cannot be completed because the output mode is not configured to <c>Function</c>,
+        /// or the operation cannot be completed because the underlying device(s) are not configurable while it is generating a signal.
         /// </exception>
         public static void Initiate(this FgenSessionsBundle sessionsBundle)
         {
-            sessionsBundle.Do(sessionInfo =>
+            try
             {
-                sessionInfo.Session.InitiateGeneration();
-            });
+                sessionsBundle.Do(sessionInfo =>
+                {
+                    sessionInfo.Session.InitiateGeneration();
+                });
+            }
+            catch (NISemiconductorTestException ex) when (ex.Message.Contains("Error code: -1074118636"))
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.FGen_InvalidOutputModeAtInitiateException, ex));
+            }
         }
 
         /// <summary>
