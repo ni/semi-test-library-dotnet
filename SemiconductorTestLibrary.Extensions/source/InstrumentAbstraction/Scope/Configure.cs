@@ -41,6 +41,38 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
                 sessionInfo.ConfigureVertical(sitePinInfo, verticalSettings.GetValue(sitePinInfo));
             });
         }
+
+        /// <summary>
+        /// Configures the vertical settings of all channels in the bundle.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
+        /// <param name="electricalSettings">The <see cref="ElectricalCharacteristicsSettings"/> to apply.</param>
+        public static void ConfigureElectricalCharacteristics(this ScopeSessionsBundle sessionsBundle, ElectricalCharacteristicsSettings electricalSettings)
+        {
+            sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
+            {
+                sessionInfo.ConfigureElectricalCharacteristics(sitePinInfo, electricalSettings);
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureElectricalCharacteristics(ScopeSessionsBundle, ElectricalCharacteristicsSettings)"/>
+        public static void ConfigureElectricalCharacteristics(this ScopeSessionsBundle sessionsBundle, SiteData<ElectricalCharacteristicsSettings> electricalSettings)
+        {
+            sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
+            {
+                sessionInfo.ConfigureElectricalCharacteristics(sitePinInfo, electricalSettings.GetValue(sitePinInfo.SiteNumber));
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureElectricalCharacteristics(ScopeSessionsBundle, ElectricalCharacteristicsSettings)"/>
+        public static void ConfigureElectricalCharacteristics(this ScopeSessionsBundle sessionsBundle, PinSiteData<ElectricalCharacteristicsSettings> electricalSettings)
+        {
+            sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
+            {
+                sessionInfo.ConfigureElectricalCharacteristics(sitePinInfo, electricalSettings.GetValue(sitePinInfo));
+            });
+        }
+
         #endregion
 
         #region Methods on ScopeSessionInformation
@@ -62,6 +94,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
             {
                 channel.EnableTimeInterleavedSampling = verticalSettings.EnableTimeInterleavedSampling.Value;
             }
+        }
+
+        private static void ConfigureElectricalCharacteristics(this ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo, ElectricalCharacteristicsSettings electricalSettings)
+        {
+            if (electricalSettings is null)
+            {
+                return;
+            }
+            var channel = sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString];
+            channel.ConfigureCharacteristics(
+                electricalSettings.Impedance,
+                electricalSettings.InputMaxFrequency);
         }
         #endregion
     }
