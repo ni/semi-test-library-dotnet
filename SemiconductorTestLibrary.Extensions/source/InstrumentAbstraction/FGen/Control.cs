@@ -69,12 +69,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         }
 
         /// <summary>
-        /// Waits until all the underlying device is done generating or until the timeout has expired.
+        /// Waits until all underlying device(s) are done generating or until the timeout has expired.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
-        /// <param name="timeout">The maximum time, in milliseconds, to wait for generation to complete. The value must be non-negative.</param>
+        /// <param name="timeout">
+        /// The maximum time, in milliseconds, to wait for generation to complete.
+        /// The value must be non-negative, or -1 to wait indefinitely.
+        /// </param>
         /// <remarks>
         /// Call this method after calling <see cref="Initiate"/>.
+        /// <para>
+        /// If <paramref name="timeout"/> is set to -1, this method waits indefinitely until generation is complete for all sessions in the bundle.
+        /// </para>
         /// </remarks>
         /// <exception cref="NISemiconductorTestException">
         /// The generation initiated by <see cref="Initiate"/> did not complete within the specified timeout for one or more sessions in the bundle,

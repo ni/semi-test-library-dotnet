@@ -4,6 +4,7 @@ using NationalInstruments.ModularInstruments.NIFgen;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen;
+using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
@@ -147,7 +148,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen(new[] { "A", "B" });
             ConfigureStandardWaveformSettings(sessionsBundle);
-            sessionsBundle.Initiate();
 
             var exception = Record.Exception(() => sessionsBundle.Abort());
 
@@ -221,6 +221,23 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.All(statusArray, Assert.True);
         }
 
+        [Theory]
+        [InlineData("FgenSingleInstrumentPerPin.pinmap")]
+        public void InitializeBundleConfigureStandardWaveformInitiateAndPartialAbort_IsDone_SucceedsAndReturnCorrectStatus(string pinmap)
+        {
+            var sessionManager = Initialize(pinmap);
+            var sessionsBundle = sessionManager.Fgen(new[] { "A", "B" });
+            ConfigureStandardWaveformSettings(sessionsBundle);
+            sessionsBundle.Initiate();
+            Thread.Sleep(10); // Wait for 10 ms second to ensure the sessions are running before aborting
+            sessionsBundle.FilterByPin("A").Abort(); // Abort only the session associated with pin "A".
+
+            var statusArray = sessionsBundle.IsDone();
+
+            Assert.Equal(2, statusArray.Length);
+            Assert.Equal(new[] { true, false }, statusArray); // Pin "A" is aborted; pin "B" is still generating.
+        }
+
         #endregion
 
         #region WaitUntilDone Tests
@@ -257,6 +274,41 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
         [InlineData("FgenSingleInstrumentPerSite.pinmap")]
+        public void InitializeBundleConfigureStandardWaveformInitiateAndAbort_WaitUntilDoneWithNonDefaultTimeout_Succeeds(string pinmap)
+        {
+            var sessionManager = Initialize(pinmap);
+            var sessionsBundle = sessionManager.Fgen(new[] { "A", "B" });
+            ConfigureStandardWaveformSettings(sessionsBundle);
+            sessionsBundle.Initiate();
+            sessionsBundle.Abort();
+
+            var exception = Record.Exception(() => sessionsBundle.WaitUntilDone(100));
+
+            Assert.Null(exception);
+        }
+
+        [Theory]
+        [InlineData("FgenSingleInstrumentPerPin.pinmap")]
+        [InlineData("FgenSingleInstrumentPerSite.pinmap")]
+        public void InitializeBundleConfigureStandardWaveformInitiateAndAbort_WaitUntilDoneWithInvalidTimeout_ThrowsExpectedException(string pinmap)
+        {
+            var sessionManager = Initialize(pinmap);
+            var sessionsBundle = sessionManager.Fgen(new[] { "A", "B" });
+            ConfigureStandardWaveformSettings(sessionsBundle);
+            sessionsBundle.Initiate();
+            sessionsBundle.Abort();
+
+            var exception = Record.Exception(() => sessionsBundle.WaitUntilDone(-10));
+
+            Assert.Contains("at NationalInstruments.ModularInstruments.NIFgen.Internal.FgenImpl.WaitUntilDone", exception.Message); // Ensure that correct driver method call is reported in the exception message.
+            Assert.Contains("Error code: -1074135025", exception.Message); // Ensure correct error code is reported in the exception message.
+            Assert.Contains("Invalid parameter", exception.Message); // Ensure correct error message is reported in the exception message.
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData("FgenSingleInstrumentPerPin.pinmap")]
+        [InlineData("FgenSingleInstrumentPerSite.pinmap")]
         public void InitializeBundleConfigureStandardWaveformInitiate_WaitUntilDone_ThrowsExpectedException(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
@@ -264,9 +316,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             ConfigureStandardWaveformSettings(sessionsBundle);
             sessionsBundle.Initiate();
 
-            var exception = Record.Exception(() => sessionsBundle.WaitUntilDone());
+            var exception = Record.Exception(() => sessionsBundle.WaitUntilDone(100));
 
-            Assert.Null(exception);
+            Assert.Contains("at NationalInstruments.ModularInstruments.NIFgen.Internal.FgenImpl.WaitUntilDone", exception.Message); // Ensure that correct driver method call is reported in the exception message.
+            Assert.Contains("Error code: -1074135025", exception.Message); // Ensure correct error code is reported in the exception message.
+            Assert.Contains("Invalid parameter", exception.Message); // Ensure correct error message is reported in the exception message.
         }
 
         #endregion
