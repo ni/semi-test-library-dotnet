@@ -7360,6 +7360,67 @@
             <param name="requestedPins">The requested pins.</param>
             <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionsBundle"/> object with requested pins.</returns>
         </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.VerticalSettings">
+            <summary>
+            Defines oscilloscope channel vertical settings.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.VerticalSettings.Range">
+            <summary>
+            The vertical range of the channel in volts. This is the total range, so a range of 5 V would correspond to a scale of 1 V/division on a typical 5-division display.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.VerticalSettings.Offset">
+            <summary>
+            The vertical offset of the channel in volts.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.VerticalSettings.Coupling">
+            <summary>
+            The vertical coupling of the channel.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.VerticalSettings.ProbeAttenuation">
+            <summary>
+            The probe attenuation factor.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.VerticalSettings.Enabled">
+            <summary>
+            Whether the channel is enabled.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.VerticalSettings.EnableTimeInterleavedSampling">
+            <summary>
+            Whether to enable time-interleaved sampling.
+            </summary>
+            <remarks>When set to null, the underlying driver property is not modified.</remarks>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.VerticalSettings.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ElectricalCharacteristics">
+            <summary>
+            Defines oscilloscope electrical characteristics of a channel.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ElectricalCharacteristics.InputImpedance">
+            <summary>
+            The input impedance of the channel in ohms.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ElectricalCharacteristics.InputFrequencyMax">
+            <summary>
+            The maximum input frequency of the channel in hertz.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ElectricalCharacteristics.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SynchronizationClock">
             <summary>
             Specifies the synchronization clock options.
