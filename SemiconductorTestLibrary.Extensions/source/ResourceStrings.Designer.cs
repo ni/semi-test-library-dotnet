@@ -358,7 +358,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Operation could cannot be completed because the output mode is not configured to Function. Configure the output mode to Function before calling Initiate. Currently, only the Function output mode is supported..
+        ///   Looks up a localized string similar to Operation cannot be completed because the output mode is not configured to Function. Configure the output mode to Function before calling Initiate. Currently, only the Function output mode is supported..
         /// </summary>
         internal static string FGen_InvalidOutputModeAtInitiateException {
             get {

@@ -44,7 +44,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// </para>
         /// </remarks>
         /// <exception cref="NISemiconductorTestException">
-        /// Operation could cannot be completed because the output mode is not configured to <c>Function</c>,
+        /// Operation cannot be completed because the output mode is not configured to <c>Function</c>,
         /// or the operation cannot be completed because the underlying device(s) are not configurable while it is generating a signal.
         /// </exception>
         public static void Initiate(this FgenSessionsBundle sessionsBundle)

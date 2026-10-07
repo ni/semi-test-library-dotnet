@@ -56,6 +56,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var exception = Record.Exception(() => sessionsBundle.Initiate());
 
+            Assert.IsType<NISemiconductorTestException>(exception);
             Assert.Contains("at NationalInstruments.ModularInstruments.NIFgen.NIFgen.InitiateGeneration()", exception.Message); // Ensure that correct driver method call is reported in the exception message.
             Assert.Contains("Error code: -1074126847", exception.Message); // Ensure correct error code is reported in the exception message.
             Assert.Contains("The operation cannot be completed because the device is not configurable while it is generating a signal", exception.Message); // Ensure correct error message is reported in the exception message.
@@ -71,7 +72,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var exception = Record.Exception(() => sessionsBundle.Initiate());
 
-            Assert.Contains("Operation could cannot be completed because the output mode is not configured to Function", exception.Message); // Ensure that correct exception message is thrown.
+            Assert.IsType<NISemiconductorTestException>(exception);
+            Assert.Contains("Operation cannot be completed because the output mode is not configured to Function", exception.Message); // Ensure that correct exception message is thrown.
         }
         #endregion
 
@@ -116,6 +118,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var exception = Record.Exception(() => sessionsBundle.Commit());
 
+            Assert.IsType<NISemiconductorTestException>(exception);
             Assert.Contains("at NationalInstruments.ModularInstruments.NIFgen.NIFgen.Commit()", exception.Message); // Ensure that correct driver method call is reported in the exception message.
             Assert.Contains("Error code: -1074126847", exception.Message); // Ensure correct error code is reported in the exception message.
             Assert.Contains("The operation cannot be completed because the device is not configurable while it is generating a signal", exception.Message); // Ensure correct error message is reported in the exception message.
@@ -298,6 +301,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var exception = Record.Exception(() => sessionsBundle.WaitUntilDone(-10));
 
+            Assert.IsType<NISemiconductorTestException>(exception);
             Assert.Contains("at NationalInstruments.ModularInstruments.NIFgen.Internal.FgenImpl.WaitUntilDone", exception.Message); // Ensure that correct driver method call is reported in the exception message.
             Assert.Contains("Error code: -1074135025", exception.Message); // Ensure correct error code is reported in the exception message.
             Assert.Contains("Invalid parameter", exception.Message); // Ensure correct error message is reported in the exception message.
@@ -315,6 +319,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var exception = Record.Exception(() => sessionsBundle.WaitUntilDone(100));
 
+            Assert.IsType<NISemiconductorTestException>(exception);
             Assert.Contains("at NationalInstruments.ModularInstruments.NIFgen.Internal.FgenImpl.WaitUntilDone", exception.Message); // Ensure that correct driver method call is reported in the exception message.
             Assert.Contains("Error code: -1074135025", exception.Message); // Ensure correct error code is reported in the exception message.
             Assert.Contains("Invalid parameter", exception.Message); // Ensure correct error message is reported in the exception message.
