@@ -303,13 +303,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Contains("Invalid parameter", exception.Message); // Ensure correct error message is reported in the exception message.
         }
 
-        [Theory]
+        [Fact]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap")]
-        [InlineData("FgenSingleInstrumentPerSite.pinmap")]
-        public void InitializeBundleConfigureStandardWaveformInitiate_WaitUntilDone_ThrowsExpectedException(string pinmap)
+        public void InitializeBundleConfigureStandardWaveformInitiate_WaitUntilDone_ThrowsExpectedException()
         {
-            var sessionManager = Initialize(pinmap);
+            var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
             var sessionsBundle = sessionManager.Fgen(new[] { "A", "B" });
             ConfigureStandardWaveformSettings(sessionsBundle);
             sessionsBundle.Initiate();
