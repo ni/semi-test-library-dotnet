@@ -106,6 +106,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
             channel.ConfigureCharacteristics(
                 electricalCharacteristics.InputImpedance,
                 electricalCharacteristics.InputFrequencyMax);
+            var temp = channel.InputFrequencyMax;
+            var temp2 = channel.InputImpedance;
         }
         #endregion
     }

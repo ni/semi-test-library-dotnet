@@ -18,6 +18,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
     {
         private const string _SCP_5186_Pin = "SCP_5186_Pin";
         private const string _SCP_5162_Pin = "SCP_5162_Pin";
+        private const string _SCP_5172_Pin = "SCP_5172_Pin";
 
         private readonly ISemiconductorModuleContext _tsmContext;
 
@@ -178,9 +179,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SessionsBundle_ConfigureCharacteristicsWithDefaultSettings_ValuesApplied()
+        public void SessionsBundle_ConfigureCharacteristicsWithDefaultValues_ValuesApplied()
         {
-            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
+            var sessionsBundle = GetSessionsBundle(_SCP_5172_Pin);
+            sessionsBundle.ConfigureVertical(new VerticalSettings());
 
             sessionsBundle.ConfigureElectricalCharacteristics(new ElectricalCharacteristics());
 
@@ -188,29 +190,30 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SessionsBundle_ConfigureElectricalCharacteristicsWithCustomSettings_ValuesApplied()
+        public void SessionsBundle_ConfigureElectricalCharacteristicsWithCustomValues_ValuesApplied()
         {
-            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
-            var settings = new ElectricalCharacteristics
+            var sessionsBundle = GetSessionsBundle(_SCP_5172_Pin);
+            sessionsBundle.ConfigureVertical(new VerticalSettings());
+            var characteristics = new ElectricalCharacteristics
             {
-                InputImpedance = 50,
-                InputFrequencyMax = 1000,
+                InputImpedance = 50
             };
 
-            sessionsBundle.ConfigureElectricalCharacteristics(settings);
-            AssertElectricalCharacteristics(sessionsBundle, settings);
+            sessionsBundle.ConfigureElectricalCharacteristics(characteristics);
+            AssertElectricalCharacteristics(sessionsBundle, characteristics);
         }
 
         [Fact]
         public void SessionsBundle_ConfigureElectricalCharacteristicsCalledMultipleTimes_LastSettingsApplied()
         {
-            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
-            var finalSettings = new ElectricalCharacteristics { InputImpedance = 50, InputFrequencyMax = 1000 };
+            var sessionsBundle = GetSessionsBundle(_SCP_5172_Pin);
+            sessionsBundle.ConfigureVertical(new VerticalSettings());
+            var finalCharacteristics = new ElectricalCharacteristics { InputImpedance = 50 };
 
-            sessionsBundle.ConfigureElectricalCharacteristics(new ElectricalCharacteristics { InputImpedance = 75, InputFrequencyMax = 2000 });
-            sessionsBundle.ConfigureElectricalCharacteristics(finalSettings);
+            sessionsBundle.ConfigureElectricalCharacteristics(new ElectricalCharacteristics { InputImpedance = 1000000.0 });
+            sessionsBundle.ConfigureElectricalCharacteristics(finalCharacteristics);
 
-            AssertElectricalCharacteristics(sessionsBundle, finalSettings);
+            AssertElectricalCharacteristics(sessionsBundle, finalCharacteristics);
         }
 
         [Fact]
@@ -227,7 +230,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void SessionsBundle_ConfigureElectricalCharacteristicsWithInvalidInputImpedance_ThrowsException()
         {
-            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
+            var sessionsBundle = GetSessionsBundle(_SCP_5172_Pin);
+            sessionsBundle.ConfigureVertical(new VerticalSettings());
 
             var exception = Assert.Throws<NISemiconductorTestException>(
                 () => sessionsBundle.ConfigureElectricalCharacteristics(new ElectricalCharacteristics { InputImpedance = -1 }));
@@ -238,9 +242,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void SessionsBundle_ConfigureElectricalCharacteristicsWithPerSiteSettings_ValuesApplied()
         {
-            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
-            var siteZeroSettings = new ElectricalCharacteristics { InputImpedance = 50, InputFrequencyMax = 1000 };
-            var siteOneSettings = new ElectricalCharacteristics { InputImpedance = 75, InputFrequencyMax = 2000 };
+            var sessionsBundle = GetSessionsBundle(_SCP_5172_Pin);
+            sessionsBundle.ConfigureVertical(new VerticalSettings());
+            var siteZeroSettings = new ElectricalCharacteristics { InputImpedance = 50 };
+            var siteOneSettings = new ElectricalCharacteristics { InputImpedance = 1000000 };
             var perSiteSettings = new SiteData<ElectricalCharacteristics>(new Dictionary<int, ElectricalCharacteristics>
             {
                 [0] = siteZeroSettings,
@@ -254,20 +259,20 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 var expected = perSiteSettings.GetValue(sitePinInfo.SiteNumber);
                 var channel = sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString];
                 Assert.Equal(expected.InputImpedance, channel.InputImpedance, 3);
-                Assert.Equal(expected.InputFrequencyMax, channel.InputFrequencyMax, 3);
             });
         }
 
         [Fact]
         public void SessionsBundle_ConfigureElectricalCharacteristicsWithPerPinPerSiteSettings_ValuesApplied()
         {
-            var sessionsBundle = GetSessionsBundle(new[] { _SCP_5186_Pin });
+            var sessionsBundle = GetSessionsBundle(new[] { _SCP_5172_Pin });
+            sessionsBundle.ConfigureVertical(new VerticalSettings());
             var perPinPerSiteSettings = new PinSiteData<ElectricalCharacteristics>(
-                new[] { _SCP_5186_Pin },
+                new[] { _SCP_5172_Pin },
                 new[] { 0, 1 },
                 new[]
                 {
-                    new[] { new ElectricalCharacteristics { InputImpedance = 50, InputFrequencyMax = 1000 }, new ElectricalCharacteristics { InputImpedance = 75, InputFrequencyMax = 2000 } }
+                    new[] { new ElectricalCharacteristics { InputImpedance = 50 }, new ElectricalCharacteristics { InputImpedance = 1000000 } }
                 });
 
             sessionsBundle.ConfigureElectricalCharacteristics(perPinPerSiteSettings);
@@ -277,7 +282,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 var expected = perPinPerSiteSettings.GetValue(sitePinInfo);
                 var channel = sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString];
                 Assert.Equal(expected.InputImpedance, channel.InputImpedance, 3);
-                Assert.Equal(expected.InputFrequencyMax, channel.InputFrequencyMax, 3);
             });
         }
 
@@ -299,7 +303,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var channel = sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString];
                 Assert.Equal(expected.InputImpedance, channel.InputImpedance, 3);
-                Assert.Equal(expected.InputFrequencyMax, channel.InputFrequencyMax, 3);
             });
         }
 
