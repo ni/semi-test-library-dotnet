@@ -1,24 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PinMap schemaVersion="1.5" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<Instruments>
-		<NIScopeInstrument name="SCP_5105_C1_S09" numberOfChannels="8" />
-		<NIScopeInstrument name="SCP_5162_C2_S09" numberOfChannels="11" />
-		<NIScopeInstrument name="SCP_5622_C3_S05" numberOfChannels="1" group="Scope" />
-		<NIScopeInstrument name="SCP_5622_C3_S06" numberOfChannels="1" group="Scope" />
-		<NIScopeInstrument name="SCP_5186_C3_S07" numberOfChannels="2" />
-		<NIScopeInstrument name="SCP_5172_C8_S04" numberOfChannels="8" />
+		<NIScopeInstrument name="SCP_5105_C1_S09" numberOfChannels="4" />
+		<NIScopeInstrument name="SCP_5162_C2_S09" numberOfChannels="4" />
+		<NIScopeInstrument name="SCP_5622_C3_S05" numberOfChannels="4" group="Scope" />
+		<NIScopeInstrument name="SCP_5622_C3_S06" numberOfChannels="4" group="Scope" />
 	</Instruments>
 	<Pins>
-		<DUTPin name="SCP_5105_Pin" />
-		<DUTPin name="SCP_5162_Pin" />
+		<DUTPin name="DUTPin1" />
+		<DUTPin name="DUTPin2" />
 		<SystemPin name="SystemPin" />
-		<DUTPin name="SCP_5622_Pin" />
-		<DUTPin name="SCP_5186_Pin" />
-		<DUTPin name="SCP_5172_Pin" />
+		<DUTPin name="DUTPin3" />
 	</Pins>
 	<PinGroups>
 		<PinGroup name="PinGroup">
-			<PinReference pin="SCP_5105_Pin" />
+			<PinReference pin="DUTPin1" />
 			<PinReference pin="SystemPin" />
 		</PinGroup>
 	</PinGroups>
@@ -27,16 +23,12 @@
 		<Site siteNumber="1" />
 	</Sites>
 	<Connections>
-		<Connection pin="SCP_5105_Pin" siteNumber="0" instrument="SCP_5105_C1_S09" channel="0" />
-		<Connection pin="SCP_5105_Pin" siteNumber="1" instrument="SCP_5105_C1_S09" channel="1" />
-		<Connection pin="SCP_5162_Pin" siteNumber="0" instrument="SCP_5162_C2_S09" channel="1" />
-		<Connection pin="SCP_5162_Pin" siteNumber="1" instrument="SCP_5162_C2_S09" channel="0" />
-		<Connection pin="SCP_5622_Pin" siteNumber="0" instrument="SCP_5622_C3_S05" channel="0" />
-		<Connection pin="SCP_5622_Pin" siteNumber="1" instrument="SCP_5622_C3_S06" channel="0" />
-		<Connection pin="SCP_5186_Pin" siteNumber="0" instrument="SCP_5186_C3_S07" channel="0" />
-		<Connection pin="SCP_5186_Pin" siteNumber="1" instrument="SCP_5186_C3_S07" channel="1" />
-		<Connection pin="SCP_5172_Pin" siteNumber="0" instrument="SCP_5172_C8_S04" channel="0" />
-		<Connection pin="SCP_5172_Pin" siteNumber="1" instrument="SCP_5172_C8_S04" channel="1" />
+		<Connection pin="DUTPin1" siteNumber="0" instrument="SCP_5105_C1_S09" channel="0" />
+		<Connection pin="DUTPin1" siteNumber="1" instrument="SCP_5162_C2_S09" channel="0" />
+		<Connection pin="DUTPin2" siteNumber="0" instrument="SCP_5105_C1_S09" channel="1" />
+		<Connection pin="DUTPin2" siteNumber="1" instrument="SCP_5162_C2_S09" channel="1" />
+		<Connection pin="DUTPin3" siteNumber="0" instrument="SCP_5622_C3_S05" channel="2" />
+		<Connection pin="DUTPin3" siteNumber="1" instrument="SCP_5622_C3_S06" channel="2" />
 		<SystemConnection pin="SystemPin" instrument="SCP_5105_C1_S09" channel="3" />
 	</Connections>
 </PinMap>
