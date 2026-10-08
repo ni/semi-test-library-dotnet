@@ -363,11 +363,18 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         internal static string FGen_InvalidOutputModeAtInitiateException {
             get {
                 return ResourceManager.GetString("FGen_InvalidOutputModeAtInitiateException", resourceCulture);
+
+        /// <summary>
+        ///   Looks up a localized string similar to The &apos;User&apos; Waveform Function Type is not supported in STL..
+        /// </summary>
+        internal static string FGen_InvalidFunctionType {
+            get {
+                return ResourceManager.GetString("FGen_InvalidFunctionType", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Output mode &apos;{0}&apos; is not supported, only &apos;Function&apos; is supported..
+        ///   Looks up a localized string similar to Output mode &apos;{0}&apos; is not supported, only &apos;Function&apos; is supported in STL..
         /// </summary>
         internal static string FGen_InvalidOutputModeException {
             get {
