@@ -30,57 +30,66 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(SinglePin)]
         [InlineData(PinGroup)]
-        public void InitiatedAcquisition_Abort_Succeeds(string pin)
+        public void InitiatedAcquisition_Abort_DoesNotThrowException(string pin)
         {
             var sessionsBundle = GetSessionsBundle(pin);
             sessionsBundle.Initiate();
 
+            var exception = Record.Exception(() => sessionsBundle.Abort());
+
+            Assert.Null(exception);
+        }
+
+        [Theory]
+        [InlineData(SinglePin)]
+        [InlineData(PinGroup)]
+        public void ScopeSessionsBundle_Initiate_DoesNotThrowException(string pin)
+        {
+            var sessionsBundle = GetSessionsBundle(pin);
+
+            var exception = Record.Exception(() => sessionsBundle.Initiate());
+
+            Assert.Null(exception);
             sessionsBundle.Abort();
         }
 
         [Theory]
         [InlineData(SinglePin)]
         [InlineData(PinGroup)]
-        public void ScopeSessionsBundle_AutoSetup_Succeeds(string pin)
+        public void ScopeSessionsBundle_AutoSetup_DoesNotThrow(string pin)
+        {
+            var sessionsBundle = GetSessionsBundle(pin);
+
+            var exception = Record.Exception(() => sessionsBundle.AutoSetup());
+
+            Assert.Null(exception);
+        }
+
+        [Theory]
+        [InlineData(SinglePin)]
+        [InlineData(PinGroup)]
+        public void ScopeSessionsBundle_Commit_DoesNotThrowException(string pin)
+        {
+            var sessionsBundle = GetSessionsBundle(pin);
+
+            var exception = Record.Exception(() => sessionsBundle.Commit());
+
+            Assert.Null(exception);
+        }
+
+        [Theory]
+        [InlineData(SinglePin)]
+        [InlineData(PinGroup)]
+        public void ScopeSessionsBundle_AutoSetupCommitInitiateThenAbort_DoesNotThrowException(string pin)
         {
             var sessionsBundle = GetSessionsBundle(pin);
 
             sessionsBundle.AutoSetup();
-        }
-
-        [Theory]
-        [InlineData(SinglePin)]
-        [InlineData(PinGroup)]
-        public void ScopeSessionsBundle_Commit_Succeeds(string pin)
-        {
-            var sessionsBundle = GetSessionsBundle(pin);
-
-            sessionsBundle.Commit();
-        }
-
-        [Theory]
-        [InlineData(SinglePin)]
-        [InlineData(PinGroup)]
-        public void ScopeSessionsBundle_Initiate_Succeeds(string pin)
-        {
-            var sessionsBundle = GetSessionsBundle(pin);
-
-            sessionsBundle.Initiate();
-
-            sessionsBundle.Abort();
-        }
-
-        [Theory]
-        [InlineData(SinglePin)]
-        [InlineData(PinGroup)]
-        public void ScopeSessionsBundle_AutoSetupCommitInitiateThenAbort_Succeeds(string pin)
-        {
-            var sessionsBundle = GetSessionsBundle(pin);
-
-            sessionsBundle.AutoSetup();
             sessionsBundle.Commit();
             sessionsBundle.Initiate();
-            sessionsBundle.Abort();
+            var exception = Record.Exception(() => sessionsBundle.Abort());
+
+            Assert.Null(exception);
         }
 
         private ScopeSessionsBundle GetSessionsBundle(string pin)

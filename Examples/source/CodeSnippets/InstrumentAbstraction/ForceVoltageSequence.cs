@@ -30,7 +30,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
 
             // Create a voltage ramp sequence from 0 to 3 volts with 10 points, which will create a sequence like [0V, 0.33V, 0.66V, ..., 3V]
             double[] voltageSequence = HelperMethods.CreateRampSequence(outputStart: 0, outputStop: 3, numberOfPoints: 10);
-            dcPowerPins.ForceVoltageSequence(voltageSequence);
+            dcPowerPins.ForceVoltageSequence(voltageSequence, 10.0);
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
 
             // Create a voltage ramp sequence from 0 to 3 volts with 10 points, which will create a sequence like [0V, 0.33V, 0.66V, ..., 3V]
             double[] voltageSequence = HelperMethods.CreateRampSequence(outputStart: 0, outputStop: 3, numberOfPoints: 10);
-            dcPowerPins.ForceVoltageSequenceSynchronized(voltageSequence);
+            dcPowerPins.ForceVoltageSequenceSynchronized(voltageSequence, 10.0);
         }
     }
 }

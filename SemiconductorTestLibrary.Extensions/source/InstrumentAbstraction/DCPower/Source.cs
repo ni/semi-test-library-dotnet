@@ -14,7 +14,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
     /// <summary>
     /// Defines methods for DCPower voltage/current sourcing.
     /// </summary>
-    public static class Source
+    public static partial class Source
     {
         #region Custom Delegates
 
@@ -58,7 +58,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="settings">The source settings to configure.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, DCPowerSourceSettings settings, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
@@ -104,7 +104,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="settings">The specific settings to configure.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureSourceSettings(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, DCPowerSourceSettings> settings, UpdateMode updateMode = UpdateMode.Deferred)
         {
             var hasGangedChannels = sessionsBundle.HasGangedChannels;
@@ -336,21 +336,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="voltageSequence">Array of voltage values to force in the sequence.</param>
+        /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion.</param>
         /// <param name="currentLimit">The current limit to use for the sequence.</param>
         /// <param name="voltageLevelRange">The voltage level range to use for the sequence.</param>
         /// <param name="currentLimitRange">The current limit range to use for the sequence.</param>
         /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
-        /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event); false to return immediately.</param>
-        /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion when <paramref name="waitForSequenceCompletion"/> is <see langword="true"/>.</param>
         public static void ForceVoltageSequence(
             this DCPowerSessionsBundle sessionsBundle,
             double[] voltageSequence,
+            double sequenceTimeoutInSeconds,
             double? currentLimit = null,
             double? voltageLevelRange = null,
             double? currentLimitRange = null,
-            int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultTimeout)
+            int sequenceLoopCount = 1)
         {
             var advancedSequenceName = BuildSequenceName();
             var settings = new DCPowerSourceSettings()
@@ -374,7 +372,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                         sequenceLoopCount,
                         setAsActiveSequence: true);
                 });
-                sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
+                sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion: true, sequenceTimeoutInSeconds);
             }
             else
             {
@@ -385,7 +383,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                        advancedSequenceName,
                        voltageSequence,
                        sequenceLoopCount,
-                       waitForSequenceCompletion,
                        sequenceTimeoutInSeconds,
                        setAsActiveSequence: true);
                 });
@@ -403,21 +400,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <inheritdoc cref="ForceVoltageSequence(DCPowerSessionsBundle, double[], double?, double?, double?, int, bool, double)"/>
         /// <param name="sessionsBundle"/>
         /// <param name="voltageSequence"/>
+        /// <param name="sequenceTimeoutInSeconds"/>
         /// <param name="currentLimit"/>
         /// <param name="voltageLevelRange"/>
         /// <param name="currentLimitRange"/>
         /// <param name="sequenceLoopCount"/>
-        /// <param name="waitForSequenceCompletion"/>
-        /// <param name="sequenceTimeoutInSeconds"/>
         public static void ForceVoltageSequence(
             this DCPowerSessionsBundle sessionsBundle,
             SiteData<double[]> voltageSequence,
+            double sequenceTimeoutInSeconds,
             double? currentLimit = null,
             double? voltageLevelRange = null,
             double? currentLimitRange = null,
-            int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultTimeout)
+            int sequenceLoopCount = 1)
         {
             var advancedSequenceName = BuildSequenceName();
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
@@ -441,7 +436,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     sequenceLoopCount,
                     setAsActiveSequence: true);
             });
-            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion: true, sequenceTimeoutInSeconds);
 
             sessionsBundle.ReleaseAdvancedSequenceResources(advancedSequenceName);
         }
@@ -455,21 +450,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <inheritdoc cref="ForceVoltageSequence(DCPowerSessionsBundle, double[], double?, double?, double?, int, bool, double)"/>
         /// <param name="sessionsBundle"/>
         /// <param name="voltageSequence"/>
+        /// <param name="sequenceTimeoutInSeconds"/>
         /// <param name="currentLimit"/>
         /// <param name="voltageLevelRange"/>
         /// <param name="currentLimitRange"/>
         /// <param name="sequenceLoopCount"/>
-        /// <param name="waitForSequenceCompletion"/>
-        /// <param name="sequenceTimeoutInSeconds"/>
         public static void ForceVoltageSequence(
             this DCPowerSessionsBundle sessionsBundle,
             PinSiteData<double[]> voltageSequence,
+            double sequenceTimeoutInSeconds,
             double? currentLimit = null,
             double? voltageLevelRange = null,
             double? currentLimitRange = null,
-            int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultTimeout)
+            int sequenceLoopCount = 1)
         {
             var advancedSequenceName = BuildSequenceName();
             var hasGangedChannels = sessionsBundle.HasGangedChannels;
@@ -495,7 +488,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     sequenceLoopCount,
                     setAsActiveSequence: true);
             });
-            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion: true, sequenceTimeoutInSeconds);
 
             sessionsBundle.ReleaseAdvancedSequenceResources(advancedSequenceName);
         }
@@ -536,25 +529,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="voltageSequence">Sequence of voltage values to force.</param>
+        /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion.</param>
         /// <param name="currentLimit">The current limit to use for the sequence.</param>
         /// <param name="voltageLevelRange">The voltage level range to use for the sequence.</param>
         /// <param name="currentLimitRange">The current limit range to use for the sequence.</param>
         /// <param name="sourceDelayInSeconds">Optional source delay to use uniformly for synchronization.</param>
         /// <param name="transientResponse">Transient response.</param>
         /// <param name="sequenceLoopCount">The number of times to force the sequence.</param>
-        /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event); false to return immediately.</param>
-        /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion when <paramref name="waitForSequenceCompletion"/> is <see langword="true"/>.</param>
         public static void ForceVoltageSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             double[] voltageSequence,
+            double sequenceTimeoutInSeconds,
             double? currentLimit = null,
             double? voltageLevelRange = null,
             double? currentLimitRange = null,
             double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
-            int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultTimeout)
+            int sequenceLoopCount = 1)
         {
             ArrayProvider<double> getVoltageSequence = _ => voltageSequence;
             ValueProvider getCurrentLimit = _ => currentLimit;
@@ -570,7 +561,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sourceDelayInSeconds,
                 transientResponse,
                 sequenceLoopCount,
-                waitForSequenceCompletion,
                 sequenceTimeoutInSeconds);
         }
 
@@ -582,25 +572,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <inheritdoc cref="ForceVoltageSequenceSynchronized(DCPowerSessionsBundle, double[], double?, double?, double?, double?, DCPowerSourceTransientResponse?, int, bool, double)"/>
         /// <param name="sessionsBundle"/>
         /// <param name="voltageSequence"/>
+        /// <param name="sequenceTimeoutInSeconds"/>
         /// <param name="currentLimit"/>
         /// <param name="voltageLevelRange"/>
         /// <param name="currentLimitRange"/>
         /// <param name="sourceDelayInSeconds"/>
         /// <param name="transientResponse"/>
         /// <param name="sequenceLoopCount"/>
-        /// <param name="waitForSequenceCompletion"/>
-        /// <param name="sequenceTimeoutInSeconds"/>
         public static void ForceVoltageSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             SiteData<double[]> voltageSequence,
+            double sequenceTimeoutInSeconds,
             SiteData<double> currentLimit = null,
             SiteData<double> voltageLevelRange = null,
             SiteData<double> currentLimitRange = null,
             double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
-            int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultTimeout)
+            int sequenceLoopCount = 1)
         {
             ArrayProvider<double> getVoltageSequenceForSite = sitePinInfo => voltageSequence?.GetValue(sitePinInfo.SiteNumber);
             ValueProvider getCurrentLimitForSite = sitePinInfo => currentLimit?.GetValue(sitePinInfo.SiteNumber);
@@ -616,7 +604,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sourceDelayInSeconds,
                 transientResponse,
                 sequenceLoopCount,
-                waitForSequenceCompletion,
                 sequenceTimeoutInSeconds);
         }
 
@@ -628,25 +615,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <inheritdoc cref="ForceVoltageSequenceSynchronized(DCPowerSessionsBundle, double[], double?, double?, double?, double?, DCPowerSourceTransientResponse?, int, bool, double)"/>
         /// <param name="sessionsBundle"/>
         /// <param name="voltageSequence"/>
+        /// <param name="sequenceTimeoutInSeconds"/>
         /// <param name="currentLimit"/>
         /// <param name="voltageLevelRange"/>
         /// <param name="currentLimitRange"/>
         /// <param name="sourceDelayInSeconds"/>
         /// <param name="transientResponse"/>
         /// <param name="sequenceLoopCount"/>
-        /// <param name="waitForSequenceCompletion"/>
-        /// <param name="sequenceTimeoutInSeconds"/>
         public static void ForceVoltageSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             PinSiteData<double[]> voltageSequence,
+            double sequenceTimeoutInSeconds,
             PinSiteData<double> currentLimit = null,
             PinSiteData<double> voltageLevelRange = null,
             PinSiteData<double> currentLimitRange = null,
             double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
-            int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultTimeout)
+            int sequenceLoopCount = 1)
         {
             ArrayProvider<double> getVoltageSequenceForSitePin = sitePinInfo => voltageSequence?.GetValue(sitePinInfo);
             ValueProvider getCurrentLimitForSitePin = sitePinInfo => currentLimit?.GetValue(sitePinInfo);
@@ -662,7 +647,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sourceDelayInSeconds,
                 transientResponse,
                 sequenceLoopCount,
-                waitForSequenceCompletion,
                 sequenceTimeoutInSeconds);
         }
 
@@ -876,25 +860,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentSequence">Sequence of current values to force.</param>
+        /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion.</param>
         /// <param name="voltageLimit">Voltage limit for the sequence.</param>
         /// <param name="currentLevelRange">Current level range.</param>
         /// <param name="voltageLimitRange">Voltage limit range.</param>
         /// <param name="sourceDelayInSeconds">Optional source delay to use uniformly for synchronization.</param>
         /// <param name="transientResponse">Transient response.</param>
         /// <param name="sequenceLoopCount">The number of times to force the sequence.</param>
-        /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event); false to return immediately.</param>
-        /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion when <paramref name="waitForSequenceCompletion"/> is true.</param>
         public static void ForceCurrentSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             double[] currentSequence,
+            double sequenceTimeoutInSeconds,
             double? voltageLimit = null,
             double? currentLevelRange = null,
             double? voltageLimitRange = null,
             double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
-            int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultTimeout)
+            int sequenceLoopCount = 1)
         {
             ArrayProvider<double> getCurrentSequence = _ => currentSequence;
             ValueProvider getVoltageLimit = _ => voltageLimit;
@@ -910,7 +892,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sourceDelayInSeconds,
                 transientResponse,
                 sequenceLoopCount,
-                waitForSequenceCompletion,
                 sequenceTimeoutInSeconds);
         }
 
@@ -922,25 +903,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <inheritdoc cref="ForceCurrentSequenceSynchronized(DCPowerSessionsBundle, double[], double?, double?, double?, double?, DCPowerSourceTransientResponse?, int, bool, double)"/>
         /// <param name="sessionsBundle"/>
         /// <param name="currentSequence"/>
+        /// <param name="sequenceTimeoutInSeconds"/>
         /// <param name="voltageLimit"/>
         /// <param name="currentLevelRange"/>
         /// <param name="voltageLimitRange"/>
         /// <param name="sourceDelayInSeconds"/>
         /// <param name="transientResponse"/>
         /// <param name="sequenceLoopCount"/>
-        /// <param name="waitForSequenceCompletion"/>
-        /// <param name="sequenceTimeoutInSeconds"/>
         public static void ForceCurrentSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             SiteData<double[]> currentSequence,
+            double sequenceTimeoutInSeconds,
             SiteData<double> voltageLimit = null,
             SiteData<double> currentLevelRange = null,
             SiteData<double> voltageLimitRange = null,
             double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
-            int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultTimeout)
+            int sequenceLoopCount = 1)
         {
             ArrayProvider<double> getCurrentSequenceForSite = sitePinInfo => currentSequence.GetValue(sitePinInfo.SiteNumber);
             ValueProvider getVoltageLimitForSite = sitePinInfo => voltageLimit?.GetValue(sitePinInfo.SiteNumber);
@@ -956,7 +935,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sourceDelayInSeconds,
                 transientResponse,
                 sequenceLoopCount,
-                waitForSequenceCompletion,
                 sequenceTimeoutInSeconds);
         }
 
@@ -968,25 +946,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <inheritdoc cref="ForceCurrentSequenceSynchronized(DCPowerSessionsBundle, double[], double?, double?, double?, double?, DCPowerSourceTransientResponse?, int, bool, double)"/>
         /// <param name="sessionsBundle"/>
         /// <param name="currentSequence"/>
+        /// <param name="sequenceTimeoutInSeconds"/>
         /// <param name="voltageLimit"/>
         /// <param name="currentLevelRange"/>
         /// <param name="voltageLimitRange"/>
         /// <param name="sourceDelayInSeconds"/>
         /// <param name="transientResponse"/>
         /// <param name="sequenceLoopCount"/>
-        /// <param name="waitForSequenceCompletion"/>
-        /// <param name="sequenceTimeoutInSeconds"/>
         public static void ForceCurrentSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             PinSiteData<double[]> currentSequence,
+            double sequenceTimeoutInSeconds,
             PinSiteData<double> voltageLimit = null,
             PinSiteData<double> currentLevelRange = null,
             PinSiteData<double> voltageLimitRange = null,
             double? sourceDelayInSeconds = null,
             DCPowerSourceTransientResponse? transientResponse = null,
-            int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultTimeout)
+            int sequenceLoopCount = 1)
         {
             ArrayProvider<double> getCurrentSequenceForSitePin = sitePinInfo => currentSequence.GetValue(sitePinInfo);
             ValueProvider getVoltageLimitForSitePin = sitePinInfo => voltageLimit?.GetValue(sitePinInfo);
@@ -1002,7 +978,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 sourceDelayInSeconds,
                 transientResponse,
                 sequenceLoopCount,
-                waitForSequenceCompletion,
                 sequenceTimeoutInSeconds);
         }
 
@@ -1019,7 +994,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             double? sourceDelayInSeconds,
             DCPowerSourceTransientResponse? transientResponse,
             int sequenceLoopCount,
-            bool waitForSequenceCompletion,
             double sequenceTimeoutInSeconds)
         {
             sessionsBundle.ValidateNoChannelGanged();
@@ -1072,10 +1046,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             // Start Primary
             primaryOutput.Control.Initiate();
 
-            if (waitForSequenceCompletion)
-            {
-                primaryOutput.Events.SequenceEngineDoneEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
-            }
+            primaryOutput.Events.SequenceEngineDoneEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
 
             sessionsBundle.ReleaseSynchronizedAdvancedSequenceResources(sequenceName);
         }
@@ -1085,81 +1056,72 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <remarks>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
-        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double, int?, double)"/> instead.<br/>
+        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, DCPowerSourceSettings[], double, int, int?, double)"/> instead.<br/>
         /// This method will set the Source Mode back to SinglePoint mode upon returning.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="sequence">The sequence of source settings to apply.</param>
-        /// <param name="sequenceLoopCount">The number of times to loop through the sequence.</param>
-        /// <param name="waitForSequenceCompletion">Indicates whether to wait for the sequence to complete before returning.</param>
         /// <param name="sequenceTimeoutInSeconds">The timeout, in seconds, to wait for sequence completion.</param>
+        /// <param name="sequenceLoopCount">The number of times to loop through the sequence.</param>
         public static void ForceAdvancedSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             DCPowerSourceSettings[] sequence,
-            int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = 5.0)
+            double sequenceTimeoutInSeconds,
+            int sequenceLoopCount = 1)
         {
             ArrayProvider<DCPowerSourceSettings> getSequence = _ => sequence;
 
             sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getSequence,
                 sequenceLoopCount,
-                waitForSequenceCompletion,
                 sequenceTimeoutInSeconds);
         }
 
         /// <remarks>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
-        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, SiteData{ DCPowerSourceSettings[] }, int, bool, double, int?, double)"/> instead.<br/>
+        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, SiteData{ DCPowerSourceSettings[] }, double, int, int?, double)"/> instead.<br/>
         /// This method will set the Source Mode back to SinglePoint mode upon returning.
         /// </remarks>
         /// <inheritdoc cref="ForceAdvancedSequenceSynchronized(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double)"/>
         /// <param name="sessionsBundle"/>
         /// <param name="sequence"/>
-        /// <param name="sequenceLoopCount"/>
-        /// <param name="waitForSequenceCompletion"/>
         /// <param name="sequenceTimeoutInSeconds"/>
+        /// <param name="sequenceLoopCount"/>
         public static void ForceAdvancedSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             SiteData<DCPowerSourceSettings[]> sequence,
-            int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = 5.0)
+            double sequenceTimeoutInSeconds,
+            int sequenceLoopCount = 1)
         {
             ArrayProvider<DCPowerSourceSettings> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo.SiteNumber);
 
             sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getSequence,
                 sequenceLoopCount,
-                waitForSequenceCompletion,
                 sequenceTimeoutInSeconds);
         }
 
         /// <remarks>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
-        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, PinSiteData{ DCPowerSourceSettings[] }, int, bool, double, int?, double)"/> instead.<br/>
+        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, PinSiteData{ DCPowerSourceSettings[] }, double, int, int?, double)"/> instead.<br/>
         /// This method will set the Source Mode back to SinglePoint mode upon returning.
         /// </remarks>
         /// <inheritdoc cref="ForceAdvancedSequenceSynchronized(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double)"/>
         /// <param name="sessionsBundle"/>
         /// <param name="sequence"/>
-        /// <param name="sequenceLoopCount"/>
-        /// <param name="waitForSequenceCompletion"/>
         /// <param name="sequenceTimeoutInSeconds"/>
+        /// <param name="sequenceLoopCount"/>
         public static void ForceAdvancedSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             PinSiteData<DCPowerSourceSettings[]> sequence,
-            int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = 5.0)
+            double sequenceTimeoutInSeconds,
+            int sequenceLoopCount = 1)
         {
             ArrayProvider<DCPowerSourceSettings> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo);
 
             sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getSequence,
                 sequenceLoopCount,
-                waitForSequenceCompletion,
                 sequenceTimeoutInSeconds);
         }
 
@@ -1171,9 +1133,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="sequence">The sequence of source settings to apply.</param>
-        /// <param name="sequenceLoopCount">The number of times to loop through the voltage sequence.</param>
-        /// <param name="waitForSequenceCompletion">Indicates whether to wait for the sequence to complete before returning.</param>
         /// <param name="sequenceTimeoutInSeconds">The timeout, in seconds, to wait for sequence completion.</param>
+        /// <param name="sequenceLoopCount">The number of times to loop through the voltage sequence.</param>
         /// <param name="pointsToFetch">The number of points to fetch.</param>
         /// <param name="measurementTimeoutInSeconds">The time to wait before the fetch measurement operation is aborted.</param>
         /// <returns>A <see cref="PinSiteData{T}"/> object that contains an array of <see cref="SingleDCPowerFetchResult"/> values,
@@ -1181,9 +1142,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static PinSiteData<SingleDCPowerFetchResult[]> ForceAdvancedSequenceSynchronizedAndFetch(
             this DCPowerSessionsBundle sessionsBundle,
             DCPowerSourceSettings[] sequence,
+            double sequenceTimeoutInSeconds,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = 5.0,
             int? pointsToFetch = null,
             double measurementTimeoutInSeconds = 10)
         {
@@ -1192,20 +1152,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             return sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getSequence,
                 sequenceLoopCount,
-                waitForSequenceCompletion,
                 sequenceTimeoutInSeconds,
                 fetchResult: true,
                 pointsToFetch,
                 measurementTimeoutInSeconds);
         }
 
-        /// <inheritdoc cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double, int?, double)"/>
+        /// <inheritdoc cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, DCPowerSourceSettings[], double, int, int?, double)"/>
         public static PinSiteData<SingleDCPowerFetchResult[]> ForceAdvancedSequenceSynchronizedAndFetch(
             this DCPowerSessionsBundle sessionsBundle,
             SiteData<DCPowerSourceSettings[]> sequence,
+            double sequenceTimeoutInSeconds,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = 5.0,
             int? pointsToFetch = null,
             double measurementTimeoutInSeconds = 10)
         {
@@ -1214,20 +1172,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             return sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getSequence,
                 sequenceLoopCount,
-                waitForSequenceCompletion,
                 sequenceTimeoutInSeconds,
                 fetchResult: true,
                 pointsToFetch,
                 measurementTimeoutInSeconds);
         }
 
-        /// <inheritdoc cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double, int?, double)"/>
+        /// <inheritdoc cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, DCPowerSourceSettings[], double, int, int?, double)"/>
         public static PinSiteData<SingleDCPowerFetchResult[]> ForceAdvancedSequenceSynchronizedAndFetch(
             this DCPowerSessionsBundle sessionsBundle,
             PinSiteData<DCPowerSourceSettings[]> sequence,
+            double sequenceTimeoutInSeconds,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = 5.0,
             int? pointsToFetch = null,
             double measurementTimeoutInSeconds = 10)
         {
@@ -1236,7 +1192,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             return sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getSequence,
                 sequenceLoopCount,
-                waitForSequenceCompletion,
                 sequenceTimeoutInSeconds,
                 fetchResult: true,
                 pointsToFetch,
@@ -1253,22 +1208,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="sequence">The sequence of <see cref="DCPowerAdvancedSequenceStepProperties"/> to apply.</param>
-        /// <param name="sequenceLoopCount">The number of times to loop through the sequence.</param>
-        /// <param name="waitForSequenceCompletion">Indicates whether to wait for the sequence to complete before returning.</param>
         /// <param name="sequenceTimeoutInSeconds">The timeout, in seconds, to wait for sequence completion.</param>
+        /// <param name="sequenceLoopCount">The number of times to loop through the sequence.</param>
         public static void ForceAdvancedSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             DCPowerAdvancedSequenceStepProperties[] sequence,
-            int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = 5.0)
+            double sequenceTimeoutInSeconds,
+            int sequenceLoopCount = 1)
         {
             ArrayProvider<DCPowerAdvancedSequenceStepProperties> getSequence = _ => sequence;
 
             sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getSequence,
                 sequenceLoopCount,
-                waitForSequenceCompletion,
                 sequenceTimeoutInSeconds);
         }
 
@@ -1280,22 +1232,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <inheritdoc cref="ForceAdvancedSequenceSynchronized(DCPowerSessionsBundle, DCPowerAdvancedSequenceStepProperties[], int, bool, double)"/>
         /// <param name="sessionsBundle"/>
         /// <param name="sequence"/>
-        /// <param name="sequenceLoopCount"/>
-        /// <param name="waitForSequenceCompletion"/>
         /// <param name="sequenceTimeoutInSeconds"/>
+        /// <param name="sequenceLoopCount"/>
         public static void ForceAdvancedSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             SiteData<DCPowerAdvancedSequenceStepProperties[]> sequence,
-            int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = 5.0)
+            double sequenceTimeoutInSeconds,
+            int sequenceLoopCount = 1)
         {
             ArrayProvider<DCPowerAdvancedSequenceStepProperties> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo.SiteNumber);
 
             sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getSequence,
                 sequenceLoopCount,
-                waitForSequenceCompletion,
                 sequenceTimeoutInSeconds);
         }
 
@@ -1307,22 +1256,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <inheritdoc cref="ForceAdvancedSequenceSynchronized(DCPowerSessionsBundle, DCPowerAdvancedSequenceStepProperties[], int, bool, double)"/>
         /// <param name="sessionsBundle"/>
         /// <param name="sequence"/>
-        /// <param name="sequenceLoopCount"/>
-        /// <param name="waitForSequenceCompletion"/>
         /// <param name="sequenceTimeoutInSeconds"/>
+        /// <param name="sequenceLoopCount"/>
         public static void ForceAdvancedSequenceSynchronized(
             this DCPowerSessionsBundle sessionsBundle,
             PinSiteData<DCPowerAdvancedSequenceStepProperties[]> sequence,
-            int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = 5.0)
+            double sequenceTimeoutInSeconds,
+            int sequenceLoopCount = 1)
         {
             ArrayProvider<DCPowerAdvancedSequenceStepProperties> getSequence = sitePinInfo => sequence.GetValue(sitePinInfo);
 
             sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getSequence,
                 sequenceLoopCount,
-                waitForSequenceCompletion,
                 sequenceTimeoutInSeconds);
         }
 
@@ -1334,9 +1280,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="sequence">The sequence of <see cref="DCPowerAdvancedSequenceStepProperties"/> to apply.</param>
-        /// <param name="sequenceLoopCount">The number of times to loop through the voltage sequence.</param>
-        /// <param name="waitForSequenceCompletion">Indicates whether to wait for the sequence to complete before returning.</param>
         /// <param name="sequenceTimeoutInSeconds">The timeout, in seconds, to wait for sequence completion.</param>
+        /// <param name="sequenceLoopCount">The number of times to loop through the voltage sequence.</param>
         /// <param name="pointsToFetch">The number of points to fetch.</param>
         /// <param name="measurementTimeoutInSeconds">The time to wait before the fetch measurement operation is aborted.</param>
         /// <returns>A <see cref="PinSiteData{T}"/> object that contains an array of <see cref="SingleDCPowerFetchResult"/> values,
@@ -1344,9 +1289,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static PinSiteData<SingleDCPowerFetchResult[]> ForceAdvancedSequenceSynchronizedAndFetch(
             this DCPowerSessionsBundle sessionsBundle,
             DCPowerAdvancedSequenceStepProperties[] sequence,
+            double sequenceTimeoutInSeconds,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = 5.0,
             int? pointsToFetch = null,
             double measurementTimeoutInSeconds = 10)
         {
@@ -1355,7 +1299,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             return sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getSequence,
                 sequenceLoopCount,
-                waitForSequenceCompletion,
                 sequenceTimeoutInSeconds,
                 fetchResult: true,
                 pointsToFetch,
@@ -1366,9 +1309,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static PinSiteData<SingleDCPowerFetchResult[]> ForceAdvancedSequenceSynchronizedAndFetch(
             this DCPowerSessionsBundle sessionsBundle,
             SiteData<DCPowerAdvancedSequenceStepProperties[]> sequence,
+            double sequenceTimeoutInSeconds,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = 5.0,
             int? pointsToFetch = null,
             double measurementTimeoutInSeconds = 10)
         {
@@ -1377,7 +1319,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             return sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getSequence,
                 sequenceLoopCount,
-                waitForSequenceCompletion,
                 sequenceTimeoutInSeconds,
                 fetchResult: true,
                 pointsToFetch,
@@ -1388,9 +1329,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static PinSiteData<SingleDCPowerFetchResult[]> ForceAdvancedSequenceSynchronizedAndFetch(
             this DCPowerSessionsBundle sessionsBundle,
             PinSiteData<DCPowerAdvancedSequenceStepProperties[]> sequence,
+            double sequenceTimeoutInSeconds,
             int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = 5.0,
             int? pointsToFetch = null,
             double measurementTimeoutInSeconds = 10)
         {
@@ -1399,7 +1339,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             return sessionsBundle.ForceAdvancedSequenceSynchronizedCore(
                 getSequence,
                 sequenceLoopCount,
-                waitForSequenceCompletion,
                 sequenceTimeoutInSeconds,
                 fetchResult: true,
                 pointsToFetch,
@@ -1410,7 +1349,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             this DCPowerSessionsBundle sessionsBundle,
             ArrayProvider<T> getSequence,
             int sequenceLoopCount,
-            bool waitForSequenceCompletion,
             double sequenceTimeoutInSeconds,
             bool fetchResult = false,
             int? pointsToFetch = null,
@@ -1459,10 +1397,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
             primaryOutput.Control.Initiate();
 
-            if (waitForSequenceCompletion)
-            {
-                primaryOutput.Events.SequenceEngineDoneEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
-            }
+            primaryOutput.Events.SequenceEngineDoneEvent.WaitForEvent(PrecisionTimeSpan.FromSeconds(sequenceTimeoutInSeconds));
 
             if (fetchResult)
             {
@@ -1511,21 +1446,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentSequence">Sequence of current values to force.</param>
+        /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion.</param>
         /// <param name="voltageLimit">Voltage limit for the sequence.</param>
         /// <param name="currentLevelRange">Current level range.</param>
         /// <param name="voltageLimitRange">Voltage limit range.</param>
         /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
-        /// <param name="waitForSequenceCompletion">True to block until the sequence engine completes (waits on SequenceEngineDone event); false to return immediately.</param>
-        /// <param name="sequenceTimeoutInSeconds">Maximum time to wait for completion when <paramref name="waitForSequenceCompletion"/> is true.</param>
         public static void ForceCurrentSequence(
             this DCPowerSessionsBundle sessionsBundle,
             double[] currentSequence,
+            double sequenceTimeoutInSeconds,
             double? voltageLimit = null,
             double? currentLevelRange = null,
             double? voltageLimitRange = null,
-            int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultTimeout)
+            int sequenceLoopCount = 1)
         {
             var sequenceName = BuildSequenceName();
             var settings = new DCPowerSourceSettings()
@@ -1550,7 +1483,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                         sequenceLoopCount,
                         setAsActiveSequence: true);
                 });
-                sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
+                sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion: true, sequenceTimeoutInSeconds);
             }
             else
             {
@@ -1561,7 +1494,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                         sequenceName,
                         currentSequence,
                         sequenceLoopCount,
-                        waitForSequenceCompletion,
                         sequenceTimeoutInSeconds,
                         setAsActiveSequence: true);
                 });
@@ -1576,24 +1508,22 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.<br/>
         /// This method will set the Source Mode back to SinglePoint mode upon returning.
         /// </remarks>
-        /// <inheritdoc cref="ForceCurrentSequence(DCPowerSessionsBundle, double[], double?, double?, double?, int, bool, double)"/>
+        /// <inheritdoc cref="ForceCurrentSequence(DCPowerSessionsBundle, double[], double, double?, double?, double?, int)"/>
         /// <param name="sessionsBundle"/>
         /// <param name="currentSequence"/>
+        /// <param name="sequenceTimeoutInSeconds"/>
         /// <param name="voltageLimit"/>
         /// <param name="currentLevelRange"/>
         /// <param name="voltageLimitRange"/>
         /// <param name="sequenceLoopCount"/>
-        /// <param name="waitForSequenceCompletion"/>
-        /// <param name="sequenceTimeoutInSeconds"/>
         public static void ForceCurrentSequence(
             this DCPowerSessionsBundle sessionsBundle,
             SiteData<double[]> currentSequence,
+            double sequenceTimeoutInSeconds,
             double? voltageLimit = null,
             double? currentLevelRange = null,
             double? voltageLimitRange = null,
-            int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultTimeout)
+            int sequenceLoopCount = 1)
         {
             var sequenceName = BuildSequenceName();
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
@@ -1616,7 +1546,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     sequenceLoopCount,
                     setAsActiveSequence: true);
             });
-            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion: true, sequenceTimeoutInSeconds);
 
             sessionsBundle.ReleaseAdvancedSequenceResources(sequenceName);
         }
@@ -1627,24 +1557,22 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.<br/>
         /// This method will set the Source Mode back to SinglePoint mode upon returning.
         /// </remarks>
-        /// <inheritdoc cref="ForceCurrentSequence(DCPowerSessionsBundle, double[], double?, double?, double?, int, bool, double)"/>
+        /// <inheritdoc cref="ForceCurrentSequence(DCPowerSessionsBundle, double[], double, double?, double?, double?, int)"/>
         /// <param name="sessionsBundle"/>
         /// <param name="currentSequence"/>
+        /// <param name="sequenceTimeoutInSeconds"/>
         /// <param name="voltageLimit"/>
         /// <param name="currentLevelRange"/>
         /// <param name="voltageLimitRange"/>
         /// <param name="sequenceLoopCount"/>
-        /// <param name="waitForSequenceCompletion"/>
-        /// <param name="sequenceTimeoutInSeconds"/>
         public static void ForceCurrentSequence(
             this DCPowerSessionsBundle sessionsBundle,
             PinSiteData<double[]> currentSequence,
+            double sequenceTimeoutInSeconds,
             double? voltageLimit = null,
             double? currentLevelRange = null,
             double? voltageLimitRange = null,
-            int sequenceLoopCount = 1,
-            bool waitForSequenceCompletion = false,
-            double sequenceTimeoutInSeconds = DefaultTimeout)
+            int sequenceLoopCount = 1)
         {
             var sequenceName = BuildSequenceName();
             sessionsBundle.ValidatePinsForGanging(sessionsBundle.HasGangedChannels);
@@ -1668,7 +1596,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     isGroupData,
                     setAsActiveSequence: true);
             });
-            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
+            sessionsBundle.InitiateGangedLeaderAndNonGangedChannels(waitForSourceCompletion: true, sequenceTimeoutInSeconds);
 
             sessionsBundle.ReleaseAdvancedSequenceResources(sequenceName);
         }
@@ -1695,7 +1623,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             channelOutput.ConfigureLevelsAndLimits(settings, sitePinInfo, needDataAdjustment);
             if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
             {
-                channelOutput.InitiateChannels();
+                channelOutput.InitiateChannels(waitForCompletion: false, timeoutInSeconds: DefaultTimeout);
             }
         }
 
@@ -1732,7 +1660,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentLimit">The current limit to set.</param>
         /// <param name="currentLimitRange">The current limit range to set. Use the absolute value of current limit to set current limit range when this parameter is not specified.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureCurrentLimit(this DCPowerSessionsBundle sessionsBundle, double currentLimit, double? currentLimitRange = null, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do(sessionInfo =>
@@ -1749,7 +1677,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentLimits">The per-pin current limits to set.</param>
         /// <param name="currentLimitRanges">The current limit ranges to set. Use the absolute value of current limit to set current limit range when this parameter is not specified.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureCurrentLimits(this DCPowerSessionsBundle sessionsBundle, IDictionary<string, double> currentLimits, IDictionary<string, double> currentLimitRanges = null, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
@@ -1766,7 +1694,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentLevelRange">The current level range to set, in Amps.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureCurrentLevelRange(this DCPowerSessionsBundle sessionsBundle, double currentLevelRange, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.DoPerChannelIfGangedElsePerSession(
@@ -1816,7 +1744,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentLimitLow">The current limit low to set, in Amps.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureCurrentLimitLow(this DCPowerSessionsBundle sessionsBundle, double currentLimitLow, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.DoPerChannelIfGangedElsePerSession(
@@ -1866,7 +1794,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentLimitHigh">The current limit high to set, in Amps.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureCurrentLimitHigh(this DCPowerSessionsBundle sessionsBundle, double currentLimitHigh, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.DoPerChannelIfGangedElsePerSession(
@@ -1916,7 +1844,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentLimitRange">The current limit range to set, in Amps.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureCurrentLimitRange(this DCPowerSessionsBundle sessionsBundle, double currentLimitRange, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.DoPerChannelIfGangedElsePerSession(
@@ -1967,7 +1895,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="complianceLimitSymmetry">The compliance limit symmetry value to set, either <see cref="DCPowerComplianceLimitSymmetry.Symmetric"/> or <see cref="DCPowerComplianceLimitSymmetry.Asymmetric"/></param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureLimitSymmetry(this DCPowerSessionsBundle sessionsBundle, DCPowerComplianceLimitSymmetry complianceLimitSymmetry, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.DoPerChannelIfGangedElsePerSession(
@@ -2012,7 +1940,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="currentLevel">The current level to set, in Amps.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureCurrentLevel(this DCPowerSessionsBundle sessionsBundle, double currentLevel, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.DoPerChannelIfGangedElsePerSession(
@@ -2062,7 +1990,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="voltageLimitRange">The voltage limit range to set, in Volts.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureVoltageLimitRange(this DCPowerSessionsBundle sessionsBundle, double voltageLimitRange, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.DoPerChannelIfGangedElsePerSession(
@@ -2115,7 +2043,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="voltageLevel">The voltage level to set, in Volts.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureVoltageLevel(this DCPowerSessionsBundle sessionsBundle, double voltageLevel, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.DoPerChannelIfGangedElsePerSession(
@@ -2167,7 +2095,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="voltageLimitHigh">The voltage limit high to set, in Volts.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureVoltageLimitHigh(this DCPowerSessionsBundle sessionsBundle, double voltageLimitHigh, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.DoPerChannelIfGangedElsePerSession(
@@ -2219,7 +2147,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="voltageLimitLow">The voltage limit low to set, in Volts.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureVoltageLimitLow(this DCPowerSessionsBundle sessionsBundle, double voltageLimitLow, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.DoPerChannelIfGangedElsePerSession(
@@ -2271,7 +2199,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="voltageLimit">The voltage limit to set, in Volts.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureVoltageLimit(this DCPowerSessionsBundle sessionsBundle, double voltageLimit, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.DoPerChannelIfGangedElsePerSession(
@@ -2323,7 +2251,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="voltageLevelRange">The voltage level range to set, in Volts.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureVoltageLevelRange(this DCPowerSessionsBundle sessionsBundle, double voltageLevelRange, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.DoPerChannelIfGangedElsePerSession(
@@ -2371,24 +2299,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Configures a hardware-timed sequence of values.
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="sequence">The voltage or current sequence to set.</param>
-        /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
-        /// <param name="sequenceStepDeltaTimeInSeconds">The delta time between the start of two consecutive steps in a sequence.</param>
-        [Obsolete("Using both simple sequencing and advanced sequencing for the same channel within the same session is not supported. For this reason it is better to just use advanced sequencing. This method does not support configuring ganged pin groups for sequencing. Consider using either ConfigureVoltageSequence or ConfigureCurrentSequence instead.", error: false)]
-        public static void ConfigureSequence(this DCPowerSessionsBundle sessionsBundle, double[] sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds = null)
-        {
-            sessionsBundle.ValidateNoChannelGanged();
-            sessionsBundle.Do(sessionInfo =>
-            {
-                sessionInfo.Session.Control.Abort();
-                sessionInfo.AllChannelsOutput.ConfigureSequence(sequence, sequenceLoopCount, sequenceStepDeltaTimeInSeconds);
-            });
-        }
-
-        /// <summary>
         /// Configures a hardware-timed voltage sequence.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
@@ -2400,11 +2310,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// If <see langword="true"/>, sets the configured sequence as the active sequence.
         /// If <see langword="false"/> (default), clears the active sequence to allow configuring multiple sequences before initiating.
         /// </param>
-        /// <param name="updateMode">Specifies when the configured settings are applied:
-        /// <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation,
-        /// <see cref="UpdateMode.Commit"/> commits immediately, and
-        /// <see cref="UpdateMode.Immediate"/> initiates immediately.
-        /// </param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureVoltageSequence(
             this DCPowerSessionsBundle sessionsBundle,
             string sequenceName,
@@ -2511,7 +2417,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// If <see langword="true"/>, sets the configured sequence as the active sequence.
         /// If <see langword="false"/> (default), clears the active sequence to allow configuring multiple sequences before initiating.
         /// </param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureCurrentSequence(
             this DCPowerSessionsBundle sessionsBundle,
             string sequenceName,
@@ -2616,7 +2522,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// If <see langword="false"/> (default), clears the active sequence to allow configuring multiple sequences before initiating.
         /// </param>
         /// <param name="commitFirstElementAsInitialState">If true, uses the first element in perStepProperties as a commit step. Default is false.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureAdvancedSequence(
             this DCPowerSessionsBundle sessionsBundle,
             string sequenceName,
@@ -2922,7 +2828,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="connectOutput">The boolean value to either connect (true) or disconnect (false) the output terminal.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureOutputConnected(this DCPowerSessionsBundle sessionsBundle, bool connectOutput, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do(sessionInfo =>
@@ -2963,7 +2869,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="enableOutput">The boolean value to either enable (true) or disable (false) the output .</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureOutputEnabled(this DCPowerSessionsBundle sessionsBundle, bool enableOutput, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do(sessionInfo =>
@@ -3002,7 +2908,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="sourceDelayInSeconds">The double value of the source delay in seconds.</param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureSourceDelay(this DCPowerSessionsBundle sessionsBundle, double sourceDelayInSeconds, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do(sessionInfo =>
@@ -3047,7 +2953,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// If <see langword="true"/>, sets the configured sequence as the active sequence.
         /// If <see langword="false"/> (default), clears the active sequence to allow configuring multiple sequences before initiating.
         /// </param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureVoltageSequenceWithSourceDelays(
            this DCPowerSessionsBundle sessionsBundle,
            string sequenceName,
@@ -3155,7 +3061,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// If <see langword="true"/>, sets the configured sequence as the active sequence.
         /// If <see langword="false"/> (default), clears the active sequence to allow configuring multiple sequences before initiating.
         /// </param>
-        /// <param name="updateMode">Specifies when the configured settings are applied: <see cref="UpdateMode.Deferred"/> applies on the next sourcing operation, <see cref="UpdateMode.Commit"/> commits immediately, and <see cref="UpdateMode.Immediate"/> initiates immediately.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureCurrentSequenceWithSourceDelays(
            this DCPowerSessionsBundle sessionsBundle,
            string sequenceName,
@@ -3316,36 +3222,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             output.Source.Voltage.CurrentLimitRange = currentLimitRange ?? Math.Abs(currentLimit);
         }
 
-        /// <summary>
-        /// Configures a hardware-timed sequence of values.
-        /// </summary>
-        /// <param name="output">The <see cref="DCPowerOutput"/> object.</param>
-        /// <param name="sequence">The voltage or current sequence to set.</param>
-        /// <param name="sequenceLoopCount">The number of loops a sequence runs after initiation.</param>
-        /// <param name="sequenceStepDeltaTimeInSeconds">The delta time between the start of two consecutive steps in a sequence.</param>
-        /// <param name="sitePinInfo">The <see cref="SitePinInfo"/> object.</param>
-        [Obsolete("Using both simple sequencing and advanced sequencing for the same channel within the same session is not supported. For this reason it is better to just use advanced sequencing. This method does not support configuring ganged pin groups for sequencing. Consider using the high-level ConfigureVoltageSequence or ConfigureCurrentSequence methods instead.", error: false)]
-        public static void ConfigureSequence(
-            this DCPowerOutput output,
-            double[] sequence,
-            int sequenceLoopCount,
-            double? sequenceStepDeltaTimeInSeconds = null,
-            SitePinInfo sitePinInfo = null)
-        {
-            if (sitePinInfo?.CascadingInfo is GangingInfo)
-            {
-                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_GangedPinGroupDetected));
-            }
-            output.Source.Mode = DCPowerSourceMode.Sequence;
-            output.Source.SequenceLoopCount = sequenceLoopCount;
-            output.Source.SetSequence(sequence);
-            if (sequenceStepDeltaTimeInSeconds.HasValue)
-            {
-                output.Source.SequenceStepDeltaTimeEnabled = true;
-                output.Source.SequenceStepDeltaTime = PrecisionTimeSpan.FromSeconds(sequenceStepDeltaTimeInSeconds.Value);
-            }
-        }
-
         #endregion methods on DCPowerOutput
 
         #region methods on NIDCPower session
@@ -3393,10 +3269,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sessionInfo">The <see cref="DCPowerSessionInformation"/> object.</param>
         /// <param name="settings">The source settings to configure.</param>
         /// <param name="channelString">The channel string. Empty string means all channels in the session.</param>
-        public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "")
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
+        public static void ConfigureSourceSettings(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, string channelString = "", UpdateMode updateMode = UpdateMode.Deferred)
         {
             var channelOutput = string.IsNullOrEmpty(channelString) ? sessionInfo.AllChannelsOutput : sessionInfo.Session.Outputs[channelString];
             sessionInfo.ConfigureSourceSettings(settings, channelOutput, sitePinInfo: null);
+            sessionInfo.ApplyUpdateMode(channelOutput, updateMode);
         }
 
         #endregion methods on DCPowerSessionInformation
@@ -3501,12 +3379,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        private static void Force(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, bool waitForSourceCompletion = false)
+        private static void Force(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, bool waitForSourceCompletion)
         {
             var channelString = sessionInfo.AllChannelsString;
             var channelOutput = sessionInfo.Session.Outputs[channelString];
             sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo: null);
-            channelOutput.InitiateChannels(waitForSourceCompletion);
+            channelOutput.InitiateChannels(waitForSourceCompletion, DefaultTimeout);
         }
 
         private static void ConfigureChannels(this DCPowerSessionInformation sessionInfo, DCPowerSourceSettings settings, DCPowerOutput channelOutput, SitePinInfo sitePinInfo, bool needDataAdjustment = true)
@@ -3528,7 +3406,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             channelOutput.Control.Commit();
         }
 
-        private static void InitiateGangedLeaderAndNonGangedChannels(this DCPowerSessionsBundle sessionsBundle, bool waitForSourceCompletion = false, double timeoutInSeconds = DefaultTimeout)
+        private static void InitiateGangedLeaderAndNonGangedChannels(this DCPowerSessionsBundle sessionsBundle, bool waitForSourceCompletion, double timeoutInSeconds = DefaultTimeout)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
@@ -3546,11 +3424,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             sessionInfo.ConfigureChannels(settings, channelOutput, sitePinInfo, needDataAdjustment);
             if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
             {
-                channelOutput.InitiateChannels();
+                channelOutput.InitiateChannels(waitForCompletion: false, timeoutInSeconds: DefaultTimeout);
             }
         }
 
-        private static void InitiateChannels(this DCPowerOutput channelOutput, bool waitForCompletion = false, double timeoutInSeconds = DefaultTimeout)
+        private static void InitiateChannels(this DCPowerOutput channelOutput, bool waitForCompletion, double timeoutInSeconds)
         {
             channelOutput.Control.Initiate();
             if (waitForCompletion)
@@ -3816,7 +3694,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             string sequenceName,
             double[] levelSequence,
             int sequenceLoopCount,
-            bool waitForSequenceCompletion,
             double sequenceTimeoutInSeconds,
             bool setAsActiveSequence)
         {
@@ -3829,7 +3706,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 outputFunction: (DCPowerSourceOutputFunction)settings.OutputFunction,
                 setAsActiveSequence: setAsActiveSequence);
 
-            channelOutput.InitiateChannels(waitForSequenceCompletion, sequenceTimeoutInSeconds);
+            channelOutput.InitiateChannels(waitForCompletion: true, sequenceTimeoutInSeconds);
         }
 
         private static double CalculateLimitRangeFromLimit(DCPowerSourceSettings settings)
