@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using NationalInstruments.ModularInstruments.NIScope;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
@@ -21,7 +19,19 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         private const string _SCP_5172_Pin = "SCP_5172_Pin";
 
         private readonly ISemiconductorModuleContext _tsmContext;
+        // Bandwidth values for NI 5162 device
+        private const double Ni5162Z50OhmFullBandwidth = 1500000000.0;
+        private const double Ni5162Z50Ohm20MHzFilter = 20000000.0;
+        private const double Ni5162Z50Ohm175MHzFilter = 175000000.0;
+        private const double Ni5162Z1MOhmMaxBandwidth = 300000000.0;
 
+        // Bandwidth values for NI 5172 device
+        private const double Ni5172Z50OhmMaxBandwidth = 100000000.0;
+        private const double Ni5172Z1MOhmMaxBandwidth = 98000000.0;
+
+        // Impedance constants
+        private const double Z50Ohm = 50.0;
+        private const double Z1MOhm = 1000000.0;
         public ConfigureTests()
         {
             _tsmContext = CreateTSMContext("ScopeTests.pinmap");
@@ -181,12 +191,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void SessionsBundle_ConfigureCharacteristicsWithDefaultValues_ValuesApplied()
         {
-            var sessionsBundle = GetSessionsBundle(_SCP_5172_Pin);
+            var sessionsBundle = GetSessionsBundle(_SCP_5162_Pin);
             sessionsBundle.ConfigureVertical(new VerticalSettings());
+            var electricalCharacteristics = new ElectricalCharacteristics();
 
-            sessionsBundle.ConfigureElectricalCharacteristics(new ElectricalCharacteristics());
+            sessionsBundle.ConfigureElectricalCharacteristics(electricalCharacteristics);
 
-            AssertElectricalCharacteristics(sessionsBundle, new ElectricalCharacteristics());
+            var expectedBW = GetExpectedBandwidthNi5162(electricalCharacteristics.InputImpedance, electricalCharacteristics.InputFrequencyMax);
+            AssertElectricalCharacteristics(sessionsBundle, electricalCharacteristics.InputImpedance, expectedBW);
         }
 
         [Fact]
@@ -196,11 +208,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ConfigureVertical(new VerticalSettings());
             var characteristics = new ElectricalCharacteristics
             {
-                InputImpedance = 50
+                InputImpedance = Z50Ohm
             };
 
             sessionsBundle.ConfigureElectricalCharacteristics(characteristics);
-            AssertElectricalCharacteristics(sessionsBundle, characteristics);
+            var expectedBW = GetExpectedBandwidthNi5172(characteristics.InputImpedance, characteristics.InputFrequencyMax);
+            AssertElectricalCharacteristics(sessionsBundle, 50, expectedBW);
         }
 
         [Fact]
@@ -208,12 +221,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionsBundle = GetSessionsBundle(_SCP_5172_Pin);
             sessionsBundle.ConfigureVertical(new VerticalSettings());
-            var finalCharacteristics = new ElectricalCharacteristics { InputImpedance = 50 };
+            var finalCharacteristics = new ElectricalCharacteristics { InputImpedance = Z50Ohm };
 
-            sessionsBundle.ConfigureElectricalCharacteristics(new ElectricalCharacteristics { InputImpedance = 1000000.0 });
+            sessionsBundle.ConfigureElectricalCharacteristics(new ElectricalCharacteristics { InputImpedance = Z1MOhm });
             sessionsBundle.ConfigureElectricalCharacteristics(finalCharacteristics);
 
-            AssertElectricalCharacteristics(sessionsBundle, finalCharacteristics);
+            var expectedBW = GetExpectedBandwidthNi5172(finalCharacteristics.InputImpedance, finalCharacteristics.InputFrequencyMax);
+            AssertElectricalCharacteristics(sessionsBundle, 50, expectedBW);
         }
 
         [Fact]
@@ -222,7 +236,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
             sessionsBundle.Initiate();
 
-            sessionsBundle.ConfigureElectricalCharacteristics(new ElectricalCharacteristics { InputImpedance = 50, InputFrequencyMax = 1000 });
+            sessionsBundle.ConfigureElectricalCharacteristics(new ElectricalCharacteristics { InputImpedance = Z50Ohm, InputFrequencyMax = 1000 });
 
             sessionsBundle.Abort();
         }
@@ -297,12 +311,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ConfigureElectricalCharacteristics(perSiteSettings));
         }
 
-        private static void AssertElectricalCharacteristics(ScopeSessionsBundle sessionsBundle, ElectricalCharacteristics expected)
+        private static void AssertElectricalCharacteristics(ScopeSessionsBundle sessionsBundle, double inputImpedance, double inputFrequencyMax)
         {
             sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
             {
                 var channel = sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString];
-                Assert.Equal(expected.InputImpedance, channel.InputImpedance, 3);
+                Assert.Equal(inputImpedance, channel.InputImpedance, 3);
+                Assert.Equal(inputFrequencyMax, channel.InputFrequencyMax, 3);
             });
         }
 
@@ -328,6 +343,50 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = new TSMSessionManager(_tsmContext);
             return sessionManager.Scope(pins);
+        }
+
+        // Private helper methods for NI 5162 coercion logic
+        private static double GetExpectedBandwidthNi5162(double inputImpedance, double configuredBandwidth)
+        {
+            if (inputImpedance == Z1MOhm)
+            {
+                // 1 MΩ path always coerces to 300 MHz regardless of input
+                return Ni5162Z1MOhmMaxBandwidth;
+            }
+            else
+            {
+                // 50 Ω path has conditional coercion based on configured bandwidth
+                if (configuredBandwidth <= 0.0 || configuredBandwidth > Ni5162Z50Ohm175MHzFilter)
+                {
+                    // Full bandwidth: -1.0, 0.0, or anything above 175 MHz
+                    return Ni5162Z50OhmFullBandwidth;
+                }
+                else if (configuredBandwidth <= 8000000.0)
+                {
+                    // 20 MHz filter: 1.0 to 8 MHz (including exactly 8 MHz)
+                    return Ni5162Z50Ohm20MHzFilter;
+                }
+                else
+                {
+                    // 175 MHz filter: > 8 MHz to 175 MHz
+                    return Ni5162Z50Ohm175MHzFilter;
+                }
+            }
+        }
+
+        // Private helper methods for NI 5172 coercion logic
+        private static double GetExpectedBandwidthNi5172(double inputImpedance, double configuredBandwidth)
+        {
+            if (inputImpedance == Z1MOhm)
+            {
+                // 1 MΩ path always coerces to 98 MHz
+                return Ni5172Z1MOhmMaxBandwidth;
+            }
+            else
+            {
+                // 50 Ω path always coerces to 100 MHz
+                return Ni5172Z50OhmMaxBandwidth;
+            }
         }
     }
 }
