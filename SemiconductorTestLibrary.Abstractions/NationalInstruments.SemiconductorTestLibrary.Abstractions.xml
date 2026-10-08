@@ -7446,6 +7446,71 @@
             Default constructor.
             </summary>
         </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TimingSettings">
+            <summary>
+            Defines the Scope timing settings.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TimingSettings.MinimumSampleRate">
+            <summary>
+            Defines the minimum sample rate, in samples per second.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TimingSettings.MinimumNumberOfPoints">
+            <summary>
+            Defines the minimum number of points to acquire.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TimingSettings.ReferencePosition">
+            <summary>
+            Defines the reference position, expressed as a percentage of the acquisition.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TimingSettings.NumberOfRecords">
+            <summary>
+            Defines the number of records to acquire.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TimingSettings.EnforceRealtime">
+            <summary>
+            Defines whether to enforce realtime acquisition.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TimingSettings.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ClockSettings">
+            <summary>
+            Defines the Scope clock settings.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ClockSettings.InputClockSource">
+            <summary>
+            Defines the input clock source.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ClockSettings.OutputClockSource">
+            <summary>
+            Defines the output clock source.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ClockSettings.ClockSynchronizationPulseSource">
+            <summary>
+            Defines the clock synchronization pulse source.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ClockSettings.MasterEnabled">
+            <summary>
+            Defines whether this session is the clock master.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ClockSettings.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sync.SynchronizationClock">
             <summary>
             Specifies the synchronization clock options.
