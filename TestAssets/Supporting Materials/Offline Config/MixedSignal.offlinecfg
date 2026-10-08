@@ -120,6 +120,7 @@
 	<PXIChassis Number="8" Model="NI PXIe-1095">
 		<PXI Name="SMU_4051_C8_S02" Model="NI PXIe-4051" Slot="2" />
 		<PXI Name="SMU_4051_C8_S03" Model="NI PXIe-4051" Slot="3" />
+      <PXI Name="SCP_5172_C8_S04" Model="NI PXIe-5172 (8CH - 325T)" Slot="4" />
 	</PXIChassis>
 	<Devices>
 		<USB Name="DIO_6509_C1_USB" Model="NI USB-6509" />
