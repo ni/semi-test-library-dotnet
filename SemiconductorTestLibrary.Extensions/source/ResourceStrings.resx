@@ -225,7 +225,6 @@
   <data name="DCPower_ExportSignalTooManyOutputTerminals" xml:space="preserve">
     <value>The outputTerminals parameter specifies output terminals for {0} site-pin pairs, which exceeds the {1} trigger lines available on a PXIe chassis.</value>
   </data>
-</root>
   <data name="DCPower_ImmediateUpdateModeNotSupportedForGangedChannels" xml:space="preserve">
     <value>Immediate update mode is not supported for ganged channels.</value>
   </data>

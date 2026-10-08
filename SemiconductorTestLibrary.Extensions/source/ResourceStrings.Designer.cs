@@ -19,7 +19,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class ResourceStrings {
@@ -111,6 +111,42 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         internal static string DAQmx_SampleClockRateNotDistinct {
             get {
                 return ResourceManager.GetString("DAQmx_SampleClockRateNotDistinct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The output terminal specified for the site-pin pair ({0}) cannot be null or empty..
+        /// </summary>
+        internal static string DCPower_ExportSignalOutputTerminalEmpty {
+            get {
+                return ResourceManager.GetString("DCPower_ExportSignalOutputTerminalEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The output terminal ({0}) is specified for more than one site-pin pair ({1}). An output terminal is reserved by the channel that exports a signal to it, therefore each site-pin pair requires its own unique output terminal..
+        /// </summary>
+        internal static string DCPower_ExportSignalOutputTerminalNotUnique {
+            get {
+                return ResourceManager.GetString("DCPower_ExportSignalOutputTerminalNotUnique", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The outputTerminals parameter cannot be null and must contain at least one site-pin pair..
+        /// </summary>
+        internal static string DCPower_ExportSignalOutputTerminalsEmpty {
+            get {
+                return ResourceManager.GetString("DCPower_ExportSignalOutputTerminalsEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The outputTerminals parameter specifies output terminals for {0} site-pin pairs, which exceeds the {1} trigger lines available on a PXIe chassis..
+        /// </summary>
+        internal static string DCPower_ExportSignalTooManyOutputTerminals {
+            get {
+                return ResourceManager.GetString("DCPower_ExportSignalTooManyOutputTerminals", resourceCulture);
             }
         }
         
@@ -372,50 +408,6 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         internal static string FGen_InvalidOutputModeException {
             get {
                 return ResourceManager.GetString("FGen_InvalidOutputModeException", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to The outputTerminals parameter cannot be null and must contain at least one site-pin pair..
-        /// </summary>
-        internal static string DCPower_ExportSignalOutputTerminalsEmpty
-        {
-            get
-            {
-                return ResourceManager.GetString("DCPower_ExportSignalOutputTerminalsEmpty", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to The output terminal specified for the site-pin pair ({0}) cannot be null or empty..
-        /// </summary>
-        internal static string DCPower_ExportSignalOutputTerminalEmpty
-        {
-            get
-            {
-                return ResourceManager.GetString("DCPower_ExportSignalOutputTerminalEmpty", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to The output terminal ({0}) is specified for more than one site-pin pair ({1})..
-        /// </summary>
-        internal static string DCPower_ExportSignalOutputTerminalNotUnique
-        {
-            get
-            {
-                return ResourceManager.GetString("DCPower_ExportSignalOutputTerminalNotUnique", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to The outputTerminals parameter specifies output terminals for {0} site-pin pairs, which exceeds the {1} trigger lines available on a PXIe chassis..
-        /// </summary>
-        internal static string DCPower_ExportSignalTooManyOutputTerminals
-        {
-            get
-            {
-                return ResourceManager.GetString("DCPower_ExportSignalTooManyOutputTerminals", resourceCulture);
             }
         }
     }
