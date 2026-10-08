@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,36 +9,34 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Functionality.Examp
 {
     public class ValidateExamplesHintPath
     {
-        // when this test is run as part of test mode, it tests installed Examples present in this location
+        // TestMode ATS runs require evaluating examples from the installed examples directory.
         private const string InstalledExamplesRoot = @"C:\Users\Public\Documents\National Instruments\NI_SemiconductorTestLibrary\Examples";
 
         public static TheoryData<string> GetExampleProjectPaths()
         {
-            string[] projectPaths = Directory.GetFiles(InstalledExamplesRoot, "*.csproj", SearchOption.AllDirectories);
-            TheoryData<string> data = new TheoryData<string>();
-            foreach (string projectPath in projectPaths)
+            var data = new TheoryData<string>();
+            foreach (var file in Directory.GetFiles(
+                InstalledExamplesRoot,
+                "*.csproj",
+                SearchOption.AllDirectories))
             {
-                data.Add(projectPath);
+                data.Add(file);
             }
             return data;
         }
 
         [Theory]
         [MemberData(nameof(GetExampleProjectPaths))]
+
         public void ValidateExamplesHintPaths_WhenPathsAreMissing_ShouldReportInvalidHintPaths(string projectPath)
         {
             List<string> hintPaths = GetHintPaths(projectPath);
             List<string> invalidHintPaths = hintPaths
-                .Select(hintPath => new
-                {
-                    RawHintPath = hintPath,
-                    AbsoluteHintPath = GetAbsoluteHintPaths(hintPath, projectPath)
-                })
-                .Where(x => !File.Exists(x.AbsoluteHintPath))
-                .Select(x => $"{projectPath}: {x.RawHintPath}")
+                .Where(hintPath => !File.Exists(GetAbsoluteHintPaths(hintPath, projectPath)))
+                .Select(hintPath => $"{projectPath}: {hintPath}")
                 .ToList();
 
-            Assert.False(invalidHintPaths.Any(), $"Invalid hint paths found:{Environment.NewLine}{string.Join(Environment.NewLine, invalidHintPaths)}");
+            Assert.True(invalidHintPaths.Count == 0, $"Invalid hint paths found:{Environment.NewLine}{string.Join(Environment.NewLine, invalidHintPaths)}");
         }
 
         private static List<string> GetHintPaths(string projectPath)
