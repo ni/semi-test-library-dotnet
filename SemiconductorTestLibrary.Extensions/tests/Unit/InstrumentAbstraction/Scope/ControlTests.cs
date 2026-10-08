@@ -3,6 +3,7 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
+using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.InitializeAndClose;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
 
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.Scope
@@ -10,58 +11,91 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
     [Collection("NonParallelizable")]
     public sealed class ControlTests : IDisposable
     {
-        private ISemiconductorModuleContext _tsmContext;
+        private const string SinglePin = "DUTPin1";
+        private const string PinGroup = "PinGroup";
 
-        public TSMSessionManager Initialize(bool pinMapWithChannelGroup)
-        {
-            string pinMapFileName = pinMapWithChannelGroup ? "ScopeWithSingleSession.pinmap" : "ScopeWithPerInstrumentSession.pinmap";
-            return Initialize(pinMapFileName);
-        }
+        private readonly ISemiconductorModuleContext _tsmContext;
 
-        public TSMSessionManager Initialize(string pinMapFileName = "ScopeTests.pinmap")
+        public ControlTests()
         {
-            _tsmContext = CreateTSMContext(pinMapFileName);
-            InitializeAndClose.Initialize(_tsmContext);
-            return new TSMSessionManager(_tsmContext);
+            _tsmContext = CreateTSMContext("ScopeTests.pinmap");
+            Initialize(_tsmContext);
         }
 
         public void Dispose()
         {
-            InitializeAndClose.Close(_tsmContext);
+            Close(_tsmContext);
         }
 
         [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public void Abort_OnScopeBundle_Succeeds(bool pinMapWithChannelGroup)
+        [InlineData(SinglePin)]
+        [InlineData(PinGroup)]
+        public void InitiatedAcquisition_Abort_DoesNotThrowException(string pin)
         {
-            var sessionManager = Initialize(pinMapWithChannelGroup);
-            var sessionsBundle = sessionManager.Scope("Vosc1");
-
-            sessionsBundle.Abort();
-        }
-
-        [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public void Commit_OnScopeBundle_Succeeds(bool pinMapWithChannelGroup)
-        {
-            var sessionManager = Initialize(pinMapWithChannelGroup);
-            var sessionsBundle = sessionManager.Scope("Vosc1");
-
-            sessionsBundle.Commit();
-        }
-
-        [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public void InitiateAndAbort_OnScopeBundle_Succeeds(bool pinMapWithChannelGroup)
-        {
-            var sessionManager = Initialize(pinMapWithChannelGroup);
-            var sessionsBundle = sessionManager.Scope("Vosc1");
-
+            var sessionsBundle = GetSessionsBundle(pin);
             sessionsBundle.Initiate();
+
+            var exception = Record.Exception(() => sessionsBundle.Abort());
+
+            Assert.Null(exception);
+        }
+
+        [Theory]
+        [InlineData(SinglePin)]
+        [InlineData(PinGroup)]
+        public void ScopeSessionsBundle_Initiate_DoesNotThrowException(string pin)
+        {
+            var sessionsBundle = GetSessionsBundle(pin);
+
+            var exception = Record.Exception(() => sessionsBundle.Initiate());
+
+            Assert.Null(exception);
             sessionsBundle.Abort();
+        }
+
+        [Theory]
+        [InlineData(SinglePin)]
+        [InlineData(PinGroup)]
+        public void ScopeSessionsBundle_AutoSetup_DoesNotThrow(string pin)
+        {
+            var sessionsBundle = GetSessionsBundle(pin);
+
+            var exception = Record.Exception(() => sessionsBundle.AutoSetup());
+
+            Assert.Null(exception);
+        }
+
+        [Theory]
+        [InlineData(SinglePin)]
+        [InlineData(PinGroup)]
+        public void ScopeSessionsBundle_Commit_DoesNotThrowException(string pin)
+        {
+            var sessionsBundle = GetSessionsBundle(pin);
+
+            var exception = Record.Exception(() => sessionsBundle.Commit());
+
+            Assert.Null(exception);
+        }
+
+        [Theory]
+        [InlineData(SinglePin)]
+        [InlineData(PinGroup)]
+        public void ScopeSessionsBundle_AutoSetupCommitInitiateThenAbort_DoesNotThrowException(string pin)
+        {
+            var sessionsBundle = GetSessionsBundle(pin);
+
+            sessionsBundle.AutoSetup();
+            sessionsBundle.Commit();
+            sessionsBundle.Initiate();
+            var exception = Record.Exception(() => sessionsBundle.Abort());
+
+            Assert.Null(exception);
+        }
+
+        private ScopeSessionsBundle GetSessionsBundle(string pin)
+        {
+            var sessionManager = new TSMSessionManager(_tsmContext);
+            return sessionManager.Scope(pin);
         }
     }
 }

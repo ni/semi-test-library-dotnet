@@ -19,7 +19,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class ResourceStrings {
@@ -61,7 +61,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Number of points must be greater than one. .
+        ///   Looks up a localized string similar to Number of points must be greater than one..
         /// </summary>
         internal static string CreateRamp_InvalidNumberOfPoints {
             get {
@@ -124,7 +124,16 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Inconsistent advanced sequence properties. The following properties must be either specified or omitted for all steps in the sequence: {0}.
+        ///   Looks up a localized string similar to Immediate update mode is not supported for ganged channels..
+        /// </summary>
+        internal static string DCPower_ImmediateUpdateModeNotSupportedForGangedChannels {
+            get {
+                return ResourceManager.GetString("DCPower_ImmediateUpdateModeNotSupportedForGangedChannels", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Inconsistent advanced sequence properties. The following properties must be specified or omitted for all steps in the sequence: {0}.
         /// </summary>
         internal static string DCPower_InconsistentAdvancedSequenceProperties {
             get {
@@ -133,7 +142,16 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The channelOutput contains more than one channel &quot;{0}&quot;. This method overload only supports single channel operation when a valid SitePinInfo object is passed.&quot;.
+        ///   Looks up a localized string similar to The publishDataIdFormatter parameter cannot be null or empty and must contain a format placeholder &apos;{{0}}&apos;..
+        /// </summary>
+        internal static string DCPower_InvalidPublishDataIdFormatter {
+            get {
+                return ResourceManager.GetString("DCPower_InvalidPublishDataIdFormatter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The channelOutput contains more than one channel ({0}). This method overload only supports single-channel operation when a valid SitePinInfo object is passed..
         /// </summary>
         internal static string DCPower_MultipleChannelOutputsDetected {
             get {
@@ -210,6 +228,150 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         internal static string Digital_TimeSetPeriodNotDistinct {
             get {
                 return ResourceManager.GetString("Digital_TimeSetPeriodNotDistinct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not enough TMU resources available on {0} to allocate to {1}..
+        /// </summary>
+        internal static string Digital_TMUNotEnoughResources {
+            get {
+                return ResourceManager.GetString("Digital_TMUNotEnoughResources", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The following pins are not available in the DigitalSessionsBundle object: {0}. Ensure the DigitalSessionsBundle object contains all necessary pins to perform the requested TMU operation..
+        /// </summary>
+        internal static string Digital_TMUPinsNotInBundle {
+            get {
+                return ResourceManager.GetString("Digital_TMUPinsNotInBundle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The requested pin for TMU operation cannot be null or empty..
+        /// </summary>
+        internal static string Digital_TMUPinsNullOrEmpty {
+            get {
+                return ResourceManager.GetString("Digital_TMUPinsNullOrEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot release TMUs: One or more assigned TMUs are in use. Call DisableTMU before clearing resources..
+        /// </summary>
+        internal static string Digital_TMUResourcesInUse {
+            get {
+                return ResourceManager.GetString("Digital_TMUResourcesInUse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; cannot be empty..
+        /// </summary>
+        internal static string Digital_TMUSkewEmptyReferenceOrTargetPins {
+            get {
+                return ResourceManager.GetString("Digital_TMUSkewEmptyReferenceOrTargetPins", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; cannot be null for skew measurement. Please provide valid &apos;{0}&apos; values..
+        /// </summary>
+        internal static string Digital_TMUSkewMeasurementNullReferencePinsOrTargetPins {
+            get {
+                return ResourceManager.GetString("Digital_TMUSkewMeasurementNullReferencePinsOrTargetPins", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A pin cannot be used as both a reference and a target in the same skew measurement configuration. The following pin(s) appear in both reference and target arrays: {0}.
+        /// </summary>
+        internal static string Digital_TMUSkewOverlappingPins {
+            get {
+                return ResourceManager.GetString("Digital_TMUSkewOverlappingPins", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The number of reference pins ({0}) must match the number of target pins ({1})..
+        /// </summary>
+        internal static string Digital_TMUSkewPinCountMismatch {
+            get {
+                return ResourceManager.GetString("Digital_TMUSkewPinCountMismatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Target pin &apos;{0}&apos; was not found in the session for site {1}..
+        /// </summary>
+        internal static string Digital_TMUSkewTargetPinNotFound {
+            get {
+                return ResourceManager.GetString("Digital_TMUSkewTargetPinNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The arm setting &quot;{0}&quot; is not supported, use either &quot;Immediate&quot;. &quot;StartEdge&quot; or &quot;StopEdge&quot; as arm setting..
+        /// </summary>
+        internal static string Digital_TMUUnsupportedArmSetting {
+            get {
+                return ResourceManager.GetString("Digital_TMUUnsupportedArmSetting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The arm type &quot;{0}&quot; is not supported, use either &quot;Immediate&quot; or &quot;Edge&quot; as arm type..
+        /// </summary>
+        internal static string Digital_TMUUnsupportedArmType {
+            get {
+                return ResourceManager.GetString("Digital_TMUUnsupportedArmType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The duty cycle &quot;{0}&quot; is not supported, use either &quot;Low&quot; or &quot;High&quot; as duty cycle..
+        /// </summary>
+        internal static string Digital_TMUUnsupportedDuty {
+            get {
+                return ResourceManager.GetString("Digital_TMUUnsupportedDuty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The polarity &quot;{0}&quot; is not supported, use either &quot;RisingEdge&quot; or &quot;FallingEdge&quot; as polarity..
+        /// </summary>
+        internal static string Digital_TMUUnsupportedPolarity {
+            get {
+                return ResourceManager.GetString("Digital_TMUUnsupportedPolarity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The pulse width &quot;{0}&quot; is not supported, use either &quot;Low&quot; or &quot;High&quot; as pulse width..
+        /// </summary>
+        internal static string Digital_TMUUnsupportedPulseWidth {
+            get {
+                return ResourceManager.GetString("Digital_TMUUnsupportedPulseWidth", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Operation cannot be completed because the output mode is not configured to Function. Configure the output mode to Function before calling Initiate. Currently, only the Function output mode is supported..
+        /// </summary>
+        internal static string FGen_InvalidOutputModeAtInitiateException {
+            get {
+                return ResourceManager.GetString("FGen_InvalidOutputModeAtInitiateException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Output mode &apos;{0}&apos; is not supported, only &apos;Function&apos; is supported..
+        /// </summary>
+        internal static string FGen_InvalidOutputModeException {
+            get {
+                return ResourceManager.GetString("FGen_InvalidOutputModeException", resourceCulture);
             }
         }
     }

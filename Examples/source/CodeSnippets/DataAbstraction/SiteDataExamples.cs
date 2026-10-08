@@ -133,20 +133,66 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // For example the active sites could be: 4, 9, 12, 32.
             var siteData = new SiteData<double>(new double[] { 1, 2, 3 });
         }
+
+        internal static void BuildWithArray()
+        {
+            // The data values to set per site, where the index represents the site number.
+            var data = new double[] { 1, 2, 3 };
+            // Use the empty constructor to build the SiteData dynamically.
+            var siteData = new SiteData<double>();
+            // Add site numbers sequentially from zero, since the index of the data above represents the site number.
+            siteData.AddSite(0, 1, 2);
+            // Set a unique value for each site individually.
+            for (int i = 0; i < data.Length; i++)
+            {
+                siteData.SetValue(data[i], i);
+            }
+        }
+
         internal static void ConstructWithPerSiteDataDictionary()
         {
             // Constructs a SiteData object with a dictionary of site unique data values.
             var perSiteDataDictionary = new Dictionary<int, double> { [1] = 11, [2] = 22, [3] = 33 };
             var siteData = new SiteData<double>(perSiteDataDictionary);
         }
+
+        internal static void BuildWithPerSiteDataDictionary()
+        {
+            // Dictionary containing site-unique data values.
+            var perSiteDataDictionary = new Dictionary<int, double> { [1] = 11, [2] = 22, [3] = 33 };
+            // Use the empty constructor to build the SiteData dynamically.
+            var siteData = new SiteData<double>();
+            // Set each value for the corresponding site number individually. Site numbers are added automatically if they do not already exist in the SiteData object.
+            foreach (var item in perSiteDataDictionary)
+            {
+                siteData.SetValue(item.Value, item.Key);
+            }
+        }
+
         internal static void ConstructWithDictionaryWithSystemData()
         {
             // Constructs a SiteData object with a dictionary of site unique data values,
-            // inclusive of a site-agnostic data,such as that associated with a system resource or pin.
+            // inclusive of site-agnostic data, such as that associated with a system resource or pin.
             // Note there can only be one site-agnostic value represented in a SiteData object.
             var perSiteDataDictionary = new Dictionary<int, double> { [1] = 11, [2] = 22, [-1] = 33 };
             var siteData = new SiteData<double>(perSiteDataDictionary);
         }
+
+        internal static void BuildWithDictionaryWithSystemData()
+        {
+            // Dictionary containing site-unique data values, including a site-agnostic entry (-1).
+            // Note there can only be one site-agnostic value represented in a SiteData object.
+            var perSiteDataDictionary = new Dictionary<int, double> { [1] = 11, [2] = 22, [-1] = 33 };
+            // Use the empty constructor to build the SiteData dynamically.
+            // Sites and their values will be added individually from the dictionary entries below.
+            var siteData = new SiteData<double>();
+            // Add each dictionary item, including the site-agnostic entry represented by site -1.
+            foreach (var item in perSiteDataDictionary)
+            {
+                siteData.SetValue(value: item.Value, siteNumbers: item.Key);
+            }
+        }
+
         internal static void ConstructWithSingleValue()
         {
             // Site numbers to associate with the data.
@@ -158,6 +204,21 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // Non-sequential site order is accepted.
             var siteData = new SiteData<double>(siteNumbers, data);
         }
+
+        internal static void BuildWithSingleValue()
+        {
+            // Site numbers to associate with the data.
+            var siteNumbers = new int[] { 2, 4, 5, 6 };
+            var data = 567;
+            // Use the empty constructor to build the SiteData dynamically.
+            var siteData = new SiteData<double>();
+            // Add all site numbers first, each initialized to the default value (0.0).
+            siteData.AddSite(siteNumbers);
+            // Set the same value across all sites at once.
+            // Non-sequential site order is accepted.
+            siteData.SetValue(data);
+        }
+
         internal static void ConstructWithSiteUniqueDataArray()
         {
             // Site numbers to associate with the data.
@@ -174,6 +235,94 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             // otherwise an exception will be thrown.
             // Non-sequential site order is accepted.
             var siteData = new SiteData<double>(siteNumbers, perSiteData);
+        }
+
+        internal static void BuildWithSiteUniqueDataArray()
+        {
+            // Site numbers to associate with the data.
+            var siteNumbers = new int[] { 2, 4, 3 };
+            // Array of site unique data, where each element represents the data for the specific site,
+            // located at the same index within the siteNumbers array.
+            var perSiteData = new double[] { 22, 44, 33 };
+            // Start with the single-site constructor for the first site, then add the remaining sites.
+            var siteData = new SiteData<double>(siteNumber: siteNumbers[0]);
+            // Add site numbers and set their corresponding values individually.
+            // Non-sequential site order is accepted.
+            for (int i = 0; i < siteNumbers.Length; i++)
+            {
+                siteData.SetValue(perSiteData[i], siteNumbers[i]);
+            }
+        }
+
+        internal static void ConstructWithDefaultConstructor()
+        {
+            // Constructs an empty SiteData object using the default (parameterless) constructor.
+            // No sites or values are associated with the object at this point.
+            var siteData = new SiteData<double>();
+            // Site  | (empty)
+
+            // Use AddSite to add one or more site numbers to the empty SiteData object.
+            // Each added site is initialized with the default value of the data type (0.0 for double).
+            // Note that the AddSite method can be invoked either by passing a preformed array, as is shown below,
+            // or by listing out the sites as separate parameter inputs, for example, siteData.AddSite(0, 1, 2).
+            var siteNumbersToAdd = new int[] { 0, 1, 2 };
+            siteData.AddSite(siteNumbersToAdd);
+            // Site  |  0    |  1    |  2
+            // Value |  0.0  |  0.0  |  0.0
+
+            // Use SetValue to assign a specific value to all sites at once.
+            // This sets 3.3 for all sites (site 0, site 1, and site 2).
+            siteData.SetValue(value: 3.3);
+            // Site  |  0    |  1    |  2
+            // Value |  3.3  |  3.3  |  3.3
+
+            // Use SetValue with specific site numbers to set values for only those sites.
+            // This adds sites 3 and 4 and sets 5.0 as the value for those sites,
+            // leaving sites 0, 1, and 2 unchanged at 3.3.
+            siteData.SetValue(value: 5.0, siteNumbers: new int[] { 3, 4 });
+            // Site  |  0    |  1    |  2    |  3    |  4
+            // Value |  3.3  |  3.3  |  3.3  |  5.0  |  5.0
+
+            // Use RemoveSite to remove one or more sites from the SiteData object.
+            // This removes site 2, leaving sites 0, 1, 3 and 4 in the object.
+            siteData.RemoveSite(2);
+            // Site  |  0    |  1    |  3    |  4
+            // Value |  3.3  |  3.3  |  5.0  |  5.0
+        }
+
+        internal static void ConstructWithSingleSiteNumber()
+        {
+            // Constructs a SiteData object with a single site number.
+            // The site is initialized with the default value of the data type (0.0 for double).
+            // This constructor is useful for initially declaring data for only one site.
+            var siteData = new SiteData<double>(siteNumber: 0);
+            // Site  |  0
+            // Value |  0.0
+
+            // Use AddSite to extend the object with additional site numbers.
+            // Sites 1 and 2 are added, each initialized with the default value (0.0 for double).
+            // If a site already exists in the SiteData object, such as Site 0 in this case, that site is skipped when performing the operation.
+            siteData.AddSite(0, 1, 2);
+            // Site  |  0    |  1    |  2
+            // Value |  0.0  |  0.0  |  0.0
+
+            // Use SetValue with specific site numbers to assign a value to only those sites.
+            // This sets 1.8 for site 0 and site 1, leaving site 2 unchanged at 0.0.
+            siteData.SetValue(value: 1.8, siteNumbers: new int[] { 0, 1 });
+            // Site  |  0    |  1    |  2
+            // Value |  1.8  |  1.8  |  0.0
+
+            // Use SetValue without site numbers to set the same value across all existing sites.
+            // This overwrites the values for site 0, site 1, and site 2, setting all of them to 2.5.
+            siteData.SetValue(value: 2.5);
+            // Site  |  0    |  1    |  2
+            // Value |  2.5  |  2.5  |  2.5
+
+            // Use RemoveSite to remove specific sites from the SiteData object.
+            // This removes site 0 and site 1, leaving only site 2 in the object.
+            siteData.RemoveSite(0, 1);
+            // Site  |  2
+            // Value |  2.5
         }
 
         /// <summary>

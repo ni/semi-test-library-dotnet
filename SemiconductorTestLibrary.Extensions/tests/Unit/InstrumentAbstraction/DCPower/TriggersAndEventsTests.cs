@@ -451,7 +451,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
-        public void GangedPinGroupForceVoltage_WaitForEventAndSendSoftwareEdgeTrigger_DoesNotThrowException()
+        public void GangedPinGroupForceVoltageAndSendSoftwareEdgeTrigger_WaitForEvent_DoesNotThrowException()
         {
             var sessionManager = Initialize("Mixed Signal Tests.pinmap");
             var sessionsBundle = sessionManager.DCPower(new string[] { "VCC1", "VCC2", "VDD", "VDET" });
@@ -460,10 +460,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Abort();
             sessionsBundle.ConfigureTriggerSoftwareEdge(TriggerType.SourceTrigger);
             sessionsBundle.Initiate();
+            sessionsBundle.SendSoftwareEdgeTrigger(TriggerType.SourceTrigger);
 
-            Parallel.Invoke(
-                () => sessionsBundle.WaitForEvent(EventType.SourceCompleteEvent),
-                () => sessionsBundle.SendSoftwareEdgeTrigger(TriggerType.SourceTrigger));
+            sessionsBundle.WaitForEvent(EventType.SourceCompleteEvent);
 
             sessionsBundle.UngangPinGroup("MergedPowerPins");
             sessionsBundle.ClearTriggers();

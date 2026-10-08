@@ -17,7 +17,7 @@
     <None Remove="net48\**" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="NationalInstruments.SemiconductorTestLibrary.Analyzers" Version="1.0.0" />
+    <PackageReference Include="NationalInstruments.SemiconductorTestLibrary.Analyzers" Version="1.1.0" />
     <PackageReference Include="NI.CSharp.Analyzers" Version="1.2.8" />
     <Reference Include="Ivi.Driver">
       <SpecificVersion>False</SpecificVersion>
@@ -36,6 +36,12 @@
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="NationalInstruments.ModularInstruments.NIDmm.Fx40">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="NationalInstruments.ModularInstruments.NIFGen.Fx40">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="NationalInstruments.ModularInstruments.NIScope.Fx40">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="NationalInstruments.ModularInstruments.NISwitch.Fx40">

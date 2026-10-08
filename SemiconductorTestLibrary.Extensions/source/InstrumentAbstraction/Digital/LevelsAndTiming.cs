@@ -69,12 +69,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="levelType">The type of level to configure.</param>
         /// <param name="levelValue">The value of level to configure.</param>
-        public static void ConfigureSingleLevel(this DigitalSessionsBundle sessionsBundle, LevelType levelType, double levelValue)
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
+        public static void ConfigureSingleLevel(
+            this DigitalSessionsBundle sessionsBundle,
+            LevelType levelType,
+            double levelValue,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.PinSet.ConfigureSingleLevel(levelType, levelValue);
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
@@ -83,12 +89,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="levelType">The type of level to configure.</param>
         /// <param name="perSiteLevelValues">The per-site value of level to configure.</param>
-        public static void ConfigureSingleLevel(this DigitalSessionsBundle sessionsBundle, LevelType levelType, SiteData<double> perSiteLevelValues)
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
+        public static void ConfigureSingleLevel(
+            this DigitalSessionsBundle sessionsBundle,
+            LevelType levelType,
+            SiteData<double> perSiteLevelValues,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 sessionInfo.Session.PinAndChannelMap.GetPinSet(sitePinInfo.SitePinString).ConfigureSingleLevel(levelType, perSiteLevelValues.GetValue(sitePinInfo.SiteNumber));
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
@@ -100,12 +112,21 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="vol">The vol value to configure.</param>
         /// <param name="voh">The voh value to configure.</param>
         /// <param name="vterm">The vterm value to configure.</param>
-        public static void ConfigureVoltageLevels(this DigitalSessionsBundle sessionsBundle, double vil, double vih, double vol, double voh, double vterm)
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
+        public static void ConfigureVoltageLevels(
+            this DigitalSessionsBundle sessionsBundle,
+            double vil,
+            double vih,
+            double vol,
+            double voh,
+            double vterm,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.PinSet.DigitalLevels.ConfigureVoltageLevels(vil, vih, vol, voh, vterm);
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
@@ -113,12 +134,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="terminationMode">The termination mode to configure.</param>
-        public static void ConfigureTerminationMode(this DigitalSessionsBundle sessionsBundle, TerminationMode terminationMode)
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
+        public static void ConfigureTerminationMode(
+            this DigitalSessionsBundle sessionsBundle,
+            TerminationMode terminationMode,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.PinSet.DigitalLevels.TerminationMode = terminationMode;
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
@@ -127,12 +153,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="timeSet">The name of the time set.</param>
         /// <param name="compareEdge">The strobe edge time to configure.</param>
-        public static void ConfigureTimeSetCompareEdgesStrobe(this DigitalSessionsBundle sessionsBundle, string timeSet, double compareEdge)
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
+        public static void ConfigureTimeSetCompareEdgesStrobe(
+            this DigitalSessionsBundle sessionsBundle,
+            string timeSet,
+            double compareEdge,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.Timing.GetTimeSet(timeSet).ConfigureCompareEdgesStrobe(sessionInfo.PinSet, IviDriverPrecisionTimeSpan.FromSeconds(compareEdge));
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
@@ -141,12 +173,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="timeSet">The name of the time set.</param>
         /// <param name="compareEdges">The per-site strobe edge time to configure.</param>
-        public static void ConfigureTimeSetCompareEdgesStrobe(this DigitalSessionsBundle sessionsBundle, string timeSet, SiteData<double> compareEdges)
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
+        public static void ConfigureTimeSetCompareEdgesStrobe(
+            this DigitalSessionsBundle sessionsBundle,
+            string timeSet,
+            SiteData<double> compareEdges,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 sessionInfo.Session.Timing.GetTimeSet(timeSet).ConfigureCompareEdgesStrobe(sitePinInfo.SitePinString, IviDriverPrecisionTimeSpan.FromSeconds(compareEdges.GetValue(sitePinInfo.SiteNumber)));
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
@@ -155,12 +193,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="timeSet">The name of the time set.</param>
         /// <param name="compareEdges">The strobe edge time for all site-pin pairs to configure.</param>
-        public static void ConfigureTimeSetCompareEdgesStrobe(this DigitalSessionsBundle sessionsBundle, string timeSet, PinSiteData<double> compareEdges)
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
+        public static void ConfigureTimeSetCompareEdgesStrobe(this DigitalSessionsBundle sessionsBundle, string timeSet, PinSiteData<double> compareEdges, UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
                 sessionInfo.Session.Timing.GetTimeSet(timeSet).ConfigureCompareEdgesStrobe(sitePinInfo.SitePinString, IviDriverPrecisionTimeSpan.FromSeconds(compareEdges.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName)));
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
@@ -169,12 +209,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
         /// <param name="timeSet">The name of the time set.</param>
         /// <param name="period">The period to configure.</param>
-        public static void ConfigureTimeSetPeriod(this DigitalSessionsBundle sessionsBundle, string timeSet, double period)
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
+        public static void ConfigureTimeSetPeriod(
+            this DigitalSessionsBundle sessionsBundle,
+            string timeSet,
+            double period,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.Timing.GetTimeSet(timeSet).ConfigurePeriod(IviDriverPrecisionTimeSpan.FromSeconds(period));
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
@@ -187,6 +233,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="driveData">The delay from the beginning of the vector period until the pattern data is driven to the pattern value.</param>
         /// <param name="driveReturn">The delay from the beginning of the vector period until the pin changes from the pattern data to the return value.</param>
         /// <param name="driveOff">The delay from the beginning of the vector period to turn off the pin driver.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureTimeSetDriveEdges(
             this DigitalSessionsBundle sessionsBundle,
             string timeSet,
@@ -194,7 +241,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             double driveOn,
             double driveData,
             double driveReturn,
-            double driveOff)
+            double driveOff,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do(sessionInfo =>
             {
@@ -206,6 +254,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                     IviDriverPrecisionTimeSpan.FromSeconds(driveReturn),
                     IviDriverPrecisionTimeSpan.FromSeconds(driveOff));
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
@@ -220,6 +269,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="driveOff">The delay from the beginning of the vector period to turn off the pin driver.</param>
         /// <param name="driveData2">The delay from the beginning of the vector period until the pattern data is driven to the second pattern value.</param>
         /// <param name="driveReturn2">The delay from the beginning of the vector period until the pin changes from the second pattern data to the return value.</param>
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureTimeSetDriveEdges(
             this DigitalSessionsBundle sessionsBundle,
             string timeSet,
@@ -229,7 +279,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             double driveReturn,
             double driveOff,
             double driveData2,
-            double driveReturn2)
+            double driveReturn2,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do(sessionInfo =>
             {
@@ -243,6 +294,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                     IviDriverPrecisionTimeSpan.FromSeconds(driveData2),
                     IviDriverPrecisionTimeSpan.FromSeconds(driveReturn2));
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
@@ -267,12 +319,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="timeSet">The name of the time set.</param>
         /// <param name="edge">The edge of the time set to configure.</param>
         /// <param name="time">The time of the edge to configure.</param>
-        public static void ConfigureTimeSetEdge(this DigitalSessionsBundle sessionsBundle, string timeSet, TimeSetEdge edge, double time)
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
+        public static void ConfigureTimeSetEdge(
+            this DigitalSessionsBundle sessionsBundle,
+            string timeSet,
+            TimeSetEdge edge,
+            double time,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.Timing.GetTimeSet(timeSet).ConfigureEdge(sessionInfo.PinSet, edge, IviDriverPrecisionTimeSpan.FromSeconds(time));
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
@@ -282,12 +341,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="timeSet">The name of the time set.</param>
         /// <param name="edge">The edge of the time set to configure.</param>
         /// <param name="time">The time of the edge to configure for different sites.</param>
-        public static void ConfigureTimeSetEdge(this DigitalSessionsBundle sessionsBundle, string timeSet, TimeSetEdge edge, SiteData<double> time)
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
+        public static void ConfigureTimeSetEdge(
+            this DigitalSessionsBundle sessionsBundle,
+            string timeSet,
+            TimeSetEdge edge,
+            SiteData<double> time,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
                 sessionInfo.Session.Timing.GetTimeSet(timeSet).ConfigureEdge(pinSiteInfo.SitePinString, edge, IviDriverPrecisionTimeSpan.FromSeconds(time.GetValue(pinSiteInfo.SiteNumber)));
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
@@ -297,12 +363,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="timeSet">The name of the time set.</param>
         /// <param name="edge">The edge of the time set to configure.</param>
         /// <param name="time">The time of the edge to configure for different site-pin pairs.</param>
-        public static void ConfigureTimeSetEdge(this DigitalSessionsBundle sessionsBundle, string timeSet, TimeSetEdge edge, PinSiteData<double> time)
+        /// <param name="updateMode">Specifies when the configured settings are applied.</param>
+        public static void ConfigureTimeSetEdge(
+            this DigitalSessionsBundle sessionsBundle,
+            string timeSet,
+            TimeSetEdge edge,
+            PinSiteData<double> time,
+            UpdateMode updateMode = UpdateMode.Deferred)
         {
             sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
             {
                 sessionInfo.Session.Timing.GetTimeSet(timeSet).ConfigureEdge(pinSiteInfo.SitePinString, edge, IviDriverPrecisionTimeSpan.FromSeconds(time.GetValue(pinSiteInfo.SiteNumber, pinSiteInfo.PinName)));
             });
+            sessionsBundle.ApplyUpdateMode(updateMode);
         }
 
         /// <summary>
@@ -406,19 +479,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
 
         /// <summary>
         /// Applies the correction for propagation delay offsets to a digital pattern instrument.
-        /// Use this method to apply per-instrument session per-channel offsets.
+        /// Use this method to apply offsets for each instrument session for each channel.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <param name="offsets">Offsets to apply. The first dimension represents instrument sessions, and the second dimension represents channels.</param>
+        /// <param name="offsets">Offsets to apply. The first dimension represents instrument sessions. The second dimension represents channels.</param>
         /// <remarks>
-        /// For each instrument session, this method supports either:
-        /// 1) offsets only for primary and non-shared channels, or
-        /// 2) offsets for all site-pin channels, including shadows of shared channels.
+        /// For each instrument session, this method supports one of the following:
+        /// - Offsets only for primary and non-shared channels
+        /// - Offsets for all site-pin channels, including shadows of shared channels
         ///
         /// If offsets are supplied for all site-pin channels, all channels mapped to the same shared channel must have identical offset values.
         /// </remarks>
         /// <exception cref="NISemiconductorTestException">
-        /// This exception will be thrown if the number of instrument sessions in <paramref name="offsets"/> does not match the bundle,
+        /// This exception is thrown if the number of instrument sessions in <paramref name="offsets"/> does not match the bundle,
         /// if per-session channel counts are invalid, or if shared-channel offsets are inconsistent.
         /// </exception>
         public static void ApplyTDROffsets(this DigitalSessionsBundle sessionsBundle, IviDriverPrecisionTimeSpan[][] offsets)
@@ -533,17 +606,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// Saves TDR offsets to a file.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
-        /// <param name="offsets">The per-instrument session per-channel offsets to save. The first dimension represents instrument sessions and the second dimension represents channels.</param>
+        /// <param name="offsets">The offsets to save for each instrument session for each channel. The first dimension represents instrument sessions and the second dimension represents channels.</param>
         /// <param name="filePath">The path of the file to save the offsets to.</param>
         /// <remarks>
-        /// The resulting file is pinmap specific. It is recommended that the filename provided contains the same name as the pinmap, as well as timestamp.
+        /// The resulting file is pinmap-specific. It is recommended that the filename contains the same name as the pinmap, as well as timestamp.
         ///
-        /// For each instrument session, this method supports either:
-        /// 1) offsets only for primary and non-shared channels, or
-        /// 2) offsets for all site-pin channels, including shadows of shared channels.
+        /// For each instrument session, this method supports one of the following:
+        /// - Offsets only for primary and non-shared channels
+        /// - Offsets for all site-pin channels, including shadows of shared channels
         /// </remarks>
         /// <exception cref="NISemiconductorTestException">
-        /// This exception will be thrown if the number of instrument sessions in <paramref name="offsets"/> does not match the bundle,
+        /// This exception is thrown if the number of instrument sessions in <paramref name="offsets"/> does not match the bundle,
         /// if per-session channel counts are invalid, or if shared-channel offsets are inconsistent.
         /// </exception>
         public static void SaveTDROffsetsToFile(this DigitalSessionsBundle sessionsBundle, IviDriverPrecisionTimeSpan[][] offsets, string filePath)
@@ -619,17 +692,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="offsets">TDR offset values retrieved from the file. Where the first dimension represents instrument sessions and the second dimension represents pins.</param>
         /// <param name="throwOnMissingChannels">Whether to throw a message if the offset for any channel is missing.</param>
         /// <remarks>
-        /// This method supports loading files in two formats:
-        /// 1) Files with offsets for filtered channels only (primary and non-shared channels)
-        /// 2) Files with offsets for all site-pin channels (including shadow channels of shared channels)
+        /// This method supports loading files in the following formats:
+        /// - Files with offsets for filtered channels only (primary and non-shared channels)
+        /// - Files with offsets for all site-pin channels (including shadow channels of shared channels)
         ///
         /// When loading from mode (2), shared channels must have consistent offset values across all their aliases.
         /// </remarks>
         /// <exception cref="ArgumentException">
-        /// This exception will be thrown if throwOnMissingChannels is true and an offset value was not found in the file for one or more of channels in the sessions bundle.
+        /// This exception is thrown if throwOnMissingChannels is true and an offset value was not found in the file for one or more of channels in the sessions bundle.
         /// </exception>
         /// <exception cref="NISemiconductorTestException">
-        /// This exception will be thrown if shared channel offsets are inconsistent (different offset values for the same shared channel across different site-pin aliases).
+        /// This exception is thrown if shared channel offsets are inconsistent (different offset values for the same shared channel across different site-pin aliases).
         /// </exception>
         public static void LoadTDROffsetsFromFile(this DigitalSessionsBundle sessionsBundle, string filePath, out IviDriverPrecisionTimeSpan[][] offsets, bool throwOnMissingChannels = true)
         {
@@ -682,6 +755,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         #endregion utility methods
 
         #region private methods
+
+        private static void ApplyUpdateMode(
+            this DigitalSessionsBundle sessionsBundle, UpdateMode updateMode)
+        {
+            switch (updateMode)
+            {
+                case UpdateMode.Commit:
+                    sessionsBundle.Commit();
+                    break;
+                case UpdateMode.Immediate:
+                    sessionsBundle.Initiate();
+                    break;
+                case UpdateMode.Deferred:
+                default:
+                    break;
+            }
+        }
 
         private static Dictionary<string, IviDriverPrecisionTimeSpan> ReadTdrOffsetsFromFile(string filePath)
         {
