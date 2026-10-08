@@ -48,8 +48,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="outputTerminals">The per-site per-pin output terminals the signal routes to.</param>
         /// <exception cref="NISemiconductorTestException">
         /// Thrown when <paramref name="outputTerminals"/> is null or empty, contains a null or empty output terminal,
-        /// assigns the same output terminal to more than one site-pin pair, or contains more than
-        /// <see cref="MaximumNumberOfOutputTerminals"/> site-pin pairs.
+        /// assigns the same output terminal to more than one site-pin pair.
         /// </exception>
         public static void ExportSignal(this DCPowerSessionsBundle sessionsBundle, DCPowerSignalSource signalSource, PinSiteData<string> outputTerminals)
         {
@@ -67,13 +66,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// The maximum number of site-pin pairs that a signal can be exported for, which is limited by the number of PXIe trigger lines.
-        /// </summary>
-        private const int MaximumNumberOfOutputTerminals = 8;
-
-        /// <summary>
-        /// Validates that every site-pin pair is assigned a unique and non-empty output terminal,
-        /// and that the number of site-pin pairs does not exceed the number of available PXIe trigger lines.
+        /// Validates that every site-pin pair is assigned a unique and non-empty output terminal.
         /// </summary>
         /// <param name="outputTerminals">The per-site per-pin output terminals to validate.</param>
         private static void ValidateOutputTerminals(PinSiteData<string> outputTerminals)
@@ -90,7 +83,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     OutputTerminal = outputTerminals.GetValue(siteNumber, pinName)
                 }))
                 .ToList();
-
             var emptyAssignment = assignments.FirstOrDefault(assignment => string.IsNullOrEmpty(assignment.OutputTerminal));
             if (emptyAssignment != null)
             {
@@ -107,15 +99,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     ResourceStrings.DCPower_ExportSignalOutputTerminalNotUnique,
                     duplicateAssignments.Key,
                     string.Join(", ", duplicateAssignments.Select(assignment => assignment.SitePinString))));
-            }
-
-            if (assignments.Count > MaximumNumberOfOutputTerminals)
-            {
-                throw new NISemiconductorTestException(string.Format(
-                    CultureInfo.InvariantCulture,
-                    ResourceStrings.DCPower_ExportSignalTooManyOutputTerminals,
-                    assignments.Count,
-                    MaximumNumberOfOutputTerminals));
             }
         }
 
