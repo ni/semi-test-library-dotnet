@@ -30,7 +30,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.SMUHardwareLevel
             dcPowerPins.ConfigureMeasureWhen(DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete);
 
             double[] voltageSequence = HelperMethods.CreateRampSequence(outputStart: startVoltage, outputStop: stopVoltage, numberOfPoints: numberOfSteps);
-            dcPowerPins.ForceVoltageSequenceSynchronized(voltageSequence);
+            dcPowerPins.ForceVoltageSequenceSynchronized(voltageSequence, 10.0);
         }
     }
 }
