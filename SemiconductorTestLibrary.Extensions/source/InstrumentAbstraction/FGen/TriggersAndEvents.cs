@@ -1,4 +1,5 @@
-﻿using NationalInstruments.ModularInstruments.NIFgen;
+﻿using System.Globalization;
+using NationalInstruments.ModularInstruments.NIFgen;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen
@@ -52,12 +53,32 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// Exports the specified signal to the specified output terminal.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
-        /// <param name="signalSource">The signal source to export, such as StartTrigger, MarkerEvent, or ReadyForStartEvent.</param>
-        /// <param name="signalIdentifier">The identifier of the signal to export, such as Marker0. Use an empty string when the signal has no identifier.</param>
+        /// <param name="signalSource">
+        /// The signal source to export.
+        /// <para>
+        /// Allowed values are <see cref="SignalSource.StartTrigger"/>, <see cref="SignalSource.ReadyForStartEvent"/>,
+        /// <see cref="SignalSource.StartedEvent"/>, and <see cref="SignalSource.DoneEvent"/>.
+        /// All other values throw a <see cref="NISemiconductorTestException"/>.
+        /// </para>
+        /// </param>
+        /// <param name="signalIdentifier">The identifier of the signal to export. Use an empty string when the signal has no identifier.</param>
         /// <param name="outputTerminal">The terminal to export the signal to, such as PXI_Trig0.</param>
+        /// <exception cref="NISemiconductorTestException">
+        /// Thrown when <paramref name="signalSource"/> is not one of StartTrigger, ReadyForStartEvent, StartedEvent, or DoneEvent.
+        /// </exception>
         public static void ExportSignal(this FgenSessionsBundle sessionsBundle, SignalSource signalSource, string signalIdentifier, string outputTerminal)
         {
-            // var signal = (FgenHardwareSignal)Enum.Parse(typeof(FgenHardwareSignal), signalType, ignoreCase: true);
+            switch (signalSource)
+            {
+                case SignalSource.StartTrigger:
+                case SignalSource.ReadyForStartEvent:
+                case SignalSource.StartedEvent:
+                case SignalSource.DoneEvent:
+                    break;
+                default:
+                    throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.FGen_UnsupportedSignalSource, signalSource));
+            }
+
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.ExportSignal(signalSource, signalIdentifier ?? string.Empty, outputTerminal);
@@ -80,7 +101,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// Configures the trigger mode of the instrument.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
-        /// <param name="triggerMode">The trigger mode to set, such as Continuous, Single, Stepped, or Burst.</param>
+        /// <param name="triggerMode">The trigger mode to set. Only Continous trigger mode is supported for standard waveforms.</param>
         public static void ConfigureTriggerMode(this FgenSessionsBundle sessionsBundle, TriggerMode triggerMode)
         {
             sessionsBundle.Do(sessionInfo =>
