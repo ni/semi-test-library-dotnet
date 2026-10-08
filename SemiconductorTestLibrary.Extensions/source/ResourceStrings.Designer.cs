@@ -358,13 +358,6 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Operation cannot be completed because the output mode is not configured to Function. Configure the output mode to Function before calling Initiate. Currently, only the Function output mode is supported..
-        /// </summary>
-        internal static string FGen_InvalidOutputModeAtInitiateException {
-            get {
-                return ResourceManager.GetString("FGen_InvalidOutputModeAtInitiateException", resourceCulture);
-
-        /// <summary>
         ///   Looks up a localized string similar to The &apos;User&apos; Waveform Function Type is not supported in STL..
         /// </summary>
         internal static string FGen_InvalidFunctionType {
@@ -374,20 +367,20 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Operation cannot be completed because the output mode is not configured to Function. Configure the output mode to Function before calling Initiate. Currently, only the Function output mode is supported..
+        /// </summary>
+        internal static string FGen_InvalidOutputModeAtInitiateException {
+            get {
+                return ResourceManager.GetString("FGen_InvalidOutputModeAtInitiateException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Output mode &apos;{0}&apos; is not supported, only &apos;Function&apos; is supported in STL..
         /// </summary>
         internal static string FGen_InvalidOutputModeException {
             get {
                 return ResourceManager.GetString("FGen_InvalidOutputModeException", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The signal source &apos;{0}&apos; passed as input is invalid. Allowed values are StartTrigger, ReadyForStartEvent, StartedEvent, and DoneEvent..
-        /// </summary>
-        internal static string FGen_UnsupportedSignalSource {
-            get {
-                return ResourceManager.GetString("FGen_UnsupportedSignalSource", resourceCulture);
             }
         }
     }
