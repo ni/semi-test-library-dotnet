@@ -55,6 +55,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             };
 
             sessionsBundle.ConfigureVertical(settings);
+
             AssertVerticalSettings(sessionsBundle, settings);
         }
 
@@ -79,6 +80,33 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var settings = new VerticalSettings { EnableTimeInterleavedSampling = true };
 
             sessionsBundle.ConfigureVertical(settings);
+
+            sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
+            {
+                Assert.True(sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString].EnableTimeInterleavedSampling);
+            });
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureVerticalWithTimeInterleavedSamplingDisabled_ValueApplied()
+        {
+            var sessionsBundle = GetSessionsBundle(_SCP_5162_Pin);
+
+            sessionsBundle.ConfigureVertical(new VerticalSettings { EnableTimeInterleavedSampling = false });
+
+            sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
+            {
+                Assert.False(sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString].EnableTimeInterleavedSampling);
+            });
+        }
+
+        [Fact]
+        public void SessionsBundleAndConfigureVerticalWithTimeInterleavedSampling_ConfigureVerticalWithTimeInterleavedSamplingNotProvided_ValueUnchanged()
+        {
+            var sessionsBundle = GetSessionsBundle(_SCP_5162_Pin);
+            sessionsBundle.ConfigureVertical(new VerticalSettings { EnableTimeInterleavedSampling = true });
+
+            sessionsBundle.ConfigureVertical(new VerticalSettings());
 
             sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
             {
