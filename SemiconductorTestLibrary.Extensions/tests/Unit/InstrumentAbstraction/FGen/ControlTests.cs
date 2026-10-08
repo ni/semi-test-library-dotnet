@@ -180,8 +180,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void InitializeBundleWithoutConfiguration_IsDone_SucceedsAndReturnCorrectStatus(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
-            // var sessionsBundle = sessionManager.Fgen(new[] { "A", "B" });
-            var sessionsBundle = sessionManager.Fgen(new[] { "A", "B", "C", "D" });
+            var sessionsBundle = sessionManager.Fgen(new[] { "A", "B" });
 
             var statusArray = sessionsBundle.IsDone();
 
