@@ -227,7 +227,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ConfigureElectricalCharacteristics(finalCharacteristics);
 
             var expectedBW = GetExpectedBandwidthNi5172(finalCharacteristics.InputImpedance, finalCharacteristics.InputFrequencyMax);
-            AssertElectricalCharacteristics(sessionsBundle, 50, expectedBW);
+            AssertElectricalCharacteristics(sessionsBundle, finalCharacteristics.InputImpedance, expectedBW);
         }
 
         [Fact]
