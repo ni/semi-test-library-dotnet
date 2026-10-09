@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,6 +15,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Functionality.Examp
         public static TheoryData<string> GetExampleProjectPaths()
         {
             var data = new TheoryData<string>();
+
             foreach (var file in Directory.GetFiles(
                 InstalledExamplesRoot,
                 "*.csproj",
@@ -22,15 +23,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Functionality.Examp
             {
                 data.Add(file);
             }
+            
             return data;
         }
 
         [Theory]
         [MemberData(nameof(GetExampleProjectPaths))]
-
         public void ValidateExamplesHintPaths_WhenPathsAreMissing_ShouldReportInvalidHintPaths(string projectPath)
         {
             List<string> hintPaths = GetHintPaths(projectPath);
+
             List<string> invalidHintPaths = hintPaths
                 .Where(hintPath => !File.Exists(GetAbsoluteHintPaths(hintPath, projectPath)))
                 .Select(hintPath => $"{projectPath}: {hintPath}")
