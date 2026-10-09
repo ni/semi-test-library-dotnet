@@ -1,0 +1,114 @@
+using NationalInstruments.SemiconductorTestLibrary.Common;
+using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
+using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
+
+namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope
+{
+    /// <summary>
+    /// Defines extension methods for configuring the NI-Scope session.
+    /// </summary>
+    public static class Configure
+    {
+        #region Methods on ScopeSessionsBundle
+
+        /// <summary>
+        /// Configures the vertical settings of all channels in the bundle.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
+        /// <param name="verticalSettings">The <see cref="VerticalSettings"/> to apply.</param>
+        public static void ConfigureVertical(this ScopeSessionsBundle sessionsBundle, VerticalSettings verticalSettings)
+        {
+            sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
+            {
+                sessionInfo.ConfigureVertical(sitePinInfo, verticalSettings);
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureVertical(ScopeSessionsBundle, VerticalSettings)"/>
+        public static void ConfigureVertical(this ScopeSessionsBundle sessionsBundle, SiteData<VerticalSettings> verticalSettings)
+        {
+            sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
+            {
+                sessionInfo.ConfigureVertical(sitePinInfo, verticalSettings.GetValue(sitePinInfo.SiteNumber));
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureVertical(ScopeSessionsBundle, VerticalSettings)"/>
+        public static void ConfigureVertical(this ScopeSessionsBundle sessionsBundle, PinSiteData<VerticalSettings> verticalSettings)
+        {
+            sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
+            {
+                sessionInfo.ConfigureVertical(sitePinInfo, verticalSettings.GetValue(sitePinInfo));
+            });
+        }
+
+        /// <summary>
+        /// Configures the electrical characteristics of all channels in the bundle.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
+        /// <param name="electricalCharacteristics">The <see cref="ElectricalCharacteristics"/> to apply.</param>
+        public static void ConfigureElectricalCharacteristics(this ScopeSessionsBundle sessionsBundle, ElectricalCharacteristics electricalCharacteristics)
+        {
+            sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
+            {
+                sessionInfo.ConfigureElectricalCharacteristics(sitePinInfo, electricalCharacteristics);
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureElectricalCharacteristics(ScopeSessionsBundle, ElectricalCharacteristics)"/>
+        public static void ConfigureElectricalCharacteristics(this ScopeSessionsBundle sessionsBundle, SiteData<ElectricalCharacteristics> electricalCharacteristics)
+        {
+            sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
+            {
+                sessionInfo.ConfigureElectricalCharacteristics(sitePinInfo, electricalCharacteristics.GetValue(sitePinInfo.SiteNumber));
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureElectricalCharacteristics(ScopeSessionsBundle, ElectricalCharacteristics)"/>
+        public static void ConfigureElectricalCharacteristics(this ScopeSessionsBundle sessionsBundle, PinSiteData<ElectricalCharacteristics> electricalCharacteristics)
+        {
+            sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
+            {
+                sessionInfo.ConfigureElectricalCharacteristics(sitePinInfo, electricalCharacteristics.GetValue(sitePinInfo));
+            });
+        }
+
+        #endregion
+
+        #region Methods on ScopeSessionInformation
+
+        private static void ConfigureVertical(this ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo, VerticalSettings verticalSettings)
+        {
+            if (verticalSettings is null)
+            {
+                return;
+            }
+            var channel = sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString];
+            channel.Configure(
+                verticalSettings.Range,
+                verticalSettings.Offset,
+                verticalSettings.Coupling,
+                verticalSettings.ProbeAttenuation,
+                verticalSettings.Enabled);
+            if (verticalSettings.EnableTimeInterleavedSampling.HasValue)
+            {
+                channel.EnableTimeInterleavedSampling = verticalSettings.EnableTimeInterleavedSampling.Value;
+            }
+        }
+
+        private static void ConfigureElectricalCharacteristics(this ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo, ElectricalCharacteristics electricalCharacteristics)
+        {
+            if (electricalCharacteristics is null)
+            {
+                return;
+            }
+            var channel = sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString];
+            channel.ConfigureCharacteristics(
+                electricalCharacteristics.InputImpedance,
+                electricalCharacteristics.InputFrequencyMax);
+            var temp = channel.InputFrequencyMax;
+            var temp2 = channel.InputImpedance;
+        }
+        #endregion
+    }
+}
