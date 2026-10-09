@@ -70,6 +70,12 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         void SetBundle(DigitalSessionsBundle digitalSessionsBundle);
 
         /// <summary>
+        /// Releases the reference to the current module's bundle without disposing instrument sessions.
+        /// Call in a finally block after register operations and result publishing.
+        /// </summary>
+        void ReleaseBundle();
+
+        /// <summary>
         /// Reads the value at the specified DUT register address.
         /// </summary>
         /// <param name="address">The address of the register to read.</param>
