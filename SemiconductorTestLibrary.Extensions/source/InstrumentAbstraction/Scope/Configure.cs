@@ -1,3 +1,4 @@
+using System.Globalization;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
@@ -5,7 +6,7 @@ using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecuti
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope
 {
     /// <summary>
-    /// Defines extension methods for configuring the NI-Scope session.
+    /// Defines extension methods for configuring the <see cref="ScopeSessionsBundle"/>.
     /// </summary>
     public static class Configure
     {
@@ -18,38 +19,50 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// <param name="verticalSettings">The <see cref="VerticalSettings"/> to apply.</param>
         public static void ConfigureVertical(this ScopeSessionsBundle sessionsBundle, VerticalSettings verticalSettings)
         {
+            if (verticalSettings is null)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Scope_VerticalSettingsNull, nameof(verticalSettings)));
+            }
             sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
             {
-                sessionInfo.ConfigureVertical(sitePinInfo, verticalSettings);
+                ConfigureVertical(sessionInfo, sitePinInfo, verticalSettings);
             });
         }
 
         /// <inheritdoc cref="ConfigureVertical(ScopeSessionsBundle, VerticalSettings)"/>
         public static void ConfigureVertical(this ScopeSessionsBundle sessionsBundle, SiteData<VerticalSettings> verticalSettings)
         {
+            if (verticalSettings is null)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Scope_VerticalSettingsNull, nameof(verticalSettings)));
+            }
             sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
             {
-                sessionInfo.ConfigureVertical(sitePinInfo, verticalSettings.GetValue(sitePinInfo.SiteNumber));
+                ConfigureVertical(sessionInfo, sitePinInfo, verticalSettings.GetValue(sitePinInfo.SiteNumber));
             });
         }
 
         /// <inheritdoc cref="ConfigureVertical(ScopeSessionsBundle, VerticalSettings)"/>
         public static void ConfigureVertical(this ScopeSessionsBundle sessionsBundle, PinSiteData<VerticalSettings> verticalSettings)
         {
+            if (verticalSettings is null)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Scope_VerticalSettingsNull, nameof(verticalSettings)));
+            }
             sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
             {
-                sessionInfo.ConfigureVertical(sitePinInfo, verticalSettings.GetValue(sitePinInfo));
+                ConfigureVertical(sessionInfo, sitePinInfo, verticalSettings.GetValue(sitePinInfo));
             });
         }
         #endregion
 
-        #region Methods on ScopeSessionInformation
+        #region Private Methods
 
-        private static void ConfigureVertical(this ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo, VerticalSettings verticalSettings)
+        private static void ConfigureVertical(ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo, VerticalSettings verticalSettings)
         {
             if (verticalSettings is null)
             {
-                return;
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Scope_VerticalSettingsNull, nameof(verticalSettings)));
             }
             var channel = sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString];
             channel.Configure(
