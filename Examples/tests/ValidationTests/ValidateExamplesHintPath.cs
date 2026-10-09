@@ -16,14 +16,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Functionality.Examp
         {
             var data = new TheoryData<string>();
 
-            foreach (var file in Directory.GetFiles(
-                InstalledExamplesRoot,
-                "*.csproj",
-                SearchOption.AllDirectories))
+            foreach (var file in Directory.GetFiles(InstalledExamplesRoot,"*.csproj",SearchOption.AllDirectories))
             {
                 data.Add(file);
             }
-            
+
             return data;
         }
 
