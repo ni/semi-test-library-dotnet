@@ -225,4 +225,10 @@
   <data name="FGen_InvalidFunctionType" xml:space="preserve">
     <value>The 'User' Waveform Function Type is not supported in STL.</value>
   </data>
+  <data name="FGen_UnsupportedDigitalEdge" xml:space="preserve">
+    <value>Falling edge is not supported. Only the Rising edge is supported.</value>
+  </data>
+  <data name="FGen_UnsupportedSignalSource" xml:space="preserve">
+    <value>The signal source '{0}' is not supported. Supported values are StartTrigger, ReadyForStartEvent, StartedEvent, and DoneEvent.</value>
+  </data>
 </root>

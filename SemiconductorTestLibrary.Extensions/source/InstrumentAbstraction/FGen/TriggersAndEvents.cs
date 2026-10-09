@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using NationalInstruments.ModularInstruments.NIFgen;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 
@@ -9,7 +10,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
     /// </summary>
     public static class TriggersAndEvents
     {
-        #region methods on FgenSessionsBundle
+        #region Methods on FgenSessionsBundle
 
         /// <summary>
         /// Configures the Start Trigger to be a digital edge trigger.
@@ -26,6 +27,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// </exception>
         public static void ConfigureStartTriggerDigitalEdge(this FgenSessionsBundle sessionsBundle, string source, DigitalEdge digitalEdge)
         {
+            if (digitalEdge != DigitalEdge.Rising)
+            {
+                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.FGen_UnsupportedDigitalEdge));
+            }
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.Trigger.Start.DigitalEdge.Configure(source, digitalEdge);
@@ -64,15 +69,26 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// <param name="signalIdentifier">The identifier of the signal to export. Use an empty string when the signal has no identifier.</param>
         /// <param name="outputTerminal">The terminal to export the signal to, such as PXI_Trig0.</param>
         /// <remarks>
-        /// Allowed values for  are <paramref name="signalSource"/> are <see cref="SignalSource.StartTrigger"/>, <see cref="SignalSource.ReadyForStartEvent"/>,
+        /// Allowed values for <paramref name="signalSource"/> are <see cref="SignalSource.StartTrigger"/>, <see cref="SignalSource.ReadyForStartEvent"/>,
         /// <see cref="SignalSource.StartedEvent"/>, and <see cref="SignalSource.DoneEvent"/>.
-        /// All other values throw a <see cref="NISemiconductorTestException"/>.
+        /// All other values throw a <see cref="ArgumentException"/>.
         /// </remarks>
-        /// <exception cref="NISemiconductorTestException">
+        /// <exception cref="ArgumentException">
         /// Thrown when <paramref name="signalSource"/> is not one of StartTrigger, ReadyForStartEvent, StartedEvent, or DoneEvent.
         /// </exception>
         public static void ExportSignal(this FgenSessionsBundle sessionsBundle, SignalSource signalSource, string signalIdentifier, string outputTerminal)
         {
+            switch (signalSource)
+            {
+                case SignalSource.StartTrigger:
+                case SignalSource.ReadyForStartEvent:
+                case SignalSource.StartedEvent:
+                case SignalSource.DoneEvent:
+                    break;
+                default:
+                    throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.FGen_UnsupportedSignalSource, signalSource));
+            }
+
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.ExportSignal(signalSource, signalIdentifier ?? string.Empty, outputTerminal);
@@ -84,7 +100,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
         /// <remarks>
-        /// Throws a <see cref="NISemiconductorTestException"/> if the Start Trigger is disabled while the FGen is generating a waveform.
+        /// Throws <see cref="NISemiconductorTestException"/> if the Start Trigger is disabled while the FGen is generating a waveform.
         /// </remarks>
         /// <exception cref="NISemiconductorTestException">
         /// Thrown when the Start Trigger is disabled while the FGen is generating a waveform.
@@ -103,7 +119,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
         /// <param name="triggerMode">The trigger mode to set. Only Continuous trigger mode is supported for standard waveforms.</param>
         /// <remarks>
-        /// Throws a <see cref="NISemiconductorTestException"/> for all values except <see cref="TriggerMode.Continuous"/>.
+        /// Throws <see cref="NISemiconductorTestException"/> for all values except <see cref="TriggerMode.Continuous"/>.
         /// </remarks>
         /// <exception cref="NISemiconductorTestException">
         /// Thrown when <paramref name="triggerMode"/> is not <see cref="TriggerMode.Continuous"/>.
