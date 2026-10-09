@@ -1,9 +1,45 @@
 using System;
+using System.Reflection;
+using System.Runtime.Serialization;
 using NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAndI2C.DutControl;
+using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 using Xunit;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAndI2C.Test.TestSteps
 {
+    [Collection("NonParallelizable")]
+    public class DigitalProtocolBundleLifetimeTests
+    {
+        [Theory]
+        [InlineData(CommunicationProtocol.SPI)]
+        public void ReleaseBundle_RetainedBundle_ClearsReferenceAndCanBeRepeated(CommunicationProtocol protocol)
+        {
+            IDigitalProtocol digitalProtocol = protocol == CommunicationProtocol.SPI
+                ? (IDigitalProtocol)SPI.Instance
+                : null;
+            FieldInfo bundleField = typeof(DigitalProtocol).GetField("_digitalSessionsBundle", BindingFlags.Instance | BindingFlags.NonPublic);
+            var bundle = (DigitalSessionsBundle)FormatterServices.GetUninitializedObject(typeof(DigitalSessionsBundle));
+
+            try
+            {
+                bundleField.SetValue(digitalProtocol, bundle);
+                Assert.Same(bundle, bundleField.GetValue(digitalProtocol));
+
+                digitalProtocol.ReleaseBundle();
+
+                Assert.Null(bundleField.GetValue(digitalProtocol));
+
+                digitalProtocol.ReleaseBundle();
+
+                Assert.Null(bundleField.GetValue(digitalProtocol));
+            }
+            finally
+            {
+                digitalProtocol.ReleaseBundle();
+            }
+        }
+    }
+
     public class ConfigureDigitalProtocolSPITests
     {
         [Fact]
