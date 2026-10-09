@@ -25,28 +25,35 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         {
             IDigitalProtocol digitalProtocol = tsmContext.DutControl(protocol);
 
-            digitalProtocol.WriteRegisters(registerAddresses, valuesToWrite);
-
-            SiteData<long[]> regValuesReadBack = digitalProtocol.ReadRegisters(registerAddresses);
-
-            for (int i = 0; i < registerAddresses.Length; i++)
+            try
             {
-                int index = i;
-                SiteData<long> singleRegReadBack = regValuesReadBack.Select(x => x[index]);
-                SiteData<bool> comparisonResult = singleRegReadBack.Compare(ComparisonType.EqualTo, valuesToWrite[i]);
-                tsmContext.PublishResults(singleRegReadBack, $"Register_0x{registerAddresses[i]:X2}_Readback");
-                tsmContext.PublishResults(comparisonResult, $"Register_0x{registerAddresses[i]:X2}_Comparison");
-            }
+                digitalProtocol.WriteRegisters(registerAddresses, valuesToWrite);
 
-            return regValuesReadBack.Select(readValues =>
-            {
-                bool[] perRegisterResults = new bool[registerAddresses.Length];
+                SiteData<long[]> regValuesReadBack = digitalProtocol.ReadRegisters(registerAddresses);
+
                 for (int i = 0; i < registerAddresses.Length; i++)
                 {
-                    perRegisterResults[i] = readValues[i] == valuesToWrite[i];
+                    int index = i;
+                    SiteData<long> singleRegReadBack = regValuesReadBack.Select(x => x[index]);
+                    SiteData<bool> comparisonResult = singleRegReadBack.Compare(ComparisonType.EqualTo, valuesToWrite[i]);
+                    tsmContext.PublishResults(singleRegReadBack, $"Register_0x{registerAddresses[i]:X2}_Readback");
+                    tsmContext.PublishResults(comparisonResult, $"Register_0x{registerAddresses[i]:X2}_Comparison");
                 }
-                return perRegisterResults;
-            });
+
+                return regValuesReadBack.Select(readValues =>
+                {
+                    bool[] perRegisterResults = new bool[registerAddresses.Length];
+                    for (int i = 0; i < registerAddresses.Length; i++)
+                    {
+                        perRegisterResults[i] = readValues[i] == valuesToWrite[i];
+                    }
+                    return perRegisterResults;
+                });
+            }
+            finally
+            {
+                digitalProtocol.ReleaseBundle();
+            }
         }
     }
 }

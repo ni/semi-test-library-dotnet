@@ -86,6 +86,12 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             }
         }
 
+        /// <inheritdoc/>
+        public void ReleaseBundle()
+        {
+            _digitalSessionsBundle = null;
+        }
+
         #region Single Register Operations
 
         /// <inheritdoc/>

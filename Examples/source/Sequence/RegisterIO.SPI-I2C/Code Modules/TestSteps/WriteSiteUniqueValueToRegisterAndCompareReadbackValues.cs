@@ -26,14 +26,21 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
 
             IDigitalProtocol digitalProtocol = tsmContext.DutControl(protocol);
 
-            digitalProtocol.WriteRegister(registerAddress, regValues);
+            try
+            {
+                digitalProtocol.WriteRegister(registerAddress, regValues);
 
-            SiteData<long> regValueReadBack = digitalProtocol.ReadRegister(registerAddress);
+                SiteData<long> regValueReadBack = digitalProtocol.ReadRegister(registerAddress);
 
-            SiteData<bool> comparisonResults = regValueReadBack.Compare(ComparisonType.EqualTo, regValues);
-            tsmContext.PublishResults(regValueReadBack, "RegisterValueReadback");
-            tsmContext.PublishResults(comparisonResults, "ComparisonResult");
-            return comparisonResults;
+                SiteData<bool> comparisonResults = regValueReadBack.Compare(ComparisonType.EqualTo, regValues);
+                tsmContext.PublishResults(regValueReadBack, "RegisterValueReadback");
+                tsmContext.PublishResults(comparisonResults, "ComparisonResult");
+                return comparisonResults;
+            }
+            finally
+            {
+                digitalProtocol.ReleaseBundle();
+            }
         }
     }
 }
