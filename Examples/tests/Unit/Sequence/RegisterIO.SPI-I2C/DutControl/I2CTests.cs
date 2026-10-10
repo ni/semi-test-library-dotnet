@@ -3,6 +3,7 @@ using Xunit;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAndI2C.Test.DutControl
 {
+    [Collection("NonParallelizable")]
     public class I2CDefaultParametersTests
     {
         [Fact]

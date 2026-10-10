@@ -128,6 +128,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         }
     }
 
+    [Collection("NonParallelizable")]
     public class ConfigureDigitalProtocolI2CTests
     {
         [Fact]
