@@ -3,6 +3,7 @@ using Xunit;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAndI2C.Test.DutControl
 {
+    [Collection("NonParallelizable")]
     public class DigitalProtocolLongToU32SamplesTests_LsbFirst
     {
         [Fact]
@@ -37,6 +38,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         }
     }
 
+    [Collection("NonParallelizable")]
     public class DigitalProtocolLongToU32SamplesTests_MsbFirst
     {
         [Fact]
@@ -60,6 +62,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         }
     }
 
+    [Collection("NonParallelizable")]
     public class DigitalProtocolU32SamplesToLongTests
     {
         [Fact]
@@ -79,6 +82,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         }
     }
 
+    [Collection("NonParallelizable")]
     public class DigitalProtocolRoundTripConversionTests
     {
         [Theory]
@@ -112,6 +116,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         }
     }
 
+    [Collection("NonParallelizable")]
     public class DigitalProtocolArrayConversionTests
     {
         [Theory]
@@ -139,6 +144,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         }
     }
 
+    [Collection("NonParallelizable")]
     public class SpiDefaultParametersTests
     {
         [Fact]
