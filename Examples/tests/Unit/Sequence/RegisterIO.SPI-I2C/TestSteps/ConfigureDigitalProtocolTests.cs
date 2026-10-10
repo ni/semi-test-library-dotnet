@@ -40,6 +40,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         }
     }
 
+    [Collection("NonParallelizable")]
     public class ConfigureDigitalProtocolSPITests
     {
         [Fact]
