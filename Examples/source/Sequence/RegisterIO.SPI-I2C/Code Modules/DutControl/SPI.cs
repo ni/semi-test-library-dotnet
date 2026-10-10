@@ -32,8 +32,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
 
         private SPI()
         {
-            ReadPatternName = "SPI_read_template";
-            WritePatternName = "SPI_write_template";
+            ReadPatternName = "SPI_read_pattern";
+            WritePatternName = "SPI_write_pattern";
         }
     }
 }
