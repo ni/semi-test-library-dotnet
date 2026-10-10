@@ -26,7 +26,8 @@
 		</AssemblyAttribute>
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="NationalInstruments.SemiconductorTestLibrary" Version="26.0.0" />
+		<!-- PrivateAssets keeps the released STL binaries from overriding the repo-built ones in referencing test projects. -->
+		<PackageReference Include="NationalInstruments.SemiconductorTestLibrary" Version="26.0.0" PrivateAssets="all" />
 		<PackageReference Include="NI.CSharp.Analyzers" Version="1.2.8" ExcludeAssets="runtime" />
 	</ItemGroup>
 	<ItemGroup>
