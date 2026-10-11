@@ -17,7 +17,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         public TimingTests()
         {
-            _tsmContext = CreateTSMContext("ScopeTests.pinmap");
+            _tsmContext = CreateTSMContext("ScopeExtensionsTests.pinmap");
             Initialize(_tsmContext);
         }
 
@@ -31,7 +31,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void SessionsBundle_ConfigureTimingWithValidSettings_TimingSettingsCorrectlyConfigured()
         {
-            var sessionsBundle = GetSessionsBundle("DUTPin1");
+            var sessionsBundle = GetSessionsBundle("SCP_5105_Pin");
             var timingSettings = new TimingSettings
             {
                 MinimumSampleRate = 1000000,
@@ -49,7 +49,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void SessionsBundle_ConfigureTimingWithMultiplePins_TimingSettingsCorrectlyConfiguredForAllSessions()
         {
-            var sessionsBundle = GetSessionsBundle(new[] { "DUTPin1", "DUTPin2", "DUTPin3" });
+            var sessionsBundle = GetSessionsBundle(new[] { "SCP_5105_Pin", "SCP_5162_Pin", "SCP_5186_Pin" });
             var timingSettings = new TimingSettings
             {
                 MinimumSampleRate = 2000000,
@@ -67,7 +67,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void SessionsBundle_ConfigureTimingCalledMultipleTimes_LastSettingsApplied()
         {
-            var sessionsBundle = GetSessionsBundle("DUTPin1");
+            var sessionsBundle = GetSessionsBundle("SCP_5105_Pin");
             var finalSettings = new TimingSettings
             {
                 MinimumSampleRate = 1000000,
@@ -93,7 +93,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void SessionsBundle_ConfigureTimingThenGetNumberOfRecordsToAcquire_ReturnsConfiguredNumberOfRecords()
         {
-            var sessionsBundle = GetSessionsBundle("DUTPin1");
+            var sessionsBundle = GetSessionsBundle("SCP_5105_Pin");
             var timingSettings = new TimingSettings
             {
                 MinimumSampleRate = 1000000,
@@ -109,6 +109,52 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.All(numberOfRecordsToAcquire, numberOfRecords => Assert.Equal(3, numberOfRecords));
         }
 
+        [Fact]
+        public void SessionsBundle_ConfigureTimingWithNullSettings_ThrowsArgumentNullException()
+        {
+            var sessionsBundle = GetSessionsBundle("SCP_5105_Pin");
+
+            void ConfigureTiming() => sessionsBundle.ConfigureTiming(null);
+
+            Assert.Throws<ArgumentNullException>(ConfigureTiming);
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureTimingWithNegativeNumberOfRecords_ThrowsException()
+        {
+            var sessionsBundle = GetSessionsBundle("SCP_5105_Pin");
+            var timingSettings = new TimingSettings
+            {
+                MinimumSampleRate = 1000000,
+                MinimumNumberOfPoints = 1000,
+                ReferencePosition = 50,
+                NumberOfRecords = -1,
+                EnforceRealtime = true
+            };
+
+            void ConfigureTiming() => sessionsBundle.ConfigureTiming(timingSettings);
+
+            Assert.ThrowsAny<Exception>(ConfigureTiming);
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureTimingWithNegativeMinimumSampleRate_ThrowsException()
+        {
+            var sessionsBundle = GetSessionsBundle("SCP_5105_Pin");
+            var timingSettings = new TimingSettings
+            {
+                MinimumSampleRate = -1000000,
+                MinimumNumberOfPoints = 1000,
+                ReferencePosition = 50,
+                NumberOfRecords = 3,
+                EnforceRealtime = true
+            };
+
+            void ConfigureTiming() => sessionsBundle.ConfigureTiming(timingSettings);
+
+            Assert.ThrowsAny<Exception>(ConfigureTiming);
+        }
+
         #endregion
 
         #region ConfigureClock Tests
@@ -116,7 +162,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void SessionsBundle_ConfigureClockWithDefaultSettings_ClockSettingsCorrectlyConfigured()
         {
-            var sessionsBundle = GetSessionsBundle("DUTPin1");
+            var sessionsBundle = GetSessionsBundle("SCP_5105_Pin");
 
             sessionsBundle.ConfigureClock(new ClockSettings());
 
@@ -126,7 +172,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void SessionsBundle_ConfigureClockWithMasterEnabled_ClockSettingsCorrectlyConfigured()
         {
-            var sessionsBundle = GetSessionsBundle("DUTPin1");
+            var sessionsBundle = GetSessionsBundle("SCP_5105_Pin");
             var clockSettings = new ClockSettings
             {
                 InputClockSource = ScopeInputClockSource.NoSource,
@@ -140,6 +186,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Do(sessionInfo => Assert.Equal(ScopeClockSynchronizationPulseSource.Pfi2, sessionInfo.Session.Timing.ClockSynchronizationPulseSource));
         }
 
+        [Fact]
+        public void SessionsBundle_ConfigureClockWithNullSettings_ThrowsArgumentNullException()
+        {
+            var sessionsBundle = GetSessionsBundle("SCP_5105_Pin");
+
+            void ConfigureClock() => sessionsBundle.ConfigureClock(null);
+
+            Assert.Throws<ArgumentNullException>(ConfigureClock);
+        }
+
         #endregion
 
         #region TimingSettings and ClockSettings Default Value Tests
@@ -149,11 +205,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var timingSettings = new TimingSettings();
 
-            Assert.Equal(0, timingSettings.MinimumSampleRate);
-            Assert.Equal(0, timingSettings.MinimumNumberOfPoints);
-            Assert.Equal(0, timingSettings.ReferencePosition);
-            Assert.Equal(0, timingSettings.NumberOfRecords);
-            Assert.True(timingSettings.EnforceRealtime);
+            Assert.Equal(20e6, timingSettings.MinimumSampleRate);
+            Assert.Equal(1000, timingSettings.MinimumNumberOfPoints);
+            Assert.Equal(50.0, timingSettings.ReferencePosition);
+            Assert.Equal(1, timingSettings.NumberOfRecords);
+            Assert.False(timingSettings.EnforceRealtime);
         }
 
         [Fact]

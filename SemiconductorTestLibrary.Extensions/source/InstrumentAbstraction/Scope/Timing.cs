@@ -1,3 +1,4 @@
+using System;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope
@@ -14,6 +15,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// <param name="settings">The <see cref="TimingSettings"/> to configure.</param>
         public static void ConfigureTiming(this ScopeSessionsBundle sessionsBundle, TimingSettings settings)
         {
+            if (settings == null)
+            {
+                throw new ArgumentNullException(nameof(settings));
+            }
+
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.Timing.ConfigureTiming(
@@ -32,6 +38,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// <param name="settings">The <see cref="ClockSettings"/> to configure.</param>
         public static void ConfigureClock(this ScopeSessionsBundle sessionsBundle, ClockSettings settings)
         {
+            if (settings == null)
+            {
+                throw new ArgumentNullException(nameof(settings));
+            }
+
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.Timing.ConfigureClock(
