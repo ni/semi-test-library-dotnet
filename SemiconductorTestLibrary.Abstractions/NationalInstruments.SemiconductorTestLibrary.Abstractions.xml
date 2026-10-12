@@ -7364,37 +7364,53 @@
             <summary>
             Defines oscilloscope channel vertical settings.
             </summary>
+            <remarks>
+            Default values:
+            <list type="bullet">
+            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.VerticalSettings.Range"/>: 1.0 V</description></item>
+            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.VerticalSettings.Offset"/>: 0.0 V</description></item>
+            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.VerticalSettings.Coupling"/>: <see cref="F:NationalInstruments.ModularInstruments.NIScope.ScopeVerticalCoupling.DC"/></description></item>
+            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.VerticalSettings.ProbeAttenuation"/>: 1.0</description></item>
+            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.VerticalSettings.Enabled"/>: true</description></item>
+            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.VerticalSettings.EnableTimeInterleavedSampling"/>: null (driver property not modified)</description></item>
+            </list>
+            </remarks>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.VerticalSettings.Range">
             <summary>
             The vertical range of the channel in volts. This is the total range, so a range of 5 V would correspond to a scale of 1 V/division on a typical 5-division display.
             </summary>
+            <remarks>Default value: 1.0 V.</remarks>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.VerticalSettings.Offset">
             <summary>
             The vertical offset of the channel in volts.
             </summary>
+            <remarks>Default value: 0.0 V.</remarks>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.VerticalSettings.Coupling">
             <summary>
             The vertical coupling of the channel.
             </summary>
+            <remarks>Default value: <see cref="F:NationalInstruments.ModularInstruments.NIScope.ScopeVerticalCoupling.DC"/>.</remarks>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.VerticalSettings.ProbeAttenuation">
             <summary>
             The probe attenuation factor.
             </summary>
+            <remarks>Default value: 1.0.</remarks>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.VerticalSettings.Enabled">
             <summary>
             Whether the channel is enabled.
             </summary>
+            <remarks>Default value: true.</remarks>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.VerticalSettings.EnableTimeInterleavedSampling">
             <summary>
             Whether to enable time-interleaved sampling.
             </summary>
-            <remarks>When set to null, the underlying driver property is not modified.</remarks>
+            <remarks>Default value: null. When set to null, the underlying driver property is not modified.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.VerticalSettings.#ctor">
             <summary>
@@ -7405,18 +7421,92 @@
             <summary>
             Defines oscilloscope electrical characteristics of a channel.
             </summary>
+            <remarks>
+            Default values:
+            <list type="bullet">
+            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ElectricalCharacteristics.InputImpedance"/>: 1000000.0 Ω (1 MΩ)</description></item>
+            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ElectricalCharacteristics.InputFrequencyMax"/>: 0.0 Hz</description></item>
+            </list>
+            </remarks>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ElectricalCharacteristics.InputImpedance">
             <summary>
             The input impedance of the channel in ohms.
             </summary>
+            <remarks>Default value: 1000000.0 Ω (1 MΩ).</remarks>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ElectricalCharacteristics.InputFrequencyMax">
             <summary>
             The maximum input frequency of the channel in hertz.
             </summary>
+            <remarks>Default value: 0.0 Hz.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ElectricalCharacteristics.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TimingSettings">
+            <summary>
+            Defines the Scope timing settings.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TimingSettings.MinimumSampleRate">
+            <summary>
+            Defines the minimum sample rate, in samples per second.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TimingSettings.MinimumNumberOfPoints">
+            <summary>
+            Defines the minimum number of points to acquire.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TimingSettings.ReferencePosition">
+            <summary>
+            Defines the reference position, expressed as a percentage of the acquisition.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TimingSettings.NumberOfRecords">
+            <summary>
+            Defines the number of records to acquire.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TimingSettings.EnforceRealtime">
+            <summary>
+            Defines whether to enforce realtime acquisition.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TimingSettings.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ClockSettings">
+            <summary>
+            Defines the Scope clock settings.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ClockSettings.InputClockSource">
+            <summary>
+            Defines the input clock source.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ClockSettings.OutputClockSource">
+            <summary>
+            Defines the output clock source.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ClockSettings.ClockSynchronizationPulseSource">
+            <summary>
+            Defines the clock synchronization pulse source.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ClockSettings.MasterEnabled">
+            <summary>
+            Defines whether this session is the clock master.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ClockSettings.#ctor">
             <summary>
             Default constructor.
             </summary>
