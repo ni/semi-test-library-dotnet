@@ -124,6 +124,15 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Immediate update mode is not supported for ganged channels..
+        /// </summary>
+        internal static string DCPower_ImmediateUpdateModeNotSupportedForGangedChannels {
+            get {
+                return ResourceManager.GetString("DCPower_ImmediateUpdateModeNotSupportedForGangedChannels", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Inconsistent advanced sequence properties. The following properties must be specified or omitted for all steps in the sequence: {0}.
         /// </summary>
         internal static string DCPower_InconsistentAdvancedSequenceProperties {
@@ -349,16 +358,16 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The &apos;User&apos; Waveform Function Type is not supported in STL..
+        ///   Looks up a localized string similar to Operation cannot be completed because the output mode is not configured to Function. Configure the output mode to Function before calling Initiate. Currently, only the Function output mode is supported..
         /// </summary>
-        internal static string FGen_InvalidFunctionType {
+        internal static string FGen_InvalidOutputModeAtInitiateException {
             get {
-                return ResourceManager.GetString("FGen_InvalidFunctionType", resourceCulture);
+                return ResourceManager.GetString("FGen_InvalidOutputModeAtInitiateException", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Output mode &apos;{0}&apos; is not supported, only &apos;Function&apos; is supported in STL..
+        ///   Looks up a localized string similar to Output mode &apos;{0}&apos; is not supported, only &apos;Function&apos; is supported..
         /// </summary>
         internal static string FGen_InvalidOutputModeException {
             get {
