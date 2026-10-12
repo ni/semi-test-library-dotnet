@@ -4,6 +4,7 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
+using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TmuExtensions;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
 {
@@ -33,7 +34,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
         /// </list>
         /// </para>
         /// <para>
-        /// The <see cref="TmuExtensions.ConfigureTMUDutyCycleMeasurement(DigitalSessionsBundle, TmuDutyCycle, long, TmuArmSetting, string[])"/> method returns a time duration in seconds,
+        /// The <see cref="ConfigureTMUDutyCycleMeasurement(DigitalSessionsBundle, TmuDutyCycle, long, TmuArmSetting, string[])"/> method returns a time duration in seconds,
         /// not a ratio or percentage. The duty cycle ratio is computed by dividing that duration by the signal period,
         /// which is measured separately using <see cref="TmuExtensions.ConfigurePeriodMeasurement(DigitalSessionsBundle, TmuPolarity, long, TmuArmSetting, string[])"/>.
         /// </para>
@@ -79,9 +80,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
             tsmContext.PublishResults(dutyCycleTimeMeasurements, publishedDataId: "DutyCycleTime");
 
             // Step 6: Measure the signal period, which is required to convert the high duration into a ratio.
-            // DisableTMU must be called before reconfiguring.
-            digitalPins.DisableTMU();
-
             digitalPins.ConfigurePeriodMeasurement(
                 edgeType: TmuPolarity.RisingEdge,
                 samplesToAcquire: numberOfSamples);

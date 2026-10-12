@@ -1,4 +1,4 @@
-# TMU Example
+# TMU Sequence Example
 
 This example demonstrates how to use the Semiconductor Test Library (STL) extension methods for the Time Measurement Unit (TMU) to perform different timing measurements with an NI Digital Pattern Instrument (PXIe-657x).
 

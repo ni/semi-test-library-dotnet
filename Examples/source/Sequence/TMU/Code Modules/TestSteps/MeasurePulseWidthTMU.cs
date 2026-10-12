@@ -30,9 +30,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
         ///   <item>Cleans up by disabling the TMU and clearing assignments.</item>
         /// </list>
         /// </para>
-        ///<para>
+        /// <para>
         /// The <see cref="TmuExtensions.ConfigureTMUPulseWidthMeasurement(DigitalSessionsBundle, TmuPulseWidth, long, TmuArmSetting, string[])"/> method enables the TMU resource
-        /// internally, so no separate <see cref="TmuExtensions.EnableTMU"/> call is required.
+        /// internally, so no separate <see cref="TmuExtensions.EnableTMU(DigitalSessionsBundle, string[])"/> call is required.
         /// </para>
         /// <para>
         /// Ensure that the pin map includes "C0" and that the hardware

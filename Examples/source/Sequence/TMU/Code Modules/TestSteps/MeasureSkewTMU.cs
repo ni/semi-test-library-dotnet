@@ -33,7 +33,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
         /// </para>
         /// <para>
         /// The <see cref="TmuExtensions.ConfigureTMUSkewMeasurement(DigitalSessionsBundle, string[], string[], TmuPolarity, long, TmuArmSetting)"/> method enables the TMU resource
-        /// internally, so no separate <see cref="TmuExtensions.EnableTMU"/> call is required.
+        /// internally, so no separate <see cref="TmuExtensions.EnableTMU(DigitalSessionsBundle, string[])"/> call is required.
         /// </para>
         /// <para>
         /// Ensure that the pin map includes both "C0" and "C1" and that the hardware

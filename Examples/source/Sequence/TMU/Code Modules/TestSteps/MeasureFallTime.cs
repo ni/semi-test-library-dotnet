@@ -31,8 +31,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
         /// </list>
         /// </para>
         /// <para>
-        /// The <see cref="TmuExtensions.ConfigureTMUFallTimeMeasurement(DigitalSessionsBundle, TmuPolarity, long, TmuArmSetting, string[])"/> method enables the TMU resource
-        /// internally, so no separate <see cref="TmuExtensions.EnableTMU"/> call is required.
+        /// The <see cref="TmuExtensions.ConfigureTMUFallTimeMeasurement(DigitalSessionsBundle, long, TmuArmSetting, string[])"/> method enables the TMU resource
+        /// internally, so no separate <see cref="TmuExtensions.EnableTMU(DigitalSessionsBundle, string[])"/> call is required.
         /// </para>
         /// <para>
         /// Ensure that the pin map includes "C0" and that the hardware
