@@ -62,7 +62,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         private static void ValidateWaveformFunctionType(StandardWaveformSettings standardWaveformSettings)
         {
             // Throw exception if the WaveformFunctionType is User, as it is not supported in STL.
-            if (standardWaveformSettings.WaveformFunctionType == ModularInstruments.NIFgen.StandardWaveform.User)
+            if (standardWaveformSettings.WaveformFunctionType == StandardWaveform.User)
             {
                 throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.FGen_UnsupportedFunctionType));
             }
