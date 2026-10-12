@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PinMap schemaVersion="1.1" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<Instruments>
-		<NIFGenInstrument name="FGEN_5433_C1_S13" numberOfChannels="20" />
+		<NIFGenInstrument name="FGEN_5433_C1_S13" numberOfChannels="2" />
 		<NIFGenInstrument name="FGEN_5433_C2_S05" numberOfChannels="2" />
 		<NIFGenInstrument name="FGEN_5433_C3_S03" numberOfChannels="2" />
 		<NIFGenInstrument name="FGEN_5433_C4_S13" numberOfChannels="2" />
