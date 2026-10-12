@@ -1,3 +1,4 @@
+using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
@@ -12,7 +13,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
     public static class MeasurePeriodTMU
     {
         /// <summary>
-        /// Demonstrates how to measure the period of a digital signal using the TMU.
+        /// Demonstrates how to measure the period of a digital signal using the PXIe-657x's TMU.
         /// This example configures the TMU to measure period by detecting rising edges,
         /// collects the specified number of samples, and returns the averaged measurement.
         /// </summary>
@@ -24,7 +25,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         ///   <item>Assigns TMU resources to the specified pins.</item>
         ///   <item>Configures the TMU for period measurement with rising edge detection.</item>
         ///   <item>Initiates the TMU measurement.</item>
-        ///   <item>Fetches and averages the measurement results.</item>
+        ///   <item>Fetches and averages the measurement results, then publishes them using the "Period" Published Data ID.</item>
         ///   <item>Cleans up by disabling the TMU and clearing assignments.</item>
         /// </list>
         /// </para>
@@ -37,7 +38,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         public static void MeasurePeriodWithSTL(ISemiconductorModuleContext tsmContext)
         {
             // Configuration parameters for TMU period measurement.
-            int numberOfSamples = 100;           // Number of period samples to collect.
+            long numberOfSamples = 100;          // Number of period samples to collect.
             double timeoutInSeconds = 5.0;       // Maximum time to wait for measurement completion.
 
             // Step 1: Query TSM session manager to get the digital sessions bundle associated with the "C0" pin.
@@ -45,7 +46,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             var digitalPins = sessionManager.Digital("C0");
 
             // Step 2: (Mandatory) Assign TMU resources to the digital pins.
-            // This assign's a TMU resource to each of the pins in the digital sessions bundle object,
+            // This assigns a TMU resource to each of the pins in the digital sessions bundle object,
             // in this case just the "C0" pin.
             // Note that the TMU hardware resource is not reserved until step 3.
             digitalPins.AssignTMUResources();
@@ -53,11 +54,12 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             // Step 3: Configure the TMU to perform a period rise measurement.
             // - edgeType: Trigger on rising edge transitions.
             // - samplesToAcquire: Number of period measurements to collect.
-            // - armSetting: Start measurement immediately without waiting for an arm event.
+            // - armSetting: Use the start edge to arm the measurement.
+            // This method also enables (reserves) the TMU resource at the hardware level.
             digitalPins.ConfigurePeriodMeasurement(
                 edgeType: TmuPolarity.RisingEdge,
                 samplesToAcquire: numberOfSamples,
-                armSetting: TmuArmSetting.Immediate);
+                armSetting: TmuArmSetting.StartEdge);
 
             // Step 4: Initiate the TMU measurement.
             digitalPins.TMUInitiate();
@@ -66,7 +68,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
             // The TMU collects multiple samples and returns the average period.
             PinSiteData<double> periodMeasurements = digitalPins.FetchAveragedTMUMeasurement(timeoutInSeconds);
 
-            // Step 6: Clean up TMU resources.
+            // Step 6: Publish the period measurement results.
+            tsmContext.PublishResults(periodMeasurements, publishedDataId: "Period");
+
+            // Step 7: Clean up TMU resources.
             // Always disable the TMU and clear assignments when finished to free up resources.
             digitalPins.DisableTMU();
             digitalPins.ClearTMUAssignment();
