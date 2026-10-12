@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NationalInstruments.ModularInstruments.NIFgen;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
@@ -27,20 +28,98 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             InitializeAndClose.Close(_tsmContext);
         }
 
+        public static IEnumerable<object[]> ExportSignalValidTestData()
+        {
+            var pinMapFileNames = new[]
+            {
+                "FgenSingleInstrumentPerPin.pinmap",
+                "FgenSingleInstrumentPerPinPerSite.pinmap"
+            };
+            var signalSources = new[]
+            {
+                SignalSource.StartTrigger,
+                SignalSource.ReadyForStartEvent,
+                SignalSource.StartedEvent,
+                SignalSource.DoneEvent
+            };
+
+            foreach (var pinMapFileName in pinMapFileNames)
+            {
+                foreach (var signalSource in signalSources)
+                {
+                    yield return new object[] { pinMapFileName, signalSource };
+                }
+            }
+        }
+
+        public static IEnumerable<object[]> ExportSignalInvalidTestData()
+        {
+            var pinMapFileNames = new[]
+            {
+                "FgenSingleInstrumentPerPin.pinmap",
+                "FgenSingleInstrumentPerPinPerSite.pinmap"
+            };
+            var signalSources = new[]
+            {
+                SignalSource.SampleClock,
+                SignalSource.SampleClockTimebase,
+                SignalSource.ReferenceClock,
+                SignalSource.DataMarkerEvent,
+                SignalSource.MarkerEvent,
+                SignalSource.ScriptTrigger,
+                SignalSource.OnboardReferenceClock,
+                SignalSource.SyncOut,
+            };
+
+            foreach (var pinMapFileName in pinMapFileNames)
+            {
+                foreach (var signalSource in signalSources)
+                {
+                    yield return new object[] { pinMapFileName, signalSource };
+                }
+            }
+        }
+
+        public static IEnumerable<object[]> TriggerModeInvalidTestData()
+        {
+            var pinMapFileNames = new[]
+            {
+                "FgenSingleInstrumentPerPin.pinmap",
+                "FgenSingleInstrumentPerPinPerSite.pinmap"
+            };
+            var triggerModes = new[]
+            {
+                TriggerMode.Single,
+                TriggerMode.Burst,
+                TriggerMode.Stepped
+            };
+
+            foreach (var pinMapFileName in pinMapFileNames)
+            {
+                foreach (var triggerMode in triggerModes)
+                {
+                    yield return new object[] { pinMapFileName, triggerMode };
+                }
+            }
+        }
+
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
         [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
+        [InlineData("FgenSingleInstrumentPerPin_SharedPin.pinmap")]
         public void StandardWaveformConfigured_ConfigureAndDisableStartTriggerDigitalEdgeWithRisingEdge_TriggerConfiguredAndDisabled(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
             var triggerLine = "PXI_Trig0";
+            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
             var waveformSettings = new StandardWaveformSettings(StandardWaveform.Sine, 0.5, 0.5, 0.0);
             sessionsBundle.ConfigureStandardWaveform(waveformSettings);
 
             // Test Digital Edge Trigger - Rising
             sessionsBundle.ConfigureStartTriggerDigitalEdge(triggerLine, DigitalEdge.Rising);
+            sessionsBundle.Commit();
 
             sessionsBundle.Do(sessionInfo =>
             {
@@ -66,15 +145,18 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.Fgen("A");
             var triggerLine = "PXI_Trig1";
+            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
             var waveformSettings = new StandardWaveformSettings(StandardWaveform.Sine, 0.5, 0.5, 0.0);
             sessionsBundle.ConfigureStandardWaveform(waveformSettings);
             sessionsBundle.ConfigureTriggerMode(TriggerMode.Continuous);
 
-            void ConfigureStartTriggerDigitalEdgeFalling() => sessionsBundle.ConfigureStartTriggerDigitalEdge(triggerLine, DigitalEdge.Falling);
+            void ConfigureStartTriggerDigitalEdgeFalling()
+            {
+                sessionsBundle.ConfigureStartTriggerDigitalEdge(triggerLine, DigitalEdge.Falling);
+            }
 
-            var exception = Assert.Throws<NISemiconductorTestException>(ConfigureStartTriggerDigitalEdgeFalling);
-            // Assert.IsType<ArgumentException>(exception);
-            // Assert.Contains("'Falling' is not supported. Only the Rising edge is supported.", exception.Message);
+            var exception = Assert.Throws<ArgumentException>(ConfigureStartTriggerDigitalEdgeFalling);
+            Assert.Contains("Falling edge is not supported. Only the Rising edge is supported.", exception.Message);
         }
 
         [Theory]
@@ -95,7 +177,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             void DisableStartTrigger() => sessionsBundle.DisableStartTrigger();
 
             var exception = Assert.Throws<NISemiconductorTestException>(DisableStartTrigger);
-            Assert.IsType<NISemiconductorTestException>(exception);
             Assert.Contains("The operation cannot be completed because the device is not configurable while it is generating a signal.", exception.Message);
         }
 
@@ -108,8 +189,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
             var triggerLine = "PXI_Trig0";
-            var waveformSettings = new StandardWaveformSettings(StandardWaveform.Square, 0.5, 0.5, 0.0);
             sessionsBundle.ConfigureOutputMode(OutputMode.Function);
+            var waveformSettings = new StandardWaveformSettings(StandardWaveform.Square, 0.5, 0.5, 0.0);
             sessionsBundle.ConfigureStandardWaveform(waveformSettings);
             sessionsBundle.ConfigureStartTriggerDigitalEdge(triggerLine, DigitalEdge.Rising);
             sessionsBundle.Initiate();
@@ -131,6 +212,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
+            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
             var waveformSettings = new StandardWaveformSettings(StandardWaveform.Sine, 0.5, 0.5, 0.0);
             sessionsBundle.ConfigureStandardWaveform(waveformSettings);
 
@@ -169,7 +251,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             void DisableStartTrigger() => sessionsBundle.DisableStartTrigger();
 
             var exception = Assert.Throws<NISemiconductorTestException>(DisableStartTrigger);
-            Assert.IsType<NISemiconductorTestException>(exception);
             Assert.Contains("The operation cannot be completed because the device is not configurable while it is generating a signal.", exception.Message);
         }
 
@@ -198,43 +279,71 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap")]
-        [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
-        public void InitializeBundle_ExportStartTriggerSignal_DoesNotThrow(string pinMapFileName)
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [MemberData(nameof(ExportSignalValidTestData))]
+        public void StandardWaveformConfigured_ExportSignalWithValidSignalSource_Succeeds(string pinMapFileName, SignalSource signalSource)
         {
             var sessionManager = Initialize(pinMapFileName);
-            var sessionsBundle = sessionManager.Fgen("A");
+            var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
+            var waveformSettings = new StandardWaveformSettings(StandardWaveform.Square, 0.5, 0.5, 0.0);
+            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
+            sessionsBundle.ConfigureStandardWaveform(waveformSettings);
 
-            sessionsBundle.ExportSignal(SignalSource.DataMarkerEvent, string.Empty, "PXI_Trig0");
+            sessionsBundle.ExportSignal(signalSource, string.Empty, "PXI_Trig0");
         }
 
         [Theory]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap")]
-        [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
-        public void InitializeBundle_ExportSignalWithNullIdentifier_DoesNotThrow(string pinMapFileName)
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [MemberData(nameof(ExportSignalInvalidTestData))]
+        public void StandardWaveformConfigured_ExportSignalWithInvalidSignalSource_ThrowsException(string pinMapFileName, SignalSource signalSource)
         {
             var sessionManager = Initialize(pinMapFileName);
-            var sessionsBundle = sessionManager.Fgen("A");
+            var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
+            var waveformSettings = new StandardWaveformSettings(StandardWaveform.Square, 0.5, 0.5, 0.0);
+            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
+            sessionsBundle.ConfigureStandardWaveform(waveformSettings);
 
-            sessionsBundle.ExportSignal(SignalSource.StartTrigger, null, "PXI_Trig1");
+            void ExportSignal() => sessionsBundle.ExportSignal(signalSource, string.Empty, "PXI_Trig0");
+
+            var exception = Assert.Throws<ArgumentException>(ExportSignal);
+            Assert.Contains("The signal source '" + signalSource.ToString() + "' is not supported.", exception.Message);
         }
 
         [Theory]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap", TriggerMode.Single)]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap", TriggerMode.Continuous)]
-        [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap", TriggerMode.Single)]
-        [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap", TriggerMode.Continuous)]
-        public void InitializeBundle_ConfigureTriggerMode_TriggerModeSet(string pinMapFileName, TriggerMode triggerMode)
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData("FgenSingleInstrumentPerPin.pinmap")]
+        [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
+        public void StandardWaveformConfigured_ConfigureValidTriggerMode_Succeeds(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
-            var sessionsBundle = sessionManager.Fgen("A");
+            var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
+            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
+            var waveformSettings = new StandardWaveformSettings(StandardWaveform.Sine, 0.5, 0.5, 0.0);
+            sessionsBundle.ConfigureStandardWaveform(waveformSettings);
 
-            sessionsBundle.ConfigureTriggerMode(triggerMode);
+            sessionsBundle.ConfigureTriggerMode(TriggerMode.Continuous);
+        }
 
-            sessionsBundle.Do(sessionInfo =>
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [MemberData(nameof(TriggerModeInvalidTestData))]
+        public void StandardWaveformConfigured_ConfigureInvalidTriggerModes_ThrowsExceptioin(string pinMapFileName, TriggerMode triggerMode)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
+            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
+            var waveformSettings = new StandardWaveformSettings(StandardWaveform.Sine, 0.5, 0.5, 0.0);
+            sessionsBundle.ConfigureStandardWaveform(waveformSettings);
+
+            sessionsBundle.ConfigureTriggerMode(TriggerMode.Continuous);
+            void ConfigureTriggerMode()
             {
-                Assert.Equal(triggerMode, sessionInfo.Session.Trigger.GetTriggerMode(sessionInfo.AllChannelsString));
-            });
+                sessionsBundle.ConfigureTriggerMode(triggerMode);
+                sessionsBundle.Commit();
+            }
+
+            var exception = Assert.Throws<NISemiconductorTestException>(ConfigureTriggerMode);
+            Assert.Contains("Only continuous triggering mode is available in standard function output mode.", exception.Message);
         }
 
         private void AssertStartTriggerSettings(FgenSessionInformation sessionInfo, TriggerType expectedType, string expectedStartTriggerSource = "", DigitalEdge expectedEdge = DigitalEdge.Rising)
