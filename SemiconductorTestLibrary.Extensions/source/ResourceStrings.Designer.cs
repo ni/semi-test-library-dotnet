@@ -358,15 +358,6 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The &apos;User&apos; Waveform Function Type is not supported in STL..
-        /// </summary>
-        internal static string FGen_InvalidFunctionType {
-            get {
-                return ResourceManager.GetString("FGen_InvalidFunctionType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Operation cannot be completed because the output mode is not configured to Function. Configure the output mode to Function before calling Initiate. Currently, only the Function output mode is supported..
         /// </summary>
         internal static string FGen_InvalidOutputModeAtInitiateException {
@@ -381,6 +372,15 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         internal static string FGen_InvalidOutputModeException {
             get {
                 return ResourceManager.GetString("FGen_InvalidOutputModeException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The &apos;User&apos; Waveform Function Type is not supported in STL..
+        /// </summary>
+        internal static string FGen_UnsupportedFunctionType {
+            get {
+                return ResourceManager.GetString("FGen_UnsupportedFunctionType", resourceCulture);
             }
         }
     }
