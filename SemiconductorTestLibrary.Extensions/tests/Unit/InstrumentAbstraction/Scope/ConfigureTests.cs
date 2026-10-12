@@ -23,7 +23,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         public ConfigureTests()
         {
-            _tsmContext = CreateTSMContext("ScopeTests.pinmap");
+            _tsmContext = CreateTSMContext("ScopeExtensionsTests.pinmap");
             Initialize(_tsmContext);
         }
 
@@ -32,14 +32,48 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Close(_tsmContext);
         }
 
-        [Fact]
-        public void SessionsBundle_ConfigureVerticalWithDefaultSettings_ValuesApplied()
+        [Theory]
+        [InlineData("SCP_5105_Pin")]
+        [InlineData(_SCP_5162_Pin)]
+        [InlineData(_SCP_5186_Pin)]
+        [InlineData("SCP_5172_Pin")]
+        public void DifferentInstrumentModels_ConfigureVerticalWithDefaultSettings_ValuesApplied(string pinName)
         {
-            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
+            var sessionsBundle = GetSessionsBundle(pinName);
 
             sessionsBundle.ConfigureVertical(new VerticalSettings());
 
             AssertVerticalSettings(sessionsBundle, new VerticalSettings());
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureVerticalWithNullSettings_ThrowsArgumentNullException()
+        {
+            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
+
+            var exception = Assert.Throws<ArgumentNullException>(() => sessionsBundle.ConfigureVertical((VerticalSettings)null));
+
+            Assert.Equal("verticalSettings", exception.ParamName);
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureVerticalWithNullPerSiteSettings_ThrowsArgumentNullException()
+        {
+            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
+
+            var exception = Assert.Throws<ArgumentNullException>(() => sessionsBundle.ConfigureVertical((SiteData<VerticalSettings>)null));
+
+            Assert.Equal("verticalSettings", exception.ParamName);
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureVerticalWithNullPerPinPerSiteSettings_ThrowsArgumentNullException()
+        {
+            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
+
+            var exception = Assert.Throws<ArgumentNullException>(() => sessionsBundle.ConfigureVertical((PinSiteData<VerticalSettings>)null));
+
+            Assert.Equal("verticalSettings", exception.ParamName);
         }
 
         [Fact]

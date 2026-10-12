@@ -1,3 +1,4 @@
+using System;
 using System.Globalization;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
@@ -17,12 +18,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
         /// <param name="verticalSettings">The <see cref="VerticalSettings"/> to apply.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="verticalSettings"/> is <see langword="null"/>.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when the driver fails to apply the settings for any pin or site.</exception>
         public static void ConfigureVertical(this ScopeSessionsBundle sessionsBundle, VerticalSettings verticalSettings)
         {
-            if (verticalSettings is null)
-            {
-                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Scope_VerticalSettingsNull, nameof(verticalSettings)));
-            }
+            ThrowIfNull(verticalSettings, nameof(verticalSettings));
             sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
             {
                 ConfigureVertical(sessionInfo, sitePinInfo, verticalSettings);
@@ -32,10 +32,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// <inheritdoc cref="ConfigureVertical(ScopeSessionsBundle, VerticalSettings)"/>
         public static void ConfigureVertical(this ScopeSessionsBundle sessionsBundle, SiteData<VerticalSettings> verticalSettings)
         {
-            if (verticalSettings is null)
-            {
-                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Scope_VerticalSettingsNull, nameof(verticalSettings)));
-            }
+            ThrowIfNull(verticalSettings, nameof(verticalSettings));
             sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
             {
                 ConfigureVertical(sessionInfo, sitePinInfo, verticalSettings.GetValue(sitePinInfo.SiteNumber));
@@ -45,10 +42,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// <inheritdoc cref="ConfigureVertical(ScopeSessionsBundle, VerticalSettings)"/>
         public static void ConfigureVertical(this ScopeSessionsBundle sessionsBundle, PinSiteData<VerticalSettings> verticalSettings)
         {
-            if (verticalSettings is null)
-            {
-                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Scope_VerticalSettingsNull, nameof(verticalSettings)));
-            }
+            ThrowIfNull(verticalSettings, nameof(verticalSettings));
             sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
             {
                 ConfigureVertical(sessionInfo, sitePinInfo, verticalSettings.GetValue(sitePinInfo));
@@ -60,10 +54,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
 
         private static void ConfigureVertical(ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo, VerticalSettings verticalSettings)
         {
-            if (verticalSettings is null)
-            {
-                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Scope_VerticalSettingsNull, nameof(verticalSettings)));
-            }
+            ThrowIfNull(verticalSettings, nameof(verticalSettings));
             var channel = sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString];
             channel.Configure(
                 verticalSettings.Range,
@@ -74,6 +65,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
             if (verticalSettings.EnableTimeInterleavedSampling.HasValue)
             {
                 channel.EnableTimeInterleavedSampling = verticalSettings.EnableTimeInterleavedSampling.Value;
+            }
+        }
+
+        private static void ThrowIfNull(object value, string parameterName)
+        {
+            if (value is null)
+            {
+                throw new ArgumentNullException(parameterName, string.Format(CultureInfo.InvariantCulture, ResourceStrings.Scope_VerticalSettingsNull, parameterName));
             }
         }
         #endregion
