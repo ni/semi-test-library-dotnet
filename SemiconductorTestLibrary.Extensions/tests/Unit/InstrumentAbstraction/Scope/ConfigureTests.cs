@@ -311,6 +311,39 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ConfigureElectricalCharacteristics(perSiteSettings));
         }
 
+        [Fact]
+        public void SessionsBundle_ConfigureElectricalCharacteristicsWithNullSettings_ThrowsException()
+        {
+            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
+
+            var exception = Assert.Throws<NISemiconductorTestException>(
+                () => sessionsBundle.ConfigureElectricalCharacteristics((ElectricalCharacteristics)null));
+
+            Assert.Contains("electricalCharacteristics", exception.Message);
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureElectricalCharacteristicsWithNullPerSiteSettings_ThrowsException()
+        {
+            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
+
+            var exception = Assert.Throws<NISemiconductorTestException>(
+                () => sessionsBundle.ConfigureElectricalCharacteristics((SiteData<ElectricalCharacteristics>)null));
+
+            Assert.Contains("electricalCharacteristics", exception.Message);
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureElectricalCharacteristicsWithNullPerPinPerSiteSettings_ThrowsException()
+        {
+            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
+
+            var exception = Assert.Throws<NISemiconductorTestException>(
+                () => sessionsBundle.ConfigureElectricalCharacteristics((PinSiteData<ElectricalCharacteristics>)null));
+
+            Assert.Contains("electricalCharacteristics", exception.Message);
+        }
+
         private static void AssertElectricalCharacteristics(ScopeSessionsBundle sessionsBundle, double inputImpedance, double inputFrequencyMax)
         {
             sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>

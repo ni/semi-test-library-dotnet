@@ -19,7 +19,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class ResourceStrings {
@@ -372,6 +372,15 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         internal static string FGen_InvalidOutputModeException {
             get {
                 return ResourceManager.GetString("FGen_InvalidOutputModeException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &apos;{0}&apos; cannot be null. Please provide valid electrical characteristics.
+        /// </summary>
+        internal static string Scope_Electrical_Characteristics_Null {
+            get {
+                return ResourceManager.GetString("Scope_Electrical_Characteristics_Null", resourceCulture);
             }
         }
     }

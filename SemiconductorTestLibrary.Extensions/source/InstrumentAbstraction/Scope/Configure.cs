@@ -1,3 +1,4 @@
+using System.Globalization;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
@@ -49,6 +50,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// <param name="electricalCharacteristics">The <see cref="ElectricalCharacteristics"/> to apply.</param>
         public static void ConfigureElectricalCharacteristics(this ScopeSessionsBundle sessionsBundle, ElectricalCharacteristics electricalCharacteristics)
         {
+            if (electricalCharacteristics is null)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Scope_Electrical_Characteristics_Null, nameof(electricalCharacteristics)));
+            }
             sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
             {
                 sessionInfo.ConfigureElectricalCharacteristics(sitePinInfo, electricalCharacteristics);
@@ -58,6 +63,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// <inheritdoc cref="ConfigureElectricalCharacteristics(ScopeSessionsBundle, ElectricalCharacteristics)"/>
         public static void ConfigureElectricalCharacteristics(this ScopeSessionsBundle sessionsBundle, SiteData<ElectricalCharacteristics> electricalCharacteristics)
         {
+            if (electricalCharacteristics is null)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Scope_Electrical_Characteristics_Null, nameof(electricalCharacteristics)));
+            }
             sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
             {
                 sessionInfo.ConfigureElectricalCharacteristics(sitePinInfo, electricalCharacteristics.GetValue(sitePinInfo.SiteNumber));
@@ -67,6 +76,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// <inheritdoc cref="ConfigureElectricalCharacteristics(ScopeSessionsBundle, ElectricalCharacteristics)"/>
         public static void ConfigureElectricalCharacteristics(this ScopeSessionsBundle sessionsBundle, PinSiteData<ElectricalCharacteristics> electricalCharacteristics)
         {
+            if (electricalCharacteristics is null)
+            {
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Scope_Electrical_Characteristics_Null, nameof(electricalCharacteristics)));
+            }
             sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
             {
                 sessionInfo.ConfigureElectricalCharacteristics(sitePinInfo, electricalCharacteristics.GetValue(sitePinInfo));
