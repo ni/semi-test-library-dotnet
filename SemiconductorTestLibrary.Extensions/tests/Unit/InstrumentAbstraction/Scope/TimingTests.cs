@@ -110,6 +110,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        public void SessionsBundle_GetNumberOfRecordsToAcquireWithoutCallingConfigureTiming_ReturnsDefaultNumberOfRecords()
+        {
+            var sessionsBundle = GetSessionsBundle("SCP_5105_Pin");
+
+            var numberOfRecordsToAcquire = sessionsBundle.GetNumberOfRecordsToAcquire();
+
+            Assert.All(numberOfRecordsToAcquire, numberOfRecords => Assert.Equal(1, numberOfRecords));
+        }
+
+        [Fact]
         public void SessionsBundle_ConfigureTimingWithNullSettings_ThrowsArgumentNullException()
         {
             var sessionsBundle = GetSessionsBundle("SCP_5105_Pin");
@@ -194,6 +204,57 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             void ConfigureClock() => sessionsBundle.ConfigureClock(null);
 
             Assert.Throws<ArgumentNullException>(ConfigureClock);
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureClockWithNullInputClockSource_ThrowsException()
+        {
+            var sessionsBundle = GetSessionsBundle("SCP_5105_Pin");
+            var clockSettings = new ClockSettings
+            {
+                InputClockSource = null,
+                OutputClockSource = ScopeOutputClockSource.NoSource,
+                ClockSynchronizationPulseSource = ScopeClockSynchronizationPulseSource.NoSource,
+                MasterEnabled = false
+            };
+
+            void ConfigureClock() => sessionsBundle.ConfigureClock(clockSettings);
+
+            Assert.ThrowsAny<Exception>(ConfigureClock);
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureClockWithNullOutputClockSource_ThrowsException()
+        {
+            var sessionsBundle = GetSessionsBundle("SCP_5105_Pin");
+            var clockSettings = new ClockSettings
+            {
+                InputClockSource = ScopeInputClockSource.NoSource,
+                OutputClockSource = null,
+                ClockSynchronizationPulseSource = ScopeClockSynchronizationPulseSource.NoSource,
+                MasterEnabled = false
+            };
+
+            void ConfigureClock() => sessionsBundle.ConfigureClock(clockSettings);
+
+            Assert.ThrowsAny<Exception>(ConfigureClock);
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureClockWithNullClockSynchronizationPulseSource_ThrowsException()
+        {
+            var sessionsBundle = GetSessionsBundle("SCP_5105_Pin");
+            var clockSettings = new ClockSettings
+            {
+                InputClockSource = ScopeInputClockSource.NoSource,
+                OutputClockSource = ScopeOutputClockSource.NoSource,
+                ClockSynchronizationPulseSource = null,
+                MasterEnabled = false
+            };
+
+            void ConfigureClock() => sessionsBundle.ConfigureClock(clockSettings);
+
+            Assert.ThrowsAny<Exception>(ConfigureClock);
         }
 
         #endregion
