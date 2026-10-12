@@ -42,6 +42,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = GetSessionsBundle(pinName);
 
             sessionsBundle.ConfigureVertical(new VerticalSettings());
+            sessionsBundle.Commit();
 
             AssertVerticalSettings(sessionsBundle, new VerticalSettings());
         }
