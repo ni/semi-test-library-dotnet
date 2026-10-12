@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Globalization;
+using System.Linq;
 using NationalInstruments.ModularInstruments.NIFgen;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
@@ -16,10 +17,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
         /// <param name="standardWaveformSettings">The <see cref="StandardWaveformSettings"/> object.</param>
         /// <remarks>
-        /// You must configure output mode to <see cref="OutputMode.Function"/> using <see cref="Output.ConfigureOutputMode"/> before you can configure the standard waveform settings.
-        /// <para>The <see cref="StandardWaveform.User"/>' Waveform Function Type is not supported in STL.</para>
+        /// You must set the output mode to <see cref="OutputMode.Function"/> by calling <see cref="Output.ConfigureOutputMode"/> before you configure the standard waveform settings.<br/>
+        /// The <see cref="StandardWaveform.User"/> waveform function type is not supported.<br/>
+        /// Throws <see cref="NISemiconductorTestException"/> if the waveform function type is <see cref="StandardWaveform.User"/>,
+        /// if the output mode is not set to <see cref="OutputMode.Function"/>, or if any of the specified settings is invalid for the instrument.
         /// </remarks>
-        /// <exception cref="NISemiconductorTestException">Throw when the WaveformFunctionType is set to <see cref="StandardWaveform.User"/>.</exception>
+        /// <exception cref="NISemiconductorTestException">
+        /// Thrown when <see cref="StandardWaveformSettings.WaveformFunctionType"/> is set to <see cref="StandardWaveform.User"/>,
+        /// when the output mode is not set to <see cref="OutputMode.Function"/>,
+        /// or when any of the specified <see cref="StandardWaveformSettings"/> values is invalid for the underlying devices.
+        /// </exception>
         public static void ConfigureStandardWaveform(this FgenSessionsBundle sessionsBundle, StandardWaveformSettings standardWaveformSettings)
         {
             ValidateWaveformFunctionType(standardWaveformSettings);
@@ -57,7 +64,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
             // Throw exception if the WaveformFunctionType is User, as it is not supported in STL.
             if (standardWaveformSettings.WaveformFunctionType == ModularInstruments.NIFgen.StandardWaveform.User)
             {
-                throw new NISemiconductorTestException(ResourceStrings.FGen_InvalidFunctionType);
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.FGen_UnsupportedFunctionType));
             }
         }
         #endregion
