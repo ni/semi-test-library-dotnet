@@ -5937,11 +5937,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.True(elapsedTime < 100, $"Expected quick return, but took {elapsedTime}ms which is more than source delay 100ms");
         }
 
-        [Fact(Skip = "Skipping test temporarily")]
+        [Fact]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
-        public void GangedSMUBundle_ForceVoltageSequenceWithLessTimeout_ThrowsTimeoutException()
+        public void GangedSMUBundle_ForceVoltageSequenceWithLessTimeout_ThrowsNISemiconductorTestException()
         {
             var sessionsBundle = GetGangedSMUBundle();
             sessionsBundle.ConfigureSourceDelay(0.1);
@@ -5954,7 +5954,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                     currentLimit: 0.05,
                     sequenceLoopCount: 1);
 
-            Assert.Throws<TimeoutException>(forceVoltageSequence);
+            if (!_tsmContext.IsSemiconductorModuleInOfflineMode)
+            {
+                // Exception will be thrown only in hardware
+                Assert.Throws<NISemiconductorTestException>(forceVoltageSequence);
+            }
         }
 
         [Fact]
