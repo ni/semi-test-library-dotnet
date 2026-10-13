@@ -20,6 +20,10 @@
 			<PinReference pin="C" />
 			<PinReference pin="SystemPin" />
 		</PinGroup>
+		<PinGroup name="FgenGroup">
+			<PinReference pin="A" />
+			<PinReference pin="B" />
+		</PinGroup>
 	</PinGroups>
 	<Sites>
 		<Site siteNumber="0" />
