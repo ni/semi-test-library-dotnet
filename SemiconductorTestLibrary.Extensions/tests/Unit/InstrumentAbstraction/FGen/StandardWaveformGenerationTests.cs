@@ -54,10 +54,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen(PinNames);
-            sessionsBundle.Do(sessionInformation =>
-            {
-                sessionInformation.Session.Output.OutputMode = OutputMode.Function;
-            });
+            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
             var standardWaveformSettings = new StandardWaveformSettings(
                 functionType: waveformFunctionType,
                 amplitude: 5.0,
@@ -84,6 +81,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen(PinNames);
+            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
             var standardWaveformSettings = new StandardWaveformSettings(
                 functionType: StandardWaveform.Sine,
                 amplitude: 5.0,
@@ -110,6 +108,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen(PinNames);
+            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
             var siteData = new SiteData<StandardWaveformSettings>(new[]
             {
                 new StandardWaveformSettings(functionType: StandardWaveform.Sine, amplitude: 5.0, frequency: 1000.0),  // Site 0
@@ -135,6 +134,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen(PinNames);
+            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
             var pinSiteData = new PinSiteData<StandardWaveformSettings>(PinNames, SiteNumbers, new[]
             {
                 // Pin A: Site 0, Site 1
@@ -161,6 +161,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
             var pinNames = new string[] { "A", "B" };
             var sessionsBundle = sessionManager.Fgen(pinNames);
+            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
             var standardWaveformSettings = new StandardWaveformSettings(
                 functionType: StandardWaveform.User,
                 amplitude: 5.0,
@@ -177,6 +178,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
             var sessionsBundle = sessionManager.Fgen(PinNames);
+            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
             var standardWaveformSettings = new StandardWaveformSettings(
                 functionType: StandardWaveform.Sine,
                 amplitude: 5.0,
@@ -200,6 +202,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
             var sessionsBundle = sessionManager.Fgen(PinNames);
+            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
             var standardWaveformSettings = new StandardWaveformSettings(
                 functionType: StandardWaveform.Sine,
                 amplitude: -5.0,
