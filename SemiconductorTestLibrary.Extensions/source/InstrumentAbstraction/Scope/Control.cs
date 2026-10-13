@@ -1,4 +1,4 @@
-﻿using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
+using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope
 {
