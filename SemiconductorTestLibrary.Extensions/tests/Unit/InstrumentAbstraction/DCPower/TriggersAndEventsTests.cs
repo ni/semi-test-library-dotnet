@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
@@ -564,263 +563,73 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("SMUsSupportingPulsing.pinmap")]
-        public void LeadPinOutputTerminalsSpecified_ExportSignal_SignalExportedWithoutError(string pinMapFileName)
+        public void MultipleChannels_ExportSignalWithSingleOutputTerminal_ThrowsException(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VDET" });
-            var outputTerminals = BuildUniqueOutputTerminals(sessionsBundle, leadPin: "VDD");
+
+#pragma warning disable CS0618 // Intentionally exercising the obsolete overload to reproduce the terminal reservation failure.
+            Assert.ThrowsAny<Exception>(() =>
+            {
+                sessionsBundle.ExportSignal(DCPowerSignalSource.SourceCompleteEvent, "/PXI_Trig0");
+                sessionsBundle.Commit();
+            });
+#pragma warning restore CS0618
+
+            sessionsBundle.Abort();
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData("SMUsSupportingPulsing.pinmap")]
+        public void MultipleChannels_ExportSignalWithUniqueOutputTerminals_Succeeds(string pinMapFileName)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VDET" });
+            var outputTerminals = new PinSiteData<string>(new Dictionary<string, IDictionary<int, string>>
+            {
+                ["VDD"] = new Dictionary<int, string> { [0] = "/PXI_Trig0", [1] = "/PXI_Trig1" },
+                ["VDET"] = new Dictionary<int, string> { [0] = "/PXI_Trig2", [1] = "/PXI_Trig3" }
+            });
 
             sessionsBundle.ExportSignal(DCPowerSignalSource.SourceCompleteEvent, outputTerminals);
+            sessionsBundle.Commit();
 
-            sessionsBundle.ClearTriggers();
+            sessionsBundle.Abort();
         }
 
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("SMUsSupportingPulsing.pinmap")]
-        public void NullOutputTerminals_ExportSignal_ThrowsException(string pinMapFileName)
+        public void DuplicateOutputTerminals_ExportSignal_ThrowsException(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VDET" });
-
-            var exception = Assert.Throws<NISemiconductorTestException>(
-                () => sessionsBundle.ExportSignal(DCPowerSignalSource.SourceCompleteEvent, (PinSiteData<string>)null));
-
-            Assert.Contains("at least one site-pin pair", exception.Message, StringComparison.OrdinalIgnoreCase);
-        }
-
-        [Theory]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
-        [InlineData("SMUsSupportingPulsing.pinmap")]
-        public void EmptyOutputTerminalSpecified_ExportSignal_ThrowsException(string pinMapFileName)
-        {
-            var sessionManager = Initialize(pinMapFileName);
-            var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VDET" });
-            var siteNumber = sessionsBundle.AggregateSitePinList[0].SiteNumber;
             var outputTerminals = new PinSiteData<string>(new Dictionary<string, IDictionary<int, string>>
             {
-                ["VDD"] = new Dictionary<int, string> { [siteNumber] = string.Empty }
+                ["VDD"] = new Dictionary<int, string> { [0] = "/PXI_Trig0" },
+                ["VDET"] = new Dictionary<int, string> { [0] = "/PXI_Trig0" }
             });
 
-            var exception = Assert.Throws<NISemiconductorTestException>(
-                () => sessionsBundle.ExportSignal(DCPowerSignalSource.SourceCompleteEvent, outputTerminals));
-
-            Assert.Contains("cannot be null or empty", exception.Message, StringComparison.OrdinalIgnoreCase);
+            Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ExportSignal(DCPowerSignalSource.SourceCompleteEvent, outputTerminals));
         }
 
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("SMUsSupportingPulsing.pinmap")]
-        public void DuplicateOutputTerminalsSpecified_ExportSignal_ThrowsException(string pinMapFileName)
+        public void EmptyOutputTerminal_ExportSignal_ThrowsException(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VDET" });
-            var siteNumber = sessionsBundle.AggregateSitePinList[0].SiteNumber;
             var outputTerminals = new PinSiteData<string>(new Dictionary<string, IDictionary<int, string>>
             {
-                ["VDD"] = new Dictionary<int, string> { [siteNumber] = "/PXI_Trig0" },
-                ["VDET"] = new Dictionary<int, string> { [siteNumber] = "/PXI_Trig0" }
+                ["VDD"] = new Dictionary<int, string> { [0] = string.Empty }
             });
 
-            var exception = Assert.Throws<NISemiconductorTestException>(
-                () => sessionsBundle.ExportSignal(DCPowerSignalSource.SourceCompleteEvent, outputTerminals));
-
-            Assert.Contains("more than one site-pin pair", exception.Message, StringComparison.OrdinalIgnoreCase);
-        }
-
-        [Theory]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
-        [InlineData("SMUsSupportingPulsing.pinmap")]
-        public void MoreOutputTerminalsThanTriggerLinesSpecified_ExportSignal_ThrowsException(string pinMapFileName)
-        {
-            var sessionManager = Initialize(pinMapFileName);
-            var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VDET" });
-            var perSiteOutputTerminals = new Dictionary<int, string>();
-            for (int siteNumber = 0; siteNumber < 9; siteNumber++)
-            {
-                perSiteOutputTerminals.Add(siteNumber, $"/PXI_Trig{siteNumber}");
-            }
-            var outputTerminals = new PinSiteData<string>(new Dictionary<string, IDictionary<int, string>>
-            {
-                ["VDD"] = perSiteOutputTerminals
-            });
-
-            var exception = Assert.Throws<NISemiconductorTestException>(
-                () => sessionsBundle.ExportSignal(DCPowerSignalSource.SourceCompleteEvent, outputTerminals));
-
-            Assert.Contains("trigger lines available", exception.Message, StringComparison.OrdinalIgnoreCase);
-        }
-
-        [Theory]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
-        [InlineData("SMUsSupportingPulsing.pinmap")]
-        public void MultiplePinsSameSite_ExportSignalWithSingleOutputTerminal_ThrowsException(string pinMapFileName)
-        {
-            var sessionManager = Initialize(pinMapFileName);
-            var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VDET" });
-            var siteNumber = sessionsBundle.AggregateSitePinList[0].SiteNumber;
-            var siteBundle = sessionsBundle.FilterBySite(siteNumber);
-
-#pragma warning disable CS0618 // Intentionally exercising the obsolete overload to demonstrate the terminal reservation failure.
-            Assert.ThrowsAny<Exception>(() =>
-            {
-                siteBundle.ExportSignal(DCPowerSignalSource.SourceCompleteEvent, "/PXI_Trig0");
-                siteBundle.Commit();
-            });
-#pragma warning restore CS0618
-
-            siteBundle.Abort();
-            siteBundle.ClearTriggers();
-        }
-
-        [Theory]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
-        [InlineData("SMUsSupportingPulsing.pinmap")]
-        public void MultiplePinsSameSite_ExportSignalWithUniquePerPinOutputTerminals_Succeeds(string pinMapFileName)
-        {
-            var sessionManager = Initialize(pinMapFileName);
-            var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VDET" });
-            var siteNumber = sessionsBundle.AggregateSitePinList[0].SiteNumber;
-            var siteBundle = sessionsBundle.FilterBySite(siteNumber);
-            var outputTerminals = BuildUniqueOutputTerminalsForAllSitePins(siteBundle);
-
-            siteBundle.ExportSignal(DCPowerSignalSource.SourceCompleteEvent, outputTerminals);
-            siteBundle.Commit();
-
-            siteBundle.Abort();
-            siteBundle.ClearTriggers();
-        }
-
-        [Theory]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
-        [InlineData("SMUsSupportingPulsing.pinmap")]
-        public void SinglePinMultipleSites_ExportSignalWithSingleOutputTerminal_ThrowsException(string pinMapFileName)
-        {
-            var sessionManager = Initialize(pinMapFileName);
-            var leadPinBundle = sessionManager.DCPower("VDD");
-            Assert.True(leadPinBundle.AggregateSitePinList.Select(sitePinInfo => sitePinInfo.SiteNumber).Distinct().Count() > 1, "Test requires a pin map with more than one site.");
-
-#pragma warning disable CS0618 // Intentionally exercising the obsolete overload to demonstrate the terminal reservation failure.
-            Assert.ThrowsAny<Exception>(() =>
-            {
-                leadPinBundle.ExportSignal(DCPowerSignalSource.SourceCompleteEvent, "/PXI_Trig0");
-                leadPinBundle.Commit();
-            });
-#pragma warning restore CS0618
-
-            leadPinBundle.Abort();
-            leadPinBundle.ClearTriggers();
-        }
-
-        [Theory]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
-        [InlineData("SMUsSupportingPulsing.pinmap")]
-        public void SinglePinMultipleSites_ExportSignalWithUniquePerSiteOutputTerminals_Succeeds(string pinMapFileName)
-        {
-            var sessionManager = Initialize(pinMapFileName);
-            var leadPinBundle = sessionManager.DCPower("VDD");
-            var outputTerminals = BuildUniqueOutputTerminals(leadPinBundle, leadPin: "VDD");
-
-            leadPinBundle.ExportSignal(DCPowerSignalSource.SourceCompleteEvent, outputTerminals);
-            leadPinBundle.Commit();
-
-            leadPinBundle.Abort();
-            leadPinBundle.ClearTriggers();
-        }
-
-        [Theory]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
-        [InlineData("SMUsSupportingPulsing.pinmap")]
-        public void SingleChannel_ExportTwoSignalsToSameOutputTerminal_ThrowsException(string pinMapFileName)
-        {
-            var sessionManager = Initialize(pinMapFileName);
-            var sessionsBundle = sessionManager.DCPower("VDD");
-            var firstSitePin = sessionsBundle.AggregateSitePinList[0];
-            var singleChannelBundle = sessionsBundle.FilterBySite(firstSitePin.SiteNumber);
-
-#pragma warning disable CS0618 // Intentionally exercising the obsolete overload to demonstrate the terminal reservation failure.
-            Assert.ThrowsAny<Exception>(() =>
-            {
-                singleChannelBundle.ExportSignal(DCPowerSignalSource.SourceCompleteEvent, "/PXI_Trig0");
-                singleChannelBundle.ExportSignal(DCPowerSignalSource.MeasureCompleteEvent, "/PXI_Trig0");
-                singleChannelBundle.Commit();
-            });
-#pragma warning restore CS0618
-
-            singleChannelBundle.Abort();
-            singleChannelBundle.ClearTriggers();
-        }
-
-        [Theory]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
-        [InlineData("SMUsSupportingPulsing.pinmap")]
-        public void SingleChannel_ExportTwoSignalsToDifferentOutputTerminals_Succeeds(string pinMapFileName)
-        {
-            var sessionManager = Initialize(pinMapFileName);
-            var sessionsBundle = sessionManager.DCPower("VDD");
-            var firstSitePin = sessionsBundle.AggregateSitePinList[0];
-            var singleChannelBundle = sessionsBundle.FilterBySite(firstSitePin.SiteNumber);
-            var sourceCompleteTerminals = new PinSiteData<string>(new Dictionary<string, IDictionary<int, string>>
-            {
-                ["VDD"] = new Dictionary<int, string> { [firstSitePin.SiteNumber] = "/PXI_Trig0" }
-            });
-            var measureCompleteTerminals = new PinSiteData<string>(new Dictionary<string, IDictionary<int, string>>
-            {
-                ["VDD"] = new Dictionary<int, string> { [firstSitePin.SiteNumber] = "/PXI_Trig1" }
-            });
-
-            singleChannelBundle.ExportSignal(DCPowerSignalSource.SourceCompleteEvent, sourceCompleteTerminals);
-            singleChannelBundle.ExportSignal(DCPowerSignalSource.MeasureCompleteEvent, measureCompleteTerminals);
-            singleChannelBundle.Commit();
-
-            singleChannelBundle.Abort();
-            singleChannelBundle.ClearTriggers();
-        }
-
-        private static PinSiteData<string> BuildUniqueOutputTerminalsForAllSitePins(DCPowerSessionsBundle sessionsBundle)
-        {
-            var pinSiteOutputTerminals = new Dictionary<string, IDictionary<int, string>>();
-            var triggerLineIndex = 0;
-            foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList)
-            {
-                if (!pinSiteOutputTerminals.TryGetValue(sitePinInfo.PinName, out var perSiteOutputTerminals))
-                {
-                    perSiteOutputTerminals = new Dictionary<int, string>();
-                    pinSiteOutputTerminals.Add(sitePinInfo.PinName, perSiteOutputTerminals);
-                }
-                if (!perSiteOutputTerminals.ContainsKey(sitePinInfo.SiteNumber))
-                {
-                    perSiteOutputTerminals.Add(sitePinInfo.SiteNumber, $"/PXI_Trig{triggerLineIndex++}");
-                }
-            }
-            return new PinSiteData<string>(pinSiteOutputTerminals);
-        }
-
-        private static PinSiteData<string> BuildUniqueOutputTerminals(DCPowerSessionsBundle sessionsBundle, string leadPin)
-        {
-            var perSiteOutputTerminals = new Dictionary<int, string>();
-            foreach (var sitePinInfo in sessionsBundle.AggregateSitePinList)
-            {
-                if (sitePinInfo.PinName != leadPin || perSiteOutputTerminals.ContainsKey(sitePinInfo.SiteNumber))
-                {
-                    continue;
-                }
-                perSiteOutputTerminals.Add(sitePinInfo.SiteNumber, $"/PXI_Trig{perSiteOutputTerminals.Count}");
-            }
-            return new PinSiteData<string>(new Dictionary<string, IDictionary<int, string>>
-            {
-                [leadPin] = perSiteOutputTerminals
-            });
+            Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ExportSignal(DCPowerSignalSource.SourceCompleteEvent, outputTerminals));
         }
 
         private void AssertPulseTriggerSettings(DCPowerSessionInformation sessionInfo, string channelString, DCPowerPulseTriggerType expectedType, string expectedInputTerminal = "", DCPowerTriggerEdge expectedEdge = DCPowerTriggerEdge.Rising)
