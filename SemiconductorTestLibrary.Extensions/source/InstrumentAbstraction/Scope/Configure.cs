@@ -1,4 +1,4 @@
-using System.Globalization;
+using System;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
@@ -48,41 +48,52 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
         /// <param name="electricalCharacteristics">The <see cref="ElectricalCharacteristics"/> to apply.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="electricalCharacteristics"/> is null.</exception>
         public static void ConfigureElectricalCharacteristics(this ScopeSessionsBundle sessionsBundle, ElectricalCharacteristics electricalCharacteristics)
         {
             if (electricalCharacteristics is null)
             {
-                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Scope_Electrical_Characteristics_Null, nameof(electricalCharacteristics)));
+                throw new ArgumentNullException(nameof(electricalCharacteristics));
             }
             sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
             {
-                sessionInfo.ConfigureElectricalCharacteristics(sitePinInfo, electricalCharacteristics);
+                ConfigureElectricalCharacteristics(sessionInfo, sitePinInfo, electricalCharacteristics);
             });
         }
 
-        /// <inheritdoc cref="ConfigureElectricalCharacteristics(ScopeSessionsBundle, ElectricalCharacteristics)"/>
+        /// <summary>
+        /// Configures the electrical characteristics of all channels in the bundle using per-site settings.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
+        /// <param name="electricalCharacteristics">The per-site <see cref="ElectricalCharacteristics"/> to apply.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="electricalCharacteristics"/> or any per-site value is null.</exception>
         public static void ConfigureElectricalCharacteristics(this ScopeSessionsBundle sessionsBundle, SiteData<ElectricalCharacteristics> electricalCharacteristics)
         {
             if (electricalCharacteristics is null)
             {
-                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Scope_Electrical_Characteristics_Null, nameof(electricalCharacteristics)));
+                throw new ArgumentNullException(nameof(electricalCharacteristics));
             }
             sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
             {
-                sessionInfo.ConfigureElectricalCharacteristics(sitePinInfo, electricalCharacteristics.GetValue(sitePinInfo.SiteNumber));
+                ConfigureElectricalCharacteristics(sessionInfo, sitePinInfo, electricalCharacteristics.GetValue(sitePinInfo.SiteNumber));
             });
         }
 
-        /// <inheritdoc cref="ConfigureElectricalCharacteristics(ScopeSessionsBundle, ElectricalCharacteristics)"/>
+        /// <summary>
+        /// Configures the electrical characteristics of all channels in the bundle using per-pin per-site settings.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
+        /// <param name="electricalCharacteristics">The per-pin per-site <see cref="ElectricalCharacteristics"/> to apply.</param>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="electricalCharacteristics"/> or any per-pin per-site value is null.</exception>
         public static void ConfigureElectricalCharacteristics(this ScopeSessionsBundle sessionsBundle, PinSiteData<ElectricalCharacteristics> electricalCharacteristics)
         {
             if (electricalCharacteristics is null)
             {
-                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.Scope_Electrical_Characteristics_Null, nameof(electricalCharacteristics)));
+                throw new ArgumentNullException(nameof(electricalCharacteristics));
             }
             sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
             {
-                sessionInfo.ConfigureElectricalCharacteristics(sitePinInfo, electricalCharacteristics.GetValue(sitePinInfo));
+                ConfigureElectricalCharacteristics(sessionInfo, sitePinInfo, electricalCharacteristics.GetValue(sitePinInfo));
             });
         }
 
@@ -109,19 +120,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
             }
         }
 
-        private static void ConfigureElectricalCharacteristics(this ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo, ElectricalCharacteristics electricalCharacteristics)
+        private static void ConfigureElectricalCharacteristics(ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo, ElectricalCharacteristics electricalCharacteristics)
         {
             if (electricalCharacteristics is null)
             {
-                return;
+                throw new ArgumentNullException(nameof(electricalCharacteristics));
             }
-            var channel = sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString];
-            channel.ConfigureCharacteristics(
+            sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString].ConfigureCharacteristics(
                 electricalCharacteristics.InputImpedance,
                 electricalCharacteristics.InputFrequencyMax);
-            var temp = channel.InputFrequencyMax;
-            var temp2 = channel.InputImpedance;
         }
+
         #endregion
     }
 }
