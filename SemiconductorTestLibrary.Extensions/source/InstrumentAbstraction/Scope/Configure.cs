@@ -16,9 +16,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// <summary>
         /// Configures the vertical settings of all channels in the bundle.
         /// </summary>
+        /// <remarks>
+        /// Throws <see cref="ArgumentNullException"/> if the <paramref name="verticalSettings"/> parameter is null.<br/>
+        /// Throws <see cref="NISemiconductorTestException"/> if the driver fails to apply the settings for any pin or site.
+        /// </remarks>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
         /// <param name="verticalSettings">The <see cref="VerticalSettings"/> to apply.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="verticalSettings"/> is <see langword="null"/>.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="verticalSettings"/> parameter is null.</exception>
         /// <exception cref="NISemiconductorTestException">Thrown when the driver fails to apply the settings for any pin or site.</exception>
         public static void ConfigureVertical(this ScopeSessionsBundle sessionsBundle, VerticalSettings verticalSettings)
         {

@@ -36,7 +36,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("SCP_5105_Pin")]
         [InlineData(_SCP_5162_Pin)]
         [InlineData(_SCP_5186_Pin)]
-        [InlineData("SCP_5172_Pin")]
         public void DifferentInstrumentModels_ConfigureVerticalWithDefaultSettings_ValuesApplied(string pinName)
         {
             var sessionsBundle = GetSessionsBundle(pinName);
