@@ -5,9 +5,9 @@ using System.Linq;
 using System.Xml.Linq;
 using Xunit;
 
-namespace NationalInstruments.Tests.SemiconductorTestLibrary.Functionality.Example
+namespace NationalInstruments.Tests.SemiconductorTestLibrary.ValidationTests
 {
-    public class ValidateExamplesHintPath
+    public class ExamplesHintPathTests
     {
         // TestMode ATS runs require evaluating examples from the installed examples directory.
         private const string InstalledExamplesRoot = @"C:\Users\Public\Documents\National Instruments\NI_SemiconductorTestLibrary\Examples";
@@ -26,7 +26,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Functionality.Examp
 
         [Theory]
         [MemberData(nameof(GetExampleProjectPaths))]
-        public void ValidateExamplesHintPaths_WhenPathsAreMissing_ShouldReportInvalidHintPaths(string projectPath)
+        public void GetInstalledExamplesProjects_ValidateHintPaths_NoInvalidHintPathsFound(string projectPath)
         {
             List<string> hintPaths = GetHintPaths(projectPath);
 
