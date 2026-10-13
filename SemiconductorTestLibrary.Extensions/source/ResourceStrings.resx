@@ -222,7 +222,4 @@
   <data name="FGen_InvalidOutputModeAtInitiateException" xml:space="preserve">
     <value>Operation cannot be completed because the output mode is not configured to Function. Configure the output mode to Function before calling Initiate. Currently, only the Function output mode is supported.</value>
   </data>
-  <data name="Scope_Electrical_Characteristics_Null" xml:space="preserve">
-    <value>'{0}' cannot be null. Please provide valid electrical characteristics</value>
-  </data>
 </root>
