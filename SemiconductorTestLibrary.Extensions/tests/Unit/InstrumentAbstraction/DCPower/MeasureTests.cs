@@ -1912,7 +1912,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var currentLevel = 3E-5;
             string firstChannelString = sessionsBundle.InstrumentSessions.ElementAt(0).AssociatedSitePinList[0].IndividualChannelString;
             sessionsBundle.ConfigureMeasureWhen(DCPowerMeasurementWhen.OnDemand);
-            sessionsBundle.InstrumentSessions.ElementAt(0).Session.Outputs[firstChannelString].Measurement.MeasureWhen = DCPowerMeasurementWhen.OnMeasureTrigger;
+            sessionsBundle.InstrumentSessions.ElementAt(0).Session.Outputs[firstChannelString].Measurement.MeasureWhen = DCPowerMeasurementWhen.AutomaticallyAfterSourceComplete;
             sessionsBundle.ForceCurrent(currentLevel, waitForSourceCompletion: true);
 
             var results = sessionsBundle.MeasureCurrentAndInCompliance();
