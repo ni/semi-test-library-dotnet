@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope
@@ -20,7 +21,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         {
             if (settings == null)
             {
-                throw new ArgumentNullException(nameof(settings));
+                throw new ArgumentNullException(nameof(settings), string.Format(CultureInfo.InvariantCulture, ResourceStrings.Scope_TimingSettingsNull, nameof(settings)));
             }
 
             sessionsBundle.Do(sessionInfo =>
@@ -46,7 +47,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         {
             if (settings == null)
             {
-                throw new ArgumentNullException(nameof(settings));
+                throw new ArgumentNullException(nameof(settings), string.Format(CultureInfo.InvariantCulture, ResourceStrings.Scope_ClockSettingsNull, nameof(settings)));
             }
 
             sessionsBundle.Do(sessionInfo =>

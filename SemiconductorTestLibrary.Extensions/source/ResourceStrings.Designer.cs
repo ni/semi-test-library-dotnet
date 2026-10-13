@@ -374,5 +374,23 @@ namespace NationalInstruments.SemiconductorTestLibrary {
                 return ResourceManager.GetString("FGen_InvalidOutputModeException", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The {0} parameter cannot be null..
+        /// </summary>
+        internal static string Scope_TimingSettingsNull {
+            get {
+                return ResourceManager.GetString("Scope_TimingSettingsNull", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The {0} parameter cannot be null..
+        /// </summary>
+        internal static string Scope_ClockSettingsNull {
+            get {
+                return ResourceManager.GetString("Scope_ClockSettingsNull", resourceCulture);
+            }
+        }
     }
 }
