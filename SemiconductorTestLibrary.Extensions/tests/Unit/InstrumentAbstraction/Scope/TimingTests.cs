@@ -30,10 +30,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         #region ConfigureTiming Tests
 
         [Fact]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_ConfigureTimingWithValidSettings_TimingSettingsCorrectlyConfigured()
         {
-            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin");
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
             var timingSettings = new TimingSettings
             {
                 MinimumSampleRate = 1000000,
@@ -49,9 +50,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_ConfigureTimingWithMultiplePins_TimingSettingsCorrectlyConfiguredForAllSessions()
         {
-            var sessionsBundle = GetSessionsBundle(new[] { "SCP_5105_Pin", "SCP_5162_Pin", "SCP_5186_Pin" });
+            var sessionsBundle = GetSessionsBundle(new[] { "SCP_5172_Pin_1", "SCP_5172_Pin_2", "SCP_5172_Pin_3" });
             var timingSettings = new TimingSettings
             {
                 MinimumSampleRate = 2000000,
@@ -67,10 +70,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_ConfigureTimingCalledMultipleTimes_LastSettingsApplied()
         {
-            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin");
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
             var finalSettings = new TimingSettings
             {
                 MinimumSampleRate = 1000000,
@@ -94,10 +98,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_ConfigureTimingThenGetNumberOfRecordsToAcquire_ReturnsConfiguredNumberOfRecords()
         {
-            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin");
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
             var timingSettings = new TimingSettings
             {
                 MinimumSampleRate = 1000000,
@@ -114,10 +119,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_GetNumberOfRecordsToAcquireWithoutCallingConfigureTiming_ReturnsDefaultNumberOfRecords()
         {
-            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin");
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
 
             var numberOfRecordsToAcquire = sessionsBundle.GetNumberOfRecordsToAcquire();
 
@@ -125,10 +131,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_ConfigureTimingWithNullSettings_ThrowsArgumentNullException()
         {
-            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin");
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
 
             void ConfigureTiming() => sessionsBundle.ConfigureTiming(null);
 
@@ -136,10 +143,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_ConfigureTimingWithNegativeNumberOfRecords_ThrowsException()
         {
-            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin");
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
             var timingSettings = new TimingSettings
             {
                 MinimumSampleRate = 1000000,
@@ -155,10 +163,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_ConfigureTimingWithNegativeMinimumSampleRate_ThrowsException()
         {
-            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin");
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
             var timingSettings = new TimingSettings
             {
                 MinimumSampleRate = -1000000,
@@ -178,10 +187,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         #region ConfigureClock Tests
 
         [Fact]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_ConfigureClockWithDefaultSettings_ClockSettingsCorrectlyConfigured()
         {
-            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin");
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
 
             sessionsBundle.ConfigureClock(new ClockSettings());
 
@@ -189,10 +199,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_ConfigureClockWithMasterEnabled_ClockSettingsCorrectlyConfigured()
         {
-            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin");
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
             var clockSettings = new ClockSettings
             {
                 InputClockSource = ScopeInputClockSource.NoSource,
@@ -207,10 +218,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_ConfigureClockWithNullSettings_ThrowsArgumentNullException()
         {
-            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin");
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
 
             void ConfigureClock() => sessionsBundle.ConfigureClock(null);
 
@@ -218,10 +230,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_ConfigureClockWithNullInputClockSource_ThrowsException()
         {
-            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin");
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
             var clockSettings = new ClockSettings
             {
                 InputClockSource = null,
@@ -236,10 +249,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_ConfigureClockWithNullOutputClockSource_ThrowsException()
         {
-            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin");
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
             var clockSettings = new ClockSettings
             {
                 InputClockSource = ScopeInputClockSource.NoSource,
@@ -254,10 +268,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_ConfigureClockWithNullClockSynchronizationPulseSource_ThrowsException()
         {
-            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin");
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
             var clockSettings = new ClockSettings
             {
                 InputClockSource = ScopeInputClockSource.NoSource,
