@@ -64,5 +64,24 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Utilities
                 Assert.Equal(expectedCount, publishedData.Where(d => d.Pin == pinName).Count());
             }
         }
+
+        internal static void AssertEqualForDoubleArrays(double[] expected, double[] actual, int precision = 3)
+        {
+            Assert.Equal(expected.Length, actual.Length);
+            for (int i = 0; i < expected.Length; i++)
+            {
+                Assert.Equal(expected[i], actual[i], precision);
+            }
+        }
+
+        /// <summary>
+        /// Provides channel name from individual channel string.
+        /// </summary>
+        /// <param name="individualChannelString">IndividualChannelString</param>
+        /// <returns>Channel name</returns>
+        internal static string GetChannelNameFromIndividualChannelString(string individualChannelString)
+        {
+            return individualChannelString.Split('/').Last();
+        }
     }
 }
