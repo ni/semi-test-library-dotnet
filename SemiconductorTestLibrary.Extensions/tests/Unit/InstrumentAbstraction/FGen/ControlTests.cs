@@ -318,6 +318,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Initiate();
 
             var exception = Record.Exception(() => sessionsBundle.WaitUntilDone(100));
+            sessionsBundle.Abort(); // Ensure generation is aborted so that it does not affect other tests.
 
             Assert.IsType<NISemiconductorTestException>(exception);
             Assert.Contains("at NationalInstruments.ModularInstruments.NIFgen.Internal.FgenImpl.WaitUntilDone", exception.Message); // Ensure that correct driver method call is reported in the exception message.
