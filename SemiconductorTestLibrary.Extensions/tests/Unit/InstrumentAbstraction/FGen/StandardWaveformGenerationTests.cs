@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Linq;
 using NationalInstruments.ModularInstruments.NIFgen;
-using NationalInstruments.SemiconductorTestLibrary;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
@@ -8,12 +8,17 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
+using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.Utilities;
 
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.Fgen
 {
     [Collection("NonParallelizable")]
     public sealed class StandardWaveformGenerationTests : IDisposable
     {
+        private const double Tolerance = 0.001;
+        private static readonly string[] PinNames = new string[] { "A", "B" };
+        private static readonly int[] SiteNumbers = new int[] { 0, 1 };
+
         private ISemiconductorModuleContext _tsmContext;
 
         public TSMSessionManager Initialize(string pinMapFileName)
@@ -28,125 +33,226 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             InitializeAndClose.Close(_tsmContext);
         }
 
+        public static TheoryData<string, StandardWaveform> PinMapAndSupportedWaveformFunctionTypes()
+        {
+            const string PinMap = "FgenSingleInstrumentPerPin.pinmap";
+            var waveformTypes = Enum.GetValues(typeof(StandardWaveform))
+                .Cast<StandardWaveform>()
+                .Where(waveform => waveform != StandardWaveform.User);
+
+            var data = new TheoryData<string, StandardWaveform>();
+            foreach (var waveform in waveformTypes)
+            {
+                data.Add(PinMap, waveform);
+            }
+            return data;
+        }
+
         [Theory]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap", ModularInstruments.NIFgen.StandardWaveform.Sine)]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap", ModularInstruments.NIFgen.StandardWaveform.Square)]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap", ModularInstruments.NIFgen.StandardWaveform.Triangle)]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap", ModularInstruments.NIFgen.StandardWaveform.DC)]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap", ModularInstruments.NIFgen.StandardWaveform.RampUp)]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap", ModularInstruments.NIFgen.StandardWaveform.RampDown)]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap", ModularInstruments.NIFgen.StandardWaveform.Noise)]
-        public void InitializeBundleWithSinglePin_PerformConfigureStandardWaveformOperation_Succeeds(string pinmap, ModularInstruments.NIFgen.StandardWaveform waveformFunctionType)
+        [MemberData(nameof(PinMapAndSupportedWaveformFunctionTypes))]
+        public void InitializeBundleWithMultiplePins_ConfigureStandardWaveformWithAllSupportedFunctionType_AllChannelsConfiguredCorrectly(string pinmap, StandardWaveform waveformFunctionType)
         {
             var sessionManager = Initialize(pinmap);
-            var sessionsBundle = sessionManager.Fgen("A");
+            var sessionsBundle = sessionManager.Fgen(PinNames);
+            sessionsBundle.Do(sessionInformation =>
+            {
+                sessionInformation.Session.Output.OutputMode = OutputMode.Function;
+            });
             var standardWaveformSettings = new StandardWaveformSettings(
                 functionType: waveformFunctionType,
                 amplitude: 5.0,
-                dcOffset: 1.0,
                 frequency: 1000.0,
+                dcOffset: 2.0,
                 startPhase: 90.0);
 
             sessionsBundle.ConfigureStandardWaveform(standardWaveformSettings);
+
+            var configuredSettings = GetStandardWaveformSettings(sessionsBundle);
+            foreach (var site in SiteNumbers)
+            {
+                foreach (var pin in PinNames)
+                {
+                    AssertStandardWaveformSettings(standardWaveformSettings, configuredSettings.GetValue(site, pin));
+                }
+            }
         }
 
         [Theory]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap", ModularInstruments.NIFgen.StandardWaveform.Sine)]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap", ModularInstruments.NIFgen.StandardWaveform.Square)]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap", ModularInstruments.NIFgen.StandardWaveform.Triangle)]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap", ModularInstruments.NIFgen.StandardWaveform.DC)]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap", ModularInstruments.NIFgen.StandardWaveform.RampUp)]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap", ModularInstruments.NIFgen.StandardWaveform.RampDown)]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap", ModularInstruments.NIFgen.StandardWaveform.Noise)]
-        [InlineData("FgenSingleInstrumentPerSite.pinmap", ModularInstruments.NIFgen.StandardWaveform.Sine)]
-        [InlineData("FgenSingleInstrumentPerSite.pinmap", ModularInstruments.NIFgen.StandardWaveform.Square)]
-        [InlineData("FgenSingleInstrumentPerSite.pinmap", ModularInstruments.NIFgen.StandardWaveform.Triangle)]
-        [InlineData("FgenSingleInstrumentPerSite.pinmap", ModularInstruments.NIFgen.StandardWaveform.DC)]
-        [InlineData("FgenSingleInstrumentPerSite.pinmap", ModularInstruments.NIFgen.StandardWaveform.RampUp)]
-        [InlineData("FgenSingleInstrumentPerSite.pinmap", ModularInstruments.NIFgen.StandardWaveform.RampDown)]
-        [InlineData("FgenSingleInstrumentPerSite.pinmap", ModularInstruments.NIFgen.StandardWaveform.Noise)]
-        public void InitializeBundleWithMultiplePins_PerformConfigureStandardWaveformOperation_Succeeds(string pinmap, ModularInstruments.NIFgen.StandardWaveform waveformFunctionType)
+        [InlineData("FgenSingleInstrumentPerPin.pinmap")]
+        [InlineData("FgenSingleInstrumentPerSite.pinmap")]
+        public void InitializeBundleWithMultiplePins_ConfigureStandardWaveformWithScalarData_AllChannelsConfiguredCorrectly(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
-            var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
+            var sessionsBundle = sessionManager.Fgen(PinNames);
             var standardWaveformSettings = new StandardWaveformSettings(
-                functionType: waveformFunctionType,
+                functionType: StandardWaveform.Sine,
                 amplitude: 5.0,
                 frequency: 1000.0,
                 dcOffset: -1.0,
-                startPhase: -90.0);
+                startPhase: 90.0);
 
             sessionsBundle.ConfigureStandardWaveform(standardWaveformSettings);
+
+            var configuredSettings = GetStandardWaveformSettings(sessionsBundle);
+            foreach (var site in SiteNumbers)
+            {
+                foreach (var pin in PinNames)
+                {
+                    AssertStandardWaveformSettings(standardWaveformSettings, configuredSettings.GetValue(site, pin));
+                }
+            }
         }
 
         [Theory]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
         [InlineData("FgenSingleInstrumentPerSite.pinmap")]
-        public void InitializeBundleWithMultiplePins_PerformConfigureStandardWaveformOperationWithSiteData_Succeeds(string pinmap)
+        public void InitializeBundleWithMultiplePins_ConfigureStandardWaveformWithSiteData_AllChannelsConfiguredCorrectly(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
-            var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
-            var standardWaveformSettings1 = new StandardWaveformSettings(
-                functionType: ModularInstruments.NIFgen.StandardWaveform.Sine,
-                amplitude: 5.0,
-                frequency: 1000.0);
-            var standardWaveformSettings2 = new StandardWaveformSettings(
-                functionType: ModularInstruments.NIFgen.StandardWaveform.Square,
-                amplitude: 3.5,
-                frequency: 5000.0);
-            var siteNumbers = new int[] { 0, 1 };
-            var siteDataArray = new StandardWaveformSettings[] { standardWaveformSettings1, standardWaveformSettings2 };
-            var siteData = new SiteData<StandardWaveformSettings>(siteNumbers, siteDataArray);
+            var sessionsBundle = sessionManager.Fgen(PinNames);
+            var siteData = new SiteData<StandardWaveformSettings>(new[]
+            {
+                new StandardWaveformSettings(functionType: StandardWaveform.Sine, amplitude: 5.0, frequency: 1000.0),  // Site 0
+                new StandardWaveformSettings(functionType: StandardWaveform.Square, amplitude: 3.5, frequency: 5000.0) // Site 1
+            });
 
             sessionsBundle.ConfigureStandardWaveform(siteData);
+
+            var configuredSettings = GetStandardWaveformSettings(sessionsBundle);
+            foreach (var site in SiteNumbers)
+            {
+                foreach (var pin in PinNames)
+                {
+                    AssertStandardWaveformSettings(siteData.GetValue(site), configuredSettings.GetValue(site, pin));
+                }
+            }
         }
 
         [Theory]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
         [InlineData("FgenSingleInstrumentPerSite.pinmap")]
-        public void InitializeBundleWithMultiplePins_PerformConfigureStandardWaveformOperationWithPinSiteData_Succeeds(string pinmap)
+        public void InitializeBundleWithMultiplePins_ConfigureStandardWaveformWithPinSiteData_AllChannelsConfiguredCorrectly(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
-            var pinNames = new string[] { "A", "B" };
-            var sessionsBundle = sessionManager.Fgen(pinNames);
-            var standardWaveformSettings1 = new StandardWaveformSettings(
-                functionType: ModularInstruments.NIFgen.StandardWaveform.Sine,
-                amplitude: 5.0,
-                frequency: 1000.0);
-            var standardWaveformSettings2 = new StandardWaveformSettings(
-                functionType: ModularInstruments.NIFgen.StandardWaveform.Sine,
-                amplitude: 3.5,
-                frequency: 5000.0);
-            var standardWaveformSettings3 = new StandardWaveformSettings(
-                functionType: ModularInstruments.NIFgen.StandardWaveform.Triangle,
-                amplitude: 5.0,
-                frequency: 1000.0);
-            var standardWaveformSettings4 = new StandardWaveformSettings(
-                functionType: ModularInstruments.NIFgen.StandardWaveform.RampUp,
-                amplitude: 3.5,
-                frequency: 5000.0);
-            var siteNumbers = new int[] { 0, 1 };
-            var perPinPerSiteData = new StandardWaveformSettings[][] { new[] { standardWaveformSettings1, standardWaveformSettings2 }, new[] { standardWaveformSettings3, standardWaveformSettings4 } };
-            var pinSiteData = new PinSiteData<StandardWaveformSettings>(pinNames, siteNumbers, perPinPerSiteData);
+            var sessionsBundle = sessionManager.Fgen(PinNames);
+            var pinSiteData = new PinSiteData<StandardWaveformSettings>(PinNames, SiteNumbers, new[]
+            {
+                // Pin A: Site 0, Site 1
+                new[] { new StandardWaveformSettings(StandardWaveform.Sine, frequency: 1000.0, amplitude: 5.0), new StandardWaveformSettings(StandardWaveform.Sine, frequency: 5000.0, amplitude: 3.5) },
+                // Pin B: Site 0, Site 1
+                new[] { new StandardWaveformSettings(StandardWaveform.Triangle, frequency: 1000.0, amplitude: 5.0), new StandardWaveformSettings(StandardWaveform.RampUp, frequency: 5000.0, amplitude: 3.5) }
+            });
 
             sessionsBundle.ConfigureStandardWaveform(pinSiteData);
+
+            var configuredSettings = GetStandardWaveformSettings(sessionsBundle);
+            foreach (var site in SiteNumbers)
+            {
+                foreach (var pin in PinNames)
+                {
+                    AssertStandardWaveformSettings(pinSiteData.GetValue(site, pin), configuredSettings.GetValue(site, pin));
+                }
+            }
         }
 
-        [Theory]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap")]
-        [InlineData("FgenSingleInstrumentPerSite.pinmap")]
-        public void InitializeBundleWithMultiplePins_PerformConfigureStandardWaveformOperationWithUnsupportedFunctionType_ThrowsException(string pinmap)
+        [Fact]
+        public void InitializeBundleWithMultiplePins_ConfigureStandardWaveformWithUnsupportedFunctionType_ThrowsException()
         {
-            var sessionManager = Initialize(pinmap);
+            var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
             var pinNames = new string[] { "A", "B" };
             var sessionsBundle = sessionManager.Fgen(pinNames);
             var standardWaveformSettings = new StandardWaveformSettings(
-                functionType: ModularInstruments.NIFgen.StandardWaveform.User,
+                functionType: StandardWaveform.User,
                 amplitude: 5.0,
                 frequency: 1000.0);
 
             var exception = Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ConfigureStandardWaveform(standardWaveformSettings));
-            Assert.Contains(ResourceStrings.FGen_InvalidFunctionType, exception.Message);
+
+            Assert.IsType<NISemiconductorTestException>(exception);
+            Assert.Contains("The 'User' Waveform Function Type is not supported in STL", exception.Message); // Ensure correct error message is reported in the exception message.
         }
+
+        [Fact]
+        public void InitializeBundleWithMultiplePins_ConfigureStandardWaveformWithInvalidDCOffset_AllChannelsConfiguredCorrectly()
+        {
+            var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
+            var sessionsBundle = sessionManager.Fgen(PinNames);
+            var standardWaveformSettings = new StandardWaveformSettings(
+                functionType: StandardWaveform.Sine,
+                amplitude: 5.0,
+                frequency: 1000.0,
+                dcOffset: 8.0, // Invalid DC offset for the given amplitude.
+                startPhase: 90.0);
+
+            var exception = Record.Exception(() =>
+            {
+                sessionsBundle.ConfigureStandardWaveform(standardWaveformSettings);
+                sessionsBundle.Commit();
+            });
+
+            Assert.IsType<NISemiconductorTestException>(exception);
+            Assert.Contains("Invalid value for parameter or property", exception.Message); // Ensure correct error message is reported in the exception message.
+            Assert.Contains("Property: DC Offset", exception.Message); // Ensure correct property is reported in the exception message.
+        }
+
+        [Fact]
+        public void InitializeBundleWithMultiplePins_ConfigureStandardWaveformWithInvalidFrequency_AllChannelsConfiguredCorrectly()
+        {
+            var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
+            var sessionsBundle = sessionManager.Fgen(PinNames);
+            var standardWaveformSettings = new StandardWaveformSettings(
+                functionType: StandardWaveform.Sine,
+                amplitude: -5.0,
+                frequency: -1000.0,
+                dcOffset: 0.0,
+                startPhase: 90); // Invalid start phase for the given waveform.
+
+            var exception = Record.Exception(() =>
+            {
+                sessionsBundle.ConfigureStandardWaveform(standardWaveformSettings);
+                sessionsBundle.Commit();
+            });
+
+            Assert.IsType<NISemiconductorTestException>(exception);
+            Assert.Contains("Invalid value for parameter or property", exception.Message); // Ensure correct error message is reported in the exception message.
+            Assert.Contains("Property: Frequency", exception.Message); // Ensure correct property is reported in the exception message.
+        }
+
+        #region Helper Methods
+
+        private static PinSiteData<StandardWaveformSettings> GetStandardWaveformSettings(FgenSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, siepinInfo) =>
+            {
+                // Get channel name from the individual channel string
+                var channelName = GetChannelNameFromIndividualChannelString(siepinInfo.IndividualChannelString);
+
+                // Retrieve the standard waveform settings from the session
+                var waveformFunctionType = sessionInfo.Session.StandardWaveform.GetWaveformFunction(channelName);
+                var amplitude = sessionInfo.Session.StandardWaveform.GetAmplitude(channelName);
+                var dcOffset = sessionInfo.Session.StandardWaveform.GetDCOffset(channelName);
+                var frequency = sessionInfo.Session.StandardWaveform.GetFrequency(channelName);
+                var startPhase = sessionInfo.Session.StandardWaveform.GetStartPhase(channelName);
+
+                // Create a new StandardWaveformSettings object with the retrieved values and return it.
+                return new StandardWaveformSettings(waveformFunctionType, frequency, amplitude, dcOffset, startPhase);
+            });
+        }
+
+        private static void AssertStandardWaveformSettings(StandardWaveformSettings expected, StandardWaveformSettings actual)
+        {
+            Assert.Equal(expected.WaveformFunctionType, actual.WaveformFunctionType);
+            AssertWithinTolerance(expected.Frequency, actual.Frequency);
+            AssertWithinTolerance(expected.Amplitude, actual.Amplitude);
+            AssertWithinTolerance(expected.DcOffset, actual.DcOffset);
+            AssertWithinTolerance(expected.StartPhase, actual.StartPhase);
+        }
+
+        private static void AssertWithinTolerance(double expected, double actual)
+        {
+            Assert.InRange(actual, expected - Tolerance, expected + Tolerance);
+        }
+
+        #endregion
     }
 }
