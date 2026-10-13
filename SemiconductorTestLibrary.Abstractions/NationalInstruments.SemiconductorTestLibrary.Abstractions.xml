@@ -7448,33 +7448,48 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TimingSettings">
             <summary>
-            Defines the Scope timing settings.
+            Defines oscilloscope timing settings.
             </summary>
+            <remarks>
+            Default values:
+            <list type="bullet">
+            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TimingSettings.MinimumSampleRate"/>: 20e6 S/s</description></item>
+            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TimingSettings.MinimumNumberOfPoints"/>: 1000</description></item>
+            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TimingSettings.ReferencePosition"/>: 50.0</description></item>
+            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TimingSettings.NumberOfRecords"/>: 1</description></item>
+            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TimingSettings.EnforceRealtime"/>: false</description></item>
+            </list>
+            </remarks>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TimingSettings.MinimumSampleRate">
             <summary>
             Defines the minimum sample rate, in samples per second.
             </summary>
+            <remarks>Default value: 20e6 S/s.</remarks>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TimingSettings.MinimumNumberOfPoints">
             <summary>
             Defines the minimum number of points to acquire.
             </summary>
+            <remarks>Default value: 1000.</remarks>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TimingSettings.ReferencePosition">
             <summary>
             Defines the reference position, expressed as a percentage of the acquisition.
             </summary>
+            <remarks>Default value: 50.0.</remarks>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TimingSettings.NumberOfRecords">
             <summary>
             Defines the number of records to acquire.
             </summary>
+            <remarks>Default value: 1.</remarks>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TimingSettings.EnforceRealtime">
             <summary>
             Defines whether to enforce realtime acquisition.
             </summary>
+            <remarks>Default value: false.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TimingSettings.#ctor">
             <summary>
@@ -7483,30 +7498,164 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ClockSettings">
             <summary>
-            Defines the Scope clock settings.
+            Defines oscilloscope clock settings.
             </summary>
+            <remarks>
+            Default values:
+            <list type="bullet">
+            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ClockSettings.InputClockSource"/>: <see cref="P:NationalInstruments.ModularInstruments.NIScope.ScopeInputClockSource.NoSource"/></description></item>
+            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ClockSettings.OutputClockSource"/>: <see cref="P:NationalInstruments.ModularInstruments.NIScope.ScopeOutputClockSource.NoSource"/></description></item>
+            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ClockSettings.ClockSynchronizationPulseSource"/>: <see cref="P:NationalInstruments.ModularInstruments.NIScope.ScopeClockSynchronizationPulseSource.NoSource"/></description></item>
+            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ClockSettings.MasterEnabled"/>: false</description></item>
+            </list>
+            </remarks>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ClockSettings.InputClockSource">
             <summary>
             Defines the input clock source.
             </summary>
+            <remarks>Default value: <see cref="P:NationalInstruments.ModularInstruments.NIScope.ScopeInputClockSource.NoSource"/>.</remarks>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ClockSettings.OutputClockSource">
             <summary>
             Defines the output clock source.
             </summary>
+            <remarks>Default value: <see cref="P:NationalInstruments.ModularInstruments.NIScope.ScopeOutputClockSource.NoSource"/>.</remarks>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ClockSettings.ClockSynchronizationPulseSource">
             <summary>
             Defines the clock synchronization pulse source.
             </summary>
+            <remarks>Default value: <see cref="P:NationalInstruments.ModularInstruments.NIScope.ScopeClockSynchronizationPulseSource.NoSource"/>.</remarks>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ClockSettings.MasterEnabled">
             <summary>
             Defines whether this session is the clock master.
             </summary>
+            <remarks>Default value: false.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ClockSettings.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TriggerSettings">
+            <summary>
+            Defines oscilloscope trigger settings.
+            </summary>
+            <remarks>
+            Default values:
+            <list type="bullet">
+            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TriggerSettings.HoldOff"/>: <see cref="F:NationalInstruments.PrecisionTimeSpan.Zero"/></description></item>
+            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TriggerSettings.Delay"/>: <see cref="F:NationalInstruments.PrecisionTimeSpan.Zero"/></description></item>
+            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TriggerSettings.TriggerLevel"/>: 0.0 V</description></item>
+            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TriggerSettings.TriggerHysteresis"/>: 0.0 V</description></item>
+            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TriggerSettings.TriggerSlope"/>: <see cref="F:NationalInstruments.ModularInstruments.NIScope.ScopeTriggerSlope.Positive"/></description></item>
+            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TriggerSettings.TriggerCoupling"/>: <see cref="F:NationalInstruments.ModularInstruments.NIScope.ScopeTriggerCoupling.DC"/></description></item>
+            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TriggerSettings.TriggerWindowMode"/>: <see cref="F:NationalInstruments.ModularInstruments.NIScope.ScopeWindowTriggerMode.Entering"/></description></item>
+            </list>
+            </remarks>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TriggerSettings.HoldOff">
+            <summary>
+            The trigger hold-off time.
+            </summary>
+            <remarks>Default value: <see cref="F:NationalInstruments.PrecisionTimeSpan.Zero"/>.</remarks>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TriggerSettings.Delay">
+            <summary>
+            The trigger delay time.
+            </summary>
+            <remarks>Default value: <see cref="F:NationalInstruments.PrecisionTimeSpan.Zero"/>.</remarks>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TriggerSettings.TriggerLevel">
+            <summary>
+            The trigger level in volts.
+            </summary>
+            <remarks>Default value: 0.0 V.</remarks>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TriggerSettings.TriggerHysteresis">
+            <summary>
+            The trigger hysteresis in volts.
+            </summary>
+            <remarks>Default value: 0.0 V.</remarks>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TriggerSettings.TriggerSlope">
+            <summary>
+            The trigger slope.
+            </summary>
+            <remarks>Default value: <see cref="F:NationalInstruments.ModularInstruments.NIScope.ScopeTriggerSlope.Positive"/>.</remarks>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TriggerSettings.TriggerCoupling">
+            <summary>
+            The trigger coupling.
+            </summary>
+            <remarks>Default value: <see cref="F:NationalInstruments.ModularInstruments.NIScope.ScopeTriggerCoupling.DC"/>.</remarks>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TriggerSettings.TriggerWindowMode">
+            <summary>
+            The trigger window mode.
+            </summary>
+            <remarks>Default value: <see cref="F:NationalInstruments.ModularInstruments.NIScope.ScopeWindowTriggerMode.Entering"/>.</remarks>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TriggerSettings.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSettings">
+            <summary>
+            Defines oscilloscope settings, including channel settings, timing settings, and edge trigger settings.
+            </summary>
+            <remarks>
+            Default values:
+            <list type="bullet">
+            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSettings.AcquisitionType"/>: default(<see cref="T:NationalInstruments.ModularInstruments.NIScope.ScopeAcquisitionType"/>)</description></item>
+            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSettings.TriggerType"/>: default(<see cref="T:NationalInstruments.ModularInstruments.NIScope.ScopeTriggerType"/>)</description></item>
+            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSettings.ChannelSettings"/>: null</description></item>
+            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSettings.TimingSettings"/>: null</description></item>
+            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSettings.ClockSettings"/>: null</description></item>
+            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSettings.TriggerSettings"/>: null</description></item>
+            </list>
+            </remarks>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSettings.AcquisitionType">
+            <summary>
+            The acquisition type for the scope session. This value may not be supported on all devices.
+            </summary>
+            <remarks>Default value: default(<see cref="T:NationalInstruments.ModularInstruments.NIScope.ScopeAcquisitionType"/>).</remarks>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSettings.TriggerType">
+            <summary>
+            The trigger type for the scope session. This value may not be supported on all devices.
+            </summary>
+            <remarks>Default value: default(<see cref="T:NationalInstruments.ModularInstruments.NIScope.ScopeTriggerType"/>).</remarks>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSettings.ChannelSettings">
+            <summary>
+            The channel settings for the scope session.
+            </summary>
+            <remarks>Default value: null.</remarks>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSettings.TimingSettings">
+            <summary>
+            The timing settings for the scope session.
+            </summary>
+            <remarks>Default value: null.</remarks>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSettings.ClockSettings">
+            <summary>
+            The clock settings for the scope session.
+            </summary>
+            <remarks>Default value: null.</remarks>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSettings.TriggerSettings">
+            <summary>
+            The edge trigger settings for the scope session.
+            </summary>
+            <remarks>Default value: null.</remarks>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSettings.#ctor">
             <summary>
             Default constructor.
             </summary>
