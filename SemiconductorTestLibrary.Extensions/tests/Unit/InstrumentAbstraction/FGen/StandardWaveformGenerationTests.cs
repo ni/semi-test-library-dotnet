@@ -205,7 +205,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ConfigureOutputMode(OutputMode.Function);
             var standardWaveformSettings = new StandardWaveformSettings(
                 functionType: StandardWaveform.Sine,
-                amplitude: -5.0,
+                amplitude: 5.0,
                 frequency: -1000.0,
                 dcOffset: 0.0,
                 startPhase: 90); // Invalid start phase for the given waveform.
