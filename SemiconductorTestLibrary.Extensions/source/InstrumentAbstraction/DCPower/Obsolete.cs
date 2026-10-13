@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Globalization;
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
@@ -11,7 +11,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
     /// </summary>
     public static partial class Source
     {
-        #region Obsolete methods on DCPowerSessionsBundle
+        #region
 
         /// <summary>
         /// Forces a hardware-timed sequence of voltage values on the targeted pins.
