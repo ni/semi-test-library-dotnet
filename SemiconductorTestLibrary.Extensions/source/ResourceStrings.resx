@@ -213,4 +213,13 @@
   <data name="DCPower_InvalidPublishDataIdFormatter" xml:space="preserve">
     <value>The publishDataIdFormatter parameter cannot be null or empty and must contain a format placeholder '{{0}}'.</value>
   </data>
+  <data name="DCPower_ImmediateUpdateModeNotSupportedForGangedChannels" xml:space="preserve">
+    <value>Immediate update mode is not supported for ganged channels.</value>
+  </data>
+  <data name="FGen_InvalidOutputModeException" xml:space="preserve">
+    <value>Output mode '{0}' is not supported, only 'Function' is supported.</value>
+  </data>
+  <data name="FGen_InvalidOutputModeAtInitiateException" xml:space="preserve">
+    <value>Operation cannot be completed because the output mode is not configured to Function. Configure the output mode to Function before calling Initiate. Currently, only the Function output mode is supported.</value>
+  </data>
 </root>
