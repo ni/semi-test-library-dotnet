@@ -92,6 +92,17 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Null(exception);
         }
 
+        [Theory]
+        [InlineData(SinglePin)]
+        [InlineData(PinGroup)]
+        public void ScopeSessionsBundle_ConfigureInitiateAndFetch_ReturnsData(string pin)
+        {
+            var sessionsBundle = GetSessionsBundle(pin);
+
+            sessionsBundle.Configure();
+            sessionsBundle.Initiate();
+
+        }
         private ScopeSessionsBundle GetSessionsBundle(string pin)
         {
             var sessionManager = new TSMSessionManager(_tsmContext);
