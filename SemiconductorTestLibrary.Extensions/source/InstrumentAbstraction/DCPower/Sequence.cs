@@ -13,10 +13,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
     /// <summary>
     /// Defines methods for DCPower voltage/current hardware level sequencing.
     /// </summary>
-    public static class Sequence
+    public static partial class Source
     {
         private const int AttributeIdNotRecognized = -1074135028;
-        private const double DefaultTimeout = 5.0;
 
         #region Custom Delegates
 

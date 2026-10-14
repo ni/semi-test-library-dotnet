@@ -14,7 +14,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
     /// <summary>
     /// Defines methods for DCPower voltage/current sourcing.
     /// </summary>
-    public static class Source
+    public static partial class Source
     {
         private const double DefaultTimeout = 5.0;
 
