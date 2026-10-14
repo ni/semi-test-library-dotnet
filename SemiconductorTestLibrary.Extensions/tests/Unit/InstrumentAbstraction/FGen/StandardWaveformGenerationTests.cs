@@ -56,7 +56,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.Fgen(PinNames);
             sessionsBundle.ConfigureOutputMode(OutputMode.Function);
             var standardWaveformSettings = new StandardWaveformSettings(
-                functionType: waveformFunctionType,
+                waveformFunctionType: waveformFunctionType,
                 amplitude: 5.0,
                 frequency: 1000.0,
                 dcOffset: 2.0,
@@ -83,7 +83,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.Fgen(PinNames);
             sessionsBundle.ConfigureOutputMode(OutputMode.Function);
             var standardWaveformSettings = new StandardWaveformSettings(
-                functionType: StandardWaveform.Sine,
+                waveformFunctionType: StandardWaveform.Sine,
                 amplitude: 5.0,
                 frequency: 1000.0,
                 dcOffset: -1.0,
@@ -101,6 +101,75 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
         }
 
+        [Fact]
+        public void InitializeBundleWithMultiplePins_ConfigureStandardWaveformWithUnsupportedFunctionType_ThrowsException()
+        {
+            var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
+            var pinNames = new string[] { "A", "B" };
+            var sessionsBundle = sessionManager.Fgen(pinNames);
+            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
+            var standardWaveformSettings = new StandardWaveformSettings(
+                waveformFunctionType: StandardWaveform.User,
+                amplitude: 5.0,
+                frequency: 1000.0);
+
+            var exception = Record.Exception(() =>
+            {
+                sessionsBundle.ConfigureStandardWaveform(standardWaveformSettings);
+            });
+
+            Assert.IsType<NISemiconductorTestException>(exception);
+            Assert.Contains("The 'StandardWaveform.User' Waveform Function Type is not supported in STL", exception.Message); // Ensure correct error message is reported in the exception message.
+        }
+
+        [Fact]
+        public void InitializeBundleWithMultiplePins_ConfigureStandardWaveformWithInvalidDCOffset_ThrowsException()
+        {
+            var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
+            var sessionsBundle = sessionManager.Fgen(PinNames);
+            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
+            var standardWaveformSettings = new StandardWaveformSettings(
+                waveformFunctionType: StandardWaveform.Sine,
+                amplitude: 5.0,
+                frequency: 1000.0,
+                dcOffset: 8.0, // Invalid DC offset for the given amplitude.
+                startPhase: 90.0);
+
+            var exception = Record.Exception(() =>
+            {
+                sessionsBundle.ConfigureStandardWaveform(standardWaveformSettings);
+                sessionsBundle.Commit();
+            });
+
+            Assert.IsType<NISemiconductorTestException>(exception);
+            Assert.Contains("Invalid value for parameter or property", exception.Message); // Ensure correct error message is reported in the exception message.
+            Assert.Contains("Property: DC Offset", exception.Message); // Ensure correct property is reported in the exception message.
+        }
+
+        [Fact]
+        public void InitializeBundleWithMultiplePins_ConfigureStandardWaveformWithInvalidFrequency_ThrowsException()
+        {
+            var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
+            var sessionsBundle = sessionManager.Fgen(PinNames);
+            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
+            var standardWaveformSettings = new StandardWaveformSettings(
+                waveformFunctionType: StandardWaveform.Sine,
+                amplitude: 5.0,
+                frequency: -1000.0,
+                dcOffset: 0.0,
+                startPhase: 90); // Invalid start phase for the given waveform.
+
+            var exception = Record.Exception(() =>
+            {
+                sessionsBundle.ConfigureStandardWaveform(standardWaveformSettings);
+                sessionsBundle.Commit();
+            });
+
+            Assert.IsType<NISemiconductorTestException>(exception);
+            Assert.Contains("Invalid value for parameter or property", exception.Message); // Ensure correct error message is reported in the exception message.
+            Assert.Contains("Property: Frequency", exception.Message); // Ensure correct property is reported in the exception message.
+        }
+
         [Theory]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
         [InlineData("FgenSingleInstrumentPerSite.pinmap")]
@@ -111,8 +180,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ConfigureOutputMode(OutputMode.Function);
             var siteData = new SiteData<StandardWaveformSettings>(new[]
             {
-                new StandardWaveformSettings(functionType: StandardWaveform.Sine, amplitude: 5.0, frequency: 1000.0),  // Site 0
-                new StandardWaveformSettings(functionType: StandardWaveform.Square, amplitude: 3.5, frequency: 5000.0) // Site 1
+                new StandardWaveformSettings(waveformFunctionType: StandardWaveform.Sine, amplitude: 5.0, frequency: 1000.0),  // Site 0
+                new StandardWaveformSettings(waveformFunctionType: StandardWaveform.Square, amplitude: 3.5, frequency: 5000.0) // Site 1
             });
 
             sessionsBundle.ConfigureStandardWaveform(siteData);
@@ -153,72 +222,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                     AssertStandardWaveformSettings(pinSiteData.GetValue(site, pin), configuredSettings.GetValue(site, pin));
                 }
             }
-        }
-
-        [Fact]
-        public void InitializeBundleWithMultiplePins_ConfigureStandardWaveformWithUnsupportedFunctionType_ThrowsException()
-        {
-            var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
-            var pinNames = new string[] { "A", "B" };
-            var sessionsBundle = sessionManager.Fgen(pinNames);
-            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
-            var standardWaveformSettings = new StandardWaveformSettings(
-                functionType: StandardWaveform.User,
-                amplitude: 5.0,
-                frequency: 1000.0);
-
-            var exception = Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ConfigureStandardWaveform(standardWaveformSettings));
-
-            Assert.IsType<NISemiconductorTestException>(exception);
-            Assert.Contains("The 'User' Waveform Function Type is not supported in STL", exception.Message); // Ensure correct error message is reported in the exception message.
-        }
-
-        [Fact]
-        public void InitializeBundleWithMultiplePins_ConfigureStandardWaveformWithInvalidDCOffset_AllChannelsConfiguredCorrectly()
-        {
-            var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
-            var sessionsBundle = sessionManager.Fgen(PinNames);
-            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
-            var standardWaveformSettings = new StandardWaveformSettings(
-                functionType: StandardWaveform.Sine,
-                amplitude: 5.0,
-                frequency: 1000.0,
-                dcOffset: 8.0, // Invalid DC offset for the given amplitude.
-                startPhase: 90.0);
-
-            var exception = Record.Exception(() =>
-            {
-                sessionsBundle.ConfigureStandardWaveform(standardWaveformSettings);
-                sessionsBundle.Commit();
-            });
-
-            Assert.IsType<NISemiconductorTestException>(exception);
-            Assert.Contains("Invalid value for parameter or property", exception.Message); // Ensure correct error message is reported in the exception message.
-            Assert.Contains("Property: DC Offset", exception.Message); // Ensure correct property is reported in the exception message.
-        }
-
-        [Fact]
-        public void InitializeBundleWithMultiplePins_ConfigureStandardWaveformWithInvalidFrequency_AllChannelsConfiguredCorrectly()
-        {
-            var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
-            var sessionsBundle = sessionManager.Fgen(PinNames);
-            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
-            var standardWaveformSettings = new StandardWaveformSettings(
-                functionType: StandardWaveform.Sine,
-                amplitude: 5.0,
-                frequency: -1000.0,
-                dcOffset: 0.0,
-                startPhase: 90); // Invalid start phase for the given waveform.
-
-            var exception = Record.Exception(() =>
-            {
-                sessionsBundle.ConfigureStandardWaveform(standardWaveformSettings);
-                sessionsBundle.Commit();
-            });
-
-            Assert.IsType<NISemiconductorTestException>(exception);
-            Assert.Contains("Invalid value for parameter or property", exception.Message); // Ensure correct error message is reported in the exception message.
-            Assert.Contains("Property: Frequency", exception.Message); // Ensure correct property is reported in the exception message.
         }
 
         #region Helper Methods

@@ -1,5 +1,4 @@
 ﻿using System.Globalization;
-using System.Linq;
 using NationalInstruments.ModularInstruments.NIFgen;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
@@ -32,7 +31,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
             ValidateWaveformFunctionType(standardWaveformSettings);
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Session.StandardWaveform.Configure(sessionInfo.AllChannelsString, standardWaveformSettings.WaveformFunctionType, standardWaveformSettings.Amplitude, standardWaveformSettings.DcOffset, standardWaveformSettings.Frequency, standardWaveformSettings.StartPhase);
+                sessionInfo.Session.StandardWaveform.Configure(
+                    sessionInfo.AllChannelsString,
+                    standardWaveformSettings.WaveformFunctionType,
+                    standardWaveformSettings.Amplitude,
+                    standardWaveformSettings.DcOffset,
+                    standardWaveformSettings.Frequency,
+                    standardWaveformSettings.StartPhase);
             });
         }
 
@@ -43,7 +48,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
             {
                 var standardWaveformSettingsPerSite = standardWaveformSettings.GetValue(sitePininfo.SiteNumber);
                 ValidateWaveformFunctionType(standardWaveformSettingsPerSite);
-                sessionInfo.Session.StandardWaveform.Configure(sitePininfo.IndividualChannelString.Split('/').Last(), standardWaveformSettingsPerSite.WaveformFunctionType, standardWaveformSettingsPerSite.Amplitude, standardWaveformSettingsPerSite.DcOffset, standardWaveformSettingsPerSite.Frequency, standardWaveformSettingsPerSite.StartPhase);
+                var channelName = CommonUtils.GetChannelName(sitePininfo.IndividualChannelString);
+                sessionInfo.Session.StandardWaveform.Configure(
+                    channelName,
+                    standardWaveformSettingsPerSite.WaveformFunctionType,
+                    standardWaveformSettingsPerSite.Amplitude,
+                    standardWaveformSettingsPerSite.DcOffset,
+                    standardWaveformSettingsPerSite.Frequency,
+                    standardWaveformSettingsPerSite.StartPhase);
             });
         }
 
@@ -54,7 +66,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
             {
                 var standardWaveformSettingsPerPinPerSite = standardWaveformSettings.GetValue(sitePininfo);
                 ValidateWaveformFunctionType(standardWaveformSettingsPerPinPerSite);
-                sessionInfo.Session.StandardWaveform.Configure(sitePininfo.IndividualChannelString.Split('/').Last(), standardWaveformSettingsPerPinPerSite.WaveformFunctionType, standardWaveformSettingsPerPinPerSite.Amplitude, standardWaveformSettingsPerPinPerSite.DcOffset, standardWaveformSettingsPerPinPerSite.Frequency, standardWaveformSettingsPerPinPerSite.StartPhase);
+                var channelName = CommonUtils.GetChannelName(sitePininfo.IndividualChannelString);
+                sessionInfo.Session.StandardWaveform.Configure(
+                    channelName,
+                    standardWaveformSettingsPerPinPerSite.WaveformFunctionType,
+                    standardWaveformSettingsPerPinPerSite.Amplitude,
+                    standardWaveformSettingsPerPinPerSite.DcOffset,
+                    standardWaveformSettingsPerPinPerSite.Frequency,
+                    standardWaveformSettingsPerPinPerSite.StartPhase);
             });
         }
 
@@ -64,7 +83,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
             // Throw exception if the WaveformFunctionType is User, as it is not supported in STL.
             if (standardWaveformSettings.WaveformFunctionType == StandardWaveform.User)
             {
-                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.FGen_UnsupportedFunctionType));
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.FGen_UnsupportedWaveFunctionType));
             }
         }
         #endregion
