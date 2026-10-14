@@ -19,11 +19,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// </remarks>
         public static void ConfigureTiming(this ScopeSessionsBundle sessionsBundle, TimingSettings settings)
         {
-            if (settings == null)
-            {
-                throw new ArgumentNullException(nameof(settings), string.Format(CultureInfo.InvariantCulture, ResourceStrings.Scope_TimingSettingsNull, nameof(settings)));
-            }
-
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.Timing.ConfigureTiming(
