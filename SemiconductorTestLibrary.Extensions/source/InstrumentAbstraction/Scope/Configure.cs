@@ -109,12 +109,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
             }
         }
 
-        private static void ConfigureElectricalCharacteristics(ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo, ElectricalCharacteristics electricalCharacteristics)
+        private static void ConfigureElectricalCharacteristics(ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo, ElectricalCharacteristics characteristics)
         {
-            ThrowIfNull(electricalCharacteristics, nameof(electricalCharacteristics));
+            ThrowIfNull(characteristics, nameof(characteristics));
             sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString].ConfigureCharacteristics(
-                electricalCharacteristics.InputImpedance,
-                electricalCharacteristics.InputFrequencyMax);
+                characteristics.InputImpedance,
+                characteristics.InputFrequencyMax);
         }
 
         private static void ThrowIfNull(object value, string parameterName)

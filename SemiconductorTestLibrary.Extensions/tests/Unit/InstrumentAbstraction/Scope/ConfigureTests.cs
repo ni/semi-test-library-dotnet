@@ -322,10 +322,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionsBundle = GetSessionsBundle(_SCP_5172_Pin);
             sessionsBundle.ConfigureVertical(new VerticalSettings());
-
             sessionsBundle.ConfigureElectricalCharacteristics(new ElectricalCharacteristics { InputImpedance = Ni5172Z1MOhmMaxBandwidth });
+
             var exception = Assert.Throws<NISemiconductorTestException>(
-                () => sessionsBundle.ConfigureElectricalCharacteristics(new ElectricalCharacteristics { InputImpedance = Ni5172Z1MOhmMaxBandwidth }));
+                () => sessionsBundle.Commit());
 
             Assert.NotNull(exception);
         }
