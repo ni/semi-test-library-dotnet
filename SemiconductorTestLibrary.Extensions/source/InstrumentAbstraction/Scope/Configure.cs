@@ -49,7 +49,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
             ThrowIfNull(verticalSettings, nameof(verticalSettings));
             sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
             {
-                sessionInfo.ConfigureVertical(sitePinInfo, verticalSettings.GetValue(sitePinInfo));
+                ConfigureVertical(sessionInfo, sitePinInfo, verticalSettings.GetValue(sitePinInfo));
             });
         }
 
@@ -104,22 +104,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
             sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
             {
                 ConfigureElectricalCharacteristics(sessionInfo, sitePinInfo, electricalCharacteristics.GetValue(sitePinInfo));
-            });
-        }
-
-        #endregion
-        #region Methods on ScopeSessionInformation
-
-        private static void ConfigureVertical(this ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo, VerticalSettings verticalSettings)
-        {
-            if (verticalSettings is null)
-            {
-                return;
-            }
-            ThrowIfNull(verticalSettings, nameof(verticalSettings));
-            sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
-            {
-                ConfigureVertical(sessionInfo, sitePinInfo, verticalSettings.GetValue(sitePinInfo));
             });
         }
 
