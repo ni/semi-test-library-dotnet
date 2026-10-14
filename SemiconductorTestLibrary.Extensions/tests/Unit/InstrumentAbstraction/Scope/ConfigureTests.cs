@@ -34,11 +34,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         // Impedance constants
         private const double Z50Ohm = 50.0;
         private const double Z1MOhm = 1000000.0;
-        public ConfigureTests()
-        {
-            _tsmContext = CreateTSMContext("ScopeTests.pinmap");
-
-        private readonly ISemiconductorModuleContext _tsmContext;
 
         public ConfigureTests()
         {
@@ -53,14 +48,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         #region Scope Configure Tests
 
-        [Fact]
-        public void SessionsBundle_ConfigureVerticalWithDefaultSettings_ValuesApplied()
-        {
-            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
-
-            sessionsBundle.ConfigureVertical(new VerticalSettings());
-
-            AssertVerticalSettings(sessionsBundle, new VerticalSettings());
         [Theory]
         [InlineData("SCP_5105_Pin")]
         [InlineData(_SCP_5162_Pin)]
