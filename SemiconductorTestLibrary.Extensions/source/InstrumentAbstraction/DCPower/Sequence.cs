@@ -302,7 +302,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <remarks>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
-        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double, int?, double)"/> instead.<br/>
+        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, DCPowerSourceSettings[], double, int, int?, double)"/> instead.<br/>
         /// This method will set the Source Mode back to SinglePoint mode upon returning.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
@@ -433,7 +433,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <remarks>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
-        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, DCPowerSourceSettings[], int, bool, double, int?, double)"/> instead.<br/>
+        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, DCPowerSourceSettings[], double, int, int?, double)"/> instead.<br/>
         /// This method will set the Source Mode back to SinglePoint mode upon returning.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
@@ -781,7 +781,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <remarks>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
-        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, DCPowerAdvancedSequenceStepProperties[], int, bool, double, int?, double)"/> instead.<br/>
+        /// If measurements are required, consider using the <see cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, DCPowerAdvancedSequenceStepProperties[], double, int, int?, double)"/> instead.<br/>
         /// This method will set the Source Mode back to SinglePoint mode upon returning.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
@@ -883,7 +883,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 measurementTimeoutInSeconds);
         }
 
-        /// <inheritdoc cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, DCPowerAdvancedSequenceStepProperties[], int, bool, double, int?, double)"/>
+        /// <inheritdoc cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, DCPowerAdvancedSequenceStepProperties[], double, int, int?, double)"/>
         public static PinSiteData<SingleDCPowerFetchResult[]> ForceAdvancedSequenceSynchronizedAndFetch(
             this DCPowerSessionsBundle sessionsBundle,
             SiteData<DCPowerAdvancedSequenceStepProperties[]> sequence,
@@ -903,7 +903,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 measurementTimeoutInSeconds);
         }
 
-        /// <inheritdoc cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, DCPowerAdvancedSequenceStepProperties[], int, bool, double, int?, double)"/>
+        /// <inheritdoc cref="ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSessionsBundle, DCPowerAdvancedSequenceStepProperties[], double, int, int?, double)"/>
         public static PinSiteData<SingleDCPowerFetchResult[]> ForceAdvancedSequenceSynchronizedAndFetch(
             this DCPowerSessionsBundle sessionsBundle,
             PinSiteData<DCPowerAdvancedSequenceStepProperties[]> sequence,
