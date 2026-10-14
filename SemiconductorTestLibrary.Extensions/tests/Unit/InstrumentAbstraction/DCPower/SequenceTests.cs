@@ -17,9 +17,137 @@ using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.Utilit
 
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.DCPower
 {
-    public sealed partial class SourceTests : IDisposable
+    [Collection("NonParallelizable")]
+    public sealed class SequenceTests : IDisposable
     {
+        private ISemiconductorModuleContext _tsmContext;
+
+        private const string ThreePinsGangedGroup = "ThreePinsGangedGroup";
+        private const string AllPinsGangedGroup = "AllPinsGangedGroup";
         private const double DefaultTimeout = 5.0;
+
+        public TSMSessionManager Initialize(bool pinMapWithChannelGroup)
+        {
+            return Initialize(pinMapWithChannelGroup ? "DifferentSMUDevicesWithChannelGroup.pinmap" : "DifferentSMUDevices.pinmap");
+        }
+
+        public TSMSessionManager Initialize(string pinMapFileName)
+        {
+            _tsmContext = CreateTSMContext(pinMapFileName);
+            InitializeAndClose.Initialize(_tsmContext);
+            return new TSMSessionManager(_tsmContext);
+        }
+
+        private DCPowerSessionsBundle GetGangedSMUBundle()
+        {
+            _tsmContext = CreateTSMContext("SMUGangPinGroup_SessionPerChannel.pinmap");
+            InitializeAndClose.Initialize(_tsmContext);
+            var sessionManager = new TSMSessionManager(_tsmContext);
+            var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
+            sessionsBundle.GangPinGroup("TwoPinsGangedGroup");
+            return sessionsBundle;
+        }
+
+        public void Dispose()
+        {
+            InitializeAndClose.Close(_tsmContext);
+        }
+
+        private void AssertVoltageSettings(DCPowerOutput channelOutput, double expectedVoltageLevel, double expectedCurrentLimit, int precision = 6)
+        {
+            Assert.Equal(expectedVoltageLevel, channelOutput.Source.Voltage.VoltageLevel, precision);
+            Assert.Equal(expectedCurrentLimit, channelOutput.Source.Voltage.CurrentLimit, precision);
+        }
+
+        private void AssertVoltageSettings(DCPowerOutput channelOutput, double? expectedVoltageLevel = null, double? expectedCurrentLimitHigh = null, double? expectedCurrentLimitLow = null, double? expectedCurrentLimit = null, double? expectedCurrentLimitRange = null)
+        {
+            if (expectedVoltageLevel.HasValue)
+            {
+                Assert.Equal(expectedVoltageLevel.Value, channelOutput.Source.Voltage.VoltageLevel);
+            }
+            if (expectedCurrentLimitHigh.HasValue)
+            {
+                Assert.Equal(expectedCurrentLimitHigh.Value, channelOutput.Source.Voltage.CurrentLimitHigh);
+            }
+            if (expectedCurrentLimitLow.HasValue)
+            {
+                Assert.Equal(expectedCurrentLimitLow.Value, channelOutput.Source.Voltage.CurrentLimitLow);
+            }
+            if (expectedCurrentLimit.HasValue)
+            {
+                Assert.Equal(expectedCurrentLimit.Value, channelOutput.Source.Voltage.CurrentLimit);
+            }
+            if (expectedCurrentLimitRange.HasValue)
+            {
+                Assert.Equal(expectedCurrentLimitRange.Value, channelOutput.Source.Voltage.CurrentLimitRange);
+            }
+        }
+
+        private void AssertCurrentSettings(DCPowerOutput channelOutput, double expectedCurrentLevel, double expectedVoltageLimit)
+        {
+            Assert.Equal(expectedCurrentLevel, channelOutput.Source.Current.CurrentLevel);
+            Assert.Equal(expectedVoltageLimit, channelOutput.Source.Current.VoltageLimit);
+        }
+
+        private void AssertCurrentSettings(DCPowerOutput channelOutput, double expectedVoltageLimit, double expectedSequenceLoopCount, double? expectedCurrentLevelRange = null, double? expectedVoltageLimitRange = null)
+        {
+            if (expectedCurrentLevelRange.HasValue)
+            {
+                Assert.Equal(expectedCurrentLevelRange, channelOutput.Source.Current.CurrentLevelRange);
+            }
+            if (expectedVoltageLimitRange.HasValue)
+            {
+                Assert.Equal(expectedVoltageLimitRange, channelOutput.Source.Current.VoltageLimitRange);
+            }
+            Assert.Equal(expectedVoltageLimit, channelOutput.Source.Current.VoltageLimit);
+            Assert.Equal(expectedSequenceLoopCount, channelOutput.Source.SequenceLoopCount);
+        }
+
+        private void AssertCurrentSettings(DCPowerOutput channelOutput, double expectedCurrentLevel, double expectedVoltageLimitHigh, double expectedVoltageLimitLow)
+        {
+            Assert.Equal(expectedCurrentLevel, channelOutput.Source.Current.CurrentLevel);
+            Assert.Equal(expectedVoltageLimitHigh, channelOutput.Source.Current.VoltageLimitHigh);
+            Assert.Equal(expectedVoltageLimitLow, channelOutput.Source.Current.VoltageLimitLow);
+        }
+
+        private void AssertCurrentSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, double gangedChannelLevel, double normalChannelLevel, double voltageLimit)
+        {
+            var currentLevel = sitePinInfo.CascadingInfo is GangingInfo ? gangedChannelLevel : normalChannelLevel;
+            AssertCurrentSettings(channelOutput, currentLevel, voltageLimit);
+        }
+
+        private void AssertVoltageSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, double voltageLevel, double gangedChannelLimit, double normalChannelLimit)
+        {
+            var channelLimit = sitePinInfo.CascadingInfo is GangingInfo ? gangedChannelLimit : normalChannelLimit;
+            AssertVoltageSettings(channelOutput, voltageLevel, channelLimit);
+        }
+
+        private void AssertTriggerSettings(SitePinInfo sitePinInfo, DCPowerOutput channelOutput, string leaderChannelString, bool checkSequenceRelatedTriggers = false)
+        {
+            if (IsFollowerOfGangedChannels(sitePinInfo.CascadingInfo))
+            {
+                Assert.Equal(GetTriggerName(sitePinInfo, leaderChannelString), channelOutput.Triggers.SourceTrigger.DigitalEdge.InputTerminal);
+                Assert.Equal(GetTriggerName(sitePinInfo, leaderChannelString, "Measure"), channelOutput.Triggers.MeasureTrigger.DigitalEdge.InputTerminal);
+                Assert.Equal(DCPowerSourceTriggerType.DigitalEdge, channelOutput.Triggers.SourceTrigger.Type);
+                Assert.Equal(DCPowerMeasureTriggerType.DigitalEdge, channelOutput.Triggers.MeasureTrigger.Type);
+                if (checkSequenceRelatedTriggers)
+                {
+                    Assert.Equal(GetTriggerName(sitePinInfo, leaderChannelString, "Start"), channelOutput.Triggers.StartTrigger.DigitalEdge.InputTerminal);
+                    Assert.Equal(DCPowerStartTriggerType.DigitalEdge, channelOutput.Triggers.StartTrigger.Type);
+                    Assert.Equal(GetTriggerName(sitePinInfo, leaderChannelString, "SequenceAdvance"), channelOutput.Triggers.SequenceAdvanceTrigger.DigitalEdge.InputTerminal);
+                    Assert.Equal(DCPowerSequenceAdvanceTriggerType.DigitalEdge, channelOutput.Triggers.SequenceAdvanceTrigger.Type);
+                }
+            }
+        }
+
+        private static int[] GetActiveSites(DCPowerSessionsBundle sessionsBundle)
+        {
+            return sessionsBundle.AggregateSitePinList
+                .Where(sitePinInfo => sitePinInfo.SiteNumber != -1)
+                .Select(sitePinInfo => sitePinInfo.SiteNumber)
+                .Distinct()
+                .ToArray();
+        }
 
         private void AssertEqualForDoubleArrays(double[] expected, double[] actual, int precision = 3)
         {

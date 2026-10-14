@@ -18,7 +18,7 @@ using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.Utilit
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.DCPower
 {
     [Collection("NonParallelizable")]
-    public sealed partial class SourceTests : IDisposable
+    public sealed class SourceTests : IDisposable
     {
         private ISemiconductorModuleContext _tsmContext;
 
@@ -26,6 +26,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         private const string ThreePinsGangedGroup = "ThreePinsGangedGroup";
         private const string FourPinsGangedGroup = "FourPinsGangedGroup";
         private const string AllPinsGangedGroup = "AllPinsGangedGroup";
+        private const double DefaultTimeout = 5.0;
 
         public TSMSessionManager Initialize(bool pinMapWithChannelGroup)
         {
