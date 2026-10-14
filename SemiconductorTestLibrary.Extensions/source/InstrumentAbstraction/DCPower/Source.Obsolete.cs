@@ -11,7 +11,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
     /// </summary>
     public static partial class Source
     {
-        #region
+        #region Obsolete methods on DCPowerSessionsBundle
 
         /// <summary>
         /// Forces a hardware-timed sequence of voltage values on the targeted pins.
