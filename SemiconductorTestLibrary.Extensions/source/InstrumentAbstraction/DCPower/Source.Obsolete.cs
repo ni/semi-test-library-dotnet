@@ -14,7 +14,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         #region Obsolete methods on DCPowerSessionsBundle
 
         /// <summary>
-        /// Gets the current limits of all pins.
+        /// Gets the current limit value of all pins.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <returns>The per-site per-pin current limits.</returns>
