@@ -40,11 +40,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// </remarks>
         public static void ConfigureClock(this ScopeSessionsBundle sessionsBundle, ClockSettings settings)
         {
-            if (settings == null)
-            {
-                throw new ArgumentNullException(nameof(settings), string.Format(CultureInfo.InvariantCulture, ResourceStrings.Scope_ClockSettingsNull, nameof(settings)));
-            }
-
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.Timing.ConfigureClock(
