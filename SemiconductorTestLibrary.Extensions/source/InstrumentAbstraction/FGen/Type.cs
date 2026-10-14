@@ -36,14 +36,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// <summary>
         /// Standard Waveform function settings.
         /// </summary>
-        /// <param name="functionType">The standard waveform that you want the signal generator to produce (Sine, Square, Triangle, Ramp Up, Ramp Down, DC, Noise, User ).</param>
-        /// <param name="frequency">The frequency of the standard waveform that you want the signal generator to produce (in hertz).</param>
-        /// <param name="amplitude">The peak-to-peak amplitude of the standard waveform that you want the signal generator to produce (in volts).</param>
-        /// <param name="dcOffset">The DC offset of the standard waveform that you want the signal generator to produce (in volts).</param>
-        /// <param name="startPhase">The horizontal offset, in degrees of one waveform cycle, of the standard waveform that you want the signal generator to produce (in degrees).</param>
-        public StandardWaveformSettings(StandardWaveform functionType, double frequency, double amplitude, double dcOffset = 0, double startPhase = 0)
+        /// <param name="waveformFunctionType">The value for <see cref="WaveformFunctionType"/>.</param>
+        /// <param name="frequency">The value for <see cref="Frequency"/>.</param>
+        /// <param name="amplitude">The value for <see cref="Amplitude"/>.</param>
+        /// <param name="dcOffset">The value for <see cref="DcOffset"/>.</param>
+        /// <param name="startPhase">The value for <see cref="StartPhase"/>.</param>
+        public StandardWaveformSettings(StandardWaveform waveformFunctionType, double frequency, double amplitude, double dcOffset = 0, double startPhase = 0)
         {
-            WaveformFunctionType = functionType;
+            WaveformFunctionType = waveformFunctionType;
             Frequency = frequency;
             Amplitude = amplitude;
             DcOffset = dcOffset;
