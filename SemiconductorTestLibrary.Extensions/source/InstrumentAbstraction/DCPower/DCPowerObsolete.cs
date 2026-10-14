@@ -9,8 +9,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
     /// <summary>
     /// Contains obsolete source methods for the <see cref="DCPowerSessionsBundle"/> class.
     /// </summary>
-    public static partial class Source
+    public static class DCPowerObsolete
     {
+        private const double DefaultTimeout = 5.0;
+
         #region Obsolete methods on DCPowerSessionsBundle
 
         /// <summary>
