@@ -58,49 +58,31 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
         /// <param name="electricalCharacteristics">The <see cref="ElectricalCharacteristics"/> to apply.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="electricalCharacteristics"/> is null.</exception>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="electricalCharacteristics"/> parameter is null.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when the driver fails to apply the settings for any pin or site.</exception>
         public static void ConfigureElectricalCharacteristics(this ScopeSessionsBundle sessionsBundle, ElectricalCharacteristics electricalCharacteristics)
         {
-            if (electricalCharacteristics is null)
-            {
-                throw new ArgumentNullException(nameof(electricalCharacteristics));
-            }
+            ThrowIfNull(electricalCharacteristics, nameof(electricalCharacteristics));
             sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
             {
                 ConfigureElectricalCharacteristics(sessionInfo, sitePinInfo, electricalCharacteristics);
             });
         }
 
-        /// <summary>
-        /// Configures the electrical characteristics of all channels in the bundle using per-site settings.
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
-        /// <param name="electricalCharacteristics">The per-site <see cref="ElectricalCharacteristics"/> to apply.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="electricalCharacteristics"/> or any per-site value is null.</exception>
+        /// <inheritdoc cref="ConfigureElectricalCharacteristics(ScopeSessionsBundle, ElectricalCharacteristics)"/>
         public static void ConfigureElectricalCharacteristics(this ScopeSessionsBundle sessionsBundle, SiteData<ElectricalCharacteristics> electricalCharacteristics)
         {
-            if (electricalCharacteristics is null)
-            {
-                throw new ArgumentNullException(nameof(electricalCharacteristics));
-            }
+            ThrowIfNull(electricalCharacteristics, nameof(electricalCharacteristics));
             sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
             {
                 ConfigureElectricalCharacteristics(sessionInfo, sitePinInfo, electricalCharacteristics.GetValue(sitePinInfo.SiteNumber));
             });
         }
 
-        /// <summary>
-        /// Configures the electrical characteristics of all channels in the bundle using per-pin per-site settings.
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
-        /// <param name="electricalCharacteristics">The per-pin per-site <see cref="ElectricalCharacteristics"/> to apply.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="electricalCharacteristics"/> or any per-pin per-site value is null.</exception>
+        /// <inheritdoc cref="ConfigureElectricalCharacteristics(ScopeSessionsBundle, ElectricalCharacteristics)"/>
         public static void ConfigureElectricalCharacteristics(this ScopeSessionsBundle sessionsBundle, PinSiteData<ElectricalCharacteristics> electricalCharacteristics)
         {
-            if (electricalCharacteristics is null)
-            {
-                throw new ArgumentNullException(nameof(electricalCharacteristics));
-            }
+            ThrowIfNull(electricalCharacteristics, nameof(electricalCharacteristics));
             sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
             {
                 ConfigureElectricalCharacteristics(sessionInfo, sitePinInfo, electricalCharacteristics.GetValue(sitePinInfo));
@@ -129,10 +111,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
 
         private static void ConfigureElectricalCharacteristics(ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo, ElectricalCharacteristics electricalCharacteristics)
         {
-            if (electricalCharacteristics is null)
-            {
-                throw new ArgumentNullException(nameof(electricalCharacteristics));
-            }
+            ThrowIfNull(electricalCharacteristics, nameof(electricalCharacteristics));
             sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString].ConfigureCharacteristics(
                 electricalCharacteristics.InputImpedance,
                 electricalCharacteristics.InputFrequencyMax);
