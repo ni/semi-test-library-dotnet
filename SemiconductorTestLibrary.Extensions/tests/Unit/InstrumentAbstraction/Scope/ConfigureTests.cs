@@ -324,7 +324,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ConfigureVertical(new VerticalSettings());
 
             var exception = Assert.Throws<NISemiconductorTestException>(
-                () => sessionsBundle.ConfigureElectricalCharacteristics(new ElectricalCharacteristics { InputImpedance = -1 }));
+                () => sessionsBundle.ConfigureElectricalCharacteristics(new ElectricalCharacteristics { InputImpedance = Ni5172Z1MOhmMaxBandwidth }));
 
             Assert.NotNull(exception);
         }
@@ -395,7 +395,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 [0] = new ElectricalCharacteristics()
             });
 
-            Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ConfigureElectricalCharacteristics(perSiteSettings));
+            var exception = Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ConfigureElectricalCharacteristics(perSiteSettings));
+
+            Assert.NotNull(exception);
         }
 
         #endregion
