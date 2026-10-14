@@ -19,7 +19,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// You must set the output mode to <see cref="OutputMode.Function"/> by calling <see cref="Output.ConfigureOutputMode"/> before you configure the standard waveform settings.<br/>
         /// The <see cref="StandardWaveform.User"/> waveform function type is not supported.<br/>
         /// Throws <see cref="NISemiconductorTestException"/> if the waveform function type is <see cref="StandardWaveform.User"/>,
-        /// If the output mode is not set to <see cref="OutputMode.Function"/>, or when any of the specified <see cref="StandardWaveformSettings"/> values is invalid for the underlying devices. 
+        /// If the output mode is not set to <see cref="OutputMode.Function"/>, or when any of the specified <see cref="StandardWaveformSettings"/> values is invalid for the underlying devices.
         /// </remarks>
         /// <exception cref="NISemiconductorTestException">
         /// Thrown when <see cref="StandardWaveformSettings.WaveformFunctionType"/> is set to <see cref="StandardWaveform.User"/>,
