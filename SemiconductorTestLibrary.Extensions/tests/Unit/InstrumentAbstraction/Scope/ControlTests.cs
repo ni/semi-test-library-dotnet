@@ -1,8 +1,12 @@
-﻿using System;
+﻿using NationalInstruments.DAQmx;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
+
+using System;
+
 using Xunit;
+
 using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.InitializeAndClose;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
 
@@ -97,10 +101,28 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData(PinGroup)]
         public void ScopeSessionsBundle_ConfigureInitiateAndFetch_ReturnsData(string pin)
         {
-            var sessionsBundle = GetSessionsBundle(pin);
+            var scopeBundle = GetSessionsBundle(pin);
 
-            sessionsBundle.Configure();
-            sessionsBundle.Initiate();
+            // scopeBundle.Acquisition.Type = AcquisitionType;
+            VerticalSettings verticalSettings = new VerticalSettings{};
+            scopeBundle.ConfigureVertical(verticalSettings);
+            ElectricalCharacteristics electricalCharacteristics = new ElectricalCharacteristics
+            {
+            };
+            scopeBundle.ConfigureElectricalCharacteristics(electricalCharacteristics);
+
+
+            scopeBundle.ConfigureClock(SampleRateMin, RecordLengthMin, ReferencePosition, NumberOfRecords, EnforceRealTime);
+
+            // scopeSession.Channels[ChannelName].EnableTimeInterleavedSampling = EnableTimeInterleavedSampling;
+            scopeBundle.ConfigureTriggerImmediate();
+
+            scopeBundle.Initiate();
+
+            var waveforms = scopeBundle.FetchWaveform();
+
+            // waveforms = scopeSession.Channels[ChannelName].Measurement.FetchDouble(Timeout, -1, waveforms);
+
 
         }
         private ScopeSessionsBundle GetSessionsBundle(string pin)
