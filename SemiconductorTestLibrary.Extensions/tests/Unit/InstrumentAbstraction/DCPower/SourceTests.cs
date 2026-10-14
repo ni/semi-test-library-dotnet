@@ -5941,22 +5941,24 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
-        public void GangedSMUBundle_ForceVoltageSequenceWithoutWaitForSequenceCompletion_ReturnsImmediately()
+        public void GangedSMUBundle_ForceVoltageSequenceWithLessTimeout_ThrowsNISemiconductorTestException()
         {
             var sessionsBundle = GetGangedSMUBundle();
             sessionsBundle.ConfigureSourceDelay(0.1);
             var voltageSequence = new[] { 1.8, 3.3, 5.0 };
-            var startTime = DateTime.Now;
 
-            sessionsBundle.ForceVoltageSequence(
-                voltageSequence,
-                0.005,
-                currentLimit: 0.05,
-                sequenceLoopCount: 1);
-            var elapsedTime = (DateTime.Now - startTime).TotalMilliseconds;
+            Action forceVoltageSequence = () =>
+                sessionsBundle.ForceVoltageSequence(
+                    voltageSequence,
+                    0.005,
+                    currentLimit: 0.05,
+                    sequenceLoopCount: 1);
 
-            // Should return quickly without waiting
-            Assert.True(elapsedTime < 100, $"Expected quick return, but took {elapsedTime}ms which is more than source delay 100ms");
+            if (!_tsmContext.IsSemiconductorModuleInOfflineMode)
+            {
+                // Exception will be thrown only in hardware
+                Assert.Throws<NISemiconductorTestException>(forceVoltageSequence);
+            }
         }
 
         [Fact]
@@ -5994,7 +5996,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ForceVoltageSequence(
                 voltageSequence,
-                0.005,
+                DefaultTimeout,
                 currentLimit: 0.05,
                 sequenceLoopCount: 3);
             var elapsedTime = (DateTime.Now - startTime).TotalMilliseconds;
