@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -221,5 +221,8 @@
   </data>
   <data name="FGen_InvalidOutputModeAtInitiateException" xml:space="preserve">
     <value>Operation cannot be completed because the output mode is not configured to Function. Configure the output mode to Function before calling Initiate. Currently, only the Function output mode is supported.</value>
+  </data>
+  <data name="Scope_VerticalSettingsNull" xml:space="preserve">
+    <value>'{0}' cannot be null. Please provide valid vertical settings.</value>
   </data>
 </root>
