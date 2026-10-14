@@ -3199,6 +3199,30 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        public void GangedSMUBundle_ForceVoltageSequenceWithLessTimeout_ThrowsNISemiconductorTestException()
+        {
+            var sessionsBundle = GetGangedSMUBundle();
+            sessionsBundle.ConfigureSourceDelay(0.1);
+            var voltageSequence = new[] { 1.8, 3.3, 5.0 };
+
+            Action forceVoltageSequence = () =>
+                sessionsBundle.ForceVoltageSequence(
+                    voltageSequence,
+                    0.005,
+                    currentLimit: 0.05,
+                    sequenceLoopCount: 1);
+
+            if (!_tsmContext.IsSemiconductorModuleInOfflineMode)
+            {
+                // Exception will be thrown only in hardware
+                Assert.Throws<NISemiconductorTestException>(forceVoltageSequence);
+            }
+        }
+
+        [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void GangedSMUBundle_ForceVoltageAndWaitForSourceCompletion_WaitsForSourceDelayToComplete()
         {
             var sessionsBundle = GetGangedSMUBundle();
@@ -3214,6 +3238,31 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Assert.True(
                     elapsedTime >= 100,
                     $"Expected to wait at least 100ms, but only took {elapsedTime}ms");
+            }
+        }
+
+        [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.Lungyuan))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        public void GangedSMUBundle_ForceVoltageSequenceAndWaitForSequenceCompletion_WaitsForSequenceToComplete()
+        {
+            var sessionsBundle = GetGangedSMUBundle();
+            sessionsBundle.ConfigureSourceDelay(0.1);
+            var voltageSequence = new[] { 1.8, 3.3, 5.0 };
+            var startTime = DateTime.Now;
+
+            sessionsBundle.ForceVoltageSequence(
+                voltageSequence,
+                DefaultTimeout,
+                currentLimit: 0.05,
+                sequenceLoopCount: 3);
+            var elapsedTime = (DateTime.Now - startTime).TotalMilliseconds;
+
+            if (!_tsmContext.IsSemiconductorModuleInOfflineMode)
+            {
+                // Should wait at least for the (3LoopCount*3Setpoints*0.1s source delay) duration
+                Assert.True(elapsedTime >= 900, $"Expected to wait at least 900ms, but only took {elapsedTime}ms");
             }
         }
 
