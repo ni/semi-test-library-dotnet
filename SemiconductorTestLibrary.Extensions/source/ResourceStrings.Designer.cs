@@ -374,23 +374,5 @@ namespace NationalInstruments.SemiconductorTestLibrary {
                 return ResourceManager.GetString("FGen_InvalidOutputModeException", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The &apos;StandardWaveform.User&apos; Waveform Function Type is not supported in STL..
-        /// </summary>
-        internal static string FGen_UnsupportedWaveFunctionType {
-            get {
-                return ResourceManager.GetString("FGen_UnsupportedWaveFunctionType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &apos;{0}&apos; cannot be null. Please provide valid vertical settings..
-        /// </summary>
-        internal static string Scope_VerticalSettingsNull {
-            get {
-                return ResourceManager.GetString("Scope_VerticalSettingsNull", resourceCulture);
-            }
-        }
     }
 }
