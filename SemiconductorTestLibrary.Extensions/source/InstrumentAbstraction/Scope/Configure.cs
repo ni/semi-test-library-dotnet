@@ -46,6 +46,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// <inheritdoc cref="ConfigureVertical(ScopeSessionsBundle, VerticalSettings)"/>
         public static void ConfigureVertical(this ScopeSessionsBundle sessionsBundle, PinSiteData<VerticalSettings> verticalSettings)
         {
+            ThrowIfNull(verticalSettings, nameof(verticalSettings));
             sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
             {
                 sessionInfo.ConfigureVertical(sitePinInfo, verticalSettings.GetValue(sitePinInfo));
@@ -107,7 +108,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         }
 
         #endregion
-
         #region Methods on ScopeSessionInformation
 
         private static void ConfigureVertical(this ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo, VerticalSettings verticalSettings)
@@ -122,6 +122,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
                 ConfigureVertical(sessionInfo, sitePinInfo, verticalSettings.GetValue(sitePinInfo));
             });
         }
+
         #endregion
 
         #region Private Methods
