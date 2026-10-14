@@ -11,7 +11,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
     /// </summary>
     public static partial class Source
     {
-
         #region Obsolete methods on DCPowerSessionsBundle
 
         /// <summary>
@@ -19,7 +18,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <remarks>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
-        /// If measurements are required, call <see cref="Source.ConfigureVoltageSequence(DCPowerSessionsBundle, string, double[], int, double?, bool, UpdateMode)"/>
+        /// If measurements are required, call <see cref="ConfigureVoltageSequence(DCPowerSessionsBundle, string, double[], int, double?, bool, UpdateMode)"/>
         /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.<br/>
         /// This method will set the Source Mode back to SinglePoint mode upon returning.
         /// </remarks>
@@ -57,7 +56,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.<br/>
         /// This method will set the Source Mode back to SinglePoint mode upon returning.
         /// </remarks>
-        /// <inheritdoc cref="ForceVoltageSequence(DCPowerSessionsBundle, double[], double?, double?, double?, int, bool, double)"/>
+        /// <inheritdoc cref="ForceVoltageSequence(DCPowerSessionsBundle, double[],double, double?, double?, double?, int)"/>
         /// <param name="sessionsBundle"/>
         /// <param name="voltageSequence"/>
         /// <param name="currentLimit"/>
@@ -88,7 +87,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         /// <remarks>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
-        /// If measurements are required, call <see cref="Source.ConfigureVoltageSequence(DCPowerSessionsBundle, string, PinSiteData{double[]}, int, double?, bool, UpdateMode)"/>
+        /// If measurements are required, call <see cref="ConfigureVoltageSequence(DCPowerSessionsBundle, string, PinSiteData{double[]}, int, double?, bool, UpdateMode)"/>
         /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.
         /// This method will set the Source Mode back to SinglePoint mode upon returning.
         /// </remarks>
@@ -663,7 +662,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <remarks>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
-        /// If measurements are required, call <see cref="Source.ConfigureCurrentSequence(DCPowerSessionsBundle, string, double[], int, double?, bool, UpdateMode)"/>
+        /// If measurements are required, call <see cref="ConfigureCurrentSequence(DCPowerSessionsBundle, string, double[], int, double?, bool, UpdateMode)"/>
         /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.<br/>
         /// This method will set the Source Mode back to SinglePoint mode upon returning.
         /// </remarks>
@@ -697,7 +696,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         /// <remarks>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
-        /// If measurements are required, call <see cref="Source.ConfigureCurrentSequence(DCPowerSessionsBundle, string, SiteData{double[]}, int, double?, bool, UpdateMode)"/>
+        /// If measurements are required, call <see cref="ConfigureCurrentSequence(DCPowerSessionsBundle, string, SiteData{double[]}, int, double?, bool, UpdateMode)"/>
         /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.<br/>
         /// This method will set the Source Mode back to SinglePoint mode upon returning.
         /// </remarks>
@@ -732,7 +731,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         /// <remarks>
         /// This method does not support taking measurements during sequence execution, regardless of the state of the <see cref="DCPowerMeasurementWhen"/> property.<br/>
-        /// If measurements are required, call <see cref="Source.ConfigureCurrentSequence(DCPowerSessionsBundle, string, PinSiteData{double[]}, int, double?, bool, UpdateMode)"/>
+        /// If measurements are required, call <see cref="ConfigureCurrentSequence(DCPowerSessionsBundle, string, PinSiteData{double[]}, int, double?, bool, UpdateMode)"/>
         /// followed by <see cref="Control.Initiate(DCPowerSessionsBundle)"/> instead.<br/>
         /// This method will set the Source Mode back to SinglePoint mode upon returning.
         /// </remarks>
