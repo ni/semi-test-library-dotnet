@@ -17,7 +17,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         private const string _SCP_5186_Pin = "SCP_5186_Pin";
         private const string _SCP_5162_Pin = "SCP_5162_Pin";
         private const string _SCP_5172_Pin = "SCP_5172_Pin";
-
         private readonly ISemiconductorModuleContext _tsmContext;
         // Bandwidth values for NI 5162 device
         private const double Ni5162Z50OhmFullBandwidth = 1500000000.0;
@@ -289,7 +288,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ConfigureElectricalCharacteristics(characteristics);
             var expectedBW = GetExpectedBandwidthNi5172(characteristics.InputImpedance, characteristics.InputFrequencyMax);
-            AssertElectricalCharacteristics(sessionsBundle, 50, expectedBW);
+
+            AssertElectricalCharacteristics(sessionsBundle, characteristics.InputImpedance, expectedBW);
         }
 
         [Fact]
@@ -323,6 +323,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = GetSessionsBundle(_SCP_5172_Pin);
             sessionsBundle.ConfigureVertical(new VerticalSettings());
 
+            sessionsBundle.ConfigureElectricalCharacteristics(new ElectricalCharacteristics { InputImpedance = Ni5172Z1MOhmMaxBandwidth });
             var exception = Assert.Throws<NISemiconductorTestException>(
                 () => sessionsBundle.ConfigureElectricalCharacteristics(new ElectricalCharacteristics { InputImpedance = Ni5172Z1MOhmMaxBandwidth }));
 
