@@ -38,7 +38,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// <summary>Gets or sets the digital capture waveform name used by the read pattern.</summary>
         string CaptureWaveformName { get; set; }
 
-        /// <summary>Gets or sets the number of bits each digital waveform sample is.</summary>
+        /// <summary>Gets or sets the number of bits each digital waveform sample is. The value must be between 1 and 32.</summary>
         uint SampleWidth { get; set; }
 
         /// <summary>Gets or sets the sequencer register that controls the transaction count.</summary>
@@ -53,10 +53,22 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// <summary>Gets or sets the protocol pin names expected by the template patterns.</summary>
         string[] PinNames { get; set; }
 
-        /// <summary>Gets or sets the default number of bits the register address is.</summary>
+        /// <summary>
+        /// Gets or sets the pin that drives outgoing (source) data. For SPI this is SDI (MOSI).
+        /// Must be one of the pins in <see cref="PinNames"/>.
+        /// </summary>
+        string SourcePinName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the pin that captures incoming data. For SPI this is SDO (MISO).
+        /// Must be one of the pins in <see cref="PinNames"/>.
+        /// </summary>
+        string CapturePinName { get; set; }
+
+        /// <summary>Gets or sets the default number of bits the register address is. The value must be between 1 and 64.</summary>
         uint DefaultAddressBitWidth { get; set; }
 
-        /// <summary>Gets or sets the default number of bits the register value holds.</summary>
+        /// <summary>Gets or sets the default number of bits the register value holds. The value must be between 1 and 64.</summary>
         uint DefaultValueBitWidth { get; set; }
 
         /// <summary>Gets or sets the bit ordering used when packing and unpacking waveform samples.</summary>

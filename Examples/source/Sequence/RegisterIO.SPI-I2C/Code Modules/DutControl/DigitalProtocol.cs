@@ -1,17 +1,36 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
+using NIDigitalBitOrder = NationalInstruments.ModularInstruments.NIDigital.BitOrder;
+using NIDigitalSourceDataMapping = NationalInstruments.ModularInstruments.NIDigital.SourceDataMapping;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAndI2C.DutControl
 {
     /// <summary>
     /// Abstract digital protocol class, used as a base for more specific digital protocol implementations.
     /// </summary>
+    /// <remarks>
+    /// Protocol instances (for example, <see cref="SPI.Instance"/>) hold shared configuration and the active
+    /// <see cref="DigitalSessionsBundle"/>, so they are not thread-safe. Do not use one instance from multiple
+    /// code modules or test sites at the same time.
+    /// </remarks>
     public abstract class DigitalProtocol : IDigitalProtocol
     {
+        private const uint MaxSampleWidth = 32;
+        private const uint MaxBitWidth = 64;
+
+        // Tracks the waveforms created on each instrument session so they are created exactly once per session.
+        private static readonly ConditionalWeakTable<object, Dictionary<string, string>> _createdWaveforms =
+            new ConditionalWeakTable<object, Dictionary<string, string>>();
+
         private DigitalSessionsBundle _digitalSessionsBundle;
+        private uint _sampleWidth = 8;
+        private uint _defaultAddressBitWidth = 16;
+        private uint _defaultValueBitWidth = 16;
 
         /// <inheritdoc/>
         public string WritePatternName { get; set; }
@@ -25,14 +44,25 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// <inheritdoc/>
         public string CaptureWaveformName { get; set; } = "capture_buffer";
 
-        /// <summary>The pin that drives outgoing (source) data. For SPI this is SDI (MOSI).</summary>
+        /// <inheritdoc/>
         public string SourcePinName { get; set; } = "SDI";
 
-        /// <summary>The pin that captures incoming data. For SPI this is SDO (MISO).</summary>
+        /// <inheritdoc/>
         public string CapturePinName { get; set; } = "SDO";
 
         /// <inheritdoc/>
-        public uint SampleWidth { get; set; } = 8;
+        public uint SampleWidth
+        {
+            get => _sampleWidth;
+            set
+            {
+                if (value < 1 || value > MaxSampleWidth)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(value), value, $"The sample width must be between 1 and {MaxSampleWidth}.");
+                }
+                _sampleWidth = value;
+            }
+        }
 
         /// <inheritdoc/>
         public string ReadWriteCountSequenceRegister { get; set; } = "reg0";
@@ -47,10 +77,26 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         public string[] PinNames { get; set; } = new[] { "SDI", "SDO" };
 
         /// <inheritdoc/>
-        public uint DefaultAddressBitWidth { get; set; } = 16;
+        public uint DefaultAddressBitWidth
+        {
+            get => _defaultAddressBitWidth;
+            set
+            {
+                ValidateBitWidth(value, nameof(value));
+                _defaultAddressBitWidth = value;
+            }
+        }
 
         /// <inheritdoc/>
-        public uint DefaultValueBitWidth { get; set; } = 16;
+        public uint DefaultValueBitWidth
+        {
+            get => _defaultValueBitWidth;
+            set
+            {
+                ValidateBitWidth(value, nameof(value));
+                _defaultValueBitWidth = value;
+            }
+        }
 
         /// <inheritdoc/>
         public BitOrder BitOrder { get; set; } = BitOrder.MsbFirst;
@@ -58,32 +104,16 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// <inheritdoc/>
         public void SetBundle(DigitalSessionsBundle digitalSessionsBundle)
         {
+            if (digitalSessionsBundle == null)
+            {
+                throw new ArgumentNullException(nameof(digitalSessionsBundle));
+            }
+
             // It is important that the pins used by the bundle contain the pins used within the pattern.
             // This validation can only be done once we have a session to operate on.
             ValidateBundle(digitalSessionsBundle);
+            CreateSerialWaveforms(digitalSessionsBundle);
             _digitalSessionsBundle = digitalSessionsBundle;
-
-            // Serial source/capture waveforms must exist on the instrument before they can be written or bursted.
-            // Recreate them for every bundle so a fresh session (for example, a second sequence run after
-            // instrument cleanup) also has the waveforms. Creating a waveform that already exists on the current
-            // session throws; that case is benign and ignored.
-            var bitOrder = BitOrder == BitOrder.MsbFirst
-                ? NationalInstruments.ModularInstruments.NIDigital.BitOrder.MostSignificantBitFirst
-                : NationalInstruments.ModularInstruments.NIDigital.BitOrder.LeastSignificantBitFirst;
-            try
-            {
-                // Create the source waveform as SiteUnique so both the broadcast-style writes (same data to
-                // every site) and the site-unique writes share one waveform name. A Broadcast waveform cannot
-                // be written with WriteSourceWaveformSiteUnique, whereas a SiteUnique waveform supports both.
-                _digitalSessionsBundle.CreateSerialSourceWaveform(
-                    SourcePinName, SourceWaveformName, NationalInstruments.ModularInstruments.NIDigital.SourceDataMapping.SiteUnique, SampleWidth, bitOrder);
-                _digitalSessionsBundle.CreateSerialCaptureWaveform(
-                    CapturePinName, CaptureWaveformName, SampleWidth, bitOrder);
-            }
-            catch (Exception)
-            {
-                // Waveforms already exist on the current session; safe to continue.
-            }
         }
 
         /// <inheritdoc/>
@@ -105,6 +135,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// <param name="valueBitWidth">The bit width for the register value.</param>
         public SiteData<long> ReadRegister(uint address, uint addressBitWidth, uint valueBitWidth)
         {
+            ValidateRegisterAccess(address, addressBitWidth, valueBitWidth);
+
             uint[] addressSamples = LongToU32Samples(address, addressBitWidth, SampleWidth, BitOrder);
             uint[] valuePadding = new uint[GetSampleCount(valueBitWidth, SampleWidth)];
             uint[] srcWfmSamples = ConcatArrays(addressSamples, valuePadding);
@@ -133,6 +165,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// <param name="valueBitWidth">The bit width for the register value.</param>
         public void WriteRegister(uint address, long value, uint addressBitWidth, uint valueBitWidth)
         {
+            ValidateRegisterAccess(address, addressBitWidth, valueBitWidth);
+            ValidateValue(value, valueBitWidth);
+
             uint[] addressSamples = LongToU32Samples(address, addressBitWidth, SampleWidth, BitOrder);
             uint[] valueSamples = LongToU32Samples(value, valueBitWidth, SampleWidth, BitOrder);
             uint[] srcWfmSamples = ConcatArrays(addressSamples, valueSamples);
@@ -155,12 +190,20 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// <param name="valueBitWidth">The bit width for the register value.</param>
         public void WriteRegister(uint address, SiteData<long> value, uint addressBitWidth, uint valueBitWidth)
         {
+            if (value == null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+            ValidateRegisterAccess(address, addressBitWidth, valueBitWidth);
+
             int[] siteNumbers = value.SiteNumbers;
             uint[] addressSamples = LongToU32Samples(address, addressBitWidth, SampleWidth, BitOrder);
             uint[][] perSiteWfmSamples = new uint[siteNumbers.Length][];
             for (int i = 0; i < siteNumbers.Length; i++)
             {
-                uint[] valueSamples = LongToU32Samples(value.GetValue(siteNumbers[i]), valueBitWidth, SampleWidth, BitOrder);
+                long siteValue = value.GetValue(siteNumbers[i]);
+                ValidateValue(siteValue, valueBitWidth);
+                uint[] valueSamples = LongToU32Samples(siteValue, valueBitWidth, SampleWidth, BitOrder);
                 perSiteWfmSamples[i] = ConcatArrays(addressSamples, valueSamples);
             }
             SiteData<uint[]> sourceWaveforms = new SiteData<uint[]>(siteNumbers, perSiteWfmSamples);
@@ -187,6 +230,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// <param name="valueBitWidth">The bit width for each register value.</param>
         public SiteData<long[]> ReadRegisters(uint[] addresses, uint addressBitWidth, uint valueBitWidth)
         {
+            ValidateMultiRegisterAccess(addresses, addressBitWidth, valueBitWidth);
+
             long[] dummyValues = new long[addresses.Length];
             uint[] srcWfmSamples = BuildInterleavedSourceWaveform(addresses, dummyValues, addressBitWidth, valueBitWidth);
 
@@ -215,6 +260,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// <param name="valueBitWidth">The bit width for each register value.</param>
         public void WriteRegisters(uint[] addresses, long[] values, uint addressBitWidth, uint valueBitWidth)
         {
+            ValidateMultiRegisterAccess(addresses, addressBitWidth, valueBitWidth);
+            ValidateValuesMatchAddresses(addresses, values);
+
             uint[] srcWfmSamples = BuildInterleavedSourceWaveform(addresses, values, addressBitWidth, valueBitWidth);
 
             _digitalSessionsBundle.WriteSequencerRegister(ReadWriteCountSequenceRegister, addresses.Length);
@@ -235,6 +283,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// <param name="valueBitWidth">The bit width for each register value.</param>
         public void WriteRegisters(uint[] addresses, SiteData<long>[] values, uint addressBitWidth, uint valueBitWidth)
         {
+            ValidateMultiRegisterAccess(addresses, addressBitWidth, valueBitWidth);
+            ValidateValuesMatchAddresses(addresses, values);
+            ValidateSameSites(values);
+
             int[] siteNumbers = values[0].SiteNumbers;
             uint[][] perSiteWfmSamples = new uint[siteNumbers.Length][];
             for (int siteIndex = 0; siteIndex < siteNumbers.Length; siteIndex++)
@@ -282,6 +334,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             var allSamples = new List<uint>();
             for (int i = 0; i < addresses.Length; i++)
             {
+                ValidateAddress(addresses[i], addressBitWidth);
+                ValidateValue(values[i], valueBitWidth);
                 allSamples.AddRange(LongToU32Samples(addresses[i], addressBitWidth, SampleWidth, BitOrder));
                 allSamples.AddRange(LongToU32Samples(values[i], valueBitWidth, SampleWidth, BitOrder));
             }
@@ -328,6 +382,15 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
 
         internal static long[] U32SamplesToLongArray(uint[] samples, uint sampleBitWidth, int valueCount, BitOrder bitOrder = BitOrder.MsbFirst)
         {
+            if (valueCount <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(valueCount), valueCount, "The value count must be greater than zero.");
+            }
+            if (samples.Length % valueCount != 0)
+            {
+                throw new ArgumentException($"The {samples.Length} samples cannot be split evenly into {valueCount} values.", nameof(samples));
+            }
+
             int samplesPerValue = samples.Length / valueCount;
             long[] values = new long[valueCount];
             for (int i = 0; i < valueCount; i++)
@@ -341,6 +404,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
 
         private static uint GetSampleCount(uint valueBitWidth, uint sampleBitWidth)
         {
+            if (sampleBitWidth < 1 || sampleBitWidth > MaxSampleWidth)
+            {
+                throw new ArgumentOutOfRangeException(nameof(sampleBitWidth), sampleBitWidth, $"The sample width must be between 1 and {MaxSampleWidth}.");
+            }
             return (valueBitWidth + sampleBitWidth - 1) / sampleBitWidth;
         }
 
@@ -354,29 +421,164 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
 
         #endregion Sample Conversion Helpers
 
+        #region Validation Helpers
+
+        internal static void ValidateBitWidth(uint bitWidth, string paramName)
+        {
+            if (bitWidth < 1 || bitWidth > MaxBitWidth)
+            {
+                throw new ArgumentOutOfRangeException(paramName, bitWidth, $"The bit width must be between 1 and {MaxBitWidth}.");
+            }
+        }
+
+        internal static void ValidateAddress(uint address, uint addressBitWidth)
+        {
+            // Addresses are 32 bits wide, so any wider field always fits.
+            if (addressBitWidth < 32 && (address >> (int)addressBitWidth) != 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(address), address, $"The address 0x{address:X} does not fit in {addressBitWidth} bits.");
+            }
+        }
+
+        internal static void ValidateValue(long value, uint valueBitWidth)
+        {
+            // Negative values are rejected unless the field spans all 64 bits.
+            if (valueBitWidth < MaxBitWidth && ((ulong)value >> (int)valueBitWidth) != 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(value), value, $"The value {value} does not fit in {valueBitWidth} bits.");
+            }
+        }
+
+        internal static void ValidateAddresses(uint[] addresses)
+        {
+            if (addresses == null)
+            {
+                throw new ArgumentNullException(nameof(addresses));
+            }
+            if (addresses.Length == 0)
+            {
+                throw new ArgumentException("At least one register address is required.", nameof(addresses));
+            }
+        }
+
+        internal static void ValidateValuesMatchAddresses(uint[] addresses, Array values)
+        {
+            if (values == null)
+            {
+                throw new ArgumentNullException(nameof(values));
+            }
+            if (values.Length != addresses.Length)
+            {
+                throw new ArgumentException(
+                    $"Addresses and values must have equal lengths, but {addresses.Length} addresses and {values.Length} values were provided.",
+                    nameof(values));
+            }
+        }
+
+        internal static void ValidateSameSites(SiteData<long>[] values)
+        {
+            if (values.Any(v => v == null))
+            {
+                throw new ArgumentException("The values must not contain null entries.", nameof(values));
+            }
+            var expectedSites = new HashSet<int>(values[0].SiteNumbers);
+            if (values.Any(v => !expectedSites.SetEquals(v.SiteNumbers)))
+            {
+                throw new ArgumentException("All site-unique values must contain the same set of sites.", nameof(values));
+            }
+        }
+
+        private static void ValidateRegisterAccess(uint address, uint addressBitWidth, uint valueBitWidth)
+        {
+            ValidateBitWidth(addressBitWidth, nameof(addressBitWidth));
+            ValidateBitWidth(valueBitWidth, nameof(valueBitWidth));
+            ValidateAddress(address, addressBitWidth);
+        }
+
+        private static void ValidateMultiRegisterAccess(uint[] addresses, uint addressBitWidth, uint valueBitWidth)
+        {
+            ValidateBitWidth(addressBitWidth, nameof(addressBitWidth));
+            ValidateBitWidth(valueBitWidth, nameof(valueBitWidth));
+            ValidateAddresses(addresses);
+        }
+
+        #endregion Validation Helpers
+
+        // Serial source/capture waveforms must exist on the instrument before they can be written or bursted.
+        // Waveforms cannot be created twice or reconfigured on a session, so creation is tracked per session.
+        // A fresh session (for example, a second sequence run after instrument cleanup) gets its own waveforms.
+        private void CreateSerialWaveforms(DigitalSessionsBundle digitalSessionsBundle)
+        {
+            NIDigitalBitOrder bitOrder = BitOrder == BitOrder.MsbFirst
+                ? NIDigitalBitOrder.MostSignificantBitFirst
+                : NIDigitalBitOrder.LeastSignificantBitFirst;
+            string sourceKey = "source:" + SourceWaveformName;
+            string sourceSettings = $"pin={SourcePinName}, sampleWidth={SampleWidth}, bitOrder={bitOrder}";
+            string captureKey = "capture:" + CaptureWaveformName;
+            string captureSettings = $"pin={CapturePinName}, sampleWidth={SampleWidth}, bitOrder={bitOrder}";
+
+            digitalSessionsBundle.Do(sessionInfo =>
+            {
+                Dictionary<string, string> created = _createdWaveforms.GetOrCreateValue(sessionInfo.Session);
+                lock (created)
+                {
+                    if (!IsWaveformCreated(created, sourceKey, sourceSettings))
+                    {
+                        // SiteUnique supports both broadcast-style writes (same data to every site) and
+                        // site-unique writes with a single waveform name; a Broadcast waveform cannot be
+                        // written with WriteSourceWaveformSiteUnique.
+                        sessionInfo.Session.SourceWaveforms.CreateSerial(
+                            SourcePinName, SourceWaveformName, NIDigitalSourceDataMapping.SiteUnique, SampleWidth, bitOrder);
+                        created[sourceKey] = sourceSettings;
+                    }
+                    if (!IsWaveformCreated(created, captureKey, captureSettings))
+                    {
+                        sessionInfo.Session.CaptureWaveforms.CreateSerial(
+                            CapturePinName, CaptureWaveformName, SampleWidth, bitOrder);
+                        created[captureKey] = captureSettings;
+                    }
+                }
+            });
+        }
+
+        private static bool IsWaveformCreated(Dictionary<string, string> created, string key, string settings)
+        {
+            if (!created.TryGetValue(key, out string existingSettings))
+            {
+                return false;
+            }
+            if (existingSettings != settings)
+            {
+                throw new InvalidOperationException(
+                    $"The waveform '{key}' already exists on the session with different settings ({existingSettings}). " +
+                    $"Waveform settings cannot change after creation; use a different waveform name for ({settings}).");
+            }
+            return true;
+        }
+
         /// <summary>
-        /// Validates that all pins in <see cref="IDigitalProtocol.PinNames"/> are present in the bundle.
+        /// Validates that the pins in <see cref="IDigitalProtocol.PinNames"/>, <see cref="IDigitalProtocol.SourcePinName"/>
+        /// and <see cref="IDigitalProtocol.CapturePinName"/> are present in the bundle.
         /// A superset of pins in the bundle is acceptable.
         /// </summary>
         /// <param name="digitalSessionsBundle">The <see cref="DigitalSessionsBundle"/> object to validate.</param>
         /// <exception cref="ArgumentException">Thrown when required pins are missing from the bundle.</exception>
         private void ValidateBundle(DigitalSessionsBundle digitalSessionsBundle)
         {
-            if (PinNames == null || PinNames.Length == 0)
-            {
-                return;
-            }
-
-            // Check that all expected pins are contained within the bundle pins.
             // It is acceptable for there to be a superset of pins within the bundle.
             var bundlePins = new HashSet<string>(
                 digitalSessionsBundle.AggregateSitePinList.Select(sp => sp.PinName),
                 StringComparer.Ordinal);
-            if (!PinNames.All(bundlePins.Contains))
+            string[] missingPins = (PinNames ?? Array.Empty<string>())
+                .Concat(new[] { SourcePinName, CapturePinName })
+                .Where(pin => !bundlePins.Contains(pin))
+                .Distinct()
+                .ToArray();
+            if (missingPins.Length > 0)
             {
                 throw new ArgumentException(
-                    $"The DigitalSessionsBundle does not contain the required pins defined by " +
-                    $"PinNames: [{string.Join(", ", PinNames)}].");
+                    $"The DigitalSessionsBundle does not contain the required pins: [{string.Join(", ", missingPins)}]. " +
+                    $"The bundle must include PinNames, SourcePinName ('{SourcePinName}') and CapturePinName ('{CapturePinName}').");
             }
         }
     }
