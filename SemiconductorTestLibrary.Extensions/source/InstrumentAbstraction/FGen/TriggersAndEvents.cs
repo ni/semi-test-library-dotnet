@@ -21,10 +21,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// </param>
         /// <param name="digitalEdge">The active edge of the trigger signal. Only Rising edge is supported.</param>
         /// <remarks>
-        /// Only <see cref="DigitalEdge.Rising"/> is supported for <paramref name="digitalEdge"/>.
-        /// <see cref="DigitalEdge.Falling"/> throws an <see cref="ArgumentException"/>.
-        /// A <see langword="null"/> or empty <paramref name="source"/> does not configure a valid trigger source; as a result, the instrument does not respond to the trigger.
-        /// Throws <see cref="NISemiconductorTestException"/> when <paramref name="source"/> is not a valid trigger source terminal.
+        /// Only <see cref="DigitalEdge.Rising"/> is supported for <paramref name="digitalEdge"/>.<br/>
+        /// A <see langword="null"/> or empty <paramref name="source"/> for <paramref name="source"/> does not configure a valid trigger source; as a result, the instrument does not respond to the trigger.<br/>
+        /// Throws <see cref="ArgumentException"/> if <paramref name="digitalEdge"/> is <see cref="DigitalEdge.Falling"/>.<br/>
+        /// Throws <see cref="NISemiconductorTestException"/> if <paramref name="source"/> is not a valid trigger source terminal.
         /// </remarks>
         /// <exception cref="ArgumentException">
         /// Thrown when <paramref name="digitalEdge"/> is not <see cref="DigitalEdge.Rising"/>.
@@ -83,8 +83,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// <param name="outputTerminal">The terminal to export the signal to, such as PXI_Trig0.</param>
         /// <remarks>
         /// Allowed values for <paramref name="signalSource"/> are <see cref="SignalSource.StartTrigger"/>, <see cref="SignalSource.ReadyForStartEvent"/>,
-        /// <see cref="SignalSource.StartedEvent"/>, and <see cref="SignalSource.DoneEvent"/>.
-        /// All other values throw a <see cref="ArgumentException"/>.
+        /// <see cref="SignalSource.StartedEvent"/>, and <see cref="SignalSource.DoneEvent"/>.<br/>
+        /// Throws <see cref="ArgumentException"/> for all other values.
         /// </remarks>
         /// <exception cref="ArgumentException">
         /// Thrown when <paramref name="signalSource"/> is not one of StartTrigger, ReadyForStartEvent, StartedEvent, or DoneEvent.
