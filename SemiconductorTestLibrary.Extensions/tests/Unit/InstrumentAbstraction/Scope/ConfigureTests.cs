@@ -14,10 +14,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
     [Collection("NonParallelizable")]
     public sealed class ConfigureTests : IDisposable
     {
+        private readonly ISemiconductorModuleContext _tsmContext;
         private const string _SCP_5186_Pin = "SCP_5186_Pin";
         private const string _SCP_5162_Pin = "SCP_5162_Pin";
         private const string _SCP_5172_Pin = "SCP_5172_Pin";
-        private readonly ISemiconductorModuleContext _tsmContext;
+
         // Bandwidth values for NI 5162 device
         private const double Ni5162Z50OhmFullBandwidth = 1500000000.0;
         private const double Ni5162Z50Ohm20MHzFilter = 20000000.0;
