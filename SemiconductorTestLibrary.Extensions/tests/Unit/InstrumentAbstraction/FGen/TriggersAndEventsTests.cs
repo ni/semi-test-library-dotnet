@@ -33,7 +33,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinMapFileNames = new[]
             {
                 "FgenSingleInstrumentPerPin.pinmap",
-                "FgenSingleInstrumentPerPinPerSite.pinmap"
+                "FgenSingleInstrumentPerSite.pinmap"
             };
             var signalSources = new[]
             {
@@ -57,7 +57,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinMapFileNames = new[]
             {
                 "FgenSingleInstrumentPerPin.pinmap",
-                "FgenSingleInstrumentPerPinPerSite.pinmap"
+                "FgenSingleInstrumentPerSite.pinmap"
             };
             var signalSources = new[]
             {
@@ -85,7 +85,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var pinMapFileNames = new[]
             {
                 "FgenSingleInstrumentPerPin.pinmap",
-                "FgenSingleInstrumentPerPinPerSite.pinmap"
+                "FgenSingleInstrumentPerSite.pinmap"
             };
             var triggerModes = new[]
             {
@@ -106,8 +106,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
-        [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
-        [InlineData("FgenSingleInstrumentPerPin_SharedPin.pinmap")]
+        [InlineData("FgenSingleInstrumentPerSite.pinmap")]
         public void StandardWaveformConfigured_ConfigureAndDisableStartTriggerDigitalEdgeWithRisingEdge_TriggerConfiguredAndDisabled(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
@@ -137,11 +136,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
-        [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
+        [InlineData("FgenSingleInstrumentPerSite.pinmap")]
         public void StandardWaveformConfigured_ConfigureStartTriggerDigitalEdgeWithFallingEdge_ThrowsException(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
-            var sessionsBundle = sessionManager.Fgen("A");
+            var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
             var triggerLine = "PXI_Trig1";
             sessionsBundle.ConfigureOutputMode(OutputMode.Function);
             ConfigureStandardWaveform(sessionsBundle, StandardWaveform.Sine);
@@ -159,7 +158,29 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
-        [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
+        [InlineData("FgenSingleInstrumentPerSite.pinmap")]
+        public void StandardWaveformConfigured_ConfigureStartTriggerDigitalEdgeWithInvalidSource_ThrowsException(string pinMapFileName)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
+            var triggerLine = "PXITri";
+            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
+            ConfigureStandardWaveform(sessionsBundle, StandardWaveform.Sine);
+            sessionsBundle.ConfigureTriggerMode(TriggerMode.Continuous);
+
+            void ConfigureStartTriggerDigitalEdgeFalling()
+            {
+                sessionsBundle.ConfigureStartTriggerDigitalEdge(triggerLine, DigitalEdge.Rising);
+            }
+
+            var exception = Assert.Throws<NISemiconductorTestException>(ConfigureStartTriggerDigitalEdgeFalling);
+            Assert.Contains("Terminal for the device is invalid", exception.Message);
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData("FgenSingleInstrumentPerPin.pinmap")]
+        [InlineData("FgenSingleInstrumentPerSite.pinmap")]
         public void DigitalEdgeAndStandardWaveformConfiguredThenInitiated_DisableStartTrigger_ThrowsException(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
@@ -179,7 +200,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
-        [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
+        [InlineData("FgenSingleInstrumentPerSite.pinmap")]
         public void DigitalEdgeAndStandardWaveformConfiguredThenInitiated_AbortAndDisableTrigger_Succeeds(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
@@ -202,7 +223,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
-        [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
+        [InlineData("FgenSingleInstrumentPerSite.pinmap")]
         public void StandardWaveformConfigured_ConfigureAndDisableStartTriggerSoftwareEdge_TriggerConfiguredAndDisabled(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
@@ -230,7 +251,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
-        [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
+        [InlineData("FgenSingleInstrumentPerSite.pinmap")]
         public void SoftwareEdgeAndStandardWaveformConfiguredThenInitiated_SendSoftwareEdgeAndDisableStartTrigger_ThrowsException(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
@@ -250,7 +271,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
-        [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
+        [InlineData("FgenSingleInstrumentPerSite.pinmap")]
         public void SoftwareEdgeAndStandardWaveformConfiguredThenInitiated_SendSoftwareEdgeAndAbortAndDisableTrigger_Succeeds(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
@@ -268,6 +289,28 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 AssertStartTriggerSettings(sessionInfo, TriggerType.None);
             });
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData("FgenSingleInstrumentPerPin.pinmap")]
+        [InlineData("FgenSingleInstrumentPerSite.pinmap")]
+        public void SoftwareEdgeAndStandardWaveformConfigured_SendSoftwareEdgeBeforeInitiate_ThrowsException(string pinMapFileName)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
+            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
+            ConfigureStandardWaveform(sessionsBundle, StandardWaveform.Square);
+            sessionsBundle.ConfigureStartTriggerSoftwareEdge();
+
+            void SendSoftwareEdgeAndInitiate()
+            {
+                sessionsBundle.SendSoftwareEdgeTrigger();
+                sessionsBundle.Initiate();
+            }
+
+            var exception = Assert.Throws<NISemiconductorTestException>(SendSoftwareEdgeAndInitiate);
+            Assert.Contains("Specified operation can be performed only when the task is running.", exception.Message);
         }
 
         [Theory]
@@ -302,7 +345,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
-        [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
+        [InlineData("FgenSingleInstrumentPerSite.pinmap")]
         public void StandardWaveformConfigured_ConfigureValidTriggerMode_Succeeds(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);

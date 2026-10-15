@@ -13,17 +13,24 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         #region Methods on FgenSessionsBundle
 
         /// <summary>
-        /// Configures the Start Trigger to be a digital edge trigger.
+        /// Configures the start trigger for digital edge triggering.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
-        /// <param name="source">The terminal to use as the trigger source, such as PXI_Trig0.</param>
+        /// <param name="source">
+        /// The terminal to use as the trigger source, such as PXI_Trig0.
+        /// </param>
         /// <param name="digitalEdge">The active edge of the trigger signal. Only Rising edge is supported.</param>
         /// <remarks>
         /// Only <see cref="DigitalEdge.Rising"/> is supported for <paramref name="digitalEdge"/>.
         /// <see cref="DigitalEdge.Falling"/> throws an <see cref="ArgumentException"/>.
+        /// A <see langword="null"/> or empty <paramref name="source"/> does not configure a valid trigger source; as a result, the instrument does not respond to the trigger.
+        /// Throws <see cref="NISemiconductorTestException"/> when <paramref name="source"/> is not a valid trigger source terminal.
         /// </remarks>
         /// <exception cref="ArgumentException">
         /// Thrown when <paramref name="digitalEdge"/> is not <see cref="DigitalEdge.Rising"/>.
+        /// </exception>
+        /// <exception cref="NISemiconductorTestException">
+        /// Thrown when <paramref name="source"/> is not a valid trigger source terminal.
         /// </exception>
         public static void ConfigureStartTriggerDigitalEdge(this FgenSessionsBundle sessionsBundle, string source, DigitalEdge digitalEdge)
         {
@@ -53,6 +60,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// Sends a software edge trigger to the instrument.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
+        /// <remarks>
+        /// Throws <see cref="NISemiconductorTestException"/> when this method is called before <c>Initiate</c>.
+        /// </remarks>
+        /// <exception cref="NISemiconductorTestException">
+        /// Thrown when this method is called before <c>Initiate</c>.
+        /// </exception>
         public static void SendSoftwareEdgeTrigger(this FgenSessionsBundle sessionsBundle)
         {
             sessionsBundle.Do(sessionInfo =>
