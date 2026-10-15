@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope
@@ -13,12 +14,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
         /// <param name="settings">The <see cref="TimingSettings"/> to configure.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="settings"/> is null.</exception>
+        /// <remarks>
+        /// Throws an <see cref="ArgumentNullException"/> when <paramref name="settings"/> is null.
+        /// </remarks>
         public static void ConfigureTiming(this ScopeSessionsBundle sessionsBundle, TimingSettings settings)
         {
             if (settings == null)
             {
-                throw new ArgumentNullException(nameof(settings));
+                throw new ArgumentNullException(nameof(settings), string.Format(CultureInfo.InvariantCulture, ResourceStrings.Scope_TimingSettingsNull, nameof(settings)));
             }
 
             sessionsBundle.Do(sessionInfo =>
@@ -37,12 +40,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
         /// <param name="settings">The <see cref="ClockSettings"/> to configure.</param>
-        /// <exception cref="ArgumentNullException">Thrown when <paramref name="settings"/> is null.</exception>
+        /// <remarks>
+        /// Throws an <see cref="ArgumentNullException"/> when <paramref name="settings"/> is null.
+        /// </remarks>
         public static void ConfigureClock(this ScopeSessionsBundle sessionsBundle, ClockSettings settings)
         {
             if (settings == null)
             {
-                throw new ArgumentNullException(nameof(settings));
+                throw new ArgumentNullException(nameof(settings), string.Format(CultureInfo.InvariantCulture, ResourceStrings.Scope_ClockSettingsNull, nameof(settings)));
             }
 
             sessionsBundle.Do(sessionInfo =>
