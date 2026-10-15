@@ -23,7 +23,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         public ConfigureTests()
         {
-            _tsmContext = CreateTSMContext("ScopeTests.pinmap");
+            _tsmContext = CreateTSMContext("ScopeExtensionsTests.pinmap");
             Initialize(_tsmContext);
         }
 
@@ -32,14 +32,48 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Close(_tsmContext);
         }
 
+        [Theory]
+        [InlineData("SCP_5105_Pin")]
+        [InlineData(_SCP_5162_Pin)]
+        [InlineData(_SCP_5186_Pin)]
+        public void DifferentInstrumentModels_ConfigureVerticalWithDefaultSettings_ValuesApplied(string pinName)
+        {
+            var sessionsBundle = GetSessionsBundle(pinName);
+
+            sessionsBundle.ConfigureVertical(new VerticalSettings());
+            sessionsBundle.Commit();
+
+            AssertVerticalSettings(sessionsBundle, new VerticalSettings());
+        }
+
         [Fact]
-        public void SessionsBundle_ConfigureVerticalWithDefaultSettings_ValuesApplied()
+        public void SessionsBundle_ConfigureVerticalWithNullSettings_ThrowsArgumentNullException()
         {
             var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
 
-            sessionsBundle.ConfigureVertical(new VerticalSettings());
+            var exception = Assert.Throws<ArgumentNullException>(() => sessionsBundle.ConfigureVertical((VerticalSettings)null));
 
-            AssertVerticalSettings(sessionsBundle, new VerticalSettings());
+            Assert.Equal("verticalSettings", exception.ParamName);
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureVerticalWithNullPerSiteSettings_ThrowsArgumentNullException()
+        {
+            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
+
+            var exception = Assert.Throws<ArgumentNullException>(() => sessionsBundle.ConfigureVertical((SiteData<VerticalSettings>)null));
+
+            Assert.Equal("verticalSettings", exception.ParamName);
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureVerticalWithNullPerPinPerSiteSettings_ThrowsArgumentNullException()
+        {
+            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
+
+            var exception = Assert.Throws<ArgumentNullException>(() => sessionsBundle.ConfigureVertical((PinSiteData<VerticalSettings>)null));
+
+            Assert.Equal("verticalSettings", exception.ParamName);
         }
 
         [Fact]
@@ -55,6 +89,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             };
 
             sessionsBundle.ConfigureVertical(settings);
+
             AssertVerticalSettings(sessionsBundle, settings);
         }
 
@@ -79,6 +114,33 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var settings = new VerticalSettings { EnableTimeInterleavedSampling = true };
 
             sessionsBundle.ConfigureVertical(settings);
+
+            sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
+            {
+                Assert.True(sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString].EnableTimeInterleavedSampling);
+            });
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureVerticalWithTimeInterleavedSamplingDisabled_ValueApplied()
+        {
+            var sessionsBundle = GetSessionsBundle(_SCP_5162_Pin);
+
+            sessionsBundle.ConfigureVertical(new VerticalSettings { EnableTimeInterleavedSampling = false });
+
+            sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
+            {
+                Assert.False(sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString].EnableTimeInterleavedSampling);
+            });
+        }
+
+        [Fact]
+        public void SessionsBundleAndConfigureVerticalWithTimeInterleavedSampling_ConfigureVerticalWithTimeInterleavedSamplingNotProvided_ValueUnchanged()
+        {
+            var sessionsBundle = GetSessionsBundle(_SCP_5162_Pin);
+            sessionsBundle.ConfigureVertical(new VerticalSettings { EnableTimeInterleavedSampling = true });
+
+            sessionsBundle.ConfigureVertical(new VerticalSettings());
 
             sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
             {
