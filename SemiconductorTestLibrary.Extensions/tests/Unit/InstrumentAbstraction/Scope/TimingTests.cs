@@ -1,5 +1,6 @@
 using System;
 using NationalInstruments.ModularInstruments.NIScope;
+using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope;
 using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
@@ -146,7 +147,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             void ConfigureTiming() => sessionsBundle.ConfigureTiming(timingSettings);
 
-            Assert.ThrowsAny<Exception>(ConfigureTiming);
+            Assert.Throws<NISemiconductorTestException>(ConfigureTiming);
         }
 
         [Fact]
@@ -164,7 +165,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             void ConfigureTiming() => sessionsBundle.ConfigureTiming(timingSettings);
 
-            Assert.ThrowsAny<Exception>(ConfigureTiming);
+            Assert.Throws<NISemiconductorTestException>(ConfigureTiming);
         }
 
         #endregion
@@ -222,7 +223,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             void ConfigureClock() => sessionsBundle.ConfigureClock(clockSettings);
 
-            Assert.ThrowsAny<Exception>(ConfigureClock);
+            Assert.Throws<NISemiconductorTestException>(ConfigureClock);
         }
 
         [Fact]
@@ -239,7 +240,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             void ConfigureClock() => sessionsBundle.ConfigureClock(clockSettings);
 
-            Assert.ThrowsAny<Exception>(ConfigureClock);
+            Assert.Throws<NISemiconductorTestException>(ConfigureClock);
         }
 
         [Fact]
@@ -256,7 +257,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             void ConfigureClock() => sessionsBundle.ConfigureClock(clockSettings);
 
-            Assert.ThrowsAny<Exception>(ConfigureClock);
+            Assert.Throws<NISemiconductorTestException>(ConfigureClock);
         }
 
         #endregion
@@ -296,6 +297,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var session = sessionInfo.Session;
                 Assert.True(session.Acquisition.SampleRate >= expected.MinimumSampleRate);
+                Assert.Equal(expected.MinimumNumberOfPoints, session.Acquisition.NumberOfPointsMin);
                 Assert.Equal(expected.ReferencePosition, session.Trigger.ReferenceTrigger.ReferencePosition);
                 Assert.Equal(expected.NumberOfRecords, session.Timing.NumberOfRecordsToAcquire);
                 Assert.Equal(expected.EnforceRealtime, session.Timing.EnforceRealtime);

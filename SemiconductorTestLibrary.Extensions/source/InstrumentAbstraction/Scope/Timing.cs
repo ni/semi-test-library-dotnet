@@ -17,6 +17,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// <remarks>
         /// Throws an <see cref="ArgumentNullException"/> when <paramref name="settings"/> is null.
         /// </remarks>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="settings"/> is null.</exception>
         public static void ConfigureTiming(this ScopeSessionsBundle sessionsBundle, TimingSettings settings)
         {
             if (settings == null)
@@ -43,6 +44,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// <remarks>
         /// Throws an <see cref="ArgumentNullException"/> when <paramref name="settings"/> is null.
         /// </remarks>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="settings"/> is null.</exception>
         public static void ConfigureClock(this ScopeSessionsBundle sessionsBundle, ClockSettings settings)
         {
             if (settings == null)
