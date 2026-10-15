@@ -222,9 +222,6 @@
   <data name="FGen_InvalidOutputModeAtInitiateException" xml:space="preserve">
     <value>Operation cannot be completed because the output mode is not configured to Function. Configure the output mode to Function before calling Initiate. Currently, only the Function output mode is supported.</value>
   </data>
-  <data name="FGen_InvalidFunctionType" xml:space="preserve">
-    <value>The 'User' Waveform Function Type is not supported in STL.</value>
-  </data>
   <data name="FGen_UnsupportedDigitalEdge" xml:space="preserve">
     <value>Falling edge is not supported. Only the Rising edge is supported.</value>
   </data>
