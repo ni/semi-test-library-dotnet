@@ -12,7 +12,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="protocol">The digital communication protocol to use.</param>
-            /// <param name="protocol">The digital communication protocol to use.</param>
         /// <param name="registerAddress">The address of the register to write and read back.</param>
         /// <param name="valueToWrite">The value to write to the register and expect on readback.</param>
         /// <returns>The per-site comparison of the readback value against <paramref name="valueToWrite"/>.</returns>

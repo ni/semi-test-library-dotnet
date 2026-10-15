@@ -5,7 +5,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
 {
     /// <summary>
     /// Set of protocol-agnostic examples to demonstrate using the <see cref="IDigitalProtocol"/> contract
-        /// Set of protocol-agnostic examples to demonstrate using the <see cref="IDigitalProtocol"/> contract
     /// through the shared <see cref="IDigitalProtocol"/> interface.
     /// The <see cref="CommunicationProtocol"/> parameter selects which implementation is used
     /// at runtime.
@@ -20,8 +19,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// <param name="communicationProtocol">The protocol whose parameters to configure.</param>
         /// <param name="addressBitWidth">The number of bits the register address is.</param>
         /// <param name="valueBitWidth">The number of bits the register value holds.</param>
-        /// <param name="writePatternName">The digital pattern name used to write a register value. If omitted, the selected protocol default is used.</param>
-        /// <param name="readPatternName">The digital pattern name used to read a register value. If omitted, the selected protocol default is used.</param>
+        /// <param name="writePatternName">The digital pattern name used to write a register value. If omitted, the protocol's default write pattern name is kept.</param>
+        /// <param name="readPatternName">The digital pattern name used to read a register value. If omitted, the protocol's default read pattern name is kept.</param>
         /// <param name="sourceWaveformName">The digital source waveform name.</param>
         /// <param name="captureWaveformName">The digital capture waveform name.</param>
         /// <param name="sampleWidth">The number of bits each digital waveform sample is.</param>
@@ -47,8 +46,14 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
 
             protocol.DefaultAddressBitWidth = (uint)addressBitWidth;
             protocol.DefaultValueBitWidth = (uint)valueBitWidth;
-            protocol.WritePatternName = writePatternName ?? defaultWritePatternName;
-            protocol.ReadPatternName = readPatternName ?? defaultReadPatternName;
+            if (writePatternName != null)
+            {
+                protocol.WritePatternName = writePatternName;
+            }
+            if (readPatternName != null)
+            {
+                protocol.ReadPatternName = readPatternName;
+            }
             protocol.SourceWaveformName = sourceWaveformName;
             protocol.CaptureWaveformName = captureWaveformName;
             protocol.SampleWidth = (uint)sampleWidth;

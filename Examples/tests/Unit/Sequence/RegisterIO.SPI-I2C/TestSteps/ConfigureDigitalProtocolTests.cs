@@ -12,11 +12,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
     {
         [Theory]
         [InlineData(CommunicationProtocol.SPI)]
+        [InlineData(CommunicationProtocol.I2C)]
         public void ReleaseBundle_RetainedBundle_ClearsReferenceAndCanBeRepeated(CommunicationProtocol protocol)
         {
-            IDigitalProtocol digitalProtocol = protocol == CommunicationProtocol.SPI
-                ? (IDigitalProtocol)SPI.Instance
-                : null;
+            IDigitalProtocol digitalProtocol = SemiconductorModuleContextExtensions.GetProtocol(protocol);
             FieldInfo bundleField = typeof(DigitalProtocol).GetField("_digitalSessionsBundle", BindingFlags.Instance | BindingFlags.NonPublic);
             var bundle = (DigitalSessionsBundle)FormatterServices.GetUninitializedObject(typeof(DigitalSessionsBundle));
 
@@ -177,8 +176,18 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
     }
 
     [Collection("NonParallelizable")]
-    public class ConfigureDigitalProtocolI2CTests
+    public sealed class ConfigureDigitalProtocolI2CTests : IDisposable
     {
+        public ConfigureDigitalProtocolI2CTests()
+        {
+            ResetI2CInstance();
+        }
+
+        public void Dispose()
+        {
+            ResetI2CInstance();
+        }
+
         [Fact]
         public void ConfigureDigitalProtocol_AddressBitWidth_UpdatesI2CInstance()
         {
@@ -261,6 +270,13 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             TestStep.ConfigureDigitalProtocol(CommunicationProtocol.I2C, pinNames: null);
 
             Assert.Equal(new[] { "SDI", "SDO" }, I2C.Instance.PinNames);
+        }
+
+        // The singleton is shared with other test classes, so restore the defaults after every test.
+        private static void ResetI2CInstance()
+        {
+            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.I2C);
+            I2C.Instance.PinNames = new[] { "SDI", "SDO", "SCK" };
         }
     }
 }

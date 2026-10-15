@@ -33,10 +33,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         private uint _defaultValueBitWidth = 16;
 
         /// <inheritdoc/>
-        public string WritePatternName { get; set; } = "SPI_write_pattern";
+        public string WritePatternName { get; set; }
 
         /// <inheritdoc/>
-        public string ReadPatternName { get; set; } = "SPI_read_pattern";
+        public string ReadPatternName { get; set; }
 
         /// <inheritdoc/>
         public string SourceWaveformName { get; set; } = "source_buffer";
