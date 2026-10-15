@@ -25,18 +25,26 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
                 throw new ArgumentNullException(nameof(semiconductorModuleContext));
             }
 
-            IDigitalProtocol protocol;
-            switch (communicationProtocol)
-            {
-                case CommunicationProtocol.SPI:
-                    protocol = SPI.Instance;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(communicationProtocol), communicationProtocol, "Unsupported communication protocol.");
-            }
+            IDigitalProtocol protocol = GetProtocol(communicationProtocol);
             var sessionManager = new TSMSessionManager(semiconductorModuleContext);
             protocol.SetBundle(sessionManager.Digital(protocol.PinNames));
             return protocol;
+        }
+
+        /// <summary>
+        /// Gets the singleton protocol instance for the selected communication protocol.
+        /// </summary>
+        /// <param name="communicationProtocol">The communication protocol to look up.</param>
+        /// <returns>The singleton protocol instance.</returns>
+        internal static IDigitalProtocol GetProtocol(CommunicationProtocol communicationProtocol)
+        {
+            switch (communicationProtocol)
+            {
+                case CommunicationProtocol.SPI:
+                    return SPI.Instance;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(communicationProtocol), communicationProtocol, "Unsupported communication protocol.");
+            }
         }
     }
 }

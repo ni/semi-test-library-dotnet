@@ -27,7 +27,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// <param name="readWriteCountSequenceRegister">The sequencer register controlling the transaction count.</param>
         /// <param name="addressBitWidthSequenceRegister">The sequencer register controlling the address bit width.</param>
         /// <param name="valueBitWidthSequenceRegister">The sequencer register controlling the value bit width.</param>
-        /// <param name="pinNames">The protocol pin names expected by the template patterns.</param>
+        /// <param name="pinNames">The protocol pin names expected by the template patterns. Must include the protocol's source and capture pins.</param>
         public static void ConfigureDigitalProtocol(
             CommunicationProtocol communicationProtocol = CommunicationProtocol.SPI,
             int addressBitWidth = 16,
@@ -42,7 +42,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             string valueBitWidthSequenceRegister = "reg2",
             string[] pinNames = null)
         {
-            IDigitalProtocol protocol = SPI.Instance;
+            IDigitalProtocol protocol = SemiconductorModuleContextExtensions.GetProtocol(communicationProtocol);
 
             protocol.DefaultAddressBitWidth = (uint)addressBitWidth;
             protocol.DefaultValueBitWidth = (uint)valueBitWidth;

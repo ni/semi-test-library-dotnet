@@ -41,8 +41,49 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
     }
 
     [Collection("NonParallelizable")]
-    public class ConfigureDigitalProtocolSPITests
+    public sealed class ConfigureDigitalProtocolSPITests : IDisposable
     {
+        public ConfigureDigitalProtocolSPITests()
+        {
+            ResetSpiInstance();
+        }
+
+        public void Dispose()
+        {
+            ResetSpiInstance();
+        }
+
+        [Fact]
+        public void ConfigureDigitalProtocol_UnsupportedProtocol_ThrowsArgumentOutOfRangeException()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => TestStep.ConfigureDigitalProtocol((CommunicationProtocol)99));
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(33)]
+        [InlineData(-1)]
+        public void ConfigureDigitalProtocol_InvalidSampleWidth_ThrowsArgumentOutOfRangeException(int sampleWidth)
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => TestStep.ConfigureDigitalProtocol(CommunicationProtocol.SPI, sampleWidth: sampleWidth));
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(65)]
+        public void ConfigureDigitalProtocol_InvalidAddressBitWidth_ThrowsArgumentOutOfRangeException(int addressBitWidth)
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => TestStep.ConfigureDigitalProtocol(CommunicationProtocol.SPI, addressBitWidth: addressBitWidth));
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(65)]
+        public void ConfigureDigitalProtocol_InvalidValueBitWidth_ThrowsArgumentOutOfRangeException(int valueBitWidth)
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => TestStep.ConfigureDigitalProtocol(CommunicationProtocol.SPI, valueBitWidth: valueBitWidth));
+        }
+
         [Fact]
         public void ConfigureDigitalProtocol_AddressBitWidth_UpdatesSpiInstance()
         {
@@ -125,6 +166,13 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             TestStep.ConfigureDigitalProtocol(CommunicationProtocol.SPI, pinNames: null);
 
             Assert.Equal(new[] { "SDI", "SDO" }, SPI.Instance.PinNames);
+        }
+
+        // The singleton is shared with other test classes, so restore the defaults after every test.
+        private static void ResetSpiInstance()
+        {
+            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.SPI);
+            SPI.Instance.PinNames = new[] { "SDI", "SDO" };
         }
     }
 }
