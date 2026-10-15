@@ -52,6 +52,47 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
                 ConfigureVertical(sessionInfo, sitePinInfo, verticalSettings.GetValue(sitePinInfo));
             });
         }
+
+        /// <summary>
+        /// Configures the electrical characteristics of all channels in the bundle.
+        /// </summary>
+        /// <remarks>
+        /// Throws <see cref="ArgumentNullException"/> if the <paramref name="electricalCharacteristics"/> parameter is null.<br/>
+        /// Throws <see cref="NISemiconductorTestException"/> if the driver fails to apply the settings for any pin or site.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
+        /// <param name="electricalCharacteristics">The <see cref="ElectricalCharacteristics"/> to apply.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="electricalCharacteristics"/> parameter is null.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when the driver fails to apply the settings for any pin or site.</exception>
+        public static void ConfigureElectricalCharacteristics(this ScopeSessionsBundle sessionsBundle, ElectricalCharacteristics electricalCharacteristics)
+        {
+            ThrowIfNull(electricalCharacteristics, nameof(electricalCharacteristics));
+            sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
+            {
+                ConfigureElectricalCharacteristics(sessionInfo, sitePinInfo, electricalCharacteristics);
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureElectricalCharacteristics(ScopeSessionsBundle, ElectricalCharacteristics)"/>
+        public static void ConfigureElectricalCharacteristics(this ScopeSessionsBundle sessionsBundle, SiteData<ElectricalCharacteristics> electricalCharacteristics)
+        {
+            ThrowIfNull(electricalCharacteristics, nameof(electricalCharacteristics));
+            sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
+            {
+                ConfigureElectricalCharacteristics(sessionInfo, sitePinInfo, electricalCharacteristics.GetValue(sitePinInfo.SiteNumber));
+            });
+        }
+
+        /// <inheritdoc cref="ConfigureElectricalCharacteristics(ScopeSessionsBundle, ElectricalCharacteristics)"/>
+        public static void ConfigureElectricalCharacteristics(this ScopeSessionsBundle sessionsBundle, PinSiteData<ElectricalCharacteristics> electricalCharacteristics)
+        {
+            ThrowIfNull(electricalCharacteristics, nameof(electricalCharacteristics));
+            sessionsBundle.Do((ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo) =>
+            {
+                ConfigureElectricalCharacteristics(sessionInfo, sitePinInfo, electricalCharacteristics.GetValue(sitePinInfo));
+            });
+        }
+
         #endregion
 
         #region Private Methods
@@ -70,6 +111,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
             {
                 channel.EnableTimeInterleavedSampling = verticalSettings.EnableTimeInterleavedSampling.Value;
             }
+        }
+
+        private static void ConfigureElectricalCharacteristics(ScopeSessionInformation sessionInfo, SitePinInfo sitePinInfo, ElectricalCharacteristics characteristics)
+        {
+            ThrowIfNull(characteristics, nameof(characteristics));
+            sessionInfo.Session.Channels[sitePinInfo.IndividualChannelString].ConfigureCharacteristics(
+                characteristics.InputImpedance,
+                characteristics.InputFrequencyMax);
         }
 
         private static void ThrowIfNull(object value, string parameterName)
