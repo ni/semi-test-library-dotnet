@@ -15,6 +15,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
     /// default protocol parameters.
     /// </para>
     /// <para>
+    /// <see cref="Instance"/> is a process-wide singleton that holds shared configuration and the active bundle.
+    /// It is not thread-safe: do not use it from multiple code modules, contexts, or tests in parallel.
+    /// </para>
+    /// <para>
     /// Example usage:
     /// <code>
     /// IDigitalProtocol protocol = new TSMSessionManager(tsmContext).DutControl(CommunicationProtocol.SPI);
@@ -30,7 +34,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// <summary>Gets the singleton SPI protocol instance.</summary>
         public static SPI Instance => _instance.Value;
 
-        private SPI()
+        internal SPI()
         {
             ReadPatternName = "SPI_read_pattern";
             WritePatternName = "SPI_write_pattern";

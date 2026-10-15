@@ -147,38 +147,50 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
     [Collection("NonParallelizable")]
     public class SpiDefaultParametersTests
     {
+        // A fresh instance is used so the defaults are not affected by tests that configure SPI.Instance.
+        private readonly SPI _spi = new SPI();
+
         [Fact]
         public void SpiInstance_Default_HasSpiTemplatePatternNames()
         {
-            Assert.Equal("SPI_write_pattern", SPI.Instance.WritePatternName);
-            Assert.Equal("SPI_read_pattern", SPI.Instance.ReadPatternName);
+            Assert.Equal("SPI_write_template", _spi.WritePatternName);
+            Assert.Equal("SPI_read_template", _spi.ReadPatternName);
+        }
+
+        [Fact]
+        public void SpiInstance_Default_Has16BitWidths()
+        {
+            Assert.Equal(16u, _spi.DefaultAddressBitWidth);
+            Assert.Equal(16u, _spi.DefaultValueBitWidth);
         }
 
         [Fact]
         public void SpiInstance_Default_HasMsbFirstBitOrder()
         {
-            Assert.Equal(BitOrder.MsbFirst, SPI.Instance.BitOrder);
+            Assert.Equal(BitOrder.MsbFirst, _spi.BitOrder);
         }
 
         [Fact]
         public void SpiInstance_Default_HasSourceAndCaptureBufferWaveformNames()
         {
-            Assert.Equal("source_buffer", SPI.Instance.SourceWaveformName);
-            Assert.Equal("capture_buffer", SPI.Instance.CaptureWaveformName);
+            Assert.Equal("source_buffer", _spi.SourceWaveformName);
+            Assert.Equal("capture_buffer", _spi.CaptureWaveformName);
         }
 
         [Fact]
         public void SpiInstance_Default_HasReg0Reg1Reg2SequencerRegisters()
         {
-            Assert.Equal("reg0", SPI.Instance.ReadWriteCountSequenceRegister);
-            Assert.Equal("reg1", SPI.Instance.AddressBitWidthSequenceRegister);
-            Assert.Equal("reg2", SPI.Instance.ValueBitWidthSequenceRegister);
+            Assert.Equal("reg0", _spi.ReadWriteCountSequenceRegister);
+            Assert.Equal("reg1", _spi.AddressBitWidthSequenceRegister);
+            Assert.Equal("reg2", _spi.ValueBitWidthSequenceRegister);
         }
 
         [Fact]
         public void SpiInstance_Default_HasSdiAndSdoPinNames()
         {
-            Assert.Equal(new[] { "SDI", "SDO" }, SPI.Instance.PinNames);
+            Assert.Equal(new[] { "SDI", "SDO" }, _spi.PinNames);
+            Assert.Equal("SDI", _spi.SourcePinName);
+            Assert.Equal("SDO", _spi.CapturePinName);
         }
 
         [Fact]
