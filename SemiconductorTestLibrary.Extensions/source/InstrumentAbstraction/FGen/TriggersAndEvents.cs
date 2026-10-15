@@ -13,7 +13,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         #region Methods on FgenSessionsBundle
 
         /// <summary>
-        /// Configures the start trigger for digital edge triggering.
+        /// Configures the Start Trigger for digital edge triggering.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
         /// <param name="source">
@@ -45,7 +45,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         }
 
         /// <summary>
-        /// Configures the Start Trigger to be a software edge trigger.
+        /// Configures the Start Trigger to use software triggering.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
         public static void ConfigureStartTriggerSoftwareEdge(this FgenSessionsBundle sessionsBundle)
