@@ -56,6 +56,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// <summary>
         /// Configures the electrical characteristics of all channels in the bundle.
         /// </summary>
+        /// <remarks>
+        /// Throws <see cref="ArgumentNullException"/> if the <paramref name="electricalCharacteristics"/> parameter is null.<br/>
+        /// Throws <see cref="NISemiconductorTestException"/> if the driver fails to apply the settings for any pin or site.
+        /// </remarks>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
         /// <param name="electricalCharacteristics">The <see cref="ElectricalCharacteristics"/> to apply.</param>
         /// <exception cref="ArgumentNullException">Thrown when the <paramref name="electricalCharacteristics"/> parameter is null.</exception>
