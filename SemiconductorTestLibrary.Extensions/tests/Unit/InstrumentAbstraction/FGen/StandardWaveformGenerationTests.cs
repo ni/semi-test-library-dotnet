@@ -33,6 +33,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             InitializeAndClose.Close(_tsmContext);
         }
 
+        #region Scalar data tests
+
         public static TheoryData<string, StandardWaveform> PinMapAndSupportedWaveformFunctionTypes()
         {
             const string PinMap = "FgenSingleInstrumentPerPin.pinmap";
@@ -170,6 +172,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Contains("Property: Frequency", exception.Message); // Ensure correct property is reported in the exception message.
         }
 
+        #endregion
+
+        #region SiteData tests
+
         [Theory]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
         [InlineData("FgenSingleInstrumentPerSite.pinmap")]
@@ -195,6 +201,53 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 }
             }
         }
+
+        [Fact]
+        public void InitializeBundleWithMultiplePins_ConfigureStandardWaveformWithSiteDataHavingUnsupportedFunctionType_ThrowsException()
+        {
+            var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
+            var pinNames = new string[] { "A", "B" };
+            var sessionsBundle = sessionManager.Fgen(pinNames);
+            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
+            var siteData = new SiteData<StandardWaveformSettings>(new[]
+            {
+                new StandardWaveformSettings(waveformFunctionType: StandardWaveform.User, amplitude: 5.0, frequency: 1000.0),  // Site 0, 'Waveform.User' is not supported in STL
+                new StandardWaveformSettings(waveformFunctionType: StandardWaveform.Square, amplitude: 3.5, frequency: 5000.0) // Site 1
+            });
+
+            var exception = Record.Exception(() =>
+            {
+                sessionsBundle.ConfigureStandardWaveform(siteData);
+            });
+
+            Assert.IsType<NISemiconductorTestException>(exception);
+            Assert.Contains("The 'StandardWaveform.User' Waveform Function Type is not supported in STL", exception.Message); // Ensure correct error message is reported in the exception message.
+        }
+
+        [Fact]
+        public void InitializeBundleWithMultiplePins_ConfigureStandardWaveformWithSiteDataHavingInvalidSites_ThrowsException()
+        {
+            var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
+            var pinNames = new string[] { "A", "B" };
+            var sessionsBundle = sessionManager.Fgen(pinNames);
+            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
+            var siteData = new SiteData<StandardWaveformSettings>(new[]
+            {
+                new StandardWaveformSettings(waveformFunctionType: StandardWaveform.Square, amplitude: 3.5, frequency: 5000.0) // Site 1
+            });
+
+            var exception = Record.Exception(() =>
+            {
+                sessionsBundle.ConfigureStandardWaveform(siteData);
+            });
+
+            Assert.IsType<NISemiconductorTestException>(exception);
+            Assert.Contains("The site number 1 does not exist", exception.Message); // Ensure correct error message is reported in the exception message.
+        }
+
+        #endregion
+
+        #region PinSiteData tests
 
         [Theory]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
@@ -223,6 +276,32 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 }
             }
         }
+
+        [Fact]
+        public void InitializeBundleWithMultiplePins_ConfigureStandardWaveformWithPinSiteDataHavingUnsupportedFunctionType_ThrowsException()
+        {
+            var sessionManager = Initialize("FgenSingleInstrumentPerPin.pinmap");
+            var pinNames = new string[] { "A", "B" };
+            var sessionsBundle = sessionManager.Fgen(pinNames);
+            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
+            var pinSiteData = new PinSiteData<StandardWaveformSettings>(PinNames, SiteNumbers, new[]
+            {
+                // Pin A: Site 0, Site 1
+                new[] { new StandardWaveformSettings(StandardWaveform.Sine, frequency: 1000.0, amplitude: 5.0), new StandardWaveformSettings(StandardWaveform.Sine, frequency: 5000.0, amplitude: 3.5) },
+                // Pin B: Site 0, Site 1
+                new[] { new StandardWaveformSettings(StandardWaveform.User, frequency: 1000.0, amplitude: 5.0), new StandardWaveformSettings(StandardWaveform.RampUp, frequency: 5000.0, amplitude: 3.5) } // Waveform.User is not supported in STL
+            });
+
+            var exception = Record.Exception(() =>
+            {
+                sessionsBundle.ConfigureStandardWaveform(pinSiteData);
+            });
+
+            Assert.IsType<NISemiconductorTestException>(exception);
+            Assert.Contains("The 'StandardWaveform.User' Waveform Function Type is not supported in STL", exception.Message); // Ensure correct error message is reported in the exception message.
+        }
+
+        #endregion
 
         #region Helper Methods
 
