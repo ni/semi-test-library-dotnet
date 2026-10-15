@@ -250,7 +250,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 [0] = new VerticalSettings()
             });
 
-            Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ConfigureVertical(perSiteSettings));
+            var exception = Record.Exception(() => sessionsBundle.ConfigureVertical(perSiteSettings));
+
+            Assert.IsType<NISemiconductorTestException>(exception);
         }
 
         [Fact]
@@ -359,10 +361,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
 
-            var exception = Assert.Throws<ArgumentNullException>(
+            var exception = Record.Exception(
                 () => sessionsBundle.ConfigureElectricalCharacteristics((SiteData<ElectricalCharacteristics>)null));
 
-            Assert.Equal("electricalCharacteristics", exception.ParamName);
+            Assert.IsType<ArgumentNullException>(exception);
+            Assert.Equal("electricalCharacteristics", ((ArgumentNullException)exception).ParamName);
         }
 
         [Fact]
