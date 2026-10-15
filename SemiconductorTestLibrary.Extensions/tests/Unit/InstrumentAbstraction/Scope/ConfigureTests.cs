@@ -103,6 +103,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             };
 
             sessionsBundle.ConfigureVertical(settings);
+
             AssertVerticalSettings(sessionsBundle, settings);
         }
 
