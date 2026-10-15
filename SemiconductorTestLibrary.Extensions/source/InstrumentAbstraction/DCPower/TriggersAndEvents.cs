@@ -156,7 +156,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="triggerType">One of the following trigger types: MeasureTrigger, PulseTrigger, SequenceAdvanceTrigger, SourceTrigger, StartTrigger.</param>>
-        /// <param name="tiggerTerminal">The input terminal to configure the trigger to look for a Digital Edge.
+        /// <param name="triggerTerminal">The input terminal to configure the trigger to look for a Digital Edge.
         /// <para>
         /// This is the fully qualified terminal string, which must be in the form of <code>"/Dev1/PXI_Trig0"</code>,
         /// where Dev1 is the instrument generating the trigger and PXI_Trig0 is the trigger line the trigger is being sent on.
@@ -167,7 +167,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </para>
         /// </param>
         /// <param name="triggerEdge">The digital edge to look for, either <see cref="DCPowerTriggerEdge.Rising"/> or <see cref="DCPowerTriggerEdge.Falling"/>.</param>
-        public static void ConfigureTriggerDigitalEdge(this DCPowerSessionsBundle sessionsBundle, TriggerType triggerType, string tiggerTerminal, DCPowerTriggerEdge triggerEdge = DCPowerTriggerEdge.Rising)
+        public static void ConfigureTriggerDigitalEdge(this DCPowerSessionsBundle sessionsBundle, TriggerType triggerType, string triggerTerminal, DCPowerTriggerEdge triggerEdge = DCPowerTriggerEdge.Rising)
         {
             // Need to loop over each channel because not all channels in the sessionInfo.ChannelString are guaranteed to be
             // mapped to the same model, and therefore not all channels in the sessionInfo.ChannelString may support this operation.
@@ -176,7 +176,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 if (!IsFollowerOfGangedChannels(pinSiteInfo.CascadingInfo))
                 {
-                    ConfigureTriggerDigitalEdge(sessionInfo, pinSiteInfo, triggerType, tiggerTerminal, triggerEdge);
+                    ConfigureTriggerDigitalEdge(sessionInfo, pinSiteInfo, triggerType, triggerTerminal, triggerEdge);
                 }
             });
         }
@@ -309,13 +309,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             }
         }
 
-        private static void ConfigureTriggerDigitalEdge(this DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, TriggerType triggerType, string tiggerTerminal, DCPowerTriggerEdge triggerEdge = DCPowerTriggerEdge.Rising)
+        private static void ConfigureTriggerDigitalEdge(this DCPowerSessionInformation sessionInfo, SitePinInfo sitePinInfo, TriggerType triggerType, string triggerTerminal, DCPowerTriggerEdge triggerEdge = DCPowerTriggerEdge.Rising)
         {
             var output = sessionInfo.Session.Outputs[sitePinInfo.IndividualChannelString];
-            output.ConfigureTriggerDigitalEdge(triggerType, tiggerTerminal, triggerEdge, sitePinInfo.ModelString);
+            output.ConfigureTriggerDigitalEdge(triggerType, triggerTerminal, triggerEdge, sitePinInfo.ModelString);
         }
 
-        private static void ConfigureTriggerDigitalEdge(this DCPowerOutput dcPowerOutput, TriggerType triggerType, string tiggerTerminal, DCPowerTriggerEdge triggerEdge = DCPowerTriggerEdge.Rising, string instrumentModel = "")
+        private static void ConfigureTriggerDigitalEdge(this DCPowerOutput dcPowerOutput, TriggerType triggerType, string triggerTerminal, DCPowerTriggerEdge triggerEdge = DCPowerTriggerEdge.Rising, string instrumentModel = "")
         {
             var triggerTypesUnsupported = GetUnsupportedTriggerTypes(instrumentModel);
             if (!triggerTypesUnsupported.Contains(triggerType))
@@ -324,19 +324,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                 switch (triggerType)
                 {
                     case TriggerType.MeasureTrigger:
-                        dcPowerOutput.Triggers.MeasureTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge);
+                        dcPowerOutput.Triggers.MeasureTrigger.DigitalEdge.Configure(triggerTerminal, triggerEdge);
                         break;
                     case TriggerType.PulseTrigger:
-                        dcPowerOutput.Triggers.PulseTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge);
+                        dcPowerOutput.Triggers.PulseTrigger.DigitalEdge.Configure(triggerTerminal, triggerEdge);
                         break;
                     case TriggerType.SequenceAdvanceTrigger:
-                        dcPowerOutput.Triggers.SequenceAdvanceTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge);
+                        dcPowerOutput.Triggers.SequenceAdvanceTrigger.DigitalEdge.Configure(triggerTerminal, triggerEdge);
                         break;
                     case TriggerType.SourceTrigger:
-                        dcPowerOutput.Triggers.SourceTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge);
+                        dcPowerOutput.Triggers.SourceTrigger.DigitalEdge.Configure(triggerTerminal, triggerEdge);
                         break;
                     case TriggerType.StartTrigger:
-                        dcPowerOutput.Triggers.StartTrigger.DigitalEdge.Configure(tiggerTerminal, triggerEdge);
+                        dcPowerOutput.Triggers.StartTrigger.DigitalEdge.Configure(triggerTerminal, triggerEdge);
                         break;
                     default:
                         break;
