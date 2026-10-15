@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -227,5 +227,8 @@
   </data>
   <data name="FGen_UnsupportedSignalSource" xml:space="preserve">
     <value>The signal source '{0}' is not supported. Supported values are StartTrigger, ReadyForStartEvent, StartedEvent, and DoneEvent.</value>
+  </data>
+  <data name="Scope_VerticalSettingsNull" xml:space="preserve">
+    <value>'{0}' cannot be null. Please provide valid vertical settings.</value>
   </data>
 </root>
