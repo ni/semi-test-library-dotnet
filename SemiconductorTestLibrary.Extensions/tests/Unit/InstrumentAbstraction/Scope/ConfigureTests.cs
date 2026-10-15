@@ -17,7 +17,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         private readonly ISemiconductorModuleContext _tsmContext;
         private const string _SCP_5186_Pin = "SCP_5186_Pin";
         private const string _SCP_5162_Pin = "SCP_5162_Pin";
-        private const string _SCP_5172_Pin = "SCP_5172_Pin";
+        private const string _SCP_5172_Pin = "SCP_5172_Pin_1";
 
         // Bandwidth values for NI 5162 device
         private const double Ni5162Z50OhmFullBandwidth = 1500000000.0;
