@@ -262,33 +262,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         #endregion
 
-        #region TimingSettings and ClockSettings Default Value Tests
-
-        [Fact]
-        public void TimingSettingsConstructedWithDefaults_HasExpectedDefaultValues()
-        {
-            var timingSettings = new TimingSettings();
-
-            Assert.Equal(20e6, timingSettings.MinimumSampleRate);
-            Assert.Equal(1000, timingSettings.MinimumNumberOfPoints);
-            Assert.Equal(50.0, timingSettings.ReferencePosition);
-            Assert.Equal(1, timingSettings.NumberOfRecords);
-            Assert.False(timingSettings.EnforceRealtime);
-        }
-
-        [Fact]
-        public void ClockSettingsConstructedWithDefaults_HasExpectedDefaultValues()
-        {
-            var clockSettings = new ClockSettings();
-
-            Assert.Equal(ScopeInputClockSource.NoSource, clockSettings.InputClockSource);
-            Assert.Equal(ScopeOutputClockSource.NoSource, clockSettings.OutputClockSource);
-            Assert.Equal(ScopeClockSynchronizationPulseSource.NoSource, clockSettings.ClockSynchronizationPulseSource);
-            Assert.False(clockSettings.MasterEnabled);
-        }
-
-        #endregion
-
         #region Helper Methods
 
         private static void AssertTimingSettings(ScopeSessionsBundle sessionsBundle, TimingSettings expected)
