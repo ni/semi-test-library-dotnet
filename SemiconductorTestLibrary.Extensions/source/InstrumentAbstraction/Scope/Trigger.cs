@@ -1,3 +1,4 @@
+using System;
 using NationalInstruments.ModularInstruments.NIScope;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
 
@@ -14,12 +15,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// Configures an edge trigger for all sessions in the bundle.
         /// </summary>
         /// <remarks>
-        /// Only the first channel associated with each session is used as the trigger source.
+        /// Only the first channel associated with each session is used as the trigger source.<br/>
+        /// Throws <see cref="ArgumentNullException"/> if the <paramref name="triggerSettings"/> parameter is null.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
-        /// <param name="triggerSettings">The <see cref="TriggerSettings"/> to apply.</param>
-        public static void ConfigureEdgeTrigger(this ScopeSessionsBundle sessionsBundle, TriggerSettings triggerSettings)
+        /// <param name="triggerSettings">The <see cref="EdgeTriggerSettings"/> to apply.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="triggerSettings"/> parameter is null.</exception>
+        public static void ConfigureEdgeTrigger(this ScopeSessionsBundle sessionsBundle, EdgeTriggerSettings triggerSettings)
         {
+            ThrowIfNull(triggerSettings);
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.Trigger.EdgeTrigger.Configure(
@@ -36,12 +40,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// Configures a hysteresis trigger for all sessions in the bundle.
         /// </summary>
         /// <remarks>
-        /// Only the first channel associated with each session is used as the trigger source.
+        /// Only the first channel associated with each session is used as the trigger source.<br/>
+        /// Throws <see cref="ArgumentNullException"/> if the <paramref name="triggerSettings"/> parameter is null.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
-        /// <param name="triggerSettings">The <see cref="TriggerSettings"/> to apply.</param>
-        public static void ConfigureTriggerHysteresis(this ScopeSessionsBundle sessionsBundle, TriggerSettings triggerSettings)
+        /// <param name="triggerSettings">The <see cref="HysteresisTriggerSettings"/> to apply.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="triggerSettings"/> parameter is null.</exception>
+        public static void ConfigureTriggerHysteresis(this ScopeSessionsBundle sessionsBundle, HysteresisTriggerSettings triggerSettings)
         {
+            ThrowIfNull(triggerSettings);
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.Trigger.ConfigureTriggerHysteresis(
@@ -59,12 +66,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// Configures a digital trigger for all sessions in the bundle.
         /// </summary>
         /// <remarks>
-        /// Only the first channel associated with each session is used as the trigger source.
+        /// Only the first channel associated with each session is used as the trigger source.<br/>
+        /// Throws <see cref="ArgumentNullException"/> if the <paramref name="triggerSettings"/> parameter is null.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
-        /// <param name="triggerSettings">The <see cref="TriggerSettings"/> to apply.</param>
-        public static void ConfigureTriggerDigital(this ScopeSessionsBundle sessionsBundle, TriggerSettings triggerSettings)
+        /// <param name="triggerSettings">The <see cref="DigitalTriggerSettings"/> to apply.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="triggerSettings"/> parameter is null.</exception>
+        public static void ConfigureTriggerDigital(this ScopeSessionsBundle sessionsBundle, DigitalTriggerSettings triggerSettings)
         {
+            ThrowIfNull(triggerSettings);
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.Trigger.ConfigureTriggerDigital(
@@ -79,12 +89,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// Configures a window trigger for all sessions in the bundle.
         /// </summary>
         /// <remarks>
-        /// Only the first channel associated with each session is used as the trigger source.
+        /// Only the first channel associated with each session is used as the trigger source.<br/>
+        /// Throws <see cref="ArgumentNullException"/> if the <paramref name="triggerSettings"/> parameter is null.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
-        /// <param name="triggerSettings">The <see cref="TriggerSettings"/> to apply.</param>
-        public static void ConfigureTriggerWindow(this ScopeSessionsBundle sessionsBundle, TriggerSettings triggerSettings)
+        /// <param name="triggerSettings">The <see cref="WindowTriggerSettings"/> to apply.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="triggerSettings"/> parameter is null.</exception>
+        public static void ConfigureTriggerWindow(this ScopeSessionsBundle sessionsBundle, WindowTriggerSettings triggerSettings)
         {
+            ThrowIfNull(triggerSettings);
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.Trigger.ConfigureTriggerWindow(
@@ -112,6 +125,18 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
                 sessionInfo.Session.Trigger.ConfigureTriggerImmediate();
             });
         }
+        #endregion
+
+        #region Private Methods
+
+        private static void ThrowIfNull(object triggerSettings)
+        {
+            if (triggerSettings is null)
+            {
+                throw new ArgumentNullException(nameof(triggerSettings));
+            }
+        }
+
         #endregion
 
         #region Methods on ScopeSessionInformation

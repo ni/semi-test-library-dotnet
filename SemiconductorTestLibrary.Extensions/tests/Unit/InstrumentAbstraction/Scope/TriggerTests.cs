@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using NationalInstruments.ModularInstruments.NIScope;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
@@ -32,11 +32,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void SessionsBundle_ConfigureEdgeTrigger_ValuesApplied()
         {
             var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
-            var settings = new TriggerSettings
+            var settings = new EdgeTriggerSettings
             {
                 TriggerLevel = 0.15,
-                TriggerSlope = ScopeTriggerSlope.Positive,
-                TriggerCoupling = ScopeTriggerCoupling.DC
+                TriggerSlope = ScopeTriggerSlope.Negative,
+                TriggerCoupling = ScopeTriggerCoupling.DC,
+                HoldOff = PrecisionTimeSpan.FromSeconds(1e-6),
+                Delay = PrecisionTimeSpan.FromSeconds(2e-6)
             };
 
             sessionsBundle.ConfigureEdgeTrigger(settings);
@@ -44,12 +46,36 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Do(sessionInfo =>
             {
                 var trigger = sessionInfo.Session.Trigger;
-                var temp = trigger.Source;
                 Assert.Equal(ScopeTriggerType.Edge, trigger.Type);
                 Assert.Equal(settings.TriggerLevel, trigger.Level, 3);
                 Assert.Equal(settings.TriggerSlope, trigger.EdgeTrigger.Slope);
                 Assert.Equal(settings.TriggerCoupling, trigger.Coupling);
+                Assert.Equal(settings.HoldOff.TotalSeconds, trigger.Holdoff.TotalSeconds, 9);
+                Assert.Equal(settings.Delay.TotalSeconds, trigger.ReferenceTrigger.Delay.TotalSeconds, 9);
             });
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureEdgeTriggerWithNullSettings_ThrowsArgumentNullException()
+        {
+            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
+
+            Assert.Throws<ArgumentNullException>(() => sessionsBundle.ConfigureEdgeTrigger(null));
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureEdgeTriggerWithInvalidLevel_ThrowsException()
+        {
+            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
+            var settings = new EdgeTriggerSettings { TriggerLevel = 1000.0 };
+
+            void ConfigureAndCommit()
+            {
+                sessionsBundle.ConfigureEdgeTrigger(settings);
+                sessionsBundle.Commit();
+            }
+
+            Assert.Throws<NISemiconductorTestException>(ConfigureAndCommit);
         }
 
         [Fact]
@@ -57,16 +83,24 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
 
-            sessionsBundle.ConfigureEdgeTrigger(new TriggerSettings());
+            sessionsBundle.ConfigureEdgeTrigger(new EdgeTriggerSettings());
 
             sessionsBundle.Do(sessionInfo => Assert.Equal(ScopeTriggerType.Edge, sessionInfo.Session.Trigger.Type));
         }
 
         [Fact]
-        public void SessionsBundle_ConfigureTriggerHysteresis_ValuesApplied()
+        public void SessionsBundle_ConfigureTriggerHysteresisWithNullSettings_ThrowsArgumentNullException()
         {
             var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
-            var settings = new TriggerSettings { TriggerLevel = 0.1, TriggerHysteresis = 0.05 };
+
+            Assert.Throws<ArgumentNullException>(() => sessionsBundle.ConfigureTriggerHysteresis(null));
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureTriggerHysteresisOnUnsupportedDevice_ThrowsException()
+        {
+            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
+            var settings = new HysteresisTriggerSettings { TriggerLevel = 0.1, TriggerHysteresis = 0.05 };
             void ConfigureTriggerHysteresisOnUnsupportedInsturment()
             {
                 sessionsBundle.ConfigureTriggerHysteresis(settings);
@@ -80,18 +114,31 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void SessionsBundle_ConfigureTriggerDigital_TypeIsDigital()
         {
             var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
-            var settings = new TriggerSettings();
+            var settings = new DigitalTriggerSettings { TriggerSlope = ScopeTriggerSlope.Negative };
 
             sessionsBundle.ConfigureTriggerDigital(settings);
 
-            sessionsBundle.Do(sessionInfo => Assert.Equal(ScopeTriggerType.DigitalEdge, sessionInfo.Session.Trigger.Type));
+            sessionsBundle.Do(sessionInfo =>
+            {
+                var trigger = sessionInfo.Session.Trigger;
+                Assert.Equal(ScopeTriggerType.DigitalEdge, trigger.Type);
+                Assert.Equal(settings.TriggerSlope, trigger.EdgeTrigger.Slope);
+            });
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureTriggerDigitalWithNullSettings_ThrowsArgumentNullException()
+        {
+            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
+
+            Assert.Throws<ArgumentNullException>(() => sessionsBundle.ConfigureTriggerDigital(null));
         }
 
         [Fact]
         public void SessionsBundle_ConfigureTriggerWindow_TypeIsWindow()
         {
             var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
-            var settings = new TriggerSettings
+            var settings = new WindowTriggerSettings
             {
                 WindowLowLevel = -0.1,
                 WindowHighLevel = 0.1,
@@ -100,7 +147,38 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ConfigureTriggerWindow(settings);
 
-            sessionsBundle.Do(sessionInfo => Assert.Equal(ScopeTriggerType.Window, sessionInfo.Session.Trigger.Type));
+            sessionsBundle.Do(sessionInfo =>
+            {
+                var trigger = sessionInfo.Session.Trigger;
+                Assert.Equal(ScopeTriggerType.Window, trigger.Type);
+                Assert.Equal(settings.WindowLowLevel, trigger.ReferenceTrigger.Window.LowLevel, 3);
+                Assert.Equal(settings.WindowHighLevel, trigger.ReferenceTrigger.Window.HighLevel, 3);
+                Assert.Equal(settings.TriggerWindowMode, trigger.ReferenceTrigger.Window.Mode);
+                Assert.Equal(settings.TriggerCoupling, trigger.Coupling);
+            });
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureTriggerWindowWithNullSettings_ThrowsArgumentNullException()
+        {
+            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
+
+            Assert.Throws<ArgumentNullException>(() => sessionsBundle.ConfigureTriggerWindow(null));
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureTriggerWindowWithInvalidLevels_ThrowsException()
+        {
+            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
+            var settings = new WindowTriggerSettings { WindowLowLevel = -1000.0, WindowHighLevel = 1000.0 };
+
+            void ConfigureAndCommit()
+            {
+                sessionsBundle.ConfigureTriggerWindow(settings);
+                sessionsBundle.Commit();
+            }
+
+            Assert.Throws<NISemiconductorTestException>(ConfigureAndCommit);
         }
 
         [Fact]
@@ -108,7 +186,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
 
-            sessionsBundle.ConfigureEdgeTrigger(new TriggerSettings());
+            sessionsBundle.ConfigureEdgeTrigger(new EdgeTriggerSettings());
             sessionsBundle.Initiate();
 
             sessionsBundle.Abort();
