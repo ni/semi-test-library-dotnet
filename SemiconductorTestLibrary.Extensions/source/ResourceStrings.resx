@@ -231,4 +231,7 @@
   <data name="Scope_VerticalSettingsNull" xml:space="preserve">
     <value>'{0}' cannot be null. Please provide valid vertical settings.</value>
   </data>
+  <data name="FGen_UnsupportedWaveFunctionType" xml:space="preserve">
+    <value>The 'StandardWaveform.User' Waveform Function Type is not supported in STL.</value>
+  </data>
 </root>
