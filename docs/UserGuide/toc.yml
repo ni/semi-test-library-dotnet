@@ -44,6 +44,8 @@
   href: CommonUtilityMethods.md
 - name: Working With Multiplexed Connections
   href: WorkingWithMultiplexedConnections.md
+- name: Reading and Writing Registers over SPI and I2C
+  href: ReadingAndWritingRegistersOverSPIAndI2C.md
 
 - name: Best Practices
 - name: NuGet Package Management For STS Projects
