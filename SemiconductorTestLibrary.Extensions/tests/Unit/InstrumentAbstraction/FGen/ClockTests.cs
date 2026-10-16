@@ -84,6 +84,27 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
         [InlineData("FgenSingleInstrumentPerSite.pinmap")]
+        public void InitializeBundleWithMultiplePins_ConfigureSampleSourceWithInvalidClkSource_ThrowsException(string pinmap)
+        {
+            var sessionManager = Initialize(pinmap);
+            var sessionsBundle = sessionManager.Fgen(new[] { "A", "B" });
+            string clockSource = "Ch0";
+
+            var exception = Record.Exception(() =>
+            {
+                sessionsBundle.ConfigureSampleSource(clockSource);
+                sessionsBundle.Commit();
+            });
+
+            sessionsBundle.Abort();
+            Assert.IsType<NISemiconductorTestException>(exception);
+            Assert.Contains("Property: Sample Clock Source", exception.Message);
+            Assert.Contains("Invalid value for parameter or property", exception.Message); // Ensure correct error message is reported in the exception message.
+        }
+
+        [Theory]
+        [InlineData("FgenSingleInstrumentPerPin.pinmap")]
+        [InlineData("FgenSingleInstrumentPerSite.pinmap")]
         public void InitializeBundleWithMultiplePins_ConfigureSampleSourceWhileGenerating_ThrowsException(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
@@ -120,6 +141,50 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ConfigureReferenceClock(clockSource, frequency);
 
             AssertReferenceClockSettings(sessionsBundle, clockSource, frequency);
+        }
+
+        [Theory]
+        [InlineData("FgenSingleInstrumentPerPin.pinmap")]
+        [InlineData("FgenSingleInstrumentPerSite.pinmap")]
+        public void InitializeBundleWithMultiplePins_ConfigureReferenceClockWithUnsupportedFrequency_ThrowsException(string pinmap)
+        {
+            var sessionManager = Initialize(pinmap);
+            var sessionsBundle = sessionManager.Fgen(new[] { "A", "B" });
+            string clockSource = "OnboardRefClk";
+            double frequency = 10; // Unsupported frequency for reference clock
+
+            var exception = Record.Exception(() =>
+            {
+                sessionsBundle.ConfigureReferenceClock(clockSource, frequency);
+                sessionsBundle.Commit();
+            });
+
+            sessionsBundle.Abort();
+            Assert.IsType<NISemiconductorTestException>(exception);
+            Assert.Contains("Property: Reference Clock Frequency", exception.Message);
+            Assert.Contains("Invalid value for parameter or property", exception.Message); // Ensure correct error message is reported in the exception message.
+        }
+
+        [Theory]
+        [InlineData("FgenSingleInstrumentPerPin.pinmap")]
+        [InlineData("FgenSingleInstrumentPerSite.pinmap")]
+        public void InitializeBundleWithMultiplePins_ConfigureReferenceClockWithInvalidClockSource_ThrowsException(string pinmap)
+        {
+            var sessionManager = Initialize(pinmap);
+            var sessionsBundle = sessionManager.Fgen(new[] { "A", "B" });
+            string clockSource = "Ch0"; // Invalid clock source for reference clock
+            double frequency = 100e6;
+
+            var exception = Record.Exception(() =>
+            {
+                sessionsBundle.ConfigureReferenceClock(clockSource, frequency);
+                sessionsBundle.Commit();
+            });
+
+            sessionsBundle.Abort();
+            Assert.IsType<NISemiconductorTestException>(exception);
+            Assert.Contains("Property: Reference Clock Source", exception.Message);
+            Assert.Contains("Invalid value for parameter or property", exception.Message); // Ensure correct error message is reported in the exception message.
         }
 
         [Theory]
