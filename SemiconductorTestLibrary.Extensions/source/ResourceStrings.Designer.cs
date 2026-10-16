@@ -376,6 +376,23 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Falling edge is not supported. Only the Rising edge is supported..
+        /// </summary>
+        internal static string FGen_UnsupportedDigitalEdge {
+            get {
+                return ResourceManager.GetString("FGen_UnsupportedDigitalEdge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The signal source &apos;{0}&apos; is not supported. Supported values are StartTrigger, ReadyForStartEvent, StartedEvent, and DoneEvent..
+        /// </summary>
+        internal static string FGen_UnsupportedSignalSource {
+            get {
+                return ResourceManager.GetString("FGen_UnsupportedSignalSource", resourceCulture);
+        }
+        
+        /// <summary> 
         ///   Looks up a localized string similar to The &apos;StandardWaveform.User&apos; Waveform Function Type is not supported in STL..
         /// </summary>
         internal static string FGen_UnsupportedWaveFunctionType {
@@ -385,12 +402,11 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;{0}&apos; cannot be null. Please provide valid vertical settings..
+        ///   Looks up a localized string similar to '{0}' cannot be null. Please provide valid vertical settings..
         /// </summary>
         internal static string Scope_VerticalSettingsNull {
             get {
                 return ResourceManager.GetString("Scope_VerticalSettingsNull", resourceCulture);
             }
-        }
     }
 }
