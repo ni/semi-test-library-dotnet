@@ -13,13 +13,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
     [Collection("NonParallelizable")]
     public sealed class AcquireTests : IDisposable
     {
-        private const string SinglePin = "DUTPin4";
+        private const string SinglePin = "SCP_5105_Pin";
+        private static readonly string[] MultiPins = { "SCP_5105_Pin", "SCP_5162_Pin", "SCP_5622_Pin" };
 
         private readonly ISemiconductorModuleContext _tsmContext;
 
         public AcquireTests()
         {
-            _tsmContext = CreateTSMContext("ScopeTests.pinmap");
+            _tsmContext = CreateTSMContext("ScopeExtensionsTests.pinmap");
             Initialize(_tsmContext);
         }
 
@@ -99,22 +100,70 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionsBundle = GetSessionsBundle(SinglePin);
 
-            Assert.Equal(sessionsBundle.GetRecordLength(), sessionsBundle.GetRecordLength());
-            Assert.Equal(sessionsBundle.GetResolution(), sessionsBundle.GetResolution());
-            Assert.Equal(sessionsBundle.GetSampleMode(), sessionsBundle.GetSampleMode());
-            Assert.Equal(sessionsBundle.GetSampleRate(), sessionsBundle.GetSampleRate());
+            var recordLength = sessionsBundle.GetRecordLength();
+            var resolution = sessionsBundle.GetResolution();
+            var sampleMode = sessionsBundle.GetSampleMode();
+            var sampleRate = sessionsBundle.GetSampleRate();
+
+            Assert.Equal(recordLength, sessionsBundle.GetRecordLength());
+            Assert.Equal(resolution, sessionsBundle.GetResolution());
+            Assert.Equal(sampleMode, sessionsBundle.GetSampleMode());
+            Assert.Equal(sampleRate, sessionsBundle.GetSampleRate());
         }
 
         [Fact]
         public void SessionsBundleAfterAutoSetup_GetSettings_Succeeds()
         {
             var sessionsBundle = GetSessionsBundle(SinglePin);
+            var sessionsCount = sessionsBundle.InstrumentSessions.Count();
             sessionsBundle.AutoSetup();
 
-            Assert.Equal(sessionsBundle.InstrumentSessions.Count(), sessionsBundle.GetRecordLength().Length);
-            Assert.Equal(sessionsBundle.InstrumentSessions.Count(), sessionsBundle.GetResolution().Length);
-            Assert.Equal(sessionsBundle.InstrumentSessions.Count(), sessionsBundle.GetSampleMode().Length);
-            Assert.Equal(sessionsBundle.InstrumentSessions.Count(), sessionsBundle.GetSampleRate().Length);
+            var recordLength = sessionsBundle.GetRecordLength();
+            var resolution = sessionsBundle.GetResolution();
+            var sampleMode = sessionsBundle.GetSampleMode();
+            var sampleRate = sessionsBundle.GetSampleRate();
+
+            Assert.Equal(sessionsCount, recordLength.Length);
+            Assert.Equal(sessionsCount, resolution.Length);
+            Assert.Equal(sessionsCount, sampleMode.Length);
+            Assert.Equal(sessionsCount, sampleRate.Length);
+        }
+
+        [Theory]
+        [InlineData("SCP_5105_Pin", 12L)]
+        [InlineData("SCP_5162_Pin", 10L)]
+        [InlineData("SCP_5622_Pin", 16L)]
+        [InlineData("SCP_5186_Pin", 8L)]
+        [InlineData("SCP_5172_Pin", 14L)]
+        public void SessionsBundle_GetResolution_ReturnsExpectedValueForModel(string pin, long expectedResolution)
+        {
+            var sessionsBundle = GetSessionsBundle(pin);
+            var sessionsCount = sessionsBundle.InstrumentSessions.Count();
+
+            var resolution = sessionsBundle.GetResolution();
+
+            Assert.Equal(sessionsCount, resolution.Length);
+            Assert.All(resolution, value => Assert.Equal(expectedResolution, value));
+        }
+
+        [Fact]
+        public void MultiPinMultiSite_GetSettings_ReturnsOneValuePerSession()
+        {
+            var sessionsBundle = GetSessionsBundle(MultiPins);
+            var sessionsCount = sessionsBundle.InstrumentSessions.Count();
+
+            var status = sessionsBundle.GetAcquisitionStatus();
+            var recordLength = sessionsBundle.GetRecordLength();
+            var resolution = sessionsBundle.GetResolution();
+            var sampleMode = sessionsBundle.GetSampleMode();
+            var sampleRate = sessionsBundle.GetSampleRate();
+
+            Assert.True(sessionsCount > 1);
+            Assert.Equal(sessionsCount, status.Length);
+            AssertMatchesDriver(sessionsBundle, recordLength, session => session.Acquisition.RecordLength);
+            AssertMatchesDriver(sessionsBundle, resolution, session => session.Acquisition.Resolution);
+            AssertMatchesDriver(sessionsBundle, sampleMode, session => session.Acquisition.SampleMode);
+            AssertMatchesDriver(sessionsBundle, sampleRate, session => session.Acquisition.SampleRate);
         }
 
         private static void AssertMatchesDriver<T>(ScopeSessionsBundle sessionsBundle, T[] actual, Func<NIScope, T> getDriverValue)
@@ -127,6 +176,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = new TSMSessionManager(_tsmContext);
             return sessionManager.Scope(pin);
+        }
+
+        private ScopeSessionsBundle GetSessionsBundle(string[] pins)
+        {
+            var sessionManager = new TSMSessionManager(_tsmContext);
+            return sessionManager.Scope(pins);
         }
     }
 }
