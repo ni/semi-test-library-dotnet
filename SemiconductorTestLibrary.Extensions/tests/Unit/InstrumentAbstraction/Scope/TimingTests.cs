@@ -94,35 +94,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SessionsBundle_ConfigureTimingThenGetNumberOfRecordsToAcquire_ReturnsConfiguredNumberOfRecords()
-        {
-            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
-            var timingSettings = new TimingSettings
-            {
-                MinimumSampleRate = 1000000,
-                MinimumNumberOfPoints = 1000,
-                ReferencePosition = 50,
-                NumberOfRecords = 3,
-                EnforceRealtime = true
-            };
-            sessionsBundle.ConfigureTiming(timingSettings);
-
-            var numberOfRecordsToAcquire = sessionsBundle.GetNumberOfRecordsToAcquire();
-
-            Assert.All(numberOfRecordsToAcquire, numberOfRecords => Assert.Equal(3, numberOfRecords));
-        }
-
-        [Fact]
-        public void SessionsBundle_GetNumberOfRecordsToAcquireWithoutCallingConfigureTiming_ReturnsDefaultNumberOfRecords()
-        {
-            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
-
-            var numberOfRecordsToAcquire = sessionsBundle.GetNumberOfRecordsToAcquire();
-
-            Assert.All(numberOfRecordsToAcquire, numberOfRecords => Assert.Equal(1, numberOfRecords));
-        }
-
-        [Fact]
         public void SessionsBundle_ConfigureTimingWithNullSettings_ThrowsArgumentNullException()
         {
             var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
@@ -166,6 +137,39 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             void ConfigureTiming() => sessionsBundle.ConfigureTiming(timingSettings);
 
             Assert.Throws<NISemiconductorTestException>(ConfigureTiming);
+        }
+
+        #endregion
+
+        #region GetNumberOfRecordsToAcquire Tests
+
+        [Fact]
+        public void SessionsBundle_ConfigureTimingThenGetNumberOfRecordsToAcquire_ReturnsConfiguredNumberOfRecords()
+        {
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
+            var timingSettings = new TimingSettings
+            {
+                MinimumSampleRate = 1000000,
+                MinimumNumberOfPoints = 1000,
+                ReferencePosition = 50,
+                NumberOfRecords = 3,
+                EnforceRealtime = true
+            };
+            sessionsBundle.ConfigureTiming(timingSettings);
+
+            var numberOfRecordsToAcquire = sessionsBundle.GetNumberOfRecordsToAcquire();
+
+            Assert.All(numberOfRecordsToAcquire, numberOfRecords => Assert.Equal(3, numberOfRecords));
+        }
+
+        [Fact]
+        public void SessionsBundle_GetNumberOfRecordsToAcquireWithoutCallingConfigureTiming_ReturnsDefaultNumberOfRecords()
+        {
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
+
+            var numberOfRecordsToAcquire = sessionsBundle.GetNumberOfRecordsToAcquire();
+
+            Assert.All(numberOfRecordsToAcquire, numberOfRecords => Assert.Equal(1, numberOfRecords));
         }
 
         #endregion
