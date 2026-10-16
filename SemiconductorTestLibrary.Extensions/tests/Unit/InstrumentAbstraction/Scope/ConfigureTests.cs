@@ -4,6 +4,7 @@ using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope;
+using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.InitializeAndClose;
@@ -280,6 +281,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_ConfigureElectricalCharacteristicsWithCustomValues_ValuesApplied()
         {
             var sessionsBundle = GetSessionsBundle(_SCP_5172_Pin);
@@ -296,6 +298,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_ConfigureElectricalCharacteristicsCalledMultipleTimes_LastSettingsApplied()
         {
             var sessionsBundle = GetSessionsBundle(_SCP_5172_Pin);
@@ -321,6 +324,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_ConfigureElectricalCharacteristicsWithInvalidInputImpedance_ThrowsException()
         {
             var sessionsBundle = GetSessionsBundle(_SCP_5172_Pin);
@@ -334,6 +338,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_ConfigureElectricalCharacteristicsWithPerSiteSettings_ValuesApplied()
         {
             var sessionsBundle = GetSessionsBundle(_SCP_5172_Pin);
@@ -369,6 +374,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_ConfigureElectricalCharacteristicsWithPerPinPerSiteSettings_ValuesApplied()
         {
             var sessionsBundle = GetSessionsBundle(new[] { _SCP_5172_Pin });
