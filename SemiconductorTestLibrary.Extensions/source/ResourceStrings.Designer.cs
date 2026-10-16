@@ -390,6 +390,8 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         internal static string Scope_ClockSettingsNull {
             get {
                 return ResourceManager.GetString("Scope_ClockSettingsNull", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to The &apos;StandardWaveform.User&apos; Waveform Function Type is not supported in STL..
