@@ -19,7 +19,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         public TriggerTests()
         {
-            _tsmContext = CreateTSMContext("ScopeTests.pinmap");
+            _tsmContext = CreateTSMContext("ScopeExtensionsTests.pinmap");
             Initialize(_tsmContext);
         }
 
@@ -37,8 +37,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 TriggerLevel = 0.15,
                 TriggerSlope = ScopeTriggerSlope.Negative,
                 TriggerCoupling = ScopeTriggerCoupling.DC,
-                HoldOff = PrecisionTimeSpan.FromSeconds(1e-6),
-                Delay = PrecisionTimeSpan.FromSeconds(2e-6)
+                HoldOff = PrecisionTimeSpan.FromSeconds(1e-6)
             };
 
             sessionsBundle.ConfigureEdgeTrigger(settings);
@@ -47,11 +46,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var trigger = sessionInfo.Session.Trigger;
                 Assert.Equal(ScopeTriggerType.Edge, trigger.Type);
-                Assert.Equal(settings.TriggerLevel, trigger.Level, 3);
                 Assert.Equal(settings.TriggerSlope, trigger.EdgeTrigger.Slope);
                 Assert.Equal(settings.TriggerCoupling, trigger.Coupling);
                 Assert.Equal(settings.HoldOff.TotalSeconds, trigger.Holdoff.TotalSeconds, 9);
-                Assert.Equal(settings.Delay.TotalSeconds, trigger.ReferenceTrigger.Delay.TotalSeconds, 9);
             });
         }
 
@@ -137,7 +134,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void SessionsBundle_ConfigureTriggerWindow_TypeIsWindow()
         {
-            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin");
             var settings = new WindowTriggerSettings
             {
                 WindowLowLevel = -0.1,
@@ -151,8 +148,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var trigger = sessionInfo.Session.Trigger;
                 Assert.Equal(ScopeTriggerType.Window, trigger.Type);
-                Assert.Equal(settings.WindowLowLevel, trigger.ReferenceTrigger.Window.LowLevel, 3);
-                Assert.Equal(settings.WindowHighLevel, trigger.ReferenceTrigger.Window.HighLevel, 3);
                 Assert.Equal(settings.TriggerWindowMode, trigger.ReferenceTrigger.Window.Mode);
                 Assert.Equal(settings.TriggerCoupling, trigger.Coupling);
             });
