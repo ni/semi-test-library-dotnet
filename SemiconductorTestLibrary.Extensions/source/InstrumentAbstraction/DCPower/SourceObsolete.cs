@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Globalization;
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
