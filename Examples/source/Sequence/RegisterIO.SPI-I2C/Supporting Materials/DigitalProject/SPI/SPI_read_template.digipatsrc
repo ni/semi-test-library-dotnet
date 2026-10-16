@@ -1,0 +1,19 @@
+
+file_format_version 1.1;
+timeset Idle, SourceStartSetup, Start, Busy, Stop;
+
+pattern SPI_read_template (CS, SDI, SDO, SCK)
+{
+set_loop(reg0)						Idle				1		X		X		1;
+capture_start(capture_buffer)		Idle				1		X		X		1;
+source_start(source_buffer)			Idle				1		X		X		1;
+									SourceStartSetup	1		X		X		1;
+repeatRead:
+									Start				0		X		X		1;
+									Busy				0		1		X		1;
+repeat(reg1), source				Busy				0		D		X		1;
+repeat(reg2), capture				Busy				0		X		V		1;
+end_loop(repeatRead)				Stop				1		X		X		1;
+capture_stop						Idle				1		X		X		1;
+halt								Idle				1		X		X		X;
+}
