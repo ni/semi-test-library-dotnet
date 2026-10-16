@@ -151,7 +151,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         private readonly SPI _spi = new SPI();
 
         [Fact]
-        public void SpiInstance_Default_HasSpiTemplatePatternNames()
+        public void SpiInstance_Default_HasSpiPatternNames()
         {
             Assert.Equal("SPI_write_pattern", _spi.WritePatternName);
             Assert.Equal("SPI_read_pattern", _spi.ReadPatternName);
