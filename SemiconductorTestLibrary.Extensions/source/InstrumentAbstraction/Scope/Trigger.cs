@@ -27,7 +27,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.Trigger.EdgeTrigger.Configure(
-                    sessionInfo.GetTriggerSource(),
+                    GetTriggerSource(sessionInfo),
                     triggerSettings.TriggerLevel,
                     triggerSettings.TriggerSlope,
                     triggerSettings.TriggerCoupling,
@@ -52,7 +52,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.Trigger.ConfigureTriggerHysteresis(
-                    sessionInfo.GetTriggerSource(),
+                    GetTriggerSource(sessionInfo),
                     triggerSettings.TriggerLevel,
                     triggerSettings.TriggerHysteresis,
                     triggerSettings.TriggerSlope,
@@ -78,7 +78,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.Trigger.ConfigureTriggerDigital(
-                    sessionInfo.GetTriggerSource(),
+                    GetTriggerSource(sessionInfo),
                     triggerSettings.TriggerSlope,
                     triggerSettings.HoldOff,
                     triggerSettings.Delay);
@@ -101,7 +101,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.Trigger.ConfigureTriggerWindow(
-                    sessionInfo.GetTriggerSource(),
+                    GetTriggerSource(sessionInfo),
                     triggerSettings.WindowLowLevel,
                     triggerSettings.WindowHighLevel,
                     triggerSettings.TriggerWindowMode,
@@ -137,11 +137,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
             }
         }
 
-        #endregion
-
-        #region Methods on ScopeSessionInformation
-
-        private static ScopeTriggerSource GetTriggerSource(this ScopeSessionInformation sessionInfo)
+        private static ScopeTriggerSource GetTriggerSource(ScopeSessionInformation sessionInfo)
         {
             return sessionInfo.AssociatedSitePinList[0].IndividualChannelString;
         }
