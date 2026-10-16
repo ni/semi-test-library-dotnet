@@ -116,7 +116,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 EnforceRealtime = true
             };
 
-            void ConfigureTiming() => sessionsBundle.ConfigureTiming(timingSettings);
+            void ConfigureTiming()
+            {
+                sessionsBundle.ConfigureTiming(timingSettings);
+                sessionsBundle.Commit();
+            }
 
             Assert.Throws<NISemiconductorTestException>(ConfigureTiming);
         }
@@ -134,7 +138,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 EnforceRealtime = true
             };
 
-            void ConfigureTiming() => sessionsBundle.ConfigureTiming(timingSettings);
+            void ConfigureTiming()
+            {
+                sessionsBundle.ConfigureTiming(timingSettings);
+                sessionsBundle.Commit();
+            }
 
             Assert.Throws<NISemiconductorTestException>(ConfigureTiming);
         }
