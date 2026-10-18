@@ -390,7 +390,9 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         internal static string Scope_ClockSettingsNull {
             get {
                 return ResourceManager.GetString("Scope_ClockSettingsNull", resourceCulture);
-        
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to The &apos;StandardWaveform.User&apos; Waveform Function Type is not supported in STL..
         /// </summary>
@@ -406,6 +408,15 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         internal static string Scope_VerticalSettingsNull {
             get {
                 return ResourceManager.GetString("Scope_VerticalSettingsNull", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The acquisition did not complete within the specified timeout. This may affect all channels on the same card, including those mapped to other sites. Affected channels: {0}.
+        /// </summary>
+        internal static string Scope_AcquisitionTimeoutException {
+            get {
+                return ResourceManager.GetString("Scope_AcquisitionTimeoutException", resourceCulture);
             }
         }
     }
