@@ -58,7 +58,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
 
-            Assert.Throws<ArgumentNullException>(() => sessionsBundle.ConfigureEdgeTrigger(null));
+            var exception = Record.Exception(() => sessionsBundle.ConfigureEdgeTrigger(null));
+
+            Assert.IsType<ArgumentNullException>(exception);
         }
 
         [Fact]
@@ -72,8 +74,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sessionsBundle.ConfigureEdgeTrigger(settings);
                 sessionsBundle.Commit();
             }
+            var exception = Record.Exception(ConfigureAndCommit);
 
-            Assert.Throws<NISemiconductorTestException>(ConfigureAndCommit);
+            Assert.IsType<NISemiconductorTestException>(exception);
         }
 
         [Fact]
@@ -118,7 +121,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
 
-            Assert.Throws<ArgumentNullException>(() => sessionsBundle.ConfigureTriggerHysteresis(null));
+            var exception = Record.Exception(() => sessionsBundle.ConfigureTriggerHysteresis(null));
+
+            Assert.IsType<ArgumentNullException>(exception);
         }
 
         [Fact]
@@ -126,12 +131,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
             var settings = new HysteresisTriggerSettings { TriggerLevel = 0.1, TriggerHysteresis = 0.05 };
-            void ConfigureTriggerHysteresisOnUnsupportedInsturment()
+
+            void ConfigureAndCommit()
             {
                 sessionsBundle.ConfigureTriggerHysteresis(settings);
                 sessionsBundle.Commit();
             }
-            var exception = Assert.Throws<NISemiconductorTestException>(ConfigureTriggerHysteresisOnUnsupportedInsturment);
+            var exception = Record.Exception(ConfigureAndCommit);
+
+            Assert.IsType<NISemiconductorTestException>(exception);
             Assert.Contains("This device does not support hysteresis triggering.", exception.Message);
         }
 
@@ -146,8 +154,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sessionsBundle.ConfigureTriggerHysteresis(settings);
                 sessionsBundle.Commit();
             }
+            var exception = Record.Exception(ConfigureAndCommit);
 
-            Assert.Throws<NISemiconductorTestException>(ConfigureAndCommit);
+            Assert.IsType<NISemiconductorTestException>(exception);
         }
 
         [Fact]
@@ -161,8 +170,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sessionsBundle.ConfigureTriggerDigital(settings);
                 sessionsBundle.Commit();
             }
+            var exception = Record.Exception(ConfigureAndCommit);
 
-            Assert.Throws<NISemiconductorTestException>(ConfigureAndCommit);
+            Assert.IsType<NISemiconductorTestException>(exception);
         }
 
         [Fact]
@@ -186,7 +196,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
 
-            Assert.Throws<ArgumentNullException>(() => sessionsBundle.ConfigureTriggerDigital(null));
+            var exception = Record.Exception(() => sessionsBundle.ConfigureTriggerDigital(null));
+
+            Assert.IsType<ArgumentNullException>(exception);
         }
 
         [Fact]
@@ -216,7 +228,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
 
-            Assert.Throws<ArgumentNullException>(() => sessionsBundle.ConfigureTriggerWindow(null));
+            var exception = Record.Exception(() => sessionsBundle.ConfigureTriggerWindow(null));
+
+            Assert.IsType<ArgumentNullException>(exception);
         }
 
         [Fact]
@@ -230,8 +244,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 sessionsBundle.ConfigureTriggerWindow(settings);
                 sessionsBundle.Commit();
             }
+            var exception = Record.Exception(ConfigureAndCommit);
 
-            Assert.Throws<NISemiconductorTestException>(ConfigureAndCommit);
+            Assert.IsType<NISemiconductorTestException>(exception);
         }
 
         [Fact]
