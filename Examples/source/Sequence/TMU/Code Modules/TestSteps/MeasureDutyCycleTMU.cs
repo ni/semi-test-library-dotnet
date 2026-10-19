@@ -4,7 +4,6 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
-using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TmuExtensions;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.TMU
 {
