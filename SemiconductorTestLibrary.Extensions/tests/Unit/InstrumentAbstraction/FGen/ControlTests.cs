@@ -318,11 +318,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Initiate();
 
             var exception = Record.Exception(() => sessionsBundle.WaitUntilDone(100));
+            sessionsBundle.Abort(); // Ensure generation is aborted so that it does not affect other tests.
 
             Assert.IsType<NISemiconductorTestException>(exception);
             Assert.Contains("at NationalInstruments.ModularInstruments.NIFgen.Internal.FgenImpl.WaitUntilDone", exception.Message); // Ensure that correct driver method call is reported in the exception message.
-            Assert.Contains("Error code: -1074135025", exception.Message); // Ensure correct error code is reported in the exception message.
-            Assert.Contains("Invalid parameter", exception.Message); // Ensure correct error message is reported in the exception message.
+            Assert.Contains("Error code: -1074098044", exception.Message); // Ensure correct error code is reported in the exception message.
+            Assert.Contains("Specified operation did not complete, because the specified timeout expired.", exception.Message); // Ensure correct error message is reported in the exception message.
         }
 
         #endregion
