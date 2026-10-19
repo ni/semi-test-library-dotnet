@@ -1,6 +1,6 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
+    <TargetFrameworks>net8.0-windows</TargetFrameworks>
     <OutputType>Library</OutputType>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <PlatformTarget>x64</PlatformTarget>
@@ -13,8 +13,15 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NI.CSharp.Analyzers" Version="1.2.8" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.11.0" />
+    <PackageReference Include="xunit" Version="2.9.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="4.0.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <Reference Include="NationalInstruments.ModularInstruments.NIDCPower.Fx40">
       <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\IVI Foundation\IVI\Microsoft.NET\Framework64\v4.0.30319\NationalInstruments.ModularInstruments.NIDCPower 26.5.0\NationalInstruments.ModularInstruments.NIDCPower.Fx40.dll</HintPath>
     </Reference>
     <Reference Include="NationalInstruments.DAQmx">
       <SpecificVersion>False</SpecificVersion>
@@ -22,30 +29,20 @@
     </Reference>
     <Reference Include="NationalInstruments.ModularInstruments.NIDmm.Fx40">
       <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\IVI Foundation\IVI\Microsoft.NET\Framework64\v4.0.30319\NationalInstruments.ModularInstruments.NIDmm 26.5.0\NationalInstruments.ModularInstruments.NIDmm.Fx40.dll</HintPath>
     </Reference>
     <Reference Include="NationalInstruments.ModularInstruments.NIDigital.Fx40">
       <SpecificVersion>False</SpecificVersion>
-    </Reference>
-    <Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions">
-      <HintPath>..\..\SemiconductorTestLibrary.Abstractions\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
+      <HintPath>C:\Program Files\IVI Foundation\IVI\Microsoft.NET\Framework64\v4.0.30319\NationalInstruments.ModularInstruments.NIDigital 26.8.0\NationalInstruments.ModularInstruments.NIDigital.Fx40.dll</HintPath>
     </Reference>
     <Reference Include="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI">
       <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\National Instruments\TestStand 2023\API\DotNET\Assemblies\CurrentVersion\NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.dll</HintPath>
     </Reference>
     <Reference Include="StandaloneSemiconductorModuleContext">
-      <HintPath>$(TestStand64)\Components\Modules\NI_SemiconductorModule\StandaloneSemiconductorModuleContext\StandaloneSemiconductorModuleContext.dll</HintPath>
+      <HintPath Condition="'$(TestStand64)' != ''">$(TestStand64)\Components\Modules\NI_SemiconductorModule\StandaloneSemiconductorModuleContext\StandaloneSemiconductorModuleContext.dll</HintPath>
+      <HintPath Condition="'$(TestStand64)' == ''">C:\Program Files\National Instruments\TestStand 2023\Components\Modules\NI_SemiconductorModule\StandaloneSemiconductorModuleContext\StandaloneSemiconductorModuleContext.dll</HintPath>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.abstractions" Version="2.0.3" />
-    <PackageReference Include="xunit.analyzers" Version="0.10.0" />
-    <PackageReference Include="xunit.assert" Version="2.4.1" />
-    <PackageReference Include="xunit.core" Version="2.4.1" />
-    <PackageReference Include="xunit.extensibility.core" Version="2.4.1" />
-    <PackageReference Include="xunit.extensibility.execution" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.console" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\TestAssets\Tests.SemiconductorTestLibrary.Utilities\Tests.SemiconductorTestLibrary.Utilities.csproj" />

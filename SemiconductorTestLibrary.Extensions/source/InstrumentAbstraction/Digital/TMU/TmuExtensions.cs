@@ -1901,7 +1901,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
                 : digitalSessionInformation.AssociatedSitePinList;
 
             // Initialize the TMUAssignmentManager with the available TMU resources for the devices within the current session.
-            List<string> availableTMUContexts = GetDigitalTmus(digitalSessionInformation.Session).GetDisabledTmuContexts();
+            IReadOnlyList<string> availableTMUContexts = GetDigitalTmus(digitalSessionInformation.Session).GetDisabledTmuContexts();
             Dictionary<string, Queue<string>> tmuContextsPerInstrument = CategorizeTMUContextsByInstrument(availableTMUContexts);
 
             // Assign TMU resources to each target pin/site pair within the session.
@@ -1959,7 +1959,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
 
         private static bool IsSafeToReleaseAllTMUs(NIDigital session, IEnumerable<SitePinInfo> sitePinInfos)
         {
-            List<string> availableTMUContexts = GetDigitalTmus(session).GetDisabledTmuContexts();
+            IReadOnlyList<string> availableTMUContexts = GetDigitalTmus(session).GetDisabledTmuContexts();
             foreach (var sitePinInfo in sitePinInfos)
             {
                 string tmuContext = (sitePinInfo as DigitalSitePinInfo)?.AssignedTmuContext;
@@ -2142,7 +2142,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
             return false;
         }
 
-        private static Dictionary<string, Queue<string>> CategorizeTMUContextsByInstrument(List<string> availableTMUContexts)
+        private static Dictionary<string, Queue<string>> CategorizeTMUContextsByInstrument(IReadOnlyList<string> availableTMUContexts)
         {
             // A null or empty list yields an empty dictionary, so downstream TryGetTMUContext simply
             // reports that no TMU resources are available rather than faulting here.

@@ -317,19 +317,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <summary>
         /// The per-site cycle information.
         /// </summary>
-        public List<DigitalHistoryRamCycleInformation> CycleInformation { get; }
+        public IReadOnlyList<DigitalHistoryRamCycleInformation> CycleInformation { get; }
 
         /// <summary>
         /// The per-site scan cycle numbers.
         /// </summary>
-        public List<long> ScanCycleNumbers { get; }
+        public IReadOnlyList<long> ScanCycleNumbers { get; }
 
         /// <summary>
         /// Constructs a History RAM results object.
         /// </summary>
         /// <param name="cycleInformation">The cycle information.</param>
         /// <param name="scanCycleNumbers">The scan cycle numbers.</param>
-        public HistoryRAMResults(List<DigitalHistoryRamCycleInformation> cycleInformation, List<long> scanCycleNumbers)
+        public HistoryRAMResults(IReadOnlyList<DigitalHistoryRamCycleInformation> cycleInformation, IReadOnlyList<long> scanCycleNumbers)
         {
             CycleInformation = cycleInformation;
             ScanCycleNumbers = scanCycleNumbers;

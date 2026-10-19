@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Utilities
 {
@@ -31,9 +30,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Utilities
         {
             get
             {
-                var assemblyLocationURI = new Uri(Assembly.GetExecutingAssembly().CodeBase);
-                var assemblyPath = Uri.UnescapeDataString(assemblyLocationURI.AbsolutePath);
-                return Path.GetDirectoryName(assemblyPath);
+                return Path.GetDirectoryName(typeof(PathManagement).Assembly.Location) ?? string.Empty;
             }
         }
 
