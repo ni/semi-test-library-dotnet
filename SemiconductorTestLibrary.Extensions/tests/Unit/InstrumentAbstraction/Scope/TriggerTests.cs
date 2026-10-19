@@ -38,7 +38,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 TriggerLevel = 0.15,
                 TriggerSlope = ScopeTriggerSlope.Negative,
                 TriggerCoupling = ScopeTriggerCoupling.DC,
-                HoldOff = PrecisionTimeSpan.FromSeconds(1e-6)
+                HoldOff = PrecisionTimeSpan.FromSeconds(1e-6),
             };
 
             sessionsBundle.ConfigureEdgeTrigger(settings);
@@ -47,6 +47,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var trigger = sessionInfo.Session.Trigger;
                 Assert.Equal(ScopeTriggerType.Edge, trigger.Type);
+                Assert.Equal(sessionInfo.AssociatedSitePinList[0].IndividualChannelString, trigger.Source);
                 Assert.Equal(settings.TriggerSlope, trigger.EdgeTrigger.Slope);
                 Assert.Equal(settings.TriggerCoupling, trigger.Coupling);
                 Assert.Equal(settings.HoldOff.TotalSeconds, trigger.Holdoff.TotalSeconds, 9);
@@ -86,7 +87,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             sessionsBundle.ConfigureEdgeTrigger(new EdgeTriggerSettings());
 
-            sessionsBundle.Do(sessionInfo => Assert.Equal(ScopeTriggerType.Edge, sessionInfo.Session.Trigger.Type));
+            sessionsBundle.Do(sessionInfo =>
+            {
+                var trigger = sessionInfo.Session.Trigger;
+                Assert.Equal(ScopeTriggerType.Edge, trigger.Type);
+                Assert.Equal(sessionInfo.AssociatedSitePinList[0].IndividualChannelString, trigger.Source);
+            });
         }
 
         [Fact]
@@ -108,6 +114,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var trigger = sessionInfo.Session.Trigger;
                 Assert.Equal(ScopeTriggerType.Hysteresis, trigger.Type);
+                Assert.Equal(sessionInfo.AssociatedSitePinList[0].IndividualChannelString, trigger.Source);
                 Assert.InRange(trigger.Level, settings.TriggerLevel - 0.01, settings.TriggerLevel + 0.01);
                 Assert.InRange(trigger.ReferenceTrigger.Hysteresis, settings.TriggerHysteresis - 0.01, settings.TriggerHysteresis + 0.01);
                 Assert.Equal(settings.TriggerSlope, trigger.EdgeTrigger.Slope);
@@ -176,10 +183,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SessionsBundle_ConfigureTriggerDigital_TypeIsDigital()
+        public void SessionsBundle_ConfigureTriggerDigitalWithSlope_ValuesApplied()
         {
-            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
-            var settings = new DigitalTriggerSettings { TriggerSlope = ScopeTriggerSlope.Negative };
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin");
+            var settings = new DigitalTriggerSettings
+            {
+                TriggerSlope = ScopeTriggerSlope.Negative,
+                HoldOff = PrecisionTimeSpan.FromSeconds(1e-6)
+            };
 
             sessionsBundle.ConfigureTriggerDigital(settings);
 
@@ -187,7 +198,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var trigger = sessionInfo.Session.Trigger;
                 Assert.Equal(ScopeTriggerType.DigitalEdge, trigger.Type);
+                Assert.Equal(sessionInfo.AssociatedSitePinList[0].IndividualChannelString, trigger.Source);
                 Assert.Equal(settings.TriggerSlope, trigger.EdgeTrigger.Slope);
+                Assert.Equal(settings.HoldOff.TotalSeconds, trigger.Holdoff.TotalSeconds, 9);
             });
         }
 
@@ -202,14 +215,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SessionsBundle_ConfigureTriggerWindow_TypeIsWindow()
+        public void SessionsBundle_ConfigureTriggerWindowWithLowAndHighLevels_ValuesApplied()
         {
             var sessionsBundle = GetSessionsBundle("SCP_5172_Pin");
             var settings = new WindowTriggerSettings
             {
                 WindowLowLevel = -0.1,
                 WindowHighLevel = 0.1,
-                TriggerWindowMode = ScopeWindowTriggerMode.Leaving
+                TriggerWindowMode = ScopeWindowTriggerMode.Leaving,
+                HoldOff = PrecisionTimeSpan.FromSeconds(1e-6),
+                TriggerCoupling = ScopeTriggerCoupling.DC
             };
 
             sessionsBundle.ConfigureTriggerWindow(settings);
@@ -218,7 +233,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var trigger = sessionInfo.Session.Trigger;
                 Assert.Equal(ScopeTriggerType.Window, trigger.Type);
+                Assert.Equal(sessionInfo.AssociatedSitePinList[0].IndividualChannelString, trigger.Source);
                 Assert.Equal(settings.TriggerWindowMode, trigger.ReferenceTrigger.Window.Mode);
+                Assert.Equal(settings.TriggerCoupling, trigger.Coupling);
+                Assert.Equal(settings.HoldOff.TotalSeconds, trigger.Holdoff.TotalSeconds, 9);
                 Assert.Equal(settings.TriggerCoupling, trigger.Coupling);
             });
         }
