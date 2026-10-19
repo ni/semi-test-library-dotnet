@@ -51,6 +51,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Assert.Equal(settings.TriggerSlope, trigger.EdgeTrigger.Slope);
                 Assert.Equal(settings.TriggerCoupling, trigger.Coupling);
                 Assert.Equal(settings.HoldOff.TotalSeconds, trigger.Holdoff.TotalSeconds, 9);
+                Assert.Equal(PrecisionTimeSpan.Zero.TotalSeconds, trigger.ReferenceTrigger.Delay.TotalSeconds, 9);
             });
         }
 
