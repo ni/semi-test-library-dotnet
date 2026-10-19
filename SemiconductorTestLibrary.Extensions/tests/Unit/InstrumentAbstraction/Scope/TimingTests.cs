@@ -1,5 +1,6 @@
 using System;
 using NationalInstruments.ModularInstruments.NIScope;
+using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope;
 using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
@@ -93,6 +94,64 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        public void SessionsBundle_ConfigureTimingWithNullSettings_ThrowsArgumentNullException()
+        {
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
+
+            void ConfigureTiming() => sessionsBundle.ConfigureTiming(null);
+
+            Assert.Throws<ArgumentNullException>(ConfigureTiming);
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureTimingWithNegativeNumberOfRecords_ThrowsException()
+        {
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
+            var timingSettings = new TimingSettings
+            {
+                MinimumSampleRate = 1000000,
+                MinimumNumberOfPoints = 1000,
+                ReferencePosition = 50,
+                NumberOfRecords = -1,
+                EnforceRealtime = true
+            };
+
+            void ConfigureTiming()
+            {
+                sessionsBundle.ConfigureTiming(timingSettings);
+                sessionsBundle.Commit();
+            }
+
+            Assert.Throws<NISemiconductorTestException>(ConfigureTiming);
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureTimingWithNegativeMinimumSampleRate_ThrowsException()
+        {
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
+            var timingSettings = new TimingSettings
+            {
+                MinimumSampleRate = -1000000,
+                MinimumNumberOfPoints = 1000,
+                ReferencePosition = 50,
+                NumberOfRecords = 3,
+                EnforceRealtime = true
+            };
+
+            void ConfigureTiming()
+            {
+                sessionsBundle.ConfigureTiming(timingSettings);
+                sessionsBundle.Commit();
+            }
+
+            Assert.Throws<NISemiconductorTestException>(ConfigureTiming);
+        }
+
+        #endregion
+
+        #region GetNumberOfRecordsToAcquire Tests
+
+        [Fact]
         public void SessionsBundle_ConfigureTimingThenGetNumberOfRecordsToAcquire_ReturnsConfiguredNumberOfRecords()
         {
             var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
@@ -119,52 +178,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var numberOfRecordsToAcquire = sessionsBundle.GetNumberOfRecordsToAcquire();
 
             Assert.All(numberOfRecordsToAcquire, numberOfRecords => Assert.Equal(1, numberOfRecords));
-        }
-
-        [Fact]
-        public void SessionsBundle_ConfigureTimingWithNullSettings_ThrowsArgumentNullException()
-        {
-            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
-
-            void ConfigureTiming() => sessionsBundle.ConfigureTiming(null);
-
-            Assert.Throws<ArgumentNullException>(ConfigureTiming);
-        }
-
-        [Fact]
-        public void SessionsBundle_ConfigureTimingWithNegativeNumberOfRecords_ThrowsException()
-        {
-            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
-            var timingSettings = new TimingSettings
-            {
-                MinimumSampleRate = 1000000,
-                MinimumNumberOfPoints = 1000,
-                ReferencePosition = 50,
-                NumberOfRecords = -1,
-                EnforceRealtime = true
-            };
-
-            void ConfigureTiming() => sessionsBundle.ConfigureTiming(timingSettings);
-
-            Assert.ThrowsAny<Exception>(ConfigureTiming);
-        }
-
-        [Fact]
-        public void SessionsBundle_ConfigureTimingWithNegativeMinimumSampleRate_ThrowsException()
-        {
-            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
-            var timingSettings = new TimingSettings
-            {
-                MinimumSampleRate = -1000000,
-                MinimumNumberOfPoints = 1000,
-                ReferencePosition = 50,
-                NumberOfRecords = 3,
-                EnforceRealtime = true
-            };
-
-            void ConfigureTiming() => sessionsBundle.ConfigureTiming(timingSettings);
-
-            Assert.ThrowsAny<Exception>(ConfigureTiming);
         }
 
         #endregion
@@ -222,7 +235,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             void ConfigureClock() => sessionsBundle.ConfigureClock(clockSettings);
 
-            Assert.ThrowsAny<Exception>(ConfigureClock);
+            Assert.Throws<NISemiconductorTestException>(ConfigureClock);
         }
 
         [Fact]
@@ -239,7 +252,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             void ConfigureClock() => sessionsBundle.ConfigureClock(clockSettings);
 
-            Assert.ThrowsAny<Exception>(ConfigureClock);
+            Assert.Throws<NISemiconductorTestException>(ConfigureClock);
         }
 
         [Fact]
@@ -256,34 +269,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             void ConfigureClock() => sessionsBundle.ConfigureClock(clockSettings);
 
-            Assert.ThrowsAny<Exception>(ConfigureClock);
-        }
-
-        #endregion
-
-        #region TimingSettings and ClockSettings Default Value Tests
-
-        [Fact]
-        public void TimingSettingsConstructedWithDefaults_HasExpectedDefaultValues()
-        {
-            var timingSettings = new TimingSettings();
-
-            Assert.Equal(20e6, timingSettings.MinimumSampleRate);
-            Assert.Equal(1000, timingSettings.MinimumNumberOfPoints);
-            Assert.Equal(50.0, timingSettings.ReferencePosition);
-            Assert.Equal(1, timingSettings.NumberOfRecords);
-            Assert.False(timingSettings.EnforceRealtime);
-        }
-
-        [Fact]
-        public void ClockSettingsConstructedWithDefaults_HasExpectedDefaultValues()
-        {
-            var clockSettings = new ClockSettings();
-
-            Assert.Equal(ScopeInputClockSource.NoSource, clockSettings.InputClockSource);
-            Assert.Equal(ScopeOutputClockSource.NoSource, clockSettings.OutputClockSource);
-            Assert.Equal(ScopeClockSynchronizationPulseSource.NoSource, clockSettings.ClockSynchronizationPulseSource);
-            Assert.False(clockSettings.MasterEnabled);
+            Assert.Throws<NISemiconductorTestException>(ConfigureClock);
         }
 
         #endregion
@@ -296,6 +282,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var session = sessionInfo.Session;
                 Assert.True(session.Acquisition.SampleRate >= expected.MinimumSampleRate);
+                Assert.Equal(expected.MinimumNumberOfPoints, session.Acquisition.NumberOfPointsMin);
                 Assert.Equal(expected.ReferencePosition, session.Trigger.ReferenceTrigger.ReferencePosition);
                 Assert.Equal(expected.NumberOfRecords, session.Timing.NumberOfRecordsToAcquire);
                 Assert.Equal(expected.EnforceRealtime, session.Timing.EnforceRealtime);
