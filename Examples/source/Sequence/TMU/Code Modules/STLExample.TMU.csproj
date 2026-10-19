@@ -27,12 +27,15 @@
   </ItemGroup>
   <ItemGroup>
 	<ProjectReference Include="..\..\..\..\..\SemiconductorTestLibrary.Extensions\source\SemiconductorTestLibrary.Extensions.csproj" />
-	  <ProjectReference Include="C:\Code Repo MS STEPS\srd-sebu-mixed-signal-apt\SemiconductorTestLibraryDotNET\Scripts\..\..\SemiconductorTestLibraryDotNET\SemiconductorTestLibraryAbstractions\source\SemiconductorTestLibrary.Abstractions.csproj" />
   </ItemGroup>
   <ItemGroup>
 	<Reference Include="NationalInstruments.Common">
 	  <Private>False</Private>
 	  <SpecificVersion>False</SpecificVersion>
+	</Reference>
+	<Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions">
+	  <HintPath>..\..\..\..\..\SemiconductorTestLibrary.Abstractions\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
+	  <Private>True</Private>
 	</Reference>
 	<Reference Include="NationalInstruments.ModularInstruments.NIDigital.Fx45">
 		<SpecificVersion>False</SpecificVersion>
