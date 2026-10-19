@@ -14,6 +14,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
     public sealed class TriggerTests : IDisposable
     {
         private const string _SCP_5186_Pin = "SCP_5186_Pin";
+        private const string _SCP_5162_Pin = "SCP_5162_Pin";
 
         private readonly ISemiconductorModuleContext _tsmContext;
 
@@ -86,6 +87,33 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        public void SessionsBundle_ConfigureTriggerHysteresis_ValuesApplied()
+        {
+            var sessionsBundle = GetSessionsBundle(_SCP_5162_Pin);
+            var settings = new HysteresisTriggerSettings
+            {
+                TriggerLevel = 0.1,
+                TriggerHysteresis = 0.05,
+                TriggerSlope = ScopeTriggerSlope.Negative,
+                TriggerCoupling = ScopeTriggerCoupling.DC,
+                HoldOff = PrecisionTimeSpan.FromSeconds(1e-6)
+            };
+
+            sessionsBundle.ConfigureTriggerHysteresis(settings);
+
+            sessionsBundle.Do(sessionInfo =>
+            {
+                var trigger = sessionInfo.Session.Trigger;
+                Assert.Equal(ScopeTriggerType.Hysteresis, trigger.Type);
+                Assert.InRange(trigger.Level, settings.TriggerLevel - 0.01, settings.TriggerLevel + 0.01);
+                Assert.InRange(trigger.ReferenceTrigger.Hysteresis, settings.TriggerHysteresis - 0.01, settings.TriggerHysteresis + 0.01);
+                Assert.Equal(settings.TriggerSlope, trigger.EdgeTrigger.Slope);
+                Assert.Equal(settings.TriggerCoupling, trigger.Coupling);
+                Assert.Equal(settings.HoldOff.TotalSeconds, trigger.Holdoff.TotalSeconds, 9);
+            });
+        }
+
+        [Fact]
         public void SessionsBundle_ConfigureTriggerHysteresisWithNullSettings_ThrowsArgumentNullException()
         {
             var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
@@ -105,6 +133,36 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
             var exception = Assert.Throws<NISemiconductorTestException>(ConfigureTriggerHysteresisOnUnsupportedInsturment);
             Assert.Contains("This device does not support hysteresis triggering.", exception.Message);
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureTriggerHysteresisWithInvalidLevel_ThrowsException()
+        {
+            var sessionsBundle = GetSessionsBundle(_SCP_5162_Pin);
+            var settings = new HysteresisTriggerSettings { TriggerLevel = 1000.0, TriggerHysteresis = 0.05 };
+
+            void ConfigureAndCommit()
+            {
+                sessionsBundle.ConfigureTriggerHysteresis(settings);
+                sessionsBundle.Commit();
+            }
+
+            Assert.Throws<NISemiconductorTestException>(ConfigureAndCommit);
+        }
+
+        [Fact]
+        public void SessionsBundle_ConfigureTriggerDigitalWithNegativeHoldOff_ThrowsException()
+        {
+            var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
+            var settings = new DigitalTriggerSettings { HoldOff = PrecisionTimeSpan.FromSeconds(-1.0) };
+
+            void ConfigureAndCommit()
+            {
+                sessionsBundle.ConfigureTriggerDigital(settings);
+                sessionsBundle.Commit();
+            }
+
+            Assert.Throws<NISemiconductorTestException>(ConfigureAndCommit);
         }
 
         [Fact]
