@@ -216,6 +216,12 @@
   <data name="DCPower_ImmediateUpdateModeNotSupportedForGangedChannels" xml:space="preserve">
     <value>Immediate update mode is not supported for ganged channels.</value>
   </data>
+  <data name="Scope_TimingSettingsNull" xml:space="preserve">
+    <value>The {0} parameter cannot be null.</value>
+  </data>
+  <data name="Scope_ClockSettingsNull" xml:space="preserve">
+    <value>The {0} parameter cannot be null.</value>
+  </data>
   <data name="FGen_InvalidOutputModeException" xml:space="preserve">
     <value>Output mode '{0}' is not supported, only 'Function' is supported.</value>
   </data>
@@ -224,5 +230,8 @@
   </data>
   <data name="Scope_VerticalSettingsNull" xml:space="preserve">
     <value>'{0}' cannot be null. Please provide valid vertical settings.</value>
+  </data>
+  <data name="FGen_UnsupportedWaveFunctionType" xml:space="preserve">
+    <value>The 'StandardWaveform.User' Waveform Function Type is not supported in STL.</value>
   </data>
 </root>
