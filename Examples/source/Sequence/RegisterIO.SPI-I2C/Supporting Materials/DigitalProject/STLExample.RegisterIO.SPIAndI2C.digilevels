@@ -3,10 +3,10 @@
   <PinLevelsSheet>
     <DigitalPinLevelSets>
       <DigitalPinLevelSet pin="DigitalPins">
-        <Vil>0 V</Vil>
-        <Vih>3.3 V</Vih>
-        <Vol>0.66 V</Vol>
-        <Voh>2.64 V</Voh>
+        <Vil>DC.Vil</Vil>
+        <Vih>DC.Vih</Vih>
+        <Vol>DC.Vol</Vol>
+        <Voh>DC.Voh</Voh>
         <TerminationMode>HighZ</TerminationMode>
       </DigitalPinLevelSet>
     </DigitalPinLevelSets>
