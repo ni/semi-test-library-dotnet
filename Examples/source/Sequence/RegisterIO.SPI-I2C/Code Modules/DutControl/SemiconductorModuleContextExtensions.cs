@@ -5,7 +5,7 @@ using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAndI2C.DutControl
 {
     /// <summary>
-    /// Factory extensions that encapsulate protocol-specific bundle creation.
+    /// Extensions of the <see cref="ISemiconductorModuleContext"/> interface that encapsulate protocol-specific bundle creation.
     /// </summary>
     public static class SemiconductorModuleContextExtensions
     {

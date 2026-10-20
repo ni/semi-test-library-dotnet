@@ -137,9 +137,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         {
             ValidateRegisterAccess(address, addressBitWidth, valueBitWidth);
 
-            uint[] addressSamples = LongToU32Samples(address, addressBitWidth, SampleWidth, BitOrder);
-            uint[] valuePadding = new uint[GetSampleCount(valueBitWidth, SampleWidth)];
-            uint[] srcWfmSamples = ConcatArrays(addressSamples, valuePadding);
+            // The read pattern shifts out only the register address from the source waveform and then captures
+            // the value from the DUT, so the source waveform contains just the address samples. The address is
+            // identical for every site, so the same waveform is written to all sites.
+            uint[] srcWfmSamples = LongToU32Samples(address, addressBitWidth, SampleWidth, BitOrder);
 
             _digitalSessionsBundle.WriteSequencerRegister(ReadWriteCountSequenceRegister, 1);
             _digitalSessionsBundle.WriteSequencerRegister(AddressBitWidthSequenceRegister, (int)addressBitWidth);
@@ -168,6 +169,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             ValidateRegisterAccess(address, addressBitWidth, valueBitWidth);
             ValidateValue(value, valueBitWidth);
 
+            // The write pattern shifts out the address followed by the value from a single source waveform, so the
+            // address and value samples are concatenated into one waveform. The value is the same for every site,
+            // so the same waveform is written to all sites.
             uint[] addressSamples = LongToU32Samples(address, addressBitWidth, SampleWidth, BitOrder);
             uint[] valueSamples = LongToU32Samples(value, valueBitWidth, SampleWidth, BitOrder);
             uint[] srcWfmSamples = ConcatArrays(addressSamples, valueSamples);
@@ -197,6 +201,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             ValidateRegisterAccess(address, addressBitWidth, valueBitWidth);
 
             int[] siteNumbers = value.SiteNumbers;
+
+            // As in the overload above, each source waveform is the address followed by the value. Because the
+            // value differs per site, a separate waveform is built for each site and written site-unique, while the
+            // address samples are shared.
             uint[] addressSamples = LongToU32Samples(address, addressBitWidth, SampleWidth, BitOrder);
             uint[][] perSiteWfmSamples = new uint[siteNumbers.Length][];
             for (int i = 0; i < siteNumbers.Length; i++)
@@ -232,8 +240,16 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         {
             ValidateMultiRegisterAccess(addresses, addressBitWidth, valueBitWidth);
 
-            long[] dummyValues = new long[addresses.Length];
-            uint[] srcWfmSamples = BuildInterleavedSourceWaveform(addresses, dummyValues, addressBitWidth, valueBitWidth);
+            // All registers are read in a single burst. The read pattern loops once per register, shifting out one
+            // address per iteration and capturing its value, so the source waveform is the addresses back to back.
+            // The captured values come back in the same order. The addresses are the same for every site, so the
+            // same waveform is written to all sites.
+            foreach (uint address in addresses)
+            {
+                ValidateAddress(address, addressBitWidth);
+            }
+            uint[] srcWfmSamples = LongArrayToU32Samples(
+                addresses.Select(address => (long)address).ToArray(), addressBitWidth, SampleWidth, BitOrder);
 
             _digitalSessionsBundle.WriteSequencerRegister(ReadWriteCountSequenceRegister, addresses.Length);
             _digitalSessionsBundle.WriteSequencerRegister(AddressBitWidthSequenceRegister, (int)addressBitWidth);
@@ -263,6 +279,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             ValidateMultiRegisterAccess(addresses, addressBitWidth, valueBitWidth);
             ValidateValuesMatchAddresses(addresses, values);
 
+            // All registers are written in a single burst. The write pattern loops once per register, shifting out an
+            // address and then its value each iteration, so the source waveform interleaves each address with its
+            // value. The values are the same for every site, so the same waveform is written to all sites.
             uint[] srcWfmSamples = BuildInterleavedSourceWaveform(addresses, values, addressBitWidth, valueBitWidth);
 
             _digitalSessionsBundle.WriteSequencerRegister(ReadWriteCountSequenceRegister, addresses.Length);
@@ -287,6 +306,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             ValidateValuesMatchAddresses(addresses, values);
             ValidateSameSites(values);
 
+            // As in the overload above, the source waveform interleaves each address with its value. Because the
+            // values differ per site, a separate interleaved waveform is built for each site and written site-unique.
             int[] siteNumbers = values[0].SiteNumbers;
             uint[][] perSiteWfmSamples = new uint[siteNumbers.Length][];
             for (int siteIndex = 0; siteIndex < siteNumbers.Length; siteIndex++)
@@ -504,9 +525,13 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
 
         #endregion Validation Helpers
 
-        // Serial source/capture waveforms must exist on the instrument before they can be written or bursted.
-        // Waveforms cannot be created twice or reconfigured on a session, so creation is tracked per session.
-        // A fresh session (for example, a second sequence run after instrument cleanup) gets its own waveforms.
+        /// <summary>
+        /// Creates the serial source and capture waveforms on each session in the bundle, as they must exist on the
+        /// instrument before they can be written or bursted. Waveforms cannot be created twice or reconfigured on a
+        /// session, so creation is tracked per session. A fresh session (for example, a second sequence run after
+        /// instrument cleanup) gets its own waveforms.
+        /// </summary>
+        /// <param name="digitalSessionsBundle">The <see cref="DigitalSessionsBundle"/> to create the waveforms on.</param>
         private void CreateSerialWaveforms(DigitalSessionsBundle digitalSessionsBundle)
         {
             NIDigitalBitOrder bitOrder = BitOrder == BitOrder.MsbFirst
@@ -577,8 +602,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             if (missingPins.Length > 0)
             {
                 throw new ArgumentException(
-                    $"The DigitalSessionsBundle does not contain the required pins: [{string.Join(", ", missingPins)}]. " +
-                    $"The bundle must include PinNames, SourcePinName ('{SourcePinName}') and CapturePinName ('{CapturePinName}').");
+                    $"The bundle must include a source pin named: {SourcePinName}, and a capture pin named: {CapturePinName}.");
             }
         }
     }
