@@ -6,7 +6,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
     /// <summary>
     /// Set of protocol-agnostic examples to demonstrate using the <see cref="SPI"/> class
     /// through the shared <see cref="IDigitalProtocol"/> interface.
-    /// The <see cref="CommunicationProtocol"/> parameter selects which implementation is used
+    /// The <see cref="CommunicationProtocol"/> parameter selects which protocol is used
     /// at runtime.
     /// </summary>
     public static partial class TestStep
