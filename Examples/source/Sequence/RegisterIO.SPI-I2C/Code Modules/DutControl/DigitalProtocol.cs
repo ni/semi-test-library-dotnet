@@ -139,13 +139,16 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
 
             // The read pattern shifts out only the register address from the source waveform and then captures
             // the value from the DUT, so the source waveform contains just the address samples. The address is
-            // identical for every site, so the same waveform is written to all sites.
+            // identical for every site, so the same waveform is written to all sites. The driver requires every
+            // write to the same source waveform to be the same size, so it is expanded to the size of a write
+            // (address plus value).
             uint[] srcWfmSamples = LongToU32Samples(address, addressBitWidth, SampleWidth, BitOrder);
+            int srcWfmSize = (int)(GetSampleCount(addressBitWidth, SampleWidth) + GetSampleCount(valueBitWidth, SampleWidth));
 
             _digitalSessionsBundle.WriteSequencerRegister(ReadWriteCountSequenceRegister, 1);
             _digitalSessionsBundle.WriteSequencerRegister(AddressBitWidthSequenceRegister, (int)addressBitWidth);
             _digitalSessionsBundle.WriteSequencerRegister(ValueBitWidthSequenceRegister, (int)valueBitWidth);
-            WriteSourceWaveformToAllSites(srcWfmSamples);
+            WriteSourceWaveformToAllSites(srcWfmSamples, srcWfmSize);
             _digitalSessionsBundle.BurstPattern(ReadPatternName, timeoutInSeconds: 10);
 
             uint samplesPerValue = GetSampleCount(valueBitWidth, SampleWidth);
@@ -243,18 +246,20 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             // All registers are read in a single burst. The read pattern loops once per register, shifting out one
             // address per iteration and capturing its value, so the source waveform is the addresses back to back.
             // The captured values come back in the same order. The addresses are the same for every site, so the
-            // same waveform is written to all sites.
+            // same waveform is written to all sites. The driver requires every write to the same source waveform to
+            // be the same size, so it is expanded to the size of a write of all the registers (addresses plus values).
             foreach (uint address in addresses)
             {
                 ValidateAddress(address, addressBitWidth);
             }
             uint[] srcWfmSamples = LongArrayToU32Samples(
                 addresses.Select(address => (long)address).ToArray(), addressBitWidth, SampleWidth, BitOrder);
+            int srcWfmSize = addresses.Length * (int)(GetSampleCount(addressBitWidth, SampleWidth) + GetSampleCount(valueBitWidth, SampleWidth));
 
             _digitalSessionsBundle.WriteSequencerRegister(ReadWriteCountSequenceRegister, addresses.Length);
             _digitalSessionsBundle.WriteSequencerRegister(AddressBitWidthSequenceRegister, (int)addressBitWidth);
             _digitalSessionsBundle.WriteSequencerRegister(ValueBitWidthSequenceRegister, (int)valueBitWidth);
-            WriteSourceWaveformToAllSites(srcWfmSamples);
+            WriteSourceWaveformToAllSites(srcWfmSamples, srcWfmSize);
             _digitalSessionsBundle.BurstPattern(ReadPatternName, timeoutInSeconds: 10);
 
             uint samplesPerValue = GetSampleCount(valueBitWidth, SampleWidth);
@@ -335,7 +340,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
 
         // Writes the same samples to every active site using the SiteUnique source waveform. This lets the
         // broadcast-style operations share the single SiteUnique waveform used by the site-unique operations.
-        private void WriteSourceWaveformToAllSites(uint[] samples)
+        private void WriteSourceWaveformToAllSites(uint[] samples, int minimumSize = 0)
         {
             int[] siteNumbers = _digitalSessionsBundle.AggregateSitePinList
                 .Select(sitePinInfo => sitePinInfo.SiteNumber)
@@ -347,7 +352,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
                 perSiteSamples[i] = samples;
             }
             _digitalSessionsBundle.WriteSourceWaveformSiteUnique(
-                SourceWaveformName, new SiteData<uint[]>(siteNumbers, perSiteSamples));
+                SourceWaveformName, new SiteData<uint[]>(siteNumbers, perSiteSamples), expandToMinimumSize: minimumSize > 0, minimumSize: minimumSize);
         }
 
         private uint[] BuildInterleavedSourceWaveform(uint[] addresses, long[] values, uint addressBitWidth, uint valueBitWidth)
