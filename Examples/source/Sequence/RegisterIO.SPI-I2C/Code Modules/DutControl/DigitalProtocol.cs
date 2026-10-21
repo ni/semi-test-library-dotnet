@@ -542,9 +542,13 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
 
         /// <summary>
         /// Creates the serial source and capture waveforms on each session in the bundle, as they must exist on the
-        /// instrument before they can be written or bursted. Waveforms cannot be created twice or reconfigured on a
-        /// session, so creation is tracked per session. A fresh session (for example, a second sequence run after
-        /// instrument cleanup) gets its own waveforms.
+        /// instrument before they can be written or bursted. The waveforms may already exist on the session, for
+        /// example when they are loaded from the waveform files in the digital pattern project during instrument
+        /// initialization. Creating a waveform that already exists with the same settings has no effect, whereas
+        /// creating it with different settings (pin, sample width, or bit order) causes the driver to throw an
+        /// exception, as waveform settings cannot change after creation. Creation is tracked per session to avoid
+        /// repeating it on every call; a fresh session (for example, a second sequence run after instrument cleanup)
+        /// gets its own waveforms.
         /// </summary>
         /// <param name="digitalSessionsBundle">The <see cref="DigitalSessionsBundle"/> to create the waveforms on.</param>
         private void CreateSerialWaveforms(DigitalSessionsBundle digitalSessionsBundle)
