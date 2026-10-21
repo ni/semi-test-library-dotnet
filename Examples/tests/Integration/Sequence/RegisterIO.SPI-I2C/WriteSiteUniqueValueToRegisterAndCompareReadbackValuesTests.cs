@@ -15,7 +15,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         private const string SupportingMaterialsFolderPath = @"\Examples\source\Sequence\RegisterIO.SPI-I2C\Supporting Materials\DigitalProject";
         private const string DigitalPatternProjectName = "STLExample.RegisterIO.SPIAndI2C.digiproj";
 
-        [Theory(Skip = "Requires the shared digital project and a digital pattern instrument.")]
+        [Theory(Skip = "Requires a physical digital pattern instrument connected to a DUT. Not supported in offline mode.")]
         [InlineData(CommunicationProtocol.SPI)]
         public void WriteSiteUniqueValueToRegisterAndCompareReadbackValues_SiteUniqueValues_ReadbackMatchesPerSite(CommunicationProtocol protocol)
         {
