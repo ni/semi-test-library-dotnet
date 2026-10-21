@@ -131,6 +131,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         }
 
         /// <inheritdoc cref="ReadRegister(uint)"/>
+        /// <param name="address">The address of the register to read.</param>
         /// <param name="addressBitWidth">The bit width for the register address.</param>
         /// <param name="valueBitWidth">The bit width for the register value.</param>
         public SiteData<long> ReadRegister(uint address, uint addressBitWidth, uint valueBitWidth)
@@ -165,6 +166,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         }
 
         /// <inheritdoc cref="WriteRegister(uint, long)"/>
+        /// <param name="address">The address of the register to write.</param>
+        /// <param name="value">The value to write to the register.</param>
         /// <param name="addressBitWidth">The bit width for the register address.</param>
         /// <param name="valueBitWidth">The bit width for the register value.</param>
         public void WriteRegister(uint address, long value, uint addressBitWidth, uint valueBitWidth)
@@ -193,6 +196,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         }
 
         /// <inheritdoc cref="WriteRegister(uint, SiteData{long})"/>
+        /// <param name="address">The address of the register to write.</param>
+        /// <param name="value">The per-site value to write to the register.</param>
         /// <param name="addressBitWidth">The bit width for the register address.</param>
         /// <param name="valueBitWidth">The bit width for the register value.</param>
         public void WriteRegister(uint address, SiteData<long> value, uint addressBitWidth, uint valueBitWidth)
@@ -237,6 +242,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         }
 
         /// <inheritdoc cref="ReadRegisters(uint[])"/>
+        /// <param name="addresses">The addresses of the registers to read.</param>
         /// <param name="addressBitWidth">The bit width for each register address.</param>
         /// <param name="valueBitWidth">The bit width for each register value.</param>
         public SiteData<long[]> ReadRegisters(uint[] addresses, uint addressBitWidth, uint valueBitWidth)
@@ -277,6 +283,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         }
 
         /// <inheritdoc cref="WriteRegisters(uint[], long[])"/>
+        /// <param name="addresses">The addresses of each register to write.</param>
+        /// <param name="values">The register-unique values to write to each register.</param>
         /// <param name="addressBitWidth">The bit width for each register address.</param>
         /// <param name="valueBitWidth">The bit width for each register value.</param>
         public void WriteRegisters(uint[] addresses, long[] values, uint addressBitWidth, uint valueBitWidth)
@@ -303,6 +311,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         }
 
         /// <inheritdoc cref="WriteRegisters(uint[], SiteData{long}[])"/>
+        /// <param name="addresses">The addresses of each register to write.</param>
+        /// <param name="values">The per-site values to write to each register.</param>
         /// <param name="addressBitWidth">The bit width for each register address.</param>
         /// <param name="valueBitWidth">The bit width for each register value.</param>
         public void WriteRegisters(uint[] addresses, SiteData<long>[] values, uint addressBitWidth, uint valueBitWidth)
