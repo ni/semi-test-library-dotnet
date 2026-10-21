@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<SourceFile Checksum="597473E29952F28DB4369B5D71EED7F063757D735EC8F7CDB95E6736BFAA5BFFD22AE9ABC22972CBEFF55391CB413D509FCFC12C170AB3ECF52CA587E8A4C6AF" xmlns="http://www.ni.com/PlatformFramework">
+<SourceFile Checksum="F8401607861142F8CA95FA5E31C2EE75439C89972C6237C32ADA697D2D9F4975E26F7535EF59CC64502A15F84B6D6DB8E34090D0E1AC54EBD8494E8C2DC21E6B" xmlns="http://www.ni.com/PlatformFramework">
 	<SourceModelFeatureSet>
-		<ParsableNamespace AssemblyFileVersion="9.17.0.49731" FeatureSetName="Digital Pattern Editor" Name="http://www.ni.com/PatternBasedDigital" OldestCompatibleVersion="4.5.0.0" Version="5.3.1.49152" />
-		<ParsableNamespace AssemblyFileVersion="9.17.0.49732" FeatureSetName="Editor" Name="http://www.ni.com/PlatformFramework" OldestCompatibleVersion="8.1.0.49152" Version="8.1.0.49152" />
-		<ApplicationVersionInfo Build="9.17.0.49731" Name="Digital Pattern Editor" Version="25.5.0" />
+		<ParsableNamespace AssemblyFileVersion="9.22.0.1189" FeatureSetName="Digital Pattern Editor" Name="http://www.ni.com/PatternBasedDigital" OldestCompatibleVersion="4.5.0.0" Version="9.22.0.0" />
+		<ParsableNamespace AssemblyFileVersion="9.22.0.1189" FeatureSetName="Editor" Name="http://www.ni.com/PlatformFramework" OldestCompatibleVersion="8.1.0.49152" Version="8.1.0.49152" />
+		<ApplicationVersionInfo Build="9.22.0.1189" Name="Digital Pattern Editor" Version="26.8.0" />
 	</SourceModelFeatureSet>
 	<Project xmlns="http://www.ni.com/PlatformFramework">
 		<EnvoyManagerRootEnvoy Id="f1dafc0449944f68bcaed23a481a8f82" ModelDefinitionType="EnvoyManagerRootEnvoy" Name="RootEnvoy" />
