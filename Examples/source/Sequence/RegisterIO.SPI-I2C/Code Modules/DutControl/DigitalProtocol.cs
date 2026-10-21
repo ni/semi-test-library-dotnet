@@ -117,7 +117,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         }
 
         /// <inheritdoc/>
-        public void ReleaseBundle()
+        public void ClearBundle()
         {
             _digitalSessionsBundle = null;
         }

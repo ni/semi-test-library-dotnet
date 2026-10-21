@@ -83,10 +83,14 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         void SetBundle(DigitalSessionsBundle digitalSessionsBundle);
 
         /// <summary>
-        /// Releases the reference to the current module's bundle without disposing instrument sessions.
-        /// Call in a finally block after register operations and result publishing.
+        /// Clears the reference to the current <see cref="DigitalSessionsBundle"/> without closing or disposing the instrument sessions.
         /// </summary>
-        void ReleaseBundle();
+        /// <remarks>
+        /// The bundle holds a reference to the TestStand Semiconductor Module context. Clearing it allows the garbage collector
+        /// to release that reference, which prevents TestStand from reporting unreleased object references when it shuts down.
+        /// Call this method once per test program after all register operations are complete, typically from the ProcessCleanup callback.
+        /// </remarks>
+        void ClearBundle();
 
         /// <summary>
         /// Reads the value at the specified DUT register address.

@@ -34,24 +34,17 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         {
             IDigitalProtocol digitalProtocol = tsmContext.DutControl(protocol);
 
-            try
-            {
-                digitalProtocol.WriteRegisters(registerAddresses, valuesToWrite);
+            digitalProtocol.WriteRegisters(registerAddresses, valuesToWrite);
 
-                SiteData<long[]> regValuesReadBack = digitalProtocol.ReadRegisters(registerAddresses);
+            SiteData<long[]> regValuesReadBack = digitalProtocol.ReadRegisters(registerAddresses);
 
-                for (int i = 0; i < registerAddresses.Length; i++)
-                {
-                    int index = i;
-                    SiteData<long> singleRegReadBack = regValuesReadBack.Select(x => x[index]);
-                    SiteData<bool> comparisonResult = singleRegReadBack.Compare(ComparisonType.EqualTo, valuesToWrite[i]);
-                    tsmContext.PublishResults(singleRegReadBack, $"Register_0x{registerAddresses[i]:X2}_Readback");
-                    tsmContext.PublishResults(comparisonResult, $"Register_0x{registerAddresses[i]:X2}_Comparison");
-                }
-            }
-            finally
+            for (int i = 0; i < registerAddresses.Length; i++)
             {
-                digitalProtocol.ReleaseBundle();
+                int index = i;
+                SiteData<long> singleRegReadBack = regValuesReadBack.Select(x => x[index]);
+                SiteData<bool> comparisonResult = singleRegReadBack.Compare(ComparisonType.EqualTo, valuesToWrite[i]);
+                tsmContext.PublishResults(singleRegReadBack, $"Register_0x{registerAddresses[i]:X2}_Readback");
+                tsmContext.PublishResults(comparisonResult, $"Register_0x{registerAddresses[i]:X2}_Comparison");
             }
         }
     }

@@ -12,7 +12,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
     {
         [Theory]
         [InlineData(CommunicationProtocol.SPI)]
-        public void ReleaseBundle_RetainedBundle_ClearsReferenceAndCanBeRepeated(CommunicationProtocol protocol)
+        public void ClearBundle_RetainedBundle_ClearsReferenceAndCanBeRepeated(CommunicationProtocol protocol)
         {
             IDigitalProtocol digitalProtocol = protocol == CommunicationProtocol.SPI
                 ? (IDigitalProtocol)SPI.Instance
@@ -25,17 +25,17 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
                 bundleField.SetValue(digitalProtocol, bundle);
                 Assert.Same(bundle, bundleField.GetValue(digitalProtocol));
 
-                digitalProtocol.ReleaseBundle();
+                digitalProtocol.ClearBundle();
 
                 Assert.Null(bundleField.GetValue(digitalProtocol));
 
-                digitalProtocol.ReleaseBundle();
+                digitalProtocol.ClearBundle();
 
                 Assert.Null(bundleField.GetValue(digitalProtocol));
             }
             finally
             {
-                digitalProtocol.ReleaseBundle();
+                digitalProtocol.ClearBundle();
             }
         }
     }
