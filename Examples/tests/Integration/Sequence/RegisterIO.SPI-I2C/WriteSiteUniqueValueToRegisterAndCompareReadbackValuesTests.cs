@@ -12,7 +12,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
     public class WriteSiteUniqueValueToRegisterAndCompareReadbackValuesTests
     {
         private const string PinMapFileName = "STLExample.RegisterIO.SPIAndI2C.pinmap";
-        private const string SupportingMaterialsFolderPath = @"\Examples\source\Sequence\RegisterIO.SPI-I2C\Supporting Materials\DigitalProject";
+        private const string SupportingMaterialsFolderPath = @"\Examples\source\Sequence\RegisterIO.SPI-I2C\Supporting Materials";
         private const string DigitalPatternProjectName = "STLExample.RegisterIO.SPIAndI2C.digiproj";
 
         [Theory(Skip = "Requires a physical digital pattern instrument connected to a DUT. Not supported in offline mode.")]

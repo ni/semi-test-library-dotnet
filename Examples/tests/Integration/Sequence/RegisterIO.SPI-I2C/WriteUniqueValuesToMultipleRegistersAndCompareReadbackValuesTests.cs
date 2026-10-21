@@ -12,13 +12,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
     public class WriteUniqueValuesToMultipleRegistersAndCompareReadbackValuesTests
     {
         private const string PinMapFileName = "STLExample.RegisterIO.SPIAndI2C.pinmap";
-        private const string SupportingMaterialsFolderPath = @"\Examples\source\Sequence\RegisterIO.SPI-I2C\Supporting Materials\DigitalProject";
+        private const string SupportingMaterialsFolderPath = @"\Examples\source\Sequence\RegisterIO.SPI-I2C\Supporting Materials";
         private const string DigitalPatternProjectName = "STLExample.RegisterIO.SPIAndI2C.digiproj";
 
         [Theory(Skip = "Requires a physical digital pattern instrument connected to a DUT. Not supported in offline mode.")]
         [InlineData(CommunicationProtocol.SPI)]
         public void WriteUniqueValuesToMultipleRegistersAndCompareReadbackValues_UniqueValues_ReadbackMatches(CommunicationProtocol protocol)
         {
+            var registerAddresses = new uint[] { 0x74, 0x75 };
+            var registerValues = new long[] { 0x54, 0x12 };
             var tsmContext = CreateTSMContext(SupportingMaterialsFolderPath, PinMapFileName, DigitalPatternProjectName, out var publishedDataReader);
             SetupNIDigitalPatternInstrumentation(tsmContext);
             DutPowerUp(
@@ -42,24 +44,28 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 valueBitWidthSequenceRegister: "reg2",
                 pinNames: new[] { "CS", "SCK", "SDI", "SDO" });
 
-            const uint registerAddress = 0x74;
             TestStep.WriteUniqueValuesToMultipleRegistersAndCompareReadbackValues(
                 tsmContext,
                 protocol,
-                registerAddresses: new uint[] { registerAddress },
-                valuesToWrite: new long[] { 0x33 });
+                registerAddresses: registerAddresses,
+                valuesToWrite: registerValues);
 
-            var comparisonResults = publishedDataReader.GetAndClearPublishedData()
-                .Where(d => d.PublishedDataId == $"Register_0x{registerAddress:X2}_Comparison")
-                .ToArray();
-            Assert.Equal(tsmContext.SiteNumbers.Count, comparisonResults.Length);
-            Assert.All(comparisonResults, d => Assert.True(d.BooleanValue));
+            var publishedData = publishedDataReader.GetAndClearPublishedData();
+            foreach (var registerAddress in registerAddresses)
+            {
+                var comparisonResults = publishedData
+                    .Where(d => d.PublishedDataId == $"Register_0x{registerAddress:X2}_Comparison")
+                    .ToArray();
+                Assert.Equal(tsmContext.SiteNumbers.Count, comparisonResults.Length);
+                Assert.All(comparisonResults, d => Assert.True(d.BooleanValue));
+            }
 
             DutPowerDown(
                 tsmContext,
                 dutSupplyPinsOrPinGroups: new string[] { "VIN" },
                 settlingTime: 0,
                 powerDownSuppliesSerially: false);
+            TestStep.CleanupDigitalProtocol(protocol);
         }
     }
 }
