@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
@@ -27,7 +28,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
 
             IDigitalProtocol protocol = GetProtocol(communicationProtocol);
             var sessionManager = new TSMSessionManager(semiconductorModuleContext);
-            protocol.SetBundle(sessionManager.Digital(protocol.PinNames));
+            protocol.SetBundle(sessionManager.Digital(protocol.PinNames?.ToArray()));
             return protocol;
         }
 

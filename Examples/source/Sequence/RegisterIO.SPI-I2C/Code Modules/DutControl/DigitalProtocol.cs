@@ -74,7 +74,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         public string ValueBitWidthSequenceRegister { get; set; } = "reg2";
 
         /// <inheritdoc/>
-        public string[] PinNames { get; set; } = new[] { "SDI", "SDO" };
+        public IReadOnlyList<string> PinNames { get; set; } = new[] { "SDI", "SDO" };
 
         /// <inheritdoc/>
         public uint DefaultAddressBitWidth

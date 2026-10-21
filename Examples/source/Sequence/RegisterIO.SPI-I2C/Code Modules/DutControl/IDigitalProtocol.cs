@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 
@@ -51,7 +52,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         string ValueBitWidthSequenceRegister { get; set; }
 
         /// <summary>Gets or sets the protocol pin names expected by the template patterns.</summary>
-        string[] PinNames { get; set; }
+        IReadOnlyList<string> PinNames { get; set; }
 
         /// <summary>
         /// Gets or sets the pin that drives outgoing (source) data. For SPI this is SDI (MOSI).
