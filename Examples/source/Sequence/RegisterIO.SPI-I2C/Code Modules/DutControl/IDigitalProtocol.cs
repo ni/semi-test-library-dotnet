@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 
@@ -116,21 +117,21 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// <summary>
         /// Reads the values from the specified DUT register addresses.
         /// </summary>
-        /// <param name="addresses">The addresses of the registers to read.</param>
+        /// <param name="addresses">The addresses of the registers to read. At most <see cref="DigitalProtocol.MaxRegistersPerBurst"/> addresses are allowed.</param>
         /// <returns>The per-site values read from the registers.</returns>
         SiteData<long[]> ReadRegisters(uint[] addresses);
 
         /// <summary>
         /// Writes the specified register-unique values to the specified register addresses.
         /// </summary>
-        /// <param name="addresses">The addresses of each register to write the values to.</param>
+        /// <param name="addresses">The addresses of each register to write the values to. At most <see cref="DigitalProtocol.MaxRegistersPerBurst"/> addresses are allowed.</param>
         /// <param name="values">The register-unique values to write to each register.</param>
         void WriteRegisters(uint[] addresses, long[] values);
 
         /// <summary>
         /// Writes the specified site-unique values to the specified register addresses.
         /// </summary>
-        /// <param name="addresses">The addresses of each register to write the values to.</param>
+        /// <param name="addresses">The addresses of each register to write the values to. At most <see cref="DigitalProtocol.MaxRegistersPerBurst"/> addresses are allowed.</param>
         /// <param name="values">The per-site values to write to each register.</param>
         void WriteRegisters(uint[] addresses, SiteData<long>[] values);
     }

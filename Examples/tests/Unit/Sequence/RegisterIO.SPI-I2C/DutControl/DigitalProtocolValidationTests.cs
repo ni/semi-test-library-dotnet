@@ -1,6 +1,8 @@
 using System;
+
 using NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAndI2C.DutControl;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
+
 using Xunit;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAndI2C.Test.DutControl
@@ -95,6 +97,29 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         public void ValidateAddresses_Empty_ThrowsArgumentException()
         {
             Assert.Throws<ArgumentException>(() => DigitalProtocol.ValidateAddresses(new uint[0]));
+        }
+
+        [Fact]
+        public void ValidateAddresses_ExceedsMaxRegistersPerBurst_ThrowsArgumentException()
+        {
+            Assert.Throws<ArgumentException>(() => DigitalProtocol.ValidateAddresses(new uint[DigitalProtocol.MaxRegistersPerBurst + 1]));
+        }
+
+        [Fact]
+        public void ValidateAddresses_AtMaxRegistersPerBurst_DoesNotThrow()
+        {
+            DigitalProtocol.ValidateAddresses(new uint[DigitalProtocol.MaxRegistersPerBurst]);
+        }
+
+        [Theory]
+        [InlineData(1u)]
+        [InlineData(8u)]
+        [InlineData(32u)]
+        public void GetSourceWaveformSize_FitsMaxBurstAtMaxBitWidths(uint sampleWidth)
+        {
+            int samplesPerMaxWidthField = DigitalProtocol.LongToU32Samples(-1L, valueBitWidth: 64, sampleBitWidth: sampleWidth).Length;
+
+            Assert.Equal(DigitalProtocol.MaxRegistersPerBurst * 2 * samplesPerMaxWidthField, DigitalProtocol.GetSourceWaveformSize(sampleWidth));
         }
 
         [Fact]
