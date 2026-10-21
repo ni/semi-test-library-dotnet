@@ -15,5 +15,5 @@ repeat(reg1), source				Busy				0		D		X		1;
 repeat(reg2), capture				Busy				0		X		V		1;
 end_loop(repeatRead)				Stop				1		X		X		1;
 capture_stop						Idle				1		X		X		1;
-halt								Idle				1		X		X		X;
+halt								Idle				1		X		X		1;
 }
