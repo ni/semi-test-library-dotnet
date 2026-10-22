@@ -12,6 +12,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
     {
         [Theory]
         [InlineData(CommunicationProtocol.SPI)]
+        [InlineData(CommunicationProtocol.I2C)]
         public void ClearBundle_RetainedBundle_ClearsReferenceAndCanBeRepeated(CommunicationProtocol protocol)
         {
             IDigitalProtocol digitalProtocol = SemiconductorModuleContextExtensions.GetProtocol(protocol);
@@ -101,17 +102,26 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         [Fact]
         public void ConfigureDigitalProtocol_WritePatternName_UpdatesSpiInstance()
         {
-            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.SPI);
+            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.SPI, writePatternName: "custom_spi_write");
 
-            Assert.Equal("SPI_write_pattern", SPI.Instance.WritePatternName);
+            Assert.Equal("custom_spi_write", SPI.Instance.WritePatternName);
         }
 
         [Fact]
         public void ConfigureDigitalProtocol_ReadPatternName_UpdatesSpiInstance()
         {
+            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.SPI, readPatternName: "custom_spi_read");
+
+            Assert.Equal("custom_spi_read", SPI.Instance.ReadPatternName);
+        }
+
+        [Fact]
+        public void ConfigureDigitalProtocol_OmittedPatternNames_KeepsSpiDefaults()
+        {
             TestStep.ConfigureDigitalProtocol(CommunicationProtocol.SPI);
 
-            Assert.Equal("SPI_read_pattern", SPI.Instance.ReadPatternName);
+            Assert.Equal("SPI_write_template", SPI.Instance.WritePatternName);
+            Assert.Equal("SPI_read_template", SPI.Instance.ReadPatternName);
         }
 
         [Fact]
@@ -132,6 +142,15 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
 
             Assert.Equal("src_wfm", SPI.Instance.SourceWaveformName);
             Assert.Equal("cap_wfm", SPI.Instance.CaptureWaveformName);
+        }
+
+        [Fact]
+        public void ConfigureDigitalProtocol_OmittedWaveformNames_KeepsSpiDefaults()
+        {
+            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.SPI);
+
+            Assert.Equal("source_buffer", SPI.Instance.SourceWaveformName);
+            Assert.Equal("capture_buffer", SPI.Instance.CaptureWaveformName);
         }
 
         [Fact]
@@ -169,7 +188,12 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         // The singleton is shared with other test classes, so restore the defaults after every test.
         private static void ResetSpiInstance()
         {
-            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.SPI);
+            TestStep.ConfigureDigitalProtocol(
+                CommunicationProtocol.SPI,
+                writePatternName: "SPI_write_template",
+                readPatternName: "SPI_read_template",
+                sourceWaveformName: "source_buffer",
+                captureWaveformName: "capture_buffer");
             SPI.Instance.PinNames = new[] { "SDI", "SDO" };
         }
     }
@@ -206,17 +230,26 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         [Fact]
         public void ConfigureDigitalProtocol_WritePatternName_UpdatesI2CInstance()
         {
-            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.I2C);
+            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.I2C, writePatternName: "custom_i2c_write");
 
-            Assert.Equal("I2C_write_pattern", I2C.Instance.WritePatternName);
+            Assert.Equal("custom_i2c_write", I2C.Instance.WritePatternName);
         }
 
         [Fact]
         public void ConfigureDigitalProtocol_ReadPatternName_UpdatesI2CInstance()
         {
+            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.I2C, readPatternName: "custom_i2c_read");
+
+            Assert.Equal("custom_i2c_read", I2C.Instance.ReadPatternName);
+        }
+
+        [Fact]
+        public void ConfigureDigitalProtocol_OmittedPatternNames_KeepsI2CDefaults()
+        {
             TestStep.ConfigureDigitalProtocol(CommunicationProtocol.I2C);
 
-            Assert.Equal("I2C_read_pattern", I2C.Instance.ReadPatternName);
+            Assert.Equal("I2C_write_template", I2C.Instance.WritePatternName);
+            Assert.Equal("I2C_read_template", I2C.Instance.ReadPatternName);
         }
 
         [Fact]
@@ -237,6 +270,15 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
 
             Assert.Equal("src_wfm", I2C.Instance.SourceWaveformName);
             Assert.Equal("cap_wfm", I2C.Instance.CaptureWaveformName);
+        }
+
+        [Fact]
+        public void ConfigureDigitalProtocol_OmittedWaveformNames_KeepsI2CDefaults()
+        {
+            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.I2C);
+
+            Assert.Equal("i2c_source_buffer", I2C.Instance.SourceWaveformName);
+            Assert.Equal("i2c_capture_buffer", I2C.Instance.CaptureWaveformName);
         }
 
         [Fact]
@@ -274,8 +316,13 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         // The singleton is shared with other test classes, so restore the defaults after every test.
         private static void ResetI2CInstance()
         {
-            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.I2C);
-            I2C.Instance.PinNames = new[] { "SDI", "SDO", "SCK" };
+            TestStep.ConfigureDigitalProtocol(
+                CommunicationProtocol.I2C,
+                writePatternName: "I2C_write_template",
+                readPatternName: "I2C_read_template",
+                sourceWaveformName: "i2c_source_buffer",
+                captureWaveformName: "i2c_capture_buffer");
+            I2C.Instance.PinNames = new[] { "CS", "SDI", "SDO", "SCK" };
         }
     }
 }

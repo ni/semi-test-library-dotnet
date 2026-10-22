@@ -1,0 +1,27 @@
+
+file_format_version 1.1;
+timeset Idle, SourceStartSetup, Start, Busy, Stop;
+
+pattern I2C_write_template (CS, SDI, SDO, SCK)
+{
+set_loop(reg0)						Idle				1		1		1		1;
+source_start(i2c_source_buffer)		Idle				1		1		1		1;		// Define the register address and data buffer
+									SourceStartSetup	1		1		1		1;
+repeatWrite:
+									Start				1		1		1		1;		// Start
+									Busy				1		1		1		1;		// Device address (7-bit) = 0x77
+									Busy				1		1		1		1;
+									Busy				1		1		1		1;
+									Busy				1		0		1		1;
+									Busy				1		1		1		1;
+									Busy				1		1		1		1;
+									Busy				1		1		1		1;
+									Busy				1		0		1		1;		// Write instruction (SDA = 0)
+									Busy				1		L		1		1;		// ACK
+repeat(reg1), source				Busy				1		D		1		1;		// Register address byte
+									Busy				1		L		1		1;		// ACK
+repeat(reg2), source				Busy				1		D		1		1;		// Data byte
+									Busy				1		L		1		1;		// ACK
+end_loop(repeatWrite)				Stop				1		0		1		1;		// Stop
+halt								Idle				1		1		1		1;
+}

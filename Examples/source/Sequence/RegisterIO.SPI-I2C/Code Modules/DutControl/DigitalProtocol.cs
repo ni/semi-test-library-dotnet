@@ -16,7 +16,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
     /// Abstract digital protocol class, used as a base for more specific digital protocol implementations.
     /// </summary>
     /// <remarks>
-    /// Protocol instances (for example, <see cref="SPI.Instance"/>) hold shared configuration and the active
+    /// Protocol instances (for example, <see cref="SPI.Instance"/> and <see cref="I2C.Instance"/>) hold shared configuration and the active
     /// <see cref="DigitalSessionsBundle"/>, so they are not thread-safe. Do not use one instance from multiple
     /// code modules or test sites at the same time.
     /// </remarks>

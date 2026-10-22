@@ -4,7 +4,7 @@ using NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAndI2C
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAndI2C
 {
     /// <summary>
-    /// Set of protocol-agnostic examples to demonstrate using the <see cref="IDigitalProtocol"/> contract
+    /// Set of protocol-agnostic examples to demonstrate using the <see cref="SPI"/> and <see cref="I2C"/> classes
     /// through the shared <see cref="IDigitalProtocol"/> interface.
     /// The <see cref="CommunicationProtocol"/> parameter selects which protocol is used
     /// at runtime.
@@ -21,8 +21,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// <param name="valueBitWidth">The number of bits the register value holds.</param>
         /// <param name="writePatternName">The digital pattern name used to write a register value. If omitted, the protocol's default write pattern name is kept.</param>
         /// <param name="readPatternName">The digital pattern name used to read a register value. If omitted, the protocol's default read pattern name is kept.</param>
-        /// <param name="sourceWaveformName">The digital source waveform name.</param>
-        /// <param name="captureWaveformName">The digital capture waveform name.</param>
+        /// <param name="sourceWaveformName">The digital source waveform name. If omitted, the protocol's default source waveform name is kept.</param>
+        /// <param name="captureWaveformName">The digital capture waveform name. If omitted, the protocol's default capture waveform name is kept.</param>
         /// <param name="sampleWidth">The number of bits each digital waveform sample is.</param>
         /// <param name="readWriteCountSequenceRegister">The sequencer register controlling the transaction count.</param>
         /// <param name="addressBitWidthSequenceRegister">The sequencer register controlling the address bit width.</param>
@@ -34,8 +34,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             int valueBitWidth = 16,
             string writePatternName = null,
             string readPatternName = null,
-            string sourceWaveformName = "source_buffer",
-            string captureWaveformName = "capture_buffer",
+            string sourceWaveformName = null,
+            string captureWaveformName = null,
             int sampleWidth = 8,
             string readWriteCountSequenceRegister = "reg0",
             string addressBitWidthSequenceRegister = "reg1",
@@ -54,8 +54,14 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             {
                 protocol.ReadPatternName = readPatternName;
             }
-            protocol.SourceWaveformName = sourceWaveformName;
-            protocol.CaptureWaveformName = captureWaveformName;
+            if (sourceWaveformName != null)
+            {
+                protocol.SourceWaveformName = sourceWaveformName;
+            }
+            if (captureWaveformName != null)
+            {
+                protocol.CaptureWaveformName = captureWaveformName;
+            }
             protocol.SampleWidth = (uint)sampleWidth;
             protocol.ReadWriteCountSequenceRegister = readWriteCountSequenceRegister;
             protocol.AddressBitWidthSequenceRegister = addressBitWidthSequenceRegister;

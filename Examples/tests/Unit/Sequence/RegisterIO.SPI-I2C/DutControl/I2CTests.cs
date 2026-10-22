@@ -12,21 +12,28 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         [Fact]
         public void I2CInstance_Default_HasI2CPatternNames()
         {
-            Assert.Equal("I2C_write_pattern", _i2c.WritePatternName);
-            Assert.Equal("I2C_read_pattern", _i2c.ReadPatternName);
+            Assert.Equal("I2C_write_template", _i2c.WritePatternName);
+            Assert.Equal("I2C_read_template", _i2c.ReadPatternName);
         }
 
         [Fact]
-        public void I2CInstance_Default_HasSdiSdoAndSckPinNames()
+        public void I2CInstance_Default_HasCsSdiSdoAndSckPinNames()
         {
-            Assert.Equal(new[] { "SDI", "SDO", "SCK" }, _i2c.PinNames);
+            Assert.Equal(new[] { "CS", "SDI", "SDO", "SCK" }, _i2c.PinNames);
         }
 
         [Fact]
-        public void I2CInstance_Default_UsesSdiAndSdoForSourceAndCapture()
+        public void I2CInstance_Default_UsesSdiForSourceAndCapture()
         {
             Assert.Equal("SDI", _i2c.SourcePinName);
-            Assert.Equal("SDO", _i2c.CapturePinName);
+            Assert.Equal("SDI", _i2c.CapturePinName);
+        }
+
+        [Fact]
+        public void I2CInstance_Default_HasI2CWaveformNames()
+        {
+            Assert.Equal("i2c_source_buffer", _i2c.SourceWaveformName);
+            Assert.Equal("i2c_capture_buffer", _i2c.CaptureWaveformName);
         }
 
         [Fact]

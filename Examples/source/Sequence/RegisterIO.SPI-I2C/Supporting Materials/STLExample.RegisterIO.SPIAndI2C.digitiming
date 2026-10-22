@@ -37,7 +37,7 @@
           <PinEdge pin="SCK">
             <ReturnToLow>
               <On>0</On>
-              <Data>0</Data>
+              <Data>t.setup_cs/4</Data>
               <Return>t.setup_cs</Return>
               <Off>t.SCLK</Off>
             </ReturnToLow>
@@ -48,11 +48,12 @@
             <Comment>Clock line START condition timing</Comment>
           </PinEdge>
           <PinEdge pin="SDI">
-            <DriveNonReturn>
+            <ReturnToLow>
               <On>0</On>
               <Data>0</Data>
+              <Return>t.setup_cs/2</Return>
               <Off>t.SCLK</Off>
-            </DriveNonReturn>
+            </ReturnToLow>
             <CompareStrobe>
               <Strobe>0</Strobe>
             </CompareStrobe>
@@ -103,12 +104,12 @@
           </PinEdge>
           <PinEdge pin="SDI">
             <DriveNonReturn>
-              <On>0</On>
+              <On>t.LOW - t.setup_mosi</On>
               <Data>t.LOW - t.setup_mosi</Data>
-              <Off>t.SCLK</Off>
+              <Off>t.LOW - t.setup_mosi</Off>
             </DriveNonReturn>
             <CompareStrobe>
-              <Strobe>0</Strobe>
+              <Strobe>t.LOW + t.HIGH/2</Strobe>
             </CompareStrobe>
             <DataSource>Pattern</DataSource>
             <Comment>SDI (host-to-DUT) line timing while transferring data</Comment>
@@ -156,8 +157,8 @@
           </PinEdge>
           <PinEdge pin="SDI">
             <DriveNonReturn>
-              <On>0</On>
-              <Data>0</Data>
+              <On>t.LOW/2</On>
+              <Data>t.LOW/2</Data>
               <Off>t.SCLK</Off>
             </DriveNonReturn>
             <CompareStrobe>

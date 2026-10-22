@@ -38,7 +38,7 @@
       <f:Comment>HIGH period of the SPI clock</f:Comment>
     </f:Formula>
     <f:Formula symbol="setup_mosi">
-      <f:Definition>5 µs</f:Definition>
+      <f:Definition>2.5 µs</f:Definition>
       <f:Comment>DUT data input (SDI) setup time</f:Comment>
     </f:Formula>
     <f:Formula symbol="delay_miso">
