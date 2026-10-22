@@ -186,7 +186,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void SessionsBundle_ConfigureTriggerDigitalWithSlope_ValuesApplied()
         {
-            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin");
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
             var settings = new DigitalTriggerSettings
             {
                 TriggerSlope = ScopeTriggerSlope.Negative,
@@ -218,7 +218,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         public void SessionsBundle_ConfigureTriggerWindowWithLowAndHighLevels_ValuesApplied()
         {
-            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin");
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
             var settings = new WindowTriggerSettings
             {
                 WindowLowLevel = -0.1,
