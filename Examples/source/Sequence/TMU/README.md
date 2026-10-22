@@ -105,6 +105,6 @@ You can open the C# source code in one of two ways:
 
 1. Return to the **TestStand Sequence Editor**.
 2. Ensure all [Prerequisites](#prerequisites) are met, including having the correct digital pattern hardware installed (or Offline Mode enabled for simulation). A signal must be present on the measured pins to obtain actual measurement results.
-3. If you are running the test on STS hardware, update the values in the `ExpectedValueOnHardware` container under **FileGlobals** to the expected values for the signal on the measured pins, so that the test passes accordingly.
+3. If you are running the test on STS hardware, update the values in the `ExpectedValues` container under **FileGlobals** to the expected values for the signal on the measured pins, so that the test passes accordingly.
 4. Click the **Start Lot (F5)** or **Single Test (Ctrl + F5)** button on the TSM toolbar to execute the test sequence.
 5. Monitor the execution in the TestStand Sequence Editor and review the results upon completion.
