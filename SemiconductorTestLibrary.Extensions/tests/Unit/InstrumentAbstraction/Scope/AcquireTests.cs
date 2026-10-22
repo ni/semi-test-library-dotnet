@@ -134,7 +134,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("SCP_5162_Pin", 10L)]
         [InlineData("SCP_5622_Pin", 16L)]
         [InlineData("SCP_5186_Pin", 8L)]
-        [InlineData("SCP_5172_Pin", 14L)]
+        [InlineData("SCP_5172_Pin_1", 14L)]
         public void SessionsBundle_GetResolution_ReturnsExpectedValueForModel(string pin, long expectedResolution)
         {
             var sessionsBundle = GetSessionsBundle(pin);
