@@ -34,10 +34,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         #region ConfigureAcquisitionType Tests
 
-        [Fact]
-        public void SessionsBundle_ConfigureAcquisitionTypeWithNormal_AcquisitionTypeCorrectlyConfigured()
+        [Theory]
+        [InlineData("SCP_5172_Pin_1")]
+        [InlineData("SCP_5622_Pin")]
+        [InlineData("SCP_5186_Pin")]
+        public void SessionsBundle_ConfigureAcquisitionTypeWithNormal_AcquisitionTypeCorrectlyConfigured(string pin)
         {
-            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
+            var sessionsBundle = GetSessionsBundle(pin);
 
             sessionsBundle.ConfigureAcquisitionType(ScopeAcquisitionType.Normal);
 
@@ -79,10 +82,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         #region ReadWaveform Tests
 
-        [Fact]
-        public void SessionsBundle_ReadWaveform_ReturnsWaveformForEachSitePin()
+        [Theory]
+        [InlineData("SCP_5172_Pin_1")]
+        [InlineData("SCP_5622_Pin")]
+        [InlineData("SCP_5186_Pin")]
+        public void SessionsBundle_ReadWaveform_ReturnsWaveformForEachSitePin(string pin)
         {
-            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
+            var sessionsBundle = GetSessionsBundle(pin);
             ConfigureTimingForAcquisition(sessionsBundle);
 
             var waveforms = sessionsBundle.ReadWaveform(DefaultTimeout, recordLength: 1000);
@@ -117,10 +123,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         #region FetchWaveform Tests
 
-        [Fact]
-        public void SessionsBundle_InitiateThenFetchWaveform_ReturnsWaveformForEachSitePin()
+        [Theory]
+        [InlineData("SCP_5172_Pin_1")]
+        [InlineData("SCP_5622_Pin")]
+        [InlineData("SCP_5186_Pin")]
+        public void SessionsBundle_InitiateThenFetchWaveform_ReturnsWaveformForEachSitePin(string pin)
         {
-            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
+            var sessionsBundle = GetSessionsBundle(pin);
             ConfigureTimingForAcquisition(sessionsBundle);
             sessionsBundle.Initiate();
 
@@ -145,10 +154,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         #region Read Tests
 
-        [Fact]
-        public void SessionsBundle_Read_ReturnsSamplesForEachSitePin()
+        [Theory]
+        [InlineData("SCP_5172_Pin_1")]
+        [InlineData("SCP_5622_Pin")]
+        [InlineData("SCP_5186_Pin")]
+        public void SessionsBundle_Read_ReturnsSamplesForEachSitePin(string pin)
         {
-            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
+            var sessionsBundle = GetSessionsBundle(pin);
             ConfigureTimingForAcquisition(sessionsBundle);
 
             var samples = sessionsBundle.Read(DefaultTimeout, numberOfSamples: 1000);
