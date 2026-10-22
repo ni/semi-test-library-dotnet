@@ -1,6 +1,6 @@
+using System.Linq;
 using NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAndI2C;
 using NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAndI2C.DutControl;
-using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
@@ -12,24 +12,52 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
     public class WriteSiteUniqueValueToRegisterAndCompareReadbackValuesTests
     {
         private const string PinMapFileName = "STLExample.RegisterIO.SPIAndI2C.pinmap";
-        private const string SupportingMaterialsFolderPath = @"\Examples\source\Sequence\RegisterIO.SPI-I2C\Supporting Materials\DigitalProject";
+        private const string SupportingMaterialsFolderPath = @"\Examples\source\Sequence\RegisterIO.SPI-I2C\Supporting Materials";
         private const string DigitalPatternProjectName = "STLExample.RegisterIO.SPIAndI2C.digiproj";
 
-        [Theory]
-        [InlineData(CommunicationProtocol.SPI, "SPI_write_pattern", "SPI_read_pattern")]
-        [InlineData(CommunicationProtocol.I2C, "I2C_write_pattern", "I2C_read_pattern")]
-        public void WriteSiteUniqueValueToRegisterAndCompareReadbackValues_SiteUniqueValues_ReadbackMatchesPerSite(CommunicationProtocol protocol, string writePattern, string readPattern)
+        [Theory(Skip = "Requires a physical digital pattern instrument connected to a DUT. Not supported in offline mode.")]
+        [InlineData(CommunicationProtocol.SPI)]
+        [InlineData(CommunicationProtocol.I2C)]
+        public void WriteSiteUniqueValueToRegisterAndCompareReadbackValues_SiteUniqueValues_ReadbackMatchesPerSite(CommunicationProtocol protocol)
         {
-            var tsmContext = CreateTSMContext(SupportingMaterialsFolderPath, PinMapFileName, DigitalPatternProjectName, out _);
+            var tsmContext = CreateTSMContext(SupportingMaterialsFolderPath, PinMapFileName, DigitalPatternProjectName, out var publishedDataReader);
             SetupNIDigitalPatternInstrumentation(tsmContext);
-            DutPowerUp(tsmContext, new string[] { "VIN" }, new double[] { 3.3 }, new double[] { 0.002 }, 0, false);
-            TestStep.ConfigureDigitalProtocol(protocol, 7, 8, writePattern, readPattern, "source_buffer", "capture_buffer", 1, "reg0", "reg1", "reg2", new[] { "CS", "SCK", "SDI", "SDO" });
+            DutPowerUp(
+                tsmContext: tsmContext,
+                dutSupplyPinsOrPinGroups: new string[] { "VIN" },
+                perSupplyPinOrPinGroupVoltages: new double[] { 3.3 },
+                perSupplyPinOrPinGroupCurrentLimits: new double[] { 0.002 },
+                settlingTime: 0,
+                powerUpSuppliesSerially: false);
+            TestStep.ConfigureDigitalProtocol(
+                communicationProtocol: protocol,
+                addressBitWidth: 7,
+                valueBitWidth: 8,
+                writePatternName: "SPI_write_template",
+                readPatternName: "SPI_read_template",
+                sourceWaveformName: "source_buffer",
+                captureWaveformName: "capture_buffer",
+                sampleWidth: 1,
+                readWriteCountSequenceRegister: "reg0",
+                addressBitWidthSequenceRegister: "reg1",
+                valueBitWidthSequenceRegister: "reg2",
+                pinNames: new[] { "CS", "SCK", "SDI", "SDO" });
 
-            SiteData<bool> comparisonResults = TestStep.WriteSiteUniqueValueToRegisterAndCompareReadbackValues(tsmContext, protocol, 0x74, new long[] { 0x33 });
+            TestStep.WriteSiteUniqueValueToRegisterAndCompareReadbackValues(
+                tsmContext,
+                protocol,
+                registerAddress: 0x74,
+                perSiteValuesToWrite: new long[] { 0x33 });
 
-            Assert.All(comparisonResults.SiteNumbers, site => Assert.True(comparisonResults.GetValue(site)));
+            var comparisonResults = publishedDataReader.GetAndClearPublishedData().Where(d => d.PublishedDataId == "ComparisonResult").ToArray();
+            Assert.Equal(tsmContext.SiteNumbers.Count, comparisonResults.Length);
+            Assert.All(comparisonResults, d => Assert.True(d.BooleanValue));
 
-            DutPowerDown(tsmContext, new string[] { "VIN" }, 0, false);
+            DutPowerDown(
+                tsmContext,
+                dutSupplyPinsOrPinGroups: new string[] { "VIN" },
+                settlingTime: 0,
+                powerDownSuppliesSerially: false);
         }
     }
 }

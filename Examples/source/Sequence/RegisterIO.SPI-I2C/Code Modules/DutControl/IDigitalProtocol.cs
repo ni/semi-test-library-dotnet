@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 
@@ -51,7 +53,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         string ValueBitWidthSequenceRegister { get; set; }
 
         /// <summary>Gets or sets the protocol pin names expected by the template patterns.</summary>
-        string[] PinNames { get; set; }
+        IReadOnlyList<string> PinNames { get; set; }
 
         /// <summary>
         /// Gets or sets the pin that drives outgoing (source) data. For SPI this is SDI (MOSI).
@@ -82,10 +84,14 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         void SetBundle(DigitalSessionsBundle digitalSessionsBundle);
 
         /// <summary>
-        /// Releases the reference to the current module's bundle without disposing instrument sessions.
-        /// Call in a finally block after register operations and result publishing.
+        /// Clears the reference to the current <see cref="DigitalSessionsBundle"/> without closing or disposing the instrument sessions.
         /// </summary>
-        void ReleaseBundle();
+        /// <remarks>
+        /// The bundle holds a reference to the TestStand Semiconductor Module context. Clearing it allows the garbage collector
+        /// to release that reference, which prevents TestStand from reporting unreleased object references when it shuts down.
+        /// Call this method once per test program after all register operations are complete, typically from the ProcessCleanup callback.
+        /// </remarks>
+        void ClearBundle();
 
         /// <summary>
         /// Reads the value at the specified DUT register address.
@@ -111,21 +117,21 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// <summary>
         /// Reads the values from the specified DUT register addresses.
         /// </summary>
-        /// <param name="addresses">The addresses of the registers to read.</param>
+        /// <param name="addresses">The addresses of the registers to read. At most <see cref="DigitalProtocol.MaxRegistersPerBurst"/> addresses are allowed.</param>
         /// <returns>The per-site values read from the registers.</returns>
         SiteData<long[]> ReadRegisters(uint[] addresses);
 
         /// <summary>
         /// Writes the specified register-unique values to the specified register addresses.
         /// </summary>
-        /// <param name="addresses">The addresses of each register to write the values to.</param>
+        /// <param name="addresses">The addresses of each register to write the values to. At most <see cref="DigitalProtocol.MaxRegistersPerBurst"/> addresses are allowed.</param>
         /// <param name="values">The register-unique values to write to each register.</param>
         void WriteRegisters(uint[] addresses, long[] values);
 
         /// <summary>
         /// Writes the specified site-unique values to the specified register addresses.
         /// </summary>
-        /// <param name="addresses">The addresses of each register to write the values to.</param>
+        /// <param name="addresses">The addresses of each register to write the values to. At most <see cref="DigitalProtocol.MaxRegistersPerBurst"/> addresses are allowed.</param>
         /// <param name="values">The per-site values to write to each register.</param>
         void WriteRegisters(uint[] addresses, SiteData<long>[] values);
     }

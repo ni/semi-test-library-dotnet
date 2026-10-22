@@ -1,11 +1,12 @@
 using System;
+using System.Linq;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAndI2C.DutControl
 {
     /// <summary>
-    /// Factory extensions that encapsulate protocol-specific bundle creation.
+    /// Extensions of the <see cref="ISemiconductorModuleContext"/> interface that encapsulate protocol-specific bundle creation.
     /// </summary>
     public static class SemiconductorModuleContextExtensions
     {
@@ -27,7 +28,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
 
             IDigitalProtocol protocol = GetProtocol(communicationProtocol);
             var sessionManager = new TSMSessionManager(semiconductorModuleContext);
-            protocol.SetBundle(sessionManager.Digital(protocol.PinNames));
+            protocol.SetBundle(sessionManager.Digital(protocol.PinNames?.ToArray()));
             return protocol;
         }
 

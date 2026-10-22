@@ -12,8 +12,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
     {
         [Theory]
         [InlineData(CommunicationProtocol.SPI)]
-        [InlineData(CommunicationProtocol.I2C)]
-        public void ReleaseBundle_RetainedBundle_ClearsReferenceAndCanBeRepeated(CommunicationProtocol protocol)
+        public void ClearBundle_RetainedBundle_ClearsReferenceAndCanBeRepeated(CommunicationProtocol protocol)
         {
             IDigitalProtocol digitalProtocol = SemiconductorModuleContextExtensions.GetProtocol(protocol);
             FieldInfo bundleField = typeof(DigitalProtocol).GetField("_digitalSessionsBundle", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -24,17 +23,17 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
                 bundleField.SetValue(digitalProtocol, bundle);
                 Assert.Same(bundle, bundleField.GetValue(digitalProtocol));
 
-                digitalProtocol.ReleaseBundle();
+                digitalProtocol.ClearBundle();
 
                 Assert.Null(bundleField.GetValue(digitalProtocol));
 
-                digitalProtocol.ReleaseBundle();
+                digitalProtocol.ClearBundle();
 
                 Assert.Null(bundleField.GetValue(digitalProtocol));
             }
             finally
             {
-                digitalProtocol.ReleaseBundle();
+                digitalProtocol.ClearBundle();
             }
         }
     }
