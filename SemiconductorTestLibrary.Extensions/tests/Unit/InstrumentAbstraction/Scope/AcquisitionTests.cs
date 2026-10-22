@@ -179,6 +179,55 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Contains("channel", exception.Message, StringComparison.OrdinalIgnoreCase);
         }
 
+        [Fact]
+        public void SessionsBundle_ReadWithZeroTimeoutOnMultiChannelCardWithPartialPinSelection_ThrowsNISemiconductorTestExceptionWithEntireCardChannelDetails()
+        {
+            // SCP_5172_Pin_1, SCP_5172_Pin_2, and SCP_5172_Pin_3 all reside on the same SCP_5172_C8_S04 card.
+            // Only SCP_5172_Pin_1 is explicitly selected for this acquisition, but since a single site losing its
+            // trigger signal prevents the entire card from acquiring data, the timeout message must still include
+            // the site-pin-channel details for SCP_5172_Pin_2 and SCP_5172_Pin_3, which were not explicitly selected.
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
+            ConfigureTimingForAcquisition(sessionsBundle);
+
+            void Read() => sessionsBundle.Read(PrecisionTimeSpan.Zero, numberOfSamples: 1000);
+
+            var exception = Assert.Throws<NISemiconductorTestException>(Read);
+            Assert.Contains("site0/SCP_5172_Pin_1", exception.Message, StringComparison.OrdinalIgnoreCase);
+            Assert.Contains("site1/SCP_5172_Pin_1", exception.Message, StringComparison.OrdinalIgnoreCase);
+            Assert.Contains("site0/SCP_5172_Pin_2", exception.Message, StringComparison.OrdinalIgnoreCase);
+            Assert.Contains("site1/SCP_5172_Pin_2", exception.Message, StringComparison.OrdinalIgnoreCase);
+            Assert.Contains("site0/SCP_5172_Pin_3", exception.Message, StringComparison.OrdinalIgnoreCase);
+            Assert.Contains("site1/SCP_5172_Pin_3", exception.Message, StringComparison.OrdinalIgnoreCase);
+        }
+
+        [Fact]
+        public void SessionsBundle_ReadWithZeroTimeoutOnMultiSessionMultiCardBundle_ThrowsNISemiconductorTestExceptionWithPinSiteDetailsForBothCards()
+        {
+            // SCP_5622_Pin is connected to a different physical card per site (SCP_5622_C3_S05 for site0, SCP_5622_C3_S06 for site1),
+            // so selecting this pin across both sites produces a bundle with 2 sessions on 2 same-type cards.
+            var sessionsBundle = GetSessionsBundle("SCP_5622_Pin");
+            ConfigureTimingForAcquisition(sessionsBundle);
+
+            void Read() => sessionsBundle.Read(PrecisionTimeSpan.Zero, numberOfSamples: 1000);
+
+            var exception = Assert.Throws<NISemiconductorTestException>(Read);
+            Assert.Contains("site0/SCP_5622_Pin", exception.Message, StringComparison.OrdinalIgnoreCase);
+            Assert.Contains("site1/SCP_5622_Pin", exception.Message, StringComparison.OrdinalIgnoreCase);
+        }
+
+        [Fact]
+        public void SessionsBundle_ReadOnMultiSessionMultiCardBundle_ReturnsSamplesForBothSites()
+        {
+            // SCP_5622_Pin is connected to a different physical card per site (SCP_5622_C3_S05 for site0, SCP_5622_C3_S06 for site1),
+            // so selecting this pin across both sites produces a bundle with 2 sessions on 2 same-type cards.
+            var sessionsBundle = GetSessionsBundle("SCP_5622_Pin");
+            ConfigureTimingForAcquisition(sessionsBundle);
+
+            var samples = sessionsBundle.Read(DefaultTimeout, numberOfSamples: 1000);
+
+            Assert.All(samples.SiteNumbers, site => Assert.NotEmpty(samples.ExtractSite(site).Values.First()));
+        }
+
         #endregion
 
         #region Helper Methods

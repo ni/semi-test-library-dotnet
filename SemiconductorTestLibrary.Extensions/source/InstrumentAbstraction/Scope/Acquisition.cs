@@ -10,7 +10,7 @@ using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecuti
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope
 {
     /// <summary>
-    /// Defines methods for acquiring data from the NI-Scope session.
+    /// Defines methods for acquiring data.
     /// </summary>
     public static class Acquisition
     {
@@ -106,7 +106,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
 
         private static string BuildAcquisitionTimeoutExceptionMessage(ScopeSessionInformation sessionInfo)
         {
-            var channelDetails = string.Join(", ", sessionInfo.AssociatedSitePinList.Select(sitePinInfo =>
+            var channelDetails = string.Join(", ", sessionInfo.GetAssociatedSitePinListForEntireCard().Select(sitePinInfo =>
                 string.Format(CultureInfo.InvariantCulture, "{0} (channel: {1})", sitePinInfo.SitePinString, sitePinInfo.IndividualChannelString)));
             return string.Format(CultureInfo.InvariantCulture, ResourceStrings.Scope_AcquisitionTimeoutException, channelDetails);
         }
