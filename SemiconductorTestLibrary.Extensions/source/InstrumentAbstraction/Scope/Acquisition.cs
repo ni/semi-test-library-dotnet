@@ -100,15 +100,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
             }
             catch (MaxTimeExceededException exception)
             {
-                throw new NISemiconductorTestException(BuildAcquisitionTimeoutExceptionMessage(sessionInfo), exception);
+                throw new NISemiconductorTestException("Acquisition did not complete within the specified timeout.", exception);
             }
-        }
-
-        private static string BuildAcquisitionTimeoutExceptionMessage(ScopeSessionInformation sessionInfo)
-        {
-            var channelDetails = string.Join(", ", sessionInfo.AssociatedSitePinList.Select(sitePinInfo =>
-                string.Format(CultureInfo.InvariantCulture, "{0} (channel: {1})", sitePinInfo.SitePinString, sitePinInfo.IndividualChannelString)));
-            return string.Format(CultureInfo.InvariantCulture, ResourceStrings.Scope_AcquisitionTimeoutException, channelDetails);
         }
     }
 }

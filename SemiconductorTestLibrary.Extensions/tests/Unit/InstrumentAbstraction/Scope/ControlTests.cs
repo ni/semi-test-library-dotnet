@@ -104,7 +104,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             scopeBundle.ConfigureAcquisitionType(acquisitionType);
             VerticalSettings verticalSettings = new VerticalSettings
             {
-                EnableTimeInterleavedSampling = true
+                EnableTimeInterleavedSampling = false
             };
             scopeBundle.ConfigureVertical(verticalSettings);
             ElectricalCharacteristics electricalCharacteristics = new ElectricalCharacteristics
