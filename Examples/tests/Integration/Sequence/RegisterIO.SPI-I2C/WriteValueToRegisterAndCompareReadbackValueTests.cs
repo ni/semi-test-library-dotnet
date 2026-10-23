@@ -29,7 +29,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 perSupplyPinOrPinGroupCurrentLimits: new double[] { 0.002 },
                 settlingTime: 0,
                 powerUpSuppliesSerially: false);
-            bool isI2C = protocol == CommunicationProtocol.I2C;
             TestStep.ConfigureDigitalProtocol(
                 communicationProtocol: protocol,
                 addressBitWidth: addressBitWidth,

@@ -2,7 +2,7 @@
 <TimingFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" schemaVersion="1.0" xmlns="http://www.ni.com/Semiconductor/Timing">
   <TimingSheet>
     <TimeSets>
-      <TimeSet name="Idle">
+      <TimeSet name="SPI_Idle">
         <Period>t.SCK</Period>
         <PinEdges>
           <PinEdge pin="DigitalPins">

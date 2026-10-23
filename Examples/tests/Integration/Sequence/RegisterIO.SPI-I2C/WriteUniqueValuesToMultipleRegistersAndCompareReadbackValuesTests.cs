@@ -22,7 +22,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         {
             // SPI sends the read/write bit followed by a 7-bit register address, so BME280 registers 0xF4 and 0xF5
             // are addressed as 0x74 and 0x75. I2C sends the full 8-bit register address.
-            var registerValues = new long[] { 0x54, 0x12 };
+            var registerValues = new long[] { 0x33, 0x12 };
             var tsmContext = CreateTSMContext(SupportingMaterialsFolderPath, PinMapFileName, DigitalPatternProjectName, out var publishedDataReader);
             SetupNIDigitalPatternInstrumentation(tsmContext);
             DutPowerUp(
@@ -32,7 +32,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 perSupplyPinOrPinGroupCurrentLimits: new double[] { 0.002 },
                 settlingTime: 0,
                 powerUpSuppliesSerially: false);
-            bool isI2C = protocol == CommunicationProtocol.I2C;
             TestStep.ConfigureDigitalProtocol(
                 communicationProtocol: protocol,
                 addressBitWidth: addressBitWidth,

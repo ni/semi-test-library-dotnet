@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<SourceFile Checksum="1294D0B50D367CBA62091ECA3F4C9881069C0DFBE9D0C3C76CA450D95DD502061C7D5E846465975AAD0DC4FCF4CE7DC6D27AABC823E3F1C0D7125A3CA4E1E112" xmlns="http://www.ni.com/PlatformFramework">
+<SourceFile Checksum="6FC54D50417EAA084FB8752AA93D9BAA15783C2FF14255EC9B4B53F8248356D5BD17524AD878E302AA1B192767F5B548C055E69117CAB55AC07E04320766E539" xmlns="http://www.ni.com/PlatformFramework">
 	<SourceModelFeatureSet>
-		<ParsableNamespace AssemblyFileVersion="9.17.0.49731" FeatureSetName="Digital Pattern Editor" Name="http://www.ni.com/PatternBasedDigital" OldestCompatibleVersion="4.5.0.0" Version="5.3.1.49152" />
-		<ParsableNamespace AssemblyFileVersion="9.17.0.49732" FeatureSetName="Editor" Name="http://www.ni.com/PlatformFramework" OldestCompatibleVersion="8.1.0.49152" Version="8.1.0.49152" />
-		<ApplicationVersionInfo Build="9.17.0.49731" Name="Digital Pattern Editor" Version="25.5.0" />
+		<ParsableNamespace AssemblyFileVersion="9.19.0.49996" FeatureSetName="Digital Pattern Editor" Name="http://www.ni.com/PatternBasedDigital" OldestCompatibleVersion="4.5.0.0" Version="5.3.1.49152" />
+		<ParsableNamespace AssemblyFileVersion="9.19.0.49996" FeatureSetName="Editor" Name="http://www.ni.com/PlatformFramework" OldestCompatibleVersion="8.1.0.49152" Version="8.1.0.49152" />
+		<ApplicationVersionInfo Build="9.19.0.49996" Name="Digital Pattern Editor" Version="26.0.0" />
 	</SourceModelFeatureSet>
 	<Project xmlns="http://www.ni.com/PlatformFramework">
 		<EnvoyManagerRootEnvoy Id="f1dafc0449944f68bcaed23a481a8f82" ModelDefinitionType="EnvoyManagerRootEnvoy" Name="RootEnvoy" />
@@ -35,6 +35,8 @@
 			<FileReference Id="1db927bb08d048d9998aa0d99a8f312f" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="I2C_write_template.digipat" StoragePath="I2C\I2C_write_template.digipat" />
 			<FileReference Id="ba97f6407d2442deb18c2579899689dc" ModelDefinitionType="CaptureWaveformDefinition" Name="I2C_capture_buffer.digicapture" StoragePath="I2C\I2C_capture_buffer.digicapture" />
 			<FileReference Id="c9babb86c71841ae958b24e6e42f2553" ModelDefinitionType="SourceWaveformDefinition" Name="I2C_source_buffer.tdms" StoragePath="I2C\I2C_source_buffer.tdms" />
+			<FileReference Bindings=".digipatsrc" Id="ee3ca27c92db423fa364b8cb88736b15" ModelDefinitionType="{http://www.ni.com/PlatformFramework}ExternalFile" Name="I2C_read_template.digipatsrc" StoragePath="I2C\I2C_read_template.digipatsrc" />
+			<FileReference Bindings=".digipatsrc" Id="64a9d0b27bc74d5683d8a3f838987d85" ModelDefinitionType="{http://www.ni.com/PlatformFramework}ExternalFile" Name="I2C_write_template.digipatsrc" StoragePath="I2C\I2C_write_template.digipatsrc" />
 		</NameScopingEnvoy>
 		<EmbeddedDefinitionReference Id="a96e0a92a1425596bc6a29922b7835" ModelDefinitionType="DigitalPatternEditor.ProjectPropertiesDefinition" Name="ProjectProperties">
 			<ProjectPropertiesDefinition xmlns="http://www.ni.com/PatternBasedDigital" />
