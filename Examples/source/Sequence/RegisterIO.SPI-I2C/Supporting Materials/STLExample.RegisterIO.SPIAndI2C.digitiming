@@ -2,7 +2,7 @@
 <TimingFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" schemaVersion="1.0" xmlns="http://www.ni.com/Semiconductor/Timing">
   <TimingSheet>
     <TimeSets>
-      <TimeSet name="Idle">
+      <TimeSet name="SPI_Idle">
         <Period>t.SCLK</Period>
         <PinEdges>
           <PinEdge pin="DigitalPins">
@@ -19,7 +19,7 @@
           </PinEdge>
         </PinEdges>
       </TimeSet>
-      <TimeSet name="Start">
+      <TimeSet name="SPI_Start">
         <Period>t.SCLK</Period>
         <PinEdges>
           <PinEdge pin="CS">
@@ -73,7 +73,7 @@
           </PinEdge>
         </PinEdges>
       </TimeSet>
-      <TimeSet name="Busy">
+      <TimeSet name="SPI_Busy">
         <Period>t.SCLK</Period>
         <PinEdges>
           <PinEdge pin="CS">
@@ -127,7 +127,7 @@
           </PinEdge>
         </PinEdges>
       </TimeSet>
-      <TimeSet name="Stop">
+      <TimeSet name="SPI_Stop">
         <Period>t.SCLK</Period>
         <PinEdges>
           <PinEdge pin="CS">
