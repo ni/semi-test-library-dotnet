@@ -8,8 +8,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
     /// </summary>
     /// <remarks>
     /// The I2C data line (SDA) is connected to the SDI pin, which is used for both the source and the capture waveforms,
-    /// and the I2C clock line (SCL) is connected to the SCK pin. The CS and SDO pins are held high by the I2C patterns,
-    /// which keeps the DUT in I2C mode and selects its device address.
+    /// and the I2C clock line (SCL) is connected to the SCK pin. The SDO pin is held high by both I2C patterns,
+    /// which selects the DUT's device address. The CS pin is held high by the read pattern to keep the DUT in I2C mode,
+    /// and is not driven by the write pattern.
     /// The waveforms use their own names so they do not conflict with the SPI waveforms loaded on the same session.
     /// Obtain the singleton instance via <see cref="Instance"/>, then call
     /// <see cref="DigitalProtocol.SetBundle"/> once per code module before performing
