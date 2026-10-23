@@ -1,8 +1,4 @@
-// This pattern implements the I2C protocol read command.
-// The pattern is executed by the 'I2C Register Map.digireg' document upon initiating a read register operation.
-// reg0 defines the number of registers to read.
-// reg1 defines the address bit-width.
-// reg2 defines the value bit-width.
+//
 
 file_format_version 1.1;
 timeset I2C_Idle, I2C_SourceStartSetup, I2C_Start, I2C_Busy, I2C_Stop;
