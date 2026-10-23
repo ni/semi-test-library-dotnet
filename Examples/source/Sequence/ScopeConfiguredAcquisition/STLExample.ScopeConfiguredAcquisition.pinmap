@@ -1,12 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<PinMap schemaVersion="1.6" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<PinMap schemaVersion="1.5" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<Instruments>
-		<NIDCPowerInstrument name="SCP_5172_C1_S02" numberOfChannels="8">
-			<ChannelGroup name="CommonDCPowerChannelGroup" />
-		</NIDCPowerInstrument>
-		<NIDCPowerInstrument name="SCP_5172_C1_S03" numberOfChannels="8">
-			<ChannelGroup name="CommonDCPowerChannelGroup" />
-		</NIDCPowerInstrument>
+		<NIScopeInstrument name="SCP_5172_C1_S02" numberOfChannels="8" group="Scope" />
+		<NIScopeInstrument name="SCP_5172_C1_S03" numberOfChannels="8" group="Scope" />
 	</Instruments>
 	<Pins>
 		<DUTPin name="Vsc0" />
@@ -14,8 +10,7 @@
 		<DUTPin name="Vsc2" />
 		<DUTPin name="Vsc3" />
 	</Pins>
-	<PinGroups>
-	</PinGroups>
+	<PinGroups></PinGroups>
 	<Sites>
 		<Site siteNumber="0" />
 		<Site siteNumber="1" />

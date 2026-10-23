@@ -9,8 +9,8 @@
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <PlatformTarget>x64</PlatformTarget>
-    <RootNamespace>NationalInstruments.Examples.SemiconductorTestLibrary.SMUGangPinGroup</RootNamespace>
-    <AssemblyName>STLExample.SMUGangPinGroup</AssemblyName>
+    <RootNamespace>NationalInstruments.Examples.SemiconductorTestLibrary.ScopeConfiguredAcquisition</RootNamespace>
+    <AssemblyName>STLExample.ScopeConfiguredAcquisition</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebugType>full</DebugType>
@@ -36,6 +36,9 @@
     <Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions">
       <HintPath>..\..\..\..\..\SemiconductorTestLibrary.Abstractions\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
     </Reference>
+	  <Reference Include="NationalInstruments.ModularInstruments.NIScope.Fx40">
+		  <SpecificVersion>False</SpecificVersion>
+	  </Reference>
     <Reference Include="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI">
       <Private>False</Private>
       <SpecificVersion>False</SpecificVersion>
