@@ -14,6 +14,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
     [Collection("NonParallelizable")]
     public sealed class TriggersAndEventsTests : IDisposable
     {
+        #region Initialization and Cleanup
+
         private ISemiconductorModuleContext _tsmContext;
 
         public TSMSessionManager Initialize(string pinMapFileName)
@@ -27,6 +29,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             InitializeAndClose.Close(_tsmContext);
         }
+
+        #endregion
+
+        #region Test Data
 
         public static IEnumerable<object[]> ExportSignalValidTestData()
         {
@@ -103,11 +109,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
         }
 
+        #endregion
+
+        #region Digital Edge Start Trigger Tests
+
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
         [InlineData("FgenSingleInstrumentPerSite.pinmap")]
-        public void StandardWaveformConfigured_ConfigureAndDisableStartTriggerDigitalEdgeWithRisingEdge_TriggerConfiguredAndDisabled(string pinMapFileName)
+        public void StandardWaveformConfigured_ConfigureAndDisableStartTriggerDigitalEdge_TriggerConfiguredAndDisabled(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
@@ -144,6 +154,35 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             // Test with null trigger source
             string triggerLine = null;
+            void ConfigureStartTriggerDigitalEdge()
+            {
+                sessionsBundle.ConfigureStartTriggerDigitalEdge(triggerLine, DigitalEdge.Rising);
+                sessionsBundle.Commit();
+            }
+
+            var exception = Assert.Throws<ArgumentNullException>(ConfigureStartTriggerDigitalEdge);
+            Assert.Contains("Trigger source passed as input is either null or an empty string. Please provide valid trigger source.", exception.Message);
+
+            // Test with empty trigger source
+            triggerLine = string.Empty;
+
+            var argumentException = Assert.Throws<ArgumentException>(ConfigureStartTriggerDigitalEdge);
+            Assert.Contains("Trigger source passed as input is either null or an empty string. Please provide valid trigger source.", argumentException.Message);
+        }
+
+        [Theory]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData("FgenSingleInstrumentPerPin.pinmap")]
+        [InlineData("FgenSingleInstrumentPerSite.pinmap")]
+        public void StandardWaveformConfigured_ConfigureStartTriggerDigitalEdgeWithInvalidSource_ThrowsException(string pinMapFileName)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
+            var triggerLine = "PXITri";
+            ConfigureSettings(sessionsBundle, StandardWaveform.Sine);
+            sessionsBundle.ConfigureTriggerMode(TriggerMode.Continuous);
+
             void ConfigureStartTriggerDigitalEdgeFalling()
             {
                 sessionsBundle.ConfigureStartTriggerDigitalEdge(triggerLine, DigitalEdge.Rising);
@@ -151,13 +190,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
 
             var exception = Assert.Throws<NISemiconductorTestException>(ConfigureStartTriggerDigitalEdgeFalling);
-            Assert.Contains("Trigger source passed as input is either null or an empty string. Please provide valid trigger source.", exception.Message);
-
-            // Test with empty trigger source
-            triggerLine = string.Empty;
-
-            exception = Assert.Throws<NISemiconductorTestException>(ConfigureStartTriggerDigitalEdgeFalling);
-            Assert.Contains("Trigger source passed as input is either null or an empty string. Please provide valid trigger source.", exception.Message);
+            Assert.Contains("Terminal for the device is invalid", exception.Message);
         }
 
         [Theory]
@@ -200,6 +233,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 AssertStartTriggerSettings(sessionInfo, TriggerType.None);
             });
         }
+
+        #endregion
+
+        #region Software Edge Start Trigger Tests
 
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
@@ -286,6 +323,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Contains("Specified operation can be performed only when the task is running.", exception.Message);
         }
 
+        #endregion
+
+        #region Export Signal Tests
+
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [MemberData(nameof(ExportSignalValidTestData))]
@@ -327,14 +368,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             string outputTerminal = null;
             void ExportSignal() => sessionsBundle.ExportSignal(signalSource, string.Empty, outputTerminal);
 
-            var exception = Assert.Throws<ArgumentException>(ExportSignal);
+            var exception = Assert.Throws<ArgumentNullException>(ExportSignal);
             Assert.Contains("Output terminal passed as input is either null or an empty string. Please provide valid output terminal.", exception.Message);
 
             // Test with empty output terminal
             outputTerminal = string.Empty;
 
-            exception = Assert.Throws<ArgumentException>(ExportSignal);
-            Assert.Contains("Output terminal passed as input is either null or an empty string. Please provide valid output terminal.", exception.Message);
+            var argumentException = Assert.Throws<ArgumentException>(ExportSignal);
+            Assert.Contains("Output terminal passed as input is either null or an empty string. Please provide valid output terminal.", argumentException.Message);
         }
 
         [Theory]
@@ -355,6 +396,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.ExportSignal(signalSource, signalIdentifier, "PXI_Trig0");
         }
 
+        #endregion
+
+        #region Trigger Mode Tests
+
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
@@ -371,7 +416,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [MemberData(nameof(TriggerModeInvalidTestData))]
-        public void StandardWaveformConfigured_ConfigureInvalidTriggerModes_ThrowsExceptioin(string pinMapFileName, TriggerMode triggerMode)
+        public void StandardWaveformConfigured_ConfigureInvalidTriggerModes_ThrowsException(string pinMapFileName, TriggerMode triggerMode)
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
@@ -386,6 +431,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var exception = Assert.Throws<NISemiconductorTestException>(ConfigureTriggerMode);
             Assert.Contains("Only continuous triggering mode is available in standard function output mode.", exception.Message);
         }
+
+        #endregion
+
+        #region Helper Methods
 
         private static void ConfigureSettings(FgenSessionsBundle sessionsBundle, StandardWaveform waveform)
         {
@@ -404,5 +453,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 Assert.Equal(expectedEdge, sessionInfo.Session.Trigger.Start.DigitalEdge.Edge);
             }
         }
+
+        #endregion
     }
 }
