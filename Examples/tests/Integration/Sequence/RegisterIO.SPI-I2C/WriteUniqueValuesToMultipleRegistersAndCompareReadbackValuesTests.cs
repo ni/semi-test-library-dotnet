@@ -16,13 +16,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         private const string DigitalPatternProjectName = "STLExample.RegisterIO.SPIAndI2C.digiproj";
 
         [Theory(Skip = "Requires a physical digital pattern instrument connected to a DUT. Not supported in offline mode.")]
-        [InlineData(CommunicationProtocol.SPI)]
-        [InlineData(CommunicationProtocol.I2C)]
-        public void WriteUniqueValuesToMultipleRegistersAndCompareReadbackValues_UniqueValues_ReadbackMatches(CommunicationProtocol protocol)
+        [InlineData(CommunicationProtocol.SPI, 7, "SPI_write_template", "SPI_read_template", "spi_source_buffer", "spi_capture_buffer", new uint[] { 0x74, 0x75 })]
+        [InlineData(CommunicationProtocol.I2C, 8, "I2C_write_template", "I2C_read_template", "i2c_source_buffer", "i2c_capture_buffer", new uint[] { 0xF4, 0xF5 })]
+        public void WriteUniqueValuesToMultipleRegistersAndCompareReadbackValues_UniqueValues_ReadbackMatches(CommunicationProtocol protocol, int addressBitWidth, string writePatternName, string readPatternName, string sourceWaveformName, string captureWaveformName, uint[] registerAddresses)
         {
             // SPI sends the read/write bit followed by a 7-bit register address, so BME280 registers 0xF4 and 0xF5
             // are addressed as 0x74 and 0x75. I2C sends the full 8-bit register address.
-            var registerAddresses = protocol == CommunicationProtocol.I2C ? new uint[] { 0xF4, 0xF5 } : new uint[] { 0x74, 0x75 };
             var registerValues = new long[] { 0x54, 0x12 };
             var tsmContext = CreateTSMContext(SupportingMaterialsFolderPath, PinMapFileName, DigitalPatternProjectName, out var publishedDataReader);
             SetupNIDigitalPatternInstrumentation(tsmContext);
@@ -36,12 +35,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             bool isI2C = protocol == CommunicationProtocol.I2C;
             TestStep.ConfigureDigitalProtocol(
                 communicationProtocol: protocol,
-                addressBitWidth: isI2C ? 8 : 7,
+                addressBitWidth: addressBitWidth,
                 valueBitWidth: 8,
-                writePatternName: isI2C ? "I2C_write_template" : "SPI_write_template",
-                readPatternName: isI2C ? "I2C_read_template" : "SPI_read_template",
-                sourceWaveformName: isI2C ? "i2c_source_buffer" : "source_buffer",
-                captureWaveformName: isI2C ? "i2c_capture_buffer" : "capture_buffer",
+                writePatternName: writePatternName,
+                readPatternName: readPatternName,
+                sourceWaveformName: sourceWaveformName,
+                captureWaveformName: captureWaveformName,
                 sampleWidth: 1,
                 readWriteCountSequenceRegister: "reg0",
                 addressBitWidthSequenceRegister: "reg1",

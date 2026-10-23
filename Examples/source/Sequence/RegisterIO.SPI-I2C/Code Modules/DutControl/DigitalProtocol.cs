@@ -46,10 +46,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         public string ReadPatternName { get; set; }
 
         /// <inheritdoc/>
-        public string SourceWaveformName { get; set; } = "source_buffer";
+        public string SourceWaveformName { get; set; } = "spi_source_buffer";
 
         /// <inheritdoc/>
-        public string CaptureWaveformName { get; set; } = "capture_buffer";
+        public string CaptureWaveformName { get; set; } = "spi_capture_buffer";
 
         /// <inheritdoc/>
         public string SourcePinName { get; set; } = "SDI";
@@ -145,9 +145,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         {
             ValidateRegisterAccess(address, addressBitWidth, valueBitWidth);
 
-            // The read pattern shifts out only the register address from the source waveform and then captures
-            // the value from the DUT, so the source waveform contains just the address samples. The address is
-            // identical for every site, so the same waveform is written to all sites.
+            // The driver defines a source waveform as a buffer of U32 samples, where each sample holds only as many
+            // bits as the sample width the waveform was created with. The address must therefore be unpacked into
+            // as many samples as are needed to send all of its bits. Only the address is sourced, because the read
+            // pattern captures the register value from the DUT.
             uint[] srcWfmSamples = LongToU32Samples(address, addressBitWidth, SampleWidth, BitOrder);
 
             _digitalSessionsBundle.WriteSequencerRegister(ReadWriteCountSequenceRegister, 1);
@@ -179,9 +180,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             ValidateRegisterAccess(address, addressBitWidth, valueBitWidth);
             ValidateValue(value, valueBitWidth);
 
-            // The write pattern shifts out the address followed by the value from a single source waveform, so the
-            // address and value samples are concatenated into one waveform. The value is the same for every site,
-            // so the same waveform is written to all sites.
+            // The driver defines a source waveform as a buffer of U32 samples, where each sample holds only as many
+            // bits as the sample width the waveform was created with. Both the address and the value must therefore
+            // be unpacked into as many samples as are needed to send all of their bits. They are concatenated
+            // because the write pattern sources the address and then the value from the same waveform.
             uint[] addressSamples = LongToU32Samples(address, addressBitWidth, SampleWidth, BitOrder);
             uint[] valueSamples = LongToU32Samples(value, valueBitWidth, SampleWidth, BitOrder);
             uint[] srcWfmSamples = ConcatArrays(addressSamples, valueSamples);
@@ -214,9 +216,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
 
             int[] siteNumbers = value.SiteNumbers;
 
-            // As in the overload above, each source waveform is the address followed by the value. Because the
-            // value differs per site, a separate waveform is built for each site and written site-unique, while the
-            // address samples are shared.
+            // The address and value must be unpacked into U32 samples for the same reason as the overload above.
+            // Because the value can differ per site, a separate source waveform must be built for each site and
+            // written site-unique.
             uint[] addressSamples = LongToU32Samples(address, addressBitWidth, SampleWidth, BitOrder);
             uint[][] perSiteWfmSamples = new uint[siteNumbers.Length][];
             for (int i = 0; i < siteNumbers.Length; i++)
@@ -253,10 +255,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         {
             ValidateMultiRegisterAccess(addresses, addressBitWidth, valueBitWidth);
 
-            // All registers are read in a single burst. The read pattern loops once per register, shifting out one
-            // address per iteration and capturing its value, so the source waveform is the addresses back to back.
-            // The captured values come back in the same order. The addresses are the same for every site, so the
-            // same waveform is written to all sites.
+            // The driver defines a source waveform as a buffer of U32 samples, where each sample holds only as many
+            // bits as the sample width the waveform was created with, so each address must be unpacked into as many
+            // samples as are needed to send all of its bits. The addresses are placed back to back because the read
+            // pattern loops once per register within a single burst, sourcing the next address on each iteration.
             foreach (uint address in addresses)
             {
                 ValidateAddress(address, addressBitWidth);
@@ -294,9 +296,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             ValidateMultiRegisterAccess(addresses, addressBitWidth, valueBitWidth);
             ValidateValuesMatchAddresses(addresses, values);
 
-            // All registers are written in a single burst. The write pattern loops once per register, shifting out an
-            // address and then its value each iteration, so the source waveform interleaves each address with its
-            // value. The values are the same for every site, so the same waveform is written to all sites.
+            // The driver defines a source waveform as a buffer of U32 samples, where each sample holds only as many
+            // bits as the sample width the waveform was created with, so each address and value must be unpacked into
+            // as many samples as are needed to send all of their bits. The samples are interleaved because the write
+            // pattern loops once per register within a single burst, sourcing an address and then its value on each
+            // iteration.
             uint[] srcWfmSamples = BuildInterleavedSourceWaveform(addresses, values, addressBitWidth, valueBitWidth);
 
             _digitalSessionsBundle.WriteSequencerRegister(ReadWriteCountSequenceRegister, addresses.Length);
@@ -323,8 +327,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             ValidateValuesMatchAddresses(addresses, values);
             ValidateSameSites(values);
 
-            // As in the overload above, the source waveform interleaves each address with its value. Because the
-            // values differ per site, a separate interleaved waveform is built for each site and written site-unique.
+            // The addresses and values must be unpacked into interleaved U32 samples for the same reason as the
+            // overload above. Because the values can differ per site, a separate source waveform must be built for
+            // each site and written site-unique.
             int[] siteNumbers = values[0].SiteNumbers;
             uint[][] perSiteWfmSamples = new uint[siteNumbers.Length][];
             for (int siteIndex = 0; siteIndex < siteNumbers.Length; siteIndex++)

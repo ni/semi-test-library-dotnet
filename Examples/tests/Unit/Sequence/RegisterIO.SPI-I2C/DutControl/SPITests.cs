@@ -173,8 +173,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         [Fact]
         public void SpiInstance_Default_HasSourceAndCaptureBufferWaveformNames()
         {
-            Assert.Equal("source_buffer", _spi.SourceWaveformName);
-            Assert.Equal("capture_buffer", _spi.CaptureWaveformName);
+            Assert.Equal("spi_source_buffer", _spi.SourceWaveformName);
+            Assert.Equal("spi_capture_buffer", _spi.CaptureWaveformName);
         }
 
         [Fact]
