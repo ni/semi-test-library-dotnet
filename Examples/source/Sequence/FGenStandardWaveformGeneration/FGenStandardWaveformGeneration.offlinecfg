@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SystemConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" schemaVersion="1.0" xmlns="http://www.ni.com/TestStand/SemiconductorModule/SystemConfiguration.xsd">
+  <!-- The following is an example configuration taken from the TSM Accelerometer example. -->
+  <!-- Refer to the Obtaining an Offline Mode System Configuration File (TSM) topic in the TestStand Semiconductor Module user manual for more details -->
+  <PXIChassis Number="1" Model="NI PXIe-1085">
+    <PXI Name="HSD_6570_C1_S02" Model="NI PXIe-6570" Slot="2" />
+    <PXI Name="HSD_6570_C1_S04" Model="NI PXIe-6570" Slot="4" />
+    <PXI Name="SMU_4143_C1_S06" Model="NI PXIe-4143" Slot="6" />
+    <PXI Name="SMU_4143_C1_S07" Model="NI PXIe-4143" Slot="7" />
+    <PXI Name="SCOPE_5105_C1_S08" Model="NI PXIe-5105" Slot="8" />
+    <PXI Name="RELAY_2567_C1_S09" Model="NI PXI-2567" Slot="9" />
+  </PXIChassis>
+</SystemConfiguration>
