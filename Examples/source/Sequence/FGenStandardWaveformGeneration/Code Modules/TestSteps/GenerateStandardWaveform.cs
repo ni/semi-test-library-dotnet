@@ -20,9 +20,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.FGenStandardWave
     {
         /// <summary>
         /// Configures the output mode to Function, configures the standard waveform settings,
-        /// and initiates signal generation on all the specified pins and/or pin groups.
-        /// The method returns immediately after generation starts and the signal continues to be generated
-        /// until it is aborted, for example by a subsequent code module that calls Abort on the same pins.
+        /// enables the output, and initiates signal generation on all the specified pins and/or pin groups.
+        /// The method waits 3 seconds after generation starts, and then aborts generation before returning.
+        /// To generate continuously, remove the wait and abort calls and abort generation in a subsequent code module.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object reference.</param>
         /// <param name="pinsOrPinGroups">The pins or pin groups mapped to function generator channels.</param>
@@ -41,7 +41,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.FGenStandardWave
             double phase)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
-            var fgenPins = tsmContext.FilterPinsByInstrumentType(pinsOrPinGroups, InstrumentTypeIdConstants.NIDCPower);
+            var fgenPins = tsmContext.FilterPinsByInstrumentType(pinsOrPinGroups, InstrumentTypeIdConstants.NIFgen);
 
             if (fgenPins.Any())
             {
