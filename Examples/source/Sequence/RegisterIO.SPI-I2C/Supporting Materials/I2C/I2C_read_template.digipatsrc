@@ -1,40 +1,45 @@
+// This pattern implements the I2C protocol read command.
+// The pattern is executed by the 'I2C Register Map.digireg' document upon initiating a read register operation.
+// reg0 defines the number of registers to read.
+// reg1 defines the address bit-width.
+// reg2 defines the value bit-width.
 
 file_format_version 1.1;
-timeset Idle, SourceStartSetup, Start, Busy, Stop;
+timeset I2C_Idle, I2C_SourceStartSetup, I2C_Start, I2C_Busy, I2C_Stop;
 
-pattern I2C_read_template (CS, SDI, SDO, SCK)
+pattern I2C_read_template (SDI, SCK, CS, SDO)
 {
-set_loop(reg0)						Idle				1		1		1		1;
-capture_start(i2c_capture_buffer)	Idle				1		1		1		1;		// Define the read buffer
-source_start(i2c_source_buffer)		Idle				1		1		1		1;		// Define the register addresses buffer
-									SourceStartSetup	1		1		1		1;
+set_loop(reg0)						I2C_Idle				1		1		1		1;
+capture_start(i2c_capture_buffer)	-						1		1		1		1;		// Define the read buffer
+source_start(i2c_source_buffer)		-						1		1		1		1;		// Define the register addresses buffer
+									I2C_SourceStartSetup	1		1		1		1;
 repeatRead:
-									Start				1		1		1		1;		// Start 
-									Busy				1		1		1		1;		// Device address (7-bit) = 0x77
-									Busy				1		1		1		1;
-									Busy				1		1		1		1;
-									Busy				1		0		1		1;
-									Busy				1		1		1		1;
-									Busy				1		1		1		1;
-									Busy				1		1		1		1;
-									Busy				1		0		1		1;		// Write instruction (SDA = 0)
-									Busy				1		L		1		1;		// ACK
-repeat(reg1), source				Busy				1		D		1		1;		// Register address byte
-									Busy				1		L		1		1;		// ACK
-									Start				1		1		1		1;		// Repeat Start
-									Busy				1		1		1		1;		// Device address (7-bit) = 0x77
-									Busy				1		1		1		1;
-									Busy				1		1		1		1;
-									Busy				1		0		1		1;
-									Busy				1		1		1		1;
-									Busy				1		1		1		1;
-									Busy				1		1		1		1;
-									Busy				1		1		1		1;		// Read instruction (SDA = 1)
-									Busy				1		L		1		1;		// ACK
-repeat(reg2), capture				Busy				1		V		1		1;		// Data byte
-									Busy				1		H		1		1;		// NACK
-									Stop				1		0		1		1;		// Stop
-end_loop(repeatRead)				Idle				1		1		1		1;
-capture_stop						Idle				1		1		1		1;
-halt								Idle				1		1		1		1;		// End Pattern
+									I2C_Start				1		1		1		1;		// Start 
+									I2C_Busy				1		1		1		1;		// Device address (7-bit) = 0x77
+									-						1		1		1		1;
+									-						1		1		1		1;
+									-						0		1		1		1;
+									-						1		1		1		1;
+									-						1		1		1		1;
+									-						1		1		1		1;
+									-						0		1		1		1;		// Write instruction (SDA = 0)
+									-						L		1		1		1;		// ACK
+repeat(reg1), source				-						D		1		1		1;		// Register address byte
+									-						L		1		1		1;		// ACK
+									I2C_Start				1		1		1		1;		// Repeat Start
+									I2C_Busy				1		1		1		1;		// Device address (7-bit) = 0x77
+									-						1		1		1		1;
+									-						1		1		1		1;
+									-						0		1		1		1;
+									-						1		1		1		1;
+									-						1		1		1		1;
+									-						1		1		1		1;
+									-						1		1		1		1;		// Read instruction (SDA = 1)
+									-						L		1		1		1;		// ACK
+repeat(reg2), capture				-						V		1		1		1;		// Data byte
+									-						H		1		1		1;		// NACK
+									I2C_Stop				0		1		1		1;		// Stop
+end_loop(repeatRead)				I2C_Idle				1		1		1		1;
+capture_stop						-						1		1		1		1;
+halt								-						1		1		1		1;
 }

@@ -197,7 +197,7 @@
           </PinEdge>
         </PinEdges>
       </TimeSet>
-      <TimeSet name="Start">
+      <TimeSet name="I2C_Start">
         <Period>t.SCK</Period>
         <PinEdges>
           <PinEdge pin="SCK">
@@ -228,7 +228,7 @@
           </PinEdge>
         </PinEdges>
       </TimeSet>
-      <TimeSet name="Busy">
+      <TimeSet name="I2C_Busy">
         <Period>t.SCK</Period>
         <PinEdges>
           <PinEdge pin="SCK">
@@ -258,7 +258,7 @@
           </PinEdge>
         </PinEdges>
       </TimeSet>
-      <TimeSet name="Stop">
+      <TimeSet name="I2C_Stop">
         <Period>t.SCK + t.BUF</Period>
         <PinEdges>
           <PinEdge pin="SCK">

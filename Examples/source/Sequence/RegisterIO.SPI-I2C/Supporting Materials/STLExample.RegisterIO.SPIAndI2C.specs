@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Specifications xmlns:f="http://www.ni.com/schemas/Semiconductor/Formula.xsd" schemaVersion="1.0" xmlns="http://www.ni.com/schemas/Semiconductor/Specifications.xsd">
   <Section name="DC">
-    <f:Formula symbol="Vil">
-      <f:Definition>0 V</f:Definition>
-      <f:Comment>DUT input low voltage</f:Comment>
-    </f:Formula>
     <f:Formula symbol="Vih">
       <f:Definition>3.3 V</f:Definition>
       <f:Comment>DUT input high voltage</f:Comment>

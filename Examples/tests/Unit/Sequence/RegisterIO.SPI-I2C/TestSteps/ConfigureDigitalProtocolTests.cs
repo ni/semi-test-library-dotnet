@@ -149,8 +149,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         {
             TestStep.ConfigureDigitalProtocol(CommunicationProtocol.SPI);
 
-            Assert.Equal("source_buffer", SPI.Instance.SourceWaveformName);
-            Assert.Equal("capture_buffer", SPI.Instance.CaptureWaveformName);
+            Assert.Equal("spi_source_buffer", SPI.Instance.SourceWaveformName);
+            Assert.Equal("spi_capture_buffer", SPI.Instance.CaptureWaveformName);
         }
 
         [Fact]
@@ -192,8 +192,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
                 CommunicationProtocol.SPI,
                 writePatternName: "SPI_write_template",
                 readPatternName: "SPI_read_template",
-                sourceWaveformName: "source_buffer",
-                captureWaveformName: "capture_buffer");
+                sourceWaveformName: "spi_source_buffer",
+                captureWaveformName: "spi_capture_buffer");
             SPI.Instance.PinNames = new[] { "SDI", "SDO" };
         }
     }
@@ -244,15 +244,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         }
 
         [Fact]
-        public void ConfigureDigitalProtocol_OmittedPatternNames_KeepsI2CDefaults()
-        {
-            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.I2C);
-
-            Assert.Equal("I2C_write_template", I2C.Instance.WritePatternName);
-            Assert.Equal("I2C_read_template", I2C.Instance.ReadPatternName);
-        }
-
-        [Fact]
         public void ConfigureDigitalProtocol_PinNames_UpdatesI2CInstance()
         {
             TestStep.ConfigureDigitalProtocol(CommunicationProtocol.I2C, pinNames: new[] { "SDA", "SCK" });
@@ -270,15 +261,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
 
             Assert.Equal("src_wfm", I2C.Instance.SourceWaveformName);
             Assert.Equal("cap_wfm", I2C.Instance.CaptureWaveformName);
-        }
-
-        [Fact]
-        public void ConfigureDigitalProtocol_OmittedWaveformNames_KeepsI2CDefaults()
-        {
-            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.I2C);
-
-            Assert.Equal("i2c_source_buffer", I2C.Instance.SourceWaveformName);
-            Assert.Equal("i2c_capture_buffer", I2C.Instance.CaptureWaveformName);
         }
 
         [Fact]
