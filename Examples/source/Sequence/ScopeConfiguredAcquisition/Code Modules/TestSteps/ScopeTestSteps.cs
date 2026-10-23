@@ -49,28 +49,27 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ConfiguredAcquis
             return scopeBundle.FetchWaveform(PrecisionTimeSpan.FromSeconds(50.0), 100);
         }
 
-
         /// <summary>
-        /// Gets raw waveform sample values for the specified site and pin, and outputs the sample interval in seconds.
+        /// Gets raw
         /// </summary>
         /// <param name="waveforms">Collection of analog waveforms indexed by site and pin.</param>
         /// <param name="siteNumber">Site number used to select the waveform.</param>
         /// <param name="pin">Pin name used to select the waveform.</param>
-        /// <param name="dt">When this method returns, contains the waveform sample interval in seconds.</param>
+        /// <param name="sampleInterval">When this method returns, contains the waveform sample interval in seconds.</param>
         /// <returns>An array containing the raw sample values of the selected waveform.</returns>
         public static double[] GetWaveformSamples(
-            PinSiteData<AnalogWaveform<double>> waveforms, int siteNumber, string pin, out double dt)
+            PinSiteData<AnalogWaveform<double>> waveforms, int siteNumber, string pin, out double sampleInterval)
         {
             if (waveforms is null)
             {
-                dt = 0.0;
+                sampleInterval = 0.0;
                 return null;
             }
             else
             {
-                AnalogWaveform<double> wfm = waveforms.GetValue(siteNumber, pin);
-                dt = wfm.Timing.SampleInterval.TotalSeconds;
-                return wfm.GetRawData();
+                AnalogWaveform<double> waveform = waveforms.GetValue(siteNumber, pin);
+                sampleInterval = waveform.Timing.SampleInterval.TotalSeconds;
+                return waveform.GetRawData();
             }
         }
     }
