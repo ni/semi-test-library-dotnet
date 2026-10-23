@@ -6,24 +6,34 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
     [Collection("NonParallelizable")]
     public class I2CDefaultParametersTests
     {
+        // A fresh instance is used so the defaults are not affected by tests that configure I2C.Instance.
+        private readonly I2C _i2c = new I2C();
+
         [Fact]
-        public void I2CInstance_Default_HasI2CTemplatePatternNames()
+        public void I2CInstance_Default_HasI2CPatternNames()
         {
-            Assert.Equal("I2C_write_pattern", I2C.Instance.WritePatternName);
-            Assert.Equal("I2C_read_pattern", I2C.Instance.ReadPatternName);
+            Assert.Equal("I2C_write_template", _i2c.WritePatternName);
+            Assert.Equal("I2C_read_template", _i2c.ReadPatternName);
         }
 
         [Fact]
-        public void I2CInstance_Default_HasCsSckSdiAndSdoPinNames()
+        public void I2CInstance_Default_HasCsSdiSdoAndSckPinNames()
         {
-            Assert.Equal(new[] { "SDI", "SDO", "SCK" }, I2C.Instance.PinNames);
+            Assert.Equal(new[] { "CS", "SDI", "SDO", "SCK" }, _i2c.PinNames);
         }
 
         [Fact]
-        public void I2CInstance_Default_UsesSdiAndSdoForSourceAndCapture()
+        public void I2CInstance_Default_UsesSdiForSourceAndCapture()
         {
-            Assert.Equal("SDI", I2C.Instance.SourcePinName);
-            Assert.Equal("SDO", I2C.Instance.CapturePinName);
+            Assert.Equal("SDI", _i2c.SourcePinName);
+            Assert.Equal("SDI", _i2c.CapturePinName);
+        }
+
+        [Fact]
+        public void I2CInstance_Default_HasI2CWaveformNames()
+        {
+            Assert.Equal("i2c_source_buffer", _i2c.SourceWaveformName);
+            Assert.Equal("i2c_capture_buffer", _i2c.CaptureWaveformName);
         }
 
         [Fact]

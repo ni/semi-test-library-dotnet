@@ -12,11 +12,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
     {
         [Theory]
         [InlineData(CommunicationProtocol.SPI)]
-        public void ReleaseBundle_RetainedBundle_ClearsReferenceAndCanBeRepeated(CommunicationProtocol protocol)
+        [InlineData(CommunicationProtocol.I2C)]
+        public void ClearBundle_RetainedBundle_ClearsReferenceAndCanBeRepeated(CommunicationProtocol protocol)
         {
-            IDigitalProtocol digitalProtocol = protocol == CommunicationProtocol.SPI
-                ? (IDigitalProtocol)SPI.Instance
-                : null;
+            IDigitalProtocol digitalProtocol = SemiconductorModuleContextExtensions.GetProtocol(protocol);
             FieldInfo bundleField = typeof(DigitalProtocol).GetField("_digitalSessionsBundle", BindingFlags.Instance | BindingFlags.NonPublic);
             var bundle = (DigitalSessionsBundle)FormatterServices.GetUninitializedObject(typeof(DigitalSessionsBundle));
 
@@ -25,24 +24,65 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
                 bundleField.SetValue(digitalProtocol, bundle);
                 Assert.Same(bundle, bundleField.GetValue(digitalProtocol));
 
-                digitalProtocol.ReleaseBundle();
+                digitalProtocol.ClearBundle();
 
                 Assert.Null(bundleField.GetValue(digitalProtocol));
 
-                digitalProtocol.ReleaseBundle();
+                digitalProtocol.ClearBundle();
 
                 Assert.Null(bundleField.GetValue(digitalProtocol));
             }
             finally
             {
-                digitalProtocol.ReleaseBundle();
+                digitalProtocol.ClearBundle();
             }
         }
     }
 
     [Collection("NonParallelizable")]
-    public class ConfigureDigitalProtocolSPITests
+    public sealed class ConfigureDigitalProtocolSPITests : IDisposable
     {
+        public ConfigureDigitalProtocolSPITests()
+        {
+            ResetSpiInstance();
+        }
+
+        public void Dispose()
+        {
+            ResetSpiInstance();
+        }
+
+        [Fact]
+        public void ConfigureDigitalProtocol_UnsupportedProtocol_ThrowsArgumentOutOfRangeException()
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => TestStep.ConfigureDigitalProtocol((CommunicationProtocol)99));
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(33)]
+        [InlineData(-1)]
+        public void ConfigureDigitalProtocol_InvalidSampleWidth_ThrowsArgumentOutOfRangeException(int sampleWidth)
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => TestStep.ConfigureDigitalProtocol(CommunicationProtocol.SPI, sampleWidth: sampleWidth));
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(65)]
+        public void ConfigureDigitalProtocol_InvalidAddressBitWidth_ThrowsArgumentOutOfRangeException(int addressBitWidth)
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => TestStep.ConfigureDigitalProtocol(CommunicationProtocol.SPI, addressBitWidth: addressBitWidth));
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(65)]
+        public void ConfigureDigitalProtocol_InvalidValueBitWidth_ThrowsArgumentOutOfRangeException(int valueBitWidth)
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => TestStep.ConfigureDigitalProtocol(CommunicationProtocol.SPI, valueBitWidth: valueBitWidth));
+        }
+
         [Fact]
         public void ConfigureDigitalProtocol_AddressBitWidth_UpdatesSpiInstance()
         {
@@ -62,17 +102,26 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         [Fact]
         public void ConfigureDigitalProtocol_WritePatternName_UpdatesSpiInstance()
         {
-            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.SPI);
+            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.SPI, writePatternName: "custom_spi_write");
 
-            Assert.Equal("SPI_write_pattern", SPI.Instance.WritePatternName);
+            Assert.Equal("custom_spi_write", SPI.Instance.WritePatternName);
         }
 
         [Fact]
         public void ConfigureDigitalProtocol_ReadPatternName_UpdatesSpiInstance()
         {
+            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.SPI, readPatternName: "custom_spi_read");
+
+            Assert.Equal("custom_spi_read", SPI.Instance.ReadPatternName);
+        }
+
+        [Fact]
+        public void ConfigureDigitalProtocol_OmittedPatternNames_KeepsSpiDefaults()
+        {
             TestStep.ConfigureDigitalProtocol(CommunicationProtocol.SPI);
 
-            Assert.Equal("SPI_read_pattern", SPI.Instance.ReadPatternName);
+            Assert.Equal("SPI_write_template", SPI.Instance.WritePatternName);
+            Assert.Equal("SPI_read_template", SPI.Instance.ReadPatternName);
         }
 
         [Fact]
@@ -93,6 +142,15 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
 
             Assert.Equal("src_wfm", SPI.Instance.SourceWaveformName);
             Assert.Equal("cap_wfm", SPI.Instance.CaptureWaveformName);
+        }
+
+        [Fact]
+        public void ConfigureDigitalProtocol_OmittedWaveformNames_KeepsSpiDefaults()
+        {
+            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.SPI);
+
+            Assert.Equal("spi_source_buffer", SPI.Instance.SourceWaveformName);
+            Assert.Equal("spi_capture_buffer", SPI.Instance.CaptureWaveformName);
         }
 
         [Fact]
@@ -126,11 +184,33 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
 
             Assert.Equal(new[] { "SDI", "SDO" }, SPI.Instance.PinNames);
         }
+
+        // The singleton is shared with other test classes, so restore the defaults after every test.
+        private static void ResetSpiInstance()
+        {
+            TestStep.ConfigureDigitalProtocol(
+                CommunicationProtocol.SPI,
+                writePatternName: "SPI_write_template",
+                readPatternName: "SPI_read_template",
+                sourceWaveformName: "spi_source_buffer",
+                captureWaveformName: "spi_capture_buffer");
+            SPI.Instance.PinNames = new[] { "SDI", "SDO" };
+        }
     }
 
     [Collection("NonParallelizable")]
-    public class ConfigureDigitalProtocolI2CTests
+    public sealed class ConfigureDigitalProtocolI2CTests : IDisposable
     {
+        public ConfigureDigitalProtocolI2CTests()
+        {
+            ResetI2CInstance();
+        }
+
+        public void Dispose()
+        {
+            ResetI2CInstance();
+        }
+
         [Fact]
         public void ConfigureDigitalProtocol_AddressBitWidth_UpdatesI2CInstance()
         {
@@ -150,17 +230,17 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         [Fact]
         public void ConfigureDigitalProtocol_WritePatternName_UpdatesI2CInstance()
         {
-            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.I2C);
+            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.I2C, writePatternName: "custom_i2c_write");
 
-            Assert.Equal("I2C_write_pattern", I2C.Instance.WritePatternName);
+            Assert.Equal("custom_i2c_write", I2C.Instance.WritePatternName);
         }
 
         [Fact]
         public void ConfigureDigitalProtocol_ReadPatternName_UpdatesI2CInstance()
         {
-            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.I2C);
+            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.I2C, readPatternName: "custom_i2c_read");
 
-            Assert.Equal("I2C_read_pattern", I2C.Instance.ReadPatternName);
+            Assert.Equal("custom_i2c_read", I2C.Instance.ReadPatternName);
         }
 
         [Fact]
@@ -213,6 +293,18 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             TestStep.ConfigureDigitalProtocol(CommunicationProtocol.I2C, pinNames: null);
 
             Assert.Equal(new[] { "SDI", "SDO" }, I2C.Instance.PinNames);
+        }
+
+        // The singleton is shared with other test classes, so restore the defaults after every test.
+        private static void ResetI2CInstance()
+        {
+            TestStep.ConfigureDigitalProtocol(
+                CommunicationProtocol.I2C,
+                writePatternName: "I2C_write_template",
+                readPatternName: "I2C_read_template",
+                sourceWaveformName: "i2c_source_buffer",
+                captureWaveformName: "i2c_capture_buffer");
+            I2C.Instance.PinNames = new[] { "CS", "SDI", "SDO", "SCK" };
         }
     }
 }

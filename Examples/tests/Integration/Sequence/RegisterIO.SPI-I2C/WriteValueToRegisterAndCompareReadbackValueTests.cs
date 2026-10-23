@@ -1,6 +1,6 @@
+using System.Linq;
 using NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAndI2C;
 using NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAndI2C.DutControl;
-using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using Xunit;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
@@ -12,24 +12,55 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
     public class WriteValueToRegisterAndCompareReadbackValueTests
     {
         private const string PinMapFileName = "STLExample.RegisterIO.SPIAndI2C.pinmap";
-        private const string SupportingMaterialsFolderPath = @"\Examples\source\Sequence\RegisterIO.SPI-I2C\Supporting Materials\DigitalProject";
+        private const string SupportingMaterialsFolderPath = @"\Examples\source\Sequence\RegisterIO.SPI-I2C\Supporting Materials";
         private const string DigitalPatternProjectName = "STLExample.RegisterIO.SPIAndI2C.digiproj";
 
-        [Theory]
-        [InlineData(CommunicationProtocol.SPI, "SPI_write_pattern", "SPI_read_pattern")]
-        [InlineData(CommunicationProtocol.I2C, "I2C_write_pattern", "I2C_read_pattern")]
-        public void WriteValueToRegisterAndCompareReadbackValue_SharedValue_ReadbackMatches(CommunicationProtocol protocol, string writePattern, string readPattern)
+        [Theory(Skip = "Requires a physical digital pattern instrument connected to a DUT. Not supported in offline mode.")]
+        [InlineData(CommunicationProtocol.SPI, 7, "SPI_write_template", "SPI_read_template", "spi_source_buffer", "spi_capture_buffer", 0x74)]
+        [InlineData(CommunicationProtocol.I2C, 8, "I2C_write_template", "I2C_read_template", "i2c_source_buffer", "i2c_capture_buffer", 0xF4)]
+        public void WriteValueToRegisterAndCompareReadbackValue_SharedValue_ReadbackMatches(CommunicationProtocol protocol, int addressBitWidth, string writePatternName, string readPatternName, string sourceWaveformName, string captureWaveformName, uint registerAddress)
         {
-            var tsmContext = CreateTSMContext(SupportingMaterialsFolderPath, PinMapFileName, DigitalPatternProjectName, out _);
+            var tsmContext = CreateTSMContext(SupportingMaterialsFolderPath, PinMapFileName, DigitalPatternProjectName, out var publishedDataReader);
             SetupNIDigitalPatternInstrumentation(tsmContext);
-            DutPowerUp(tsmContext, new string[] { "VIN" }, new double[] { 3.3 }, new double[] { 0.002 }, 0, false);
-            TestStep.ConfigureDigitalProtocol(protocol, 7, 8, writePattern, readPattern, "source_buffer", "capture_buffer", 1, "reg0", "reg1", "reg2", new[] { "CS", "SCK", "SDI", "SDO" });
+            DutPowerUp(
+                tsmContext: tsmContext,
+                dutSupplyPinsOrPinGroups: new string[] { "VIN" },
+                perSupplyPinOrPinGroupVoltages: new double[] { 3.3 },
+                perSupplyPinOrPinGroupCurrentLimits: new double[] { 0.002 },
+                settlingTime: 0,
+                powerUpSuppliesSerially: false);
+            TestStep.ConfigureDigitalProtocol(
+                communicationProtocol: protocol,
+                addressBitWidth: addressBitWidth,
+                valueBitWidth: 8,
+                writePatternName: writePatternName,
+                readPatternName: readPatternName,
+                sourceWaveformName: sourceWaveformName,
+                captureWaveformName: captureWaveformName,
+                sampleWidth: 1,
+                readWriteCountSequenceRegister: "reg0",
+                addressBitWidthSequenceRegister: "reg1",
+                valueBitWidthSequenceRegister: "reg2",
+                pinNames: new[] { "CS", "SCK", "SDI", "SDO" });
 
-            SiteData<bool> comparisonResults = TestStep.WriteValueToRegisterAndCompareReadbackValue(
-                tsmContext, protocol, registerAddress: 0xF4, valueToWrite: 0x27);
+            // SPI sends the read/write bit followed by a 7-bit register address, so BME280 register 0xF4
+            // is addressed as 0x74. I2C sends the full 8-bit register address.
+            TestStep.WriteValueToRegisterAndCompareReadbackValue(
+                tsmContext,
+                protocol,
+                registerAddress: registerAddress,
+                valueToWrite: 0x27);
 
-            Assert.All(comparisonResults.SiteNumbers, site => Assert.True(comparisonResults.GetValue(site)));
-            DutPowerDown(tsmContext, new string[] { "VIN" }, 0, false);
+            var comparisonResults = publishedDataReader.GetAndClearPublishedData().Where(d => d.PublishedDataId == "ComparisonResult").ToArray();
+            Assert.Equal(tsmContext.SiteNumbers.Count, comparisonResults.Length);
+            Assert.All(comparisonResults, d => Assert.True(d.BooleanValue));
+
+            DutPowerDown(
+                tsmContext,
+                dutSupplyPinsOrPinGroups: new string[] { "VIN" },
+                settlingTime: 0,
+                powerDownSuppliesSerially: false);
+            TestStep.CleanupDigitalProtocol(protocol);
         }
     }
 }

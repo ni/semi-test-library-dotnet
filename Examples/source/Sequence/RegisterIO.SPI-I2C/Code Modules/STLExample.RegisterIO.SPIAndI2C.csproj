@@ -21,24 +21,34 @@
 		<IsPublishable>False</IsPublishable>
 	</PropertyGroup>
 	<ItemGroup>
-		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
-			<_Parameter1>NationalInstruments.Tests.SemiconductorTestLibrary.Examples</_Parameter1>
-		</AssemblyAttribute>
+		<InternalsVisibleTo Include="NationalInstruments.Tests.SemiconductorTestLibrary.Examples" />
 	</ItemGroup>
 	<ItemGroup>
-		<PackageReference Include="NationalInstruments.SemiconductorTestLibrary" Version="26.0.0" />
 		<PackageReference Include="NI.CSharp.Analyzers" Version="1.2.8" ExcludeAssets="runtime" />
 	</ItemGroup>
 	<ItemGroup>
+		<ProjectReference Include="..\..\..\..\..\SemiconductorTestLibrary.Extensions\source\SemiconductorTestLibrary.Extensions.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<Reference Include="Ivi.Driver">
+			<Private>False</Private>
+			<SpecificVersion>False</SpecificVersion>
+		</Reference>
+		<Reference Include="NationalInstruments.Common">
+			<Private>False</Private>
+			<SpecificVersion>False</SpecificVersion>
+		</Reference>
 		<Reference Include="NationalInstruments.ModularInstruments.NIDigital.Fx40">
-			<HintPath>C:\Program Files\IVI Foundation\IVI\Microsoft.NET\Framework64\v4.0.30319\NationalInstruments.ModularInstruments.NIDigital 24.5.0\NationalInstruments.ModularInstruments.NIDigital.Fx40.dll</HintPath>
 			<Private>False</Private>
 			<SpecificVersion>False</SpecificVersion>
 		</Reference>
 		<Reference Include="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI">
-			<HintPath>C:\Program Files\National Instruments\TestStand 2023\API\DotNET\Assemblies\CurrentVersion\NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.dll</HintPath>
 			<Private>False</Private>
 			<SpecificVersion>False</SpecificVersion>
+		</Reference>
+		<Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions">
+			<SpecificVersion>False</SpecificVersion>
+			<HintPath>..\..\..\..\..\SemiconductorTestLibrary.Abstractions\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
 		</Reference>
 	</ItemGroup>
 </Project>

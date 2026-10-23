@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 
@@ -22,7 +24,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
     /// <summary>
     /// Defines a protocol-agnostic contract for reading and writing DUT registers.
     /// Implementations provide protocol-specific waveform encoding, pattern bursting,
-    /// and capture decoding (e.g., <see cref="SPI"/>).
+    /// and capture decoding (e.g., <see cref="SPI"/> and <see cref="I2C"/>).
     /// </summary>
     public interface IDigitalProtocol
     {
@@ -38,7 +40,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// <summary>Gets or sets the digital capture waveform name used by the read pattern.</summary>
         string CaptureWaveformName { get; set; }
 
-            /// <summary>Gets or sets the number of bits each digital waveform sample is.</summary>
+        /// <summary>Gets or sets the number of bits each digital waveform sample is. The value must be between 1 and 32.</summary>
         uint SampleWidth { get; set; }
 
         /// <summary>Gets or sets the sequencer register that controls the transaction count.</summary>
@@ -51,12 +53,25 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         string ValueBitWidthSequenceRegister { get; set; }
 
         /// <summary>Gets or sets the protocol pin names expected by the template patterns.</summary>
-        string[] PinNames { get; set; }
+        IReadOnlyList<string> PinNames { get; set; }
 
-        /// <summary>Gets or sets the default number of bits the register address is.</summary>
+        /// <summary>
+        /// Gets or sets the pin that drives outgoing (source) data. For SPI this is SDI (MOSI); for I2C this is SDI (SDA).
+        /// Must be one of the pins in <see cref="PinNames"/>.
+        /// </summary>
+        string SourcePinName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the pin that captures incoming data. For SPI this is SDO (MISO); for I2C this is SDI (SDA),
+        /// the same pin as <see cref="SourcePinName"/>.
+        /// Must be one of the pins in <see cref="PinNames"/>.
+        /// </summary>
+        string CapturePinName { get; set; }
+
+        /// <summary>Gets or sets the default number of bits the register address is. The value must be between 1 and 64.</summary>
         uint DefaultAddressBitWidth { get; set; }
 
-        /// <summary>Gets or sets the default number of bits the register value holds.</summary>
+        /// <summary>Gets or sets the default number of bits the register value holds. The value must be between 1 and 64.</summary>
         uint DefaultValueBitWidth { get; set; }
 
         /// <summary>Gets or sets the bit ordering used when packing and unpacking waveform samples.</summary>
@@ -70,10 +85,14 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         void SetBundle(DigitalSessionsBundle digitalSessionsBundle);
 
         /// <summary>
-        /// Releases the reference to the current module's bundle without disposing instrument sessions.
-        /// Call in a finally block after register operations and result publishing.
+        /// Clears the reference to the current <see cref="DigitalSessionsBundle"/> without closing or disposing the instrument sessions.
         /// </summary>
-        void ReleaseBundle();
+        /// <remarks>
+        /// The bundle holds a reference to the TestStand Semiconductor Module context. Clearing it allows the garbage collector
+        /// to release that reference, which prevents TestStand from reporting unreleased object references when it shuts down.
+        /// Call this method once per test program after all register operations are complete, typically from the ProcessCleanup callback.
+        /// </remarks>
+        void ClearBundle();
 
         /// <summary>
         /// Reads the value at the specified DUT register address.
@@ -99,21 +118,21 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// <summary>
         /// Reads the values from the specified DUT register addresses.
         /// </summary>
-        /// <param name="addresses">The addresses of the registers to read.</param>
+        /// <param name="addresses">The addresses of the registers to read. At most <see cref="DigitalProtocol.MaxRegistersPerBurst"/> addresses are allowed.</param>
         /// <returns>The per-site values read from the registers.</returns>
         SiteData<long[]> ReadRegisters(uint[] addresses);
 
         /// <summary>
         /// Writes the specified register-unique values to the specified register addresses.
         /// </summary>
-        /// <param name="addresses">The addresses of each register to write the values to.</param>
+        /// <param name="addresses">The addresses of each register to write the values to. At most <see cref="DigitalProtocol.MaxRegistersPerBurst"/> addresses are allowed.</param>
         /// <param name="values">The register-unique values to write to each register.</param>
         void WriteRegisters(uint[] addresses, long[] values);
 
         /// <summary>
         /// Writes the specified site-unique values to the specified register addresses.
         /// </summary>
-        /// <param name="addresses">The addresses of each register to write the values to.</param>
+        /// <param name="addresses">The addresses of each register to write the values to. At most <see cref="DigitalProtocol.MaxRegistersPerBurst"/> addresses are allowed.</param>
         /// <param name="values">The per-site values to write to each register.</param>
         void WriteRegisters(uint[] addresses, SiteData<long>[] values);
     }

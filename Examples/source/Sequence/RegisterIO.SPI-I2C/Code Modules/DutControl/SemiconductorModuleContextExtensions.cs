@@ -1,11 +1,12 @@
 using System;
+using System.Linq;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAndI2C.DutControl
 {
     /// <summary>
-    /// Factory extensions that encapsulate protocol-specific bundle creation.
+    /// Extensions of the <see cref="ISemiconductorModuleContext"/> interface that encapsulate protocol-specific bundle creation.
     /// </summary>
     public static class SemiconductorModuleContextExtensions
     {
@@ -25,21 +26,28 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
                 throw new ArgumentNullException(nameof(semiconductorModuleContext));
             }
 
-            IDigitalProtocol protocol;
+            IDigitalProtocol protocol = GetProtocol(communicationProtocol);
+            var sessionManager = new TSMSessionManager(semiconductorModuleContext);
+            protocol.SetBundle(sessionManager.Digital(protocol.PinNames?.ToArray()));
+            return protocol;
+        }
+
+        /// <summary>
+        /// Gets the singleton protocol instance for the selected communication protocol.
+        /// </summary>
+        /// <param name="communicationProtocol">The communication protocol to look up.</param>
+        /// <returns>The singleton protocol instance.</returns>
+        internal static IDigitalProtocol GetProtocol(CommunicationProtocol communicationProtocol)
+        {
             switch (communicationProtocol)
             {
                 case CommunicationProtocol.SPI:
-                    protocol = SPI.Instance;
-                    break;
+                    return SPI.Instance;
                 case CommunicationProtocol.I2C:
-                    protocol = I2C.Instance;
-                    break;
+                    return I2C.Instance;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(communicationProtocol), communicationProtocol, "Unsupported communication protocol.");
             }
-            var sessionManager = new TSMSessionManager(semiconductorModuleContext);
-            protocol.SetBundle(sessionManager.Digital(protocol.PinNames));
-            return protocol;
         }
     }
 }

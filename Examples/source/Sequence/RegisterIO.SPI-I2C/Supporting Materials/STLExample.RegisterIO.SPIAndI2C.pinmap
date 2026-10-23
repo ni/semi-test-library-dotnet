@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PinMap schemaVersion="1.5" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<Instruments>
-		<NIDigitalPatternInstrument name="PXI1Slot2" numberOfChannels="32" group="Digital" />
+		<NIDigitalPatternInstrument name="HSD_6571_C1_S02" numberOfChannels="32" group="Digital" />
 	</Instruments>
 	<Pins>
 		<DUTPin name="CS" />
@@ -23,11 +23,11 @@
 		<Site siteNumber="0" />
 	</Sites>
 	<Connections>
-		<Connection pin="CS" siteNumber="0" instrument="PXI1Slot2" channel="1" />
-		<Connection pin="SDI" siteNumber="0" instrument="PXI1Slot2" channel="2" />
-		<Connection pin="SDO" siteNumber="0" instrument="PXI1Slot2" channel="3" />
-		<Connection pin="SCK" siteNumber="0" instrument="PXI1Slot2" channel="4" />
-		<Connection pin="VO3" siteNumber="0" instrument="PXI1Slot2" channel="5" />
-		<Connection pin="VIN" siteNumber="0" instrument="PXI1Slot2" channel="6" />
+		<Connection pin="CS" siteNumber="0" instrument="HSD_6571_C1_S02" channel="1" />
+		<Connection pin="SDI" siteNumber="0" instrument="HSD_6571_C1_S02" channel="2" />
+		<Connection pin="SDO" siteNumber="0" instrument="HSD_6571_C1_S02" channel="3" />
+		<Connection pin="SCK" siteNumber="0" instrument="HSD_6571_C1_S02" channel="4" />
+		<Connection pin="VO3" siteNumber="0" instrument="HSD_6571_C1_S02" channel="5" />
+		<Connection pin="VIN" siteNumber="0" instrument="HSD_6571_C1_S02" channel="6" />
 	</Connections>
 </PinMap>
