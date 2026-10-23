@@ -112,8 +112,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
             var triggerLine = "PXI_Trig0";
-            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
-            ConfigureStandardWaveform(sessionsBundle, StandardWaveform.Sine);
+            ConfigureSettings(sessionsBundle, StandardWaveform.Sine);
 
             // Test Digital Edge Trigger - Rising
             sessionsBundle.ConfigureStartTriggerDigitalEdge(triggerLine, DigitalEdge.Rising);
@@ -137,37 +136,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
         [InlineData("FgenSingleInstrumentPerSite.pinmap")]
-        public void StandardWaveformConfigured_ConfigureStartTriggerDigitalEdgeWithFallingEdge_ThrowsException(string pinMapFileName)
+        public void StandardWaveformConfigured_ConfigureStartTriggerDigitalEdgeWithNullOrEmptySource_ThrowsException(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
-            var triggerLine = "PXI_Trig1";
-            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
-            ConfigureStandardWaveform(sessionsBundle, StandardWaveform.Sine);
-            sessionsBundle.ConfigureTriggerMode(TriggerMode.Continuous);
+            ConfigureSettings(sessionsBundle, StandardWaveform.Sine);
 
-            void ConfigureStartTriggerDigitalEdgeFalling()
-            {
-                sessionsBundle.ConfigureStartTriggerDigitalEdge(triggerLine, DigitalEdge.Falling);
-            }
-
-            var exception = Assert.Throws<ArgumentException>(ConfigureStartTriggerDigitalEdgeFalling);
-            Assert.Contains("Falling edge is not supported. Only the Rising edge is supported.", exception.Message);
-        }
-
-        [Theory]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
-        [InlineData("FgenSingleInstrumentPerPin.pinmap")]
-        [InlineData("FgenSingleInstrumentPerSite.pinmap")]
-        public void StandardWaveformConfigured_ConfigureStartTriggerDigitalEdgeWithInvalidSource_ThrowsException(string pinMapFileName)
-        {
-            var sessionManager = Initialize(pinMapFileName);
-            var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
-            var triggerLine = "PXITri";
-            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
-            ConfigureStandardWaveform(sessionsBundle, StandardWaveform.Sine);
-            sessionsBundle.ConfigureTriggerMode(TriggerMode.Continuous);
-
+            // Test with null trigger source
+            string triggerLine = null;
             void ConfigureStartTriggerDigitalEdgeFalling()
             {
                 sessionsBundle.ConfigureStartTriggerDigitalEdge(triggerLine, DigitalEdge.Rising);
@@ -175,7 +151,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
 
             var exception = Assert.Throws<NISemiconductorTestException>(ConfigureStartTriggerDigitalEdgeFalling);
-            Assert.Contains("Terminal for the device is invalid", exception.Message);
+            Assert.Contains("Trigger source passed as input is either null or an empty string. Please provide valid trigger source.", exception.Message);
+
+            // Test with empty trigger source
+            triggerLine = string.Empty;
+
+            exception = Assert.Throws<NISemiconductorTestException>(ConfigureStartTriggerDigitalEdgeFalling);
+            Assert.Contains("Trigger source passed as input is either null or an empty string. Please provide valid trigger source.", exception.Message);
         }
 
         [Theory]
@@ -187,8 +169,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
             var triggerLine = "PXI_Trig0";
-            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
-            ConfigureStandardWaveform(sessionsBundle, StandardWaveform.Square);
+            ConfigureSettings(sessionsBundle, StandardWaveform.Square);
             sessionsBundle.ConfigureStartTriggerDigitalEdge(triggerLine, DigitalEdge.Rising);
             sessionsBundle.Initiate();
 
@@ -207,8 +188,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
             var triggerLine = "PXI_Trig0";
-            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
-            ConfigureStandardWaveform(sessionsBundle, StandardWaveform.Square);
+            ConfigureSettings(sessionsBundle, StandardWaveform.Square);
             sessionsBundle.ConfigureStartTriggerDigitalEdge(triggerLine, DigitalEdge.Rising);
             sessionsBundle.Initiate();
 
@@ -229,8 +209,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
-            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
-            ConfigureStandardWaveform(sessionsBundle, StandardWaveform.Sine);
+            ConfigureSettings(sessionsBundle, StandardWaveform.Sine);
 
             // Test Software Edge Trigger
             sessionsBundle.ConfigureStartTriggerSoftwareEdge();
@@ -257,8 +236,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
-            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
-            ConfigureStandardWaveform(sessionsBundle, StandardWaveform.Square);
+            ConfigureSettings(sessionsBundle, StandardWaveform.Square);
             sessionsBundle.ConfigureStartTriggerSoftwareEdge();
             sessionsBundle.Initiate();
 
@@ -277,8 +255,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
-            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
-            ConfigureStandardWaveform(sessionsBundle, StandardWaveform.Square);
+            ConfigureSettings(sessionsBundle, StandardWaveform.Square);
             sessionsBundle.ConfigureStartTriggerSoftwareEdge();
             sessionsBundle.Initiate();
 
@@ -300,15 +277,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
-            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
-            ConfigureStandardWaveform(sessionsBundle, StandardWaveform.Square);
+            ConfigureSettings(sessionsBundle, StandardWaveform.Square);
             sessionsBundle.ConfigureStartTriggerSoftwareEdge();
 
-            void SendSoftwareEdgeAndInitiate()
-            {
-                sessionsBundle.SendSoftwareEdgeTrigger();
-                sessionsBundle.Initiate();
-            }
+            void SendSoftwareEdgeAndInitiate() => sessionsBundle.SendSoftwareEdgeTrigger();
 
             var exception = Assert.Throws<NISemiconductorTestException>(SendSoftwareEdgeAndInitiate);
             Assert.Contains("Specified operation can be performed only when the task is running.", exception.Message);
@@ -321,10 +293,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
-            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
-            ConfigureStandardWaveform(sessionsBundle, StandardWaveform.Square);
+            var triggerLine = "PXI_Trig0";
+            ConfigureSettings(sessionsBundle, StandardWaveform.Square);
 
-            sessionsBundle.ExportSignal(signalSource, string.Empty, "PXI_Trig0");
+            sessionsBundle.ExportSignal(signalSource, string.Empty, triggerLine);
         }
 
         [Theory]
@@ -334,13 +306,53 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
-            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
-            ConfigureStandardWaveform(sessionsBundle, StandardWaveform.Square);
+            ConfigureSettings(sessionsBundle, StandardWaveform.Square);
 
             void ExportSignal() => sessionsBundle.ExportSignal(signalSource, string.Empty, "PXI_Trig0");
 
             var exception = Assert.Throws<ArgumentException>(ExportSignal);
             Assert.Contains("The signal source '" + signalSource.ToString() + "' is not supported.", exception.Message);
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [MemberData(nameof(ExportSignalValidTestData))]
+        public void StandardWaveformConfigured_ExportSignalWithValidSignalSourceAndNullOrEmptyOutputTerminal_ThrowsException(string pinMapFileName, SignalSource signalSource)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
+            ConfigureSettings(sessionsBundle, StandardWaveform.Square);
+
+            // Test with null output terminal
+            string outputTerminal = null;
+            void ExportSignal() => sessionsBundle.ExportSignal(signalSource, string.Empty, outputTerminal);
+
+            var exception = Assert.Throws<ArgumentException>(ExportSignal);
+            Assert.Contains("Output terminal passed as input is either null or an empty string. Please provide valid output terminal.", exception.Message);
+
+            // Test with empty output terminal
+            outputTerminal = string.Empty;
+
+            exception = Assert.Throws<ArgumentException>(ExportSignal);
+            Assert.Contains("Output terminal passed as input is either null or an empty string. Please provide valid output terminal.", exception.Message);
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [MemberData(nameof(ExportSignalValidTestData))]
+        public void StandardWaveformConfigured_ExportSignalWithValidSignalSourceAndNullOrEmptySignalIdentifier_Succeeds(string pinMapFileName, SignalSource signalSource)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
+            ConfigureSettings(sessionsBundle, StandardWaveform.RampUp);
+
+            // Test with null signal identifier
+            string signalIdentifier = null;
+            sessionsBundle.ExportSignal(signalSource, signalIdentifier, "PXI_Trig0");
+
+            // Test with empty signal identifier
+            signalIdentifier = string.Empty;
+            sessionsBundle.ExportSignal(signalSource, signalIdentifier, "PXI_Trig0");
         }
 
         [Theory]
@@ -351,8 +363,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
-            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
-            ConfigureStandardWaveform(sessionsBundle, StandardWaveform.Sine);
+            ConfigureSettings(sessionsBundle, StandardWaveform.Sine);
 
             sessionsBundle.ConfigureTriggerMode(TriggerMode.Continuous);
         }
@@ -364,10 +375,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
-            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
-            ConfigureStandardWaveform(sessionsBundle, StandardWaveform.Sine);
+            ConfigureSettings(sessionsBundle, StandardWaveform.Sine);
 
-            sessionsBundle.ConfigureTriggerMode(TriggerMode.Continuous);
             void ConfigureTriggerMode()
             {
                 sessionsBundle.ConfigureTriggerMode(triggerMode);
@@ -378,12 +387,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Contains("Only continuous triggering mode is available in standard function output mode.", exception.Message);
         }
 
-        private static void ConfigureStandardWaveform(FgenSessionsBundle sessionsBundle, StandardWaveform waveform)
+        private static void ConfigureSettings(FgenSessionsBundle sessionsBundle, StandardWaveform waveform)
         {
-            sessionsBundle.Do(sessionInfo =>
-            {
-                sessionInfo.Session.StandardWaveform.Configure(sessionInfo.AllChannelsString, waveform, 5, 1, 100, 0);
-            });
+            sessionsBundle.ConfigureOutputMode(OutputMode.Function);
+            var standarWaveformSettings = new StandardWaveformSettings(waveform, 1000, 5, 1, 0);
+            sessionsBundle.ConfigureStandardWaveform(standarWaveformSettings);
+            sessionsBundle.ConfigureTriggerMode(TriggerMode.Continuous);
         }
 
         private void AssertStartTriggerSettings(FgenSessionInformation sessionInfo, TriggerType expectedType, string expectedStartTriggerSource = "", DigitalEdge expectedEdge = DigitalEdge.Rising)

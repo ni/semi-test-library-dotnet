@@ -21,22 +21,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// </param>
         /// <param name="digitalEdge">The active edge of the trigger signal. Only Rising edge is supported.</param>
         /// <remarks>
-        /// Only <see cref="DigitalEdge.Rising"/> is supported for <paramref name="digitalEdge"/>.<br/>
-        /// A <see langword="null"/> or empty <paramref name="source"/> for <paramref name="source"/> does not configure a valid trigger source; as a result, the instrument does not respond to the trigger.<br/>
-        /// Throws <see cref="ArgumentException"/> if <paramref name="digitalEdge"/> is <see cref="DigitalEdge.Falling"/>.<br/>
-        /// Throws <see cref="NISemiconductorTestException"/> if <paramref name="source"/> is not a valid trigger source terminal.
+        /// Throws <see cref="NISemiconductorTestException"/> if <paramref name="source"/> is not a valid trigger source terminal, null or empty string.
         /// </remarks>
-        /// <exception cref="ArgumentException">
-        /// Thrown when <paramref name="digitalEdge"/> is not <see cref="DigitalEdge.Rising"/>.
-        /// </exception>
         /// <exception cref="NISemiconductorTestException">
-        /// Thrown when <paramref name="source"/> is not a valid trigger source terminal.
+        /// Thrown when <paramref name="source"/> is not a valid trigger source terminal, null or empty string.
         /// </exception>
         public static void ConfigureStartTriggerDigitalEdge(this FgenSessionsBundle sessionsBundle, string source, DigitalEdge digitalEdge)
         {
-            if (digitalEdge != DigitalEdge.Rising)
+            if (string.IsNullOrEmpty(source))
             {
-                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.FGen_UnsupportedDigitalEdge));
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.FGen_TriggerSourceNullOrEmpty));
             }
             sessionsBundle.Do(sessionInfo =>
             {
@@ -84,10 +78,14 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// <remarks>
         /// Allowed values for <paramref name="signalSource"/> are <see cref="SignalSource.StartTrigger"/>, <see cref="SignalSource.ReadyForStartEvent"/>,
         /// <see cref="SignalSource.StartedEvent"/>, and <see cref="SignalSource.DoneEvent"/>.<br/>
-        /// Throws <see cref="ArgumentException"/> for all other values.
+        /// Throws <see cref="ArgumentException"/> for all other values.<br/>
+        /// Throws <see cref="NISemiconductorTestException"/> if <paramref name="outputTerminal"/> is an invalid terminal, null or an empty string.
         /// </remarks>
         /// <exception cref="ArgumentException">
         /// Thrown when <paramref name="signalSource"/> is not one of StartTrigger, ReadyForStartEvent, StartedEvent, or DoneEvent.
+        /// </exception>
+        /// <exception cref="ArgumentException">"
+        /// Thrown when <paramref name="outputTerminal"/> is an invalid terminal, null or an empty string.
         /// </exception>
         public static void ExportSignal(this FgenSessionsBundle sessionsBundle, SignalSource signalSource, string signalIdentifier, string outputTerminal)
         {
@@ -100,6 +98,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
                     break;
                 default:
                     throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.FGen_UnsupportedSignalSource, signalSource));
+            }
+
+            if (string.IsNullOrEmpty(outputTerminal))
+            {
+                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.FGen_OutputTerminalNullOrEmpty));
             }
 
             sessionsBundle.Do(sessionInfo =>
