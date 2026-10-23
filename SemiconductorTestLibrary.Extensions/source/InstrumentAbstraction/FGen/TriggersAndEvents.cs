@@ -19,11 +19,12 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// <param name="source">
         /// The terminal to use as the trigger source, such as PXI_Trig0.
         /// </param>
-        /// <param name="digitalEdge">The active edge of the trigger signal.</param>
+        /// <param name="digitalEdge">The active edge of the trigger signal. Only Rising edge is supported.</param>
         /// <remarks>
         /// Throws <see cref="ArgumentNullException"/> if <paramref name="source"/> is null.<br/>
         /// Throws <see cref="ArgumentException"/> if <paramref name="source"/> is an empty string.<br/>
-        /// Throws <see cref="NISemiconductorTestException"/> if <paramref name="source"/> is not a valid trigger source terminal.
+        /// Throws <see cref="NISemiconductorTestException"/> if <paramref name="source"/> is not a valid trigger source terminal.<br/>
+        /// Throws <see cref="NISemiconductorTestException"/> if <paramref name="digitalEdge"/> is <see cref="DigitalEdge.Falling"/>.
         /// </remarks>
         /// <exception cref="ArgumentNullException">
         /// Thrown when <paramref name="source"/> is null.
@@ -32,7 +33,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// Thrown when <paramref name="source"/> is an empty string.
         /// </exception>
         /// <exception cref="NISemiconductorTestException">
-        /// Thrown when <paramref name="source"/> is not a valid trigger source terminal.
+        /// Thrown when <paramref name="source"/> is not a valid trigger source terminal,<br/>
+        /// or when <paramref name="digitalEdge"/> is <see cref="DigitalEdge.Falling"/>.
         /// </exception>
         public static void ConfigureStartTriggerDigitalEdge(this FgenSessionsBundle sessionsBundle, string source, DigitalEdge digitalEdge)
         {
