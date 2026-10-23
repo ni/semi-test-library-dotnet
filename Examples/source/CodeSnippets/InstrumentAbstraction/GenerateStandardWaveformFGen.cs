@@ -24,19 +24,25 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         /// <param name="fgenPinNames">The FGEN pins to configure.</param>
         internal static void SameWaveformAcrossAllPinsAndSites(ISemiconductorModuleContext tsmContext, string[] fgenPinNames)
         {
+            // Create the session manager and get the FGEN sessions for the specified pins.
             var sessionManager = new TSMSessionManager(tsmContext);
             var fgenPins = sessionManager.Fgen(fgenPinNames);
 
+            // Define a single sine waveform configuration to apply to every pin and site.
             var sineWaveSettings = new StandardWaveformSettings(
-                functionType: StandardWaveform.Sine,
+                waveformFunctionType: StandardWaveform.Sine,
                 frequency: 1000.0,
                 amplitude: 2.0,
                 dcOffset: 0.0,
                 startPhase: 0.0);
 
+            // Use function (standard waveform) output mode.
             fgenPins.ConfigureOutputMode(OutputMode.Function);
+            // Apply the same waveform settings to all pins and sites.
             fgenPins.ConfigureStandardWaveform(sineWaveSettings);
+            // Enable the output.
             fgenPins.ConfigureOutputEnabled(true);
+            // Start waveform generation.
             fgenPins.Initiate();
         }
 
@@ -48,13 +54,16 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         /// <param name="fgenPinNames">The FGEN pins to configure.</param>
         internal static void DifferentWaveformsPerSite(ISemiconductorModuleContext tsmContext, string[] fgenPinNames)
         {
+            // Create the session manager, get the active sites, and get the FGEN sessions for the pins.
             var sessionManager = new TSMSessionManager(tsmContext);
             var activeSites = tsmContext.SiteNumbers.ToArray();
             var fgenPins = sessionManager.Fgen(fgenPinNames);
 
+            // Holds one waveform settings object per site.
             var perSiteSettings = new SiteData<StandardWaveformSettings>();
             foreach (var site in activeSites)
             {
+                // Even sites get a square wave; odd sites get a triangle wave.
                 var settings = site % 2 == 0
                     ? new StandardWaveformSettings(StandardWaveform.Square, frequency: 5000.0, amplitude: 1.5, dcOffset: 0.0, startPhase: 0.0)
                     : new StandardWaveformSettings(StandardWaveform.Triangle, frequency: 8000.0, amplitude: 1.0, dcOffset: 0.1, startPhase: 45.0);
@@ -62,6 +71,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
                 perSiteSettings.SetValue(value: settings, siteNumbers: site);
             }
 
+            // Configure function output mode, apply per-site settings, enable output, and start generation.
             fgenPins.ConfigureOutputMode(OutputMode.Function);
             fgenPins.ConfigureStandardWaveform(perSiteSettings);
             fgenPins.ConfigureOutputEnabled(true);
@@ -76,24 +86,28 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         /// <param name="fgenPinNames">The FGEN pins to configure.</param>
         internal static void DifferentWaveformsPerPinPerSite(ISemiconductorModuleContext tsmContext, string[] fgenPinNames)
         {
+            // Create the session manager, get the active sites, and get the FGEN sessions for the pins.
             var sessionManager = new TSMSessionManager(tsmContext);
             var activeSites = tsmContext.SiteNumbers.ToArray();
             var fgenPins = sessionManager.Fgen(fgenPinNames);
 
+            // Holds one waveform settings object per pin/site combination.
             var perPinPerSiteSettings = new PinSiteData<StandardWaveformSettings>(fgenPinNames, activeSites);
 
             for (int pinIndex = 0; pinIndex < fgenPinNames.Length; pinIndex++)
             {
                 foreach (var site in activeSites)
                 {
+                    // Cycle through RampUp, RampDown, and Noise based on pin index and site number.
                     var waveformType = (pinIndex + site) % 3 == 0
                         ? StandardWaveform.RampUp
                         : (pinIndex + site) % 3 == 1
                             ? StandardWaveform.RampDown
                             : StandardWaveform.Noise;
 
+                    // Frequency scales with site number; amplitude scales with pin index.
                     var settings = new StandardWaveformSettings(
-                        functionType: waveformType,
+                        waveformFunctionType: waveformType,
                         frequency: 2000.0 + (site * 500.0),
                         amplitude: 1.0 + (pinIndex * 0.2),
                         dcOffset: 0.0,
@@ -103,6 +117,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
                 }
             }
 
+            // Configure function output mode, apply per-pin-per-site settings, enable output, and start generation.
             fgenPins.ConfigureOutputMode(OutputMode.Function);
             fgenPins.ConfigureStandardWaveform(perPinPerSiteSettings);
             fgenPins.ConfigureOutputEnabled(true);
