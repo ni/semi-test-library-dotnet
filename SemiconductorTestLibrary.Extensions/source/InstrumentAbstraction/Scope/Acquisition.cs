@@ -32,19 +32,46 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
         /// <param name="timeout">The time to wait for data to be acquired.</param>
-        /// <param name="recordLength">The maximum number of samples to fetch for each waveform.</param>
+        /// <param name="numberOfSamples">The maximum number of samples to fetch for each waveform. Specify -1 to retrieve all samples currently available in the record.</param>
         /// <returns>Per-site per-pin analog waveform results.</returns>
         /// <remarks>
         /// If the acquisition does not complete within <paramref name="timeout"/>, the resulting <see cref="NISemiconductorTestException"/>
         /// includes the site, pin, and channel details for every channel on the affected card, since a single site losing its trigger
         /// signal prevents the entire card from acquiring data.
+        /// A <paramref name="numberOfSamples"/> value of 0, or a negative value other than -1, is not supported by the
+        /// underlying driver and causes an <see cref="Ivi.Driver.IviCDriverException"/> to be thrown.
         /// </remarks>
         /// <exception cref="NISemiconductorTestException">Thrown when the acquisition does not complete within <paramref name="timeout"/>.</exception>
-        public static PinSiteData<AnalogWaveform<double>> ReadWaveform(this ScopeSessionsBundle sessionsBundle, PrecisionTimeSpan timeout, long recordLength)
+        public static PinSiteData<AnalogWaveform<double>> ReadWaveform(this ScopeSessionsBundle sessionsBundle, PrecisionTimeSpan timeout, long numberOfSamples)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo =>
             {
-                return InvokeWithTimeoutHandling(sessionInfo, () => sessionInfo.Session.Channels[sessionInfo.AllChannelsString].Measurement.Read(timeout, recordLength, null).ToArray());
+                return DoWithTimeoutHandling(sessionInfo, () => sessionInfo.Session.Channels[sessionInfo.AllChannelsString].Measurement.Read(timeout, numberOfSamples, null).ToArray());
+            });
+        }
+
+        /// <summary>
+        /// Initiates an acquisition, waits for it to complete, and returns the acquired raw samples for each site and pin in the <see cref="ScopeSessionsBundle"/>.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
+        /// <param name="timeout">The time to wait for data to be acquired.</param>
+        /// <param name="numberOfSamples">The maximum number of samples to acquire for each waveform. Specify -1 to retrieve all samples currently available in the record.</param>
+        /// <returns>Per-site per-pin floating-point samples.</returns>
+        /// <remarks>
+        /// If the acquisition does not complete within <paramref name="timeout"/>, the resulting <see cref="NISemiconductorTestException"/>
+        /// includes the site, pin, and channel details for every channel on the affected card, since a single site losing its trigger
+        /// signal prevents the entire card from acquiring data.
+        /// A <paramref name="numberOfSamples"/> value of 0, or a negative value other than -1, is not supported by the
+        /// underlying driver and causes an <see cref="Ivi.Driver.IviCDriverException"/> to be thrown.
+        /// </remarks>
+        /// <exception cref="NISemiconductorTestException">Thrown when the acquisition does not complete within <paramref name="timeout"/>.</exception>
+        public static PinSiteData<double[]> Read(this ScopeSessionsBundle sessionsBundle, PrecisionTimeSpan timeout, long numberOfSamples)
+        {
+            return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo =>
+            {
+                return DoWithTimeoutHandling(sessionInfo, () => sessionInfo.Session.Channels[sessionInfo.AllChannelsString].Measurement.Read(timeout, numberOfSamples, null))
+                    .Select(waveform => waveform.GetRawData())
+                    .ToArray();
             });
         }
 
@@ -53,46 +80,27 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
         /// <param name="timeout">The time to wait for data to be acquired.</param>
-        /// <param name="pointsToFetch">The maximum number of samples to fetch for each waveform.</param>
+        /// <param name="numberOfSamples">The maximum number of samples to fetch for each waveform. Specify -1 to retrieve all samples currently available in the record.</param>
         /// <returns>Per-site per-pin analog waveform results.</returns>
         /// <remarks>
         /// If the acquisition does not complete within <paramref name="timeout"/>, the resulting <see cref="NISemiconductorTestException"/>
         /// includes the site, pin, and channel details for every channel on the affected card, since a single site losing its trigger
         /// signal prevents the entire card from acquiring data.
+        /// A <paramref name="numberOfSamples"/> value of 0, or a negative value other than -1, is not supported by the
+        /// underlying driver and causes an <see cref="Ivi.Driver.IviCDriverException"/> to be thrown.
         /// </remarks>
         /// <exception cref="NISemiconductorTestException">Thrown when the acquisition does not complete within <paramref name="timeout"/>.</exception>
-        public static PinSiteData<AnalogWaveform<double>> FetchWaveform(this ScopeSessionsBundle sessionsBundle, PrecisionTimeSpan timeout, int pointsToFetch)
+        public static PinSiteData<AnalogWaveform<double>> FetchWaveform(this ScopeSessionsBundle sessionsBundle, PrecisionTimeSpan timeout, int numberOfSamples)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo =>
             {
-                return InvokeWithTimeoutHandling(sessionInfo, () => sessionInfo.Session.Channels[sessionInfo.AllChannelsString].Measurement.FetchDouble(timeout, pointsToFetch, null).ToArray());
+                return DoWithTimeoutHandling(sessionInfo, () => sessionInfo.Session.Channels[sessionInfo.AllChannelsString].Measurement.FetchDouble(timeout, numberOfSamples, null).ToArray());
             });
         }
 
-        /// <summary>
-        /// Initiates an acquisition, waits for it to complete, and returns the acquired samples for each site and pin in the <see cref="ScopeSessionsBundle"/>.
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
-        /// <param name="timeout">The time to wait for data to be acquired.</param>
-        /// <param name="numberOfSamples">The maximum number of samples to acquire for each waveform.</param>
-        /// <returns>Per-site per-pin floating-point samples.</returns>
-        /// <remarks>
-        /// If the acquisition does not complete within <paramref name="timeout"/>, the resulting <see cref="NISemiconductorTestException"/>
-        /// includes the site, pin, and channel details for every channel on the affected card, since a single site losing its trigger
-        /// signal prevents the entire card from acquiring data.
-        /// </remarks>
-        /// <exception cref="NISemiconductorTestException">Thrown when the acquisition does not complete within <paramref name="timeout"/>.</exception>
-        public static PinSiteData<double[]> Read(this ScopeSessionsBundle sessionsBundle, PrecisionTimeSpan timeout, long numberOfSamples)
-        {
-            return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo =>
-            {
-                return InvokeWithTimeoutHandling(sessionInfo, () => sessionInfo.Session.Channels[sessionInfo.AllChannelsString].Measurement.Read(timeout, numberOfSamples, null))
-                    .Select(waveform => waveform.GetRawData())
-                    .ToArray();
-            });
-        }
+        #region Helper Methods
 
-        private static T InvokeWithTimeoutHandling<T>(ScopeSessionInformation sessionInfo, Func<T> acquisitionFunction)
+        private static T DoWithTimeoutHandling<T>(ScopeSessionInformation sessionInfo, Func<T> acquisitionFunction)
         {
             try
             {
@@ -110,5 +118,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
                 string.Format(CultureInfo.InvariantCulture, "{0} (channel: {1})", sitePinInfo.SitePinString, sitePinInfo.IndividualChannelString)));
             return string.Format(CultureInfo.InvariantCulture, ResourceStrings.Scope_AcquisitionTimeoutException, channelDetails);
         }
+
+        #endregion
     }
 }
