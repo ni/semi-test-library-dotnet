@@ -1,0 +1,75 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!--
+    Research console app for the DCPower ResetDevice investigation (WI 3815948).
+    It compiles the SemiconductorTestLibrary.Extensions sources against the srd-sebu-mixed-signal-apt Abstractions project,
+    because the prebuilt Abstractions DLL that the Extensions project normally references (signed, v26.5) does not contain
+    DCPowerSessionsBundle.ResetDevices. Build and run in Release (per Matt's guidance) for meaningful timings.
+  -->
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <PlatformTarget>x64</PlatformTarget>
+    <AssemblySearchPaths>$(AssemblySearchPaths);{GAC}</AssemblySearchPaths>
+    <RootNamespace>ResetDeviceConsoleApp</RootNamespace>
+    <AssemblyName>ResetDeviceConsoleApp</AssemblyName>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+    <ExtensionsSourceDirectory>$(MSBuildThisFileDirectory)..\SemiconductorTestLibrary.Extensions\source\</ExtensionsSourceDirectory>
+    <ResetDeviceAbstractionsProject>$(MSBuildThisFileDirectory)..\..\srd-sebu-mixed-signal-apt\SemiconductorTestLibraryDotNET\SemiconductorTestLibraryAbstractions\source\SemiconductorTestLibrary.Abstractions.csproj</ResetDeviceAbstractionsProject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(ExtensionsSourceDirectory)**\*.cs"
+             Exclude="$(ExtensionsSourceDirectory)bin\**;$(ExtensionsSourceDirectory)obj\**;$(ExtensionsSourceDirectory)net48\**;$(ExtensionsSourceDirectory).vs\**;$(ExtensionsSourceDirectory)Properties\AssemblyInfo.cs"
+             LinkBase="Extensions" />
+    <EmbeddedResource Include="$(ExtensionsSourceDirectory)ResourceStrings.resx"
+                      Link="Extensions\ResourceStrings.resx"
+                      LogicalName="NationalInstruments.SemiconductorTestLibrary.ResourceStrings.resources" />
+    <None Include="..\TestAssets\Supporting Materials\Pin Maps\ResetDevice_*.pinmap"
+          Link="PinMaps\%(Filename)%(Extension)"
+          CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="$(ResetDeviceAbstractionsProject)" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Ivi.Driver">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="NationalInstruments.Common">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="NationalInstruments.DAQmx">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\National Instruments\MeasurementStudioVS2010\DotNET\Assemblies (64-bit)\Current\NationalInstruments.DAQmx.dll</HintPath>
+    </Reference>
+    <Reference Include="NationalInstruments.ModularInstruments.NIDCPower.Fx40">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="NationalInstruments.ModularInstruments.NIDigital.Fx40">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="NationalInstruments.ModularInstruments.NIDmm.Fx40">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="NationalInstruments.ModularInstruments.NIFGen.Fx40">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="NationalInstruments.ModularInstruments.NISwitch.Fx40">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="NationalInstruments.TestStand.SemiconductorModule.SemiconductorModuleInterfaces">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="StandaloneSemiconductorModuleContext">
+      <HintPath>$(TestStand64)\Components\Modules\NI_SemiconductorModule\StandaloneSemiconductorModuleContext\StandaloneSemiconductorModuleContext.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <!-- The analyzer packages flow in transitively from the Abstractions project; style rules are noise for this research app. -->
+  <Target Name="RemoveTransitiveAnalyzers" BeforeTargets="CoreCompile">
+    <ItemGroup>
+      <Analyzer Remove="@(Analyzer)" />
+    </ItemGroup>
+  </Target>
+</Project>
