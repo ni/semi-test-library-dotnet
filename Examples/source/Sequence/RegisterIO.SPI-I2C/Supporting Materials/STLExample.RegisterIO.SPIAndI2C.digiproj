@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<SourceFile Checksum="865F500876EB371CD1D4476E4A01A36C6ACF6828541F5AC38FF8307ED5D9557CF100F23B8DE8AA5FDDEABC3B6976ADD4F736E2CC6AC763D53F4CB7378E6542CA" xmlns="http://www.ni.com/PlatformFramework">
+<SourceFile Checksum="6FC54D50417EAA084FB8752AA93D9BAA15783C2FF14255EC9B4B53F8248356D5BD17524AD878E302AA1B192767F5B548C055E69117CAB55AC07E04320766E539" xmlns="http://www.ni.com/PlatformFramework">
 	<SourceModelFeatureSet>
 		<ParsableNamespace AssemblyFileVersion="9.19.0.49996" FeatureSetName="Digital Pattern Editor" Name="http://www.ni.com/PatternBasedDigital" OldestCompatibleVersion="4.5.0.0" Version="5.3.1.49152" />
 		<ParsableNamespace AssemblyFileVersion="9.19.0.49996" FeatureSetName="Editor" Name="http://www.ni.com/PlatformFramework" OldestCompatibleVersion="8.1.0.49152" Version="8.1.0.49152" />
@@ -27,10 +27,16 @@
 			<FileReference Id="c46c7f9ebccf4ab19648bc6079a94518" ModelDefinitionType="SpecificationsDefinition" Name="STLExample.RegisterIO.SPIAndI2C.specs" StoragePath="STLExample.RegisterIO.SPIAndI2C.specs" />
 			<FileReference Id="deb8888615a74c51bd6cfcef560f3a32" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="SPI_write_template.digipat" StoragePath="SPI\SPI_write_template.digipat" />
 			<FileReference Id="1600508f9d5e4ae18695f90ea4fddace" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="SPI_read_template.digipat" StoragePath="SPI\SPI_read_template.digipat" />
+			<FileReference Bindings=".digipatsrc" Id="4b5f373d0ddc4e6c903f0def803f96c2" ModelDefinitionType="{http://www.ni.com/PlatformFramework}ExternalFile" Name="SPI_read_template.digipatsrc" StoragePath="SPI\SPI_read_template.digipatsrc" />
+			<FileReference Bindings=".digipatsrc" Id="d8ddbb0e5267438e95cccde6786dee30" ModelDefinitionType="{http://www.ni.com/PlatformFramework}ExternalFile" Name="SPI_write_template.digipatsrc" StoragePath="SPI\SPI_write_template.digipatsrc" />
 			<FileReference Id="46b6d0232cbf4514b7465889a81e3abb" ModelDefinitionType="SourceWaveformDefinition" Name="SPI_source_buffer.tdms" StoragePath="SPI\SPI_source_buffer.tdms" />
 			<FileReference Id="fc50dd0576584448a8313e04fbd2f1ec" ModelDefinitionType="CaptureWaveformDefinition" Name="SPI_capture_buffer.digicapture" StoragePath="SPI\SPI_capture_buffer.digicapture" />
-			<FileReference Bindings=".digipatsrc" Id="142458e78f934f2a9056dde601ce7990" ModelDefinitionType="{http://www.ni.com/PlatformFramework}ExternalFile" Name="SPI_read_template.digipatsrc" StoragePath="SPI\SPI_read_template.digipatsrc" />
-			<FileReference Bindings=".digipatsrc" Id="69d31f611e2a48a2a6246bda48143f51" ModelDefinitionType="{http://www.ni.com/PlatformFramework}ExternalFile" Name="SPI_write_template.digipatsrc" StoragePath="SPI\SPI_write_template.digipatsrc" />
+			<FileReference Id="410212d51218451d93066de3c04010f5" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="I2C_read_template.digipat" StoragePath="I2C\I2C_read_template.digipat" />
+			<FileReference Id="1db927bb08d048d9998aa0d99a8f312f" ModelDefinitionType="DigitalPatternEditor.PatternDefinition" Name="I2C_write_template.digipat" StoragePath="I2C\I2C_write_template.digipat" />
+			<FileReference Id="ba97f6407d2442deb18c2579899689dc" ModelDefinitionType="CaptureWaveformDefinition" Name="I2C_capture_buffer.digicapture" StoragePath="I2C\I2C_capture_buffer.digicapture" />
+			<FileReference Id="c9babb86c71841ae958b24e6e42f2553" ModelDefinitionType="SourceWaveformDefinition" Name="I2C_source_buffer.tdms" StoragePath="I2C\I2C_source_buffer.tdms" />
+			<FileReference Bindings=".digipatsrc" Id="ee3ca27c92db423fa364b8cb88736b15" ModelDefinitionType="{http://www.ni.com/PlatformFramework}ExternalFile" Name="I2C_read_template.digipatsrc" StoragePath="I2C\I2C_read_template.digipatsrc" />
+			<FileReference Bindings=".digipatsrc" Id="64a9d0b27bc74d5683d8a3f838987d85" ModelDefinitionType="{http://www.ni.com/PlatformFramework}ExternalFile" Name="I2C_write_template.digipatsrc" StoragePath="I2C\I2C_write_template.digipatsrc" />
 		</NameScopingEnvoy>
 		<EmbeddedDefinitionReference Id="a96e0a92a1425596bc6a29922b7835" ModelDefinitionType="DigitalPatternEditor.ProjectPropertiesDefinition" Name="ProjectProperties">
 			<ProjectPropertiesDefinition xmlns="http://www.ni.com/PatternBasedDigital" />

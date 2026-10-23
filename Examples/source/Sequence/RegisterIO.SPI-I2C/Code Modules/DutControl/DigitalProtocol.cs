@@ -16,7 +16,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
     /// Abstract digital protocol class, used as a base for more specific digital protocol implementations.
     /// </summary>
     /// <remarks>
-    /// Protocol instances (for example, <see cref="SPI.Instance"/>) hold shared configuration and the active
+    /// Protocol instances (for example, <see cref="SPI.Instance"/> and <see cref="I2C.Instance"/>) hold shared configuration and the active
     /// <see cref="DigitalSessionsBundle"/>, so they are not thread-safe. Do not use one instance from multiple
     /// code modules or test sites at the same time.
     /// </remarks>
@@ -574,10 +574,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// instrument before they can be written or bursted. The waveforms may already exist on the session, for
         /// example when they are loaded from the waveform files in the digital pattern project during instrument
         /// initialization. Creating a waveform that already exists with the same settings has no effect, whereas
-        /// creating it with different settings (pin, sample width, or bit order) causes the driver to throw an
-        /// exception, as waveform settings cannot change after creation. Creation is tracked per session to avoid
-        /// repeating it on every call; a fresh session (for example, a second sequence run after instrument cleanup)
-        /// gets its own waveforms.
+        /// creating it with different settings (pin, sample width, bit order, or data mapping) causes the driver to
+        /// throw an exception, as waveform settings cannot change after creation. Creation is tracked per session to
+        /// avoid repeating it on every call; a fresh session (for example, a second sequence run after instrument
+        /// cleanup) gets its own waveforms.
         /// </summary>
         /// <param name="digitalSessionsBundle">The <see cref="DigitalSessionsBundle"/> to create the waveforms on.</param>
         private void CreateSerialWaveforms(DigitalSessionsBundle digitalSessionsBundle)
