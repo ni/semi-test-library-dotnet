@@ -12,7 +12,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
     /// any register operations. Optionally call
     /// <see cref="TestStep.ConfigureDigitalProtocol"/> once per test program to override
     /// default protocol parameters.
-    /// </remarks>
+    /// <br/><br/>
     /// <example>
     /// Example usage:
     /// <code>
@@ -21,6 +21,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
     /// SiteData&lt;long&gt; readBack = protocol.ReadRegister(address: 0x48);
     /// </code>
     /// </example>
+    /// </remarks>
     public sealed class SPI : DigitalProtocol
     {
         private static readonly Lazy<SPI> _instance = new Lazy<SPI>(() => new SPI());
