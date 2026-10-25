@@ -6,7 +6,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
     /// <summary>
     /// Define specific exception for FGPA-level errors returned by the RSeries7822RDriverAPI methods.
     /// </summary>
-    [Serializable]
     public class RSeries7822RDriverAPIException : Exception
     {
         /// <summary>
@@ -32,11 +31,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         /// <param name="innerException">The exception resulting in the current exception.</param>
         public RSeries7822RDriverAPIException(string message, Exception innerException)
             : base(message, innerException)
-        {
-        }
-
-        private RSeries7822RDriverAPIException(SerializationInfo serializationInfo, StreamingContext streamingContext)
-            : base(serializationInfo, streamingContext)
         {
         }
     }
