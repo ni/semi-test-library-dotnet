@@ -14,11 +14,6 @@
   <ItemGroup>
     <PackageReference Include="NI.CSharp.Analyzers" Version="1.2.8" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.11.0" />
-    <PackageReference Include="xunit" Version="2.9.3" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="4.0.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <Reference Include="Ivi.Driver">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\IVI Foundation\IVI\Microsoft.NET\Framework64\v2.0.50727\IviFoundationSharedComponents 1.4.1\Ivi.Driver.dll</HintPath>
@@ -71,6 +66,17 @@
       <HintPath Condition="'$(TestStand64)' != ''">$(TestStand64)\Components\Modules\NI_SemiconductorModule\StandaloneSemiconductorModuleContext\StandaloneSemiconductorModuleContext.dll</HintPath>
       <HintPath Condition="'$(TestStand64)' == ''">C:\Program Files\National Instruments\TestStand 2023\Components\Modules\NI_SemiconductorModule\StandaloneSemiconductorModuleContext\StandaloneSemiconductorModuleContext.dll</HintPath>
     </Reference>
+  </ItemGroup>
+   <ItemGroup>
+    <PackageReference Include="xunit" Version="2.4.1" />
+    <PackageReference Include="xunit.abstractions" Version="2.0.3" />
+    <PackageReference Include="xunit.analyzers" Version="0.10.0" />
+    <PackageReference Include="xunit.assert" Version="2.4.1" />
+    <PackageReference Include="xunit.core" Version="2.4.1" />
+    <PackageReference Include="xunit.extensibility.core" Version="2.4.1" />
+    <PackageReference Include="xunit.extensibility.execution" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.console" Version="2.4.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\TestAssets\Tests.SemiconductorTestLibrary.Utilities\Tests.SemiconductorTestLibrary.Utilities.csproj" />

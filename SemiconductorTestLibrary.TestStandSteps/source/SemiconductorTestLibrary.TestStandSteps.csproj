@@ -19,6 +19,10 @@
   <ItemGroup>
     <PackageReference Include="NationalInstruments.SemiconductorTestLibrary.Analyzers" Version="1.1.0" />
     <PackageReference Include="NI.CSharp.Analyzers" Version="1.2.8" />
+    <Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions">
+      <HintPath>..\..\SemiconductorTestLibrary.Abstractions\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
     <Reference Include="NationalInstruments.ModularInstruments.NIDmm.Fx40">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files\IVI Foundation\IVI\Microsoft.NET\Framework64\v4.0.30319\NationalInstruments.ModularInstruments.NIDmm 26.5.0\NationalInstruments.ModularInstruments.NIDmm.Fx40.dll</HintPath>
