@@ -6,7 +6,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
     /// <summary>
     /// Define specific exception for Pinmap validation.
     /// </summary>
-    [Serializable]
     public class InvalidCustomInstrumentPinMapDefinitionException : Exception
     {
         /// <summary>
@@ -35,10 +34,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
         {
         }
 
-        private InvalidCustomInstrumentPinMapDefinitionException(SerializationInfo serializationInfo, StreamingContext streamingContext)
-            : base(serializationInfo, streamingContext)
-        {
-        }
     }
 
 }
