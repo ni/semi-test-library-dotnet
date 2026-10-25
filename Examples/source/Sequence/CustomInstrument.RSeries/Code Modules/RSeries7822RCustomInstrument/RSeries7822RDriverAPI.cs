@@ -30,18 +30,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CustomInstrument
 
         public static string BitFilePath()
         {
-            // Get the assembly that defines this class and get its location.
-            var assembly = Assembly.GetAssembly(typeof(RSeries7822RDriverAPI));
-            string assemblyPath;
-            if (!string.IsNullOrEmpty(assembly.CodeBase))
-            {
-                assemblyPath = new Uri(assembly.CodeBase).LocalPath;
-            }
-            else
-            {
-                assemblyPath = assembly.Location;
-            }
-
+            // Removed Assembly.CodeBase because it is obsolete in .NET 8 : https://learn.microsoft.com/en-us/dotnet/fundamentals/syslib-diagnostics/syslib0012
+            // Verify the actual on-disk location of the current assembly and use the appropriate path resolution mechanism.
+            var assembly = typeof(RSeries7822RDriverAPI).Assembly;
+            string assemblyPath = assembly.Location;
             string assemblyDir = Path.GetDirectoryName(assemblyPath);
             return Path.Combine(assemblyDir, BitFileName);
         }
