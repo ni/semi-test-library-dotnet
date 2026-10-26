@@ -35,13 +35,5 @@ The pin map file defines the following information:
    - A series of connections for each site, in which each connection specifies a DUT pin, a site number, an instrument, and an instrument channel.
 
 1. Complete the following steps to review the Configurations that this test program uses.
-2. 
-The following two works are shown in the example based on the user selection.
+2. Each step is calling the Scope extension methods for configuring, Initiating and fetching waveforms.
 
-1) The configurations can be set one by one and then Trigger can be configured and initiated from test stand. 
-- All the configuration values are stored andd passed from teststand.
-
-Or 
-
-2) All the configurations can be done and data can be acquired in one teststand step. 
-- All the configuration values are stored in the c# code module.
