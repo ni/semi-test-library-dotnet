@@ -24,7 +24,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// Throws <see cref="ArgumentNullException"/> if <paramref name="source"/> is null.<br/>
         /// Throws <see cref="ArgumentException"/> if <paramref name="source"/> is an empty string.<br/>
         /// Throws <see cref="NISemiconductorTestException"/> if <paramref name="source"/> is not a valid trigger source terminal.<br/>
-        /// Throws <see cref="NISemiconductorTestException"/> if <paramref name="digitalEdge"/> is <see cref="DigitalEdge.Falling"/>.
+        /// Throws <see cref="NISemiconductorTestException"/> if <paramref name="digitalEdge"/> is <see cref="DigitalEdge.Falling"/> for unsupported models.
         /// </remarks>
         /// <exception cref="ArgumentNullException">
         /// Thrown when <paramref name="source"/> is null.
@@ -34,7 +34,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// </exception>
         /// <exception cref="NISemiconductorTestException">
         /// Thrown when <paramref name="source"/> is not a valid trigger source terminal,<br/>
-        /// or when <paramref name="digitalEdge"/> is <see cref="DigitalEdge.Falling"/>.
+        /// or when <paramref name="digitalEdge"/> is <see cref="DigitalEdge.Falling"/> for unsupported models.
         /// </exception>
         public static void ConfigureStartTriggerDigitalEdge(this FgenSessionsBundle sessionsBundle, string source, DigitalEdge digitalEdge)
         {
@@ -162,11 +162,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         {
             if (parameter is null)
             {
-                throw new ArgumentNullException(parameterName, errorMessage);
+                throw new ArgumentNullException(parameterName, string.Format(CultureInfo.InvariantCulture, errorMessage, parameterName));
             }
             if (parameter.Length == 0)
             {
-                throw new ArgumentException(errorMessage, parameterName);
+                throw new ArgumentException(string.Format(CultureInfo.InvariantCulture, errorMessage, parameterName), parameterName);
             }
         }
 
