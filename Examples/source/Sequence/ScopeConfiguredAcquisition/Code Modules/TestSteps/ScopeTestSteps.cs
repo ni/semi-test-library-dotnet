@@ -14,6 +14,85 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ConfiguredAcquis
     public static class ScopeTestSteps
     {
         /// <summary>
+        /// This method used for configuring vertical settings.
+        /// </summary>
+        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
+        /// <param name="pinOrPinGroup">Name of the scope pin or pin group to be used for waveform acquisition.</param>
+        /// <param name="verticalSettings">The vertical settings to be applied to the scope.</param>
+        public static void ScopeConfiguredVertical(
+            ISemiconductorModuleContext tsmContext,
+            string pinOrPinGroup,
+            VerticalSettings verticalSettings)
+        {
+            TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
+            ScopeSessionsBundle scopeBundle = sessionManager.Scope(pinOrPinGroup);
+            scopeBundle.ConfigureVertical(verticalSettings);
+            scopeBundle.Commit();
+        }
+
+        /// <summary>
+        /// This method used for configuring electrical characteristics.
+        /// </summary>
+        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
+        /// <param name="pinOrPinGroup">Name of the scope pin or pin group to be used for waveform acquisition.</param>
+        /// <param name="electricalCharacteristics">The electrical characteristics to be applied to the scope.</param>
+        public static void ScopeConfigureElectricalCharacteristics(
+            ISemiconductorModuleContext tsmContext,
+            string pinOrPinGroup,
+            ElectricalCharacteristics electricalCharacteristics)
+        {
+            TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
+            ScopeSessionsBundle scopeBundle = sessionManager.Scope(pinOrPinGroup);
+            scopeBundle.ConfigureElectricalCharacteristics(electricalCharacteristics);
+            scopeBundle.Commit();
+        }
+
+        /// <summary>
+        /// This method used for configuring trigger settings.
+        /// </summary>
+        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
+        /// <param name="pinOrPinGroup">Name of the scope pin or pin group to be used for waveform acquisition.</param>
+        /// <param name="immediateTrigger">A boolean value indicating whether to configure an immediate trigger or a digital trigger.</param>
+        /// <param name="digitalTriggerSettings">The digital trigger settings to be applied to the scope.</param>
+        public static void ScopeConfigureTriggerSettings(
+            ISemiconductorModuleContext tsmContext,
+            string pinOrPinGroup,
+            bool immediateTrigger,
+            DigitalTriggerSettings digitalTriggerSettings)
+        {
+            TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
+            ScopeSessionsBundle scopeBundle = sessionManager.Scope(pinOrPinGroup);
+            if (immediateTrigger)
+            {
+                scopeBundle.ConfigureTriggerImmediate();
+            }
+            else
+            {
+                scopeBundle.ConfigureTriggerDigital(digitalTriggerSettings);
+            }
+            scopeBundle.Initiate();
+        }
+
+        /// <summary>
+        /// This method demonstrates how to configure and acquire data from the Scope using the Semiconductor Module API.
+        /// </summary>
+        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
+        /// <param name="pinOrPinGroup">Name of the scope pin or pin group to be used for waveform acquisition.</param>
+        /// <param name="timeout">The timeout value in seconds for waveform acquisition.</param>
+        /// <param name="maxSamples">The maximum number of samples to acquire.</param>
+        /// <returns>The acquired waveforms.</returns>
+        public static PinSiteData<AnalogWaveform<double>> ScopeFetchWaveform(
+            ISemiconductorModuleContext tsmContext,
+            string pinOrPinGroup,
+            double timeout = 50.0,
+            int maxSamples = 1000)
+        {
+            TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
+            ScopeSessionsBundle scopeBundle = sessionManager.Scope(pinOrPinGroup);
+            return scopeBundle.FetchWaveform(PrecisionTimeSpan.FromSeconds(timeout), maxSamples);
+        }
+
+        /// <summary>
         /// This method demonstrates how to configure and acquire data from the Scope using the Semiconductor Module API.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
@@ -37,7 +116,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ConfiguredAcquis
             scopeBundle.ConfigureTriggerImmediate();
             scopeBundle.Initiate();
 
-            return scopeBundle.FetchWaveform(PrecisionTimeSpan.FromSeconds(50.0), 100);
+            return scopeBundle.FetchWaveform(PrecisionTimeSpan.FromSeconds(50.0), 1000);
         }
 
         /// <summary>
