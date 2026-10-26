@@ -25,9 +25,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ConfiguredAcquis
         {
             TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
             ScopeSessionsBundle scopeBundle = sessionManager.Scope(pinOrPinGroup);
-
-            // ScopeAcquisitionType acquisitionType = ScopeAcquisitionType.Normal;
-            // scopeBundle.ConfigureAcquisitionType(acquisitionType);
             VerticalSettings verticalSettings = new VerticalSettings
             {
                 EnableTimeInterleavedSampling = false,
@@ -37,12 +34,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ConfiguredAcquis
             {
             };
             scopeBundle.ConfigureElectricalCharacteristics(electricalCharacteristics);
-            ClockSettings clockSettings = new ClockSettings
-            {
-                InputClockSource = ScopeInputClockSource.PxiClock,
-            };
-
-            // scopeBundle.ConfigureClock(clockSettings);
             scopeBundle.ConfigureTriggerImmediate();
             scopeBundle.Initiate();
 
