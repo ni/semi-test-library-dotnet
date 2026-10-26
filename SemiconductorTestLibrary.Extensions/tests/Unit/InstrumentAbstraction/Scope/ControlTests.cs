@@ -120,6 +120,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var waveforms = scopeBundle.FetchWaveform(PrecisionTimeSpan.FromSeconds(50.0), 100);
             scopeBundle.Abort();
+
+            Assert.NotNull(waveforms);
+            foreach (var sitePinInfo in scopeBundle.AggregateSitePinList)
+            {
+                var waveform = waveforms.GetValue(sitePinInfo);
+                Assert.NotNull(waveform);
+                Assert.Equal(100, waveform.SampleCount);
+                Assert.True(waveform.Timing.SampleInterval.TotalSeconds > 0.0);
+            }
         }
         private ScopeSessionsBundle GetSessionsBundle(string pin)
         {
