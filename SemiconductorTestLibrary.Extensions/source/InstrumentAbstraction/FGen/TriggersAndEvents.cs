@@ -80,7 +80,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
         /// <param name="signalSource"> The signal source to export.</param>
-        /// <param name="signalIdentifier">The identifier of the signal to export. Use an empty string when the signal has no identifier.</param>
         /// <param name="outputTerminal">The terminal to export the signal to, such as PXI_Trig0.</param>
         /// <remarks>
         /// Allowed values for <paramref name="signalSource"/> are <see cref="SignalSource.StartTrigger"/>, <see cref="SignalSource.ReadyForStartEvent"/>,
@@ -96,7 +95,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// Thrown when <paramref name="signalSource"/> is not one of StartTrigger, ReadyForStartEvent, StartedEvent, or DoneEvent,<br/>
         /// or when <paramref name="outputTerminal"/> is an empty string.
         /// </exception>
-        public static void ExportSignal(this FgenSessionsBundle sessionsBundle, SignalSource signalSource, string signalIdentifier, string outputTerminal)
+        public static void ExportSignal(this FgenSessionsBundle sessionsBundle, SignalSource signalSource, string outputTerminal)
         {
             switch (signalSource)
             {
@@ -113,7 +112,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
 
             sessionsBundle.Do(sessionInfo =>
             {
-                sessionInfo.Session.ExportSignal(signalSource, signalIdentifier ?? string.Empty, outputTerminal);
+                sessionInfo.Session.ExportSignal(signalSource, string.Empty, outputTerminal);
             });
         }
 

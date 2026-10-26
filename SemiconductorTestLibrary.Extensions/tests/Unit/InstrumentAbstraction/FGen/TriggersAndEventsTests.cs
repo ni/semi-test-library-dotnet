@@ -359,7 +359,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var triggerLine = "PXI_Trig0";
             ConfigureSettings(sessionsBundle, StandardWaveform.Square);
 
-            sessionsBundle.ExportSignal(signalSource, string.Empty, triggerLine);
+            sessionsBundle.ExportSignal(signalSource, triggerLine);
         }
 
         [Theory]
@@ -371,7 +371,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
             ConfigureSettings(sessionsBundle, StandardWaveform.Square);
 
-            void ExportSignal() => sessionsBundle.ExportSignal(signalSource, string.Empty, "PXI_Trig0");
+            void ExportSignal() => sessionsBundle.ExportSignal(signalSource, "PXI_Trig0");
 
             var exception = Assert.Throws<ArgumentException>(ExportSignal);
             Assert.Contains("The signal source '" + signalSource.ToString() + "' is not supported.", exception.Message);
@@ -388,7 +388,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             // Test with null output terminal
             string outputTerminal = null;
-            void ExportSignal() => sessionsBundle.ExportSignal(signalSource, string.Empty, outputTerminal);
+            void ExportSignal() => sessionsBundle.ExportSignal(signalSource, outputTerminal);
 
             var exception = Assert.Throws<ArgumentNullException>(ExportSignal);
             Assert.Contains("Output terminal passed as input is either null or an empty string. Please provide valid output terminal.", exception.Message);
@@ -398,24 +398,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var argumentException = Assert.Throws<ArgumentException>(ExportSignal);
             Assert.Contains("Output terminal passed as input is either null or an empty string. Please provide valid output terminal.", argumentException.Message);
-        }
-
-        [Theory]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
-        [MemberData(nameof(ExportSignalValidTestData))]
-        public void StandardWaveformConfigured_ExportSignalWithValidSignalSourceAndNullOrEmptySignalIdentifier_Succeeds(string pinMapFileName, SignalSource signalSource)
-        {
-            var sessionManager = Initialize(pinMapFileName);
-            var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
-            ConfigureSettings(sessionsBundle, StandardWaveform.RampUp);
-
-            // Test with null signal identifier
-            string signalIdentifier = null;
-            sessionsBundle.ExportSignal(signalSource, signalIdentifier, "PXI_Trig0");
-
-            // Test with empty signal identifier
-            signalIdentifier = string.Empty;
-            sessionsBundle.ExportSignal(signalSource, signalIdentifier, "PXI_Trig0");
         }
 
         #endregion
