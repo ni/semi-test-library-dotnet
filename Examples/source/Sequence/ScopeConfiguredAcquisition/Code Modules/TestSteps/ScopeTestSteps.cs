@@ -18,12 +18,26 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ConfiguredAcquis
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="pinOrPinGroup">Name of the scope pin or pin group to be used for waveform acquisition.</param>
-        /// <param name="verticalSettings">The vertical settings to be applied to the scope.</param>
+        /// <param name="range">The range to be applied to the scope.</param>
+        /// <param name="offset">The offset to be applied to the scope.</param>
+        /// <param name="probeAttenuation">The probe attenuation to be applied to the scope.</param>
+        /// <param name="enableTimeInterleavedSampling">A boolean value indicating whether to enable time-interleaved sampling.</param>
         public static void ScopeConfiguredVertical(
             ISemiconductorModuleContext tsmContext,
             string pinOrPinGroup,
-            VerticalSettings verticalSettings)
+            double range,
+            double offset,
+            double probeAttenuation,
+            bool enableTimeInterleavedSampling)
         {
+            var verticalSettings = new VerticalSettings
+            {
+                Range = range,
+                Offset = offset,
+                ProbeAttenuation = probeAttenuation,
+                EnableTimeInterleavedSampling = enableTimeInterleavedSampling,
+            };
+
             TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
             ScopeSessionsBundle scopeBundle = sessionManager.Scope(pinOrPinGroup);
             scopeBundle.ConfigureVertical(verticalSettings);
@@ -35,12 +49,19 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ConfiguredAcquis
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="pinOrPinGroup">Name of the scope pin or pin group to be used for waveform acquisition.</param>
-        /// <param name="electricalCharacteristics">The electrical characteristics to be applied to the scope.</param>
+        /// <param name="inputImpedance">The input impedance of the channel, in ohms.</param>
+        /// <param name="inputFrequencyMax">The maximum input frequency of the channel, in hertz.</param>
         public static void ScopeConfigureElectricalCharacteristics(
             ISemiconductorModuleContext tsmContext,
             string pinOrPinGroup,
-            ElectricalCharacteristics electricalCharacteristics)
+            double inputImpedance,
+            double inputFrequencyMax)
         {
+            ElectricalCharacteristics electricalCharacteristics = new ElectricalCharacteristics
+            {
+                InputImpedance = inputImpedance,
+                InputFrequencyMax = inputFrequencyMax,
+            };
             TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
             ScopeSessionsBundle scopeBundle = sessionManager.Scope(pinOrPinGroup);
             scopeBundle.ConfigureElectricalCharacteristics(electricalCharacteristics);
@@ -53,13 +74,23 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ConfiguredAcquis
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="pinOrPinGroup">Name of the scope pin or pin group to be used for waveform acquisition.</param>
         /// <param name="immediateTrigger">A boolean value indicating whether to configure an immediate trigger or a digital trigger.</param>
-        /// <param name="digitalTriggerSettings">The digital trigger settings to be applied to the scope.</param>
+        /// <param name="triggerSlope">The slope of the digital trigger.</param>
+        /// <param name="holdOffInSeconds">The digital trigger holdoff, in seconds.</param>
+        /// <param name="delayInSeconds">The digital trigger delay, in seconds.</param>
         public static void ScopeConfigureTriggerSettings(
             ISemiconductorModuleContext tsmContext,
             string pinOrPinGroup,
             bool immediateTrigger,
-            DigitalTriggerSettings digitalTriggerSettings)
+            ScopeTriggerSlope triggerSlope,
+            double holdOffInSeconds,
+            double delayInSeconds)
         {
+            DigitalTriggerSettings digitalTriggerSettings = new DigitalTriggerSettings
+            {
+                TriggerSlope = triggerSlope,
+                HoldOff = PrecisionTimeSpan.FromSeconds(holdOffInSeconds),
+                Delay = PrecisionTimeSpan.FromSeconds(delayInSeconds),
+            };
             TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
             ScopeSessionsBundle scopeBundle = sessionManager.Scope(pinOrPinGroup);
             if (immediateTrigger)
