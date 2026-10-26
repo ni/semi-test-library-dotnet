@@ -1,9 +1,11 @@
-﻿using System;
+using System;
+using System.Linq;
+using NationalInstruments.ModularInstruments.NIScope;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
-
+using static NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.InitializeAndClose;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
 
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.Scope
@@ -11,92 +13,175 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
     [Collection("NonParallelizable")]
     public sealed class AcquireTests : IDisposable
     {
-        private ISemiconductorModuleContext _tsmContext;
+        private const string SinglePin = "SCP_5105_Pin";
+        private static readonly string[] MultiPins = { "SCP_5105_Pin", "SCP_5162_Pin", "SCP_5622_Pin" };
 
-        public TSMSessionManager Initialize(bool pinMapWithChannelGroup)
-        {
-            string pinMapFileName = pinMapWithChannelGroup ? "ScopeWithPerChassisSession.pinmap" : "ScopeWithPerInstrumentSession.pinmap";
-            return Initialize(pinMapFileName);
-        }
+        private readonly ISemiconductorModuleContext _tsmContext;
 
-        public TSMSessionManager Initialize(string pinMapFileName = "ScopeTests.pinmap")
+        public AcquireTests()
         {
-            _tsmContext = CreateTSMContext(pinMapFileName);
-            InitializeAndClose.Initialize(_tsmContext);
-            return new TSMSessionManager(_tsmContext);
+            _tsmContext = CreateTSMContext("ScopeExtensionsTests.pinmap");
+            Initialize(_tsmContext);
         }
 
         public void Dispose()
         {
-            InitializeAndClose.Close(_tsmContext);
+            Close(_tsmContext);
+        }
+
+        [Fact]
+        public void SessionsBundle_GetAcquisitionStatus_ReturnsOneValuePerSession()
+        {
+            var sessionsBundle = GetSessionsBundle(SinglePin);
+
+            var status = sessionsBundle.GetAcquisitionStatus();
+
+            Assert.Equal(sessionsBundle.InstrumentSessions.Count(), status.Length);
+        }
+
+        [Fact]
+        public void InitiatedAcquisition_GetAcquisitionStatus_Succeeds()
+        {
+            var sessionsBundle = GetSessionsBundle(SinglePin);
+            sessionsBundle.Initiate();
+
+            var status = sessionsBundle.GetAcquisitionStatus();
+
+            sessionsBundle.Abort();
+            Assert.Equal(sessionsBundle.InstrumentSessions.Count(), status.Length);
+            Assert.All(status, value => Assert.True(Enum.IsDefined(typeof(ScopeAcquisitionStatus), value)));
+        }
+
+        [Fact]
+        public void SessionsBundle_GetRecordLength_ReturnsDriverValue()
+        {
+            var sessionsBundle = GetSessionsBundle(SinglePin);
+
+            var recordLength = sessionsBundle.GetRecordLength();
+
+            AssertMatchesDriver(sessionsBundle, recordLength, session => session.Acquisition.RecordLength);
+            Assert.All(recordLength, value => Assert.True(value > 0));
+        }
+
+        [Fact]
+        public void SessionsBundle_GetResolution_ReturnsDriverValue()
+        {
+            var sessionsBundle = GetSessionsBundle(SinglePin);
+
+            var resolution = sessionsBundle.GetResolution();
+
+            AssertMatchesDriver(sessionsBundle, resolution, session => session.Acquisition.Resolution);
+            Assert.All(resolution, value => Assert.True(value > 0));
+        }
+
+        [Fact]
+        public void SessionsBundle_GetSampleMode_ReturnsDriverValue()
+        {
+            var sessionsBundle = GetSessionsBundle(SinglePin);
+
+            var sampleMode = sessionsBundle.GetSampleMode();
+
+            AssertMatchesDriver(sessionsBundle, sampleMode, session => session.Acquisition.SampleMode);
+        }
+
+        [Fact]
+        public void SessionsBundle_GetSampleRate_ReturnsDriverValue()
+        {
+            var sessionsBundle = GetSessionsBundle(SinglePin);
+
+            var sampleRate = sessionsBundle.GetSampleRate();
+
+            AssertMatchesDriver(sessionsBundle, sampleRate, session => session.Acquisition.SampleRate);
+            Assert.All(sampleRate, value => Assert.True(value > 0));
+        }
+
+        [Fact]
+        public void SessionsBundle_GetSettingsCalledMultipleTimes_ReturnsConsistentValues()
+        {
+            var sessionsBundle = GetSessionsBundle(SinglePin);
+
+            var recordLength = sessionsBundle.GetRecordLength();
+            var resolution = sessionsBundle.GetResolution();
+            var sampleMode = sessionsBundle.GetSampleMode();
+            var sampleRate = sessionsBundle.GetSampleRate();
+
+            Assert.Equal(recordLength, sessionsBundle.GetRecordLength());
+            Assert.Equal(resolution, sessionsBundle.GetResolution());
+            Assert.Equal(sampleMode, sessionsBundle.GetSampleMode());
+            Assert.Equal(sampleRate, sessionsBundle.GetSampleRate());
+        }
+
+        [Fact]
+        public void SessionsBundleAfterAutoSetup_GetSettings_Succeeds()
+        {
+            var sessionsBundle = GetSessionsBundle(SinglePin);
+            var sessionsCount = sessionsBundle.InstrumentSessions.Count();
+            sessionsBundle.AutoSetup();
+
+            var recordLength = sessionsBundle.GetRecordLength();
+            var resolution = sessionsBundle.GetResolution();
+            var sampleMode = sessionsBundle.GetSampleMode();
+            var sampleRate = sessionsBundle.GetSampleRate();
+
+            Assert.Equal(sessionsCount, recordLength.Length);
+            Assert.Equal(sessionsCount, resolution.Length);
+            Assert.Equal(sessionsCount, sampleMode.Length);
+            Assert.Equal(sessionsCount, sampleRate.Length);
         }
 
         [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public void DifferentSessionTypes_ReadWaveform_ReturnsRequestedNumberOfSamples(bool pinMapWithChannelGroup)
+        [InlineData("SCP_5105_Pin", 12L)]
+        [InlineData("SCP_5162_Pin", 10L)]
+        [InlineData("SCP_5622_Pin", 16L)]
+        [InlineData("SCP_5186_Pin", 8L)]
+        [InlineData("SCP_5172_Pin_1", 14L)]
+        public void SessionsBundle_GetResolution_ReturnsExpectedValueForModel(string pin, long expectedResolution)
         {
-            var sessionManager = Initialize(pinMapWithChannelGroup);
-            var pins = new string[] { "Vosc1", "Vosc2" };
-            var sessionsBundle = sessionManager.Scope(pins);
-            const long numberOfSamples = 64;
+            var sessionsBundle = GetSessionsBundle(pin);
+            var sessionsCount = sessionsBundle.InstrumentSessions.Count();
 
-            sessionsBundle.ConfigureTriggerImmediate();
-            var waveformData = sessionsBundle.ReadWaveform(PrecisionTimeSpan.FromSeconds(5), numberOfSamples);
+            var resolution = sessionsBundle.GetResolution();
 
-            Assert.NotNull(waveformData);
-            Assert.Contains("Vosc1", waveformData.PinNames);
-            Assert.NotEmpty(waveformData.SiteNumbers);
-
-            foreach (var siteNumber in waveformData.SiteNumbers)
-            {
-                var waveform = waveformData.GetValue(siteNumber, "Vosc1");
-                Assert.NotNull(waveform);
-                Assert.Equal(numberOfSamples, waveform.Samples.Count);
-            }
+            Assert.Equal(sessionsCount, resolution.Length);
+            Assert.All(resolution, value => Assert.Equal(expectedResolution, value));
         }
 
-        [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public void DifferentSessionTypes_ReadWaveformOnSameDevice_ThrowsException(bool pinMapWithChannelGroup)
+        [Fact]
+        public void MultiPinMultiSite_GetSettings_ReturnsOneValuePerSession()
         {
-            var sessionManager = Initialize(pinMapWithChannelGroup);
-            var pins = new string[] { "Vosc1", "Vosc2" };
-            var sessionsBundle1 = sessionManager.Scope("Vosc1");
-            var sessionsBundle2 = sessionManager.Scope("Vosc2");
-            TimingSettings timingSettings1 = new TimingSettings();
-            timingSettings1.SampleRateMin = 1e6;
-            timingSettings1.RecordLengthMin = 10;
-            TimingSettings timingSettings2 = new TimingSettings();
+            var sessionsBundle = GetSessionsBundle(MultiPins);
+            var sessionsCount = sessionsBundle.InstrumentSessions.Count();
 
-            const long numberOfSamples = 64;
+            var status = sessionsBundle.GetAcquisitionStatus();
+            var recordLength = sessionsBundle.GetRecordLength();
+            var resolution = sessionsBundle.GetResolution();
+            var sampleMode = sessionsBundle.GetSampleMode();
+            var sampleRate = sessionsBundle.GetSampleRate();
 
-            sessionsBundle1.ConfigureTiming(timingSettings1);
-            sessionsBundle2.ConfigureTiming(timingSettings2);
-            sessionsBundle1.ConfigureTriggerImmediate();
-            sessionsBundle2.ConfigureTriggerImmediate();
-            var waveformData1 = sessionsBundle1.ReadWaveform(PrecisionTimeSpan.FromSeconds(5), numberOfSamples);
-            var waveformData2 = sessionsBundle2.ReadWaveform(PrecisionTimeSpan.FromSeconds(5), numberOfSamples);
+            Assert.True(sessionsCount > 1);
+            Assert.Equal(sessionsCount, status.Length);
+            AssertMatchesDriver(sessionsBundle, recordLength, session => session.Acquisition.RecordLength);
+            AssertMatchesDriver(sessionsBundle, resolution, session => session.Acquisition.Resolution);
+            AssertMatchesDriver(sessionsBundle, sampleMode, session => session.Acquisition.SampleMode);
+            AssertMatchesDriver(sessionsBundle, sampleRate, session => session.Acquisition.SampleRate);
+        }
 
-            Assert.NotNull(waveformData1);
-            Assert.Contains("Vosc1", waveformData1.PinNames);
-            Assert.NotEmpty(waveformData1.SiteNumbers);
-            Assert.NotNull(waveformData2);
-            Assert.Contains("Vosc2", waveformData2.PinNames);
-            Assert.NotEmpty(waveformData2.SiteNumbers);
-            foreach (var siteNumber in waveformData1.SiteNumbers)
-            {
-                var waveform = waveformData1.GetValue(siteNumber, "Vosc1");
-                Assert.NotNull(waveform);
-                Assert.Equal(numberOfSamples, waveform.Samples.Count);
-            }
-            foreach (var siteNumber in waveformData2.SiteNumbers)
-            {
-                var waveform = waveformData2.GetValue(siteNumber, "Vosc2");
-                Assert.NotNull(waveform);
-                Assert.Equal(numberOfSamples, waveform.Samples.Count);
-            }
+        private static void AssertMatchesDriver<T>(ScopeSessionsBundle sessionsBundle, T[] actual, Func<NIScope, T> getDriverValue)
+        {
+            var expected = sessionsBundle.InstrumentSessions.Select(sessionInfo => getDriverValue(sessionInfo.Session)).ToArray();
+            Assert.Equal(expected, actual);
+        }
+
+        private ScopeSessionsBundle GetSessionsBundle(string pin)
+        {
+            var sessionManager = new TSMSessionManager(_tsmContext);
+            return sessionManager.Scope(pin);
+        }
+
+        private ScopeSessionsBundle GetSessionsBundle(string[] pins)
+        {
+            var sessionManager = new TSMSessionManager(_tsmContext);
+            return sessionManager.Scope(pins);
         }
     }
 }

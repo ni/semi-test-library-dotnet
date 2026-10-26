@@ -1,44 +1,122 @@
+using System;
 using NationalInstruments.ModularInstruments.NIScope;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope
 {
     /// <summary>
-    /// Defines methods for configuring oscilloscope trigger behavior.
+    /// Defines extension methods for configuring the triggers of the NI-Scope session.
     /// </summary>
     public static class Trigger
     {
+        #region Methods on ScopeSessionsBundle
+
         /// <summary>
-        /// Configures an edge trigger.
+        /// Configures an edge trigger for all sessions in the bundle.
         /// </summary>
+        /// <remarks>
+        /// Only the first channel associated with each session is used as the trigger source.<br/>
+        /// Throws <see cref="ArgumentNullException"/> if the <paramref name="triggerSettings"/> parameter is null.
+        /// </remarks>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
-        /// <param name="triggerSettings">The trigger settings.</param>
-        public static void ConfigureEdgeTrigger(this ScopeSessionsBundle sessionsBundle, TriggerSettings triggerSettings)
+        /// <param name="triggerSettings">The <see cref="EdgeTriggerSettings"/> to apply.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="triggerSettings"/> parameter is null.</exception>
+        public static void ConfigureEdgeTrigger(this ScopeSessionsBundle sessionsBundle, EdgeTriggerSettings triggerSettings)
         {
+            ThrowIfNull(triggerSettings);
             sessionsBundle.Do(sessionInfo =>
             {
-                var channelName = sessionInfo.AssociatedSitePinList[0].IndividualChannelString;
-                sessionInfo.Session.Trigger.EdgeTrigger.Configure(channelName, triggerSettings.TriggerLevel, triggerSettings.TriggerSlope, triggerSettings.TriggerCoupling, triggerSettings.HoldOff, triggerSettings.Delay);
+                sessionInfo.Session.Trigger.EdgeTrigger.Configure(
+                    GetTriggerSource(sessionInfo),
+                    triggerSettings.TriggerLevel,
+                    triggerSettings.TriggerSlope,
+                    triggerSettings.TriggerCoupling,
+                    triggerSettings.HoldOff,
+                    triggerSettings.Delay);
             });
         }
 
         /// <summary>
-        /// Configures a trigger with hysteresis.
+        /// Configures a hysteresis trigger for all sessions in the bundle.
         /// </summary>
+        /// <remarks>
+        /// Only the first channel associated with each session is used as the trigger source.<br/>
+        /// Throws <see cref="ArgumentNullException"/> if the <paramref name="triggerSettings"/> parameter is null.
+        /// </remarks>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
-        /// <param name="triggerSettings">The trigger settings.</param>
-        public static void ConfigureTriggerHysteresis(this ScopeSessionsBundle sessionsBundle, TriggerSettings triggerSettings)
+        /// <param name="triggerSettings">The <see cref="HysteresisTriggerSettings"/> to apply.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="triggerSettings"/> parameter is null.</exception>
+        public static void ConfigureTriggerHysteresis(this ScopeSessionsBundle sessionsBundle, HysteresisTriggerSettings triggerSettings)
         {
+            ThrowIfNull(triggerSettings);
             sessionsBundle.Do(sessionInfo =>
             {
-                var channelName = sessionInfo.AssociatedSitePinList[0].IndividualChannelString;
-                sessionInfo.Session.Trigger.ConfigureTriggerHysteresis(channelName, triggerSettings.TriggerLevel, triggerSettings.TriggerHysteresis, triggerSettings.TriggerSlope, triggerSettings.TriggerCoupling, triggerSettings.HoldOff, triggerSettings.Delay);
+                sessionInfo.Session.Trigger.ConfigureTriggerHysteresis(
+                    GetTriggerSource(sessionInfo),
+                    triggerSettings.TriggerLevel,
+                    triggerSettings.TriggerHysteresis,
+                    triggerSettings.TriggerSlope,
+                    triggerSettings.TriggerCoupling,
+                    triggerSettings.HoldOff,
+                    triggerSettings.Delay);
             });
         }
 
         /// <summary>
-        /// Configures an immediate trigger that triggers immediately without any condition.
+        /// Configures a digital trigger for all sessions in the bundle.
         /// </summary>
+        /// <remarks>
+        /// Only the first channel associated with each session is used as the trigger source.<br/>
+        /// Throws <see cref="ArgumentNullException"/> if the <paramref name="triggerSettings"/> parameter is null.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
+        /// <param name="triggerSettings">The <see cref="DigitalTriggerSettings"/> to apply.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="triggerSettings"/> parameter is null.</exception>
+        public static void ConfigureTriggerDigital(this ScopeSessionsBundle sessionsBundle, DigitalTriggerSettings triggerSettings)
+        {
+            ThrowIfNull(triggerSettings);
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.Session.Trigger.ConfigureTriggerDigital(
+                    GetTriggerSource(sessionInfo),
+                    triggerSettings.TriggerSlope,
+                    triggerSettings.HoldOff,
+                    triggerSettings.Delay);
+            });
+        }
+
+        /// <summary>
+        /// Configures a window trigger for all sessions in the bundle.
+        /// </summary>
+        /// <remarks>
+        /// Only the first channel associated with each session is used as the trigger source.<br/>
+        /// Throws <see cref="ArgumentNullException"/> if the <paramref name="triggerSettings"/> parameter is null.
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
+        /// <param name="triggerSettings">The <see cref="WindowTriggerSettings"/> to apply.</param>
+        /// <exception cref="ArgumentNullException">Thrown when the <paramref name="triggerSettings"/> parameter is null.</exception>
+        public static void ConfigureTriggerWindow(this ScopeSessionsBundle sessionsBundle, WindowTriggerSettings triggerSettings)
+        {
+            ThrowIfNull(triggerSettings);
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.Session.Trigger.ConfigureTriggerWindow(
+                    GetTriggerSource(sessionInfo),
+                    triggerSettings.WindowLowLevel,
+                    triggerSettings.WindowHighLevel,
+                    triggerSettings.TriggerWindowMode,
+                    triggerSettings.TriggerCoupling,
+                    triggerSettings.HoldOff,
+                    triggerSettings.Delay);
+            });
+        }
+
+        /// <summary>
+        /// Configures an immediate trigger for all sessions in the bundle.
+        /// </summary>
+        /// <remarks>
+        /// The acquisition starts as soon as the session is initiated, without waiting for a trigger condition.
+        /// </remarks>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
         public static void ConfigureTriggerImmediate(this ScopeSessionsBundle sessionsBundle)
         {
@@ -47,33 +125,22 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
                 sessionInfo.Session.Trigger.ConfigureTriggerImmediate();
             });
         }
+        #endregion
 
-        /// <summary>
-        /// Configures a digital trigger.
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
-        /// <param name="triggerSettings">The trigger settings.</param>
-        public static void ConfigureTriggerDigital(this ScopeSessionsBundle sessionsBundle, TriggerSettings triggerSettings)
+        #region Private Methods
+
+        private static void ThrowIfNull(object triggerSettings)
         {
-            sessionsBundle.Do(sessionInfo =>
+            if (triggerSettings is null)
             {
-                var channelName = sessionInfo.AssociatedSitePinList[0].IndividualChannelString;
-                sessionInfo.Session.Trigger.ConfigureTriggerDigital(channelName, triggerSettings.TriggerSlope, triggerSettings.HoldOff, triggerSettings.Delay);
-            });
+                throw new ArgumentNullException(nameof(triggerSettings));
+            }
         }
 
-        /// <summary>
-        /// Configures a window trigger that triggers when the signal enters or exits a voltage window.
-        /// </summary>
-        /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
-        /// <param name="triggerSettings">The trigger settings.</param>
-        public static void ConfigureTriggerWindow(this ScopeSessionsBundle sessionsBundle, TriggerSettings triggerSettings)
+        private static ScopeTriggerSource GetTriggerSource(ScopeSessionInformation sessionInfo)
         {
-            sessionsBundle.Do(sessionInfo =>
-            {
-                var channelName = sessionInfo.AssociatedSitePinList[0].IndividualChannelString;
-                sessionInfo.Session.Trigger.ConfigureTriggerWindow(channelName, triggerSettings.TriggerLevel, triggerSettings.TriggerHysteresis, triggerSettings.TriggerWindowMode, triggerSettings.TriggerCoupling, triggerSettings.HoldOff, triggerSettings.Delay);
-            });
+            return sessionInfo.AssociatedSitePinList[0].IndividualChannelString;
         }
+        #endregion
     }
 }
