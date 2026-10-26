@@ -12,15 +12,23 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// Configures the sample clock mode of the uderlying signal generators.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
-        /// <param name="clockMode">Specifies the clcok mode."/></param>
+        /// <param name="clockMode">Specifies the clock mode."/></param>
         /// <Remarks>
         /// <para>
         /// For the underlying signal generators that support it, this property allows switching the sample clock to a HighResolution clocking mode.
         /// When in DivideDown sampling mode,the sample rate can only be set to certain frequencies, based on dividing down the sample clock.However, in HighResolution mode, the samplerate may be set to any value.
         /// </para>
+        /// <para>
+        /// Supported clock modes vary by signal generator model. Some signal generators support Automatic and HighResolution clock modes,
+        /// while others support Automatic and DivideDown clock modes. Refer to the documentation of the underlying signal generator for its supported clock modes.
+        /// If the specified clock mode is not supported by the underlying signal generator, an exception will be thrown.
+        /// </para>
         /// </Remarks>
         /// <exception cref="NISemiconductorTestException">
         /// The operation cannot be completed because the property is not configurable while it is generating a signal. If you want to change the clock mode, call AbortGeneration methodor wait for the generation to complete.
+        /// </exception>
+        /// /// <exception cref="NISemiconductorTestException">
+        /// Unsupported clock mode is specified for the underlying signal generators.
         /// </exception>
         public static void ConfigureClockMode(this FgenSessionsBundle sessionsBundle, ClockMode clockMode)
             {
@@ -38,7 +46,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// <Remarks>
         /// The default value is "OnboardClock".
         /// <para>
-        /// Valid values for clockSource are "OnboardClock", "PXI_Trig0" to "PXI_Trig7".
+        /// Supported sample clock sources vary by signal generator model. Most signal generators support "OnboardClock" and "PXI_Trig0" to "PXI_Trig7",
+        /// while some signal generators with a Clock In terminal support "ClkIn" and may not have an onboard clock.
+        /// Refer to the documentation of the underlying signal generator for its supported sample clock sources.
         /// </para>
         /// </Remarks>
         /// <exception cref="NISemiconductorTestException">
@@ -54,14 +64,28 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         }
 
         /// <summary>
-        /// Configures the sample clock source of the uderlying signal generators.
+        /// Configures the reference clock source and frequency of the underlying signal generators, which is used to phase-lock the sample clock timebase.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
-        /// <param name="source">Specifies the reference clcok source."/></param>
+        /// <param name="source">Specifies the reference clock source. Set to "None" to unset the reference clock.</param>
         /// <param name="frequency">Specifies the reference clock frequency in hertz (Hz)."/></param>
         /// <Remarks>
         /// <para>
-        /// The signal generator uses the reference clock to tune the sample clock timebase of the signalgenerator so that the frequency, stability, and accuracy of the sample clock timebase matches thatof the reference clock.
+        /// The signal generator uses the reference clock to tune the sample clock timebase of the signal generator so that the frequency, stability, and accuracy of the sample clock timebase matches that of the reference clock.
+        /// </para>
+        /// <para>
+        /// Supported reference clock frequencies vary by signal generator model. Some signal generators support a reference clock frequency range of 10 MHz to 400 MHz,
+        /// while others support only a fixed reference clock frequency of 100 MHz. Refer to the documentation of the underlying signal generator for its supported reference clock frequencies.
+        /// If the specified frequency is not supported by the underlying signal generator, an exception will be thrown.
+        /// </para>
+        /// <para>
+        /// Supported reference clock sources also vary by signal generator model:
+        /// <list type="bullet">
+        /// <item><description>Some signal generators support "None", "OnboardRefClk", "OnboardReferenceClk", "OnboardReferenceClock", "PXI_Clk", and "PXIe_Clk100".</description></item>
+        /// <item><description>Other signal generators support only "None", "PXI_Clk", and "PXI-Clk10". These signal generators do not have an onboard reference clock and do not support "PXIe_Clk100".</description></item>
+        /// </list>
+        /// Refer to the documentation of the underlying signal generator for its supported reference clock sources.
+        /// If the specified source is not supported by the underlying signal generator, an exception will be thrown.
         /// </para>
         /// </Remarks>
         /// <exception cref="NISemiconductorTestException">
