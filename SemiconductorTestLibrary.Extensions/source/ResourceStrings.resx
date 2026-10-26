@@ -216,6 +216,15 @@
   <data name="DCPower_ImmediateUpdateModeNotSupportedForGangedChannels" xml:space="preserve">
     <value>Immediate update mode is not supported for ganged channels.</value>
   </data>
+    <data name="DCPower_ChannelStringNullOrEmpty" xml:space="preserve">
+      <value>The {0} parameter cannot be null or empty.</value>
+    </data>
+    <data name="DCPower_ChannelsNotInSessionsBundle" xml:space="preserve">
+      <value>The channels {0} are not part of the sessions bundle.</value>
+    </data>
+    <data name="DCPower_ResetSecondaryChannelsOfMergedPinGroup" xml:space="preserve">
+      <value>The channels {0} are secondary channels of a merged pin group. Specify the primary channel to reset a merged pin group.</value>
+    </data>
   <data name="Scope_TimingSettingsNull" xml:space="preserve">
     <value>The {0} parameter cannot be null.</value>
   </data>
