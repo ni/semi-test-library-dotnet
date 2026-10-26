@@ -34,15 +34,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         private ISemiconductorModuleContext _tsmContext;
 
-        private const double ConfiguredVoltageLevel = 1.5;
-        private const double DefaultVoltageLevel = 0.0;
-        private const double GangedCurrentLimit = 0.02;
-        private const string GangedPinGroup = "GangedPins";
-        private const string SiteZeroVccChannel = "SMU_4147_C1_S11/0";
-        private const string SiteZeroChannels = "SMU_4147_C1_S11/0, SMU_4147_C2_S10/0";
-        private static readonly string[] _resetDevicePins = new string[] { "VCC", "VDD" };
-        private static readonly string[] _gangedPins = new string[] { "VCC1", "VCC2" };
-        private static readonly int[] _sitesOtherThanZero = new int[] { 1, 2, 3 };
+        private readonly double _configuredVoltageLevel = 1.5;
+        private readonly double _defaultVoltageLevel = 0.0;
+        private readonly double _dangedCurrentLimit = 0.02;
+        private readonly string _gangedPinGroup = "GangedPins";
+        private readonly string _siteZeroVccChannel = "SMU_4162_C1_S11/0";
+        private readonly string _siteZeroChannels = "SMU_4162_C1_S11/0, SMU_4163_C1_S12/0";
+        private readonly string[] _resetDevicePins = new string[] { "VCC", "VDD" };
+        private readonly string[] _gangedPins = new string[] { "VCC1", "VCC2" };
+        private readonly int[] _sitesOtherThanZero = new int[] { 1, 2, 3 };
 
         public TSMSessionManager Initialize(bool pinMapWithChannelGroup)
         {
@@ -228,17 +228,17 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("DCPowerResetDevice_SharedSessionsWithinInstrument.pinmap")]
         [InlineData("DCPowerResetDevice_SharedSessionsAcrossInstruments.pinmap")]
         [InlineData("DCPowerResetDevice_CommonSession.pinmap")]
-        public void AllSitesBundle_ResetSiteZeroChannels_OnlySiteZeroChannelsResetAndSessionsKept(string pinMap)
+        public void BundleWithAllSites_ResetChannel0_ResetsChannelZeroAndKeepsOtherChannelsConfigured(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
             var allSitesBundle = sessionManager.DCPower(_resetDevicePins);
-            allSitesBundle.ConfigureVoltageLevel(ConfiguredVoltageLevel, UpdateMode.Commit);
+            allSitesBundle.ConfigureVoltageLevel(_configuredVoltageLevel, UpdateMode.Commit);
             var sessionsBeforeReset = GetSessions(allSitesBundle);
 
-            allSitesBundle.Reset(SiteZeroChannels);
+            allSitesBundle.Reset(_siteZeroChannels);
 
-            AssertVoltageLevels(allSitesBundle.FilterBySite(0), DefaultVoltageLevel);
-            AssertVoltageLevels(allSitesBundle.FilterBySite(_sitesOtherThanZero), ConfiguredVoltageLevel);
+            AssertVoltageLevels(allSitesBundle.FilterBySite(0), _defaultVoltageLevel);
+            AssertVoltageLevels(allSitesBundle.FilterBySite(_sitesOtherThanZero), _configuredVoltageLevel);
             AssertSameSessions(sessionsBeforeReset, GetSessions(allSitesBundle));
             AssertSessionsAreUsable(allSitesBundle);
         }
@@ -247,30 +247,30 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("DCPowerResetDevice_SessionPerChannel.pinmap")]
         [InlineData("DCPowerResetDevice_SharedSessionsWithinInstrument.pinmap")]
         [InlineData("DCPowerResetDevice_CommonSession.pinmap")]
-        public void SiteZeroBundle_ResetSingleChannel_OtherChannelsInSameSessionKeepConfiguration(string pinMap)
+        public void BundleWithSiteZero_ResetVccChannel_ResetsVccChannelAndKeepsVddChannelConfigured(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
-            sessionManager.DCPower(_resetDevicePins).ConfigureVoltageLevel(ConfiguredVoltageLevel, UpdateMode.Commit);
+            sessionManager.DCPower(_resetDevicePins).ConfigureVoltageLevel(_configuredVoltageLevel, UpdateMode.Commit);
             var siteZeroBundle = sessionManager.DCPower(_resetDevicePins).FilterBySite(0);
 
-            siteZeroBundle.Reset(SiteZeroVccChannel);
+            siteZeroBundle.Reset(_siteZeroVccChannel);
 
-            AssertVoltageLevels(siteZeroBundle.FilterByPin("VCC"), DefaultVoltageLevel);
-            AssertVoltageLevels(siteZeroBundle.FilterByPin("VDD"), ConfiguredVoltageLevel);
-            AssertVoltageLevels(sessionManager.DCPower(_resetDevicePins).FilterBySite(_sitesOtherThanZero), ConfiguredVoltageLevel);
+            AssertVoltageLevels(siteZeroBundle.FilterByPin("VCC"), _defaultVoltageLevel);
+            AssertVoltageLevels(siteZeroBundle.FilterByPin("VDD"), _configuredVoltageLevel);
+            AssertVoltageLevels(sessionManager.DCPower(_resetDevicePins).FilterBySite(_sitesOtherThanZero), _configuredVoltageLevel);
         }
 
         [Fact]
-        public void SiteZeroBundle_ResetWithUnorderedSpacedAndDuplicatedChannels_SiteZeroChannelsReset()
+        public void BundleWithSiteZero_ResetUnorderedSpacedAndDuplicatedChannels_ResetsChannelZero()
         {
             var sessionManager = Initialize("DCPowerResetDevice_SharedSessionsWithinInstrument.pinmap");
-            sessionManager.DCPower(_resetDevicePins).ConfigureVoltageLevel(ConfiguredVoltageLevel, UpdateMode.Commit);
+            sessionManager.DCPower(_resetDevicePins).ConfigureVoltageLevel(_configuredVoltageLevel, UpdateMode.Commit);
             var siteZeroBundle = sessionManager.DCPower(_resetDevicePins).FilterBySite(0);
 
-            siteZeroBundle.Reset(" SMU_4147_C2_S10/0 ,SMU_4147_C1_S11/0, SMU_4147_C1_S11/0 ");
+            siteZeroBundle.Reset(" SMU_4163_C1_S12/0 ,SMU_4162_C1_S11/0, SMU_4162_C1_S11/0 ");
 
-            AssertVoltageLevels(siteZeroBundle, DefaultVoltageLevel);
-            AssertVoltageLevels(sessionManager.DCPower(_resetDevicePins).FilterBySite(_sitesOtherThanZero), ConfiguredVoltageLevel);
+            AssertVoltageLevels(siteZeroBundle, _defaultVoltageLevel);
+            AssertVoltageLevels(sessionManager.DCPower(_resetDevicePins).FilterBySite(_sitesOtherThanZero), _configuredVoltageLevel);
         }
 
         [Theory]
@@ -278,7 +278,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("")]
         [InlineData("   ")]
         [InlineData(" , ")]
-        public void SiteZeroBundle_ResetWithNullOrEmptyChannelString_ThrowsException(string channelString)
+        public void BundleWithSiteZero_ResetNullOrEmptyChannelString_ThrowsException(string channelString)
         {
             var sessionManager = Initialize("DCPowerResetDevice_SessionPerChannel.pinmap");
             var siteZeroBundle = sessionManager.DCPower(_resetDevicePins).FilterBySite(0);
@@ -291,20 +291,20 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("SMU_4147_C1_S11/1")]
-        [InlineData("SMU_4147_C1_S11/0, SMU_4147_C2_S10/3")]
+        [InlineData("SMU_4162_C1_S11/1")]
+        [InlineData("SMU_4162_C1_S11/0, SMU_4163_C1_S12/3")]
         [InlineData("UnknownInstrument/0")]
-        public void SiteZeroBundle_ResetChannelNotInBundle_ThrowsExceptionAndNoChannelReset(string channelString)
+        public void BundleWithSiteZero_ResetChannelNotInBundle_ThrowsExceptionAndResetsNoChannel(string channelString)
         {
             var sessionManager = Initialize("DCPowerResetDevice_SessionPerChannel.pinmap");
-            sessionManager.DCPower(_resetDevicePins).ConfigureVoltageLevel(ConfiguredVoltageLevel, UpdateMode.Commit);
+            sessionManager.DCPower(_resetDevicePins).ConfigureVoltageLevel(_configuredVoltageLevel, UpdateMode.Commit);
             var siteZeroBundle = sessionManager.DCPower(_resetDevicePins).FilterBySite(0);
 
             void Reset() => siteZeroBundle.Reset(channelString);
 
             var exception = Assert.Throws<NISemiconductorTestException>(Reset);
             Assert.Contains("are not part of the sessions bundle", exception.Message);
-            AssertVoltageLevels(sessionManager.DCPower(_resetDevicePins), ConfiguredVoltageLevel);
+            AssertVoltageLevels(sessionManager.DCPower(_resetDevicePins), _configuredVoltageLevel);
         }
 
         [Theory]
@@ -312,19 +312,20 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("DCPowerResetDevice_Ganged_SharedSessionsWithinInstrument.pinmap")]
         [InlineData("DCPowerResetDevice_Ganged_AcrossInstruments.pinmap")]
         [InlineData("DCPowerResetDevice_Ganged_SessionsSpanningInstruments.pinmap")]
-        public void GangedPinGroup_ResetAllGangedChannels_GangedChannelsResetAndBundleUsable(string pinMap)
+        [InlineData("DCPowerResetDevice_Ganged_CommonSession.pinmap")]
+        public void BundleWithGangedPinGroup_ResetGangedChannels_ResetsGangedChannelsAndKeepsGanging(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
             var gangedBundle = sessionManager.DCPower(_gangedPins);
-            gangedBundle.GangPinGroup(GangedPinGroup);
-            gangedBundle.ForceVoltage(voltageLevel: ConfiguredVoltageLevel, currentLimit: GangedCurrentLimit);
+            gangedBundle.GangPinGroup(_gangedPinGroup);
+            gangedBundle.ForceVoltage(voltageLevel: _configuredVoltageLevel, currentLimit: _dangedCurrentLimit);
 
             gangedBundle.Reset(GetChannelString(gangedBundle));
 
-            AssertVoltageLevels(gangedBundle, DefaultVoltageLevel);
+            AssertVoltageLevels(gangedBundle, _defaultVoltageLevel);
             Assert.True(gangedBundle.HasGangedChannels);
-            gangedBundle.ForceVoltage(voltageLevel: ConfiguredVoltageLevel, currentLimit: GangedCurrentLimit);
-            gangedBundle.UngangPinGroup(GangedPinGroup);
+            gangedBundle.ForceVoltage(voltageLevel: _configuredVoltageLevel, currentLimit: _dangedCurrentLimit);
+            gangedBundle.UngangPinGroup(_gangedPinGroup);
         }
 
         [Theory]
@@ -338,23 +339,23 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("DCPowerResetDevice_SharedSessionsAcrossInstruments.pinmap", true)]
         [InlineData("DCPowerResetDevice_CommonSession.pinmap", false)]
         [InlineData("DCPowerResetDevice_CommonSession.pinmap", true)]
-        public void SitesSplitAcrossBundles_ResetDeviceOnSiteZeroBundle_SiteZeroChannelsResetAndOtherChannelsRecovered(string pinMap, bool restoreConfiguration)
+        public void BundleWithSiteZero_ResetDevice_ResetsChannelZeroAndReinitializesOtherChannels(string pinMap, bool restoreConfiguration)
         {
             /// Arrange
             var sessionManager = Initialize(pinMap);
-            sessionManager.DCPower(_resetDevicePins).ConfigureVoltageLevel(ConfiguredVoltageLevel, UpdateMode.Commit);
+            sessionManager.DCPower(_resetDevicePins).ConfigureVoltageLevel(_configuredVoltageLevel, UpdateMode.Commit);
             var bundleA = sessionManager.DCPower(_resetDevicePins).FilterBySite(0);
             var bundleB = sessionManager.DCPower(_resetDevicePins).FilterBySite(1);
             var bundleC = sessionManager.DCPower(_resetDevicePins).FilterBySite(_sitesOtherThanZero);
             var bundleD = sessionManager.DCPower(_resetDevicePins).FilterBySite(0);
-            var expectedOtherChannelsVoltageLevel = restoreConfiguration ? ConfiguredVoltageLevel : DefaultVoltageLevel;
+            var expectedOtherChannelsVoltageLevel = restoreConfiguration ? _configuredVoltageLevel : _defaultVoltageLevel;
 
             /// Act
             bundleA.ResetDevice(restoreConfiguration);
 
             /// Assert
-            AssertVoltageLevels(bundleA, DefaultVoltageLevel);
-            AssertVoltageLevels(bundleD, DefaultVoltageLevel);
+            AssertVoltageLevels(bundleA, _defaultVoltageLevel);
+            AssertVoltageLevels(bundleD, _defaultVoltageLevel);
             AssertVoltageLevels(bundleB, expectedOtherChannelsVoltageLevel);
             AssertVoltageLevels(bundleC, expectedOtherChannelsVoltageLevel);
             AssertSessionsAreUsable(bundleA, bundleB, bundleC, bundleD);
@@ -366,17 +367,17 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("DCPowerResetDevice_SharedSessionsWithinInstrument.pinmap")]
         [InlineData("DCPowerResetDevice_SharedSessionsAcrossInstruments.pinmap")]
         [InlineData("DCPowerResetDevice_CommonSession.pinmap")]
-        public void SitesSplitAcrossBundles_ResetDeviceWithDefaultRestoreConfiguration_OtherChannelsRestored(string pinMap)
+        public void BundleWithSiteZero_ResetDeviceWithDefaultRestoreConfiguration_RestoresConfigurationOfOtherChannels(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
-            sessionManager.DCPower(_resetDevicePins).ConfigureVoltageLevel(ConfiguredVoltageLevel, UpdateMode.Commit);
+            sessionManager.DCPower(_resetDevicePins).ConfigureVoltageLevel(_configuredVoltageLevel, UpdateMode.Commit);
             var bundleA = sessionManager.DCPower(_resetDevicePins).FilterBySite(0);
             var otherSitesBundle = sessionManager.DCPower(_resetDevicePins).FilterBySite(_sitesOtherThanZero);
 
             bundleA.ResetDevice();
 
-            AssertVoltageLevels(bundleA, DefaultVoltageLevel);
-            AssertVoltageLevels(otherSitesBundle, ConfiguredVoltageLevel);
+            AssertVoltageLevels(bundleA, _defaultVoltageLevel);
+            AssertVoltageLevels(otherSitesBundle, _configuredVoltageLevel);
         }
 
         [Theory]
@@ -385,7 +386,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("DCPowerResetDevice_SharedSessionsWithinInstrument.pinmap")]
         [InlineData("DCPowerResetDevice_SharedSessionsAcrossInstruments.pinmap")]
         [InlineData("DCPowerResetDevice_CommonSession.pinmap")]
-        public void SitesSplitAcrossBundles_ResetDeviceOnSiteZeroBundle_SessionsOfSiteZeroBundleAreNotReinitialized(string pinMap)
+        public void BundleWithSiteZero_ResetDevice_DoesNotReinitializeSessionsOfBundle(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
             var bundleA = sessionManager.DCPower(_resetDevicePins).FilterBySite(0);
@@ -397,7 +398,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SessionPerChannel_ResetDeviceOnSiteZeroBundle_SessionsOfOtherSitesReinitialized()
+        public void BundleWithSiteZeroAndSessionPerChannel_ResetDevice_ReinitializesSessionsOfOtherChannels()
         {
             var sessionManager = Initialize("DCPowerResetDevice_SessionPerChannel.pinmap");
             var bundleA = sessionManager.DCPower(_resetDevicePins).FilterBySite(0);
@@ -414,35 +415,35 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void SessionPerChannel_ResetDeviceOnBundleWithTwoSessionsOnSameInstrument_AllChannelsOfBundleReset(bool restoreConfiguration)
+        public void BundleWithTwoSessionsOnSameInstrument_ResetDevice_ResetsAllChannelsOfBundle(bool restoreConfiguration)
         {
             var sessionManager = Initialize("DCPowerResetDevice_SessionPerChannel.pinmap");
-            sessionManager.DCPower(_resetDevicePins).ConfigureVoltageLevel(ConfiguredVoltageLevel, UpdateMode.Commit);
+            sessionManager.DCPower(_resetDevicePins).ConfigureVoltageLevel(_configuredVoltageLevel, UpdateMode.Commit);
             var resetBundle = sessionManager.DCPower(_resetDevicePins).FilterBySite(new[] { 0, 1 });
             var otherSitesBundle = sessionManager.DCPower(_resetDevicePins).FilterBySite(new[] { 2, 3 });
 
             resetBundle.ResetDevice(restoreConfiguration);
 
-            AssertVoltageLevels(resetBundle, DefaultVoltageLevel);
-            AssertVoltageLevels(otherSitesBundle, restoreConfiguration ? ConfiguredVoltageLevel : DefaultVoltageLevel);
+            AssertVoltageLevels(resetBundle, _defaultVoltageLevel);
+            AssertVoltageLevels(otherSitesBundle, restoreConfiguration ? _configuredVoltageLevel : _defaultVoltageLevel);
             AssertSessionsAreUsable(resetBundle, otherSitesBundle);
         }
 
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void SessionPerChannel_ResetDeviceOnPinFilteredBundle_ChannelsOnOtherInstrumentUntouched(bool restoreConfiguration)
+        public void BundleWithVccPin_ResetDevice_KeepsChannelsOnOtherInstrumentConfigured(bool restoreConfiguration)
         {
             var sessionManager = Initialize("DCPowerResetDevice_SessionPerChannel.pinmap");
-            sessionManager.DCPower(_resetDevicePins).ConfigureVoltageLevel(ConfiguredVoltageLevel, UpdateMode.Commit);
+            sessionManager.DCPower(_resetDevicePins).ConfigureVoltageLevel(_configuredVoltageLevel, UpdateMode.Commit);
             var vccBundle = sessionManager.DCPower(_resetDevicePins).FilterByPin("VCC");
             var vddBundle = sessionManager.DCPower(_resetDevicePins).FilterByPin("VDD");
             var vddSessionsBeforeReset = GetSessions(vddBundle);
 
             vccBundle.ResetDevice(restoreConfiguration);
 
-            AssertVoltageLevels(vccBundle, DefaultVoltageLevel);
-            AssertVoltageLevels(vddBundle, ConfiguredVoltageLevel);
+            AssertVoltageLevels(vccBundle, _defaultVoltageLevel);
+            AssertVoltageLevels(vddBundle, _configuredVoltageLevel);
             AssertSameSessions(vddSessionsBeforeReset, GetSessions(vddBundle));
             AssertSessionsAreUsable(vccBundle, vddBundle);
         }
@@ -454,18 +455,18 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("DCPowerResetDevice_SharedSessionsWithinInstrument.pinmap", true)]
         [InlineData("DCPowerResetDevice_CommonSession.pinmap", false)]
         [InlineData("DCPowerResetDevice_CommonSession.pinmap", true)]
-        public void OtherSitesDisabled_ResetDeviceOnSiteZeroBundle_ChannelsOfDisabledSitesRecovered(string pinMap, bool restoreConfiguration)
+        public void BundleWithSiteZeroAndOtherSitesDisabled_ResetDevice_ReinitializesChannelsOfDisabledSites(string pinMap, bool restoreConfiguration)
         {
             var sessionManager = Initialize(pinMap);
-            sessionManager.DCPower(_resetDevicePins).ConfigureVoltageLevel(ConfiguredVoltageLevel, UpdateMode.Commit);
+            sessionManager.DCPower(_resetDevicePins).ConfigureVoltageLevel(_configuredVoltageLevel, UpdateMode.Commit);
             var siteZeroSessionManager = new TSMSessionManager(_tsmContext.GetSemiconductorModuleContextWithSites(new[] { 0 }));
             var bundleA = siteZeroSessionManager.DCPower(_resetDevicePins);
 
             bundleA.ResetDevice(restoreConfiguration);
 
             var disabledSitesBundle = sessionManager.DCPower(_resetDevicePins).FilterBySite(_sitesOtherThanZero);
-            AssertVoltageLevels(bundleA, DefaultVoltageLevel);
-            AssertVoltageLevels(disabledSitesBundle, restoreConfiguration ? ConfiguredVoltageLevel : DefaultVoltageLevel);
+            AssertVoltageLevels(bundleA, _defaultVoltageLevel);
+            AssertVoltageLevels(disabledSitesBundle, restoreConfiguration ? _configuredVoltageLevel : _defaultVoltageLevel);
             AssertSessionsAreUsable(bundleA, disabledSitesBundle);
         }
 
@@ -475,10 +476,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("DCPowerResetDevice_SharedSessionsWithinInstrument.pinmap")]
         [InlineData("DCPowerResetDevice_SharedSessionsAcrossInstruments.pinmap")]
         [InlineData("DCPowerResetDevice_CommonSession.pinmap")]
-        public void OneThreadPerSite_ResetDeviceOnEachSiteBundle_AllChannelsResetAndUsable(string pinMap)
+        public void BundlePerSiteOnParallelThreads_ResetDevice_ResetsAllChannelsAndKeepsSessionsUsable(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
-            sessionManager.DCPower(_resetDevicePins).ConfigureVoltageLevel(ConfiguredVoltageLevel, UpdateMode.Commit);
+            sessionManager.DCPower(_resetDevicePins).ConfigureVoltageLevel(_configuredVoltageLevel, UpdateMode.Commit);
 
             Parallel.ForEach(_tsmContext.SiteNumbers, siteNumber =>
             {
@@ -487,7 +488,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
 
             var allSitesBundle = sessionManager.DCPower(_resetDevicePins);
-            AssertVoltageLevels(allSitesBundle, DefaultVoltageLevel);
+            AssertVoltageLevels(allSitesBundle, _defaultVoltageLevel);
             AssertSessionsAreUsable(allSitesBundle);
         }
 
@@ -496,13 +497,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("DCPowerResetDevice_Ganged_SharedSessionsWithinInstrument.pinmap")]
         [InlineData("DCPowerResetDevice_Ganged_AcrossInstruments.pinmap")]
         [InlineData("DCPowerResetDevice_Ganged_SessionsSpanningInstruments.pinmap")]
-        public void GangedPinGroup_ResetDeviceOnSiteOneBundle_SiteZeroGangedChannelsRestoredAndUsable(string pinMap)
+        [InlineData("DCPowerResetDevice_Ganged_CommonSession.pinmap")]
+        public void BundleWithSiteOneGangedPinGroup_ResetDevice_ResetsSiteOneAndRestoresSiteZeroGangedChannels(string pinMap)
         {
             /// Arrange
             var sessionManager = Initialize(pinMap);
             var gangedBundle = sessionManager.DCPower(_gangedPins);
-            gangedBundle.GangPinGroup(GangedPinGroup);
-            gangedBundle.ForceVoltage(voltageLevel: ConfiguredVoltageLevel, currentLimit: GangedCurrentLimit);
+            gangedBundle.GangPinGroup(_gangedPinGroup);
+            gangedBundle.ForceVoltage(voltageLevel: _configuredVoltageLevel, currentLimit: _dangedCurrentLimit);
             var siteZeroBundle = gangedBundle.FilterBySite(0);
             var siteOneBundle = gangedBundle.FilterBySite(1);
             var siteZeroVoltageLevelsBeforeReset = GetVoltageLevelPerChannel(siteZeroBundle);
@@ -517,10 +519,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 Assert.Equal(channelVoltageLevel.Value, siteZeroVoltageLevelsAfterReset[channelVoltageLevel.Key], 3);
             }
-            AssertVoltageLevels(siteOneBundle, DefaultVoltageLevel);
+            AssertVoltageLevels(siteOneBundle, _defaultVoltageLevel);
             Assert.True(gangedBundle.HasGangedChannels);
-            gangedBundle.ForceVoltage(voltageLevel: ConfiguredVoltageLevel, currentLimit: GangedCurrentLimit);
-            gangedBundle.UngangPinGroup(GangedPinGroup);
+            gangedBundle.ForceVoltage(voltageLevel: _configuredVoltageLevel, currentLimit: _dangedCurrentLimit);
+            gangedBundle.UngangPinGroup(_gangedPinGroup);
         }
 
         [Theory]
@@ -529,20 +531,20 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [InlineData("DCPowerResetDevice_SharedSessionsWithinInstrument.pinmap")]
         [InlineData("DCPowerResetDevice_SharedSessionsAcrossInstruments.pinmap")]
         [InlineData("DCPowerResetDevice_CommonSession.pinmap")]
-        public void OneThreadForAllSites_ResetDeviceOnAllSitesBundle_AllChannelsResetAndUsable(string pinMap)
+        public void BundleWithAllSites_ResetDevice_ResetsAllChannelsAndKeepsSessionsUsable(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
             var allSitesBundle = sessionManager.DCPower(_resetDevicePins);
-            allSitesBundle.ConfigureVoltageLevel(ConfiguredVoltageLevel, UpdateMode.Commit);
+            allSitesBundle.ConfigureVoltageLevel(_configuredVoltageLevel, UpdateMode.Commit);
 
             allSitesBundle.ResetDevice();
 
-            AssertVoltageLevels(allSitesBundle, DefaultVoltageLevel);
+            AssertVoltageLevels(allSitesBundle, _defaultVoltageLevel);
             AssertSessionsAreUsable(allSitesBundle);
         }
 
         [Fact]
-        public void SessionsNotInitializedWithInitializeAndClose_ResetDevice_ThrowsException()
+        public void BundleWithSessionsNotInitializedByInitializeAndClose_ResetDevice_ThrowsException()
         {
             _tsmContext = CreateTSMContext("DCPowerResetDevice_SessionPerChannel.pinmap");
             foreach (var resourceString in _tsmContext.GetNIDCPowerResourceStrings())
