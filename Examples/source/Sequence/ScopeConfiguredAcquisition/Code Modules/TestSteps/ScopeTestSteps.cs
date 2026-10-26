@@ -101,6 +101,19 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ConfiguredAcquis
             {
                 scopeBundle.ConfigureTriggerDigital(digitalTriggerSettings);
             }
+        }
+
+        /// <summary>
+        /// This method used for configuring trigger settings.
+        /// </summary>
+        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
+        /// <param name="pinOrPinGroup">Name of the scope pin or pin group to be used for waveform acquisition.</param>
+        public static void ScopeInitiateAcquisition(
+            ISemiconductorModuleContext tsmContext,
+            string pinOrPinGroup)
+        {
+            TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
+            ScopeSessionsBundle scopeBundle = sessionManager.Scope(pinOrPinGroup);
             scopeBundle.Initiate();
         }
 
@@ -121,33 +134,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ConfiguredAcquis
             TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
             ScopeSessionsBundle scopeBundle = sessionManager.Scope(pinOrPinGroup);
             return scopeBundle.FetchWaveform(PrecisionTimeSpan.FromSeconds(timeout), maxSamples);
-        }
-
-        /// <summary>
-        /// This method demonstrates how to configure and acquire data from the Scope using the Semiconductor Module API.
-        /// </summary>
-        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
-        /// <param name="pinOrPinGroup">Name of the scope pin or pin group to be used for waveform acquisition.</param>
-        /// <returns>The acquired waveforms.</returns>
-        public static PinSiteData<AnalogWaveform<double>> ScopeConfiguredAcquisition(
-            ISemiconductorModuleContext tsmContext,
-            string pinOrPinGroup)
-        {
-            TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
-            ScopeSessionsBundle scopeBundle = sessionManager.Scope(pinOrPinGroup);
-            VerticalSettings verticalSettings = new VerticalSettings
-            {
-                EnableTimeInterleavedSampling = false,
-            };
-            scopeBundle.ConfigureVertical(verticalSettings);
-            ElectricalCharacteristics electricalCharacteristics = new ElectricalCharacteristics
-            {
-            };
-            scopeBundle.ConfigureElectricalCharacteristics(electricalCharacteristics);
-            scopeBundle.ConfigureTriggerImmediate();
-            scopeBundle.Initiate();
-
-            return scopeBundle.FetchWaveform(PrecisionTimeSpan.FromSeconds(50.0), 1000);
         }
 
         /// <summary>
