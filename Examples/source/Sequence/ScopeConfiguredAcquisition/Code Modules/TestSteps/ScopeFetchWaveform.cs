@@ -8,13 +8,13 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ConfiguredAcquis
     public static partial class ScopeTestSteps
     {
         /// <summary>
-        /// This method demonstrates how to configure and acquire data from the Scope using the Semiconductor Module API.
+        /// This method demonstrates how to acquire data from the Scope using the Semiconductor Module API.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="pinOrPinGroup">Name of the scope pin or pin group to be used for waveform acquisition.</param>
         /// <param name="timeout">The timeout value in seconds for waveform acquisition.</param>
         /// <param name="maxSamples">The maximum number of samples to acquire.</param>
-        /// <returns>The acquired waveforms.</returns>
+        /// <returns>The acquired waveforms indexed by site and pin.</returns>
         public static PinSiteData<AnalogWaveform<double>> ScopeFetchWaveform(
             ISemiconductorModuleContext tsmContext,
             string pinOrPinGroup,

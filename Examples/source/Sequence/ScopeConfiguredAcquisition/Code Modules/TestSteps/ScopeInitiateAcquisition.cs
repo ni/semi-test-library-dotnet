@@ -7,7 +7,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ConfiguredAcquis
     public static partial class ScopeTestSteps
     {
         /// <summary>
-        /// This method used for configuring trigger settings.
+        /// This method used for Initiating waveform acquisition on the specified scope pin or pin group.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="pinOrPinGroup">Name of the scope pin or pin group to be used for waveform acquisition.</param>

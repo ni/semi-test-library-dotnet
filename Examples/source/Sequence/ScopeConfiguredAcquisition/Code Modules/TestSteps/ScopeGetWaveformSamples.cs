@@ -10,7 +10,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ConfiguredAcquis
     public static partial class ScopeTestSteps
     {
         /// <summary>
-        /// Gets raw
+        /// Gets raw sample values from a waveform acquired from a site pin based scope data.
         /// </summary>
         /// <param name="waveforms">Collection of analog waveforms indexed by site and pin.</param>
         /// <param name="siteNumber">Site number used to select the waveform.</param>
