@@ -38,8 +38,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         private readonly double _defaultVoltageLevel = 0.0;
         private readonly double _dangedCurrentLimit = 0.02;
         private readonly string _gangedPinGroup = "GangedPins";
-        private readonly string _siteZeroVccChannelString = "SMU_4162_C1_S11/0";
-        private readonly string _siteZeroChannelString = "SMU_4162_C1_S11/0, SMU_4163_C1_S12/0";
         private readonly string[] _resetDevicePins = new string[] { "VCC", "VDD" };
         private readonly string[] _gangedPins = new string[] { "VCC1", "VCC2" };
         private readonly int[] _sitesOtherThanZero = new int[] { 1, 2, 3 };
@@ -223,11 +221,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("DCPowerResetDevice_SessionPerChannel.pinmap")]
-        [InlineData("DCPowerResetDevice_SessionPerInstrument.pinmap")]
-        [InlineData("DCPowerResetDevice_SharedSessionsWithinInstrument.pinmap")]
-        [InlineData("DCPowerResetDevice_SharedSessionsAcrossInstruments.pinmap")]
-        [InlineData("DCPowerResetDevice_CommonSession.pinmap")]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData("DCPowerSessionPerChannel.pinmap")]
+        [InlineData("DCPowerSessionPerInstrument.pinmap")]
+        [InlineData("DCPowerSharedSessionsWithinInstrument.pinmap")]
+        [InlineData("DCPowerSharedSessionsAcrossInstruments.pinmap")]
+        [InlineData("DCPowerCommonSession.pinmap")]
         public void BundleWithAllSites_ResetChannelZero_ResetsChannelZeroAndKeepsOtherChannelsConfigured(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
@@ -235,7 +235,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             allSitesBundle.ConfigureVoltageLevel(_configuredVoltageLevel, UpdateMode.Commit);
             var sessionsBeforeReset = GetSessions(allSitesBundle);
 
-            allSitesBundle.Reset(_siteZeroChannelString);
+            allSitesBundle.Reset(GetChannelString(allSitesBundle.FilterBySite(0)));
 
             AssertVoltageLevels(allSitesBundle.FilterBySite(0), _defaultVoltageLevel);
             AssertVoltageLevels(allSitesBundle.FilterBySite(_sitesOtherThanZero), _configuredVoltageLevel);
@@ -244,16 +244,18 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("DCPowerResetDevice_SessionPerChannel.pinmap")]
-        [InlineData("DCPowerResetDevice_SharedSessionsWithinInstrument.pinmap")]
-        [InlineData("DCPowerResetDevice_CommonSession.pinmap")]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData("DCPowerSessionPerChannel.pinmap")]
+        [InlineData("DCPowerSharedSessionsWithinInstrument.pinmap")]
+        [InlineData("DCPowerCommonSession.pinmap")]
         public void BundleWithSiteZero_ResetChannelWithVCCPin_ResetsChannelsWithVCCAndKeepsOtherchannelsConfigured(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
             sessionManager.DCPower(_resetDevicePins).ConfigureVoltageLevel(_configuredVoltageLevel, UpdateMode.Commit);
             var siteZeroBundle = sessionManager.DCPower(_resetDevicePins).FilterBySite(0);
 
-            siteZeroBundle.Reset(_siteZeroVccChannelString);
+            siteZeroBundle.Reset(GetChannelString(siteZeroBundle.FilterByPin("VCC")));
 
             AssertVoltageLevels(siteZeroBundle.FilterByPin("VCC"), _defaultVoltageLevel);
             AssertVoltageLevels(siteZeroBundle.FilterByPin("VDD"), _configuredVoltageLevel);
@@ -261,13 +263,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(null)]
         [InlineData("")]
         [InlineData("   ")]
         [InlineData(" , ")]
         public void BundleWithSiteZero_ResetNullOrEmptyChannelString_ThrowsException(string channelString)
         {
-            var sessionManager = Initialize("DCPowerResetDevice_SessionPerChannel.pinmap");
+            var sessionManager = Initialize("DCPowerSessionPerChannel.pinmap");
             var siteZeroBundle = sessionManager.DCPower(_resetDevicePins).FilterBySite(0);
 
             void Reset() => siteZeroBundle.Reset(channelString);
@@ -278,14 +282,17 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("SMU_4162_C1_S11/1")]
-        [InlineData("SMU_4162_C1_S11/0, SMU_4163_C1_S12/3")]
-        [InlineData("UnknownInstrument/0")]
-        public void BundleWithSiteZero_ResetChannelNotInBundle_ThrowsExceptionAndResetsNoChannel(string channelString)
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void BundleWithSiteZero_ResetChannelOfOtherSite_ThrowsExceptionAndResetsNoChannel(bool includeSiteZeroChannel)
         {
-            var sessionManager = Initialize("DCPowerResetDevice_SessionPerChannel.pinmap");
+            var sessionManager = Initialize("DCPowerSessionPerChannel.pinmap");
             sessionManager.DCPower(_resetDevicePins).ConfigureVoltageLevel(_configuredVoltageLevel, UpdateMode.Commit);
             var siteZeroBundle = sessionManager.DCPower(_resetDevicePins).FilterBySite(0);
+            var otherSiteChannelString = GetChannelString(sessionManager.DCPower("VCC").FilterBySite(1));
+            var channelString = includeSiteZeroChannel ? $"{GetChannelString(siteZeroBundle.FilterByPin("VCC"))}, {otherSiteChannelString}" : otherSiteChannelString;
 
             void Reset() => siteZeroBundle.Reset(channelString);
 
@@ -294,12 +301,30 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             AssertVoltageLevels(sessionManager.DCPower(_resetDevicePins), _configuredVoltageLevel);
         }
 
+        [Fact]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        public void BundleWithSiteZero_ResetChannelOfUnknownInstrument_ThrowsExceptionAndResetsNoChannel()
+        {
+            var sessionManager = Initialize("DCPowerSessionPerChannel.pinmap");
+            sessionManager.DCPower(_resetDevicePins).ConfigureVoltageLevel(_configuredVoltageLevel, UpdateMode.Commit);
+            var siteZeroBundle = sessionManager.DCPower(_resetDevicePins).FilterBySite(0);
+
+            void Reset() => siteZeroBundle.Reset("UnknownInstrument/0");
+
+            var exception = Assert.Throws<NISemiconductorTestException>(Reset);
+            Assert.Contains("are not part of the sessions bundle", exception.Message);
+            AssertVoltageLevels(sessionManager.DCPower(_resetDevicePins), _configuredVoltageLevel);
+        }
+
         [Theory]
-        [InlineData("DCPowerResetDevice_Ganged_SessionPerChannel.pinmap")]
-        [InlineData("DCPowerResetDevice_Ganged_SharedSessionsWithinInstrument.pinmap")]
-        [InlineData("DCPowerResetDevice_Ganged_AcrossInstruments.pinmap")]
-        [InlineData("DCPowerResetDevice_Ganged_SessionsSpanningInstruments.pinmap")]
-        [InlineData("DCPowerResetDevice_Ganged_CommonSession.pinmap")]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData("DCPowerGanged_SessionPerChannel.pinmap")]
+        [InlineData("DCPowerGanged_SharedSessionsWithinInstrument.pinmap")]
+        [InlineData("DCPowerGanged_AcrossInstruments.pinmap")]
+        [InlineData("DCPowerGanged_SessionsSpanningInstruments.pinmap")]
+        [InlineData("DCPowerGanged_CommonSession.pinmap")]
         public void BundleWithGangedPinGroup_ResetGangedChannels_ResetsGangedChannelsAndKeepsGanging(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
@@ -316,16 +341,18 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("DCPowerResetDevice_SessionPerChannel.pinmap", false)]
-        [InlineData("DCPowerResetDevice_SessionPerChannel.pinmap", true)]
-        [InlineData("DCPowerResetDevice_SessionPerInstrument.pinmap", false)]
-        [InlineData("DCPowerResetDevice_SessionPerInstrument.pinmap", true)]
-        [InlineData("DCPowerResetDevice_SharedSessionsWithinInstrument.pinmap", false)]
-        [InlineData("DCPowerResetDevice_SharedSessionsWithinInstrument.pinmap", true)]
-        [InlineData("DCPowerResetDevice_SharedSessionsAcrossInstruments.pinmap", false)]
-        [InlineData("DCPowerResetDevice_SharedSessionsAcrossInstruments.pinmap", true)]
-        [InlineData("DCPowerResetDevice_CommonSession.pinmap", false)]
-        [InlineData("DCPowerResetDevice_CommonSession.pinmap", true)]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData("DCPowerSessionPerChannel.pinmap", false)]
+        [InlineData("DCPowerSessionPerChannel.pinmap", true)]
+        [InlineData("DCPowerSessionPerInstrument.pinmap", false)]
+        [InlineData("DCPowerSessionPerInstrument.pinmap", true)]
+        [InlineData("DCPowerSharedSessionsWithinInstrument.pinmap", false)]
+        [InlineData("DCPowerSharedSessionsWithinInstrument.pinmap", true)]
+        [InlineData("DCPowerSharedSessionsAcrossInstruments.pinmap", false)]
+        [InlineData("DCPowerSharedSessionsAcrossInstruments.pinmap", true)]
+        [InlineData("DCPowerCommonSession.pinmap", false)]
+        [InlineData("DCPowerCommonSession.pinmap", true)]
         public void BundlesWithOverlappingChannels_ResetDeviceWithSiteZeroBundle_ResetsSiteZeroChannelsAndReinitializesOtherChannels(string pinMap, bool restoreConfiguration)
         {
             var sessionManager = Initialize(pinMap);
@@ -346,11 +373,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("DCPowerResetDevice_SessionPerChannel.pinmap")]
-        [InlineData("DCPowerResetDevice_SessionPerInstrument.pinmap")]
-        [InlineData("DCPowerResetDevice_SharedSessionsWithinInstrument.pinmap")]
-        [InlineData("DCPowerResetDevice_SharedSessionsAcrossInstruments.pinmap")]
-        [InlineData("DCPowerResetDevice_CommonSession.pinmap")]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData("DCPowerSessionPerChannel.pinmap")]
+        [InlineData("DCPowerSessionPerInstrument.pinmap")]
+        [InlineData("DCPowerSharedSessionsWithinInstrument.pinmap")]
+        [InlineData("DCPowerSharedSessionsAcrossInstruments.pinmap")]
+        [InlineData("DCPowerCommonSession.pinmap")]
         public void BundleWithSiteZero_ResetDevice_DoesNotReinitializeSessionsOfBundle(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
@@ -363,9 +392,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void InitializeSessionPerChannel_ResetDeviceChannelsInSiteZero_ReinitializesSessionsOfOtherChannels()
         {
-            var sessionManager = Initialize("DCPowerResetDevice_SessionPerChannel.pinmap");
+            var sessionManager = Initialize("DCPowerSessionPerChannel.pinmap");
             var bundleA = sessionManager.DCPower(_resetDevicePins).FilterBySite(0);
             var otherSitesBundle = sessionManager.DCPower(_resetDevicePins).FilterBySite(_sitesOtherThanZero);
             var otherSitesSessionsBeforeReset = GetSessions(otherSitesBundle);
@@ -378,11 +409,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData(false)]
         [InlineData(true)]
         public void InitializeSessions_ResetDeviceInBundleWithVCCPin_ResetsChannelsWithVCCPinsAndKeepsOtherChannelsSame(bool restoreConfiguration)
         {
-            var sessionManager = Initialize("DCPowerResetDevice_SessionPerChannel.pinmap");
+            var sessionManager = Initialize("DCPowerSessionPerChannel.pinmap");
             sessionManager.DCPower(_resetDevicePins).ConfigureVoltageLevel(_configuredVoltageLevel, UpdateMode.Commit);
             var vccBundle = sessionManager.DCPower(_resetDevicePins).FilterByPin("VCC");
             var vddBundle = sessionManager.DCPower(_resetDevicePins).FilterByPin("VDD");
@@ -397,12 +430,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("DCPowerResetDevice_SessionPerChannel.pinmap", false)]
-        [InlineData("DCPowerResetDevice_SessionPerChannel.pinmap", true)]
-        [InlineData("DCPowerResetDevice_SharedSessionsWithinInstrument.pinmap", false)]
-        [InlineData("DCPowerResetDevice_SharedSessionsWithinInstrument.pinmap", true)]
-        [InlineData("DCPowerResetDevice_CommonSession.pinmap", false)]
-        [InlineData("DCPowerResetDevice_CommonSession.pinmap", true)]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData("DCPowerSessionPerChannel.pinmap", false)]
+        [InlineData("DCPowerSessionPerChannel.pinmap", true)]
+        [InlineData("DCPowerSharedSessionsWithinInstrument.pinmap", false)]
+        [InlineData("DCPowerSharedSessionsWithinInstrument.pinmap", true)]
+        [InlineData("DCPowerCommonSession.pinmap", false)]
+        [InlineData("DCPowerCommonSession.pinmap", true)]
         public void OtherSitesDisabled_ResetDeviceWithSiteZeroBundle_ResetsSiteZeroChannelsAndReinitializesChannelsOfDisabledSites(string pinMap, bool restoreConfiguration)
         {
             var sessionManager = Initialize(pinMap);
@@ -419,11 +454,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("DCPowerResetDevice_SessionPerChannel.pinmap")]
-        [InlineData("DCPowerResetDevice_SessionPerInstrument.pinmap")]
-        [InlineData("DCPowerResetDevice_SharedSessionsWithinInstrument.pinmap")]
-        [InlineData("DCPowerResetDevice_SharedSessionsAcrossInstruments.pinmap")]
-        [InlineData("DCPowerResetDevice_CommonSession.pinmap")]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData("DCPowerSessionPerChannel.pinmap")]
+        [InlineData("DCPowerSessionPerInstrument.pinmap")]
+        [InlineData("DCPowerSharedSessionsWithinInstrument.pinmap")]
+        [InlineData("DCPowerSharedSessionsAcrossInstruments.pinmap")]
+        [InlineData("DCPowerCommonSession.pinmap")]
         public void BundlePerSiteOnParallelThreads_ResetDevice_ResetsAllChannelsAndKeepsSessionsUsable(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
@@ -441,11 +478,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [InlineData("DCPowerResetDevice_Ganged_SessionPerChannel.pinmap")]
-        [InlineData("DCPowerResetDevice_Ganged_SharedSessionsWithinInstrument.pinmap")]
-        [InlineData("DCPowerResetDevice_Ganged_AcrossInstruments.pinmap")]
-        [InlineData("DCPowerResetDevice_Ganged_SessionsSpanningInstruments.pinmap")]
-        [InlineData("DCPowerResetDevice_Ganged_CommonSession.pinmap")]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData("DCPowerGanged_SessionPerChannel.pinmap")]
+        [InlineData("DCPowerGanged_SharedSessionsWithinInstrument.pinmap")]
+        [InlineData("DCPowerGanged_AcrossInstruments.pinmap")]
+        [InlineData("DCPowerGanged_SessionsSpanningInstruments.pinmap")]
+        [InlineData("DCPowerGanged_CommonSession.pinmap")]
         public void BundleWithSiteOneGangedPinGroup_ResetDevice_ResetsSiteOneAndRestoresSiteZeroGangedChannels(string pinMap)
         {
             var sessionManager = Initialize(pinMap);
@@ -471,9 +510,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void BundleWithSessionsNotInitializedByInitializeAndClose_ResetDevice_ThrowsException()
         {
-            _tsmContext = CreateTSMContext("DCPowerResetDevice_SessionPerChannel.pinmap");
+            _tsmContext = CreateTSMContext("DCPowerSessionPerChannel.pinmap");
             foreach (var resourceString in _tsmContext.GetNIDCPowerResourceStrings())
             {
                 _tsmContext.SetNIDCPowerSession(resourceString, new NIDCPower(resourceString, false, string.Empty));
