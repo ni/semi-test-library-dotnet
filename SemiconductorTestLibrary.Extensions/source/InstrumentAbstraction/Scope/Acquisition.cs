@@ -31,7 +31,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// Initiates an acquisition, waits for it to complete, and returns the acquired waveform for each site and pin in the <see cref="ScopeSessionsBundle"/>.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
-        /// <param name="timeout">The time to wait for data to be acquired.</param>
+        /// <param name="timeout">The time to wait for data to be acquired. Specify 0 to fetch whatever samples are currently available without waiting, or -1 to wait indefinitely for the acquisition to complete.</param>
         /// <param name="numberOfSamples">The maximum number of samples to fetch for each waveform. Specify -1 to retrieve all samples currently available in the record.</param>
         /// <returns>Per-site per-pin analog waveform results.</returns>
         /// <remarks>
@@ -39,9 +39,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// includes the site, pin, and channel details for every channel on the affected card, since a single site losing its trigger
         /// signal prevents the entire card from acquiring data.
         /// A <paramref name="numberOfSamples"/> value of 0, or a negative value other than -1, is not supported by the
-        /// underlying driver and causes an <see cref="Ivi.Driver.IviCDriverException"/> to be thrown.
+        /// underlying driver, which throws an <see cref="Ivi.Driver.IviCDriverException"/> that is caught and wrapped
+        /// in an <see cref="NISemiconductorTestException"/>.
         /// </remarks>
-        /// <exception cref="NISemiconductorTestException">Thrown when the acquisition does not complete within <paramref name="timeout"/>.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when the acquisition does not complete within <paramref name="timeout"/>, or when an invalid <paramref name="numberOfSamples"/> is specified.</exception>
         public static PinSiteData<AnalogWaveform<double>> ReadWaveform(this ScopeSessionsBundle sessionsBundle, PrecisionTimeSpan timeout, long numberOfSamples)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo =>
@@ -54,7 +55,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// Initiates an acquisition, waits for it to complete, and returns the acquired raw samples for each site and pin in the <see cref="ScopeSessionsBundle"/>.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
-        /// <param name="timeout">The time to wait for data to be acquired.</param>
+        /// <param name="timeout">The time to wait for data to be acquired. Specify 0 to fetch whatever samples are currently available without waiting, or -1 to wait indefinitely for the acquisition to complete.</param>
         /// <param name="numberOfSamples">The maximum number of samples to acquire for each waveform. Specify -1 to retrieve all samples currently available in the record.</param>
         /// <returns>Per-site per-pin floating-point samples.</returns>
         /// <remarks>
@@ -62,9 +63,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// includes the site, pin, and channel details for every channel on the affected card, since a single site losing its trigger
         /// signal prevents the entire card from acquiring data.
         /// A <paramref name="numberOfSamples"/> value of 0, or a negative value other than -1, is not supported by the
-        /// underlying driver and causes an <see cref="Ivi.Driver.IviCDriverException"/> to be thrown.
+        /// underlying driver, which throws an <see cref="Ivi.Driver.IviCDriverException"/> that is caught and wrapped
+        /// in an <see cref="NISemiconductorTestException"/>.
         /// </remarks>
-        /// <exception cref="NISemiconductorTestException">Thrown when the acquisition does not complete within <paramref name="timeout"/>.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when the acquisition does not complete within <paramref name="timeout"/>, or when an invalid <paramref name="numberOfSamples"/> is specified.</exception>
         public static PinSiteData<double[]> Read(this ScopeSessionsBundle sessionsBundle, PrecisionTimeSpan timeout, long numberOfSamples)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo =>
@@ -79,7 +81,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// Returns the waveform from a previously initiated acquisition for each site and pin in the <see cref="ScopeSessionsBundle"/>.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
-        /// <param name="timeout">The time to wait for data to be acquired.</param>
+        /// <param name="timeout">The time to wait for data to be acquired. Specify 0 to fetch whatever samples are currently available without waiting, or -1 to wait indefinitely for the acquisition to complete.</param>
         /// <param name="numberOfSamples">The maximum number of samples to fetch for each waveform. Specify -1 to retrieve all samples currently available in the record.</param>
         /// <returns>Per-site per-pin analog waveform results.</returns>
         /// <remarks>
@@ -87,9 +89,10 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// includes the site, pin, and channel details for every channel on the affected card, since a single site losing its trigger
         /// signal prevents the entire card from acquiring data.
         /// A <paramref name="numberOfSamples"/> value of 0, or a negative value other than -1, is not supported by the
-        /// underlying driver and causes an <see cref="Ivi.Driver.IviCDriverException"/> to be thrown.
+        /// underlying driver, which throws an <see cref="Ivi.Driver.IviCDriverException"/> that is caught and wrapped
+        /// in an <see cref="NISemiconductorTestException"/>.
         /// </remarks>
-        /// <exception cref="NISemiconductorTestException">Thrown when the acquisition does not complete within <paramref name="timeout"/>.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when the acquisition does not complete within <paramref name="timeout"/>, or when an invalid <paramref name="numberOfSamples"/> is specified.</exception>
         public static PinSiteData<AnalogWaveform<double>> FetchWaveform(this ScopeSessionsBundle sessionsBundle, PrecisionTimeSpan timeout, int numberOfSamples)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo =>

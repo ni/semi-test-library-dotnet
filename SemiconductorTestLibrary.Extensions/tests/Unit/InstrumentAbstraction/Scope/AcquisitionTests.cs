@@ -80,15 +80,16 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        public void SessionsBundle_ConfigureAcquisitionTypeWithInvalidEnumValue_ThrowsIviCDriverException()
+        public void SessionsBundle_ConfigureAcquisitionTypeWithInvalidEnumValue_ThrowsNISemiconductorTestException()
         {
             var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
 
             // An out-of-range ScopeAcquisitionType value is not validated by this method and is passed directly
-            // to the driver, which rejects it with an IviCDriverException.
+            // to the driver, which rejects it with an IviCDriverException. Since this call happens within a Do
+            // operation, the exception is caught and wrapped in an NISemiconductorTestException.
             void ConfigureAcquisitionType() => sessionsBundle.ConfigureAcquisitionType((ScopeAcquisitionType)(-1));
 
-            Assert.Throws<IviCDriverException>(ConfigureAcquisitionType);
+            Assert.Throws<NISemiconductorTestException>(ConfigureAcquisitionType);
         }
 
         #endregion
@@ -127,6 +128,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
             ConfigureTimingForAcquisition(sessionsBundle);
 
+            // A timeout of 0 tells the driver to return whatever samples are currently available without waiting.
+            // Since no acquisition has started yet, no samples are available, so the driver still reports a timeout.
             void ReadWaveform() => sessionsBundle.ReadWaveform(PrecisionTimeSpan.Zero, numberOfSamples: 1000);
 
             var exception = Assert.Throws<NISemiconductorTestException>(ReadWaveform);
@@ -146,83 +149,33 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.All(waveforms.SiteNumbers, site => Assert.NotEmpty(waveforms.ExtractSite(site).Values.First().GetRawData()));
         }
 
+        [Fact]
+        public void SessionsBundle_ReadWaveformWithNegativeOneTimeout_WaitsIndefinitelyAndReturnsWaveform()
+        {
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
+            ConfigureTimingForAcquisition(sessionsBundle);
+
+            // Specifying -1 for timeout tells the driver to wait indefinitely for the acquisition to complete.
+            var waveforms = sessionsBundle.ReadWaveform(PrecisionTimeSpan.FromSeconds(-1), numberOfSamples: 1000);
+
+            Assert.All(waveforms.SiteNumbers, site => Assert.NotNull(waveforms.ExtractSite(site).Values.First()));
+        }
+
         [Theory]
         [InlineData(0)]
         [InlineData(-2)]
-        public void SessionsBundle_ReadWaveformWithInvalidNumberOfSamples_ThrowsIviCDriverException(long numberOfSamples)
+        public void SessionsBundle_ReadWaveformWithInvalidNumberOfSamples_ThrowsNISemiconductorTestException(long numberOfSamples)
         {
             var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
             ConfigureTimingForAcquisition(sessionsBundle);
 
             // A numberOfSamples value of 0, or a negative value other than -1, is an invalid parameter value for the
-            // underlying driver, so it throws an IviCDriverException directly rather than being wrapped in an
+            // underlying driver, which rejects it with an IviCDriverException. Since this call happens within a
+            // DoAndReturnPerSitePerPinResults operation, the exception is caught and wrapped in an
             // NISemiconductorTestException.
             void ReadWaveform() => sessionsBundle.ReadWaveform(DefaultTimeout, numberOfSamples);
 
-            Assert.Throws<IviCDriverException>(ReadWaveform);
-        }
-
-        #endregion
-
-        #region FetchWaveform Tests
-
-        [Theory]
-        [InlineData("SCP_5172_Pin_1")]
-        [InlineData("SCP_5622_Pin")]
-        [InlineData("SCP_5186_Pin")]
-        public void SessionsBundle_InitiateThenFetchWaveform_ReturnsWaveformForEachSitePin(string pin)
-        {
-            var sessionsBundle = GetSessionsBundle(pin);
-            ConfigureTimingForAcquisition(sessionsBundle);
-            sessionsBundle.Initiate();
-
-            var waveforms = sessionsBundle.FetchWaveform(DefaultTimeout, numberOfSamples: 1000);
-
-            Assert.All(waveforms.SiteNumbers, site => Assert.NotNull(waveforms.ExtractSite(site).Values.First()));
-            Assert.All(waveforms.SiteNumbers, site => Assert.Equal(1000, waveforms.ExtractSite(site).Values.First().SampleCount));
-        }
-
-        [Fact]
-        public void SessionsBundle_FetchWaveformWithZeroTimeoutAndNoPendingAcquisition_ThrowsNISemiconductorTestExceptionWithChannelDetails()
-        {
-            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
-            ConfigureTimingForAcquisition(sessionsBundle);
-
-            void FetchWaveform() => sessionsBundle.FetchWaveform(PrecisionTimeSpan.Zero, numberOfSamples: 1000);
-
-            var exception = Assert.Throws<NISemiconductorTestException>(FetchWaveform);
-            Assert.Contains("channel", exception.Message, StringComparison.OrdinalIgnoreCase);
-        }
-
-        [Fact]
-        public void SessionsBundle_InitiateThenFetchWaveformWithNegativeOnePointsToFetch_ReturnsAllAvailableSamplesInRecord()
-        {
-            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
-            ConfigureTimingForAcquisition(sessionsBundle);
-            sessionsBundle.Initiate();
-
-            // Specifying -1 for numberOfSamples retrieves all samples currently available in the record,
-            // rather than a specific fixed count.
-            var waveforms = sessionsBundle.FetchWaveform(DefaultTimeout, numberOfSamples: -1);
-
-            Assert.All(waveforms.SiteNumbers, site => Assert.NotEmpty(waveforms.ExtractSite(site).Values.First().GetRawData()));
-        }
-
-        [Theory]
-        [InlineData(0)]
-        [InlineData(-2)]
-        public void SessionsBundle_InitiateThenFetchWaveformWithInvalidPointsToFetch_ThrowsIviCDriverException(int numberOfSamples)
-        {
-            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
-            ConfigureTimingForAcquisition(sessionsBundle);
-            sessionsBundle.Initiate();
-
-            // A numberOfSamples value of 0, or a negative value other than -1, is an invalid parameter value for the
-            // underlying driver, so it throws an IviCDriverException directly rather than being wrapped in an
-            // NISemiconductorTestException.
-            void FetchWaveform() => sessionsBundle.FetchWaveform(DefaultTimeout, numberOfSamples);
-
-            Assert.Throws<IviCDriverException>(FetchWaveform);
+            Assert.Throws<NISemiconductorTestException>(ReadWaveform);
         }
 
         #endregion
@@ -261,6 +214,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
             ConfigureTimingForAcquisition(sessionsBundle);
 
+            // A timeout of 0 tells the driver to return whatever samples are currently available without waiting.
+            // Since no acquisition has started yet, no samples are available, so the driver still reports a timeout.
             void Read() => sessionsBundle.Read(PrecisionTimeSpan.Zero, numberOfSamples: 1000);
 
             var exception = Assert.Throws<NISemiconductorTestException>(Read);
@@ -280,20 +235,33 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.All(samples.SiteNumbers, site => Assert.NotEmpty(samples.ExtractSite(site).Values.First()));
         }
 
+        [Fact]
+        public void SessionsBundle_ReadWithNegativeOneTimeout_WaitsIndefinitelyAndReturnsSamples()
+        {
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
+            ConfigureTimingForAcquisition(sessionsBundle);
+
+            // Specifying -1 for timeout tells the driver to wait indefinitely for the acquisition to complete.
+            var samples = sessionsBundle.Read(PrecisionTimeSpan.FromSeconds(-1), numberOfSamples: 1000);
+
+            Assert.All(samples.SiteNumbers, site => Assert.NotEmpty(samples.ExtractSite(site).Values.First()));
+        }
+
         [Theory]
         [InlineData(0)]
         [InlineData(-2)]
-        public void SessionsBundle_ReadWithInvalidNumberOfSamples_ThrowsIviCDriverException(long numberOfSamples)
+        public void SessionsBundle_ReadWithInvalidNumberOfSamples_ThrowsNISemiconductorTestException(long numberOfSamples)
         {
             var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
             ConfigureTimingForAcquisition(sessionsBundle);
 
             // A numberOfSamples value of 0, or a negative value other than -1, is an invalid parameter value for the
-            // underlying driver, so it throws an IviCDriverException directly rather than being wrapped in an
+            // underlying driver, which rejects it with an IviCDriverException. Since this call happens within a
+            // DoAndReturnPerSitePerPinResults operation, the exception is caught and wrapped in an
             // NISemiconductorTestException.
             void Read() => sessionsBundle.Read(DefaultTimeout, numberOfSamples);
 
-            Assert.Throws<IviCDriverException>(Read);
+            Assert.Throws<NISemiconductorTestException>(Read);
         }
 
         [Fact]
@@ -343,6 +311,85 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var samples = sessionsBundle.Read(DefaultTimeout, numberOfSamples: 1000);
 
             Assert.All(samples.SiteNumbers, site => Assert.NotEmpty(samples.ExtractSite(site).Values.First()));
+        }
+
+        #endregion
+
+        #region FetchWaveform Tests
+
+        [Theory]
+        [InlineData("SCP_5172_Pin_1")]
+        [InlineData("SCP_5622_Pin")]
+        [InlineData("SCP_5186_Pin")]
+        public void SessionsBundle_InitiateThenFetchWaveform_ReturnsWaveformForEachSitePin(string pin)
+        {
+            var sessionsBundle = GetSessionsBundle(pin);
+            ConfigureTimingForAcquisition(sessionsBundle);
+            sessionsBundle.Initiate();
+
+            var waveforms = sessionsBundle.FetchWaveform(DefaultTimeout, numberOfSamples: 1000);
+
+            Assert.All(waveforms.SiteNumbers, site => Assert.NotNull(waveforms.ExtractSite(site).Values.First()));
+            Assert.All(waveforms.SiteNumbers, site => Assert.Equal(1000, waveforms.ExtractSite(site).Values.First().SampleCount));
+        }
+
+        [Fact]
+        public void SessionsBundle_FetchWaveformWithZeroTimeoutAndNoPendingAcquisition_ThrowsNISemiconductorTestExceptionWithChannelDetails()
+        {
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
+            ConfigureTimingForAcquisition(sessionsBundle);
+
+            // A timeout of 0 tells the driver to return whatever samples are currently available without waiting.
+            // Since no acquisition has been initiated, no samples are available, so the driver still reports a timeout.
+            void FetchWaveform() => sessionsBundle.FetchWaveform(PrecisionTimeSpan.Zero, numberOfSamples: 1000);
+
+            var exception = Assert.Throws<NISemiconductorTestException>(FetchWaveform);
+            Assert.Contains("channel", exception.Message, StringComparison.OrdinalIgnoreCase);
+        }
+
+        [Fact]
+        public void SessionsBundle_InitiateThenFetchWaveformWithNegativeOnePointsToFetch_ReturnsAllAvailableSamplesInRecord()
+        {
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
+            ConfigureTimingForAcquisition(sessionsBundle);
+            sessionsBundle.Initiate();
+
+            // Specifying -1 for numberOfSamples retrieves all samples currently available in the record,
+            // rather than a specific fixed count.
+            var waveforms = sessionsBundle.FetchWaveform(DefaultTimeout, numberOfSamples: -1);
+
+            Assert.All(waveforms.SiteNumbers, site => Assert.NotEmpty(waveforms.ExtractSite(site).Values.First().GetRawData()));
+        }
+
+        [Fact]
+        public void SessionsBundle_InitiateThenFetchWaveformWithNegativeOneTimeout_WaitsIndefinitelyAndReturnsWaveform()
+        {
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
+            ConfigureTimingForAcquisition(sessionsBundle);
+            sessionsBundle.Initiate();
+
+            // Specifying -1 for timeout tells the driver to wait indefinitely for the acquisition to complete.
+            var waveforms = sessionsBundle.FetchWaveform(PrecisionTimeSpan.FromSeconds(-1), numberOfSamples: 1000);
+
+            Assert.All(waveforms.SiteNumbers, site => Assert.NotNull(waveforms.ExtractSite(site).Values.First()));
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-2)]
+        public void SessionsBundle_InitiateThenFetchWaveformWithInvalidPointsToFetch_ThrowsNISemiconductorTestException(int numberOfSamples)
+        {
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
+            ConfigureTimingForAcquisition(sessionsBundle);
+            sessionsBundle.Initiate();
+
+            // A numberOfSamples value of 0, or a negative value other than -1, is an invalid parameter value for the
+            // underlying driver, which rejects it with an IviCDriverException. Since this call happens within a
+            // DoAndReturnPerSitePerPinResults operation, the exception is caught and wrapped in an
+            // NISemiconductorTestException.
+            void FetchWaveform() => sessionsBundle.FetchWaveform(DefaultTimeout, numberOfSamples);
+
+            Assert.Throws<NISemiconductorTestException>(FetchWaveform);
         }
 
         #endregion
