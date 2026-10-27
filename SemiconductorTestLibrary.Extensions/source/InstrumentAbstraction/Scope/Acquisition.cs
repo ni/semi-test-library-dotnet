@@ -38,9 +38,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// If the acquisition does not complete within <paramref name="timeout"/>, the resulting <see cref="NISemiconductorTestException"/>
         /// includes the site, pin, and channel details for every channel on the affected card, since a single site losing its trigger
         /// signal prevents the entire card from acquiring data.
-        /// A <paramref name="numberOfSamples"/> value of 0, or a negative value other than -1, is not supported by the
-        /// underlying driver, which throws an <see cref="Ivi.Driver.IviCDriverException"/> that is caught and wrapped
-        /// in an <see cref="NISemiconductorTestException"/>.
+        /// A <paramref name="numberOfSamples"/> value of 0, or a negative value other than -1, is not supported and results in an
+        /// <see cref="NISemiconductorTestException"/>.
         /// </remarks>
         /// <exception cref="NISemiconductorTestException">Thrown when the acquisition does not complete within <paramref name="timeout"/>, or when an invalid <paramref name="numberOfSamples"/> is specified.</exception>
         public static PinSiteData<AnalogWaveform<double>> ReadWaveform(this ScopeSessionsBundle sessionsBundle, PrecisionTimeSpan timeout, long numberOfSamples)
@@ -62,9 +61,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// If the acquisition does not complete within <paramref name="timeout"/>, the resulting <see cref="NISemiconductorTestException"/>
         /// includes the site, pin, and channel details for every channel on the affected card, since a single site losing its trigger
         /// signal prevents the entire card from acquiring data.
-        /// A <paramref name="numberOfSamples"/> value of 0, or a negative value other than -1, is not supported by the
-        /// underlying driver, which throws an <see cref="Ivi.Driver.IviCDriverException"/> that is caught and wrapped
-        /// in an <see cref="NISemiconductorTestException"/>.
+        /// A <paramref name="numberOfSamples"/> value of 0, or a negative value other than -1, is not supported and results in an
+        /// <see cref="NISemiconductorTestException"/>.
         /// </remarks>
         /// <exception cref="NISemiconductorTestException">Thrown when the acquisition does not complete within <paramref name="timeout"/>, or when an invalid <paramref name="numberOfSamples"/> is specified.</exception>
         public static PinSiteData<double[]> Read(this ScopeSessionsBundle sessionsBundle, PrecisionTimeSpan timeout, long numberOfSamples)
@@ -88,9 +86,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// If the acquisition does not complete within <paramref name="timeout"/>, the resulting <see cref="NISemiconductorTestException"/>
         /// includes the site, pin, and channel details for every channel on the affected card, since a single site losing its trigger
         /// signal prevents the entire card from acquiring data.
-        /// A <paramref name="numberOfSamples"/> value of 0, or a negative value other than -1, is not supported by the
-        /// underlying driver, which throws an <see cref="Ivi.Driver.IviCDriverException"/> that is caught and wrapped
-        /// in an <see cref="NISemiconductorTestException"/>.
+        /// A <paramref name="numberOfSamples"/> value of 0, or a negative value other than -1, is not supported and results in an
+        /// <see cref="NISemiconductorTestException"/>.
         /// </remarks>
         /// <exception cref="NISemiconductorTestException">Thrown when the acquisition does not complete within <paramref name="timeout"/>, or when an invalid <paramref name="numberOfSamples"/> is specified.</exception>
         public static PinSiteData<AnalogWaveform<double>> FetchWaveform(this ScopeSessionsBundle sessionsBundle, PrecisionTimeSpan timeout, int numberOfSamples)

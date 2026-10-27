@@ -85,8 +85,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
 
             // An out-of-range ScopeAcquisitionType value is not validated by this method and is passed directly
-            // to the driver, which rejects it with an IviCDriverException. Since this call happens within a Do
-            // operation, the exception is caught and wrapped in an NISemiconductorTestException.
+            // to the driver. Since this call happens within a Do operation, the resulting exception is caught
+            // and wrapped in an NISemiconductorTestException.
             void ConfigureAcquisitionType() => sessionsBundle.ConfigureAcquisitionType((ScopeAcquisitionType)(-1));
 
             Assert.Throws<NISemiconductorTestException>(ConfigureAcquisitionType);
@@ -169,10 +169,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
             ConfigureTimingForAcquisition(sessionsBundle);
 
-            // A numberOfSamples value of 0, or a negative value other than -1, is an invalid parameter value for the
-            // underlying driver, which rejects it with an IviCDriverException. Since this call happens within a
-            // DoAndReturnPerSitePerPinResults operation, the exception is caught and wrapped in an
-            // NISemiconductorTestException.
+            // A numberOfSamples value of 0, or a negative value other than -1, is an invalid parameter value.
+            // Since this call happens within a DoAndReturnPerSitePerPinResults operation, the resulting exception
+            // is caught and wrapped in an NISemiconductorTestException.
             void ReadWaveform() => sessionsBundle.ReadWaveform(DefaultTimeout, numberOfSamples);
 
             Assert.Throws<NISemiconductorTestException>(ReadWaveform);
@@ -255,10 +254,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
             ConfigureTimingForAcquisition(sessionsBundle);
 
-            // A numberOfSamples value of 0, or a negative value other than -1, is an invalid parameter value for the
-            // underlying driver, which rejects it with an IviCDriverException. Since this call happens within a
-            // DoAndReturnPerSitePerPinResults operation, the exception is caught and wrapped in an
-            // NISemiconductorTestException.
+            // A numberOfSamples value of 0, or a negative value other than -1, is an invalid parameter value.
+            // Since this call happens within a DoAndReturnPerSitePerPinResults operation, the resulting exception
+            // is caught and wrapped in an NISemiconductorTestException.
             void Read() => sessionsBundle.Read(DefaultTimeout, numberOfSamples);
 
             Assert.Throws<NISemiconductorTestException>(Read);
@@ -383,10 +381,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             ConfigureTimingForAcquisition(sessionsBundle);
             sessionsBundle.Initiate();
 
-            // A numberOfSamples value of 0, or a negative value other than -1, is an invalid parameter value for the
-            // underlying driver, which rejects it with an IviCDriverException. Since this call happens within a
-            // DoAndReturnPerSitePerPinResults operation, the exception is caught and wrapped in an
-            // NISemiconductorTestException.
+            // A numberOfSamples value of 0, or a negative value other than -1, is an invalid parameter value.
+            // Since this call happens within a DoAndReturnPerSitePerPinResults operation, the resulting exception
+            // is caught and wrapped in an NISemiconductorTestException.
             void FetchWaveform() => sessionsBundle.FetchWaveform(DefaultTimeout, numberOfSamples);
 
             Assert.Throws<NISemiconductorTestException>(FetchWaveform);
