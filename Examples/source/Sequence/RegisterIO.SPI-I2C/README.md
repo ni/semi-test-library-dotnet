@@ -2,7 +2,7 @@
 
 This example demonstrates how to access DUT registers over SPI and I2C using NI Digital Pattern instruments with the Semiconductor Test Library (STL).
 
-The example implementation encapsulates protocol-specific details, such as pattern bursting, source and capture waveforms, and bit packing, behind a single protocol-agnostic interface, `IDigitalProtocol`. The same test steps work with either protocol. A `CommunicationProtocol` parameter selects which protocol (`SPI` or `I2C`) is used at runtime.
+The example implementation encapsulates protocol-specific details, such as pattern bursting, source and capture waveforms, and bit packing, behind a single protocol-agnostic interface, `IDigitalProtocol`. The same test steps work with either protocol. A `CommunicationProtocol` parameter selects which protocol (`SPI` or `I2C`) is used at runtime. This is particularly useful for DUTs that support both I2C and SPI communication.
 
 Three common register access scenarios are demonstrated:
 
@@ -10,11 +10,9 @@ Three common register access scenarios are demonstrated:
 2. **Single Register - Site-Unique Values**: Write a site-unique value to a single register and compare the value read back from that register; a unique value is written to each site.
 3. **Multiple Registers - Register-Specific Values**: Write register-specific values to multiple registers in a single burst and compare the values read back from each register; the same register-specific values are written to all sites.
 
-> **NOTE**
->
-> In each scenario, a single pattern burst is used for the write operation, and a second pattern burst is used for the readback operation.
+> **NOTE**: In each scenario, a single pattern burst is used for the write operation, and a second pattern burst is used for the readback operation.
 
-The register addresses and values used by the example sequences target the Bosch BME280 sensor, which supports both SPI and I2C.
+The register addresses and values used by the example sequences are designed to target a Bosch BME280 sensor, as it supports both SPI and I2C communication and is typically and widely available.
 
 ## Key Files
 
@@ -30,13 +28,14 @@ The example contains the following key files:
   - `CommunicationProtocol.cs`: Enumeration used to select the SPI or I2C protocol.
   - `SemiconductorModuleContextExtensions.cs`: The `DutControl` extension method that gets the selected protocol instance for the current code module.
 - `Code Modules/TestSteps/`: The test step methods called from the sequences.
-- `Supporting Materials/STLExample.RegisterIO.SPIAndI2C.digiproj`: Digital Pattern Editor project used by both sequences. It groups the following files:
+- `Supporting Materials/`: The pin map, digital project, and other supporting files used by both sequences.
+  - `STLExample.RegisterIO.SPIAndI2C.offlinecfg`: Offline configuration file for instrument simulation in Offline Mode.
   - `STLExample.RegisterIO.SPIAndI2C.pinmap`: Pin map.
-  - `STLExample.RegisterIO.SPIAndI2C.digilevels`: Pin levels.
-  - `STLExample.RegisterIO.SPIAndI2C.digitiming`: Time sets for both protocols.
+  - `STLExample.RegisterIO.SPIAndI2C.digiproj`: Digital Pattern Editor project.
   - `STLExample.RegisterIO.SPIAndI2C.specs`: Specifications for the pin levels and the SPI and I2C timing.
-  - `SPI/` and `I2C/`: Read and write patterns, and source and capture waveform files, for each protocol.
-- `Supporting Materials/STLExample.RegisterIO.SPIAndI2C.offlinecfg`: Offline configuration file for instrument simulation in Offline Mode.
+  - `STLExample.RegisterIO.SPIAndI2C.digilevels`: Pin levels.
+  - `STLExample.RegisterIO.SPIAndI2C.digitiming`: Digital time sets for both protocols.
+  - `SPI/` and `I2C/`: Read and write digital patterns, and source and capture waveform files, for each protocol.
 
 ## Prerequisites
 
@@ -57,12 +56,9 @@ The example contains the following key files:
 Complete the following steps to simulate the instrument in Offline Mode:
 
 1. Open `STLExample.RegisterIO.SPI.seq` or `STLExample.RegisterIO.I2C.seq` in the TestStand Sequence Editor.
-2. Enable Offline Mode from the TSM toolbar.
-3. Load `Supporting Materials/STLExample.RegisterIO.SPIAndI2C.offlinecfg`.
+2. Click the **Enable Offline Mode** button on the TSM toolbar to load `Supporting Materials/STLExample.RegisterIO.SPIAndI2C.offlinecfg`.
 
-> **NOTE**
->
-> A simulated instrument has no DUT to respond, so the register readback values cannot be verified in Offline Mode.
+> **NOTE**: A simulated instrument has no DUT to respond, so the register readback values cannot be verified in Offline Mode.
 
 ## How It Works
 
@@ -70,14 +66,14 @@ Complete the following steps to simulate the instrument in Offline Mode:
 
 The pin map defines one NI PXIe-6571 Digital Pattern instrument (`HSD_6571_C1_S02`) and one site (site 0). It has the following DUT pins:
 
-| Pin | Channel | SPI Use | I2C Use |
-|---|---|---|---|
-| `CS` | 1 | Chip select (active low) | Held high by the read pattern to keep the DUT in I2C mode; not driven by the write pattern |
-| `SDI` | 2 | Serial data into the DUT | Serial data line (SDA), used for both writing and reading |
-| `SDO` | 3 | Serial data out of the DUT | Held high to select the I2C device address of the DUT (`0x77`) |
-| `SCK` | 4 | Serial clock | Serial clock line (SCL) |
-| `VO3` | 5 | Not used | Not used |
-| `VIN` | 6 | DUT supply, forced by the instrument PPMU | DUT supply, forced by the instrument PPMU |
+| Pin   | Channel | SPI Use                                   | I2C Use                                                                                    |
+| ----- | ------- | ----------------------------------------- | ------------------------------------------------------------------------------------------ |
+| `CS`  | 1       | Chip select (active low)                  | Held high by the read pattern to keep the DUT in I2C mode; not driven by the write pattern |
+| `SDI` | 2       | Serial data into the DUT                  | Serial data line (SDA), used for both writing and reading                                  |
+| `SDO` | 3       | Serial data out of the DUT                | Held high to select the I2C device address of the DUT (`0x77`)                             |
+| `SCK` | 4       | Serial clock                              | Serial clock line (SCL)                                                                    |
+| `VO3` | 5       | Not used                                  | Not used                                                                                   |
+| `VIN` | 6       | DUT supply, forced by the instrument PPMU | DUT supply, forced by the instrument PPMU                                                  |
 
 The pins `CS`, `SCK`, `SDI`, and `SDO` are also grouped as the pin group `DigitalPins`.
 
@@ -91,11 +87,11 @@ The pins `CS`, `SCK`, `SDI`, and `SDO` are also grouped as the pin group `Digita
 
 Each protocol has a read pattern and a write pattern (`SPI_read_template`, `SPI_write_template`, `I2C_read_template`, and `I2C_write_template`). The patterns are generic. The number of transactions and the bit widths are controlled by sequencer registers rather than being fixed in the pattern, so the same pattern can serve different register sizes:
 
-| Sequencer Register | Purpose |
-|---|---|
-| `reg0` | Number of transactions in the burst (the loop count) |
-| `reg1` | Number of address bits |
-| `reg2` | Number of value bits |
+| Sequencer Register | Purpose                                              |
+| ------------------ | ---------------------------------------------------- |
+| `reg0`             | Number of transactions in the burst (the loop count) |
+| `reg1`             | Number of address bits                               |
+| `reg2`             | Number of value bits                                 |
 
 The write pattern uses the source engine to dynamically source the register address and value bits on the `SDI` pin from a source waveform. The read pattern uses the source engine to dynamically source only the register address on the `SDI` pin, while also using the capture engine to capture the value bits into a capture waveform, from the `SDO` pin for SPI and from the `SDI` pin (SDA) for I2C.
 
@@ -110,16 +106,14 @@ The patterns send the protocol framing bits, such as the SPI read or write bit, 
 
 Each protocol uses its own source and capture waveforms, because both protocols share the same instrument session:
 
-| Protocol | Source Waveform (Pin) | Capture Waveform (Pin) |
-|---|---|---|
-| SPI | `spi_source_buffer` (`SDI`) | `spi_capture_buffer` (`SDO`) |
-| I2C | `i2c_source_buffer` (`SDI`) | `i2c_capture_buffer` (`SDI`) |
+| Protocol | Source Waveform (Pin)       | Capture Waveform (Pin)       |
+| -------- | --------------------------- | ---------------------------- |
+| SPI      | `spi_source_buffer` (`SDI`) | `spi_capture_buffer` (`SDO`) |
+| I2C      | `i2c_source_buffer` (`SDI`) | `i2c_capture_buffer` (`SDI`) |
 
 The waveform files in the digital project define serial waveforms with a sample width of 1 bit and the most significant bit first, and the source waveforms use site-unique data mapping. The protocol settings in the code modules must match these waveform definitions.
 
-> **NOTE**
->
-> The pattern source files (`.digipatsrc`) are available in `Supporting Materials/SPI` and `Supporting Materials/I2C`.
+> **NOTE**: The pattern source files (`.digipatsrc`) are available in `Supporting Materials/SPI` and `Supporting Materials/I2C`.
 
 ### Code Modules
 
@@ -129,7 +123,7 @@ The `DutControl` folder contains the protocol abstraction.
 - `DigitalProtocol` is an abstract base class that implements the core logic of the `IDigitalProtocol` interface:
   1. It converts the address and value into waveform samples. By default, it uses a sample width of 8 bits, most significant bit first, a 16-bit address, and a 16-bit value. You can specify otherwise with the `ConfigureDigitalProtocol` test step, or with the register access overloads that accept the address and value bit widths.
   2. It writes `reg0`, `reg1`, and `reg2` on the sequencer.
-  3. It writes the source waveform, either with the same samples for all sites or with unique samples per site. Every write is expanded to the same size, because the driver fixes the size of a source waveform on its first write.
+  3. It writes the source waveform, either with the same samples for all sites or with unique samples per site.
   4. It bursts the read or write pattern with a 10-second timeout.
   5. For reads, it fetches the capture waveform and converts the samples into a single value for each register.
   6. It creates the necessary serial source and capture waveforms on the instrument. The source waveform must always be created as site-unique to allow support for both broadcast and site-unique writes.
@@ -167,7 +161,7 @@ The `TestSteps` folder contains the test step methods that the sequences call.
 
 Both sequence files have the same structure:
 
-- `ProcessSetup`: The **Setup NI Digital Instrumentation** step initializes the digital instrument, loads the files in the digital project, and applies the `STLExample.RegisterIO.SPIAndI2C` levels and timing sheets. The **Cache Session Mapping** step keeps the cached instrument session information consistent between the STL TestStandSteps assembly and the example code modules assembly.
+- `ProcessSetup`: The **Setup NI Digital Instrumentation** step initializes the digital instrument, loads the files in the digital project, and applies the `STLExample.RegisterIO.SPIAndI2C` levels and timing sheets. The **Cache Session Mapping** step keeps the cached instrument session information consistent between the installed STL TestStandSteps assembly and the example code modules assembly.
 - `MainSequence`:
   - The `Setup` group powers up the DUT on the `VIN` pin (3.3 V with a 2 mA current limit) with the **DUT Power Up** step. Then, the **Configure Communication Protocol** step calls `ConfigureDigitalProtocol` to select the protocol to use at runtime and to set the bit widths, sample width, and pins for the DUT.
   - The `Main` group contains three Multi Test steps, one for each register access scenario.
@@ -176,17 +170,22 @@ Both sequence files have the same structure:
 
 The **Configure Communication Protocol** step uses the following settings. The other parameters use the default values of the protocol.
 
-| Parameter | SPI Sequence | I2C Sequence |
-|---|---|---|
-| `communicationProtocol` | `SPI` | `I2C` |
-| `addressBitWidth` | 7 | 8 |
-| `valueBitWidth` | 8 | 8 |
-| `sampleWidth` | 1 | 1 |
-| `pinNames` | `CS`, `SCK`, `SDI`, `SDO` | `CS`, `SCK`, `SDI`, `SDO` |
+| Parameter               | SPI Sequence              | I2C Sequence              |
+| ----------------------- | ------------------------- | ------------------------- |
+| `communicationProtocol` | `SPI`                     | `I2C`                     |
+| `addressBitWidth`       | 7                         | 8                         |
+| `valueBitWidth`         | 8                         | 8                         |
+| `sampleWidth`           | 1                         | 1                         |
+| `pinNames`              | `CS`, `SCK`, `SDI`, `SDO` | `CS`, `SCK`, `SDI`, `SDO` |
 
-The sample width of 1 bit matches the waveform files in the digital project. The address bit widths differ because SPI sends a read or write bit followed by a 7-bit register address, whereas I2C sends the full 8-bit register address. For example, the BME280 register `0xF4` is addressed as `0x74` over SPI and as `0xF4` over I2C.
+The sample width of 1 bit matches the waveform files in the digital project. The address bit width applies only to the register address, and it differs between the protocols:
 
-The register addresses, the values to write, and the expected readback values are defined as `MainSequence` locals, such as `WriteSingleRegisterAddress`, `WriteRegisterValues`, and `ReadRegisterValues`. The expected readback values are used as the test limits.
+- **SPI**: The first byte contains the read or write bit followed by a 7-bit register address, because the BME280 uses only the lower 7 bits of the register address over SPI.
+- **I2C**: The patterns first send the 7-bit device address of the DUT (`0x77`) followed by the read or write bit. The full 8-bit register address is then sent in its own byte.
+
+For example, the BME280 register `0xF4` is addressed as `0x74` over SPI and as `0xF4` over I2C.
+
+The register addresses, the values to write, and the expected readback values are defined as `MainSequence` locals, such as `WriteSingleRegisterAddress`, `WriteSingleRegisterValue`, and `ReadSingleRegisterValue`. The expected readback values are used as the test limits.
 
 ## Using the Example
 
