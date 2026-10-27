@@ -59,9 +59,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
                         case TestStandSteps.NIInstrumentType.NIDMM:
                             InstrumentAbstraction.DMM.InitializeAndClose.Reset(tsmContext);
                             break;
-                        case TestStandSteps.NIInstrumentType.NIFGen:
-                            InstrumentAbstraction.Fgen.InitializeAndClose.Reset(tsmContext, resetDevice);
-                            break;
                         case TestStandSteps.NIInstrumentType.NIScope:
                             InstrumentAbstraction.Scope.InitializeAndClose.Reset(tsmContext, resetDevice);
                             break;

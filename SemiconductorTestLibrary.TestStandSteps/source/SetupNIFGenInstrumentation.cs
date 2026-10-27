@@ -1,6 +1,5 @@
 ﻿using System;
 using NationalInstruments.SemiconductorTestLibrary.Common;
-using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
 namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
@@ -19,7 +18,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
         {
             try
             {
-                InitializeAndClose.Initialize(tsmContext, resetDevice);
             }
             catch (Exception e)
             {
