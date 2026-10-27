@@ -117,7 +117,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
 
         private static string BuildAcquisitionTimeoutExceptionMessage(ScopeSessionInformation sessionInfo)
         {
-            var channelDetails = string.Join(", ", sessionInfo.GetAssociatedSitePinListForEntireCard().Select(sitePinInfo =>
+            var channelDetails = string.Join(", ", sessionInfo.GetAssociatedSitePinListForInstrument().Select(sitePinInfo =>
                 string.Format(CultureInfo.InvariantCulture, "{0} (channel: {1})", sitePinInfo.SitePinString, sitePinInfo.IndividualChannelString)));
             return string.Format(CultureInfo.InvariantCulture, ResourceStrings.Scope_AcquisitionTimeoutException, channelDetails);
         }
