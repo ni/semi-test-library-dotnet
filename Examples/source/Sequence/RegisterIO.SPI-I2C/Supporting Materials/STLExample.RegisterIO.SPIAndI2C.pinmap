@@ -21,6 +21,7 @@
 	</PinGroups>
 	<Sites>
 		<Site siteNumber="0" />
+		<Site siteNumber="1" />
 	</Sites>
 	<Connections>
 		<Connection pin="CS" siteNumber="0" instrument="HSD_6571_C1_S02" channel="1" />
@@ -29,5 +30,11 @@
 		<Connection pin="SCK" siteNumber="0" instrument="HSD_6571_C1_S02" channel="4" />
 		<Connection pin="VO3" siteNumber="0" instrument="HSD_6571_C1_S02" channel="5" />
 		<Connection pin="VIN" siteNumber="0" instrument="HSD_6571_C1_S02" channel="6" />
+		<Connection pin="CS" siteNumber="1" instrument="HSD_6571_C1_S02" channel="29" />
+		<Connection pin="SDI" siteNumber="1" instrument="HSD_6571_C1_S02" channel="28" />
+		<Connection pin="SDO" siteNumber="1" instrument="HSD_6571_C1_S02" channel="27" />
+		<Connection pin="SCK" siteNumber="1" instrument="HSD_6571_C1_S02" channel="26" />
+		<Connection pin="VO3" siteNumber="1" instrument="HSD_6571_C1_S02" channel="25" />
+		<Connection pin="VIN" siteNumber="1" instrument="HSD_6571_C1_S02" channel="24" />
 	</Connections>
 </PinMap>

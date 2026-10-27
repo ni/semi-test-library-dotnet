@@ -15,7 +15,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         private const string SupportingMaterialsFolderPath = @"\Examples\source\Sequence\RegisterIO.SPI-I2C\Supporting Materials";
         private const string DigitalPatternProjectName = "STLExample.RegisterIO.SPIAndI2C.digiproj";
 
-        [Theory(Skip = "Requires a physical digital pattern instrument connected to a DUT. Not supported in offline mode.")]
+        [Theory]
         [InlineData(CommunicationProtocol.SPI)]
         public void WriteSiteUniqueValueToRegisterAndCompareReadbackValues_SiteUniqueValues_ReadbackMatchesPerSite(CommunicationProtocol protocol)
         {
@@ -34,8 +34,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 valueBitWidth: 8,
                 writePatternName: "SPI_write_template",
                 readPatternName: "SPI_read_template",
-                sourceWaveformName: "spi_source_buffer",
-                captureWaveformName: "spi_capture_buffer",
+                sourceWaveformName: "SPI_source_buffer",
+                captureWaveformName: "SPI_capture_buffer",
                 sampleWidth: 1,
                 readWriteCountSequenceRegister: "reg0",
                 addressBitWidthSequenceRegister: "reg1",
@@ -46,7 +46,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 tsmContext,
                 protocol,
                 registerAddress: 0x74,
-                perSiteValuesToWrite: new long[] { 0x33 });
+                perSiteValuesToWrite: new long[] { 0x33, 0x18 });
 
             var comparisonResults = publishedDataReader.GetAndClearPublishedData().Where(d => d.PublishedDataId == "ComparisonResult").ToArray();
             Assert.Equal(tsmContext.SiteNumbers.Count, comparisonResults.Length);
