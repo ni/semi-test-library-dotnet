@@ -32,10 +32,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             CommunicationProtocol communicationProtocol = CommunicationProtocol.SPI,
             int addressBitWidth = 16,
             int valueBitWidth = 16,
-            string writePatternName = null,
-            string readPatternName = null,
-            string sourceWaveformName = null,
-            string captureWaveformName = null,
+            string writePatternName = "SPI_write_template",
+            string readPatternName = "SPI_read_template",
+            string sourceWaveformName = "SPI_source_buffer",
+            string captureWaveformName = "SPI_capture_buffer",
             int sampleWidth = 8,
             string readWriteCountSequenceRegister = "reg0",
             string addressBitWidthSequenceRegister = "reg1",
@@ -46,22 +46,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
 
             protocol.DefaultAddressBitWidth = (uint)addressBitWidth;
             protocol.DefaultValueBitWidth = (uint)valueBitWidth;
-            if (writePatternName != null)
-            {
-                protocol.WritePatternName = writePatternName;
-            }
-            if (readPatternName != null)
-            {
-                protocol.ReadPatternName = readPatternName;
-            }
-            if (sourceWaveformName != null)
-            {
-                protocol.SourceWaveformName = sourceWaveformName;
-            }
-            if (captureWaveformName != null)
-            {
-                protocol.CaptureWaveformName = captureWaveformName;
-            }
+            protocol.WritePatternName = writePatternName;
+            protocol.ReadPatternName = readPatternName;
+            protocol.SourceWaveformName = sourceWaveformName;
+            protocol.CaptureWaveformName = captureWaveformName;
             protocol.SampleWidth = (uint)sampleWidth;
             protocol.ReadWriteCountSequenceRegister = readWriteCountSequenceRegister;
             protocol.AddressBitWidthSequenceRegister = addressBitWidthSequenceRegister;

@@ -46,10 +46,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         public string ReadPatternName { get; set; }
 
         /// <inheritdoc/>
-        public string SourceWaveformName { get; set; } = "spi_source_buffer";
+        public string SourceWaveformName { get; set; } = "SPI_source_buffer";
 
         /// <inheritdoc/>
-        public string CaptureWaveformName { get; set; } = "spi_capture_buffer";
+        public string CaptureWaveformName { get; set; } = "SPI_capture_buffer";
 
         /// <inheritdoc/>
         public string SourcePinName { get; set; } = "SDI";

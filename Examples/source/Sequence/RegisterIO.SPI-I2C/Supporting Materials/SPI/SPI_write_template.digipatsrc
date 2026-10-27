@@ -1,11 +1,11 @@
 
 file_format_version 1.1;
-timeset SourceStartSetup, SPI_Busy, SPI_Stop, SPI_Idle, SPI_Start;
+timeset SPI_Idle, SourceStartSetup, SPI_Start, SPI_Busy, SPI_Stop;
 
 pattern SPI_write_template (SDI, SCK, CS)
 {
 set_loop(reg0)						SPI_Idle			X		1		1;
-source_start(spi_source_buffer)		-					X		1		1;		// Define the register address and data buffer
+source_start(SPI_source_buffer)		-					X		1		1;		// Define the register address and data buffer
 									SourceStartSetup	X		1		1;
 repeatWrite:
 									SPI_Start			X		1		0;		// Start (CS = 0)
