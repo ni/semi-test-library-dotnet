@@ -41,8 +41,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         {
             WritePatternName = "I2C_write_template";
             ReadPatternName = "I2C_read_template";
-            SourceWaveformName = "i2c_source_buffer";
-            CaptureWaveformName = "i2c_capture_buffer";
+            SourceWaveformName = "I2C_source_buffer";
+            CaptureWaveformName = "I2C_capture_buffer";
             SourcePinName = "SDI";
             CapturePinName = "SDI";
             PinNames = new[] { "CS", "SDI", "SDO", "SCK" };

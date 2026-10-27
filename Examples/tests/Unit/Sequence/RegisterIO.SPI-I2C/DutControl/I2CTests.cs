@@ -32,8 +32,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         [Fact]
         public void I2CInstance_Default_HasI2CWaveformNames()
         {
-            Assert.Equal("i2c_source_buffer", _i2c.SourceWaveformName);
-            Assert.Equal("i2c_capture_buffer", _i2c.CaptureWaveformName);
+            Assert.Equal("I2C_source_buffer", _i2c.SourceWaveformName);
+            Assert.Equal("I2C_capture_buffer", _i2c.CaptureWaveformName);
         }
 
         [Fact]

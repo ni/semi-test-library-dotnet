@@ -16,8 +16,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         private const string DigitalPatternProjectName = "STLExample.RegisterIO.SPIAndI2C.digiproj";
 
         [Theory(Skip = "Requires a physical digital pattern instrument connected to a DUT. Not supported in offline mode.")]
-        [InlineData(CommunicationProtocol.SPI, 7, "SPI_write_template", "SPI_read_template", "spi_source_buffer", "spi_capture_buffer", 0x74)]
-        [InlineData(CommunicationProtocol.I2C, 8, "I2C_write_template", "I2C_read_template", "i2c_source_buffer", "i2c_capture_buffer", 0xF4)]
+        [InlineData(CommunicationProtocol.SPI, 7, "SPI_write_template", "SPI_read_template", "SPI_source_buffer", "SPI_capture_buffer", 0x74)]
+        [InlineData(CommunicationProtocol.I2C, 8, "I2C_write_template", "I2C_read_template", "I2C_source_buffer", "I2C_capture_buffer", 0xF4)]
         public void WriteSiteUniqueValueToRegisterAndCompareReadbackValues_SiteUniqueValues_ReadbackMatchesPerSite(CommunicationProtocol protocol, int addressBitWidth, string writePatternName, string readPatternName, string sourceWaveformName, string captureWaveformName, uint registerAddress)
         {
             var tsmContext = CreateTSMContext(SupportingMaterialsFolderPath, PinMapFileName, DigitalPatternProjectName, out var publishedDataReader);
@@ -49,7 +49,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 tsmContext,
                 protocol,
                 registerAddress: registerAddress,
-                perSiteValuesToWrite: new long[] { 0x33 });
+                perSiteValuesToWrite: new long[] { 0x33, 0x27 });
 
             var comparisonResults = publishedDataReader.GetAndClearPublishedData().Where(d => d.PublishedDataId == "ComparisonResult").ToArray();
             Assert.Equal(tsmContext.SiteNumbers.Count, comparisonResults.Length);
@@ -60,6 +60,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 dutSupplyPinsOrPinGroups: new string[] { "VIN" },
                 settlingTime: 0,
                 powerDownSuppliesSerially: false);
+            TestStep.CleanupDigitalProtocol(protocol);
+            CleanupInstrumentation(tsmContext);
         }
     }
 }

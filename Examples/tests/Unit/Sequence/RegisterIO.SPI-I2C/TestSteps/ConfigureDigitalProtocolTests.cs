@@ -149,8 +149,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         {
             TestStep.ConfigureDigitalProtocol(CommunicationProtocol.SPI);
 
-            Assert.Equal("spi_source_buffer", SPI.Instance.SourceWaveformName);
-            Assert.Equal("spi_capture_buffer", SPI.Instance.CaptureWaveformName);
+            Assert.Equal("SPI_source_buffer", SPI.Instance.SourceWaveformName);
+            Assert.Equal("SPI_capture_buffer", SPI.Instance.CaptureWaveformName);
         }
 
         [Fact]
@@ -192,8 +192,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
                 CommunicationProtocol.SPI,
                 writePatternName: "SPI_write_template",
                 readPatternName: "SPI_read_template",
-                sourceWaveformName: "spi_source_buffer",
-                captureWaveformName: "spi_capture_buffer");
+                sourceWaveformName: "SPI_source_buffer",
+                captureWaveformName: "SPI_capture_buffer");
             SPI.Instance.PinNames = new[] { "SDI", "SDO" };
         }
     }
@@ -302,8 +302,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
                 CommunicationProtocol.I2C,
                 writePatternName: "I2C_write_template",
                 readPatternName: "I2C_read_template",
-                sourceWaveformName: "i2c_source_buffer",
-                captureWaveformName: "i2c_capture_buffer");
+                sourceWaveformName: "I2C_source_buffer",
+                captureWaveformName: "I2C_capture_buffer");
             I2C.Instance.PinNames = new[] { "CS", "SDI", "SDO", "SCK" };
         }
     }
