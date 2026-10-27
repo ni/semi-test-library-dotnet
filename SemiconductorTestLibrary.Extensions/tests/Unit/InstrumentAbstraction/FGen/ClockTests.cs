@@ -128,7 +128,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Theory]
         [InlineData("FgenSingleInstrumentPerPin.pinmap", "")] // Invalid clock source for reference clock (empty string)
         [InlineData("FgenSingleInstrumentPerPin.pinmap", null)] // Invalid clock source for reference clock (null)
-        public void InitializeBundleWithMultiplePins_ConfigureSampleSourceWithWithNullOrEmptyClockSource_ThrowsException(string pinmap, string clockSource)
+        public void InitializeBundleWithMultiplePins_ConfigureSampleSourceWithNullOrEmptyClockSource_ThrowsException(string pinmap, string clockSource)
         {
             var sessionManager = Initialize(pinmap);
             var sessionsBundle = sessionManager.Fgen(new[] { "A", "B" });
@@ -316,12 +316,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
         }
 
-        private void AssertReferenceClockSettings(FgenSessionsBundle sessionsBundle, string expectedSoureVlue, double expectedFrequencyValue)
+        private void AssertReferenceClockSettings(FgenSessionsBundle sessionsBundle, string expectedSoureValue, double expectedFrequencyValue)
         {
             sessionsBundle.Do(sessionInformation =>
             {
                 var actualSourceValue = sessionInformation.Session.Timing.ReferenceClock.Source;
-                Assert.Equal(expectedSoureVlue, actualSourceValue);
+                Assert.Equal(expectedSoureValue, actualSourceValue);
 
                 var actualFrequencyValue = sessionInformation.Session.Timing.ReferenceClock.Frequency;
                 Assert.Equal(expectedFrequencyValue, actualFrequencyValue);
