@@ -137,7 +137,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             return ReadRegister(address, DefaultAddressBitWidth, DefaultValueBitWidth);
         }
 
-        /// <inheritdoc cref="ReadRegister(uint)"/>
+        /// <inheritdoc cref="IDigitalProtocol.ReadRegister(uint)"/>
         /// <param name="address"/>
         /// <param name="addressBitWidth">The bit width for the register address.</param>
         /// <param name="valueBitWidth">The bit width for the register value.</param>
@@ -157,10 +157,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             WriteSourceWaveformToAllSites(srcWfmSamples);
             _digitalSessionsBundle.BurstPattern(ReadPatternName, timeoutInSeconds: 10);
 
-            // The driver returns a capture waveform as a buffer of U32 samples, where each sample holds only as many
-            // bits as the sample width the waveform was created with. The register value therefore arrives split
-            // across as many samples as are needed to hold all of its bits, and those samples must be packed back
-            // together to reconstruct the value read from the DUT.
+            // The driver returns a capture waveform as a buffer of U32 samples,
+            // with each sample containing only the number of bits specified by the waveform's sample width.
+            // As a result, each register value may span multiple samples.
+            // The samples must be packed together to reconstruct a single register value.
             uint samplesPerValue = GetSampleCount(valueBitWidth, SampleWidth);
             SiteData<uint[]> captureWaveforms = _digitalSessionsBundle.FetchCaptureWaveform(
                 CaptureWaveformName, samplesToRead: (int)samplesPerValue, timeoutInSeconds: 10);
@@ -174,7 +174,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             WriteRegister(address, value, DefaultAddressBitWidth, DefaultValueBitWidth);
         }
 
-        /// <inheritdoc cref="WriteRegister(uint, long)"/>
+        /// <inheritdoc cref="IDigitalProtocol.WriteRegister(uint, long)"/>
         /// <param name="address"/>
         /// <param name="value"/>
         /// <param name="addressBitWidth">The bit width for the register address.</param>
@@ -205,7 +205,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             WriteRegister(address, value, DefaultAddressBitWidth, DefaultValueBitWidth);
         }
 
-        /// <inheritdoc cref="WriteRegister(uint, SiteData{long})"/>
+        /// <inheritdoc cref="IDigitalProtocol.WriteRegister(uint, SiteData{long})"/>
         /// <param name="address"/>
         /// <param name="value"/>
         /// <param name="addressBitWidth">The bit width for the register address.</param>
@@ -251,7 +251,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             return ReadRegisters(addresses, DefaultAddressBitWidth, DefaultValueBitWidth);
         }
 
-        /// <inheritdoc cref="ReadRegisters(uint[])"/>
+        /// <inheritdoc cref="IDigitalProtocol.ReadRegisters(uint[])"/>
         /// <param name="addresses"/>
         /// <param name="addressBitWidth">The bit width for each register address.</param>
         /// <param name="valueBitWidth">The bit width for each register value.</param>
@@ -276,11 +276,13 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             WriteSourceWaveformToAllSites(srcWfmSamples);
             _digitalSessionsBundle.BurstPattern(ReadPatternName, timeoutInSeconds: 10);
 
-            // The driver returns a capture waveform as a buffer of U32 samples, where each sample holds only as many
-            // bits as the sample width the waveform was created with, so each register value arrives split across
-            // as many samples as are needed to hold all of its bits. Because the read pattern captures the values
-            // back to back, one register per loop iteration, the samples must be divided into equal groups and each
-            // group packed back together to reconstruct the value read from the corresponding register.
+            // The driver returns a capture waveform as a buffer of U32 samples,
+            // with each sample containing only the number of bits specified by the waveform's sample width.
+            // As a result, each register value may span multiple samples.
+            // The samples must be packed together to reconstruct a single register value.
+            // Since register values are captured back-to-back, with one set of samples per loop iteration,
+            // the aggregate samples captured during the pattern burst represent multiple register values
+            // and must first be divided into groups by register before packing.
             uint samplesPerValue = GetSampleCount(valueBitWidth, SampleWidth);
             int totalSamples = (int)(samplesPerValue * (uint)addresses.Length);
             SiteData<uint[]> captureWaveforms = _digitalSessionsBundle.FetchCaptureWaveform(
@@ -295,7 +297,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             WriteRegisters(addresses, values, DefaultAddressBitWidth, DefaultValueBitWidth);
         }
 
-        /// <inheritdoc cref="WriteRegisters(uint[], long[])"/>
+        /// <inheritdoc cref="IDigitalProtocol.WriteRegisters(uint[], long[])"/>
         /// <param name="addresses"/>
         /// <param name="values"/>
         /// <param name="addressBitWidth">The bit width for each register address.</param>
@@ -325,7 +327,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             WriteRegisters(addresses, values, DefaultAddressBitWidth, DefaultValueBitWidth);
         }
 
-        /// <inheritdoc cref="WriteRegisters(uint[], SiteData{long}[])"/>
+        /// <inheritdoc cref="IDigitalProtocol.WriteRegisters(uint[], SiteData{long}[])"/>
         /// <param name="addresses"/>
         /// <param name="values"/>
         /// <param name="addressBitWidth">The bit width for each register address.</param>
