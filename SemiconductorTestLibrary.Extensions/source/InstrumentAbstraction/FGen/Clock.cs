@@ -12,15 +12,16 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// Configures the sample clock mode of the underlying signal generators.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
-        /// <param name="clockMode">Specifies the clock mode.</param>
+        /// <param name="clockMode">Specifies the <see cref="ClockMode"/>.</param>
         /// <remarks>
         /// <para>
-        /// For the underlying signal generators that support it, this method allows switching the sample clock to a HighResolution clocking mode.
-        /// When in DivideDown sampling mode, the sample rate can only be set to certain frequencies, based on dividing down the sample clock. However, in HighResolution mode, the sample rate may be set to any value.
+        /// For the underlying signal generators that support it, this method allows switching the sample clock to <see cref="ClockMode.HighResolution"/> mode.
+        /// When in <see cref="ClockMode.DivideDown"/> mode, the sample rate can only be set to certain frequencies, based on dividing down the sample clock.
+        /// However, in <see cref="ClockMode.HighResolution"/> mode, the sample rate may be set to any value.
         /// </para>
         /// <para>
-        /// Supported clock modes vary by signal generator model. Some signal generators support Automatic and HighResolution clock modes,
-        /// while others support Automatic and DivideDown clock modes. Refer to the documentation of the underlying signal generator for its supported clock modes.
+        /// Supported clock modes vary by signal generator model. Some signal generators support <see cref="ClockMode.Automatic"/> and <see cref="ClockMode.HighResolution"/> modes,
+        /// while others support <see cref="ClockMode.Automatic"/> and <see cref="ClockMode.DivideDown"/> modes. Refer to the documentation of the underlying signal generator for its supported clock modes.
         /// If the specified clock mode is not supported by the underlying signal generator, an exception will be thrown.
         /// </para>
         /// </remarks>
@@ -44,11 +45,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
         /// <param name="source">Specifies the sample clock source.</param>
         /// <remarks>
-        /// The default value is "OnboardClock".
         /// <para>
         /// Supported sample clock sources vary by signal generator model. Most signal generators support "OnboardClock" and "PXI_Trig0" to "PXI_Trig7",
         /// while some signal generators with a Clock In terminal support "ClkIn" and may not have an onboard clock.
         /// Refer to the documentation of the underlying signal generator for its supported sample clock sources.
+        /// </para>
+        /// <para>
+        /// The default value is "OnboardClock".
         /// </para>
         /// </remarks>
         /// <exception cref="NISemiconductorTestException">
