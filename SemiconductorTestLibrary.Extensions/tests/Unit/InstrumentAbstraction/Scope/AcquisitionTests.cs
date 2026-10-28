@@ -87,7 +87,11 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             // An out-of-range ScopeAcquisitionType value is not validated by this method and is passed directly
             // to the driver. Since this call happens within a Do operation, the resulting exception is caught
             // and wrapped in an NISemiconductorTestException.
-            void ConfigureAcquisitionType() => sessionsBundle.ConfigureAcquisitionType((ScopeAcquisitionType)(-1));
+            void ConfigureAcquisitionType()
+            {
+                sessionsBundle.ConfigureAcquisitionType((ScopeAcquisitionType)(-1));
+                sessionsBundle.Commit();
+            }
 
             Assert.Throws<NISemiconductorTestException>(ConfigureAcquisitionType);
         }
@@ -395,6 +399,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         private static void ConfigureTimingForAcquisition(ScopeSessionsBundle sessionsBundle)
         {
+            // Channels must be explicitly enabled before an acquisition can be initiated and fetched;
+            // they are not enabled by default.
+            sessionsBundle.Do(sessionInfo =>
+            {
+                sessionInfo.Session.Channels[sessionInfo.AllChannelsString].Enabled = true;
+            });
             sessionsBundle.ConfigureTiming(new TimingSettings
             {
                 MinimumSampleRate = 1000000,
