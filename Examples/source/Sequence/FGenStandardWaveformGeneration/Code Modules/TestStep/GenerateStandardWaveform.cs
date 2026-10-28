@@ -16,7 +16,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.FGenStandardWave
     /// 2. The NI-FGEN sessions have already been initialized, for example by the Setup NI-FGEN Instrumentation step.
     /// The <see cref="StandardWaveform.User"/> waveform type is not supported.
     /// </summary>
-    public static class TestSteps
+    public static class TestStep
     {
         /// <summary>
         /// Configures the output mode to Function, configures the standard waveform settings,
@@ -37,8 +37,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.FGenStandardWave
             string standardWaveformType,
             double frequency,
             double amplitude,
-            double offset,
-            double phase)
+            double offset = 0,
+            double phase = 0)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
             var fgenPins = tsmContext.FilterPinsByInstrumentType(pinsOrPinGroups, InstrumentTypeIdConstants.NIFgen);
@@ -67,7 +67,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.FGenStandardWave
                 fgenBundle.Initiate();
 
                 // Wait for 3 seconds to ensure the generation has started. Adjust as needed.
-                fgenBundle.WaitUntilDone(3000);
+                fgenBundle.WaitUntilDone(10000);
 
                 // Stop generation after the wait time. Remove this line if you want continuous generation.
                 fgenBundle.Abort();

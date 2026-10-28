@@ -6,9 +6,9 @@
 		<NIFGenInstrument name="FGEN_5433_C3_S03" numberOfChannels="2" />
 	</Instruments>
 	<Pins>
-		<DUTPin name="A" />
-		<DUTPin name="B" />
-		<DUTPin name="C" />
+		<DUTPin name="AI0" />
+		<DUTPin name="AI1" />
+		<DUTPin name="Clk" />
 	</Pins>
 	<PinGroups></PinGroups>
 	<Sites>
@@ -16,11 +16,11 @@
 		<Site siteNumber="1" />
 	</Sites>
 	<Connections>
-		<Connection pin="A" siteNumber="0" instrument="FGEN_5433_C1_S13" channel="0" />
-		<Connection pin="A" siteNumber="1" instrument="FGEN_5433_C1_S13" channel="1" />
-		<Connection pin="B" siteNumber="0" instrument="FGEN_5433_C2_S05" channel="0" />
-		<Connection pin="B" siteNumber="1" instrument="FGEN_5433_C2_S05" channel="1" />
-		<Connection pin="C" siteNumber="0" instrument="FGEN_5433_C3_S03" channel="0" />
-		<Connection pin="C" siteNumber="1" instrument="FGEN_5433_C3_S03" channel="1" />
+		<Connection pin="AI0" siteNumber="0" instrument="FGEN_5433_C1_S13" channel="0" />
+		<Connection pin="AI0" siteNumber="1" instrument="FGEN_5433_C1_S13" channel="1" />
+		<Connection pin="AI1" siteNumber="0" instrument="FGEN_5433_C2_S05" channel="0" />
+		<Connection pin="AI1" siteNumber="1" instrument="FGEN_5433_C2_S05" channel="1" />
+		<Connection pin="Clk" siteNumber="0" instrument="FGEN_5433_C3_S03" channel="0" />
+		<Connection pin="Clk" siteNumber="1" instrument="FGEN_5433_C3_S03" channel="1" />
 	</Connections>
 </PinMap>
