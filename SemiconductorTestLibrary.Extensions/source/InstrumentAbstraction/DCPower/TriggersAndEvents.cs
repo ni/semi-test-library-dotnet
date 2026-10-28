@@ -38,17 +38,20 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <remarks>
         /// An output terminal is reserved by the channel that exports a signal to it, therefore each site-pin pair requires its own unique output terminal.
-        /// Since a PXIe chassis provides only eight trigger lines, <paramref name="outputTerminals"/> can contain at most
-        /// <see cref="MaximumNumberOfOutputTerminals"/> site-pin pairs.
-        /// Site-pin pairs in the <paramref name="sessionsBundle"/> that are not present in <paramref name="outputTerminals"/> are not exported,
-        /// which allows exporting the signal from a single lead pin per site and synchronizing the remaining pins in code module level.
+        /// Since a PXIe chassis provides only eight common backplane trigger lines, keep the number of site-pin pairs in <paramref name="outputTerminals"/> within that limit.<br/>
+        /// The signal is exported only for the site-pin pairs specified in <paramref name="outputTerminals"/>.
+        /// Site-pin pairs in the <paramref name="sessionsBundle"/> that are not present in <paramref name="outputTerminals"/> are not exported.<br/>
+        /// Each output terminal can be specified as a trigger line name, for example "PXI_Trig0", or in the fully qualified format, for example "/Dev1/PXI_Trig0".<br/>
+        /// Throws <see cref="NISemiconductorTestException"/> if <paramref name="outputTerminals"/> is null or empty,
+        /// if it contains a null or empty output terminal, or if the same output terminal is assigned to more than one site-pin pair.<br/>
+        /// The driver throws an exception if any of the specified output terminals is invalid or cannot be found.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="signalSource">The signal source to export.</param>
-        /// <param name="outputTerminals">The per-site per-pin output terminals the signal routes to.</param>
+        /// <param name="outputTerminals">The per-site per-pin output terminals the signal routes to, for example "PXI_Trig0".</param>
         /// <exception cref="NISemiconductorTestException">
         /// Thrown when <paramref name="outputTerminals"/> is null or empty, contains a null or empty output terminal,
-        /// assigns the same output terminal to more than one site-pin pair.
+        /// or assigns the same output terminal to more than one site-pin pair.
         /// </exception>
         public static void ExportSignal(this DCPowerSessionsBundle sessionsBundle, DCPowerSignalSource signalSource, PinSiteData<string> outputTerminals)
         {
@@ -73,7 +76,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         {
             if (outputTerminals is null || !outputTerminals.PinNames.Any())
             {
-                throw new NISemiconductorTestException(ResourceStrings.DCPower_ExportSignalOutputTerminalsEmpty);
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_ExportSignalOutputTerminalsEmpty));
             }
 
             var assignments = outputTerminals.PinNames

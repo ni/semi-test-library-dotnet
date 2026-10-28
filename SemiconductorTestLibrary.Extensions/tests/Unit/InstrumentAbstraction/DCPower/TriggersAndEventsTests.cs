@@ -569,13 +569,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VDET" });
 
 #pragma warning disable CS0618 // Intentionally exercising the obsolete overload to reproduce the terminal reservation failure.
-            Assert.ThrowsAny<Exception>(() =>
+            var exception = Assert.Throws<NISemiconductorTestException>(() =>
             {
-                sessionsBundle.ExportSignal(DCPowerSignalSource.SourceCompleteEvent, "/PXI_Trig0");
+                sessionsBundle.ExportSignal(DCPowerSignalSource.SourceCompleteEvent, "PXI_Trig0");
                 sessionsBundle.Commit();
             });
 #pragma warning restore CS0618
 
+            Assert.Contains(typeof(Ivi.Driver.IviCDriverException).FullName, exception.Message);
+            Assert.Contains("Specified route cannot be satisfied, because it requires resources that are currently in use by another route.", exception.Message);
             sessionsBundle.Abort();
         }
 
@@ -589,8 +591,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VDET" });
             var outputTerminals = new PinSiteData<string>(new Dictionary<string, IDictionary<int, string>>
             {
-                ["VDD"] = new Dictionary<int, string> { [0] = "/PXI_Trig0", [1] = "/PXI_Trig1" },
-                ["VDET"] = new Dictionary<int, string> { [0] = "/PXI_Trig2", [1] = "/PXI_Trig3" }
+                ["VDD"] = new Dictionary<int, string> { [0] = "PXI_Trig0", [1] = "PXI_Trig1" },
+                ["VDET"] = new Dictionary<int, string> { [0] = "PXI_Trig2", [1] = "PXI_Trig3" }
             });
 
             sessionsBundle.ExportSignal(DCPowerSignalSource.SourceCompleteEvent, outputTerminals);
@@ -612,12 +614,14 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 ["VDD"] = new Dictionary<int, string> { [0] = "/InvalidTerminal" }
             });
 
-            Assert.ThrowsAny<Exception>(() =>
+            var exception = Assert.Throws<NISemiconductorTestException>(() => 
             {
                 sessionsBundle.ExportSignal(DCPowerSignalSource.SourceCompleteEvent, outputTerminals);
                 sessionsBundle.Commit();
             });
 
+            Assert.Contains(typeof(Ivi.Driver.IviCDriverException).FullName, exception.Message);
+            Assert.Contains("Requested value is not a supported value for this property.", exception.Message);
             sessionsBundle.Abort();
         }
 
@@ -631,8 +635,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VDET" });
             var outputTerminals = new PinSiteData<string>(new Dictionary<string, IDictionary<int, string>>
             {
-                ["VDD"] = new Dictionary<int, string> { [0] = "/PXI_Trig0" },
-                ["VDET"] = new Dictionary<int, string> { [0] = "/PXI_Trig0" }
+                ["VDD"] = new Dictionary<int, string> { [0] = "PXI_Trig0" },
+                ["VDET"] = new Dictionary<int, string> { [0] = "PXI_Trig0" }
             });
 
             Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ExportSignal(DCPowerSignalSource.SourceCompleteEvent, outputTerminals));
