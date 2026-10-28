@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This example demonstrates how to use the Semiconductor Test Library specifically the Scope extension methods  for configured waveform acquisition. This example demonstrates the multi-site capability of scope extension methods using 2 sites in the pinmap file. This example can be modified for more sites by adding connection and site details to the pinmap file.
+This example demonstrates how to use the Semiconductor Test Library specifically the Scope extension methods  for configured waveform acquisition. This example demonstrates the multi-site capability of scope extension methods using 2 sites in the pinmap file. 
 
 ### Highlighted Features
 
@@ -20,7 +20,7 @@ This example demonstrates how to use the Semiconductor Test Library specifically
 1. If you want to use the example you must have the following software installed:
    - STS Software 24.5.3 or later
 2. To run the test program you must also have:
-   - Two NI-Scope instruments named SCP_5172_C1_S02 and SCP_5172_C1_S03, respectively.
+   - Two NI-Scope instruments named SCOPE_5172_C1_S02 and SCOPE_5172_C1_S03, respectively.
    - TestStand configured to use the Batch process model.
 
 > **NOTE** \
@@ -39,7 +39,7 @@ Complete the steps in the following sections to learn about the test program com
 
 1. Select **Semiconductor Module -> Edit Pin Map** File or click the **Edit Pin Map File** button on the TSM toolbar to open the ScopeConfiguredAcquisition pin map file in the Pin Map Editor.
 The pin map file defines the following information:
-   - Two NI-SCOPE instrument named `SCP_5172_C1_S02` and `SCP_5172_C1_S03`.
+   - Two NI-SCOPE instrument named `SCOPE_5172_C1_S02` and `SCOPE_5172_C1_S03`.
    - Four DUT pins named `Vsc0`, `Vsc1`, `Vsc2`, and `Vsc3`. The `Vsc0` DUT pin used to connect the signal out from DUT.
    - Two sites on the tester.
    - A series of connections for each site, in which each connection specifies a DUT pin, a site number, an instrument, and an instrument channel.
