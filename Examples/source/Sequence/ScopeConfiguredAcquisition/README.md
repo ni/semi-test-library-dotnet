@@ -4,15 +4,9 @@
 
 This example demonstrates how to use the Semiconductor Test Library specifically the Scope extension methods  for configured waveform acquisition. This example demonstrates the multi-site capability of scope extension methods using 2 sites in the pinmap file. 
 
-### Highlighted Features
-
-- Pin Map
-- Multi Site
-- Offline Mode
 
 ### Major APIs
 
-- TSM Code Module API
 - Semiconductor Test Library Scope extension methods
 
 ### Prerequisites
