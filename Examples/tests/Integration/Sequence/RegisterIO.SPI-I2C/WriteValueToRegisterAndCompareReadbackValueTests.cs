@@ -21,43 +21,49 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         {
             var tsmContext = CreateTSMContext(SupportingMaterialsFolderPath, PinMapFileName, DigitalPatternProjectName, out var publishedDataReader);
             SetupNIDigitalPatternInstrumentation(tsmContext);
-            DutPowerUp(
-                tsmContext: tsmContext,
-                dutSupplyPinsOrPinGroups: new string[] { "VIN" },
-                perSupplyPinOrPinGroupVoltages: new double[] { 3.3 },
-                perSupplyPinOrPinGroupCurrentLimits: new double[] { 0.002 },
-                settlingTime: 0,
-                powerUpSuppliesSerially: false);
-            TestStep.ConfigureDigitalProtocol(
-                communicationProtocol: protocol,
-                addressBitWidth: 7,
-                valueBitWidth: 8,
-                writePatternName: "SPI_write_template",
-                readPatternName: "SPI_read_template",
-                sourceWaveformName: "SPI_source_buffer",
-                captureWaveformName: "SPI_capture_buffer",
-                sampleWidth: 1,
-                readWriteCountSequenceRegister: "reg0",
-                addressBitWidthSequenceRegister: "reg1",
-                valueBitWidthSequenceRegister: "reg2",
-                pinNames: new[] { "CS", "SCK", "SDI", "SDO" });
+            try
+            {
+                DutPowerUp(
+                    tsmContext: tsmContext,
+                    dutSupplyPinsOrPinGroups: new string[] { "VIN" },
+                    perSupplyPinOrPinGroupVoltages: new double[] { 3.3 },
+                    perSupplyPinOrPinGroupCurrentLimits: new double[] { 0.002 },
+                    settlingTime: 0,
+                    powerUpSuppliesSerially: false);
+                TestStep.ConfigureDigitalProtocol(
+                    communicationProtocol: protocol,
+                    addressBitWidth: 7,
+                    valueBitWidth: 8,
+                    writePatternName: "SPI_write_template",
+                    readPatternName: "SPI_read_template",
+                    sourceWaveformName: "SPI_source_buffer",
+                    captureWaveformName: "SPI_capture_buffer",
+                    sampleWidth: 1,
+                    readWriteCountSequenceRegister: "reg0",
+                    addressBitWidthSequenceRegister: "reg1",
+                    valueBitWidthSequenceRegister: "reg2",
+                    pinNames: new[] { "CS", "SCK", "SDI", "SDO" });
 
-            TestStep.WriteValueToRegisterAndCompareReadbackValue(
-                tsmContext,
-                protocol,
-                registerAddress: 0x74,
-                valueToWrite: 0x27);
+                TestStep.WriteValueToRegisterAndCompareReadbackValue(
+                    tsmContext,
+                    protocol,
+                    registerAddress: 0x74,
+                    valueToWrite: 0x27);
 
-            var comparisonResults = publishedDataReader.GetAndClearPublishedData().Where(d => d.PublishedDataId == "ComparisonResult").ToArray();
-            Assert.Equal(tsmContext.SiteNumbers.Count, comparisonResults.Length);
-            Assert.All(comparisonResults, d => Assert.True(d.BooleanValue));
-
-            DutPowerDown(
-                tsmContext,
-                dutSupplyPinsOrPinGroups: new string[] { "VIN" },
-                settlingTime: 0,
-                powerDownSuppliesSerially: false);
-            TestStep.CleanupDigitalProtocol(protocol);
+                var comparisonResults = publishedDataReader.GetAndClearPublishedData().Where(d => d.PublishedDataId == "ComparisonResult").ToArray();
+                Assert.Equal(tsmContext.SiteNumbers.Count, comparisonResults.Length);
+                Assert.All(comparisonResults, d => Assert.True(d.BooleanValue));
+            }
+            finally
+            {
+                TestStep.CleanupDigitalProtocol(protocol);
+                DutPowerDown(
+                    tsmContext,
+                    dutSupplyPinsOrPinGroups: new string[] { "VIN" },
+                    settlingTime: 0,
+                    powerDownSuppliesSerially: false);
+                CleanupInstrumentation(tsmContext);
+            }
         }
     }
 }
