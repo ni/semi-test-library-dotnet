@@ -2,4 +2,7 @@
 <SystemConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" schemaVersion="1.0" xmlns="http://www.ni.com/TestStand/SemiconductorModule/SystemConfiguration.xsd">
   <!-- The following is an example configuration provided for the RegisterIO SPI and I2C Example. -->
   <!-- It provides a single NI PXIe-6571 Digital Pattern Instrument, which is used to communicate with the DUT over SPI or I2C. -->
+  <PXIChassis Number="1" Model="NI PXIe-1095">
+    <PXI Name="HSD_6571_C1_S02" Model="NI PXIe-6571" Slot="2" />
+  </PXIChassis>
 </SystemConfiguration>
