@@ -14,7 +14,6 @@ using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMCon
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.Scope
 {
     [Collection("NonParallelizable")]
-    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
     public sealed class AcquisitionTests : IDisposable
     {
         private static readonly PrecisionTimeSpan DefaultTimeout = PrecisionTimeSpan.FromSeconds(5);
@@ -34,12 +33,21 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         #region ConfigureAcquisitionType Tests
 
-        // In hardware, run only for 5172. In offline, all pass.
+        [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        public void SessionsBundle_ConfigureAcquisitionTypeWithNormal_AcquisitionTypeCorrectlyConfigured()
+        {
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
+
+            sessionsBundle.ConfigureAcquisitionType(ScopeAcquisitionType.Normal);
+
+            sessionsBundle.Do(sessionInfo => Assert.Equal(ScopeAcquisitionType.Normal, sessionInfo.Session.Acquisition.Type));
+        }
+
         [Theory]
-        [InlineData("SCP_5172_Pin_1")]
         [InlineData("SCP_5622_Pin")]
         [InlineData("SCP_5186_Pin")]
-        public void SessionsBundle_ConfigureAcquisitionTypeWithNormal_AcquisitionTypeCorrectlyConfigured(string pin)
+        public void SessionsBundleWithDifferentInstrumentModels_ConfigureAcquisitionTypeWithNormal_AcquisitionTypeCorrectlyConfigured(string pin)
         {
             var sessionsBundle = GetSessionsBundle(pin);
 
@@ -48,10 +56,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Do(sessionInfo => Assert.Equal(ScopeAcquisitionType.Normal, sessionInfo.Session.Acquisition.Type));
         }
 
-        // Only runs on 5922, update pinmap and offline config. Only run in offline mode.
         [Fact]
         public void SessionsBundle_ConfigureAcquisitionTypeWithFlexibleResolution_AcquisitionTypeCorrectlyConfigured()
         {
+            // Flexible resolution acquisition is only supported by the PXIe-5922, which is not available on the STSNIBCauvery.
             var sessionsBundle = GetSessionsBundle("SCP_5922_Pin");
 
             sessionsBundle.ConfigureAcquisitionType(ScopeAcquisitionType.FlexibleResolution);
@@ -59,8 +67,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Do(sessionInfo => Assert.Equal(ScopeAcquisitionType.FlexibleResolution, sessionInfo.Session.Acquisition.Type));
         }
 
-        // Pass
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_ConfigureAcquisitionTypeWithMultiplePins_AcquisitionTypeCorrectlyConfiguredForAllSessions()
         {
             var sessionsBundle = GetSessionsBundle(new[] { "SCP_5172_Pin_1", "SCP_5172_Pin_2", "SCP_5172_Pin_3" });
@@ -70,8 +78,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Do(sessionInfo => Assert.Equal(ScopeAcquisitionType.Normal, sessionInfo.Session.Acquisition.Type));
         }
 
-        // Pass
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_ConfigureAcquisitionTypeCalledMultipleTimes_LastValueApplied()
         {
             var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
@@ -82,15 +90,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             sessionsBundle.Do(sessionInfo => Assert.Equal(ScopeAcquisitionType.Normal, sessionInfo.Session.Acquisition.Type));
         }
 
-        // Pass
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_ConfigureAcquisitionTypeWithInvalidEnumValue_ThrowsNISemiconductorTestException()
         {
             var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
 
-            // An out-of-range ScopeAcquisitionType value is not validated by this method and is passed directly
-            // to the driver. Since this call happens within a Do operation, the resulting exception is caught
-            // and wrapped in an NISemiconductorTestException.
+            // ConfigureAcquisitionType does not validate the ScopeAcquisitionType value; it is passed to the driver,
+            // which rejects the out-of-range value. Because the driver call is made inside a Do operation,
+            // the driver exception is wrapped in an NISemiconductorTestException.
             void ConfigureAcquisitionType()
             {
                 sessionsBundle.ConfigureAcquisitionType((ScopeAcquisitionType)(-1));
@@ -104,12 +112,23 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         #region ReadWaveform Tests
 
-        // In hardware run only, for 5172. In offline all pass.
+        [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        public void SessionsBundle_ReadWaveform_ReturnsWaveformForEachSitePin()
+        {
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
+            ConfigureTimingForAcquisition(sessionsBundle);
+
+            var waveforms = sessionsBundle.ReadWaveform(DefaultTimeout, numberOfSamples: 1000);
+
+            Assert.All(waveforms.SiteNumbers, site => Assert.NotNull(waveforms.ExtractSite(site).Values.First()));
+            Assert.All(waveforms.SiteNumbers, site => Assert.Equal(1000, waveforms.ExtractSite(site).Values.First().SampleCount));
+        }
+
         [Theory]
-        [InlineData("SCP_5172_Pin_1")]
         [InlineData("SCP_5622_Pin")]
         [InlineData("SCP_5186_Pin")]
-        public void SessionsBundle_ReadWaveform_ReturnsWaveformForEachSitePin(string pin)
+        public void SessionsBundleWithDifferentInstrumentModels_ReadWaveform_ReturnsWaveformForEachSitePin(string pin)
         {
             var sessionsBundle = GetSessionsBundle(pin);
             ConfigureTimingForAcquisition(sessionsBundle);
@@ -120,8 +139,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.All(waveforms.SiteNumbers, site => Assert.Equal(1000, waveforms.ExtractSite(site).Values.First().SampleCount));
         }
 
-        // Pass
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_ReadWaveformWithMultiplePins_ReturnsWaveformForAllSitePins()
         {
             var sessionsBundle = GetSessionsBundle(new[] { "SCP_5172_Pin_1", "SCP_5172_Pin_2" });
@@ -132,8 +151,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(2, waveforms.PinNames.Length);
         }
 
-        // Only Hardware
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         public void SessionsBundle_ReadWaveformWithTriggerNeverReceived_ThrowsNISemiconductorTestExceptionWithChannelDetails()
         {
             // A software trigger that is never sent prevents the acquisition from completing,
@@ -149,8 +169,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Contains("channel", exception.Message, StringComparison.OrdinalIgnoreCase);
         }
 
-        // Pass
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_ReadWaveformWithNegativeOneNumberOfSamples_ReturnsAllAvailableSamplesInRecord()
         {
             var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
@@ -163,8 +183,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.All(waveforms.SiteNumbers, site => Assert.NotEmpty(waveforms.ExtractSite(site).Values.First().GetRawData()));
         }
 
-        // Pass
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_ReadWaveformWithNegativeOneTimeout_WaitsIndefinitelyAndReturnsWaveform()
         {
             var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
@@ -176,8 +196,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.All(waveforms.SiteNumbers, site => Assert.NotNull(waveforms.ExtractSite(site).Values.First()));
         }
 
-        // Check failure
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_ReadWaveformWithZeroNumberOfSamples_ReturnsEmptyWaveformForEachSitePin()
         {
             var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
@@ -191,6 +211,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_ReadWaveformWithNegativeNumberOfSamplesOtherThanNegativeOne_ReturnsAllAvailableSamplesInRecord()
         {
             var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
@@ -207,12 +228,23 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         #region Read Tests
 
-        // In hardware run only, for 5172. In offline all pass.
+        [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        public void SessionsBundle_Read_ReturnsSamplesForEachSitePin()
+        {
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
+            ConfigureTimingForAcquisition(sessionsBundle);
+
+            var samples = sessionsBundle.Read(DefaultTimeout, numberOfSamples: 1000);
+
+            Assert.All(samples.SiteNumbers, site => Assert.NotEmpty(samples.ExtractSite(site).Values.First()));
+            Assert.All(samples.SiteNumbers, site => Assert.Equal(1000, samples.ExtractSite(site).Values.First().Length));
+        }
+
         [Theory]
-        [InlineData("SCP_5172_Pin_1")]
         [InlineData("SCP_5622_Pin")]
         [InlineData("SCP_5186_Pin")]
-        public void SessionsBundle_Read_ReturnsSamplesForEachSitePin(string pin)
+        public void SessionsBundleWithDifferentInstrumentModels_Read_ReturnsSamplesForEachSitePin(string pin)
         {
             var sessionsBundle = GetSessionsBundle(pin);
             ConfigureTimingForAcquisition(sessionsBundle);
@@ -223,8 +255,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.All(samples.SiteNumbers, site => Assert.Equal(1000, samples.ExtractSite(site).Values.First().Length));
         }
 
-        // Pass
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_ReadWithMultiplePins_ReturnsSamplesForAllSitePins()
         {
             var sessionsBundle = GetSessionsBundle(new[] { "SCP_5172_Pin_1", "SCP_5172_Pin_2" });
@@ -235,8 +267,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Equal(2, samples.PinNames.Length);
         }
 
-        // Only Hardware
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         public void SessionsBundle_ReadWithTriggerNeverReceived_ThrowsNISemiconductorTestExceptionWithChannelDetails()
         {
             // A software trigger that is never sent prevents the acquisition from completing,
@@ -252,8 +285,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Contains("channel", exception.Message, StringComparison.OrdinalIgnoreCase);
         }
 
-        // Pass
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_ReadWithNegativeOneNumberOfSamples_ReturnsAllAvailableSamplesInRecord()
         {
             var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
@@ -266,8 +299,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.All(samples.SiteNumbers, site => Assert.NotEmpty(samples.ExtractSite(site).Values.First()));
         }
 
-        // Pass
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_ReadWithNegativeOneTimeout_WaitsIndefinitelyAndReturnsSamples()
         {
             var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
@@ -279,8 +312,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.All(samples.SiteNumbers, site => Assert.NotEmpty(samples.ExtractSite(site).Values.First()));
         }
 
-        // Check failure
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_ReadWithZeroNumberOfSamples_ReturnsEmptySamplesForEachSitePin()
         {
             var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
@@ -294,6 +327,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_ReadWithNegativeNumberOfSamplesOtherThanNegativeOne_ReturnsAllAvailableSamplesInRecord()
         {
             var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
@@ -306,8 +340,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.All(samples.SiteNumbers, site => Assert.Equal(1000, samples.ExtractSite(site).Values.First().Length));
         }
 
-        // Only Hardware
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         public void SessionsBundle_ReadWithTriggerNeverReceivedOnMultiChannelCardWithPartialPinSelection_ThrowsNISemiconductorTestExceptionWithEntireCardChannelDetails()
         {
             // SCP_5172_Pin_1, SCP_5172_Pin_2, and SCP_5172_Pin_3 all reside on the same card for each site.
@@ -332,8 +367,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Contains("site1/SCP_5172_Pin_3", exception.Message, StringComparison.OrdinalIgnoreCase);
         }
 
-        // Only Hardware && 5622 not available on STS. Skip this.
-        [Fact]
+        [Fact(Skip = "Requires a missing trigger to cause an acquisition timeout, which only occurs on physical hardware. The PXIe-5622 is not available on STSNIBCauvery.")]
         public void SessionsBundle_ReadWithTriggerNeverReceivedOnMultiSessionMultiCardBundle_ThrowsNISemiconductorTestExceptionWithPinSiteDetailsForBothCards()
         {
             // SCP_5622_Pin is connected to a different physical card per site (SCP_5622_C3_S05 for site0, SCP_5622_C3_S06 for site1),
@@ -351,10 +385,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Contains("site1/SCP_5622_Pin", exception.Message, StringComparison.OrdinalIgnoreCase);
         }
 
-        // Offline Only Test. 5622 not available on STS.
         [Fact]
         public void SessionsBundle_ReadOnMultiSessionMultiCardBundle_ReturnsSamplesForBothSites()
         {
+            // The PXIe-5622 is not available on the STSNIBCauvery, so this test only runs offline.
             // SCP_5622_Pin is connected to a different physical card per site (SCP_5622_C3_S05 for site0, SCP_5622_C3_S06 for site1),
             // so selecting this pin across both sites produces a bundle with 2 sessions on 2 same-type cards.
             var sessionsBundle = GetSessionsBundle("SCP_5622_Pin");
@@ -369,12 +403,24 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         #region FetchWaveform Tests
 
-        // In hardware run only, for 5172. In offline all pass.
+        [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        public void SessionsBundle_InitiateThenFetchWaveform_ReturnsWaveformForEachSitePin()
+        {
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
+            ConfigureTimingForAcquisition(sessionsBundle);
+            sessionsBundle.Initiate();
+
+            var waveforms = sessionsBundle.FetchWaveform(DefaultTimeout, numberOfSamples: 1000);
+
+            Assert.All(waveforms.SiteNumbers, site => Assert.NotNull(waveforms.ExtractSite(site).Values.First()));
+            Assert.All(waveforms.SiteNumbers, site => Assert.Equal(1000, waveforms.ExtractSite(site).Values.First().SampleCount));
+        }
+
         [Theory]
-        [InlineData("SCP_5172_Pin_1")]
         [InlineData("SCP_5622_Pin")]
         [InlineData("SCP_5186_Pin")]
-        public void SessionsBundle_InitiateThenFetchWaveform_ReturnsWaveformForEachSitePin(string pin)
+        public void SessionsBundleWithDifferentInstrumentModels_InitiateThenFetchWaveform_ReturnsWaveformForEachSitePin(string pin)
         {
             var sessionsBundle = GetSessionsBundle(pin);
             ConfigureTimingForAcquisition(sessionsBundle);
@@ -386,8 +432,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.All(waveforms.SiteNumbers, site => Assert.Equal(1000, waveforms.ExtractSite(site).Values.First().SampleCount));
         }
 
-        // Pass
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_FetchWaveformWithZeroTimeoutAndNoPendingAcquisition_ThrowsNISemiconductorTestExceptionWithChannelDetails()
         {
             var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
@@ -401,8 +447,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Contains("channel", exception.Message, StringComparison.OrdinalIgnoreCase);
         }
 
-        // Pass
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_InitiateThenFetchWaveformWithNegativeOnePointsToFetch_ReturnsAllAvailableSamplesInRecord()
         {
             var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
@@ -416,8 +462,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.All(waveforms.SiteNumbers, site => Assert.NotEmpty(waveforms.ExtractSite(site).Values.First().GetRawData()));
         }
 
-        // Pass
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_InitiateThenFetchWaveformWithNegativeOneTimeout_WaitsIndefinitelyAndReturnsWaveform()
         {
             var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
@@ -430,8 +476,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.All(waveforms.SiteNumbers, site => Assert.NotNull(waveforms.ExtractSite(site).Values.First()));
         }
 
-        // Check failure: Update test (Can remove Initiate to pass)
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_InitiateThenFetchWaveformWithZeroNumberOfSamples_ReturnsEmptyWaveformForEachSitePin()
         {
             var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
@@ -446,6 +492,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void SessionsBundle_InitiateThenFetchWaveformWithNegativeNumberOfSamplesOtherThanNegativeOne_ReturnsAllAvailableSamplesInRecord()
         {
             var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
