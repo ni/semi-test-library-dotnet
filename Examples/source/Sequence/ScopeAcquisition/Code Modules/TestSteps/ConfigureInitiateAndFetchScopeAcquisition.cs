@@ -4,12 +4,20 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
-namespace NationalInstruments.Examples.SemiconductorTestLibrary.ConfigureInitiateAndFetchScopeAcquisition
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
 {
+    /// <summary>
+    /// Provides test step helpers for scope configuration and waveform acquisition within a semiconductor module
+    /// context.
+    /// </summary>
+    /// <remarks>Contains static operations that configure scope vertical and electrical characteristics,
+    /// apply trigger settings, initiate acquisition, and retrieve waveform timing data for a specified site and pin or
+    /// pin group.</remarks>
     public static class TestSteps
     {
         /// <summary>
-        /// Configures the vertical settings, such as input range and offset, for the target scope pins.
+        /// Configures the scope settings, such as input range, offset, probe attenuation,etc then initiates acquisition
+        /// for the target scope pins. Then the method fetches the waveform data and returns the sample interval for the acquired waveform.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="pinOrPinGroup">Name of the scope pin or pin group to be used for waveform acquisition.</param>
@@ -22,7 +30,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ConfigureInitiat
         /// <param name="immediateTrigger">A boolean value indicating whether to configure an immediate trigger or a digital trigger.</param>
         /// <param name="siteNumber">Site number used to select the waveform.</param>
         /// <param name="sampleInterval">When this method returns, contains the waveform sample interval in seconds.</param>
-        public static void ScopeConfiguredVertical(
+        public static void ConfigureInitiateAndFetchScopeAcquisition(
             ISemiconductorModuleContext tsmContext,
             string pinOrPinGroup,
             double range,
