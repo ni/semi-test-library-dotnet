@@ -4,10 +4,10 @@ using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.ConfiguredAcquisition
 {
-    public static partial class ScopeTestSteps
+    public static partial class TestSteps
     {
         /// <summary>
-        /// This method used for configuring vertical settings.
+        /// Configures the vertical settings, such as input range and offset, for the target scope pins.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="pinOrPinGroup">Name of the scope pin or pin group to be used for waveform acquisition.</param>

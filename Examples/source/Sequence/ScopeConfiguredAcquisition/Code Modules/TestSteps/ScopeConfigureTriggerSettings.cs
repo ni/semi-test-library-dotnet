@@ -5,7 +5,7 @@ using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.ConfiguredAcquisition
 {
-    public static partial class ScopeTestSteps
+    public static partial class TestSteps
     {
         /// <summary>
         /// This method used for configuring trigger settings.

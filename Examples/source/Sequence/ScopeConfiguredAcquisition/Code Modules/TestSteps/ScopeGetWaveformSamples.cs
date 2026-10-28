@@ -7,7 +7,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ConfiguredAcquis
      /// Scope Instrument Extension methods from the Semiconductor Test Library.
      /// These methods can be used to perform waveform acquisition.
      /// </summary>
-    public static partial class ScopeTestSteps
+    public static partial class TestSteps
     {
         /// <summary>
         /// Gets raw sample values from a waveform acquired from a site pin based scope data.

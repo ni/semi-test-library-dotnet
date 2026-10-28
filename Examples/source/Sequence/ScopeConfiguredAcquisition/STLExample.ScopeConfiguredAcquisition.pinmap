@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <PinMap schemaVersion="1.5" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<Instruments>
-		<NIScopeInstrument name="SCP_5172_C1_S02" numberOfChannels="8" group="Scope" />
-		<NIScopeInstrument name="SCP_5172_C1_S03" numberOfChannels="8" group="Scope" />
+		<NIScopeInstrument name="SCOPE_5172_C1_S02" numberOfChannels="8" group="Scope" />
+		<NIScopeInstrument name="SCOPE_5172_C1_S03" numberOfChannels="8" group="Scope" />
 	</Instruments>
 	<Pins>
 		<DUTPin name="Vsc0" />
@@ -16,13 +16,13 @@
 		<Site siteNumber="1" />
 	</Sites>
 	<Connections>
-		<Connection pin="Vsc0" siteNumber="0" instrument="SCP_5172_C1_S02" channel="0" />
-		<Connection pin="Vsc1" siteNumber="0" instrument="SCP_5172_C1_S02" channel="1" />
-		<Connection pin="Vsc2" siteNumber="0" instrument="SCP_5172_C1_S02" channel="2" />
-		<Connection pin="Vsc3" siteNumber="0" instrument="SCP_5172_C1_S02" channel="3" />
-		<Connection pin="Vsc0" siteNumber="1" instrument="SCP_5172_C1_S03" channel="0" />
-		<Connection pin="Vsc1" siteNumber="1" instrument="SCP_5172_C1_S03" channel="1" />
-		<Connection pin="Vsc2" siteNumber="1" instrument="SCP_5172_C1_S03" channel="2" />
-		<Connection pin="Vsc3" siteNumber="1" instrument="SCP_5172_C1_S03" channel="3" />
+		<Connection pin="Vsc0" siteNumber="0" instrument="SCOPE_5172_C1_S02" channel="0" />
+		<Connection pin="Vsc1" siteNumber="0" instrument="SCOPE_5172_C1_S02" channel="1" />
+		<Connection pin="Vsc2" siteNumber="0" instrument="SCOPE_5172_C1_S02" channel="2" />
+		<Connection pin="Vsc3" siteNumber="0" instrument="SCOPE_5172_C1_S02" channel="3" />
+		<Connection pin="Vsc0" siteNumber="1" instrument="SCOPE_5172_C1_S03" channel="0" />
+		<Connection pin="Vsc1" siteNumber="1" instrument="SCOPE_5172_C1_S03" channel="1" />
+		<Connection pin="Vsc2" siteNumber="1" instrument="SCOPE_5172_C1_S03" channel="2" />
+		<Connection pin="Vsc3" siteNumber="1" instrument="SCOPE_5172_C1_S03" channel="3" />
 	</Connections>
 </PinMap>

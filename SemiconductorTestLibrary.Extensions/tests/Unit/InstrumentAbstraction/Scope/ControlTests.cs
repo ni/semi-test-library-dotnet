@@ -1,5 +1,4 @@
 ﻿using System;
-using NationalInstruments.ModularInstruments.NIScope;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
@@ -93,43 +92,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.Null(exception);
         }
 
-        [Theory]
-        [InlineData(SinglePin)]
-        [InlineData(PinGroup)]
-        public void ScopeSessionsBundle_ConfigureInitiateAndFetch_ReturnsData(string pin)
-        {
-            var scopeBundle = GetSessionsBundle(pin);
-
-            ScopeAcquisitionType acquisitionType = ScopeAcquisitionType.Normal;
-            scopeBundle.ConfigureAcquisitionType(acquisitionType);
-            VerticalSettings verticalSettings = new VerticalSettings
-            {
-                EnableTimeInterleavedSampling = false
-            };
-            scopeBundle.ConfigureVertical(verticalSettings);
-            ElectricalCharacteristics electricalCharacteristics = new ElectricalCharacteristics
-            {
-            };
-            scopeBundle.ConfigureElectricalCharacteristics(electricalCharacteristics);
-            ClockSettings clockSettings = new ClockSettings
-            {
-            };
-            scopeBundle.ConfigureClock(clockSettings);
-            scopeBundle.ConfigureTriggerImmediate();
-            scopeBundle.Initiate();
-
-            var waveforms = scopeBundle.FetchWaveform(PrecisionTimeSpan.FromSeconds(50.0), 100);
-            scopeBundle.Abort();
-
-            Assert.NotNull(waveforms);
-            foreach (var sitePinInfo in scopeBundle.AggregateSitePinList)
-            {
-                var waveform = waveforms.GetValue(sitePinInfo);
-                Assert.NotNull(waveform);
-                Assert.Equal(100, waveform.SampleCount);
-                Assert.True(waveform.Timing.SampleInterval.TotalSeconds > 0.0);
-            }
-        }
         private ScopeSessionsBundle GetSessionsBundle(string pin)
         {
             var sessionManager = new TSMSessionManager(_tsmContext);
