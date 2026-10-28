@@ -77,16 +77,22 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
             scopeBundle.Initiate();
             var waveforms = scopeBundle.FetchWaveform(PrecisionTimeSpan.FromSeconds(50.0), 1000);
 
-            PinSiteData<double> frequencies = waveforms.Select(wfm =>
+            var frequencies = new PinSiteData<double>();
+            var amplitudes = new PinSiteData<double>();
+            foreach (var pin in waveforms.PinNames)
             {
-                MeasureTone(wfm.GetRawData(), 1.0 / wfm.Timing.SampleInterval.TotalSeconds, out double frequencyHz, out _);
-                return frequencyHz;
-            });
-            PinSiteData<double> amplitudes = waveforms.Select(wfm =>
-            {
-                MeasureTone(wfm.GetRawData(), 1.0 / wfm.Timing.SampleInterval.TotalSeconds, out _, out double amplitude);
-                return amplitude;
-            });
+                frequencies.AddPin(pin);
+                amplitudes.AddPin(pin);
+                foreach (var site in waveforms.SiteNumbers)
+                {
+                    var waveform = waveforms.GetValue(site, pin);
+                    MeasureTone(waveform.GetRawData(), 1.0 / waveform.Timing.SampleInterval.TotalSeconds, out double frequencyHz, out double amplitude);
+                    frequencies.AddSite(site);
+                    frequencies.SetValue(frequencyHz, pin, site);
+                    amplitudes.AddSite(site);
+                    amplitudes.SetValue(amplitude, pin, site);
+                }
+            }
             tsmContext.PublishResults(frequencies, "Frequency");
             tsmContext.PublishResults(amplitudes, "Amplitude");
         }
