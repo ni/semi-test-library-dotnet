@@ -108,6 +108,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// <inheritdoc/>
         public BitOrder BitOrder { get; set; } = BitOrder.MsbFirst;
 
+        private DigitalSessionsBundle Bundle => _digitalSessionsBundle
+            ?? throw new InvalidOperationException(
+                $"No {nameof(DigitalSessionsBundle)} is set. Call {nameof(SetBundle)} (or tsmContext.DutControl(...)) before accessing registers.");
+
         /// <inheritdoc/>
         public void SetBundle(DigitalSessionsBundle digitalSessionsBundle)
         {
@@ -151,18 +155,18 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             // pattern captures the register value from the DUT.
             uint[] srcWfmSamples = LongToU32Samples(address, addressBitWidth, SampleWidth, BitOrder);
 
-            _digitalSessionsBundle.WriteSequencerRegister(ReadWriteCountSequenceRegister, 1);
-            _digitalSessionsBundle.WriteSequencerRegister(AddressBitWidthSequenceRegister, (int)addressBitWidth);
-            _digitalSessionsBundle.WriteSequencerRegister(ValueBitWidthSequenceRegister, (int)valueBitWidth);
+            Bundle.WriteSequencerRegister(ReadWriteCountSequenceRegister, 1);
+            Bundle.WriteSequencerRegister(AddressBitWidthSequenceRegister, (int)addressBitWidth);
+            Bundle.WriteSequencerRegister(ValueBitWidthSequenceRegister, (int)valueBitWidth);
             WriteSourceWaveformToAllSites(srcWfmSamples);
-            _digitalSessionsBundle.BurstPattern(ReadPatternName, timeoutInSeconds: 10);
+            Bundle.BurstPattern(ReadPatternName, timeoutInSeconds: 10);
 
             // The driver returns a capture waveform as a buffer of U32 samples,
             // with each sample containing only the number of bits specified by the waveform's sample width.
             // As a result, each register value may span multiple samples.
             // The samples must be packed together to reconstruct a single register value.
             uint samplesPerValue = GetSampleCount(valueBitWidth, SampleWidth);
-            SiteData<uint[]> captureWaveforms = _digitalSessionsBundle.FetchCaptureWaveform(
+            SiteData<uint[]> captureWaveforms = Bundle.FetchCaptureWaveform(
                 CaptureWaveformName, samplesToRead: (int)samplesPerValue, timeoutInSeconds: 10);
 
             return captureWaveforms.Select(x => U32SamplesToLong(x, SampleWidth, BitOrder));
@@ -192,11 +196,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             uint[] valueSamples = LongToU32Samples(value, valueBitWidth, SampleWidth, BitOrder);
             uint[] srcWfmSamples = ConcatArrays(addressSamples, valueSamples);
 
-            _digitalSessionsBundle.WriteSequencerRegister(ReadWriteCountSequenceRegister, 1);
-            _digitalSessionsBundle.WriteSequencerRegister(AddressBitWidthSequenceRegister, (int)addressBitWidth);
-            _digitalSessionsBundle.WriteSequencerRegister(ValueBitWidthSequenceRegister, (int)valueBitWidth);
+            Bundle.WriteSequencerRegister(ReadWriteCountSequenceRegister, 1);
+            Bundle.WriteSequencerRegister(AddressBitWidthSequenceRegister, (int)addressBitWidth);
+            Bundle.WriteSequencerRegister(ValueBitWidthSequenceRegister, (int)valueBitWidth);
             WriteSourceWaveformToAllSites(srcWfmSamples);
-            _digitalSessionsBundle.BurstPattern(WritePatternName, timeoutInSeconds: 10);
+            Bundle.BurstPattern(WritePatternName, timeoutInSeconds: 10);
         }
 
         /// <inheritdoc/>
@@ -234,11 +238,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             }
             SiteData<uint[]> sourceWaveforms = new SiteData<uint[]>(siteNumbers, perSiteWfmSamples);
 
-            _digitalSessionsBundle.WriteSequencerRegister(ReadWriteCountSequenceRegister, 1);
-            _digitalSessionsBundle.WriteSequencerRegister(AddressBitWidthSequenceRegister, (int)addressBitWidth);
-            _digitalSessionsBundle.WriteSequencerRegister(ValueBitWidthSequenceRegister, (int)valueBitWidth);
+            Bundle.WriteSequencerRegister(ReadWriteCountSequenceRegister, 1);
+            Bundle.WriteSequencerRegister(AddressBitWidthSequenceRegister, (int)addressBitWidth);
+            Bundle.WriteSequencerRegister(ValueBitWidthSequenceRegister, (int)valueBitWidth);
             WriteSourceWaveform(sourceWaveforms);
-            _digitalSessionsBundle.BurstPattern(WritePatternName, timeoutInSeconds: 10);
+            Bundle.BurstPattern(WritePatternName, timeoutInSeconds: 10);
         }
 
         #endregion Single Register Operations
@@ -270,11 +274,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             uint[] srcWfmSamples = LongArrayToU32Samples(
                 addresses.Select(address => (long)address).ToArray(), addressBitWidth, SampleWidth, BitOrder);
 
-            _digitalSessionsBundle.WriteSequencerRegister(ReadWriteCountSequenceRegister, addresses.Length);
-            _digitalSessionsBundle.WriteSequencerRegister(AddressBitWidthSequenceRegister, (int)addressBitWidth);
-            _digitalSessionsBundle.WriteSequencerRegister(ValueBitWidthSequenceRegister, (int)valueBitWidth);
+            Bundle.WriteSequencerRegister(ReadWriteCountSequenceRegister, addresses.Length);
+            Bundle.WriteSequencerRegister(AddressBitWidthSequenceRegister, (int)addressBitWidth);
+            Bundle.WriteSequencerRegister(ValueBitWidthSequenceRegister, (int)valueBitWidth);
             WriteSourceWaveformToAllSites(srcWfmSamples);
-            _digitalSessionsBundle.BurstPattern(ReadPatternName, timeoutInSeconds: 10);
+            Bundle.BurstPattern(ReadPatternName, timeoutInSeconds: 10);
 
             // The driver returns a capture waveform as a buffer of U32 samples,
             // with each sample containing only the number of bits specified by the waveform's sample width.
@@ -285,7 +289,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             // and must first be divided into groups by register before packing.
             uint samplesPerValue = GetSampleCount(valueBitWidth, SampleWidth);
             int totalSamples = (int)(samplesPerValue * (uint)addresses.Length);
-            SiteData<uint[]> captureWaveforms = _digitalSessionsBundle.FetchCaptureWaveform(
+            SiteData<uint[]> captureWaveforms = Bundle.FetchCaptureWaveform(
                 CaptureWaveformName, samplesToRead: totalSamples, timeoutInSeconds: 10);
 
             return captureWaveforms.Select(x => U32SamplesToLongArray(x, SampleWidth, addresses.Length, BitOrder));
@@ -314,11 +318,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             // iteration.
             uint[] srcWfmSamples = BuildInterleavedSourceWaveform(addresses, values, addressBitWidth, valueBitWidth);
 
-            _digitalSessionsBundle.WriteSequencerRegister(ReadWriteCountSequenceRegister, addresses.Length);
-            _digitalSessionsBundle.WriteSequencerRegister(AddressBitWidthSequenceRegister, (int)addressBitWidth);
-            _digitalSessionsBundle.WriteSequencerRegister(ValueBitWidthSequenceRegister, (int)valueBitWidth);
+            Bundle.WriteSequencerRegister(ReadWriteCountSequenceRegister, addresses.Length);
+            Bundle.WriteSequencerRegister(AddressBitWidthSequenceRegister, (int)addressBitWidth);
+            Bundle.WriteSequencerRegister(ValueBitWidthSequenceRegister, (int)valueBitWidth);
             WriteSourceWaveformToAllSites(srcWfmSamples);
-            _digitalSessionsBundle.BurstPattern(WritePatternName, timeoutInSeconds: 10);
+            Bundle.BurstPattern(WritePatternName, timeoutInSeconds: 10);
         }
 
         /// <inheritdoc/>
@@ -355,11 +359,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             }
             SiteData<uint[]> sourceWaveforms = new SiteData<uint[]>(siteNumbers, perSiteWfmSamples);
 
-            _digitalSessionsBundle.WriteSequencerRegister(ReadWriteCountSequenceRegister, addresses.Length);
-            _digitalSessionsBundle.WriteSequencerRegister(AddressBitWidthSequenceRegister, (int)addressBitWidth);
-            _digitalSessionsBundle.WriteSequencerRegister(ValueBitWidthSequenceRegister, (int)valueBitWidth);
+            Bundle.WriteSequencerRegister(ReadWriteCountSequenceRegister, addresses.Length);
+            Bundle.WriteSequencerRegister(AddressBitWidthSequenceRegister, (int)addressBitWidth);
+            Bundle.WriteSequencerRegister(ValueBitWidthSequenceRegister, (int)valueBitWidth);
             WriteSourceWaveform(sourceWaveforms);
-            _digitalSessionsBundle.BurstPattern(WritePatternName, timeoutInSeconds: 10);
+            Bundle.BurstPattern(WritePatternName, timeoutInSeconds: 10);
         }
 
         #endregion Multi Register Operations
@@ -370,7 +374,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         // broadcast-style operations share the single SiteUnique waveform used by the site-unique operations.
         private void WriteSourceWaveformToAllSites(uint[] samples)
         {
-            int[] siteNumbers = _digitalSessionsBundle.AggregateSitePinList
+            int[] siteNumbers = Bundle.AggregateSitePinList
                 .Select(sitePinInfo => sitePinInfo.SiteNumber)
                 .Distinct()
                 .ToArray();
@@ -390,7 +394,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         // waveform to the size of the file data before the first register operation.
         private void WriteSourceWaveform(SiteData<uint[]> perSiteSamples)
         {
-            _digitalSessionsBundle.WriteSourceWaveformSiteUnique(
+            Bundle.WriteSourceWaveformSiteUnique(
                 SourceWaveformName, perSiteSamples, expandToMinimumSize: true, minimumSize: GetSourceWaveformSize(SampleWidth));
         }
 

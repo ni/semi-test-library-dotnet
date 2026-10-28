@@ -7305,6 +7305,13 @@
             <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIScope.NIScope"/> session.</param>
             <param name="associatedSitePinList">The specified subset of channels associated with the session.</param>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionInformation.GetAssociatedSitePinListForInstrument">
+            <summary>
+            Gets the complete list of site-pin pairs associated with every channel on the same instrument (card) as the <see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionInformation.Session"/>,
+            regardless of whether those channels were explicitly selected for this session.
+            </summary>
+            <returns>The complete site-pin list for the affected card.</returns>
+        </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionInformation.GenerateInstrumentChannelToSitePinDictionary(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)">
             <summary>
             Generates a dictionary that takes a channel string and returns the list of associated site-pin pair information.
