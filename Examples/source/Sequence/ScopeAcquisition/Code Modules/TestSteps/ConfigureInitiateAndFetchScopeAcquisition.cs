@@ -1,4 +1,8 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using NationalInstruments.ModularInstruments.NIScope;
+using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope;
@@ -28,8 +32,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
         /// <param name="inputImpedance">The input impedance of the channel, in ohms.</param>
         /// <param name="inputFrequencyMax">The maximum input frequency of the channel, in hertz.</param>
         /// <param name="immediateTrigger">A boolean value indicating whether to configure an immediate trigger or a digital trigger.</param>
-        /// <param name="siteNumber">Site number used to select the waveform.</param>
-        /// <param name="sampleInterval">When this method returns, contains the waveform sample interval in seconds.</param>
         public static void ConfigureInitiateAndFetchScopeAcquisition(
             ISemiconductorModuleContext tsmContext,
             string pinOrPinGroup,
@@ -39,9 +41,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
             bool enableTimeInterleavedSampling,
             double inputImpedance,
             double inputFrequencyMax,
-            bool immediateTrigger,
-            int siteNumber,
-            out double sampleInterval)
+            bool immediateTrigger)
         {
             var verticalSettings = new VerticalSettings
             {
@@ -77,12 +77,50 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
             scopeBundle.Initiate();
             var waveforms = scopeBundle.FetchWaveform(PrecisionTimeSpan.FromSeconds(50.0), 1000);
 
-            AnalogWaveform<double> waveform = waveforms.GetValue(siteNumber, pinOrPinGroup);
-            sampleInterval = waveform.Timing.SampleInterval.TotalSeconds;
-            var data = waveform.GetRawData();
-            // The data variable contains the acquired waveform data for the specified
-            // site number and pin or pin group.
-            // Need to process the data for frequency measurement.
+            PinSiteData<double> frequencies = waveforms.Select(wfm =>
+            {
+                MeasureTone(wfm.GetRawData(), 1.0 / wfm.Timing.SampleInterval.TotalSeconds, out double frequencyHz, out _);
+                return frequencyHz;
+            });
+            PinSiteData<double> amplitudes = waveforms.Select(wfm =>
+            {
+                MeasureTone(wfm.GetRawData(), 1.0 / wfm.Timing.SampleInterval.TotalSeconds, out _, out double amplitude);
+                return amplitude;
+            });
+            tsmContext.PublishResults(frequencies, "Frequency");
+            tsmContext.PublishResults(amplitudes, "Amplitude");
+        }
+
+        private static void MeasureTone(
+            double[] samples,
+            double sampleRateHz,
+            out double frequencyHz,
+            out double amplitude)
+        {
+            double mean = samples.Average();
+            amplitude = (samples.Max() - samples.Min()) / 2.0;
+
+            var crossingTimes = new List<double>();
+            for (int i = 1; i < samples.Length; i++)
+            {
+                double y0 = samples[i - 1] - mean;
+                double y1 = samples[i] - mean;
+
+                if (y0 <= 0 && y1 > 0)
+                {
+                    // Interpolate the crossing for better timing resolution.
+                    double fraction = -y0 / (y1 - y0);
+                    crossingTimes.Add((i - 1 + fraction) / sampleRateHz);
+                }
+            }
+
+            if (crossingTimes.Count < 2)
+            {
+                throw new InvalidOperationException("Not enough cycles to estimate frequency.");
+            }
+
+            double elapsed = crossingTimes[crossingTimes.Count - 1] - crossingTimes[0];
+            frequencyHz = (crossingTimes.Count - 1) / elapsed;
         }
     }
 }
