@@ -168,6 +168,9 @@
   <data name="DCPower_GangedPinGroupDetected" xml:space="preserve">
     <value>This feature is not supported on a ganged pin group.</value>
   </data>
+  <data name="DCPower_ImmediateUpdateModeNotSupportedForGangedChannels" xml:space="preserve">
+    <value>Immediate update mode is not supported for ganged channels.</value>
+  </data>
   <data name="Digital_TMUNotEnoughResources" xml:space="preserve">
     <value>Not enough TMU resources available on {0} to allocate to {1}.</value>
   </data>
@@ -213,8 +216,8 @@
   <data name="DCPower_InvalidPublishDataIdFormatter" xml:space="preserve">
     <value>The publishDataIdFormatter parameter cannot be null or empty and must contain a format placeholder '{{0}}'.</value>
   </data>
-  <data name="DCPower_ImmediateUpdateModeNotSupportedForGangedChannels" xml:space="preserve">
-    <value>Immediate update mode is not supported for ganged channels.</value>
+  <data name="FGen_InvalidOutputModeAtInitiateException" xml:space="preserve">
+    <value>Operation cannot be completed because the output mode is not configured to Function. Configure the output mode to Function before calling Initiate. Currently, only the Function output mode is supported.</value>
   </data>
   <data name="Scope_TimingSettingsNull" xml:space="preserve">
     <value>The {0} parameter cannot be null.</value>
@@ -225,16 +228,22 @@
   <data name="FGen_InvalidOutputModeException" xml:space="preserve">
     <value>Output mode '{0}' is not supported, only 'Function' is supported.</value>
   </data>
-  <data name="FGen_InvalidOutputModeAtInitiateException" xml:space="preserve">
-    <value>Operation cannot be completed because the output mode is not configured to Function. Configure the output mode to Function before calling Initiate. Currently, only the Function output mode is supported.</value>
-  </data>
   <data name="Scope_VerticalSettingsNull" xml:space="preserve">
     <value>'{0}' cannot be null. Please provide valid vertical settings.</value>
   </data>
-  <data name="Scope_AcquisitionTimeoutException" xml:space="preserve">
-    <value>The acquisition did not complete within the specified timeout. This may affect all channels on the same card, including those mapped to other sites. Affected channels: {0}</value>
-  </data>
   <data name="FGen_UnsupportedWaveFunctionType" xml:space="preserve">
     <value>The 'StandardWaveform.User' Waveform Function Type is not supported in STL.</value>
+  </data>
+  <data name="FGen_UnsupportedSignalSource" xml:space="preserve">
+    <value>The signal source '{0}' is not supported. Supported values are StartTrigger, ReadyForStartEvent, StartedEvent, and DoneEvent.</value>
+  </data>
+  <data name="FGen_TriggerSourceNullOrEmpty" xml:space="preserve">
+    <value>Trigger source passed as input is either null or an empty string. Please provide valid trigger source.</value>
+  </data>
+  <data name="FGen_OutputTerminalNullOrEmpty" xml:space="preserve">
+    <value>Output terminal passed as input is either null or an empty string. Please provide valid output terminal.</value>
+  </data>
+  <data name="Scope_AcquisitionTimeoutException" xml:space="preserve">
+    <value>The acquisition did not complete within the specified timeout. This may affect all channels on the same card, including those mapped to other sites. Affected channels: {0}</value>
   </data>
 </root>

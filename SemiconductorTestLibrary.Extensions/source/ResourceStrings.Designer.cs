@@ -392,7 +392,34 @@ namespace NationalInstruments.SemiconductorTestLibrary {
                 return ResourceManager.GetString("Scope_ClockSettingsNull", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Output terminal passed as input is either null or an empty string. Please provide valid output terminal..
+        /// </summary>
+        internal static string FGen_OutputTerminalNullOrEmpty {
+            get {
+                return ResourceManager.GetString("FGen_OutputTerminalNullOrEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trigger source passed as input is either null or an empty string. Please provide valid trigger source..
+        /// </summary>
+        internal static string FGen_TriggerSourceNullOrEmpty {
+            get {
+                return ResourceManager.GetString("FGen_TriggerSourceNullOrEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The signal source &apos;{0}&apos; is not supported. Supported values are StartTrigger, ReadyForStartEvent, StartedEvent, and DoneEvent..
+        /// </summary>
+        internal static string FGen_UnsupportedSignalSource {
+            get {
+                return ResourceManager.GetString("FGen_UnsupportedSignalSource", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to The &apos;StandardWaveform.User&apos; Waveform Function Type is not supported in STL..
         /// </summary>
