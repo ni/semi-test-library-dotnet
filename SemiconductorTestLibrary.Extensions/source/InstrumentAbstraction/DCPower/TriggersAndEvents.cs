@@ -44,7 +44,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Each output terminal can be specified as a trigger line name, for example "PXI_Trig0", or in the fully qualified format, for example "/Dev1/PXI_Trig0".<br/>
         /// Throws <see cref="NISemiconductorTestException"/> if <paramref name="outputTerminals"/> is null or empty,
         /// if it contains a null or empty output terminal, or if the same output terminal is assigned to more than one site-pin pair.<br/>
-        /// The driver throws an exception if any of the specified output terminals is invalid or cannot be found.
+        /// The driver throws an <see cref="Ivi.Driver.IviCDriverException"/> if the destination terminal to be routed cannot be found on the device,
+        /// which is reported as a <see cref="NISemiconductorTestException"/>.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="signalSource">The signal source to export.</param>
@@ -52,6 +53,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <exception cref="NISemiconductorTestException">
         /// Thrown when <paramref name="outputTerminals"/> is null or empty, contains a null or empty output terminal,
         /// or assigns the same output terminal to more than one site-pin pair.
+        /// Also thrown when the driver throws an <see cref="Ivi.Driver.IviCDriverException"/> because the destination terminal to be routed cannot be found on the device.
         /// </exception>
         public static void ExportSignal(this DCPowerSessionsBundle sessionsBundle, DCPowerSignalSource signalSource, PinSiteData<string> outputTerminals)
         {
