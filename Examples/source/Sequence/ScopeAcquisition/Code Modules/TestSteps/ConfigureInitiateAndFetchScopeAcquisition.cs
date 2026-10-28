@@ -21,7 +21,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
     {
         /// <summary>
         /// Configures the scope settings, such as input range, offset, probe attenuation,etc then initiates acquisition
-        /// for the target scope pins. Then the method fetches the waveform data and returns the sample interval for the acquired waveform.
+        /// for the target scope pins. Then the method fetches the waveform data and publishes frequency and amplitude of the acquired waveform.
         /// </summary>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="pinOrPinGroup">Name of the scope pin or pin group to be used for waveform acquisition.</param>

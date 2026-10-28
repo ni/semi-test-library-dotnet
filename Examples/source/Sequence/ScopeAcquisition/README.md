@@ -1,8 +1,8 @@
-# Scope Configured Acquisition Sequence Example
+# Scope Acquisition Sequence Example
 
 ## Introduction
 
-This example demonstrates how to use the Semiconductor Test Library specifically the Scope extension methods  for configured waveform acquisition. This example demonstrates the multi-site capability of scope extension methods using 2 sites in the pinmap file. 
+This example demonstrates how to use the Semiconductor Test Library specifically the Scope extension methods for configured waveform acquisition. This example demonstrates the multi-site capability of scope extension methods using 2 sites in the pinmap file. 
 
 
 ### Major APIs
@@ -39,7 +39,8 @@ The pin map file defines the following information:
    - A series of connections for each site, in which each connection specifies a DUT pin, a site number, an instrument, and an instrument channel.
 
 2. Complete the following steps to review the Test Program Configurations that this test program uses.
-   1. Select **Semiconductor Module -> Edit Test Program: ScopeConfiguredAcquisition.seq** or click the **Edit Test Program: ScopeConfiguredAcquisition.seq** button on the TSM toolbar.
+   1. Select **Semiconductor Module -> Edit Test Program: ScopeAcquisition.seq** or click the **Edit Test Program: ScopeAcquisition.seq** button on the TSM toolbar.
+   2. Review the Offline Mode section to see which two scope instruments the STS software simulates when you run this example.
 
 3. Complete the following steps to review the `MainSequence`, `ProcessSetup`, and `ProcessCleanup` sequences that this test program uses.
    1. On the `Sequences` pane, select the MainSequence sequence and review the objectives each step performs and optionally review the code associated with each step:
