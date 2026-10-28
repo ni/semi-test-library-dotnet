@@ -603,6 +603,28 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("SMUsSupportingPulsing.pinmap")]
+        public void InvalidOutputTerminal_ExportSignal_ThrowsException(string pinMapFileName)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VDET" });
+            var outputTerminals = new PinSiteData<string>(new Dictionary<string, IDictionary<int, string>>
+            {
+                ["VDD"] = new Dictionary<int, string> { [0] = "/InvalidTerminal" }
+            });
+
+            Assert.ThrowsAny<Exception>(() =>
+            {
+                sessionsBundle.ExportSignal(DCPowerSignalSource.SourceCompleteEvent, outputTerminals);
+                sessionsBundle.Commit();
+            });
+
+            sessionsBundle.Abort();
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData("SMUsSupportingPulsing.pinmap")]
         public void DuplicateOutputTerminals_ExportSignal_ThrowsException(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
