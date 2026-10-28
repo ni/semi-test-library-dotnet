@@ -45,9 +45,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         }
 
         [Fact]
-        public void SpiInstance_Default_HasSdiAndSdoPinNames()
+        public void SpiInstance_Default_HasCsSckSdiAndSdoPinNames()
         {
-            Assert.Equal(new[] { "SDI", "SDO" }, _spi.PinNames);
+            Assert.Equal(new[] { "CS", "SCK", "SDI", "SDO" }, _spi.PinNames);
             Assert.Equal("SDI", _spi.SourcePinName);
             Assert.Equal("SDO", _spi.CapturePinName);
         }

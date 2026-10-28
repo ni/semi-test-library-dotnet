@@ -181,7 +181,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
 
             TestStep.ConfigureDigitalProtocol(CommunicationProtocol.SPI, pinNames: null);
 
-            Assert.Equal(new[] { "SDI", "SDO" }, SPI.Instance.PinNames);
+            Assert.Equal(new[] { "CS", "SCK", "SDI", "SDO" }, SPI.Instance.PinNames);
         }
 
         // The singleton is shared with other test classes, so restore the defaults after every test.
