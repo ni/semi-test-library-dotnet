@@ -25,6 +25,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             var registerValues = new long[] { 0x33, 0x12 };
             var tsmContext = CreateTSMContext(SupportingMaterialsFolderPath, PinMapFileName, DigitalPatternProjectName, out var publishedDataReader);
             SetupNIDigitalPatternInstrumentation(tsmContext);
+            try
+            {
             DutPowerUp(
                 tsmContext: tsmContext,
                 dutSupplyPinsOrPinGroups: new string[] { "VIN" },
@@ -46,29 +48,32 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 valueBitWidthSequenceRegister: "reg2",
                 pinNames: new[] { "CS", "SCK", "SDI", "SDO" });
 
-            TestStep.WriteUniqueValuesToMultipleRegistersAndCompareReadbackValues(
-                tsmContext,
-                protocol,
-                registerAddresses: registerAddresses,
-                valuesToWrite: registerValues);
+                TestStep.WriteUniqueValuesToMultipleRegistersAndCompareReadbackValues(
+                    tsmContext,
+                    protocol,
+                    registerAddresses: registerAddresses,
+                    valuesToWrite: registerValues);
 
-            var publishedData = publishedDataReader.GetAndClearPublishedData();
-            foreach (var registerAddress in registerAddresses)
-            {
-                var comparisonResults = publishedData
-                    .Where(d => d.PublishedDataId == $"Register_0x{registerAddress:X2}_Comparison")
-                    .ToArray();
-                Assert.Equal(tsmContext.SiteNumbers.Count, comparisonResults.Length);
-                Assert.All(comparisonResults, d => Assert.True(d.BooleanValue));
+                var publishedData = publishedDataReader.GetAndClearPublishedData();
+                foreach (var registerAddress in registerAddresses)
+                {
+                    var comparisonResults = publishedData
+                        .Where(d => d.PublishedDataId == $"Register_0x{registerAddress:X2}_Comparison")
+                        .ToArray();
+                    Assert.Equal(tsmContext.SiteNumbers.Count, comparisonResults.Length);
+                    Assert.All(comparisonResults, d => Assert.True(d.BooleanValue));
+                }
             }
-
-            DutPowerDown(
-                tsmContext,
-                dutSupplyPinsOrPinGroups: new string[] { "VIN" },
-                settlingTime: 0,
-                powerDownSuppliesSerially: false);
-            TestStep.CleanupDigitalProtocol(protocol);
-            CleanupInstrumentation(tsmContext);
+            finally
+            {
+                TestStep.CleanupDigitalProtocol(protocol);
+                DutPowerDown(
+                    tsmContext,
+                    dutSupplyPinsOrPinGroups: new string[] { "VIN" },
+                    settlingTime: 0,
+                    powerDownSuppliesSerially: false);
+                CleanupInstrumentation(tsmContext);
+            }
         }
     }
 }

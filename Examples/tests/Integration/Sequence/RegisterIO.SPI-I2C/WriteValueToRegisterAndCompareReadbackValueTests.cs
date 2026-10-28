@@ -22,6 +22,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         {
             var tsmContext = CreateTSMContext(SupportingMaterialsFolderPath, PinMapFileName, DigitalPatternProjectName, out var publishedDataReader);
             SetupNIDigitalPatternInstrumentation(tsmContext);
+            try
+            {
             DutPowerUp(
                 tsmContext: tsmContext,
                 dutSupplyPinsOrPinGroups: new string[] { "VIN" },
@@ -51,17 +53,20 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 registerAddress: registerAddress,
                 valueToWrite: 0x27);
 
-            var comparisonResults = publishedDataReader.GetAndClearPublishedData().Where(d => d.PublishedDataId == "ComparisonResult").ToArray();
-            Assert.Equal(tsmContext.SiteNumbers.Count, comparisonResults.Length);
-            Assert.All(comparisonResults, d => Assert.True(d.BooleanValue));
-
-            DutPowerDown(
-                tsmContext,
-                dutSupplyPinsOrPinGroups: new string[] { "VIN" },
-                settlingTime: 0,
-                powerDownSuppliesSerially: false);
-            TestStep.CleanupDigitalProtocol(protocol);
-            CleanupInstrumentation(tsmContext);
+                var comparisonResults = publishedDataReader.GetAndClearPublishedData().Where(d => d.PublishedDataId == "ComparisonResult").ToArray();
+                Assert.Equal(tsmContext.SiteNumbers.Count, comparisonResults.Length);
+                Assert.All(comparisonResults, d => Assert.True(d.BooleanValue));
+            }
+            finally
+            {
+                TestStep.CleanupDigitalProtocol(protocol);
+                DutPowerDown(
+                    tsmContext,
+                    dutSupplyPinsOrPinGroups: new string[] { "VIN" },
+                    settlingTime: 0,
+                    powerDownSuppliesSerially: false);
+                CleanupInstrumentation(tsmContext);
+            }
         }
     }
 }

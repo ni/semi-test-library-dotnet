@@ -54,10 +54,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             protocol.ReadWriteCountSequenceRegister = readWriteCountSequenceRegister;
             protocol.AddressBitWidthSequenceRegister = addressBitWidthSequenceRegister;
             protocol.ValueBitWidthSequenceRegister = valueBitWidthSequenceRegister;
-            if (pinNames != null)
-            {
-                protocol.PinNames = pinNames;
-            }
+            protocol.PinNames = pinNames ?? new[] { "CS", "SCK", "SDI", "SDO" };
         }
     }
 }

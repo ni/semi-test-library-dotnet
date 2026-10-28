@@ -27,13 +27,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// </summary>
         public const int MaxRegistersPerBurst = 32;
 
+        private const int TimeoutInSeconds = 10;
         private const uint MaxSampleWidth = 32;
         private const uint MaxBitWidth = 64;
-
-        // Tracks the waveforms created on each instrument session so they are created exactly once per session.
         private static readonly ConditionalWeakTable<object, Dictionary<string, string>> _createdWaveforms =
             new ConditionalWeakTable<object, Dictionary<string, string>>();
-
         private DigitalSessionsBundle _digitalSessionsBundle;
         private uint _sampleWidth = 8;
         private uint _defaultAddressBitWidth = 16;
@@ -81,7 +79,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         public string ValueBitWidthSequenceRegister { get; set; } = "reg2";
 
         /// <inheritdoc/>
-        public IReadOnlyList<string> PinNames { get; set; } = new[] { "SDI", "SDO" };
+        public IReadOnlyList<string> PinNames { get; set; } = new[] { "CS", "SCK", "SDI", "SDO" };
 
         /// <inheritdoc/>
         public uint DefaultAddressBitWidth
@@ -159,7 +157,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             Bundle.WriteSequencerRegister(AddressBitWidthSequenceRegister, (int)addressBitWidth);
             Bundle.WriteSequencerRegister(ValueBitWidthSequenceRegister, (int)valueBitWidth);
             WriteSourceWaveformToAllSites(srcWfmSamples);
-            Bundle.BurstPattern(ReadPatternName, timeoutInSeconds: 10);
+            Bundle.BurstPattern(ReadPatternName, timeoutInSeconds: TimeoutInSeconds);
 
             // The driver returns a capture waveform as a buffer of U32 samples,
             // with each sample containing only the number of bits specified by the waveform's sample width.
@@ -167,7 +165,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             // The samples must be packed together to reconstruct a single register value.
             uint samplesPerValue = GetSampleCount(valueBitWidth, SampleWidth);
             SiteData<uint[]> captureWaveforms = Bundle.FetchCaptureWaveform(
-                CaptureWaveformName, samplesToRead: (int)samplesPerValue, timeoutInSeconds: 10);
+                CaptureWaveformName, samplesToRead: (int)samplesPerValue, timeoutInSeconds: TimeoutInSeconds);
 
             return captureWaveforms.Select(x => U32SamplesToLong(x, SampleWidth, BitOrder));
         }
@@ -200,7 +198,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             Bundle.WriteSequencerRegister(AddressBitWidthSequenceRegister, (int)addressBitWidth);
             Bundle.WriteSequencerRegister(ValueBitWidthSequenceRegister, (int)valueBitWidth);
             WriteSourceWaveformToAllSites(srcWfmSamples);
-            Bundle.BurstPattern(WritePatternName, timeoutInSeconds: 10);
+            Bundle.BurstPattern(WritePatternName, timeoutInSeconds: TimeoutInSeconds);
         }
 
         /// <inheritdoc/>
@@ -242,7 +240,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             Bundle.WriteSequencerRegister(AddressBitWidthSequenceRegister, (int)addressBitWidth);
             Bundle.WriteSequencerRegister(ValueBitWidthSequenceRegister, (int)valueBitWidth);
             WriteSourceWaveform(sourceWaveforms);
-            Bundle.BurstPattern(WritePatternName, timeoutInSeconds: 10);
+            Bundle.BurstPattern(WritePatternName, timeoutInSeconds: TimeoutInSeconds);
         }
 
         #endregion Single Register Operations
@@ -267,10 +265,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             // bits as the sample width the waveform was created with, so each address must be unpacked into as many
             // samples as are needed to send all of its bits. The addresses are placed back to back because the read
             // pattern loops once per register within a single burst, sourcing the next address on each iteration.
-            foreach (uint address in addresses)
-            {
-                ValidateAddress(address, addressBitWidth);
-            }
             uint[] srcWfmSamples = LongArrayToU32Samples(
                 addresses.Select(address => (long)address).ToArray(), addressBitWidth, SampleWidth, BitOrder);
 
@@ -278,7 +272,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             Bundle.WriteSequencerRegister(AddressBitWidthSequenceRegister, (int)addressBitWidth);
             Bundle.WriteSequencerRegister(ValueBitWidthSequenceRegister, (int)valueBitWidth);
             WriteSourceWaveformToAllSites(srcWfmSamples);
-            Bundle.BurstPattern(ReadPatternName, timeoutInSeconds: 10);
+            Bundle.BurstPattern(ReadPatternName, timeoutInSeconds: TimeoutInSeconds);
 
             // The driver returns a capture waveform as a buffer of U32 samples,
             // with each sample containing only the number of bits specified by the waveform's sample width.
@@ -290,7 +284,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             uint samplesPerValue = GetSampleCount(valueBitWidth, SampleWidth);
             int totalSamples = (int)(samplesPerValue * (uint)addresses.Length);
             SiteData<uint[]> captureWaveforms = Bundle.FetchCaptureWaveform(
-                CaptureWaveformName, samplesToRead: totalSamples, timeoutInSeconds: 10);
+                CaptureWaveformName, samplesToRead: totalSamples, timeoutInSeconds: TimeoutInSeconds);
 
             return captureWaveforms.Select(x => U32SamplesToLongArray(x, SampleWidth, addresses.Length, BitOrder));
         }
@@ -322,7 +316,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             Bundle.WriteSequencerRegister(AddressBitWidthSequenceRegister, (int)addressBitWidth);
             Bundle.WriteSequencerRegister(ValueBitWidthSequenceRegister, (int)valueBitWidth);
             WriteSourceWaveformToAllSites(srcWfmSamples);
-            Bundle.BurstPattern(WritePatternName, timeoutInSeconds: 10);
+            Bundle.BurstPattern(WritePatternName, timeoutInSeconds: TimeoutInSeconds);
         }
 
         /// <inheritdoc/>
@@ -363,7 +357,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             Bundle.WriteSequencerRegister(AddressBitWidthSequenceRegister, (int)addressBitWidth);
             Bundle.WriteSequencerRegister(ValueBitWidthSequenceRegister, (int)valueBitWidth);
             WriteSourceWaveform(sourceWaveforms);
-            Bundle.BurstPattern(WritePatternName, timeoutInSeconds: 10);
+            Bundle.BurstPattern(WritePatternName, timeoutInSeconds: TimeoutInSeconds);
         }
 
         #endregion Multi Register Operations
@@ -408,7 +402,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             var allSamples = new List<uint>();
             for (int i = 0; i < addresses.Length; i++)
             {
-                ValidateAddress(addresses[i], addressBitWidth);
                 ValidateValue(values[i], valueBitWidth);
                 allSamples.AddRange(LongToU32Samples(addresses[i], addressBitWidth, SampleWidth, BitOrder));
                 allSamples.AddRange(LongToU32Samples(values[i], valueBitWidth, SampleWidth, BitOrder));
@@ -580,6 +573,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             ValidateBitWidth(addressBitWidth, nameof(addressBitWidth));
             ValidateBitWidth(valueBitWidth, nameof(valueBitWidth));
             ValidateAddresses(addresses);
+            foreach (uint address in addresses)
+            {
+                ValidateAddress(address, addressBitWidth);
+            }
         }
 
         #endregion Validation Helpers
@@ -664,8 +661,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
                 .ToArray();
             if (missingPins.Length > 0)
             {
-                throw new ArgumentException(
-                    $"The bundle must include a source pin named: {SourcePinName}, and a capture pin named: {CapturePinName}.");
+                throw new ArgumentException($"The bundle is missing required pin(s): {string.Join(", ", missingPins)}.");
             }
         }
     }
