@@ -38,10 +38,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// If the acquisition does not complete within <paramref name="timeout"/>, the resulting <see cref="NISemiconductorTestException"/>
         /// includes the site, pin, and channel details for every channel on the affected card, since a single site losing its trigger
         /// signal prevents the entire card from acquiring data.
-        /// A <paramref name="numberOfSamples"/> value of 0, or a negative value other than -1, is not supported and results in an
-        /// <see cref="NISemiconductorTestException"/>.
         /// </remarks>
-        /// <exception cref="NISemiconductorTestException">Thrown when the acquisition does not complete within <paramref name="timeout"/>, or when an invalid <paramref name="numberOfSamples"/> is specified.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when the acquisition does not complete within <paramref name="timeout"/>.</exception>
         public static PinSiteData<AnalogWaveform<double>> ReadWaveform(this ScopeSessionsBundle sessionsBundle, PrecisionTimeSpan timeout, long numberOfSamples)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo =>
@@ -61,10 +59,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// If the acquisition does not complete within <paramref name="timeout"/>, the resulting <see cref="NISemiconductorTestException"/>
         /// includes the site, pin, and channel details for every channel on the affected card, since a single site losing its trigger
         /// signal prevents the entire card from acquiring data.
-        /// A <paramref name="numberOfSamples"/> value of 0, or a negative value other than -1, is not supported and results in an
-        /// <see cref="NISemiconductorTestException"/>.
         /// </remarks>
-        /// <exception cref="NISemiconductorTestException">Thrown when the acquisition does not complete within <paramref name="timeout"/>, or when an invalid <paramref name="numberOfSamples"/> is specified.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when the acquisition does not complete within <paramref name="timeout"/>.</exception>
         public static PinSiteData<double[]> Read(this ScopeSessionsBundle sessionsBundle, PrecisionTimeSpan timeout, long numberOfSamples)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo =>
@@ -86,10 +82,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// If the acquisition does not complete within <paramref name="timeout"/>, the resulting <see cref="NISemiconductorTestException"/>
         /// includes the site, pin, and channel details for every channel on the affected card, since a single site losing its trigger
         /// signal prevents the entire card from acquiring data.
-        /// A <paramref name="numberOfSamples"/> value of 0, or a negative value other than -1, is not supported and results in an
-        /// <see cref="NISemiconductorTestException"/>.
         /// </remarks>
-        /// <exception cref="NISemiconductorTestException">Thrown when the acquisition does not complete within <paramref name="timeout"/>, or when an invalid <paramref name="numberOfSamples"/> is specified.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when the acquisition does not complete within <paramref name="timeout"/>.</exception>
         public static PinSiteData<AnalogWaveform<double>> FetchWaveform(this ScopeSessionsBundle sessionsBundle, PrecisionTimeSpan timeout, int numberOfSamples)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo =>
@@ -110,6 +104,15 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
             {
                 throw new NISemiconductorTestException(BuildAcquisitionTimeoutExceptionMessage(sessionInfo), exception);
             }
+            catch (IviCDriverException exception) when (!IsAcquisitionComplete(sessionInfo))
+            {
+                throw new NISemiconductorTestException(BuildAcquisitionTimeoutExceptionMessage(sessionInfo), exception);
+            }
+        }
+
+        private static bool IsAcquisitionComplete(ScopeSessionInformation sessionInfo)
+        {
+            return sessionInfo.Session.Measurement.Status() == ScopeAcquisitionStatus.Complete;
         }
 
         private static string BuildAcquisitionTimeoutExceptionMessage(ScopeSessionInformation sessionInfo)
