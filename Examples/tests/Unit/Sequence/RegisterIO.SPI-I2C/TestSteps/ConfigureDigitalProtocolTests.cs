@@ -2,6 +2,7 @@ using System;
 using System.Reflection;
 using System.Runtime.Serialization;
 using NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAndI2C.DutControl;
+using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital;
 using Xunit;
 
@@ -37,6 +38,21 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             {
                 digitalProtocol.ClearBundle();
             }
+        }
+
+        [Fact]
+        public void RegisterOperations_NoBundleSet_ThrowInvalidOperationException()
+        {
+            IDigitalProtocol digitalProtocol = SPI.Instance;
+            digitalProtocol.ClearBundle();
+            var siteValue = new SiteData<long>(new[] { 0 }, new[] { 1L });
+
+            Assert.Throws<InvalidOperationException>(() => digitalProtocol.ReadRegister(0x1));
+            Assert.Throws<InvalidOperationException>(() => digitalProtocol.WriteRegister(0x1, 1));
+            Assert.Throws<InvalidOperationException>(() => digitalProtocol.WriteRegister(0x1, siteValue));
+            Assert.Throws<InvalidOperationException>(() => digitalProtocol.ReadRegisters(new uint[] { 0x1 }));
+            Assert.Throws<InvalidOperationException>(() => digitalProtocol.WriteRegisters(new uint[] { 0x1 }, new[] { 1L }));
+            Assert.Throws<InvalidOperationException>(() => digitalProtocol.WriteRegisters(new uint[] { 0x1 }, new[] { siteValue }));
         }
     }
 
