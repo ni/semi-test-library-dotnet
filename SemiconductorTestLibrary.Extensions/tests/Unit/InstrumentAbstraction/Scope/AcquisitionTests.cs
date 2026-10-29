@@ -345,10 +345,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
         public void SessionsBundle_ReadWithTriggerNeverReceivedOnMultiChannelCardWithPartialPinSelection_ThrowsNISemiconductorTestExceptionWithEntireCardChannelDetails()
         {
-            // SCP_5172_Pin_1, SCP_5172_Pin_2, and SCP_5172_Pin_3 all reside on the same card for each site.
-            // Only SCP_5172_Pin_1 is explicitly selected for this acquisition, but since a single site losing its
-            // trigger signal prevents the entire card from acquiring data, the timeout message must still include
-            // the site-pin-channel details for SCP_5172_Pin_2 and SCP_5172_Pin_3, which were not explicitly selected.
+            // On the STSNIBCauvery tester pinmap, site0/SCP_5172_Pin_1, site1/SCP_5172_Pin_1, and site0/SCP_5172_Pin_3
+            // reside on the same card, while site0/SCP_5172_Pin_2, site1/SCP_5172_Pin_2, and site1/SCP_5172_Pin_3
+            // reside on a different card. Only SCP_5172_Pin_1 is explicitly selected for this acquisition, but since
+            // a lost trigger signal prevents the entire card from acquiring data, the timeout message must include
+            // the site-pin-channel details for every channel on that card, including site0/SCP_5172_Pin_3, which was
+            // not explicitly selected. Channels on the other card are not affected and must not be reported.
             // A software trigger that is never sent simulates a lost trigger signal, so the acquisition cannot
             // complete and the driver reports a timeout once the specified timeout elapses.
             var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
@@ -361,10 +363,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var exception = Assert.Throws<NISemiconductorTestException>(Read);
             Assert.Contains("site0/SCP_5172_Pin_1", exception.Message, StringComparison.OrdinalIgnoreCase);
             Assert.Contains("site1/SCP_5172_Pin_1", exception.Message, StringComparison.OrdinalIgnoreCase);
-            Assert.Contains("site0/SCP_5172_Pin_2", exception.Message, StringComparison.OrdinalIgnoreCase);
-            Assert.Contains("site1/SCP_5172_Pin_2", exception.Message, StringComparison.OrdinalIgnoreCase);
             Assert.Contains("site0/SCP_5172_Pin_3", exception.Message, StringComparison.OrdinalIgnoreCase);
-            Assert.Contains("site1/SCP_5172_Pin_3", exception.Message, StringComparison.OrdinalIgnoreCase);
+            Assert.DoesNotContain("site0/SCP_5172_Pin_2", exception.Message, StringComparison.OrdinalIgnoreCase);
+            Assert.DoesNotContain("site1/SCP_5172_Pin_2", exception.Message, StringComparison.OrdinalIgnoreCase);
+            Assert.DoesNotContain("site1/SCP_5172_Pin_3", exception.Message, StringComparison.OrdinalIgnoreCase);
         }
 
         [Fact(Skip = "Requires a missing trigger to cause an acquisition timeout, which only occurs on physical hardware. The PXIe-5622 is not available on STSNIBCauvery.")]
