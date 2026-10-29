@@ -13,6 +13,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
     /// and is not driven by the write pattern.
     /// The waveforms use their own names so they do not conflict with the SPI waveforms loaded on the same session.
     /// <br/><br/>
+    /// The default address and value bit widths are 8 bits. In I2C, the read/write bit is carried in the device address byte,
+    /// so the full 8-bit register address is sent (for example, 0xF4 to access register 0xF4).
+    /// <br/><br/>
     /// Obtain the singleton instance via <see cref="Instance"/>, then call
     /// <see cref="DigitalProtocol.SetBundle"/> once per code module before performing
     /// any register operations. Optionally call
@@ -47,6 +50,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             SourcePinName = "SDI";
             CapturePinName = "SDI";
             PinNames = new[] { "CS", "SCK", "SDI", "SDO" };
+            DefaultAddressBitWidth = 8;
+            DefaultValueBitWidth = 8;
         }
     }
 }

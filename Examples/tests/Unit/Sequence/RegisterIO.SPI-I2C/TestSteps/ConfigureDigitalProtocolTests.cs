@@ -199,6 +199,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             TestStep.ConfigureDigitalProtocol(CommunicationProtocol.SPI, addressBitWidth: 8);
 
             Assert.Equal(8u, SPI.Instance.DefaultAddressBitWidth);
+            Assert.Equal(8u, SPI.Instance.DefaultValueBitWidth);
             Assert.Equal("SPI_write_template", SPI.Instance.WritePatternName);
             Assert.Equal("SPI_read_template", SPI.Instance.ReadPatternName);
             Assert.Equal("SPI_source_buffer", SPI.Instance.SourceWaveformName);
@@ -228,8 +229,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
 
             TestStep.ConfigureDigitalProtocol(CommunicationProtocol.SPI, addressBitWidth: -1, valueBitWidth: -1, sampleWidth: -1);
 
-            Assert.Equal(16u, SPI.Instance.DefaultAddressBitWidth);
-            Assert.Equal(16u, SPI.Instance.DefaultValueBitWidth);
+            Assert.Equal(7u, SPI.Instance.DefaultAddressBitWidth);
+            Assert.Equal(8u, SPI.Instance.DefaultValueBitWidth);
             Assert.Equal(8u, SPI.Instance.SampleWidth);
         }
 
@@ -290,9 +291,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         [Fact]
         public void ConfigureDigitalProtocol_AddressBitWidth_UpdatesI2CInstance()
         {
-            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.I2C, addressBitWidth: 8);
+            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.I2C, addressBitWidth: 16);
 
-            Assert.Equal(8u, I2C.Instance.DefaultAddressBitWidth);
+            Assert.Equal(16u, I2C.Instance.DefaultAddressBitWidth);
         }
 
         [Fact]
@@ -369,6 +370,29 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             TestStep.ConfigureDigitalProtocol(CommunicationProtocol.I2C, pinNames: null);
 
             Assert.Equal(new[] { "CS", "SCK", "SDI", "SDO" }, I2C.Instance.PinNames);
+        }
+
+        [Fact]
+        public void ConfigureDigitalProtocol_NumericParametersSetToMinusOne_UsesI2CDefaults()
+        {
+            I2C.Instance.DefaultAddressBitWidth = 16;
+            I2C.Instance.DefaultValueBitWidth = 32;
+            I2C.Instance.SampleWidth = 16;
+
+            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.I2C, addressBitWidth: -1, valueBitWidth: -1, sampleWidth: -1);
+
+            Assert.Equal(8u, I2C.Instance.DefaultAddressBitWidth);
+            Assert.Equal(8u, I2C.Instance.DefaultValueBitWidth);
+            Assert.Equal(8u, I2C.Instance.SampleWidth);
+        }
+
+        [Fact]
+        public void ConfigureDigitalProtocol_OmittedBitWidths_KeepsI2CDefaults()
+        {
+            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.I2C, sampleWidth: 16);
+
+            Assert.Equal(8u, I2C.Instance.DefaultAddressBitWidth);
+            Assert.Equal(8u, I2C.Instance.DefaultValueBitWidth);
         }
 
         // The singleton is shared with other test classes, so restore the defaults after every test.

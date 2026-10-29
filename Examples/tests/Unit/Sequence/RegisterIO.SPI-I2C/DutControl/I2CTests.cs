@@ -37,6 +37,13 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         }
 
         [Fact]
+        public void I2CInstance_Default_Has8BitAddressAndValueWidths()
+        {
+            Assert.Equal(8u, _i2c.DefaultAddressBitWidth);
+            Assert.Equal(8u, _i2c.DefaultValueBitWidth);
+        }
+
+        [Fact]
         public void I2CInstance_AccessedMultipleTimes_ReturnsSameInstance()
         {
             Assert.Same(I2C.Instance, I2C.Instance);
