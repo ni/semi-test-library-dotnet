@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This example demonstrates how to use the Semiconductor Test Library specifically the Scope extension methods for configured waveform acquisition. This example demonstrates the multi-site capability of scope extension methods using 2 sites in the pinmap file. 
+This example demonstrates how to use the Semiconductor Test Library (STL) extension methods to acquire a signal with an NI Scope instrument (PXIe-5172). This example demonstrates the multi-site capability of scope extension methods using 4 sites in the pinmap file. 
 
 
 ### Major APIs
@@ -12,7 +12,7 @@ This example demonstrates how to use the Semiconductor Test Library specifically
 ### Prerequisites
 
 1. If you want to use the example you must have the following software installed:
-   - STS Software 24.5.3 or later
+   - STS Software 26.5 or later
 2. To run the test program you must also have:
    - Two NI-Scope instruments named SCOPE_5172_C1_S02 and SCOPE_5172_C1_S03, respectively.
    - TestStand configured to use the Batch process model.
