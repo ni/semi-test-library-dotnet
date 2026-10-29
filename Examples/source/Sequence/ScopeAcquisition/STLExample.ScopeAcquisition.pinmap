@@ -22,17 +22,17 @@
 		<Connection pin="Vsc1" siteNumber="0" instrument="SCOPE_5172_C1_S02" channel="1" />
 		<Connection pin="Vsc2" siteNumber="0" instrument="SCOPE_5172_C1_S02" channel="2" />
 		<Connection pin="Vsc3" siteNumber="0" instrument="SCOPE_5172_C1_S02" channel="3" />
-		<Connection pin="Vsc0" siteNumber="1" instrument="SCOPE_5172_C1_S03" channel="0" />
 		<Connection pin="Vsc0" siteNumber="2" instrument="SCOPE_5172_C1_S02" channel="4" />
-		<Connection pin="Vsc0" siteNumber="3" instrument="SCOPE_5172_C1_S03" channel="4" />
-		<Connection pin="Vsc1" siteNumber="1" instrument="SCOPE_5172_C1_S03" channel="1" />
 		<Connection pin="Vsc1" siteNumber="2" instrument="SCOPE_5172_C1_S02" channel="5" />
-		<Connection pin="Vsc1" siteNumber="3" instrument="SCOPE_5172_C1_S03" channel="5" />
-		<Connection pin="Vsc2" siteNumber="1" instrument="SCOPE_5172_C1_S03" channel="2" />
 		<Connection pin="Vsc2" siteNumber="2" instrument="SCOPE_5172_C1_S02" channel="6" />
-		<Connection pin="Vsc2" siteNumber="3" instrument="SCOPE_5172_C1_S03" channel="6" />
-		<Connection pin="Vsc3" siteNumber="1" instrument="SCOPE_5172_C1_S03" channel="3" />
 		<Connection pin="Vsc3" siteNumber="2" instrument="SCOPE_5172_C1_S02" channel="7" />
+		<Connection pin="Vsc0" siteNumber="1" instrument="SCOPE_5172_C1_S03" channel="0" />
+		<Connection pin="Vsc1" siteNumber="1" instrument="SCOPE_5172_C1_S03" channel="1" />
+		<Connection pin="Vsc2" siteNumber="1" instrument="SCOPE_5172_C1_S03" channel="2" />
+		<Connection pin="Vsc3" siteNumber="1" instrument="SCOPE_5172_C1_S03" channel="3" />
+		<Connection pin="Vsc0" siteNumber="3" instrument="SCOPE_5172_C1_S03" channel="4" />
+		<Connection pin="Vsc1" siteNumber="3" instrument="SCOPE_5172_C1_S03" channel="5" />
+		<Connection pin="Vsc2" siteNumber="3" instrument="SCOPE_5172_C1_S03" channel="6" />
 		<Connection pin="Vsc3" siteNumber="3" instrument="SCOPE_5172_C1_S03" channel="7" />
 	</Connections>
 </PinMap>
