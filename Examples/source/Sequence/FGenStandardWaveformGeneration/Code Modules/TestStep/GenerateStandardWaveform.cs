@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using NationalInstruments.ModularInstruments.NIFgen;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen;
@@ -41,37 +40,33 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.FGenStandardWave
             double phase = 0)
         {
             var sessionManager = new TSMSessionManager(tsmContext);
-            var fgenPins = tsmContext.FilterPinsByInstrumentType(pinsOrPinGroups, InstrumentTypeIdConstants.NIFgen);
 
-            if (fgenPins.Any())
-            {
-                var fgenBundle = sessionManager.Fgen(fgenPins);
+            var fgenBundle = sessionManager.Fgen(pinsOrPinGroups);
 
-                // The output mode must be set to Function before configuring a standard waveform.
-                fgenBundle.ConfigureOutputMode(OutputMode.Function);
+            // The output mode must be set to Function before configuring a standard waveform.
+            fgenBundle.ConfigureOutputMode(OutputMode.Function);
 
-                // Configure the standard waveform settings for all channels in the bundle.
-                var standardWaveform = (StandardWaveform)Enum.Parse(typeof(StandardWaveform), standardWaveformType, ignoreCase: true);
-                var waveformSettings = new StandardWaveformSettings(
-                    waveformFunctionType: standardWaveform,
-                    frequency: frequency,
-                    amplitude: amplitude,
-                    dcOffset: offset,
-                    startPhase: phase);
-                fgenBundle.ConfigureStandardWaveform(waveformSettings);
+            // Configure the standard waveform settings for all channels in the bundle.
+            var standardWaveform = (StandardWaveform)Enum.Parse(typeof(StandardWaveform), standardWaveformType, ignoreCase: true);
+            var waveformSettings = new StandardWaveformSettings(
+                waveformFunctionType: standardWaveform,
+                frequency: frequency,
+                amplitude: amplitude,
+                dcOffset: offset,
+                startPhase: phase);
+            fgenBundle.ConfigureStandardWaveform(waveformSettings);
 
-                // Enable the output to allow the waveform to be generated at the output connector.
-                fgenBundle.ConfigureOutputEnabled(true);
+            // Enable the output to allow the waveform to be generated at the output connector.
+            fgenBundle.ConfigureOutputEnabled(true);
 
-                // Initiate signal generation. This does not wait for generation to complete.
-                fgenBundle.Initiate();
+            // Initiate signal generation. This does not wait for generation to complete.
+            fgenBundle.Initiate();
 
-                // Wait for 3 seconds to ensure the generation has started. Adjust as needed.
-                fgenBundle.WaitUntilDone(10000);
+            // Wait for 10 seconds to ensure the generation has started. Adjust as needed.
+            fgenBundle.WaitUntilDone(10000);
 
-                // Stop generation after the wait time. Remove this line if you want continuous generation.
-                fgenBundle.Abort();
-            }
+            // Stop generation after the wait time. Remove this line if you want continuous generation.
+            fgenBundle.Abort();
         }
     }
 }
