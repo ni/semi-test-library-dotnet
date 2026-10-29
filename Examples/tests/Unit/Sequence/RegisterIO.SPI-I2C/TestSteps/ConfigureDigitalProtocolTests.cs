@@ -380,7 +380,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
                 readPatternName: "I2C_read_template",
                 sourceWaveformName: "I2C_source_buffer",
                 captureWaveformName: "I2C_capture_buffer");
-            I2C.Instance.PinNames = new[] { "CS", "SDI", "SDO", "SCK" };
+            I2C.Instance.PinNames = new[] { "CS", "SCK", "SDI", "SDO" };
         }
     }
 }

@@ -19,7 +19,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         [Fact]
         public void I2CInstance_Default_HasCsSdiSdoAndSckPinNames()
         {
-            Assert.Equal(new[] { "CS", "SDI", "SDO", "SCK" }, _i2c.PinNames);
+            Assert.Equal(new[] { "CS", "SCK", "SDI", "SDO" }, _i2c.PinNames);
         }
 
         [Fact]

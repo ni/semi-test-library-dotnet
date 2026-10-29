@@ -61,6 +61,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             {
                 case CommunicationProtocol.SPI:
                     return new SPI();
+                case CommunicationProtocol.I2C:
+                    return new I2C();
                 default:
                     throw new ArgumentOutOfRangeException(nameof(communicationProtocol), communicationProtocol, "Unsupported communication protocol.");
             }
