@@ -37,7 +37,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         }
 
         [Fact]
-        public void I2CInstance_Default_Has8BitAddressAndValueWidths()
+        public void I2CInstance_Default_Has16BitAddressAndValueWidths()
         {
             Assert.Equal(8u, _i2c.DefaultAddressBitWidth);
             Assert.Equal(8u, _i2c.DefaultValueBitWidth);

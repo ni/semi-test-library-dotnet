@@ -17,7 +17,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         }
 
         [Fact]
-        public void SpiInstance_Default_Has7BitAddressAnd8BitValueWidths()
+        public void SpiInstance_Default_Has1BitAddressAnd8BitValueWidths()
         {
             Assert.Equal(7u, _spi.DefaultAddressBitWidth);
             Assert.Equal(8u, _spi.DefaultValueBitWidth);
