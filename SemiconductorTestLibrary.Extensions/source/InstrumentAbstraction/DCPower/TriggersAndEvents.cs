@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using NationalInstruments.ModularInstruments.NIDCPower;
@@ -149,6 +150,19 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     }
                 }
             });
+        }
+
+        /// <summary>
+        /// Configures a digital edge trigger for one of the following selected TriggerTypes: MeasureTrigger, PulseTrigger, SequenceAdvanceTrigger, SourceTrigger, and StartTrigger.
+        /// </summary>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="triggerType">One of the following trigger types: MeasureTrigger, PulseTrigger, SequenceAdvanceTrigger, SourceTrigger, StartTrigger.</param>>
+        /// <param name="tiggerTerminal">The input terminal to configure the trigger to look for a Digital Edge.</param>
+        /// <param name="triggerEdge">The digital edge to look for, either <see cref="DCPowerTriggerEdge.Rising"/> or <see cref="DCPowerTriggerEdge.Falling"/>.</param>
+        [Obsolete("This method is deprecated. Use ConfigureTriggerDigitalEdge(TriggerType triggerType, string triggerTerminal, DCPowerTriggerEdge triggerEdge = DCPowerTriggerEdge.Rising) instead.")]
+        public static void ConfigureTriggerDigitalEdge(this DCPowerSessionsBundle sessionsBundle, string tiggerTerminal, TriggerType triggerType, DCPowerTriggerEdge triggerEdge = DCPowerTriggerEdge.Rising)
+        {
+            sessionsBundle.ConfigureTriggerDigitalEdge(triggerType, tiggerTerminal, triggerEdge);
         }
 
         /// <summary>
