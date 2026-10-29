@@ -12,6 +12,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
     /// which selects the DUT's device address. The CS pin is held high by the read pattern to keep the DUT in I2C mode,
     /// and is not driven by the write pattern.
     /// The waveforms use their own names so they do not conflict with the SPI waveforms loaded on the same session.
+    /// <br/><br/>
     /// Obtain the singleton instance via <see cref="Instance"/>, then call
     /// <see cref="DigitalProtocol.SetBundle"/> once per code module before performing
     /// any register operations. Optionally call
@@ -41,11 +42,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         {
             WritePatternName = "I2C_write_template";
             ReadPatternName = "I2C_read_template";
-            SourceWaveformName = "i2c_source_buffer";
-            CaptureWaveformName = "i2c_capture_buffer";
+            SourceWaveformName = "I2C_source_buffer";
+            CaptureWaveformName = "I2C_capture_buffer";
             SourcePinName = "SDI";
             CapturePinName = "SDI";
-            PinNames = new[] { "CS", "SDI", "SDO", "SCK" };
+            PinNames = new[] { "CS", "SCK", "SDI", "SDO" };
         }
     }
 }

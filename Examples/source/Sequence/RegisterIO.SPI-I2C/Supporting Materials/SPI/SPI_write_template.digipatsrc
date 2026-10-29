@@ -1,17 +1,17 @@
 
 file_format_version 1.1;
-timeset SourceStartSetup, SPI_Busy, SPI_Stop, SPI_Idle, SPI_Start;
+timeset SPI_Idle, SourceStartSetup, SPI_Start, SPI_Busy, SPI_Stop;
 
-pattern SPI_write_template (SDI, SCK, CS)
+pattern SPI_write_template (CS, SCK, SDI, SDO)
 {
-set_loop(reg0)						SPI_Idle			X		1		1;
-source_start(spi_source_buffer)		-					X		1		1;		// Define the register address and data buffer
-									SourceStartSetup	X		1		1;
+set_loop(reg0)						SPI_Idle			1		1		X		1;
+source_start(SPI_source_buffer)		-					1		1		X		1;		// Define the register address and data buffer
+									SourceStartSetup	1		1		X		1;
 repeatWrite:
-									SPI_Start			X		1		0;		// Start (CS = 0)
-									SPI_Busy			0		1		0;		// Write instruction (MOSI = 0)
-repeat(reg1), source				-					D		1		0;		// Register address
-repeat(reg2), source				-					D		1		0;		// Register value
-end_loop(repeatWrite)				SPI_Stop			X		1		1;		// Stop (CS = 1)
-halt								SPI_Idle			X		1		1;
+									SPI_Start			0		1		X		1;		// Start (CS = 0)
+									SPI_Busy			0		1		0		1;		// Write instruction (MOSI = 0)
+repeat(reg1), source				-					0		1		D		1;		// Register address
+repeat(reg2), source				-					0		1		D		1;		// Register value
+end_loop(repeatWrite)				SPI_Stop			1		1		X		1;		// Stop (CS = 1)
+halt								SPI_Idle			1		1		X		1;
 }

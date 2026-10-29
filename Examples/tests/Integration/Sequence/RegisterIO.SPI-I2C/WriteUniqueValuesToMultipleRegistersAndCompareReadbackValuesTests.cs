@@ -16,8 +16,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         private const string DigitalPatternProjectName = "STLExample.RegisterIO.SPIAndI2C.digiproj";
 
         [Theory(Skip = "Requires a physical digital pattern instrument connected to a DUT. Not supported in offline mode.")]
-        [InlineData(CommunicationProtocol.SPI, 7, "SPI_write_template", "SPI_read_template", "spi_source_buffer", "spi_capture_buffer", new uint[] { 0x74, 0x75 })]
-        [InlineData(CommunicationProtocol.I2C, 8, "I2C_write_template", "I2C_read_template", "i2c_source_buffer", "i2c_capture_buffer", new uint[] { 0xF4, 0xF5 })]
+        [InlineData(CommunicationProtocol.SPI, 7, "SPI_write_template", "SPI_read_template", "SPI_source_buffer", "SPI_capture_buffer", new uint[] { 0x74, 0x75 })]
+        [InlineData(CommunicationProtocol.I2C, 8, "I2C_write_template", "I2C_read_template", "I2C_source_buffer", "I2C_capture_buffer", new uint[] { 0xF4, 0xF5 })]
         public void WriteUniqueValuesToMultipleRegistersAndCompareReadbackValues_UniqueValues_ReadbackMatches(CommunicationProtocol protocol, int addressBitWidth, string writePatternName, string readPatternName, string sourceWaveformName, string captureWaveformName, uint[] registerAddresses)
         {
             // SPI sends the read/write bit followed by a 7-bit register address, so BME280 registers 0xF4 and 0xF5
@@ -25,6 +25,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             var registerValues = new long[] { 0x33, 0x12 };
             var tsmContext = CreateTSMContext(SupportingMaterialsFolderPath, PinMapFileName, DigitalPatternProjectName, out var publishedDataReader);
             SetupNIDigitalPatternInstrumentation(tsmContext);
+            try
+            {
             DutPowerUp(
                 tsmContext: tsmContext,
                 dutSupplyPinsOrPinGroups: new string[] { "VIN" },
@@ -46,28 +48,32 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                 valueBitWidthSequenceRegister: "reg2",
                 pinNames: new[] { "CS", "SCK", "SDI", "SDO" });
 
-            TestStep.WriteUniqueValuesToMultipleRegistersAndCompareReadbackValues(
-                tsmContext,
-                protocol,
-                registerAddresses: registerAddresses,
-                valuesToWrite: registerValues);
+                TestStep.WriteUniqueValuesToMultipleRegistersAndCompareReadbackValues(
+                    tsmContext,
+                    protocol,
+                    registerAddresses: registerAddresses,
+                    valuesToWrite: registerValues);
 
-            var publishedData = publishedDataReader.GetAndClearPublishedData();
-            foreach (var registerAddress in registerAddresses)
-            {
-                var comparisonResults = publishedData
-                    .Where(d => d.PublishedDataId == $"Register_0x{registerAddress:X2}_Comparison")
-                    .ToArray();
-                Assert.Equal(tsmContext.SiteNumbers.Count, comparisonResults.Length);
-                Assert.All(comparisonResults, d => Assert.True(d.BooleanValue));
+                var publishedData = publishedDataReader.GetAndClearPublishedData();
+                foreach (var registerAddress in registerAddresses)
+                {
+                    var comparisonResults = publishedData
+                        .Where(d => d.PublishedDataId == $"Register_0x{registerAddress:X2}_Comparison")
+                        .ToArray();
+                    Assert.Equal(tsmContext.SiteNumbers.Count, comparisonResults.Length);
+                    Assert.All(comparisonResults, d => Assert.True(d.BooleanValue));
+                }
             }
-
-            DutPowerDown(
-                tsmContext,
-                dutSupplyPinsOrPinGroups: new string[] { "VIN" },
-                settlingTime: 0,
-                powerDownSuppliesSerially: false);
-            TestStep.CleanupDigitalProtocol(protocol);
+            finally
+            {
+                TestStep.CleanupDigitalProtocol(protocol);
+                DutPowerDown(
+                    tsmContext,
+                    dutSupplyPinsOrPinGroups: new string[] { "VIN" },
+                    settlingTime: 0,
+                    powerDownSuppliesSerially: false);
+                CleanupInstrumentation(tsmContext);
+            }
         }
     }
 }

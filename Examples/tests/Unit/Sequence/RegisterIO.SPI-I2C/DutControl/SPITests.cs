@@ -32,8 +32,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         [Fact]
         public void SpiInstance_Default_HasSourceAndCaptureBufferWaveformNames()
         {
-            Assert.Equal("spi_source_buffer", _spi.SourceWaveformName);
-            Assert.Equal("spi_capture_buffer", _spi.CaptureWaveformName);
+            Assert.Equal("SPI_source_buffer", _spi.SourceWaveformName);
+            Assert.Equal("SPI_capture_buffer", _spi.CaptureWaveformName);
         }
 
         [Fact]
@@ -45,9 +45,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         }
 
         [Fact]
-        public void SpiInstance_Default_HasSdiAndSdoPinNames()
+        public void SpiInstance_Default_HasCsSckSdiAndSdoPinNames()
         {
-            Assert.Equal(new[] { "SDI", "SDO" }, _spi.PinNames);
+            Assert.Equal(new[] { "CS", "SCK", "SDI", "SDO" }, _spi.PinNames);
             Assert.Equal("SDI", _spi.SourcePinName);
             Assert.Equal("SDO", _spi.CapturePinName);
         }

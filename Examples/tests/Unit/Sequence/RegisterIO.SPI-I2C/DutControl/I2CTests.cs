@@ -19,7 +19,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         [Fact]
         public void I2CInstance_Default_HasCsSdiSdoAndSckPinNames()
         {
-            Assert.Equal(new[] { "CS", "SDI", "SDO", "SCK" }, _i2c.PinNames);
+            Assert.Equal(new[] { "CS", "SCK", "SDI", "SDO" }, _i2c.PinNames);
         }
 
         [Fact]
@@ -32,8 +32,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         [Fact]
         public void I2CInstance_Default_HasI2CWaveformNames()
         {
-            Assert.Equal("i2c_source_buffer", _i2c.SourceWaveformName);
-            Assert.Equal("i2c_capture_buffer", _i2c.CaptureWaveformName);
+            Assert.Equal("I2C_source_buffer", _i2c.SourceWaveformName);
+            Assert.Equal("I2C_capture_buffer", _i2c.CaptureWaveformName);
         }
 
         [Fact]

@@ -49,5 +49,23 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
                     throw new ArgumentOutOfRangeException(nameof(communicationProtocol), communicationProtocol, "Unsupported communication protocol.");
             }
         }
+
+        /// <summary>
+        /// Creates a new protocol instance for the selected communication protocol, holding the protocol's default parameters.
+        /// </summary>
+        /// <param name="communicationProtocol">The communication protocol to create.</param>
+        /// <returns>A new protocol instance with default parameters.</returns>
+        internal static IDigitalProtocol CreateDefaultProtocol(CommunicationProtocol communicationProtocol)
+        {
+            switch (communicationProtocol)
+            {
+                case CommunicationProtocol.SPI:
+                    return new SPI();
+                case CommunicationProtocol.I2C:
+                    return new I2C();
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(communicationProtocol), communicationProtocol, "Unsupported communication protocol.");
+            }
+        }
     }
 }

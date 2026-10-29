@@ -3,26 +3,26 @@
 file_format_version 1.1;
 timeset I2C_Idle, I2C_SourceStartSetup, I2C_Start, I2C_Busy, I2C_Stop;
 
-pattern I2C_write_template (SDI, SCK, SDO, CS)
+pattern I2C_write_template (CS, SCK, SDI, SDO)
 {
-set_loop(reg0)						I2C_Idle				1		1		1		X;
-source_start(i2c_source_buffer)		-						1		1		1		X;		// Define the register address and data buffer
-									I2C_SourceStartSetup	1		1		1		X;
+set_loop(reg0)						I2C_Idle				X		1		1		1;
+source_start(I2C_source_buffer)		-						X		1		1		1;		// Define the register address and data buffer
+									I2C_SourceStartSetup	X		1		1		1;
 repeatWrite:
-									I2C_Start				1		1		1		X;		// Start
-									I2C_Busy				1		1		1		X;		// Device address (7-bit) = 0x77
-									-						1		1		1		X;
-									-						1		1		1		X;
-									-						0		1		1		X;
-									-						1		1		1		X;
-									-						1		1		1		X;
-									-						1		1		1		X;
-									-						0		1		1		X;		// Write instruction (SDA = 0)
-									-						L		1		1		X;		// ACK
-repeat(reg1), source				-						D		1		1		X;		// Register address byte
-									-						L		1		1		X;		// ACK
-repeat(reg2), source				-						D		1		1		X;		// Data byte
-									-						L		1		1		X;		// ACK
-end_loop(repeatWrite)				I2C_Stop				0		1		1		X;		// Stop
-halt								I2C_Idle				1		1		1		X;
+									I2C_Start				X		1		1		1;		// Start
+									I2C_Busy				X		1		1		1;		// Device address (7-bit) = 0x77
+									-						X		1		1		1;
+									-						X		1		1		1;
+									-						X		1		0		1;
+									-						X		1		1		1;
+									-						X		1		1		1;
+									-						X		1		1		1;
+									-						X		1		0		1;		// Write instruction (SDA = 0)
+									-						X		1		L		1;		// ACK
+repeat(reg1), source				-						X		1		D		1;		// Register address
+									-						X		1		L		1;		// ACK
+repeat(reg2), source				-						X		1		D		1;		// Data
+									-						X		1		L		1;		// ACK
+end_loop(repeatWrite)				I2C_Stop				X		1		0		1;		// Stop
+halt								I2C_Idle				X		1		1		1;
 }
