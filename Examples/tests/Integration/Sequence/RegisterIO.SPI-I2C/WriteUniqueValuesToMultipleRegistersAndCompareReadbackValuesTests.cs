@@ -27,26 +27,26 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             SetupNIDigitalPatternInstrumentation(tsmContext);
             try
             {
-            DutPowerUp(
-                tsmContext: tsmContext,
-                dutSupplyPinsOrPinGroups: new string[] { "VIN" },
-                perSupplyPinOrPinGroupVoltages: new double[] { 3.3 },
-                perSupplyPinOrPinGroupCurrentLimits: new double[] { 0.002 },
-                settlingTime: 0,
-                powerUpSuppliesSerially: false);
-            TestStep.ConfigureDigitalProtocol(
-                communicationProtocol: protocol,
-                addressBitWidth: addressBitWidth,
-                valueBitWidth: 8,
-                writePatternName: writePatternName,
-                readPatternName: readPatternName,
-                sourceWaveformName: sourceWaveformName,
-                captureWaveformName: captureWaveformName,
-                sampleWidth: 1,
-                readWriteCountSequenceRegister: "reg0",
-                addressBitWidthSequenceRegister: "reg1",
-                valueBitWidthSequenceRegister: "reg2",
-                pinNames: new[] { "CS", "SCK", "SDI", "SDO" });
+                DutPowerUp(
+                    tsmContext: tsmContext,
+                    dutSupplyPinsOrPinGroups: new string[] { "VIN" },
+                    perSupplyPinOrPinGroupVoltages: new double[] { 3.3 },
+                    perSupplyPinOrPinGroupCurrentLimits: new double[] { 0.002 },
+                    settlingTime: 0,
+                    powerUpSuppliesSerially: false);
+                TestStep.ConfigureDigitalProtocol(
+                    communicationProtocol: protocol,
+                    addressBitWidth: addressBitWidth,
+                    valueBitWidth: 8,
+                    writePatternName: writePatternName,
+                    readPatternName: readPatternName,
+                    sourceWaveformName: sourceWaveformName,
+                    captureWaveformName: captureWaveformName,
+                    sampleWidth: 1,
+                    readWriteCountSequenceRegister: "reg0",
+                    addressBitWidthSequenceRegister: "reg1",
+                    valueBitWidthSequenceRegister: "reg2",
+                    pinNames: new[] { "CS", "SCK", "SDI", "SDO" });
 
                 TestStep.WriteUniqueValuesToMultipleRegistersAndCompareReadbackValues(
                     tsmContext,
