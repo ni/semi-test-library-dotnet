@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Specifications xmlns:f="http://www.ni.com/schemas/Semiconductor/Formula.xsd" schemaVersion="1.0" xmlns="http://www.ni.com/schemas/Semiconductor/Specifications.xsd">
+  <Section name="DC">
+    <f:Formula symbol="Vil">
+      <f:Definition>0 V</f:Definition>
+      <f:Comment>DUT input low voltage</f:Comment>
+    </f:Formula>
+    <f:Formula symbol="Vih">
+      <f:Definition>3.3 V</f:Definition>
+      <f:Comment>DUT input high voltage</f:Comment>
+    </f:Formula>
+    <f:Formula symbol="Vol">
+      <f:Definition>0.66 V</f:Definition>
+      <f:Comment>DUT output low voltage threshold</f:Comment>
+    </f:Formula>
+    <f:Formula symbol="Voh">
+      <f:Definition>2.64 V</f:Definition>
+      <f:Comment>DUT output high voltage threshold</f:Comment>
+    </f:Formula>
+  </Section>
+  <Section name="f">
+    <f:Formula symbol="SCLK">
+      <f:Definition>1/t.SCLK</f:Definition>
+      <f:Comment>SPI clock frequency</f:Comment>
+    </f:Formula>
+  </Section>
+  <Section name="t">
+    <f:Formula symbol="SCLK">
+      <f:Definition>t.LOW + t.HIGH</f:Definition>
+      <f:Comment>SPI clock period</f:Comment>
+    </f:Formula>
+    <f:Formula symbol="LOW">
+      <f:Definition>5 µs</f:Definition>
+      <f:Comment>LOW period of the SPI clock</f:Comment>
+    </f:Formula>
+    <f:Formula symbol="HIGH">
+      <f:Definition>5 µs</f:Definition>
+      <f:Comment>HIGH period of the SPI clock</f:Comment>
+    </f:Formula>
+    <f:Formula symbol="setup_mosi">
+      <f:Definition>5 µs</f:Definition>
+      <f:Comment>DUT data input (SDI) setup time</f:Comment>
+    </f:Formula>
+    <f:Formula symbol="delay_miso">
+      <f:Definition>30 ns</f:Definition>
+      <f:Comment>DUT data output (SDO) delay time</f:Comment>
+    </f:Formula>
+    <f:Formula symbol="setup_cs">
+      <f:Definition>5 µs</f:Definition>
+      <f:Comment>Chip select (CS) setup time</f:Comment>
+    </f:Formula>
+  </Section>
+</Specifications>
