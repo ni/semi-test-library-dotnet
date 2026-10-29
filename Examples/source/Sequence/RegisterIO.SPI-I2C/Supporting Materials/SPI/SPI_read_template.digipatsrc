@@ -1,0 +1,19 @@
+
+file_format_version 1.1;
+timeset SPI_Idle, SourceStartSetup, SPI_Start, SPI_Busy, SPI_Stop;
+
+pattern SPI_read_template (CS, SCK, SDI, SDO)
+{
+set_loop(reg0)						SPI_Idle			1		1		X		X;
+capture_start(SPI_capture_buffer)	-					1		1		X		X;		// Define the read buffer
+source_start(SPI_source_buffer)		-					1		1		X		X;		// Define the register addresses buffer
+									SourceStartSetup	1		1		X		X;
+repeatRead:
+									SPI_Start			0		1		X		X;		// Start (CS = 0)
+									SPI_Busy			0		1		1		X;		// Read instruction (MOSI = 1)
+repeat(reg1), source				-					0		1		D		X;		// Register address
+repeat(reg2), capture				-					0		1		X		V;		// Register value
+end_loop(repeatRead)				SPI_Stop			1		1		X		X;		// Stop (CS = 1)
+capture_stop						SPI_Idle			1		1		X		X;
+halt								-					1		1		X		X;
+}
