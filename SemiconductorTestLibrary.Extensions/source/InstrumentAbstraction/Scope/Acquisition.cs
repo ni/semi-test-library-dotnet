@@ -44,7 +44,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo =>
             {
-                return DoWithTimeoutHandling(sessionInfo, () => sessionInfo.Session.Channels[sessionInfo.AllChannelsString].Measurement.Read(timeout, numberOfSamples, null).ToArray());
+                return DoWithAcquisitionErrorHandling(sessionInfo, () => sessionInfo.Session.Channels[sessionInfo.AllChannelsString].Measurement.Read(timeout, numberOfSamples, null).ToArray());
             });
         }
 
@@ -65,7 +65,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo =>
             {
-                return DoWithTimeoutHandling(sessionInfo, () => sessionInfo.Session.Channels[sessionInfo.AllChannelsString].Measurement.Read(timeout, numberOfSamples, null))
+                return DoWithAcquisitionErrorHandling(sessionInfo, () => sessionInfo.Session.Channels[sessionInfo.AllChannelsString].Measurement.Read(timeout, numberOfSamples, null))
                     .Select(waveform => waveform.GetRawData())
                     .ToArray();
             });
@@ -88,13 +88,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo =>
             {
-                return DoWithTimeoutHandling(sessionInfo, () => sessionInfo.Session.Channels[sessionInfo.AllChannelsString].Measurement.FetchDouble(timeout, numberOfSamples, null).ToArray());
+                return DoWithAcquisitionErrorHandling(sessionInfo, () => sessionInfo.Session.Channels[sessionInfo.AllChannelsString].Measurement.FetchDouble(timeout, numberOfSamples, null).ToArray());
             });
         }
 
         #region Helper Methods
 
-        private static T DoWithTimeoutHandling<T>(ScopeSessionInformation sessionInfo, Func<T> acquisitionFunction)
+        private static T DoWithAcquisitionErrorHandling<T>(ScopeSessionInformation sessionInfo, Func<T> acquisitionFunction)
         {
             try
             {
@@ -102,11 +102,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
             }
             catch (MaxTimeExceededException exception)
             {
-                throw new NISemiconductorTestException(BuildAcquisitionTimeoutExceptionMessage(sessionInfo), exception);
+                throw new NISemiconductorTestException(BuildAcquisitionFailureExceptionMessage(sessionInfo), exception);
             }
             catch (IviCDriverException exception) when (!IsAcquisitionComplete(sessionInfo))
             {
-                throw new NISemiconductorTestException(BuildAcquisitionTimeoutExceptionMessage(sessionInfo), exception);
+                throw new NISemiconductorTestException(BuildAcquisitionFailureExceptionMessage(sessionInfo), exception);
             }
         }
 
@@ -115,11 +115,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
             return sessionInfo.Session.Measurement.Status() == ScopeAcquisitionStatus.Complete;
         }
 
-        private static string BuildAcquisitionTimeoutExceptionMessage(ScopeSessionInformation sessionInfo)
+        private static string BuildAcquisitionFailureExceptionMessage(ScopeSessionInformation sessionInfo)
         {
             var channelDetails = string.Join(", ", sessionInfo.GetAssociatedSitePinListForInstrument().Select(sitePinInfo =>
                 string.Format(CultureInfo.InvariantCulture, "{0} (channel: {1})", sitePinInfo.SitePinString, sitePinInfo.IndividualChannelString)));
-            return string.Format(CultureInfo.InvariantCulture, ResourceStrings.Scope_AcquisitionTimeoutException, channelDetails);
+            return string.Format(CultureInfo.InvariantCulture, ResourceStrings.Scope_AcquisitionFailedException, channelDetails);
         }
 
         #endregion

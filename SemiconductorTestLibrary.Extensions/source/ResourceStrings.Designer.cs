@@ -441,9 +441,9 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         /// <summary>
         ///   Looks up a localized string similar to The acquisition failed or did not complete within the specified timeout. This may affect all channels on the same card, including those mapped to other sites. Affected channels: {0}.
         /// </summary>
-        internal static string Scope_AcquisitionTimeoutException {
+        internal static string Scope_AcquisitionFailedException {
             get {
-                return ResourceManager.GetString("Scope_AcquisitionTimeoutException", resourceCulture);
+                return ResourceManager.GetString("Scope_AcquisitionFailedException", resourceCulture);
             }
         }
     }
