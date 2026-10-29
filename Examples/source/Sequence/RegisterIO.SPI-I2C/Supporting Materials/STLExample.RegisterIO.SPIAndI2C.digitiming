@@ -180,7 +180,7 @@
           </PinEdge>
         </PinEdges>
       </TimeSet>
-      <TimeSet name="SourceStartSetup">
+      <TimeSet name="SPI_SourceStartSetup">
         <Period>3 µs</Period>
         <PinEdges>
           <PinEdge pin="DigitalPins">
