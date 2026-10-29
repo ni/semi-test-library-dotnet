@@ -7,6 +7,7 @@
 		<NIScopeInstrument name="SCP_5622_C3_S06" numberOfChannels="1" group="Scope" />
 		<NIScopeInstrument name="SCP_5186_C3_S07" numberOfChannels="2" />
 		<NIScopeInstrument name="SCP_5172_C8_S04" numberOfChannels="8" />
+		<NIScopeInstrument name="SCP_5922_C8_S05" numberOfChannels="2" />
 	</Instruments>
 	<Pins>
 		<DUTPin name="SCP_5105_Pin" />
@@ -17,6 +18,7 @@
 		<DUTPin name="SCP_5172_Pin_1" />
 		<DUTPin name="SCP_5172_Pin_2" />
 		<DUTPin name="SCP_5172_Pin_3" />
+		<DUTPin name="SCP_5922_Pin" />
 	</Pins>
 	<PinGroups>
 		<PinGroup name="PinGroup">
@@ -43,6 +45,8 @@
 		<Connection pin="SCP_5172_Pin_2" siteNumber="1" instrument="SCP_5172_C8_S04" channel="3" />
 		<Connection pin="SCP_5172_Pin_3" siteNumber="0" instrument="SCP_5172_C8_S04" channel="4" />
 		<Connection pin="SCP_5172_Pin_3" siteNumber="1" instrument="SCP_5172_C8_S04" channel="5" />
+		<Connection pin="SCP_5922_Pin" siteNumber="0" instrument="SCP_5922_C8_S05" channel="0" />
+		<Connection pin="SCP_5922_Pin" siteNumber="1" instrument="SCP_5922_C8_S05" channel="1" />
 		<SystemConnection pin="SystemPin" instrument="SCP_5105_C1_S09" channel="3" />
 	</Connections>
 </PinMap>
