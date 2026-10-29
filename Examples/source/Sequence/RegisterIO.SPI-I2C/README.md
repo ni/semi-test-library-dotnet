@@ -116,15 +116,15 @@ The pin group `DigitalPins` groups the following pins:
 
 **Time sets**: The SPI and I2C patterns use the following time sets:
 
-| SPI Time Set       | I2C Time Set           |
-| ------------------ | ---------------------- |
-| `SPI_Idle`         | `I2C_Idle`             |
-| `SourceStartSetup` | `I2C_SourceStartSetup` |
-| `SPI_Start`        | `I2C_Start`            |
-| `SPI_Busy`         | `I2C_Busy`             |
-| `SPI_Stop`         | `I2C_Stop`             |
+| SPI Time Set           | I2C Time Set           |
+| ---------------------- | ---------------------- |
+| `SPI_Idle`             | `I2C_Idle`             |
+| `SPI_SourceStartSetup` | `I2C_SourceStartSetup` |
+| `SPI_Start`            | `I2C_Start`            |
+| `SPI_Busy`             | `I2C_Busy`             |
+| `SPI_Stop`             | `I2C_Stop`             |
 
-The `SourceStartSetup` and `I2C_SourceStartSetup` time sets provide the setup delay that the `source_start` opcode requires. The other time sets use the clock period from the specifications, and `I2C_Stop` adds the bus free time.
+The `SPI_SourceStartSetup` and `I2C_SourceStartSetup` time sets provide the setup delay that the `source_start` opcode requires. The other time sets use the clock period from the specifications, and `I2C_Stop` adds the bus free time.
 
 ### Patterns
 
@@ -192,7 +192,7 @@ The `DutControl` folder contains the protocol abstraction.
   - Bit order
 
 - `DigitalProtocol` is an abstract base class that implements the core logic of the `IDigitalProtocol` interface:
-  1. It converts the address and value into waveform samples. By default, it uses a sample width of 8 bits with the most significant bit first, a 16-bit address, and a 16-bit value. You can specify otherwise with the `ConfigureDigitalProtocol` test step or with the register access overloads that accept the address and value bit widths.
+  1. It converts the address and value into waveform samples. By default, it uses a sample width of 8 bits with the most significant bit first, a 16-bit address, and a 16-bit value. You can override these defaults with the `ConfigureDigitalProtocol` test step or with the register access overloads that accept the address and value bit widths.
   2. It writes `reg0`, `reg1`, and `reg2` on the sequencer.
   3. It writes the source waveform, either with the same samples for all sites or with unique samples per site.
   4. It bursts the read or write pattern with a 10-second timeout.
@@ -267,7 +267,7 @@ The **Configure Communication Protocol** step uses the following settings. The o
 
 The sample width of 1 bit matches the waveform files in the digital project. The address bit width is the number of register address bits in the source waveform. It differs between the protocols because each protocol places the read or write bit differently:
 
-- **SPI**: The read or write bit and the register address share one byte. The pattern sends the read or write bit, and the source waveform supplies the remaining 7 bits. Over SPI, the BME280 uses only the lower 7 bits of the register address, so you pass `0x74` to access register `0xF4`.
+- **SPI**: The read or write bit and the register address share one byte. The pattern sends the read or write bit, and the source waveform supplies the remaining 7 bits.
 - **I2C**: The read or write bit shares a byte with the 7-bit device address of the DUT (`0x77`), which the patterns send. The register address follows in its own byte, so the source waveform supplies all 8 bits, and you pass `0xF4` to access register `0xF4`.
 
 The register addresses, the values to write, and the expected readback values are `MainSequence` locals, such as:
