@@ -170,7 +170,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 throw new ArgumentNullException(parameterName, message);
             }
-            if (outputTerminal.Length == 0)
+            if (string.IsNullOrEmpty(outputTerminal))
             {
                 throw new ArgumentException(message, parameterName);
             }
