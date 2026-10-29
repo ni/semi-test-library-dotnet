@@ -42,31 +42,78 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// The signal is exported only for the site-pin pairs specified in <paramref name="outputTerminals"/>.
         /// Site-pin pairs in the <paramref name="sessionsBundle"/> that are not present in <paramref name="outputTerminals"/> are not exported.<br/>
         /// Each output terminal can be specified as a trigger line name, for example "PXI_Trig0", or in the fully qualified format, for example "/Dev1/PXI_Trig0".<br/>
-        /// Throws <see cref="NISemiconductorTestException"/> if <paramref name="outputTerminals"/> is null or empty,
-        /// if it contains a null or empty output terminal, or if the same output terminal is assigned to more than one site-pin pair.<br/>
-        /// The driver throws an <see cref="Ivi.Driver.IviCDriverException"/> if the destination terminal to be routed cannot be found on the device,
-        /// which is reported as a <see cref="NISemiconductorTestException"/>.
+        /// The following exceptions can be thrown:
+        /// <list type="bullet">
+        /// <item><description><see cref="ArgumentNullException"/> if <paramref name="outputTerminals"/> is null or contains a null output terminal.</description></item>
+        /// <item><description><see cref="ArgumentException"/> if <paramref name="outputTerminals"/> does not contain any site-pin pair or contains an empty output terminal.</description></item>
+        /// <item><description><see cref="NISemiconductorTestException"/> if the same output terminal is assigned to more than one site-pin pair.</description></item>
+        /// <item><description><see cref="NISemiconductorTestException"/> wrapping an <see cref="Ivi.Driver.IviCDriverException"/> if the destination terminal to be routed cannot be found on the device.</description></item>
+        /// <item><description><see cref="NISemiconductorTestException"/> wrapping an <see cref="Ivi.Driver.IviCDriverException"/> if the specified route requires resources that are currently in use by another route.</description></item>
+        /// </list>
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="signalSource">The signal source to export.</param>
         /// <param name="outputTerminals">The per-site per-pin output terminals the signal routes to, for example "PXI_Trig0".</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="outputTerminals"/> is null or contains a null output terminal.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown when <paramref name="outputTerminals"/> does not contain any site-pin pair or contains an empty output terminal.
+        /// </exception>
         /// <exception cref="NISemiconductorTestException">
-        /// Thrown when <paramref name="outputTerminals"/> is null or empty, contains a null or empty output terminal,
-        /// or assigns the same output terminal to more than one site-pin pair.
-        /// Also thrown when the driver throws an <see cref="Ivi.Driver.IviCDriverException"/> because the destination terminal to be routed cannot be found on the device.
+        /// Thrown when the same output terminal is assigned to more than one site-pin pair,
+        /// or when the driver throws an <see cref="Ivi.Driver.IviCDriverException"/> because the destination terminal to be routed cannot be found on the device.
         /// </exception>
         public static void ExportSignal(this DCPowerSessionsBundle sessionsBundle, DCPowerSignalSource signalSource, PinSiteData<string> outputTerminals)
         {
             ValidateOutputTerminals(outputTerminals);
-            var siteNumbersByPin = outputTerminals.SiteNumbersByPin;
             sessionsBundle.Do((sessionInfo, sitePinInfo) =>
             {
-                if (!siteNumbersByPin.TryGetValue(sitePinInfo.PinName, out var siteNumbers) || !siteNumbers.Contains(sitePinInfo.SiteNumber))
+                if (outputTerminals.TryGetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName, out var outputTerminal))
                 {
-                    return;
+                    sessionInfo.Session.ExportSignal(sitePinInfo.IndividualChannelString, signalSource, outputTerminal);
                 }
-                var outputTerminal = outputTerminals.GetValue(sitePinInfo.SiteNumber, sitePinInfo.PinName);
-                sessionInfo.Session.ExportSignal(sitePinInfo.IndividualChannelString, signalSource, outputTerminal);
+            });
+        }
+
+        /// <summary>
+        /// Exports the selected DCPowerSignalSource from the channel mapped to the specified pin and site to the target output terminal.
+        /// </summary>
+        /// <remarks>
+        /// Use this overload when only one signal needs to be exported from the bundle.<br/>
+        /// The output terminal can be specified as a trigger line name, for example "PXI_Trig0", or in the fully qualified format, for example "/Dev1/PXI_Trig0".<br/>
+        /// No signal is exported if the <paramref name="sessionsBundle"/> does not contain the specified pin and site.<br/>
+        /// The following exceptions can be thrown:
+        /// <list type="bullet">
+        /// <item><description><see cref="ArgumentNullException"/> if <paramref name="outputTerminal"/> is null.</description></item>
+        /// <item><description><see cref="ArgumentException"/> if <paramref name="outputTerminal"/> is empty.</description></item>
+        /// <item><description><see cref="NISemiconductorTestException"/> wrapping an <see cref="Ivi.Driver.IviCDriverException"/> if the destination terminal to be routed cannot be found on the device.</description></item>
+        /// <item><description><see cref="NISemiconductorTestException"/> wrapping an <see cref="Ivi.Driver.IviCDriverException"/> if the specified route requires resources that are currently in use by another route.</description></item>
+        /// </list>
+        /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="signalSource">The signal source to export.</param>
+        /// <param name="pinName">The name of the pin to export the signal from.</param>
+        /// <param name="siteNumber">The site number to export the signal from.</param>
+        /// <param name="outputTerminal">The output terminal the signal routes to, for example "PXI_Trig0".</param>
+        /// <exception cref="ArgumentNullException">
+        /// Thrown when <paramref name="outputTerminal"/> is null.
+        /// </exception>
+        /// <exception cref="ArgumentException">
+        /// Thrown when <paramref name="outputTerminal"/> is empty.
+        /// </exception>
+        /// <exception cref="NISemiconductorTestException">
+        /// Thrown when the driver throws an <see cref="Ivi.Driver.IviCDriverException"/> because the destination terminal to be routed cannot be found on the device.
+        /// </exception>
+        public static void ExportSignal(this DCPowerSessionsBundle sessionsBundle, DCPowerSignalSource signalSource, string pinName, int siteNumber, string outputTerminal)
+        {
+            ValidateOutputTerminal(outputTerminal, string.Format(CultureInfo.InvariantCulture, "Site{0}/{1}", siteNumber, pinName), nameof(outputTerminal));
+            sessionsBundle.Do((sessionInfo, sitePinInfo) =>
+            {
+                if (sitePinInfo.PinName == pinName && sitePinInfo.SiteNumber == siteNumber)
+                {
+                    sessionInfo.Session.ExportSignal(sitePinInfo.IndividualChannelString, signalSource, outputTerminal);
+                }
             });
         }
 
@@ -76,9 +123,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="outputTerminals">The per-site per-pin output terminals to validate.</param>
         private static void ValidateOutputTerminals(PinSiteData<string> outputTerminals)
         {
-            if (outputTerminals is null || !outputTerminals.PinNames.Any())
+            if (outputTerminals is null)
             {
-                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_ExportSignalOutputTerminalsEmpty));
+                throw new ArgumentNullException(nameof(outputTerminals), ResourceStrings.DCPower_ExportSignalOutputTerminalsEmpty);
+            }
+            if (!outputTerminals.PinNames.Any())
+            {
+                throw new ArgumentException(ResourceStrings.DCPower_ExportSignalOutputTerminalsEmpty, nameof(outputTerminals));
             }
 
             var assignments = outputTerminals.PinNames
@@ -88,10 +139,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     OutputTerminal = outputTerminals.GetValue(siteNumber, pinName)
                 }))
                 .ToList();
-            var emptyAssignment = assignments.FirstOrDefault(assignment => string.IsNullOrEmpty(assignment.OutputTerminal));
-            if (emptyAssignment != null)
+            foreach (var assignment in assignments)
             {
-                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_ExportSignalOutputTerminalEmpty, emptyAssignment.SitePinString));
+                ValidateOutputTerminal(assignment.OutputTerminal, assignment.SitePinString, nameof(outputTerminals));
             }
 
             var duplicateAssignments = assignments
@@ -104,6 +154,25 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
                     ResourceStrings.DCPower_ExportSignalOutputTerminalNotUnique,
                     duplicateAssignments.Key,
                     string.Join(", ", duplicateAssignments.Select(assignment => assignment.SitePinString))));
+            }
+        }
+
+        /// <summary>
+        /// Validates that an output terminal is not null or empty.
+        /// </summary>
+        /// <param name="outputTerminal">The output terminal to validate.</param>
+        /// <param name="sitePinString">The site-pin pair the output terminal is assigned to.</param>
+        /// <param name="parameterName">The name of the parameter that provided the output terminal.</param>
+        private static void ValidateOutputTerminal(string outputTerminal, string sitePinString, string parameterName)
+        {
+            var message = string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_ExportSignalOutputTerminalEmpty, sitePinString);
+            if (outputTerminal is null)
+            {
+                throw new ArgumentNullException(parameterName, message);
+            }
+            if (outputTerminal.Length == 0)
+            {
+                throw new ArgumentException(message, parameterName);
             }
         }
 

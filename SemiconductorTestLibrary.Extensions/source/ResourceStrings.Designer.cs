@@ -142,15 +142,6 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The outputTerminals parameter specifies output terminals for {0} site-pin pairs, which exceeds the {1} trigger lines available on a PXIe chassis..
-        /// </summary>
-        internal static string DCPower_ExportSignalTooManyOutputTerminals {
-            get {
-                return ResourceManager.GetString("DCPower_ExportSignalTooManyOutputTerminals", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to This feature is not supported on a ganged pin group..
         /// </summary>
         internal static string DCPower_GangedPinGroupDetected {

@@ -614,7 +614,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 ["VDD"] = new Dictionary<int, string> { [0] = "/InvalidTerminal" }
             });
 
-            var exception = Assert.Throws<NISemiconductorTestException>(() => 
+            var exception = Assert.Throws<NISemiconductorTestException>(() =>
             {
                 sessionsBundle.ExportSignal(DCPowerSignalSource.SourceCompleteEvent, outputTerminals);
                 sessionsBundle.Commit();
@@ -629,7 +629,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("SMUsSupportingPulsing.pinmap")]
-        public void DuplicateOutputTerminals_ExportSignal_ThrowsException(string pinMapFileName)
+        public void MultipleChannels_ExportSignalWithNonUniqueOutputTerminals_ThrowsException(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VDET" });
@@ -646,7 +646,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("SMUsSupportingPulsing.pinmap")]
-        public void EmptyOutputTerminal_ExportSignal_ThrowsException(string pinMapFileName)
+        public void EmptyOutputTerminal_ExportSignal_ThrowsArgumentException(string pinMapFileName)
         {
             var sessionManager = Initialize(pinMapFileName);
             var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VDET" });
@@ -655,7 +655,63 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 ["VDD"] = new Dictionary<int, string> { [0] = string.Empty }
             });
 
-            Assert.Throws<NISemiconductorTestException>(() => sessionsBundle.ExportSignal(DCPowerSignalSource.SourceCompleteEvent, outputTerminals));
+            Assert.Throws<ArgumentException>(() => sessionsBundle.ExportSignal(DCPowerSignalSource.SourceCompleteEvent, outputTerminals));
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData("SMUsSupportingPulsing.pinmap")]
+        public void NullOutputTerminals_ExportSignal_ThrowsArgumentNullException(string pinMapFileName)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VDET" });
+
+            Assert.Throws<ArgumentNullException>(() => sessionsBundle.ExportSignal(DCPowerSignalSource.SourceCompleteEvent, (PinSiteData<string>)null));
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData("SMUsSupportingPulsing.pinmap")]
+        public void NullOutputTerminalValue_ExportSignal_ThrowsArgumentNullException(string pinMapFileName)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VDET" });
+            var outputTerminals = new PinSiteData<string>(new Dictionary<string, IDictionary<int, string>>
+            {
+                ["VDD"] = new Dictionary<int, string> { [0] = null }
+            });
+
+            Assert.Throws<ArgumentNullException>(() => sessionsBundle.ExportSignal(DCPowerSignalSource.SourceCompleteEvent, outputTerminals));
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData("SMUsSupportingPulsing.pinmap")]
+        public void SinglePinAndSite_ExportSignal_Succeeds(string pinMapFileName)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VDET" });
+
+            sessionsBundle.ExportSignal(DCPowerSignalSource.SourceCompleteEvent, "VDD", 0, "PXI_Trig0");
+            sessionsBundle.Commit();
+
+            sessionsBundle.Abort();
+        }
+
+        [Theory]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.GP3))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [InlineData("SMUsSupportingPulsing.pinmap", null)]
+        [InlineData("SMUsSupportingPulsing.pinmap", "")]
+        public void SinglePinAndSiteWithNullOrEmptyOutputTerminal_ExportSignal_ThrowsArgumentException(string pinMapFileName, string outputTerminal)
+        {
+            var sessionManager = Initialize(pinMapFileName);
+            var sessionsBundle = sessionManager.DCPower(new string[] { "VDD", "VDET" });
+
+            Assert.ThrowsAny<ArgumentException>(() => sessionsBundle.ExportSignal(DCPowerSignalSource.SourceCompleteEvent, "VDD", 0, outputTerminal));
         }
 
         private void AssertPulseTriggerSettings(DCPowerSessionInformation sessionInfo, string channelString, DCPowerPulseTriggerType expectedType, string expectedInputTerminal = "", DCPowerTriggerEdge expectedEdge = DCPowerTriggerEdge.Rising)

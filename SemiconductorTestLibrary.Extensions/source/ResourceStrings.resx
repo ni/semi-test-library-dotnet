@@ -222,9 +222,6 @@
   <data name="DCPower_ExportSignalOutputTerminalNotUnique" xml:space="preserve">
     <value>The output terminal ({0}) is specified for more than one site-pin pair ({1}). An output terminal is reserved by the channel that exports a signal to it, therefore each site-pin pair requires its own unique output terminal.</value>
   </data>
-  <data name="DCPower_ExportSignalTooManyOutputTerminals" xml:space="preserve">
-    <value>The outputTerminals parameter specifies output terminals for {0} site-pin pairs, which exceeds the {1} trigger lines available on a PXIe chassis.</value>
-  </data>
   <data name="DCPower_ImmediateUpdateModeNotSupportedForGangedChannels" xml:space="preserve">
     <value>Immediate update mode is not supported for ganged channels.</value>
   </data>
