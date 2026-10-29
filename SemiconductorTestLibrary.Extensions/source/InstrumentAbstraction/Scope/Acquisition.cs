@@ -35,11 +35,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// <param name="numberOfSamples">The maximum number of samples to fetch for each waveform. Specify -1 to retrieve all samples currently available in the record.</param>
         /// <returns>Per-site per-pin analog waveform results.</returns>
         /// <remarks>
-        /// If the acquisition does not complete within <paramref name="timeout"/>, the resulting <see cref="NISemiconductorTestException"/>
+        /// If the acquisition fails or does not complete within <paramref name="timeout"/>, the resulting <see cref="NISemiconductorTestException"/>
         /// includes the site, pin, and channel details for every channel on the affected card, since a single site losing its trigger
         /// signal prevents the entire card from acquiring data.
         /// </remarks>
-        /// <exception cref="NISemiconductorTestException">Thrown when the acquisition does not complete within <paramref name="timeout"/>.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when the acquisition fails or does not complete within <paramref name="timeout"/>.</exception>
         public static PinSiteData<AnalogWaveform<double>> ReadWaveform(this ScopeSessionsBundle sessionsBundle, PrecisionTimeSpan timeout, long numberOfSamples)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo =>
@@ -56,11 +56,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// <param name="numberOfSamples">The maximum number of samples to acquire for each waveform. Specify -1 to retrieve all samples currently available in the record.</param>
         /// <returns>Per-site per-pin floating-point samples.</returns>
         /// <remarks>
-        /// If the acquisition does not complete within <paramref name="timeout"/>, the resulting <see cref="NISemiconductorTestException"/>
+        /// If the acquisition fails or does not complete within <paramref name="timeout"/>, the resulting <see cref="NISemiconductorTestException"/>
         /// includes the site, pin, and channel details for every channel on the affected card, since a single site losing its trigger
         /// signal prevents the entire card from acquiring data.
         /// </remarks>
-        /// <exception cref="NISemiconductorTestException">Thrown when the acquisition does not complete within <paramref name="timeout"/>.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when the acquisition fails or does not complete within <paramref name="timeout"/>.</exception>
         public static PinSiteData<double[]> Read(this ScopeSessionsBundle sessionsBundle, PrecisionTimeSpan timeout, long numberOfSamples)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo =>
@@ -79,11 +79,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// <param name="numberOfSamples">The maximum number of samples to fetch for each waveform. Specify -1 to retrieve all samples currently available in the record.</param>
         /// <returns>Per-site per-pin analog waveform results.</returns>
         /// <remarks>
-        /// If the acquisition does not complete within <paramref name="timeout"/>, the resulting <see cref="NISemiconductorTestException"/>
+        /// If the acquisition fails or does not complete within <paramref name="timeout"/>, the resulting <see cref="NISemiconductorTestException"/>
         /// includes the site, pin, and channel details for every channel on the affected card, since a single site losing its trigger
         /// signal prevents the entire card from acquiring data.
         /// </remarks>
-        /// <exception cref="NISemiconductorTestException">Thrown when the acquisition does not complete within <paramref name="timeout"/>.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when the acquisition fails or does not complete within <paramref name="timeout"/>.</exception>
         public static PinSiteData<AnalogWaveform<double>> FetchWaveform(this ScopeSessionsBundle sessionsBundle, PrecisionTimeSpan timeout, int numberOfSamples)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults(sessionInfo =>

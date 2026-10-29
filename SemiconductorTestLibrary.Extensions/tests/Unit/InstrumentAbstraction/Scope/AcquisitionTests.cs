@@ -224,6 +224,51 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.All(waveforms.SiteNumbers, site => Assert.Equal(1000, waveforms.ExtractSite(site).Values.First().SampleCount));
         }
 
+        [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        public void SessionsBundle_ReadWaveformWithZeroTimeoutAndNegativeOneNumberOfSamples_ThrowsNISemiconductorTestExceptionWithPinSiteDetails()
+        {
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
+            ConfigureTimingForAcquisition(sessionsBundle);
+            sessionsBundle.Do(sessionInfo => sessionInfo.Session.Trigger.ConfigureTriggerSoftware(PrecisionTimeSpan.Zero, PrecisionTimeSpan.Zero));
+            sessionsBundle.Commit();
+
+            // A timeout of 0 fetches whatever is currently available without waiting. A software trigger that is never sent
+            // guarantees the acquisition cannot have completed when the fetch occurs, so the driver always reports an error.
+            // Simulated sessions ignore the missing software trigger and do not throw, so this test only runs on the tester.
+            void ReadWaveform() => sessionsBundle.ReadWaveform(PrecisionTimeSpan.Zero, numberOfSamples: -1);
+
+            var exception = Assert.Throws<NISemiconductorTestException>(ReadWaveform);
+            Assert.Contains("SCP_5172_Pin_1", exception.Message);
+        }
+
+        [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        public void SessionsBundle_ReadWaveformWithNegativeOneTimeoutAndNegativeOneNumberOfSamples_ReturnsAllSamplesInRecord()
+        {
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
+            ConfigureTimingForAcquisition(sessionsBundle);
+
+            // A timeout of -1 waits indefinitely for the acquisition to complete, and -1 samples retrieves the entire record.
+            var waveforms = sessionsBundle.ReadWaveform(PrecisionTimeSpan.FromSeconds(-1), numberOfSamples: -1);
+
+            Assert.All(waveforms.SiteNumbers, site => Assert.Equal(1000, waveforms.ExtractSite(site).Values.First().SampleCount));
+        }
+
+        [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        public void SessionsBundle_ReadWaveformWithNegativeTimeoutOtherThanNegativeOne_ReturnsWaveformForEachSitePin()
+        {
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
+            ConfigureTimingForAcquisition(sessionsBundle);
+
+            // The driver does not reject negative timeout values other than -1; they are passed through and the acquisition completes.
+            var waveforms = sessionsBundle.ReadWaveform(PrecisionTimeSpan.FromSeconds(-2), numberOfSamples: 1000);
+
+            Assert.All(waveforms.SiteNumbers, site => Assert.Equal(1000, waveforms.ExtractSite(site).Values.First().SampleCount));
+        }
+
         #endregion
 
         #region Read Tests
@@ -401,6 +446,51 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             Assert.All(samples.SiteNumbers, site => Assert.NotEmpty(samples.ExtractSite(site).Values.First()));
         }
 
+        [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        public void SessionsBundle_ReadWithZeroTimeoutAndNegativeOneNumberOfSamples_ThrowsNISemiconductorTestExceptionWithPinSiteDetails()
+        {
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
+            ConfigureTimingForAcquisition(sessionsBundle);
+            sessionsBundle.Do(sessionInfo => sessionInfo.Session.Trigger.ConfigureTriggerSoftware(PrecisionTimeSpan.Zero, PrecisionTimeSpan.Zero));
+            sessionsBundle.Commit();
+
+            // A timeout of 0 fetches whatever is currently available without waiting. A software trigger that is never sent
+            // guarantees the acquisition cannot have completed when the fetch occurs, so the driver always reports an error.
+            // Simulated sessions ignore the missing software trigger and do not throw, so this test only runs on the tester.
+            void Read() => sessionsBundle.Read(PrecisionTimeSpan.Zero, numberOfSamples: -1);
+
+            var exception = Assert.Throws<NISemiconductorTestException>(Read);
+            Assert.Contains("SCP_5172_Pin_1", exception.Message);
+        }
+
+        [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        public void SessionsBundle_ReadWithNegativeOneTimeoutAndNegativeOneNumberOfSamples_ReturnsAllSamplesInRecord()
+        {
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
+            ConfigureTimingForAcquisition(sessionsBundle);
+
+            // A timeout of -1 waits indefinitely for the acquisition to complete, and -1 samples retrieves the entire record.
+            var samples = sessionsBundle.Read(PrecisionTimeSpan.FromSeconds(-1), numberOfSamples: -1);
+
+            Assert.All(samples.SiteNumbers, site => Assert.Equal(1000, samples.ExtractSite(site).Values.First().Length));
+        }
+
+        [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        public void SessionsBundle_ReadWithNegativeTimeoutOtherThanNegativeOne_ReturnsSamplesForEachSitePin()
+        {
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
+            ConfigureTimingForAcquisition(sessionsBundle);
+
+            // The driver does not reject negative timeout values other than -1; they are passed through and the acquisition completes.
+            var samples = sessionsBundle.Read(PrecisionTimeSpan.FromSeconds(-2), numberOfSamples: 1000);
+
+            Assert.All(samples.SiteNumbers, site => Assert.Equal(1000, samples.ExtractSite(site).Values.First().Length));
+        }
+
         #endregion
 
         #region FetchWaveform Tests
@@ -504,6 +594,48 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             // The driver only validates that numberOfSamples fits within a 32-bit integer,
             // so a negative value other than -1 is passed through and treated the same as -1.
             var waveforms = sessionsBundle.FetchWaveform(DefaultTimeout, numberOfSamples: -2);
+
+            Assert.All(waveforms.SiteNumbers, site => Assert.Equal(1000, waveforms.ExtractSite(site).Values.First().SampleCount));
+        }
+
+        [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        public void SessionsBundle_InitiateThenFetchWaveformWithZeroTimeoutAndNegativeOneNumberOfSamples_ReturnsWithoutThrowing()
+        {
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
+            ConfigureTimingForAcquisition(sessionsBundle);
+            sessionsBundle.Initiate();
+
+            // A timeout of 0 with -1 samples fetches whatever samples are currently available without waiting, so no exception is thrown.
+            var waveforms = sessionsBundle.FetchWaveform(PrecisionTimeSpan.Zero, numberOfSamples: -1);
+
+            Assert.All(waveforms.SiteNumbers, site => Assert.NotNull(waveforms.ExtractSite(site).Values.First()));
+        }
+
+        [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        public void SessionsBundle_InitiateThenFetchWaveformWithNegativeOneTimeoutAndNegativeOneNumberOfSamples_ReturnsAllSamplesInRecord()
+        {
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
+            ConfigureTimingForAcquisition(sessionsBundle);
+            sessionsBundle.Initiate();
+
+            // A timeout of -1 waits indefinitely for the acquisition to complete, and -1 samples retrieves the entire record.
+            var waveforms = sessionsBundle.FetchWaveform(PrecisionTimeSpan.FromSeconds(-1), numberOfSamples: -1);
+
+            Assert.All(waveforms.SiteNumbers, site => Assert.Equal(1000, waveforms.ExtractSite(site).Values.First().SampleCount));
+        }
+
+        [Fact]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
+        public void SessionsBundle_InitiateThenFetchWaveformWithNegativeTimeoutOtherThanNegativeOne_ReturnsWaveformForEachSitePin()
+        {
+            var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
+            ConfigureTimingForAcquisition(sessionsBundle);
+            sessionsBundle.Initiate();
+
+            // The driver does not reject negative timeout values other than -1; they are passed through and the fetch completes.
+            var waveforms = sessionsBundle.FetchWaveform(PrecisionTimeSpan.FromSeconds(-2), numberOfSamples: 1000);
 
             Assert.All(waveforms.SiteNumbers, site => Assert.Equal(1000, waveforms.ExtractSite(site).Values.First().SampleCount));
         }
