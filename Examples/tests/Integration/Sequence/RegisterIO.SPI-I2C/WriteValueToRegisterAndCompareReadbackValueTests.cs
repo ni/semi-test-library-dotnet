@@ -24,34 +24,34 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             SetupNIDigitalPatternInstrumentation(tsmContext);
             try
             {
-            DutPowerUp(
-                tsmContext: tsmContext,
-                dutSupplyPinsOrPinGroups: new string[] { "VIN" },
-                perSupplyPinOrPinGroupVoltages: new double[] { 3.3 },
-                perSupplyPinOrPinGroupCurrentLimits: new double[] { 0.002 },
-                settlingTime: 0,
-                powerUpSuppliesSerially: false);
-            TestStep.ConfigureDigitalProtocol(
-                communicationProtocol: protocol,
-                addressBitWidth: addressBitWidth,
-                valueBitWidth: 8,
-                writePatternName: writePatternName,
-                readPatternName: readPatternName,
-                sourceWaveformName: sourceWaveformName,
-                captureWaveformName: captureWaveformName,
-                sampleWidth: 1,
-                readWriteCountSequenceRegister: "reg0",
-                addressBitWidthSequenceRegister: "reg1",
-                valueBitWidthSequenceRegister: "reg2",
-                pinNames: new[] { "CS", "SCK", "SDI", "SDO" });
+                DutPowerUp(
+                    tsmContext: tsmContext,
+                    dutSupplyPinsOrPinGroups: new string[] { "VIN" },
+                    perSupplyPinOrPinGroupVoltages: new double[] { 3.3 },
+                    perSupplyPinOrPinGroupCurrentLimits: new double[] { 0.002 },
+                    settlingTime: 0,
+                    powerUpSuppliesSerially: false);
+                TestStep.ConfigureDigitalProtocol(
+                    communicationProtocol: protocol,
+                    addressBitWidth: addressBitWidth,
+                    valueBitWidth: 8,
+                    writePatternName: writePatternName,
+                    readPatternName: readPatternName,
+                    sourceWaveformName: sourceWaveformName,
+                    captureWaveformName: captureWaveformName,
+                    sampleWidth: 1,
+                    readWriteCountSequenceRegister: "reg0",
+                    addressBitWidthSequenceRegister: "reg1",
+                    valueBitWidthSequenceRegister: "reg2",
+                    pinNames: new[] { "CS", "SCK", "SDI", "SDO" });
 
-            // SPI sends the read/write bit followed by a 7-bit register address, so BME280 register 0xF4
-            // is addressed as 0x74. I2C sends the full 8-bit register address.
-            TestStep.WriteValueToRegisterAndCompareReadbackValue(
-                tsmContext,
-                protocol,
-                registerAddress: registerAddress,
-                valueToWrite: 0x27);
+                // SPI sends the read/write bit followed by a 7-bit register address, so BME280 register 0xF4
+                // is addressed as 0x74. I2C sends the full 8-bit register address.
+                TestStep.WriteValueToRegisterAndCompareReadbackValue(
+                    tsmContext,
+                    protocol,
+                    registerAddress: registerAddress,
+                    valueToWrite: 0x27);
 
                 var comparisonResults = publishedDataReader.GetAndClearPublishedData().Where(d => d.PublishedDataId == "ComparisonResult").ToArray();
                 Assert.Equal(tsmContext.SiteNumbers.Count, comparisonResults.Length);
