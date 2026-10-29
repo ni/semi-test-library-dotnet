@@ -7305,6 +7305,13 @@
             <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIScope.NIScope"/> session.</param>
             <param name="associatedSitePinList">The specified subset of channels associated with the session.</param>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionInformation.GetAssociatedSitePinListForInstrument">
+            <summary>
+            Gets the complete list of site-pin pairs associated with every channel on the same instrument (card) as the <see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionInformation.Session"/>,
+            regardless of whether those channels were explicitly selected for this session.
+            </summary>
+            <returns>The complete site-pin list for the affected card.</returns>
+        </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSessionInformation.GenerateInstrumentChannelToSitePinDictionary(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)">
             <summary>
             Generates a dictionary that takes a channel string and returns the list of associated site-pin pair information.
@@ -7541,18 +7548,15 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TriggerSettings">
             <summary>
-            Defines oscilloscope trigger settings.
+            Defines the oscilloscope trigger settings common to all trigger types.
             </summary>
             <remarks>
+            This class cannot be instantiated directly. Use one of the derived trigger settings classes:
+            <c>EdgeTriggerSettings</c>, <c>HysteresisTriggerSettings</c>, <c>DigitalTriggerSettings</c>, or <c>WindowTriggerSettings</c>.<br/>
             Default values:
             <list type="bullet">
-            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TriggerSettings.HoldOff"/>: <see cref="F:NationalInstruments.PrecisionTimeSpan.Zero"/></description></item>
-            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TriggerSettings.Delay"/>: <see cref="F:NationalInstruments.PrecisionTimeSpan.Zero"/></description></item>
-            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TriggerSettings.TriggerLevel"/>: 0.0 V</description></item>
-            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TriggerSettings.TriggerHysteresis"/>: 0.0 V</description></item>
-            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TriggerSettings.TriggerSlope"/>: <see cref="F:NationalInstruments.ModularInstruments.NIScope.ScopeTriggerSlope.Positive"/></description></item>
-            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TriggerSettings.TriggerCoupling"/>: <see cref="F:NationalInstruments.ModularInstruments.NIScope.ScopeTriggerCoupling.DC"/></description></item>
-            <item><description><see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TriggerSettings.TriggerWindowMode"/>: <see cref="F:NationalInstruments.ModularInstruments.NIScope.ScopeWindowTriggerMode.Entering"/></description></item>
+            <item><description><c>HoldOff</c>: <c>PrecisionTimeSpan.Zero</c></description></item>
+            <item><description><c>Delay</c>: <c>PrecisionTimeSpan.Zero</c></description></item>
             </list>
             </remarks>
         </member>
@@ -7560,52 +7564,169 @@
             <summary>
             The trigger hold-off time.
             </summary>
-            <remarks>Default value: <see cref="F:NationalInstruments.PrecisionTimeSpan.Zero"/>.</remarks>
+            <remarks>Default value: <c>PrecisionTimeSpan.Zero</c>.</remarks>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TriggerSettings.Delay">
             <summary>
             The trigger delay time.
             </summary>
-            <remarks>Default value: <see cref="F:NationalInstruments.PrecisionTimeSpan.Zero"/>.</remarks>
+            <remarks>Default value: <c>PrecisionTimeSpan.Zero</c>.</remarks>
         </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TriggerSettings.TriggerLevel">
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.EdgeTriggerSettings">
+            <summary>
+            Defines oscilloscope edge trigger settings.
+            </summary>
+            <remarks>
+            Default values:
+            <list type="bullet">
+            <item><description><c>HoldOff</c>: <c>PrecisionTimeSpan.Zero</c></description></item>
+            <item><description><c>Delay</c>: <c>PrecisionTimeSpan.Zero</c></description></item>
+            <item><description><c>TriggerLevel</c>: 0.0 V</description></item>
+            <item><description><c>TriggerSlope</c>: <c>ScopeTriggerSlope.Positive</c></description></item>
+            <item><description><c>TriggerCoupling</c>: <c>ScopeTriggerCoupling.DC</c></description></item>
+            </list>
+            </remarks>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.EdgeTriggerSettings.TriggerLevel">
             <summary>
             The trigger level in volts.
             </summary>
             <remarks>Default value: 0.0 V.</remarks>
         </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TriggerSettings.TriggerHysteresis">
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.EdgeTriggerSettings.TriggerSlope">
+            <summary>
+            The trigger slope.
+            </summary>
+            <remarks>Default value: <c>ScopeTriggerSlope.Positive</c>.</remarks>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.EdgeTriggerSettings.TriggerCoupling">
+            <summary>
+            The trigger coupling.
+            </summary>
+            <remarks>Default value: <c>ScopeTriggerCoupling.DC</c>.</remarks>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.EdgeTriggerSettings.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.HysteresisTriggerSettings">
+            <summary>
+            Defines oscilloscope hysteresis trigger settings.
+            </summary>
+            <remarks>
+            Default values:
+            <list type="bullet">
+            <item><description><c>HoldOff</c>: <c>PrecisionTimeSpan.Zero</c></description></item>
+            <item><description><c>Delay</c>: <c>PrecisionTimeSpan.Zero</c></description></item>
+            <item><description><c>TriggerLevel</c>: 0.0 V</description></item>
+            <item><description><c>TriggerHysteresis</c>: 0.0 V</description></item>
+            <item><description><c>TriggerSlope</c>: <c>ScopeTriggerSlope.Positive</c></description></item>
+            <item><description><c>TriggerCoupling</c>: <c>ScopeTriggerCoupling.DC</c></description></item>
+            </list>
+            </remarks>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.HysteresisTriggerSettings.TriggerLevel">
+            <summary>
+            The trigger level in volts.
+            </summary>
+            <remarks>Default value: 0.0 V.</remarks>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.HysteresisTriggerSettings.TriggerHysteresis">
             <summary>
             The trigger hysteresis in volts.
             </summary>
             <remarks>Default value: 0.0 V.</remarks>
         </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TriggerSettings.TriggerSlope">
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.HysteresisTriggerSettings.TriggerSlope">
             <summary>
             The trigger slope.
             </summary>
-            <remarks>Default value: <see cref="F:NationalInstruments.ModularInstruments.NIScope.ScopeTriggerSlope.Positive"/>.</remarks>
+            <remarks>Default value: <c>ScopeTriggerSlope.Positive</c>.</remarks>
         </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TriggerSettings.TriggerCoupling">
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.HysteresisTriggerSettings.TriggerCoupling">
             <summary>
             The trigger coupling.
             </summary>
-            <remarks>Default value: <see cref="F:NationalInstruments.ModularInstruments.NIScope.ScopeTriggerCoupling.DC"/>.</remarks>
+            <remarks>Default value: <c>ScopeTriggerCoupling.DC</c>.</remarks>
         </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TriggerSettings.TriggerWindowMode">
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.HysteresisTriggerSettings.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.DigitalTriggerSettings">
+            <summary>
+            Defines oscilloscope digital trigger settings.
+            </summary>
+            <remarks>
+            Default values:
+            <list type="bullet">
+            <item><description><c>HoldOff</c>: <c>PrecisionTimeSpan.Zero</c></description></item>
+            <item><description><c>Delay</c>: <c>PrecisionTimeSpan.Zero</c></description></item>
+            <item><description><c>TriggerSlope</c>: <c>ScopeTriggerSlope.Positive</c></description></item>
+            </list>
+            </remarks>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.DigitalTriggerSettings.TriggerSlope">
+            <summary>
+            The trigger slope.
+            </summary>
+            <remarks>Default value: <c>ScopeTriggerSlope.Positive</c>.</remarks>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.DigitalTriggerSettings.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.WindowTriggerSettings">
+            <summary>
+            Defines oscilloscope window trigger settings.
+            </summary>
+            <remarks>
+            Default values:
+            <list type="bullet">
+            <item><description><c>HoldOff</c>: <c>PrecisionTimeSpan.Zero</c></description></item>
+            <item><description><c>Delay</c>: <c>PrecisionTimeSpan.Zero</c></description></item>
+            <item><description><c>WindowLowLevel</c>: 0.0 V</description></item>
+            <item><description><c>WindowHighLevel</c>: 0.0 V</description></item>
+            <item><description><c>TriggerWindowMode</c>: <c>ScopeWindowTriggerMode.Entering</c></description></item>
+            <item><description><c>TriggerCoupling</c>: <c>ScopeTriggerCoupling.DC</c></description></item>
+            </list>
+            </remarks>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.WindowTriggerSettings.WindowLowLevel">
+            <summary>
+            The low level of the window trigger in volts.
+            </summary>
+            <remarks>Default value: 0.0 V.</remarks>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.WindowTriggerSettings.WindowHighLevel">
+            <summary>
+            The high level of the window trigger in volts.
+            </summary>
+            <remarks>Default value: 0.0 V.</remarks>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.WindowTriggerSettings.TriggerWindowMode">
             <summary>
             The trigger window mode.
             </summary>
-            <remarks>Default value: <see cref="F:NationalInstruments.ModularInstruments.NIScope.ScopeWindowTriggerMode.Entering"/>.</remarks>
+            <remarks>Default value: <c>ScopeWindowTriggerMode.Entering</c>.</remarks>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.TriggerSettings.#ctor">
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.WindowTriggerSettings.TriggerCoupling">
+            <summary>
+            The trigger coupling.
+            </summary>
+            <remarks>Default value: <c>ScopeTriggerCoupling.DC</c>.</remarks>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.WindowTriggerSettings.#ctor">
             <summary>
             Default constructor.
             </summary>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSettings">
             <summary>
-            Defines oscilloscope settings, including channel settings, timing settings, and edge trigger settings.
+            Defines oscilloscope settings, including channel settings, timing settings, and trigger settings.
             </summary>
             <remarks>
             Default values:
@@ -7651,9 +7772,12 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSettings.TriggerSettings">
             <summary>
-            The edge trigger settings for the scope session.
+            The trigger settings for the scope session.
             </summary>
-            <remarks>Default value: null.</remarks>
+            <remarks>
+            Assign an instance of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.EdgeTriggerSettings"/>, <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.HysteresisTriggerSettings"/>, <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.DigitalTriggerSettings"/>, or <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.WindowTriggerSettings"/>.<br/>
+            Default value: null.
+            </remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.ScopeSettings.#ctor">
             <summary>
