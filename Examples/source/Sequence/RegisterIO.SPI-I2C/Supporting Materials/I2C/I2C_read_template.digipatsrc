@@ -10,7 +10,7 @@ capture_start(I2C_capture_buffer)	-						1		1		1		1;		// Define the read buffer
 source_start(I2C_source_buffer)		-						1		1		1		1;		// Define the register addresses buffer
 									I2C_SourceStartSetup	1		1		1		1;
 repeatRead:
-									I2C_Start				1		1		1		1;		// Start 
+									I2C_Start				1		1		1		1;		// Start
 									I2C_Busy				1		1		1		1;		// Device address (7-bit) = 0x77
 									-						1		1		1		1;
 									-						1		1		1		1;
