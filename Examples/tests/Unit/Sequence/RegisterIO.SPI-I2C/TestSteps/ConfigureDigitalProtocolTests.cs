@@ -77,7 +77,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         [Theory]
         [InlineData(0)]
         [InlineData(33)]
-        [InlineData(-1)]
+        [InlineData(-2)]
         public void ConfigureDigitalProtocol_InvalidSampleWidth_ThrowsArgumentOutOfRangeException(int sampleWidth)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => TestStep.ConfigureDigitalProtocol(CommunicationProtocol.SPI, sampleWidth: sampleWidth));
@@ -86,6 +86,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         [Theory]
         [InlineData(0)]
         [InlineData(65)]
+        [InlineData(-2)]
         public void ConfigureDigitalProtocol_InvalidAddressBitWidth_ThrowsArgumentOutOfRangeException(int addressBitWidth)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => TestStep.ConfigureDigitalProtocol(CommunicationProtocol.SPI, addressBitWidth: addressBitWidth));
@@ -94,6 +95,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         [Theory]
         [InlineData(0)]
         [InlineData(65)]
+        [InlineData(-2)]
         public void ConfigureDigitalProtocol_InvalidValueBitWidth_ThrowsArgumentOutOfRangeException(int valueBitWidth)
         {
             Assert.Throws<ArgumentOutOfRangeException>(() => TestStep.ConfigureDigitalProtocol(CommunicationProtocol.SPI, valueBitWidth: valueBitWidth));
@@ -192,25 +194,83 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         }
 
         [Fact]
-        public void ConfigureDigitalProtocol_NullPinNames_DoesNotOverridePinNames()
+        public void ConfigureDigitalProtocol_OmittedParameters_KeepsSpiDefaults()
         {
+            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.SPI, addressBitWidth: 8);
+
+            Assert.Equal(8u, SPI.Instance.DefaultAddressBitWidth);
+            Assert.Equal("SPI_write_template", SPI.Instance.WritePatternName);
+            Assert.Equal("SPI_read_template", SPI.Instance.ReadPatternName);
+            Assert.Equal("SPI_source_buffer", SPI.Instance.SourceWaveformName);
+            Assert.Equal("SPI_capture_buffer", SPI.Instance.CaptureWaveformName);
+            Assert.Equal(new[] { "CS", "SCK", "SDI", "SDO" }, SPI.Instance.PinNames);
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void ConfigureDigitalProtocol_NullOrEmptyPinNames_UsesSpiDefaultPinNames(bool useEmptyArray)
+        {
+            string[] pinNames = useEmptyArray ? new string[0] : null;
             SPI.Instance.PinNames = new[] { "SDI", "SDO" };
 
-            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.SPI, pinNames: null);
+            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.SPI, pinNames: pinNames);
 
             Assert.Equal(new[] { "CS", "SCK", "SDI", "SDO" }, SPI.Instance.PinNames);
+        }
+
+        [Fact]
+        public void ConfigureDigitalProtocol_NumericParametersSetToMinusOne_UsesSpiDefaults()
+        {
+            SPI.Instance.DefaultAddressBitWidth = 8;
+            SPI.Instance.DefaultValueBitWidth = 32;
+            SPI.Instance.SampleWidth = 16;
+
+            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.SPI, addressBitWidth: -1, valueBitWidth: -1, sampleWidth: -1);
+
+            Assert.Equal(16u, SPI.Instance.DefaultAddressBitWidth);
+            Assert.Equal(16u, SPI.Instance.DefaultValueBitWidth);
+            Assert.Equal(8u, SPI.Instance.SampleWidth);
+        }
+
+        [Theory]
+        [InlineData("")]
+        [InlineData(null)]
+        public void ConfigureDigitalProtocol_StringParametersNullOrEmpty_UsesSpiDefaults(string value)
+        {
+            TestStep.ConfigureDigitalProtocol(
+                CommunicationProtocol.SPI,
+                writePatternName: "custom_write",
+                readPatternName: "custom_read",
+                sourceWaveformName: "src_wfm",
+                captureWaveformName: "cap_wfm",
+                readWriteCountSequenceRegister: "reg3",
+                addressBitWidthSequenceRegister: "reg4",
+                valueBitWidthSequenceRegister: "reg5");
+
+            TestStep.ConfigureDigitalProtocol(
+                CommunicationProtocol.SPI,
+                writePatternName: value,
+                readPatternName: value,
+                sourceWaveformName: value,
+                captureWaveformName: value,
+                readWriteCountSequenceRegister: value,
+                addressBitWidthSequenceRegister: value,
+                valueBitWidthSequenceRegister: value);
+
+            Assert.Equal("SPI_write_template", SPI.Instance.WritePatternName);
+            Assert.Equal("SPI_read_template", SPI.Instance.ReadPatternName);
+            Assert.Equal("SPI_source_buffer", SPI.Instance.SourceWaveformName);
+            Assert.Equal("SPI_capture_buffer", SPI.Instance.CaptureWaveformName);
+            Assert.Equal("reg0", SPI.Instance.ReadWriteCountSequenceRegister);
+            Assert.Equal("reg1", SPI.Instance.AddressBitWidthSequenceRegister);
+            Assert.Equal("reg2", SPI.Instance.ValueBitWidthSequenceRegister);
         }
 
         // The singleton is shared with other test classes, so restore the defaults after every test.
         private static void ResetSpiInstance()
         {
-            TestStep.ConfigureDigitalProtocol(
-                CommunicationProtocol.SPI,
-                writePatternName: "SPI_write_template",
-                readPatternName: "SPI_read_template",
-                sourceWaveformName: "SPI_source_buffer",
-                captureWaveformName: "SPI_capture_buffer");
-            SPI.Instance.PinNames = new[] { "SDI", "SDO" };
+            TestStep.ConfigureDigitalProtocol(CommunicationProtocol.SPI);
         }
     }
 
