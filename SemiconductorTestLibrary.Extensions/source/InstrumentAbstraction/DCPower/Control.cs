@@ -123,7 +123,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Resets the channels of the specified pins to their default state.
+        /// Resets the channels associated with the specified pins to their default state.
         /// </summary>
         /// <remarks>
         /// <para>
@@ -190,13 +190,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// in its default state.
         /// </para>
         /// <para>
-        /// The channel groups of sites that are disabled later in the lot are recovered too, using the topology captured when the sessions were
-        /// initialized. Their configuration is only restored if it can be read from the active sites; otherwise they are left in their default state.
-        /// </para>
+        /// Additionally, when an instrument is split across several channel groups and sites are disabled, the channels that map to disabled sites
+        /// are also recovered, using the channel group information captured when the sessions were first initialized. Their configuration is only
+        /// restored if it can be read from the active sites; otherwise they are left in their default state./// </para>
         /// <para>
-        /// Calls are serialized across threads. When several threads reset the same instrument, for example a step that runs one thread per site,
+        /// Calls are serialized across threads. When several threads reset the same instrument,
         /// the instrument is hard reset once and the other calls only reset the channels in their own bundle.
-        /// </para>
+        /// For example, when calling code is parallelized or invoked from a TestStand step configured to execute in one thread per site./// </para>
         /// <para>
         /// The reset clears driver-level channel merging. Merge the merged pin groups in the bundle again after the reset. The secondary channel of
         /// a merge cannot be reset on its own, so a secondary channel in the bundle whose primary channel is in another bundle is not reset and
@@ -219,8 +219,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="restoreConfiguration">
-        /// Whether to preserve and restore the configuration of any channel that is on the same device as the channels being reset but is not present in the bundle.
-        /// The channels that are present in the bundle will be reset to their default state.
+        /// Whether to preserve and restore the configuration of any channels that share the same device as the channels being reset but are not present in the bundle.
+        /// Where, the channels that are present in the bundle will be reset to their default state.
         /// Set to <see langword="true"/> by default.
         /// </param>
         /// <exception cref="NISemiconductorTestException">Thrown when the sessions were not initialized with
