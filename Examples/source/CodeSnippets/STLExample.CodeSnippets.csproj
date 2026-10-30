@@ -4,7 +4,7 @@
     <OutputType>Library</OutputType>
 	<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <OutputPath>bin</OutputPath>
-    <AssemblySearchPaths>$(AssemblySearchPaths)</AssemblySearchPaths>
+    <AssemblySearchPaths>$(AssemblySearchPaths);{GAC}</AssemblySearchPaths>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <PlatformTarget>x64</PlatformTarget>

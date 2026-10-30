@@ -28,7 +28,7 @@
     </Reference>
     <Reference Include="NationalInstruments.ModularInstruments.NIDCPower.Fx40">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\IVI Foundation\IVI\Microsoft.NET\Framework64\v4.0.30319\NationalInstruments.ModularInstruments.NIDCPower 26.8.0\NationalInstruments.ModularInstruments.NIDCPower.Fx40.dll</HintPath>
+      <HintPath>C:\Program Files\IVI Foundation\IVI\Microsoft.NET\Framework64\v4.0.30319\NationalInstruments.ModularInstruments.NIDCPower 26.5.0\NationalInstruments.ModularInstruments.NIDCPower.Fx40.dll</HintPath>
     </Reference>
     <Reference Include="NationalInstruments.ModularInstruments.NIDigital.Fx40">
       <SpecificVersion>False</SpecificVersion>
