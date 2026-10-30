@@ -219,6 +219,15 @@
   <data name="FGen_InvalidOutputModeAtInitiateException" xml:space="preserve">
     <value>Operation cannot be completed because the output mode is not configured to Function. Configure the output mode to Function before calling Initiate. Currently, only the Function output mode is supported.</value>
   </data>
+  <data name="DCPower_PinNamesNullOrEmpty" xml:space="preserve">
+    <value>The {0} parameter cannot be null or empty, and cannot contain null or empty pin names.</value>
+  </data>
+  <data name="DCPower_PinsNotInSessionsBundle" xml:space="preserve">
+    <value>The pins or pin groups {0} are not part of the sessions bundle.</value>
+  </data>
+  <data name="DCPower_ResetSecondaryPinsOfMergedPinGroup" xml:space="preserve">
+    <value>The pins {0} are secondary pins of a merged pin group whose primary pin is not specified. Specify the merged pin group or its primary pin to reset a merged pin group.</value>
+  </data>
   <data name="Scope_TimingSettingsNull" xml:space="preserve">
     <value>The {0} parameter cannot be null.</value>
   </data>
