@@ -19,18 +19,20 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.FGenStandardWave
     public static class TestStep
     {
         /// <summary>
-        /// Configures the output mode to Function, configures the standard waveform settings,
-        /// enables the output, and initiates signal generation on all the specified pins and/or pin groups.
-        /// The method waits 3 seconds after generation starts, and then aborts generation before returning.
-        /// To generate continuously, remove the wait and abort calls and abort generation in a subsequent code module.
+        /// Generates a standard waveform on all the specified pins and/or pin groups for 10 seconds.
         /// </summary>
-        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object reference.</param>
-        /// <param name="pinsOrPinGroups">The pins or pin groups mapped to function generator channels.</param>
-        /// <param name="standardWaveformType">The standard waveform type to generate. "User" waverform type is not supported.</param>
-        /// <param name="frequency">The frequency of the waveform, in hertz.</param>
-        /// <param name="amplitude">The peak-to-peak amplitude of the waveform, in volts.</param>
-        /// <param name="offset">The DC offset of the waveform, in volts.</param>
-        /// <param name="phase">The start phase of the waveform, in degrees.</param>
+        /// <remarks>
+        /// This method performs the following operations:
+        /// <list type="number">
+        /// <item>Configures the output mode of the FGen pins to enable Function generation</item>
+        /// <item>Configures settings for the selected standard waveform type</item>
+        /// <item>Initiates generation</item>
+        /// <item>Waits for 10 seconds</item>
+        /// <item>Aborts generation</item>
+        /// <item>
+        /// </list>
+        /// To generate continuously, remove the wait and abort calls and abort generation in a subsequent code module.
+        /// </remarks>
         public static void GenerateStandardWaveform(
             ISemiconductorModuleContext tsmContext,
             string[] pinsOrPinGroups,
