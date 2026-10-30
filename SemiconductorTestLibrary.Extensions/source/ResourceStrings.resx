@@ -255,4 +255,7 @@
   <data name="FGen_OutputTerminalNullOrEmpty" xml:space="preserve">
     <value>Output terminal passed as input is either null or an empty string. Please provide valid output terminal.</value>
   </data>
+  <data name="Scope_AcquisitionFailedException" xml:space="preserve">
+    <value>The acquisition failed or did not complete within the specified timeout. This may affect all channels on the same card, including those mapped to other sites. Affected channels: {0}</value>
+  </data>
 </root>
