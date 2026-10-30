@@ -6,7 +6,7 @@ using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAndI2C
 {
     /// <summary>
-    /// Set of protocol-agnostic examples to demonstrate using the <see cref="SPI"/> class
+    /// Set of protocol-agnostic examples to demonstrate using the <see cref="SPI"/> and <see cref="I2C"/> classes
     /// through the shared <see cref="IDigitalProtocol"/> interface.
     /// The <see cref="CommunicationProtocol"/> parameter selects which protocol is used
     /// at runtime.
@@ -21,7 +21,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// and the per-site comparison of the readback value against the written value under "ComparisonResult".
         /// </remarks>
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
-        /// <param name="protocol">The digital communication protocol to use (SPI).</param>
+        /// <param name="protocol">The digital communication protocol to use.</param>
         /// <param name="registerAddress">The address of the register to write and read back.</param>
         /// <param name="perSiteValuesToWrite">The values to write, one per site in site order.</param>
         public static void WriteSiteUniqueValueToRegisterAndCompareReadbackValues(

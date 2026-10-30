@@ -7,6 +7,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
     /// NI Digital Pattern instruments with source and capture waveforms.
     /// </summary>
     /// <remarks>
+    /// The default address bit width is 7 bits and the default value bit width is 8 bits. In SPI, the read/write bit replaces
+    /// the most significant bit of the register address and is driven by the pattern, so only the lower 7 bits of the
+    /// register address are sent (for example, 0x74 to access register 0xF4).
+    /// <br/><br/>
     /// Obtain the singleton instance via <see cref="Instance"/>, then call
     /// <see cref="DigitalProtocol.SetBundle"/> once per code module before performing
     /// any register operations. Optionally call
@@ -36,6 +40,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         {
             ReadPatternName = "SPI_read_template";
             WritePatternName = "SPI_write_template";
+            DefaultAddressBitWidth = 7;
+            DefaultValueBitWidth = 8;
         }
     }
 }
