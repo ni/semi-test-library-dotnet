@@ -7108,13 +7108,6 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation.AssociatedSitePinList">
             <inheritdoc/>
         </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation.#ctor(NationalInstruments.ModularInstruments.NIFgen.NIFgen,System.String)">
-            <summary>
-            Constructs a session information object that associates with a <see cref="T:NationalInstruments.ModularInstruments.NIFgen.NIFgen"/> instrument session.
-            </summary>
-            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIFgen.NIFgen"/> session.</param>
-            <param name="channelList">The channels list associated with the <see cref="T:NationalInstruments.ModularInstruments.NIFgen.NIFgen"/> session.</param>
-        </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation.#ctor(NationalInstruments.ModularInstruments.NIFgen.NIFgen,System.String,System.String[],System.Int32[])">
             <summary>
             Constructs a session information object that associates with a <see cref="T:NationalInstruments.ModularInstruments.NIFgen.NIFgen"/> instrument session.
@@ -7130,6 +7123,13 @@
             </summary>
             <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIFgen.NIFgen"/> session.</param>
             <param name="associatedSitePinList">The specified subset of channels associated with the session.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation.#ctor(NationalInstruments.ModularInstruments.NIFgen.NIFgen,System.Collections.Generic.IList{NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo},System.Int32[])">
+            <inheritdoc cref="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation.#ctor(NationalInstruments.ModularInstruments.NIFgen.NIFgen,System.Collections.Generic.IList{NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo})"/>
+            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIFgen.NIFgen"/> session.</param>
+            <param name="associatedSitePinList">The specified subset of channels associated with the session.</param>
+            <param name="activeSites">The array of active sites at the time of sessionsbundle creation.</param>
+            <remarks>Do not use this overload outside of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionsBundle"/> constructor.</remarks>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation.GenerateInstrumentChannelToSitePinDictionary(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)">
             <summary>
