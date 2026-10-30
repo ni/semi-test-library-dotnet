@@ -42,11 +42,12 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         private readonly string _allPinsPinGroup = "AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin";
         private readonly string _primaryPinOfMergedPinGroup = "VCCPrimary";
         private readonly string _secondaryPinOfMergedPinGroup = "VCCSecondary";
-        private readonly string _validationPin = "VDD";
+        private readonly string _validationPin = "VDET";
         private readonly string[] _resetDevicePins = new string[] { "VCC", "VDD" };
         private readonly string[] _gangedPins = new string[] { "VCC1", "VCC2" };
         private readonly int[] _sitesOtherThanZero = new int[] { 1, 2, 3 };
-        private static IEnumerable<object[]> NullOrEmptyPinNames => new[]
+
+        public static IEnumerable<object[]> NullOrEmptyPinNames => new[]
         {
             new object[] { null },
             new object[] { new string[0] },
