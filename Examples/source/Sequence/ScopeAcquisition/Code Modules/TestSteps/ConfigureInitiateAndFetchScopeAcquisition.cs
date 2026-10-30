@@ -9,7 +9,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
 {
     /// <summary>
     /// This class provides an example test step method to demonstrate how to acquire a signal on a Scope pin
-    /// using the Scope Instrument Extension methods from the Semiconductor Test Library.
+    /// using the Scope Instrument Abstraction extensions from the Semiconductor Test Library.
     /// </summary>
     public static class TestSteps
     {
