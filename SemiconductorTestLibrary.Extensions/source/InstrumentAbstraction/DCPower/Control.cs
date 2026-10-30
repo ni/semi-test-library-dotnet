@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using NationalInstruments.ModularInstruments.NIDCPower;
 using NationalInstruments.SemiconductorTestLibrary.Common;
+using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecution;
 using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
@@ -122,61 +123,71 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Resets the specified channels to their default state.
+        /// Resets the channels of the specified pins to their default state.
         /// </summary>
-        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="channelString">The channels to reset, as a comma-separated list of instrument-channel pairs, e.g. "SMU_4147_C1_S11/0, SMU_4147_C1_S11/1".
-        /// Every channel must be part of the bundle.</param>
         /// <remarks>
         /// <para>
-        /// This is a soft reset that applies only to the specified channels. For each session in the bundle, the specified channels that belong to
-        /// that session are reset. Other channels in the same session or on the same instrument keep their configuration, and every session stays
-        /// valid. Resetting a channel disables its output, aborts it, and puts its properties back to their default values.
+        /// This is a soft reset that applies only to the channels of the specified pins, across all sites in the bundle. To reset the pins of
+        /// specific sites only, filter the bundle by site first. Other channels in the same session or on the same instrument keep their
+        /// configuration, and every session stays valid. Resetting a channel disables its output, aborts it, and puts its properties back to
+        /// their default values.
         /// </para>
         /// <para>
-        /// For merged pin groups, specify the primary channel. Resetting it also clears the driver-level channel merging, so merge the pin group
-        /// again after the reset. For ganged pin groups, specify every channel in the group, so the group stays consistent.
+        /// Pin group names are expanded to the pins they contain. For merged pin groups, specify the merged pin group or its primary pin.
+        /// Resetting the primary pin also clears the driver-level channel merging, so merge the pin group again after the reset.
+        /// For ganged pin groups, specify the ganged pin group or every pin in it, so the group stays consistent.
+        /// </para>
+        /// <para>
+        /// All pin and pin group names are validated before any channel is reset, so no channel is reset when any of them is not valid.
+        /// Throws an <see cref="NISemiconductorTestException"/> when <paramref name="pinNames"/> is null or empty or contains a null or empty name,
+        /// when it contains a pin or pin group that is not part of the bundle, or when it contains a secondary pin of a merged pin group without
+        /// its primary pin.
         /// </para>
         /// <para>
         /// Use <see cref="ResetDevice(DCPowerSessionsBundle, bool)"/> to perform a hard reset of the whole instrument.
         /// </para>
         /// </remarks>
-        /// <exception cref="NISemiconductorTestException">Thrown when <paramref name="channelString"/> is null or empty, or contains a channel that is not part of the bundle
-        /// or that is a secondary channel of a merged pin group.</exception>
-        public static void Reset(this DCPowerSessionsBundle sessionsBundle, string channelString)
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="pinNames">
+        /// The pins or pin groups to reset. Every pin, including every pin of a pin group, must be part of the bundle.
+        /// </param>
+        /// <exception cref="NISemiconductorTestException">Thrown when <paramref name="pinNames"/> is null or empty, or contains a null or empty name.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when <paramref name="pinNames"/> contains a pin or pin group that is not part of the bundle.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when <paramref name="pinNames"/> contains a secondary pin of a merged pin group but not its primary pin.</exception>
+        public static void Reset(this DCPowerSessionsBundle sessionsBundle, params string[] pinNames)
         {
-            var channelsToReset = GetChannelsToReset(sessionsBundle, channelString);
+            var channelsToReset = GetValidatedChannelsToReset(sessionsBundle, pinNames);
             sessionsBundle.Do(sessionInfo =>
             {
-                var sessionChannels = GetChannels(sessionInfo.AllChannelsString);
-                var sessionChannelsToReset = sessionChannels.Where(channelsToReset.Contains).ToList();
-                if (sessionChannelsToReset.Count > 0)
+                var sessionChannelStringToReset = string.Join(",", GetChannels(sessionInfo.AllChannelsString).Where(channelsToReset.Contains));
+                if (sessionChannelStringToReset.Length > 0)
                 {
-                    sessionInfo.Session.Utility.Reset(string.Join(",", sessionChannelsToReset));
+                    sessionInfo.Session.Utility.Reset(sessionChannelStringToReset);
                 }
             });
         }
 
         /// <summary>
-        /// Performs a hard reset of the instrument(s) that the channels in the bundle belong to, keeps those channels in their default state,
-        /// and recovers every other channel on the same instrument(s).
+        /// Performs a hard reset of the instrument(s) that the channels in the bundle belong to, and recovers every other channel on the same instrument(s).
         /// </summary>
-        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="restoreConfiguration">Whether to restore the configuration of the channels that are not in the bundle after the reset.
-        /// The channels in the bundle are always left in their default state.</param>
         /// <remarks>
         /// <para>
-        /// A hard reset applies to the whole instrument, not only to the channels in the bundle. When an instrument is split across several channel
-        /// groups in the pin map, each channel group is a separate driver session, and the reset invalidates every session on the instrument except
-        /// the one that issued it. This method resets each instrument once, then reinitializes every invalidated session, registers it with TSM again,
-        /// and updates every <see cref="DCPowerSessionsBundle"/> that holds it, including bundles that are filtered by site or pin. All bundles can
-        /// keep being used without getting them again from the <see cref="TSMSessionManager"/>.
+        /// The device reset operation is applied to the instrument as a whole, across all channels, not only to the channels in the bundle.
         /// </para>
         /// <para>
-        /// When <paramref name="restoreConfiguration"/> is <see langword="true"/>, the configuration of every channel that is not in the bundle is
-        /// restored after the reset, including channels that share a channel group with the channels in the bundle. Because the driver restores
-        /// configuration per session, the channels in the bundle are soft reset first in a shared channel group, so they stay in their default state.
-        /// When <paramref name="restoreConfiguration"/> is <see langword="false"/>, every channel on the instrument(s) is left in its default state.
+        /// When an instrument is split across several channel groups in the pin map, each channel group is a separate driver session, and the reset
+        /// invalidates every session on the instrument except the one that issued it. This method resets each instrument once, then reinitializes
+        /// every invalidated session and re-registers them with the TSM session manager.
+        /// Session references in existing <see cref="DCPowerSessionsBundle"/> objects are updated, including bundles that are filtered by site or pin.
+        /// This allows all bundle objects to continue being used in subsequent operations.
+        /// </para>
+        /// <para>
+        /// When <paramref name="restoreConfiguration"/> is <see langword="true"/> (default), the configuration of every channel that is not present in
+        /// the bundle is preserved and restored after the reset, including channels that share a channel group with the channels in the bundle.
+        /// Since the driver configuration can only be applied to the session as a whole, and not to individual channels, the target channels in the
+        /// bundle are first soft reset to ensure they are in their default state when the driver configuration is applied after the reset device
+        /// operation is performed. When <paramref name="restoreConfiguration"/> is <see langword="false"/>, every channel on the instrument(s) is left
+        /// in its default state.
         /// </para>
         /// <para>
         /// The channel groups of sites that are disabled later in the lot are recovered too, using the topology captured when the sessions were
@@ -187,45 +198,154 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// the instrument is hard reset once and the other calls only reset the channels in their own bundle.
         /// </para>
         /// <para>
-        /// The reset clears driver-level channel merging. Merge the merged pin groups in the bundle again after the reset.
-        /// A hard reset typically takes several seconds per instrument, plus the time to register each reinitialized session with TSM,
-        /// so avoid calling it for every DUT. Use <see cref="Reset(DCPowerSessionsBundle, string)"/> to reset only specific channels.
+        /// The reset clears driver-level channel merging. Merge the merged pin groups in the bundle again after the reset. The secondary channel of
+        /// a merge cannot be reset on its own, so a secondary channel in the bundle whose primary channel is in another bundle is not reset and
+        /// keeps following its primary channel. The merged channels of other bundles on the instrument(s) are restored with their configuration
+        /// when <paramref name="restoreConfiguration"/> is <see langword="true"/>; otherwise unmerge and merge those pin groups again.
+        /// </para>
+        /// <para>
+        /// Avoid calling this method often, as it is expected to take several seconds to execute per session.
+        /// Use the <see cref="Reset(DCPowerSessionsBundle, string[])"/> method instead to reset specific channels.
+        /// </para>
+        /// <para>
+        /// Throws an <see cref="NISemiconductorTestException"/> when the sessions were not initialized with
+        /// <see cref="InitializeAndClose.Initialize"/> or mapped with
+        /// <see cref="Initialization.MapInitializedInstrumentSessions"/>, or were already closed;
+        /// when a session in the bundle is not registered with TSM; or when a channel group fails to be prepared before the reset. In these cases,
+        /// no instrument is reset. Also throws an <see cref="NISemiconductorTestException"/> when one or more channel groups fail to be recovered
+        /// after the reset, for example when a reinitialized session cannot be registered with TSM. The other channel groups are still recovered,
+        /// and the error of each channel group that failed is reported.
         /// </para>
         /// </remarks>
+        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
+        /// <param name="restoreConfiguration">
+        /// Whether to preserve and restore the configuration of any channel that is on the same device as the channels being reset but is not present in the bundle.
+        /// The channels that are present in the bundle will be reset to their default state.
+        /// Set to <see langword="true"/> by default.
+        /// </param>
+        /// <exception cref="NISemiconductorTestException">Thrown when the sessions were not initialized with
+        /// <see cref="InitializeAndClose.Initialize"/> or mapped with
+        /// <see cref="Initialization.MapInitializedInstrumentSessions"/>, or were already closed.
+        /// No instrument is reset.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when a session in the bundle is not registered with TSM, so its full channel group
+        /// cannot be determined. No instrument is reset.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when a channel group fails to be prepared before the reset, for example when its
+        /// configuration cannot be exported. No instrument is reset.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when a channel group fails to be recovered after the reset. When several channel groups
+        /// fail, the exception lists all of them, and its inner <see cref="AggregateException"/> contains the error of each one.</exception>
+        /// <exception cref="NISemiconductorTestException">Thrown when a reinitialized session cannot be registered with TSM because the context used for
+        /// recovery does not contain the sites of its channel group.</exception>
         public static void ResetDevice(this DCPowerSessionsBundle sessionsBundle, bool restoreConfiguration = true)
         {
             sessionsBundle.ResetDeviceAndRecoverSessions(restoreConfiguration);
         }
         #endregion methods on DCPowerSessionsBundle
 
-        private static HashSet<string> GetChannelsToReset(DCPowerSessionsBundle sessionsBundle, string channelString)
+        private static HashSet<string> GetValidatedChannelsToReset(DCPowerSessionsBundle sessionsBundle, string[] pinNames)
         {
-            if (string.IsNullOrWhiteSpace(channelString))
+            if (pinNames == null || pinNames.Length == 0 || pinNames.Any(string.IsNullOrWhiteSpace))
             {
-                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_ChannelStringNullOrEmpty, nameof(channelString)));
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_PinNamesNullOrEmpty, nameof(pinNames)));
             }
 
-            var requestedChannels = GetChannels(channelString);
-            if (requestedChannels.Count == 0)
-            {
-                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_ChannelStringNullOrEmpty, nameof(channelString)));
-            }
+            var pinsToReset = GetPinsInBundle(sessionsBundle, pinNames.Select(pinName => pinName.Trim()).Distinct());
+            var channelsOfPinsToReset = new HashSet<string>(
+                sessionsBundle.AggregateSitePinList
+                    .Where(sitePinInfo => pinsToReset.Contains(sitePinInfo.PinName))
+                    .SelectMany(sitePinInfo => GetChannels(sitePinInfo.IndividualChannelString)),
+                StringComparer.OrdinalIgnoreCase);
+
+            // The secondary channel of a merge is not in AllChannelsString and cannot be reset on its own. It is reset with its primary channel.
             var resettableChannels = new HashSet<string>(sessionsBundle.InstrumentSessions.SelectMany(sessionInfo => GetChannels(sessionInfo.AllChannelsString)), StringComparer.OrdinalIgnoreCase);
-            var bundleChannels = new HashSet<string>(sessionsBundle.AggregateSitePinList.SelectMany(sitePinInfo => GetChannels(sitePinInfo.IndividualChannelString)), StringComparer.OrdinalIgnoreCase);
-
-            var mergedSecondaryChannels = requestedChannels.Where(channel => bundleChannels.Contains(channel) && !resettableChannels.Contains(channel)).ToList();
-            if (mergedSecondaryChannels.Count > 0)
+            var channelsToReset = new HashSet<string>(channelsOfPinsToReset.Where(resettableChannels.Contains), StringComparer.OrdinalIgnoreCase);
+            var secondaryChannels = channelsOfPinsToReset.Where(channel => !resettableChannels.Contains(channel)).ToList();
+            if (secondaryChannels.Count > 0)
             {
-                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_ResetSecondaryChannelsOfMergedPinGroup, string.Join(", ", mergedSecondaryChannels)));
+                var channelsMergedIntoChannelsToReset = GetChannelsMergedInto(sessionsBundle, channelsToReset, secondaryChannels);
+                var secondarySitePinsWithoutPrimary = sessionsBundle.AggregateSitePinList
+                    .Where(sitePinInfo => pinsToReset.Contains(sitePinInfo.PinName)
+                        && GetChannels(sitePinInfo.IndividualChannelString).Any(channel => secondaryChannels.Contains(channel) && !channelsMergedIntoChannelsToReset.Contains(channel)))
+                    .Select(sitePinInfo => sitePinInfo.SitePinString)
+                    .Distinct()
+                    .ToList();
+                if (secondarySitePinsWithoutPrimary.Count > 0)
+                {
+                    throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_ResetSecondaryPinsOfMergedPinGroup, FormatNames(secondarySitePinsWithoutPrimary)));
+                }
+            }
+            return channelsToReset;
+        }
+
+        // Pins of the bundle are used as they are, and any other name is expanded as a pin group. A name that is neither, and a pin group
+        // with pins that are not in the bundle, are reported together.
+        private static HashSet<string> GetPinsInBundle(DCPowerSessionsBundle sessionsBundle, IEnumerable<string> pinOrPinGroupNames)
+        {
+            var pinsOfBundle = new HashSet<string>(sessionsBundle.AggregateSitePinList.Select(sitePinInfo => sitePinInfo.PinName));
+            var pins = new HashSet<string>();
+            var namesNotInBundle = new List<string>();
+            foreach (var pinOrPinGroupName in pinOrPinGroupNames)
+            {
+                if (pinsOfBundle.Contains(pinOrPinGroupName))
+                {
+                    pins.Add(pinOrPinGroupName);
+                    continue;
+                }
+                var pinsInPinGroup = GetPinsInPinGroupOrEmpty(sessionsBundle.TSMContext, pinOrPinGroupName);
+                if (pinsInPinGroup.Length == 0)
+                {
+                    namesNotInBundle.Add(pinOrPinGroupName);
+                    continue;
+                }
+                namesNotInBundle.AddRange(pinsInPinGroup.Where(pin => !pinsOfBundle.Contains(pin)));
+                pins.UnionWith(pinsInPinGroup.Where(pinsOfBundle.Contains));
             }
 
-            var channelsNotInBundle = requestedChannels.Where(channel => !bundleChannels.Contains(channel)).ToList();
-            if (channelsNotInBundle.Count > 0)
+            if (namesNotInBundle.Count > 0)
             {
-                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_ChannelsNotInSessionsBundle, string.Join(", ", channelsNotInBundle)));
+                throw new NISemiconductorTestException(string.Format(CultureInfo.InvariantCulture, ResourceStrings.DCPower_PinsNotInSessionsBundle, FormatNames(namesNotInBundle.Distinct())));
             }
+            return pins;
+        }
 
-            return new HashSet<string>(requestedChannels, StringComparer.OrdinalIgnoreCase);
+        // TSM throws for a name that is not a pin group of the pin map, such as a pin or an unknown name.
+        private static string[] GetPinsInPinGroupOrEmpty(ISemiconductorModuleContext tsmContext, string pinGroupName)
+        {
+            try
+            {
+                return tsmContext.GetPinsInPinGroup(pinGroupName) ?? Array.Empty<string>();
+            }
+            catch (Exception exception) when (!(exception is OutOfMemoryException))
+            {
+                return Array.Empty<string>();
+            }
+        }
+
+        // Returns the channels that the primary channels being reset merge, as reported by the driver. Merging is only possible within one instrument,
+        // so only the primary channels on the instruments of the secondary channels are read.
+        private static HashSet<string> GetChannelsMergedInto(DCPowerSessionsBundle sessionsBundle, ISet<string> channelsToReset, IEnumerable<string> secondaryChannels)
+        {
+            var instrumentsOfSecondaryChannels = new HashSet<string>(secondaryChannels.Select(GetInstrumentName), StringComparer.OrdinalIgnoreCase);
+            var mergedChannels = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            foreach (var sessionInfo in sessionsBundle.InstrumentSessions)
+            {
+                foreach (var primaryChannel in GetChannels(sessionInfo.AllChannelsString).Where(channel => channelsToReset.Contains(channel) && instrumentsOfSecondaryChannels.Contains(GetInstrumentName(channel))))
+                {
+                    var instrumentName = GetInstrumentName(primaryChannel);
+                    var mergedChannelString = sessionInfo.Session.Outputs[primaryChannel].Source.MergedChannels;
+                    mergedChannels.UnionWith(GetChannels(mergedChannelString ?? string.Empty).Select(channel => channel.Contains("/") ? channel : $"{instrumentName}/{channel}"));
+                }
+            }
+            return mergedChannels;
+        }
+
+        private static string GetInstrumentName(string channel)
+        {
+            return channel.Split('/')[0].Trim();
+        }
+
+        private static string FormatNames(IEnumerable<string> names)
+        {
+            return string.Join(", ", names.Select(name => $"\"{name}\""));
         }
 
         private static List<string> GetChannels(string channelString)

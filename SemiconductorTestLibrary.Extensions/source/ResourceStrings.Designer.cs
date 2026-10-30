@@ -133,29 +133,29 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The {0} parameter cannot be null or empty..
+        ///   Looks up a localized string similar to The {0} parameter cannot be null or empty, and cannot contain null or empty pin names..
         /// </summary>
-        internal static string DCPower_ChannelStringNullOrEmpty {
+        internal static string DCPower_PinNamesNullOrEmpty {
             get {
-                return ResourceManager.GetString("DCPower_ChannelStringNullOrEmpty", resourceCulture);
+                return ResourceManager.GetString("DCPower_PinNamesNullOrEmpty", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The channels {0} are not part of the sessions bundle..
+        ///   Looks up a localized string similar to The pins or pin groups {0} are not part of the sessions bundle..
         /// </summary>
-        internal static string DCPower_ChannelsNotInSessionsBundle {
+        internal static string DCPower_PinsNotInSessionsBundle {
             get {
-                return ResourceManager.GetString("DCPower_ChannelsNotInSessionsBundle", resourceCulture);
+                return ResourceManager.GetString("DCPower_PinsNotInSessionsBundle", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The channels {0} are secondary channels of a merged pin group. Specify the primary channel to reset a merged pin group..
+        ///   Looks up a localized string similar to The pins {0} are secondary pins of a merged pin group whose primary pin is not specified. Specify the merged pin group or its primary pin to reset a merged pin group..
         /// </summary>
-        internal static string DCPower_ResetSecondaryChannelsOfMergedPinGroup {
+        internal static string DCPower_ResetSecondaryPinsOfMergedPinGroup {
             get {
-                return ResourceManager.GetString("DCPower_ResetSecondaryChannelsOfMergedPinGroup", resourceCulture);
+                return ResourceManager.GetString("DCPower_ResetSecondaryPinsOfMergedPinGroup", resourceCulture);
             }
         }
         
