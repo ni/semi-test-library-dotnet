@@ -1,5 +1,4 @@
-﻿using System;
-using NationalInstruments.ModularInstruments.NIFgen;
+﻿using NationalInstruments.ModularInstruments.NIFgen;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen;
@@ -21,6 +20,13 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.FGenStandardWave
         /// <summary>
         /// Generates a standard waveform on all the specified pins and/or pin groups for 10 seconds.
         /// </summary>
+        /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object reference.</param>
+        /// <param name="pinsOrPinGroups">The pins or pin groups mapped to function generator channels.</param>
+        /// <param name="standardWaveformType">The standard waveform type to generate. "User" waverform type is not supported.</param>
+        /// <param name="frequency">The frequency of the waveform, in hertz.</param>
+        /// <param name="amplitude">The peak-to-peak amplitude of the waveform, in volts.</param>
+        /// <param name="offset">The DC offset of the waveform, in volts.</param>
+        /// <param name="phase">The start phase of the waveform, in degrees.</param>
         /// <remarks>
         /// This method performs the following operations:
         /// <list type="number">
@@ -36,7 +42,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.FGenStandardWave
         public static void GenerateStandardWaveform(
             ISemiconductorModuleContext tsmContext,
             string[] pinsOrPinGroups,
-            string standardWaveformType,
+            StandardWaveform standardWaveformType,
             double frequency,
             double amplitude,
             double offset = 0,
@@ -50,9 +56,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.FGenStandardWave
             fgenBundle.ConfigureOutputMode(OutputMode.Function);
 
             // Configure the standard waveform settings for all channels in the bundle.
-            var standardWaveform = (StandardWaveform)Enum.Parse(typeof(StandardWaveform), standardWaveformType, ignoreCase: true);
+            // var standardWaveform = (StandardWaveform)Enum.Parse(typeof(StandardWaveform), standardWaveformType, ignoreCase: true);
             var waveformSettings = new StandardWaveformSettings(
-                waveformFunctionType: standardWaveform,
+                waveformFunctionType: standardWaveformType,
                 frequency: frequency,
                 amplitude: amplitude,
                 dcOffset: offset,
