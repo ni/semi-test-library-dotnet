@@ -45,7 +45,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// The following exceptions can be thrown:
         /// <list type="bullet">
         /// <item><description><see cref="ArgumentNullException"/> if <paramref name="outputTerminals"/> is null or contains a null output terminal.</description></item>
-        /// <item><description><see cref="ArgumentException"/> if <paramref name="outputTerminals"/> does not contain any site-pin pair or contains an empty output terminal.</description></item>
+        /// <item><description><see cref="ArgumentException"/> if <paramref name="outputTerminals"/> does not contain any pins or sites or contains empty string values.</description></item>
         /// <item><description><see cref="NISemiconductorTestException"/> if the same output terminal is assigned to more than one site-pin pair.</description></item>
         /// <item><description><see cref="NISemiconductorTestException"/> wrapping an <see cref="Ivi.Driver.IviCDriverException"/> if the destination terminal to be routed cannot be found on the device.</description></item>
         /// <item><description><see cref="NISemiconductorTestException"/> wrapping an <see cref="Ivi.Driver.IviCDriverException"/> if the specified route requires resources that are currently in use by another route.</description></item>
@@ -58,7 +58,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Thrown when <paramref name="outputTerminals"/> is null or contains a null output terminal.
         /// </exception>
         /// <exception cref="ArgumentException">
-        /// Thrown when <paramref name="outputTerminals"/> does not contain any site-pin pair or contains an empty output terminal.
+        /// Thrown when <paramref name="outputTerminals"/> does not contain any pins or sites or contains empty string values.
         /// </exception>
         /// <exception cref="NISemiconductorTestException">
         /// Thrown when the same output terminal is assigned to more than one site-pin pair,
@@ -80,13 +80,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Exports the selected DCPowerSignalSource from the channel mapped to the specified pin and site to the target output terminal.
         /// </summary>
         /// <remarks>
-        /// Use this overload when only one signal needs to be exported from the bundle.<br/>
+        /// Use this overload when only one signal needs to be exported from the bundle. Otherwise, use the <see cref="ExportSignal(DCPowerSessionsBundle, DCPowerSignalSource, PinSiteData{string})"/> overload instead.<br/>
         /// The output terminal can be specified as a trigger line name, for example "PXI_Trig0", or in the fully qualified format, for example "/Dev1/PXI_Trig0".<br/>
         /// No signal is exported if the <paramref name="sessionsBundle"/> does not contain the specified pin and site.<br/>
         /// The following exceptions can be thrown:
         /// <list type="bullet">
         /// <item><description><see cref="ArgumentNullException"/> if <paramref name="outputTerminal"/> is null.</description></item>
-        /// <item><description><see cref="ArgumentException"/> if <paramref name="outputTerminal"/> is empty.</description></item>
+        /// <item><description><see cref="ArgumentException"/> if <paramref name="outputTerminal"/> is an empty string.</description></item>
         /// <item><description><see cref="NISemiconductorTestException"/> wrapping an <see cref="Ivi.Driver.IviCDriverException"/> if the destination terminal to be routed cannot be found on the device.</description></item>
         /// <item><description><see cref="NISemiconductorTestException"/> wrapping an <see cref="Ivi.Driver.IviCDriverException"/> if the specified route requires resources that are currently in use by another route.</description></item>
         /// </list>
@@ -100,7 +100,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Thrown when <paramref name="outputTerminal"/> is null.
         /// </exception>
         /// <exception cref="ArgumentException">
-        /// Thrown when <paramref name="outputTerminal"/> is empty.
+        /// Thrown when <paramref name="outputTerminal"/> is an empty string.
         /// </exception>
         /// <exception cref="NISemiconductorTestException">
         /// Thrown when the driver throws an <see cref="Ivi.Driver.IviCDriverException"/> because the destination terminal to be routed cannot be found on the device.
@@ -127,7 +127,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             {
                 throw new ArgumentNullException(nameof(outputTerminals), ResourceStrings.DCPower_ExportSignalOutputTerminalsEmpty);
             }
-            if (!outputTerminals.PinNames.Any())
+            if (!outputTerminals.PinNames.Any() || outputTerminals.PinNames.Any(pinName => !outputTerminals.SiteNumbersByPin[pinName].Any()))
             {
                 throw new ArgumentException(ResourceStrings.DCPower_ExportSignalOutputTerminalsEmpty, nameof(outputTerminals));
             }
