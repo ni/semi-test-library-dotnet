@@ -1,0 +1,52 @@
+using NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAndI2C.DutControl;
+using Xunit;
+
+namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAndI2C.Test.DutControl
+{
+    [Collection("NonParallelizable")]
+    public class I2CDefaultParametersTests
+    {
+        // A fresh instance is used so the defaults are not affected by tests that configure I2C.Instance.
+        private readonly I2C _i2c = new I2C();
+
+        [Fact]
+        public void I2CInstance_Default_HasI2CPatternNames()
+        {
+            Assert.Equal("I2C_write_template", _i2c.WritePatternName);
+            Assert.Equal("I2C_read_template", _i2c.ReadPatternName);
+        }
+
+        [Fact]
+        public void I2CInstance_Default_HasCsSdiSdoAndSckPinNames()
+        {
+            Assert.Equal(new[] { "CS", "SCK", "SDI", "SDO" }, _i2c.PinNames);
+        }
+
+        [Fact]
+        public void I2CInstance_Default_UsesSdiForSourceAndCapture()
+        {
+            Assert.Equal("SDI", _i2c.SourcePinName);
+            Assert.Equal("SDI", _i2c.CapturePinName);
+        }
+
+        [Fact]
+        public void I2CInstance_Default_HasI2CWaveformNames()
+        {
+            Assert.Equal("I2C_source_buffer", _i2c.SourceWaveformName);
+            Assert.Equal("I2C_capture_buffer", _i2c.CaptureWaveformName);
+        }
+
+        [Fact]
+        public void I2CInstance_Default_Has16BitAddressAndValueWidths()
+        {
+            Assert.Equal(8u, _i2c.DefaultAddressBitWidth);
+            Assert.Equal(8u, _i2c.DefaultValueBitWidth);
+        }
+
+        [Fact]
+        public void I2CInstance_AccessedMultipleTimes_ReturnsSameInstance()
+        {
+            Assert.Same(I2C.Instance, I2C.Instance);
+        }
+    }
+}

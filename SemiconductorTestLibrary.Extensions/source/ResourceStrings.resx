@@ -225,6 +225,15 @@
   <data name="Scope_ClockSettingsNull" xml:space="preserve">
     <value>The {0} parameter cannot be null.</value>
   </data>
+  <data name="DCPower_ExportSignalOutputTerminalsEmpty" xml:space="preserve">
+    <value>The outputTerminals parameter cannot be null and must contain at least one site-pin pair.</value>
+  </data>
+  <data name="DCPower_ExportSignalOutputTerminalEmpty" xml:space="preserve">
+    <value>The output terminal specified for the site-pin pair ({0}) cannot be null or empty.</value>
+  </data>
+  <data name="DCPower_ExportSignalOutputTerminalNotUnique" xml:space="preserve">
+    <value>The output terminal ({0}) is specified for more than one site-pin pair ({1}). An output terminal is reserved by the channel that exports a signal to it, therefore each site-pin pair requires its own unique output terminal.</value>
+  </data>
   <data name="FGen_InvalidOutputModeException" xml:space="preserve">
     <value>Output mode '{0}' is not supported, only 'Function' is supported.</value>
   </data>
@@ -242,5 +251,8 @@
   </data>
   <data name="FGen_OutputTerminalNullOrEmpty" xml:space="preserve">
     <value>Output terminal passed as input is either null or an empty string. Please provide valid output terminal.</value>
+  </data>
+  <data name="Scope_AcquisitionFailedException" xml:space="preserve">
+    <value>The acquisition failed or did not complete within the specified timeout. This may affect all channels on the same card, including those mapped to other sites. Affected channels: {0}</value>
   </data>
 </root>
