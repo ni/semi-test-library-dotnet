@@ -234,9 +234,6 @@
   <data name="DCPower_ExportSignalOutputTerminalNotUnique" xml:space="preserve">
     <value>The output terminal ({0}) is specified for more than one site-pin pair ({1}). An output terminal is reserved by the channel that exports a signal to it, therefore each site-pin pair requires its own unique output terminal.</value>
   </data>
-  <data name="DCPower_ImmediateUpdateModeNotSupportedForGangedChannels" xml:space="preserve">
-    <value>Immediate update mode is not supported for ganged channels.</value>
-  </data>
   <data name="FGen_InvalidOutputModeException" xml:space="preserve">
     <value>Output mode '{0}' is not supported, only 'Function' is supported.</value>
   </data>
