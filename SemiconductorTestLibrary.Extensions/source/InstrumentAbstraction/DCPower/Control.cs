@@ -192,11 +192,13 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <para>
         /// Additionally, when an instrument is split across several channel groups and sites are disabled, the channels that map to disabled sites
         /// are also recovered, using the channel group information captured when the sessions were first initialized. Their configuration is only
-        /// restored if it can be read from the active sites; otherwise they are left in their default state./// </para>
+        /// restored if it can be read from the active sites; otherwise they are left in their default state.
+        /// </para>
         /// <para>
         /// Calls are serialized across threads. When several threads reset the same instrument,
         /// the instrument is hard reset once and the other calls only reset the channels in their own bundle.
-        /// For example, when calling code is parallelized or invoked from a TestStand step configured to execute in one thread per site./// </para>
+        /// For example, when calling code is parallelized or invoked from a TestStand step configured to execute in one thread per site.
+        /// </para>
         /// <para>
         /// The reset clears driver-level channel merging. Merge the merged pin groups in the bundle again after the reset. The secondary channel of
         /// a merge cannot be reset on its own, so a secondary channel in the bundle whose primary channel is in another bundle is not reset and
