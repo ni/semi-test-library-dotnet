@@ -45,7 +45,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// The following exceptions can be thrown:
         /// <list type="bullet">
         /// <item><description><see cref="ArgumentNullException"/> if <paramref name="outputTerminals"/> is null or contains a null output terminal.</description></item>
-        /// <item><description><see cref="ArgumentException"/> if <paramref name="outputTerminals"/> does not contain any pins or sites or contains empty string values.</description></item>
+        /// <item><description><see cref="ArgumentException"/> if <paramref name="outputTerminals"/> does not contain any pins, contains a pin without any sites, or contains empty string values.</description></item>
         /// <item><description><see cref="NISemiconductorTestException"/> if the same output terminal is assigned to more than one site-pin pair.</description></item>
         /// <item><description><see cref="NISemiconductorTestException"/> wrapping an <see cref="Ivi.Driver.IviCDriverException"/> if the destination terminal to be routed cannot be found on the device.</description></item>
         /// <item><description><see cref="NISemiconductorTestException"/> wrapping an <see cref="Ivi.Driver.IviCDriverException"/> if the specified route requires resources that are currently in use by another route.</description></item>
@@ -58,7 +58,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Thrown when <paramref name="outputTerminals"/> is null or contains a null output terminal.
         /// </exception>
         /// <exception cref="ArgumentException">
-        /// Thrown when <paramref name="outputTerminals"/> does not contain any pins or sites or contains empty string values.
+        /// Thrown when <paramref name="outputTerminals"/> does not contain any pins, contains a pin without any sites, or contains empty string values.
         /// </exception>
         /// <exception cref="NISemiconductorTestException">
         /// Thrown when the same output terminal is assigned to more than one site-pin pair,
