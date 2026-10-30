@@ -63,8 +63,11 @@
       <HintPath>C:\Program Files\National Instruments\TestStand 2023\Bin\NationalInstruments.TestStand.SemiconductorModule.SemiconductorModuleInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="StandaloneSemiconductorModuleContext">
-      <HintPath Condition="'$(TestStand64)' != ''">$(TestStand64)\Components\Modules\NI_SemiconductorModule\StandaloneSemiconductorModuleContext\StandaloneSemiconductorModuleContext.dll</HintPath>
-      <HintPath Condition="'$(TestStand64)' == ''">C:\Program Files\National Instruments\TestStand 2023\Components\Modules\NI_SemiconductorModule\StandaloneSemiconductorModuleContext\StandaloneSemiconductorModuleContext.dll</HintPath>
+      <HintPath>$(TestStand64)\Components\Modules\NI_SemiconductorModule\StandaloneSemiconductorModuleContext\StandaloneSemiconductorModuleContext.dll</HintPath>
+    </Reference>
+    <Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions">
+      <HintPath>..\..\SemiconductorTestLibrary.Abstractions\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
     </Reference>
   </ItemGroup>
    <ItemGroup>
