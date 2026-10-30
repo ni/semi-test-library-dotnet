@@ -839,13 +839,19 @@
             If the <paramref name="siteNumbers"/> parameter is not provided, an empty SiteData object is associated with the pin name.<br/>
             Throws <see cref="T:System.ArgumentNullException"/> if the <paramref name="pinName"/> parameter is null.<br/>
             Throws <see cref="T:System.ArgumentException"/> if the <paramref name="pinName"/> parameter is an empty string.<br/>
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the specified site numbers are not unique.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if sites in the <paramref name="siteNumbers"/> parameter are not unique.
             </remarks>
             <param name="pinName">The pin name to be included in the PinSiteData object.</param>
             <param name="siteNumbers">The site numbers array to be included in the SiteData object that is associated with the pin name.</param>
-            <exception cref="T:System.ArgumentNullException">Thrown when the <paramref name="pinName"/> parameter is null.</exception>
-            <exception cref="T:System.ArgumentException">Thrown when the <paramref name="pinName"/> parameter is an empty string.</exception>
-            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when the specified site numbers are not unique.</exception>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when the <paramref name="pinName"/> parameter is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            Thrown when the <paramref name="pinName"/> parameter is an empty string.
+            </exception>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when sites in the <paramref name="siteNumbers"/> parameter are not unique.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor(System.String[],System.Int32[])">
             <summary>
@@ -853,19 +859,24 @@
             </summary>
             <remarks>
             If the <paramref name="siteNumbers"/> parameter is not provided, an empty SiteData object is associated with each pin name.<br/>
-            Throws <see cref="T:System.ArgumentNullException"/> if the <paramref name="pinNames"/> parameter is null or if any of the specified pin names is null.<br/>
-            Throws <see cref="T:System.ArgumentException"/> if the <paramref name="pinNames"/> parameter is an empty array or if any of the specified pin names is an empty string.<br/>
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the specified pin names or site numbers are not unique.
+            Throws <see cref="T:System.ArgumentNullException"/> if the <paramref name="pinNames"/> parameter is null,
+            or if any of the specified pin names are null.<br/>
+            Throws <see cref="T:System.ArgumentException"/> if the <paramref name="pinNames"/> parameter is an empty array,
+            or if any of the specified pin names is an empty string.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if pins in the <paramref name="pinNames"/> parameter or sites in the <paramref name="siteNumbers"/> parameter are not unique.
             </remarks>
             <param name="pinNames">The pin names to be included in the PinSiteData object.</param>
             <param name="siteNumbers">The site numbers array to be included in the SiteData object that is associated with each pin name.</param>
             <exception cref="T:System.ArgumentNullException">
-            Thrown when the <paramref name="pinNames"/> parameter is null or when any of the specified pin names is null.
+            Thrown when the <paramref name="pinNames"/> parameter is null or any of the specified pin names are null.
             </exception>
             <exception cref="T:System.ArgumentException">
-            Thrown when the <paramref name="pinNames"/> parameter is an empty array or when any of the specified pin names is an empty string.
+            Thrown when the <paramref name="pinNames"/> parameter is an empty array, not provided,
+            or when any of the specified pin names is an empty string.
             </exception>
-            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when the specified pin names or site numbers are not unique.</exception>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when pins in the <paramref name="pinNames"/> parameter or sites in the <paramref name="siteNumbers"/> parameter  are not unique.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor(System.String[],NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0}[])">
             <summary>
@@ -887,7 +898,11 @@
             <summary>
             Initializes a PinSiteData object with multiple pins multiple sites data.
             </summary>
+            <remarks>
+            Throws <see cref="T:System.ArgumentNullException"/> if the <paramref name="pinSiteData"/> parameter is null.<br/>
+            </remarks>
             <param name="pinSiteData">Pin and site specific data values.</param>
+            <exception cref="T:System.ArgumentNullException">Thrown when the <paramref name="pinSiteData"/> parameter is null.</exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor(System.Int32[],System.Collections.Generic.Dictionary{System.String,`0})">
             <summary>
@@ -1003,13 +1018,14 @@
             Each added pin is initialized with existing site definitions.<br/>
             If no site is already present, an empty SiteData object is assigned as the value associated with the specified pin(s).<br/>
             If a specified pin already exists, that pin is skipped while adding.<br/>
-            Throws <see cref="T:System.ArgumentNullException"/> if the <paramref name="pinNames"/> parameter is null or if any of the specified pin names is null.<br/>
-            Throws <see cref="T:System.ArgumentException"/> if the <paramref name="pinNames"/> parameter is an empty array, not provided,
-            or if any of the specified pin names is an empty string.
+            Throws <see cref="T:System.ArgumentNullException"/> if the <paramref name="pinNames"/> parameter is null,
+            or if any of the specified pin names are null.<br/>
+            Throws <see cref="T:System.ArgumentException"/> if the <paramref name="pinNames"/> parameter is an empty array,
+            or if any of the specified pin names is an empty string.<br/>
             </remarks>
             <param name="pinNames">The pin names to be added to the PinSiteData object.</param>
             <exception cref="T:System.ArgumentNullException">
-            Thrown when the <paramref name="pinNames"/> parameter is null or when any of the specified pin names is null.
+            Thrown when the <paramref name="pinNames"/> parameter is null or any of the specified pin names are null.
             </exception>
             <exception cref="T:System.ArgumentException">
             Thrown when the <paramref name="pinNames"/> parameter is an empty array, not provided,
@@ -1022,13 +1038,14 @@
             </summary>
             <remarks>
             If any of the specified pins is not present in the PinSiteData object, that pin is skipped.<br/>
-            Throws <see cref="T:System.ArgumentNullException"/> if the <paramref name="pinNames"/> parameter is null or if any of the specified pin names is null.<br/>
-            Throws <see cref="T:System.ArgumentException"/> if the <paramref name="pinNames"/> parameter is an empty array, not provided,
-            or if any of the specified pin names is an empty string.
+            Throws <see cref="T:System.ArgumentNullException"/> if the <paramref name="pinNames"/> parameter is null,
+            or if any of the specified pin names are null.<br/>
+            Throws <see cref="T:System.ArgumentException"/> if the <paramref name="pinNames"/> parameter is an empty array,
+            or if any of the specified pin names is an empty string.<br/>
             </remarks>
             <param name="pinNames">The pin names to be removed.</param>
             <exception cref="T:System.ArgumentNullException">
-            Thrown when the <paramref name="pinNames"/> parameter is null or when any of the specified pin names is null.
+            Thrown when the <paramref name="pinNames"/> parameter is null or any of the specified pin names are null.
             </exception>
             <exception cref="T:System.ArgumentException">
             Thrown when the <paramref name="pinNames"/> parameter is an empty array, not provided,
@@ -1044,13 +1061,19 @@
             If any of the specified sites already exists in the SiteData object associated with an existing pin, that site is skipped for that pin while adding.<br/>
             Otherwise, the specified sites are added to the PinSiteData object with the default value of the specified data type, T.
             For example, if T is of type int, the site value would be initialized to default(int) which is 0.<br/>
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object doesn't contain any pin,
-            or if the <paramref name="siteNumbers"/> parameter is null, an empty array or not provided.
+            Throws <see cref="T:System.ArgumentNullException"/> if the <paramref name="siteNumbers"/> parameter is null.<br/>
+            Throws <see cref="T:System.ArgumentException"/> if the <paramref name="siteNumbers"/> parameter is an empty array or not provided.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object doesn't contain any pins.
             </remarks>
             <param name="siteNumbers">The site numbers to be added to all the pin names.</param>
             <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
-            Thrown when the PinSiteData object doesn't contain any pin,
-            or when the <paramref name="siteNumbers"/> parameter is null, an empty array or not provided.
+            Thrown when the PinSiteData object doesn't contain any pins.
+            </exception>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when the <paramref name="siteNumbers"/> parameter is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            Thrown when the <paramref name="siteNumbers"/> parameter is an empty array or not provided.
             </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.AddSite(System.String,System.Int32[])">
@@ -1063,16 +1086,18 @@
             Otherwise the specified sites are added to the SiteData object associated with the pin with the default value of the specified data type, T.
             For example, if T is of type int, the site value would be initialized to default(int) which is 0.<br/>
             Using this method can result in a jagged PinSiteData object where different pins can have different number of sites.<br/>
-            Throws <see cref="T:System.ArgumentNullException"/> if the <paramref name="pinName"/> parameter is null.<br/>
-            Throws <see cref="T:System.ArgumentException"/> if the <paramref name="pinName"/> parameter is an empty string.<br/>
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the <paramref name="siteNumbers"/> parameter is null, an empty array or not provided.
+            Throws <see cref="T:System.ArgumentNullException"/> if either the <paramref name="pinName"/> parameter or <paramref name="siteNumbers"/> parameter is null.<br/>
+            Throws <see cref="T:System.ArgumentException"/> if the <paramref name="pinName"/> parameter is an empty string,
+            the <paramref name="siteNumbers"/> parameter is an empty array or not provided.
             </remarks>
             <param name="pinName">The pin name to which sites are being added.</param>
             <param name="siteNumbers">The site numbers to be added to the specified pin name.</param>
-            <exception cref="T:System.ArgumentNullException">Thrown when the <paramref name="pinName"/> parameter is null.</exception>
-            <exception cref="T:System.ArgumentException">Thrown when the <paramref name="pinName"/> parameter is an empty string.</exception>
-            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
-            Thrown when the <paramref name="siteNumbers"/> parameter is null, an empty array or not provided.
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when either <paramref name="pinName"/> or <paramref name="siteNumbers"/> is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            Thrown when the <paramref name="pinName"/> parameter is an empty string,
+            the <paramref name="siteNumbers"/> parameter is an empty array or not provided.
             </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.AddSite(System.String[],System.Int32[])">
@@ -1085,22 +1110,19 @@
             Otherwise the specified sites are added to the PinSiteData object with the default value of the specified data type, T.
             For example, if T is of type int, the site value would be initialized to default(int) which is 0.<br/>
             Using this method can result in a jagged PinSiteData object where different pins can have different number of sites.<br/>
-            Throws <see cref="T:System.ArgumentNullException"/> if the <paramref name="pinNames"/> parameter is null or if any of the specified pin names is null.<br/>
-            Throws <see cref="T:System.ArgumentException"/> if the <paramref name="pinNames"/> parameter is an empty array, not provided,
-            or if any of the specified pin names is an empty string.<br/>
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the <paramref name="siteNumbers"/> parameter is null, an empty array or not provided.
+            Throws <see cref="T:System.ArgumentNullException"/> if the <paramref name="pinNames"/> parameter is null, if any of the specified pin names are null,
+            or if the <paramref name="siteNumbers"/> parameter is null.<br/>
+            Throws <see cref="T:System.ArgumentException"/> if the <paramref name="pinNames"/> parameter is an empty array, if any of the specified pin names is an empty string,
+            or if the <paramref name="siteNumbers"/> parameter is an empty array or not provided.
             </remarks>
             <param name="pinNames">The pin names to which sites are being added.</param>
             <param name="siteNumbers">The site numbers to be added to the specified pin names.</param>
             <exception cref="T:System.ArgumentNullException">
-            Thrown when the <paramref name="pinNames"/> parameter is null or when any of the specified pin names is null.
+            Thrown when either <paramref name="pinNames"/> or <paramref name="siteNumbers"/> is null, or any of the specified pin names are null.
             </exception>
             <exception cref="T:System.ArgumentException">
-            Thrown when the <paramref name="pinNames"/> parameter is an empty array, not provided,
-            or when any of the specified pin names is an empty string.
-            </exception>
-            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
-            Thrown when the <paramref name="siteNumbers"/> parameter is null, an empty array or not provided.
+            Thrown when the <paramref name="pinNames"/> parameter is an empty array or not provided, when any of the specified pin names is an empty string,
+            or when the <paramref name="siteNumbers"/> parameter is an empty array or not provided.
             </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.RemoveSite(System.Int32[])">
@@ -1109,6 +1131,8 @@
             </summary>
             <remarks>
             If any of the specified sites is not present for a pin, that site is skipped for that pin.<br/>
+            Throws <see cref="T:System.ArgumentNullException"/> if the <paramref name="siteNumbers"/> parameter is null.<br/>
+            Throws <see cref="T:System.ArgumentException"/> if the <paramref name="siteNumbers"/> parameter is an empty array or not provided.<br/>
             Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the <paramref name="siteNumbers"/> parameter is null, an empty array or not provided
             and the PinSiteData object contains at least one pin.
             </remarks>
@@ -1116,6 +1140,12 @@
             <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
             Thrown when the <paramref name="siteNumbers"/> parameter is null, an empty array or not provided
             and the PinSiteData object contains at least one pin.
+            </exception>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when the <paramref name="siteNumbers"/> parameter is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            Thrown when the <paramref name="siteNumbers"/> parameter is an empty array or not provided.
             </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.RemoveSite(System.String,System.Int32[])">
@@ -1126,6 +1156,8 @@
             If the specified pin doesn't exist, no action is taken.<br/>
             If any of the specified sites is not present for the specified pin, that site is skipped.<br/>
             Using this method can result in a jagged PinSiteData object where different pins can have different number of sites.<br/>
+            Throws <see cref="T:System.ArgumentNullException"/> if the <paramref name="siteNumbers"/> parameter is null.<br/>
+            Throws <see cref="T:System.ArgumentException"/> if the <paramref name="siteNumbers"/> parameter is an empty array or not provided.<br/>
             Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the specified pin exists and the <paramref name="siteNumbers"/> parameter is null,
             an empty array or not provided.
             </remarks>
@@ -1133,6 +1165,12 @@
             <param name="siteNumbers">The site numbers to be removed.</param>
             <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
             Thrown when the specified pin exists and the <paramref name="siteNumbers"/> parameter is null, an empty array or not provided.
+            </exception>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when the <paramref name="siteNumbers"/> parameter is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            Thrown when the <paramref name="siteNumbers"/> parameter is an empty array or not provided.
             </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.RemoveSite(System.String[],System.Int32[])">
@@ -1142,6 +1180,8 @@
             <remarks>
             If any of the specified pins doesn't exist, that pin is skipped.<br/>
             If any of the specified sites is not present for a specified pin, that site is skipped.<br/>
+            Throws <see cref="T:System.ArgumentNullException"/> if the <paramref name="siteNumbers"/> parameter is null.<br/>
+            Throws <see cref="T:System.ArgumentException"/> if the <paramref name="siteNumbers"/> parameter is an empty array or not provided.<br/>
             Using this method can result in a jagged PinSiteData object where different pins can have different number of sites.<br/>
             Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if any of the specified pins exists and the <paramref name="siteNumbers"/> parameter is null,
             an empty array or not provided.
@@ -1151,14 +1191,19 @@
             <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
             Thrown when any of the specified pins exists and the <paramref name="siteNumbers"/> parameter is null, an empty array or not provided.
             </exception>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when the <paramref name="siteNumbers"/> parameter is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            Thrown when the <paramref name="siteNumbers"/> parameter is an empty array or not provided.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.SetValue(`0)">
             <summary>
             Sets the specified value for all sites across all pins in the PinSiteData object.
             </summary>
             <remarks>
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object doesn't contain any pin
-            or if any pin contains an empty SiteData object.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object contains no pins or the SiteData object for any pin contains no sites.
             </remarks>
             <param name="value">The value to be set.</param>
             <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
@@ -1173,8 +1218,8 @@
             The specified sites are added to the SiteData object associated with each pin if they don't already exist, and then the value is set.<br/>
             If the <paramref name="siteNumbers"/> parameter is null or an empty array, the provided value is set for all existing site numbers
             for each pin in the PinSiteData object.<br/>
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty,
-            or if the <paramref name="siteNumbers"/> parameter is null or an empty array and the SiteData object for any pin is empty.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object does not contain any pins,
+            or if both the SiteData object for any pin contains no sites and the <paramref name="siteNumbers"/> parameter is null or an empty array.
             </remarks>
             <param name="value">The value to be set.</param>
             <param name="siteNumbers">The site numbers to which the value is being set.</param>
@@ -1188,16 +1233,31 @@
             Sets the specified value for all sites in the specified pins in the PinSiteData object.
             </summary>
             <remarks>
-            If the <paramref name="pinNames"/> parameter is null or an empty array, the provided value is set for all existing pins in the PinSiteData object.<br/>
-            If any of the specified pins doesn't exist, it is first added to the PinSiteData object and then the value is set for all existing sites in that pin.<br/>
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the <paramref name="pinNames"/> parameter is null or an empty array and the PinSiteData object is empty.<br/>
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if any existing pin contains an empty SiteData object. This could happen with jagged PinSiteData objects.
+            If any of the specified pins do not exist, they are first added to the PinSiteData object.
+            The specified value is then set for every site present in the PinSiteData object,
+            where the sites are the union of the sites across all existing pins and equal the value of the SiteNumbers property.
+            Pins in the PinSiteData object that are not specified are neither modified nor validated.<br/>
+            Throws <see cref = "T:System.ArgumentNullException" /> if the <paramref name = "pinNames" /> parameter is null,
+            or if any of the specified pin names are null.<br/>
+            Throws <see cref="T:System.ArgumentException"/> if the <paramref name="pinNames"/> parameter is an empty array,
+            or if any of the specified pin names is an empty string.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object does not contain any sites,
+            or if no sites are associated with any of the specified pins.
+            This can occur if the PinSiteData object is empty or no sites have been declared for a specified pin.
             </remarks>
             <param name="value">The value to be set.</param>
             <param name="pinNames">The pin names in which all the sites are assigned the provided value.</param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when the <paramref name="pinNames"/> parameter is null or any of the specified pin names are null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            Thrown when the <paramref name="pinNames"/> parameter is an empty array, not provided,
+            or when any of the specified pin names is an empty string.
+            </exception>
             <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
-            Thrown when the <paramref name="pinNames"/> parameter is null or an empty array and the PinSiteData object is empty,
-            or when any existing pin contains an empty SiteData object.
+            Thrown when the PinSiteData object does not contain any sites,
+            or if no sites are associated with any of the specified pins.
+            This can occur if the PinSiteData object is empty or no sites have been declared for a specified pin.
             </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.SetValue(`0,System.String,System.Int32[])">
@@ -1216,8 +1276,12 @@
             <param name="value">The value to be set.</param>
             <param name="pinName">The pin name whose sites are assigned the value.</param>
             <param name="siteNumbers">The site numbers to which the value is assigned.</param>
-            <exception cref="T:System.ArgumentNullException">Thrown when the <paramref name="pinName"/> parameter is null.</exception>
-            <exception cref="T:System.ArgumentException">Thrown when the <paramref name="pinName"/> parameter is an empty string.</exception>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when the <paramref name="pinName"/> parameter is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            Thrown when the <paramref name="pinName"/> parameter is an empty string.
+            </exception>
             <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
             Thrown when the <paramref name="siteNumbers"/> parameter is null or an empty array and the specified pin doesn't contain any site.
             </exception>
@@ -1230,8 +1294,9 @@
             If any of the specified pins doesn't exist, it is first added to the PinSiteData object along with the specified sites and then the value is set.<br/>
             Any of the specified sites missing from the specified pins is added first and then the value is set for that site.<br/>
             If the <paramref name="siteNumbers"/> parameter is null or an empty array, the value is set for all existing sites in each specified pin.<br/>
-            Throws <see cref="T:System.ArgumentNullException"/> if the <paramref name="pinNames"/> parameter is null or if any of the specified pin names is null.<br/>
-            Throws <see cref="T:System.ArgumentException"/> if the <paramref name="pinNames"/> parameter is an empty array, not provided,
+            Throws <see cref="T:System.ArgumentNullException"/> if the <paramref name="pinNames"/> parameter is null,
+            or if any of the specified pin names are null.<br/>
+            Throws <see cref="T:System.ArgumentException"/> if the <paramref name="pinNames"/> parameter is an empty array,
             or if any of the specified pin names is an empty string.<br/>
             Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the <paramref name="siteNumbers"/> parameter is null or an empty array
             and any of the specified pins doesn't contain any site.
@@ -1240,7 +1305,7 @@
             <param name="pinNames">The pin names whose sites are assigned the value.</param>
             <param name="siteNumbers">The site numbers to which the value is assigned.</param>
             <exception cref="T:System.ArgumentNullException">
-            Thrown when the <paramref name="pinNames"/> parameter is null or when any of the specified pin names is null.
+            Thrown when the <paramref name="pinNames"/> parameter is null or any of the specified pin names are null.
             </exception>
             <exception cref="T:System.ArgumentException">
             Thrown when the <paramref name="pinNames"/> parameter is an empty array, not provided,
@@ -3039,7 +3104,13 @@
             <summary>
             Initializes a SiteData object with site unique data.
             </summary>
+            <remarks>
+            Throws <see cref="T:System.ArgumentNullException"/> if the <paramref name="data"/> parameter is null.
+            </remarks>
             <param name="data">The site specific data values.</param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when the <paramref name="data"/> parameter is null.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.#ctor(System.Int32[],`0)">
             <summary>
@@ -3080,7 +3151,8 @@
             <exception cref="T:System.ArgumentException">
             Thrown when the <paramref name="siteNumbers"/> parameter is an empty array or not provided.
             </exception>
-            <exception cref="T:System.ArgumentNullException">Thrown when the <paramref name="siteNumbers"/> parameter is null.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown when the <paramref name="siteNumbers"/> parameter is null.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.RemoveSite(System.Int32[])">
             <summary>
@@ -3095,7 +3167,9 @@
             <exception cref="T:System.ArgumentException">
             Thrown when the <paramref name="siteNumbers"/> parameter is an empty array or not provided.
             </exception>
-            <exception cref="T:System.ArgumentNullException">Thrown when the <paramref name="siteNumbers"/> parameter is null.</exception>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when the <paramref name="siteNumbers"/> parameter is null.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.SetValue(`0)">
             <summary>
@@ -3105,7 +3179,9 @@
             Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the SiteData object is empty.
             </remarks>
             <param name="value">The value to be set for all sites.</param>
-            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when the SiteData object is empty.</exception>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the SiteData object is empty.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.SetValue(`0,System.Int32[])">
             <summary>
@@ -8340,6 +8416,16 @@
               Looks up a localized string similar to The PinNames array provided as input is null. Please provide valid pin name(s)..
             </summary>
         </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_NullDictPinSiteData">
+            <summary>
+              Looks up a localized string similar to The input PinSiteData dictionary cannot be null..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_NullDictSiteData">
+            <summary>
+              Looks up a localized string similar to The input SiteData dictionary cannot be null..
+            </summary>
+        </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_NullSiteNumbers">
             <summary>
               Looks up a localized string similar to The SiteNumbers array provided as input is null. Please provide valid site number(s)..
@@ -8357,17 +8443,17 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_PinSiteDataEmpty">
             <summary>
-              Looks up a localized string similar to The PinSiteData object is empty and does not contain any pin names..
+              Looks up a localized string similar to The PinSiteData object is empty and does not contain any pins. It must contain at least one pin to perform this operation..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_SiteDataEmpty">
             <summary>
-              Looks up a localized string similar to The SiteData object is empty and does not contain any site numbers..
+              Looks up a localized string similar to The SiteData object is empty and does not contain any site numbers. It must contain at least one site to perform this operation..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_SiteDataEmptyForPins">
             <summary>
-              Looks up a localized string similar to The SiteData object of pin(s) {0} is empty and does not contain any site numbers..
+              Looks up a localized string similar to The PinSiteData object does not contain any site numbers for pin(s) {0}. It must contain at least one site associated with the target pin(s) to perform this operation..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_SiteNumberNotFound">
