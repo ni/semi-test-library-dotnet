@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<PinMap schemaVersion="1.5" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Instruments>
+		<NIScopeInstrument name="SCOPE_5172_C1_S02" numberOfChannels="8" group="Scope" />
+		<NIScopeInstrument name="SCOPE_5172_C1_S03" numberOfChannels="8" group="Scope" />
+	</Instruments>
+	<Pins>
+		<DUTPin name="Vsc0" />
+		<DUTPin name="Vsc1" />
+		<DUTPin name="Vsc2" />
+		<DUTPin name="Vsc3" />
+	</Pins>
+	<PinGroups></PinGroups>
+	<Sites>
+		<Site siteNumber="0" />
+		<Site siteNumber="1" />
+		<Site siteNumber="2" />
+		<Site siteNumber="3" />
+	</Sites>
+	<Connections>
+		<Connection pin="Vsc0" siteNumber="0" instrument="SCOPE_5172_C1_S02" channel="0" />
+		<Connection pin="Vsc1" siteNumber="0" instrument="SCOPE_5172_C1_S02" channel="1" />
+		<Connection pin="Vsc2" siteNumber="0" instrument="SCOPE_5172_C1_S02" channel="2" />
+		<Connection pin="Vsc3" siteNumber="0" instrument="SCOPE_5172_C1_S02" channel="3" />
+		<Connection pin="Vsc0" siteNumber="2" instrument="SCOPE_5172_C1_S02" channel="4" />
+		<Connection pin="Vsc1" siteNumber="2" instrument="SCOPE_5172_C1_S02" channel="5" />
+		<Connection pin="Vsc2" siteNumber="2" instrument="SCOPE_5172_C1_S02" channel="6" />
+		<Connection pin="Vsc3" siteNumber="2" instrument="SCOPE_5172_C1_S02" channel="7" />
+		<Connection pin="Vsc0" siteNumber="1" instrument="SCOPE_5172_C1_S03" channel="0" />
+		<Connection pin="Vsc1" siteNumber="1" instrument="SCOPE_5172_C1_S03" channel="1" />
+		<Connection pin="Vsc2" siteNumber="1" instrument="SCOPE_5172_C1_S03" channel="2" />
+		<Connection pin="Vsc3" siteNumber="1" instrument="SCOPE_5172_C1_S03" channel="3" />
+		<Connection pin="Vsc0" siteNumber="3" instrument="SCOPE_5172_C1_S03" channel="4" />
+		<Connection pin="Vsc1" siteNumber="3" instrument="SCOPE_5172_C1_S03" channel="5" />
+		<Connection pin="Vsc2" siteNumber="3" instrument="SCOPE_5172_C1_S03" channel="6" />
+		<Connection pin="Vsc3" siteNumber="3" instrument="SCOPE_5172_C1_S03" channel="7" />
+	</Connections>
+</PinMap>
