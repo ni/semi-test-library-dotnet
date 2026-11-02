@@ -578,7 +578,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 #pragma warning restore CS0618
 
             Assert.Contains(typeof(Ivi.Driver.IviCDriverException).FullName, exception.Message);
-            Assert.Contains("Specified route cannot be satisfied, because it requires resources that are currently in use by another route.", exception.Message);
+            Assert.Contains("Trigger line requested could not be reserved because it is already in use", exception.Message); // This message is only valid on SMU4137 as for SMU414x/6x, the error message is different.
             sessionsBundle.Abort();
         }
 
@@ -623,7 +623,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
 
             Assert.Contains(typeof(Ivi.Driver.IviCDriverException).FullName, exception.Message);
-            Assert.Contains("Requested value is not a supported value for this property.", exception.Message);
+            Assert.Contains("Terminal for the device is invalid.", exception.Message); // This message is only valid on SMU4137 as for SMU414x/6x, the error message is different.
             sessionsBundle.Abort();
         }
 
