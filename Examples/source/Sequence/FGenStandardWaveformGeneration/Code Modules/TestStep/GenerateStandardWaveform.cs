@@ -56,7 +56,6 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.FGenStandardWave
             fgenBundle.ConfigureOutputMode(OutputMode.Function);
 
             // Configure the standard waveform settings for all channels in the bundle.
-            // var standardWaveform = (StandardWaveform)Enum.Parse(typeof(StandardWaveform), standardWaveformType, ignoreCase: true);
             var waveformSettings = new StandardWaveformSettings(
                 waveformFunctionType: standardWaveformType,
                 frequency: frequency,
