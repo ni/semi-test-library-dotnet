@@ -608,7 +608,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
             ConfigureTimingForAcquisition(sessionsBundle);
             sessionsBundle.Do(sessionInfo => sessionInfo.Session.Trigger.ConfigureTriggerSoftware(PrecisionTimeSpan.Zero, PrecisionTimeSpan.Zero));
-            sessionsBundle.Commit();
             sessionsBundle.Initiate();
 
             // A timeout of 0 fetches whatever is currently available without waiting. A software trigger that is never sent
