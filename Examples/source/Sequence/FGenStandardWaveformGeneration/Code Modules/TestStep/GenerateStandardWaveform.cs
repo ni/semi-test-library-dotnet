@@ -37,7 +37,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.FGenStandardWave
         /// <item>Aborts generation</item>
         /// <item>
         /// </list>
-        /// To generate continuously, remove the wait and abort calls and abort generation in a subsequent code module.
+        /// To generate continuously, remove the wait and abort calls and abort generation in a subsequent method and use it in a separate test step.
         /// </remarks>
         public static void GenerateStandardWaveform(
             ISemiconductorModuleContext tsmContext,
