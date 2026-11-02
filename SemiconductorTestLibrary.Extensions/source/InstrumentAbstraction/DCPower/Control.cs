@@ -157,6 +157,9 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         public static void Reset(this DCPowerSessionsBundle sessionsBundle, params string[] pinNames)
         {
             var channelsToReset = GetValidatedChannelsToReset(sessionsBundle, pinNames);
+
+            // Reset per session rather than per pin: a secondary channel of a merged pin group cannot be reset on its own,
+            // and a single Utility.Reset per session with a de-duplicated channel list avoids parallel Reset calls on the same session.
             sessionsBundle.Do(sessionInfo =>
             {
                 var sessionChannelStringToReset = string.Join(",", GetChannels(sessionInfo.AllChannelsString).Where(channelsToReset.Contains));
