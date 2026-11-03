@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PinMap schemaVersion="1.5" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Instruments>
+		<NIDigitalPatternInstrument name="HSD_6571_C1_S02" numberOfChannels="32" group="Digital" />
+	</Instruments>
+	<Pins>
+		<DUTPin name="CS" />
+		<DUTPin name="SDI" />
+		<DUTPin name="SDO" />
+		<DUTPin name="SCK" />
+		<DUTPin name="VO3" />
+		<DUTPin name="VIN" />
+	</Pins>
+	<PinGroups>
+		<PinGroup name="DigitalPins">
+			<PinReference pin="CS" />
+			<PinReference pin="SCK" />
+			<PinReference pin="SDI" />
+			<PinReference pin="SDO" />
+		</PinGroup>
+	</PinGroups>
+	<Sites>
+		<Site siteNumber="0" />
+		<Site siteNumber="1" />
+	</Sites>
+	<Connections>
+		<Connection pin="CS" siteNumber="0" instrument="HSD_6571_C1_S02" channel="1" />
+		<Connection pin="SDI" siteNumber="0" instrument="HSD_6571_C1_S02" channel="2" />
+		<Connection pin="SDO" siteNumber="0" instrument="HSD_6571_C1_S02" channel="3" />
+		<Connection pin="SCK" siteNumber="0" instrument="HSD_6571_C1_S02" channel="4" />
+		<Connection pin="VO3" siteNumber="0" instrument="HSD_6571_C1_S02" channel="5" />
+		<Connection pin="VIN" siteNumber="0" instrument="HSD_6571_C1_S02" channel="6" />
+		<Connection pin="CS" siteNumber="1" instrument="HSD_6571_C1_S02" channel="29" />
+		<Connection pin="SDI" siteNumber="1" instrument="HSD_6571_C1_S02" channel="28" />
+		<Connection pin="SDO" siteNumber="1" instrument="HSD_6571_C1_S02" channel="27" />
+		<Connection pin="SCK" siteNumber="1" instrument="HSD_6571_C1_S02" channel="26" />
+		<Connection pin="VO3" siteNumber="1" instrument="HSD_6571_C1_S02" channel="25" />
+		<Connection pin="VIN" siteNumber="1" instrument="HSD_6571_C1_S02" channel="24" />
+	</Connections>
+</PinMap>
