@@ -2,7 +2,7 @@
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
-using Common = NationalInstruments.SemiconductorTestLibrary.Common;
+using static NationalInstruments.SemiconductorTestLibrary.Common.Utilities;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.FGenStandardWaveformGeneration
 {
@@ -71,7 +71,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.FGenStandardWave
             fgenBundle.Initiate();
 
             // Wait for 10 seconds to ensure the generation has started. Adjust as needed.
-            Common.Utilities.PreciseWait(timeInSeconds: 10);
+            PreciseWait(timeInSeconds: 10);
 
             // Stop generation after the wait time. Remove this line if you want continuous generation.
             fgenBundle.Abort();
