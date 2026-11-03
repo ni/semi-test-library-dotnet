@@ -86,26 +86,39 @@ Each test step follows the same general pattern:
 
    All steps share the common helper methods `ConfigureScope`, which applies the vertical settings and electrical characteristics and commits them, and `InitiateFetchAndPublishescopeAcquisition`, which initiates the acquisition, fetches the waveforms, computes the frequency and amplitude per pin and site, and publishes the results.
 
-4. Note the order of execution and how the steps are organized. Pay attention to the step properties configured for each step by selecting a step and reviewing its settings in the **Step Settings** pane.
+3. Note the order of execution and how the steps are organized. Pay attention to the step properties configured for each step by selecting a step and reviewing its settings in the **Step Settings** pane.
 
-Complete the steps in the following sections to learn about the test program components. You can also run this example in offline mode to see it in action.
+### Step 3: Review the Pin Map
 
-### Step 4: Review the Pin Map File
-1. Select **Semiconductor Module -> Edit Pin Map** File or click the **Edit Pin Map File** button on the TSM toolbar to open the ScopeConfiguredAcquisition pin map file in the Pin Map Editor.
-The pin map file defines the following information:
-   - Two NI-SCOPE instrument named `SCOPE_5172_C1_S02` and `SCOPE_5172_C1_S03`.
-   - Four DUT pins named `Vsc0`, `Vsc1`, `Vsc2`, and `Vsc3`. The `Vsc0` DUT pin used to connect the signal out from DUT.
-   - Four sites on the tester.
-   - A series of connections for each site, in which each connection specifies a DUT pin, a site number, an instrument, and an instrument channel.
+1. From the TestStand Sequence Editor, open the pin map by selecting **Semiconductor Module -> Edit Pin Map File...** from the menu bar, or by clicking the **Edit Pin Map File** button on the TSM toolbar.
+2. Review the instrument definitions and pin assignments. Note that the pin map is configured to use an NI Scope Instrument (PXIe-5172) named `HSD_5172_C1_S02` and `HSD_5172_C1_S03`, with the scope pins `Vsc0`, `Vsc1`, `Vsc2`, and `Vsc3`.
+3. **If you are using a different scope instrument:**
+   - Locate the instrument entry for `HSD_5172_C1_S02` and `HSD_5172_C1_S03` in the Pin Map Editor.
+   - Update the instrument name to match the name of your available instrument as it appears in **NI MAX** (Measurement & Automation Explorer).
+   - Update the channel assignments for the `Vsc0`, `Vsc1`, `Vsc2`, and `Vsc3` pins as needed.
+   - Save the pin map file after making changes.
 
-2. Complete the following steps to review the Test Program Configurations that this test program uses.
+### Step 4: Review the Offline Configuration
+
+1. Complete the following steps to review the Test Program Configurations that this test program uses.
    1. Select **Semiconductor Module -> Edit Test Program: ScopeAcquisition.seq** or click the **Edit Test Program: ScopeAcquisition.seq** button on the TSM toolbar.
    2. Review the Offline Mode section to see which two scope instruments the STS software simulates when you run this example.
 
-3. Complete the following steps to review the `MainSequence`, `ProcessSetup`, and `ProcessCleanup` sequences that this test program uses.
-   1. On the `Sequences` pane, select the MainSequence sequence and review the objectives each step performs and optionally review the code associated with each step:
-      - In the main section, the example configures vertical settings, electrical characteristics, trigger settings, then the program initiates the acquisition, and at the end it fetches waveform and prints in the html report.
-      - In the `Variables` pane, observe the default values of the various settings used by the program under `Locals` section. The local variables are used to store the waveform object references and pass between the steps in the current sequence.  
-   2. On the `Sequences` pane, select the `ProcessSetup` sequence. TestStand calls this sequence once before starting testing. The steps in this sequence initialize the scope instruments and store the instrument sessions in the SemiconductorModuleContext.
-   3. On the `Sequences` pane, select the `ProcessCleanup` sequence. TestStand calls this sequence once after testing completes. The steps in this sequence close and reset the  instruments.
-4. You must meet all the [Prerequisites](#prerequisites) to run the test program. To run the test program, click the **Start/Resume Lot** button on the TSM toolbar.
+### Step 5: Review the Code Implementation
+
+You can open the C# source code in one of two ways:
+
+- **From TestStand:** In the MainSequence, **double-click** any test step to open its associated code module directly in Visual Studio.
+- **From disk:** Navigate to the `Code Modules` folder within this example's directory and **double-click** the Visual Studio solution file (`.sln`) to open the full project in Visual Studio. Alternatively, open Visual Studio manually and use **File -> Open -> Project/Solution** to browse to and open the solution file.
+- Once the code is open in Visual Studio, review each of the key files listed in the [code modules section](#code-modules) above.
+
+> **TIP:** In Visual Studio, **hover over** any STL extension method name to view its inline documentation. This provides details on the method's parameters, expected behavior, and return values.
+
+### Step 6: Run the Test Program
+
+1. Return to the **TestStand Sequence Editor**.
+2. Ensure all [Prerequisites](#prerequisites) are met, including having the correct digital pattern hardware installed (or Offline Mode enabled for simulation). A signal must be present on the measured pins to obtain actual measurement results.
+3. If you are running the test on STS hardware, update the values in the `ExpectedValues` container under **FileGlobals** to the expected values for the signal on the measured pins, so that the test passes accordingly.
+4. Click the **Start Lot (F5)** or **Single Test (Ctrl + F5)** button on the TSM toolbar to execute the test sequence.
+5. Monitor the execution in the TestStand Sequence Editor and review the results upon completion.
+
