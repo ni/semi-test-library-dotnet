@@ -1,6 +1,6 @@
 # Scope Acquisition Sequence Example
 
-This example demonstrates how to use the Semiconductor Test Library (STL) extension methods to acquire a signal with an NI Scope instrument (PXIe-5172). This example demonstrates the multi-site capability of scope extension methods using 4 sites in the pinmap file. 
+This example demonstrates how to use the Semiconductor Test Library (STL) extension methods to acquire a signal with an NI Scope instrument (PXIe-5172).
 
 
 ## Overview
