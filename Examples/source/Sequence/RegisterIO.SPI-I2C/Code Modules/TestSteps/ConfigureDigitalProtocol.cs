@@ -4,7 +4,7 @@ using NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAndI2C
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAndI2C
 {
     /// <summary>
-    /// Set of protocol-agnostic examples to demonstrate using the <see cref="SPI"/> class
+    /// Set of protocol-agnostic examples to demonstrate using the <see cref="SPI"/> and <see cref="I2C"/> classes
     /// through the shared <see cref="IDigitalProtocol"/> interface.
     /// The <see cref="CommunicationProtocol"/> parameter selects which protocol is used
     /// at runtime.

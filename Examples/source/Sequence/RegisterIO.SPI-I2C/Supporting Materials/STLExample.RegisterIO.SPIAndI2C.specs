@@ -19,23 +19,23 @@
     </f:Formula>
   </Section>
   <Section name="f">
-    <f:Formula symbol="SCLK">
-      <f:Definition>1/t.SCLK</f:Definition>
-      <f:Comment>SPI clock frequency</f:Comment>
+    <f:Formula symbol="SCK">
+      <f:Definition>1/t.SCK</f:Definition>
+      <f:Comment>Serial clock (SCK) frequency</f:Comment>
     </f:Formula>
   </Section>
   <Section name="t">
-    <f:Formula symbol="SCLK">
+    <f:Formula symbol="SCK">
       <f:Definition>t.LOW + t.HIGH</f:Definition>
-      <f:Comment>SPI clock period</f:Comment>
+      <f:Comment>Serial clock (SCK) period</f:Comment>
     </f:Formula>
     <f:Formula symbol="LOW">
       <f:Definition>5 µs</f:Definition>
-      <f:Comment>LOW period of the SPI clock</f:Comment>
+      <f:Comment>LOW period of the serial clock (SCK)</f:Comment>
     </f:Formula>
     <f:Formula symbol="HIGH">
       <f:Definition>5 µs</f:Definition>
-      <f:Comment>HIGH period of the SPI clock</f:Comment>
+      <f:Comment>HIGH period of the serial clock (SCK)</f:Comment>
     </f:Formula>
     <f:Formula symbol="setup_mosi">
       <f:Definition>5 µs</f:Definition>
@@ -48,6 +48,30 @@
     <f:Formula symbol="setup_cs">
       <f:Definition>5 µs</f:Definition>
       <f:Comment>Chip select (CS) setup time</f:Comment>
+    </f:Formula>
+    <f:Formula symbol="BUF">
+      <f:Definition>1.3 µs</f:Definition>
+      <f:Comment>Bus free time between a STOP and START condition</f:Comment>
+    </f:Formula>
+    <f:Formula symbol="HD_STA">
+      <f:Definition>0.6 µs</f:Definition>
+      <f:Comment>START hold time</f:Comment>
+    </f:Formula>
+    <f:Formula symbol="SU_STA">
+      <f:Definition>0.6 µs</f:Definition>
+      <f:Comment>START set-up time</f:Comment>
+    </f:Formula>
+    <f:Formula symbol="HD_DAT">
+      <f:Definition>0</f:Definition>
+      <f:Comment>DATA hold time</f:Comment>
+    </f:Formula>
+    <f:Formula symbol="SU_DAT">
+      <f:Definition>500 ns</f:Definition>
+      <f:Comment>DATA set-up time</f:Comment>
+    </f:Formula>
+    <f:Formula symbol="SU_STO">
+      <f:Definition>0.6 µs</f:Definition>
+      <f:Comment>STOP set-up time</f:Comment>
     </f:Formula>
   </Section>
 </Specifications>

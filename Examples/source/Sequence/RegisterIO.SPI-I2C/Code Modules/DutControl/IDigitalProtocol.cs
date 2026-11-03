@@ -24,7 +24,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
     /// <summary>
     /// Defines a protocol-agnostic contract for reading and writing DUT registers.
     /// Implementations provide protocol-specific waveform encoding, pattern bursting,
-    /// and capture decoding (e.g., <see cref="SPI"/>).
+    /// and capture decoding (e.g., <see cref="SPI"/> and <see cref="I2C"/>).
     /// </summary>
     public interface IDigitalProtocol
     {
@@ -56,13 +56,14 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         IReadOnlyList<string> PinNames { get; set; }
 
         /// <summary>
-        /// Gets or sets the pin that drives outgoing (source) data. For SPI this is SDI (MOSI).
+        /// Gets or sets the pin that drives outgoing (source) data. For SPI this is SDI (MOSI); for I2C this is SDI (SDA).
         /// Must be one of the pins in <see cref="PinNames"/>.
         /// </summary>
         string SourcePinName { get; set; }
 
         /// <summary>
-        /// Gets or sets the pin that captures incoming data. For SPI this is SDO (MISO).
+        /// Gets or sets the pin that captures incoming data. For SPI this is SDO (MISO); for I2C this is SDI (SDA),
+        /// the same pin as <see cref="SourcePinName"/>.
         /// Must be one of the pins in <see cref="PinNames"/>.
         /// </summary>
         string CapturePinName { get; set; }
