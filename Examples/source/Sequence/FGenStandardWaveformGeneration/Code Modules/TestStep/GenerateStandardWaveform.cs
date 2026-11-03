@@ -1,8 +1,8 @@
 ﻿using NationalInstruments.ModularInstruments.NIFgen;
-using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
+using Common = NationalInstruments.SemiconductorTestLibrary.Common;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.FGenStandardWaveformGeneration
 {
@@ -70,16 +70,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.FGenStandardWave
             // Initiate signal generation. This does not wait for generation to complete.
             fgenBundle.Initiate();
 
-            try
-            {
-                // Wait for 10 seconds to ensure the generation has started. Adjust as needed.
-                fgenBundle.WaitUntilDone(10000);
-            }
-            catch (NISemiconductorTestException)
-            {
-                // If the wait times out, it means the generation is still running. This is expected for continuous waveforms.
-                // You can handle this case as needed, for example by logging a message or ignoring the exception.
-            }
+            // Wait for 10 seconds to ensure the generation has started. Adjust as needed.
+            Common.Utilities.PreciseWait(timeInSeconds: 10);
 
             // Stop generation after the wait time. Remove this line if you want continuous generation.
             fgenBundle.Abort();

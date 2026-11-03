@@ -51,7 +51,7 @@ The supported waveform types are Sine, Square, Triangle, RampUp, RampDown, DC, a
 
 ### Code Modules
 
-- `Code Modules/TestStep/GenerateStandardWaveform.cs`: Configures the output mode to Function, configures the standard waveform settings for the specified waveform type, enables the output, and initiates signal generation on the specified pins. Waits for generation to complete using a 10-second timeout, catches the timeout exception if generation is still running, and then aborts generation.
+- `Code Modules/TestStep/GenerateStandardWaveform.cs`: Configures the output mode to Function, configures the standard waveform settings for the specified waveform type, enables the output, and initiates signal generation on the specified pins. Waits for 10-seconds for the generation to complete and then aborts generation.
 
 ## Using the Example
 
