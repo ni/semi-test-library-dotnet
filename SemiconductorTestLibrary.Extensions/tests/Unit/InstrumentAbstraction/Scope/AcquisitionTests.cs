@@ -154,7 +154,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
-        public void SessionsBundle_ReadWaveformWithTriggerNeverReceived_ThrowsNISemiconductorTestExceptionWithChannelDetails()
+        public void SessionsBundle_ReadWaveformWithTriggerNeverReceived_ThrowsNISemiconductorTestExceptionWithPinSiteDetails()
         {
             // A software trigger that is never sent prevents the acquisition from completing,
             // so the driver reports a timeout once the specified timeout elapses.
@@ -166,7 +166,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             void ReadWaveform() => sessionsBundle.ReadWaveform(PrecisionTimeSpan.FromMilliseconds(100), numberOfSamples: 1000);
 
             var exception = Assert.Throws<NISemiconductorTestException>(ReadWaveform);
-            Assert.Contains("channel", exception.Message, StringComparison.OrdinalIgnoreCase);
+            Assert.Contains("The acquisition failed or did not complete within the specified timeout", exception.Message);
+            Assert.Contains("site0/SCP_5172_Pin_1", exception.Message);
+            Assert.Contains("site1/SCP_5172_Pin_1", exception.Message);
         }
 
         [Fact]
@@ -240,7 +242,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             void ReadWaveform() => sessionsBundle.ReadWaveform(PrecisionTimeSpan.Zero, numberOfSamples: -1);
 
             var exception = Assert.Throws<NISemiconductorTestException>(ReadWaveform);
-            Assert.Contains("SCP_5172_Pin_1", exception.Message);
+            Assert.Contains("The acquisition failed or did not complete within the specified timeout", exception.Message);
+            Assert.Contains("site0/SCP_5172_Pin_1", exception.Message);
+            Assert.Contains("site1/SCP_5172_Pin_1", exception.Message);
         }
 
         [Fact]
@@ -316,7 +320,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         [Fact]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
-        public void SessionsBundle_ReadWithTriggerNeverReceived_ThrowsNISemiconductorTestExceptionWithChannelDetails()
+        public void SessionsBundle_ReadWithTriggerNeverReceived_ThrowsNISemiconductorTestExceptionWithPinSiteDetails()
         {
             // A software trigger that is never sent prevents the acquisition from completing,
             // so the driver reports a timeout once the specified timeout elapses.
@@ -328,7 +332,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             void Read() => sessionsBundle.Read(PrecisionTimeSpan.FromMilliseconds(100), numberOfSamples: 1000);
 
             var exception = Assert.Throws<NISemiconductorTestException>(Read);
-            Assert.Contains("channel", exception.Message, StringComparison.OrdinalIgnoreCase);
+            Assert.Contains("The acquisition failed or did not complete within the specified timeout", exception.Message);
+            Assert.Contains("site0/SCP_5172_Pin_1", exception.Message);
+            Assert.Contains("site1/SCP_5172_Pin_1", exception.Message);
         }
 
         [Fact]
@@ -407,6 +413,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             void Read() => sessionsBundle.Read(PrecisionTimeSpan.FromMilliseconds(100), numberOfSamples: 1000);
 
             var exception = Assert.Throws<NISemiconductorTestException>(Read);
+            Assert.Contains("The acquisition failed or did not complete within the specified timeout", exception.Message);
             Assert.Contains("site0/SCP_5172_Pin_1", exception.Message, StringComparison.OrdinalIgnoreCase);
             Assert.Contains("site1/SCP_5172_Pin_1", exception.Message, StringComparison.OrdinalIgnoreCase);
             Assert.Contains("site0/SCP_5172_Pin_3", exception.Message, StringComparison.OrdinalIgnoreCase);
@@ -429,6 +436,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             void Read() => sessionsBundle.Read(PrecisionTimeSpan.FromMilliseconds(100), numberOfSamples: 1000);
 
             var exception = Assert.Throws<NISemiconductorTestException>(Read);
+            Assert.Contains("The acquisition failed or did not complete within the specified timeout", exception.Message);
             Assert.Contains("site0/SCP_5622_Pin", exception.Message, StringComparison.OrdinalIgnoreCase);
             Assert.Contains("site1/SCP_5622_Pin", exception.Message, StringComparison.OrdinalIgnoreCase);
         }
@@ -463,7 +471,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             void Read() => sessionsBundle.Read(PrecisionTimeSpan.Zero, numberOfSamples: -1);
 
             var exception = Assert.Throws<NISemiconductorTestException>(Read);
-            Assert.Contains("SCP_5172_Pin_1", exception.Message);
+            Assert.Contains("The acquisition failed or did not complete within the specified timeout", exception.Message);
+            Assert.Contains("site0/SCP_5172_Pin_1", exception.Message);
+            Assert.Contains("site1/SCP_5172_Pin_1", exception.Message);
         }
 
         [Fact]
@@ -528,17 +538,20 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
         [Fact]
         [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
-        public void SessionsBundle_FetchWaveformWithZeroTimeoutAndNoPendingAcquisition_ThrowsNISemiconductorTestExceptionWithChannelDetails()
+        public void SessionsBundle_FetchWaveformWithZeroTimeoutAndNoPendingAcquisition_ThrowsNISemiconductorTestExceptionWithPinSiteDetails()
         {
             var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
             ConfigureTimingForAcquisition(sessionsBundle);
 
-            // A timeout of 0 tells the driver to return whatever samples are currently available without waiting.
-            // Since no acquisition has been initiated, no samples are available, so the driver still reports a timeout.
+            // Since no acquisition has been initiated, the driver rejects the fetch with an "acquisition has not been initiated" error.
+            // This is not an acquisition timeout, so the driver error is wrapped with the generic pin/site details
+            // rather than being replaced by the acquisition failure message.
             void FetchWaveform() => sessionsBundle.FetchWaveform(PrecisionTimeSpan.Zero, numberOfSamples: 1000);
 
             var exception = Assert.Throws<NISemiconductorTestException>(FetchWaveform);
-            Assert.Contains("channel", exception.Message, StringComparison.OrdinalIgnoreCase);
+            Assert.Contains("An exception occurred while processing pins/sites", exception.Message);
+            Assert.Contains("site0/SCP_5172_Pin_1", exception.Message);
+            Assert.Contains("site1/SCP_5172_Pin_1", exception.Message);
         }
 
         [Fact]
@@ -616,7 +629,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             void FetchWaveform() => sessionsBundle.FetchWaveform(PrecisionTimeSpan.Zero, numberOfSamples: -1);
 
             var exception = Assert.Throws<NISemiconductorTestException>(FetchWaveform);
-            Assert.Contains("SCP_5172_Pin_1", exception.Message);
+            Assert.Contains("The acquisition failed or did not complete within the specified timeout", exception.Message);
+            Assert.Contains("site0/SCP_5172_Pin_1", exception.Message);
+            Assert.Contains("site1/SCP_5172_Pin_1", exception.Message);
         }
 
         [Fact]
