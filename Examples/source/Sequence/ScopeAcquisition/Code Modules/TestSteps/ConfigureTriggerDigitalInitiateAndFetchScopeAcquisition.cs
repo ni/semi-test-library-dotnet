@@ -71,7 +71,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
             };
             scopeBundle.ConfigureTriggerDigital(triggerDigitalSettings);
 
-            InitiateFetchAndPublishescopeAcquisition(tsmContext, scopeBundle);
+            InitiateFetchAndPublishScopeAcquisition(tsmContext, scopeBundle);
         }
     }
 }

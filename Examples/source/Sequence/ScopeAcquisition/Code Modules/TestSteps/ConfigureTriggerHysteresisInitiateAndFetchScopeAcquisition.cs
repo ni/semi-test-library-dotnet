@@ -80,7 +80,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
             };
             scopeBundle.ConfigureTriggerHysteresis(triggerHysteresisSettings);
 
-            InitiateFetchAndPublishescopeAcquisition(tsmContext, scopeBundle);
+            InitiateFetchAndPublishScopeAcquisition(tsmContext, scopeBundle);
         }
     }
 }

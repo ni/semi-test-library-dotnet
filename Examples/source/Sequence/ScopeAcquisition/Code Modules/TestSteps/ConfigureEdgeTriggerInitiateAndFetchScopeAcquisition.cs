@@ -77,7 +77,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
             };
             scopeBundle.ConfigureEdgeTrigger(edgeTriggerSettings);
 
-            InitiateFetchAndPublishescopeAcquisition(tsmContext, scopeBundle);
+            InitiateFetchAndPublishScopeAcquisition(tsmContext, scopeBundle);
         }
     }
 }

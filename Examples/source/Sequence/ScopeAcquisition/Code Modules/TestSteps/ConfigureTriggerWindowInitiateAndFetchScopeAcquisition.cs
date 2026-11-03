@@ -80,7 +80,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
             };
             scopeBundle.ConfigureTriggerWindow(triggerWindowSettings);
 
-            InitiateFetchAndPublishescopeAcquisition(tsmContext, scopeBundle);
+            InitiateFetchAndPublishScopeAcquisition(tsmContext, scopeBundle);
         }
     }
 }

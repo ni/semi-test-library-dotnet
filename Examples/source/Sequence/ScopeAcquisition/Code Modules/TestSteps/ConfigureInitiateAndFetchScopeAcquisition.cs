@@ -63,7 +63,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
 
             scopeBundle.ConfigureTriggerImmediate();
 
-            InitiateFetchAndPublishescopeAcquisition(tsmContext, scopeBundle);
+            InitiateFetchAndPublishScopeAcquisition(tsmContext, scopeBundle);
         }
 
         private static void ConfigureScope(
@@ -93,7 +93,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
             scopeBundle.Commit();
         }
 
-        private static void InitiateFetchAndPublishescopeAcquisition(ISemiconductorModuleContext tsmContext, ScopeSessionsBundle scopeBundle)
+        private static void InitiateFetchAndPublishScopeAcquisition(ISemiconductorModuleContext tsmContext, ScopeSessionsBundle scopeBundle)
         {
             scopeBundle.Initiate();
             var waveforms = scopeBundle.FetchWaveform(PrecisionTimeSpan.FromSeconds(50.0), 1000);
