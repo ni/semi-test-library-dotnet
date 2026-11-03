@@ -12,7 +12,7 @@ The example showcases three different standard waveform types generated on the `
 
 Each step calls the same `GenerateStandardWaveform` code module, which generates the specified waveform type for 10 seconds on the "AI0" and "AI1" pins using the configured standard waveform settings (frequency, amplitude, offset, start phase).
 
-> **NOTE:** To generate continuously, remove the wait and abort calls from the GenerateStandardWaveform code module, and add a new code module to abort generation in a subsequent test step.
+> **NOTE:** To generate continuously, remove the wait and abort calls from the `GenerateStandardWaveform` code module, and add a new code module to abort generation in a subsequent test step.
 
 The supported waveform types are Sine, Square, Triangle, RampUp, RampDown, DC, and Noise.
 
