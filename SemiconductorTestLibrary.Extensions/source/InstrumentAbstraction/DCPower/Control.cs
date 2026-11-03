@@ -144,7 +144,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// its primary pin.
         /// </para>
         /// <para>
-        /// Use <see cref="ResetDevice(DCPowerSessionsBundle, bool)"/> to perform a hard reset of the whole instrument.
+        /// Use <see cref="DCPowerSessionsBundle.ResetDevice(bool)"/> to perform a hard reset of the whole instrument.
         /// </para>
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
@@ -170,80 +170,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-        /// <summary>
-        /// Performs a hard reset of the instrument(s) that the channels in the bundle belong to, and recovers every other channel on the same instrument(s).
-        /// </summary>
-        /// <remarks>
-        /// <para>
-        /// The device reset operation is applied to the instrument as a whole, across all channels, not only to the channels in the bundle.
-        /// </para>
-        /// <para>
-        /// When an instrument is split across several channel groups in the pin map, each channel group is a separate driver session, and the reset
-        /// invalidates every session on the instrument except the one that issued it. This method resets each instrument once, then reinitializes
-        /// every invalidated session and re-registers them with the TSM session manager.
-        /// Session references in existing <see cref="DCPowerSessionsBundle"/> objects are updated, including bundles that are filtered by site or pin.
-        /// This allows all bundle objects to continue being used in subsequent operations.
-        /// </para>
-        /// <para>
-        /// When <paramref name="restoreConfiguration"/> is <see langword="true"/> (default), the configuration of every channel that is not present in
-        /// the bundle is preserved and restored after the reset, including channels that share a channel group with the channels in the bundle.
-        /// Since the driver configuration can only be applied to the session as a whole, and not to individual channels, the target channels in the
-        /// bundle are first soft reset to ensure they are in their default state when the driver configuration is applied after the reset device
-        /// operation is performed. When <paramref name="restoreConfiguration"/> is <see langword="false"/>, every channel on the instrument(s) is left
-        /// in its default state.
-        /// </para>
-        /// <para>
-        /// Additionally, when an instrument is split across several channel groups and sites are disabled, the channels that map to disabled sites
-        /// are also recovered, using the channel group information captured when the sessions were first initialized. Their configuration is only
-        /// restored if it can be read from the active sites; otherwise they are left in their default state.
-        /// </para>
-        /// <para>
-        /// Calls are serialized across threads. When several threads reset the same instrument,
-        /// the instrument is hard reset once and the other calls only reset the channels in their own bundle.
-        /// For example, when calling code is parallelized or invoked from a TestStand step configured to execute in one thread per site.
-        /// </para>
-        /// <para>
-        /// The reset clears driver-level channel merging. Merge the merged pin groups in the bundle again after the reset. The secondary channel of
-        /// a merge cannot be reset on its own, so a secondary channel in the bundle whose primary channel is in another bundle is not reset and
-        /// keeps following its primary channel. The merged channels of other bundles on the instrument(s) are restored with their configuration
-        /// when <paramref name="restoreConfiguration"/> is <see langword="true"/>; otherwise unmerge and merge those pin groups again.
-        /// </para>
-        /// <para>
-        /// Avoid calling this method often, as it is expected to take several seconds to execute per session.
-        /// Use the <see cref="Reset(DCPowerSessionsBundle, string[])"/> method instead to reset specific channels.
-        /// </para>
-        /// <para>
-        /// Throws an <see cref="NISemiconductorTestException"/> when the sessions were not initialized with
-        /// <see cref="InitializeAndClose.Initialize"/> or mapped with
-        /// <see cref="Initialization.MapInitializedInstrumentSessions"/>, or were already closed;
-        /// when a session in the bundle is not registered with TSM; or when a channel group fails to be prepared before the reset. In these cases,
-        /// no instrument is reset. Also throws an <see cref="NISemiconductorTestException"/> when one or more channel groups fail to be recovered
-        /// after the reset, for example when a reinitialized session cannot be registered with TSM. The other channel groups are still recovered,
-        /// and the error of each channel group that failed is reported.
-        /// </para>
-        /// </remarks>
-        /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="restoreConfiguration">
-        /// Whether to preserve and restore the configuration of any channels that share the same device as the channels being reset but are not present in the bundle.
-        /// Where, the channels that are present in the bundle will be reset to their default state.
-        /// Set to <see langword="true"/> by default.
-        /// </param>
-        /// <exception cref="NISemiconductorTestException">Thrown when the sessions were not initialized with
-        /// <see cref="InitializeAndClose.Initialize"/> or mapped with
-        /// <see cref="Initialization.MapInitializedInstrumentSessions"/>, or were already closed.
-        /// No instrument is reset.</exception>
-        /// <exception cref="NISemiconductorTestException">Thrown when a session in the bundle is not registered with TSM, so its full channel group
-        /// cannot be determined. No instrument is reset.</exception>
-        /// <exception cref="NISemiconductorTestException">Thrown when a channel group fails to be prepared before the reset, for example when its
-        /// configuration cannot be exported. No instrument is reset.</exception>
-        /// <exception cref="NISemiconductorTestException">Thrown when a channel group fails to be recovered after the reset. When several channel groups
-        /// fail, the exception lists all of them, and its inner <see cref="AggregateException"/> contains the error of each one.</exception>
-        /// <exception cref="NISemiconductorTestException">Thrown when a reinitialized session cannot be registered with TSM because the context used for
-        /// recovery does not contain the sites of its channel group.</exception>
-        public static void ResetDevice(this DCPowerSessionsBundle sessionsBundle, bool restoreConfiguration = true)
-        {
-            sessionsBundle.ResetDeviceAndRecoverSessions(restoreConfiguration);
-        }
         #endregion methods on DCPowerSessionsBundle
 
         private static HashSet<string> GetValidatedChannelsToReset(DCPowerSessionsBundle sessionsBundle, string[] pinNames)
