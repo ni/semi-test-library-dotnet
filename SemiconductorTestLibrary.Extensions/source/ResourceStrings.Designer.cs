@@ -19,7 +19,7 @@ namespace NationalInstruments.SemiconductorTestLibrary {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class ResourceStrings {
@@ -111,6 +111,33 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         internal static string DAQmx_SampleClockRateNotDistinct {
             get {
                 return ResourceManager.GetString("DAQmx_SampleClockRateNotDistinct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The output terminal specified for the site-pin pair ({0}) cannot be null or empty..
+        /// </summary>
+        internal static string DCPower_ExportSignalOutputTerminalEmpty {
+            get {
+                return ResourceManager.GetString("DCPower_ExportSignalOutputTerminalEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The output terminal ({0}) is specified for more than one site-pin pair ({1}). An output terminal is reserved by the channel that exports a signal to it, therefore each site-pin pair requires its own unique output terminal..
+        /// </summary>
+        internal static string DCPower_ExportSignalOutputTerminalNotUnique {
+            get {
+                return ResourceManager.GetString("DCPower_ExportSignalOutputTerminalNotUnique", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The outputTerminals parameter cannot be null and must contain at least one site-pin pair..
+        /// </summary>
+        internal static string DCPower_ExportSignalOutputTerminalsEmpty {
+            get {
+                return ResourceManager.GetString("DCPower_ExportSignalOutputTerminalsEmpty", resourceCulture);
             }
         }
         
@@ -394,6 +421,33 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Output terminal passed as input is either null or an empty string. Please provide valid output terminal..
+        /// </summary>
+        internal static string FGen_OutputTerminalNullOrEmpty {
+            get {
+                return ResourceManager.GetString("FGen_OutputTerminalNullOrEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trigger source passed as input is either null or an empty string. Please provide valid trigger source..
+        /// </summary>
+        internal static string FGen_TriggerSourceNullOrEmpty {
+            get {
+                return ResourceManager.GetString("FGen_TriggerSourceNullOrEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The signal source &apos;{0}&apos; is not supported. Supported values are StartTrigger, ReadyForStartEvent, StartedEvent, and DoneEvent..
+        /// </summary>
+        internal static string FGen_UnsupportedSignalSource {
+            get {
+                return ResourceManager.GetString("FGen_UnsupportedSignalSource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The &apos;StandardWaveform.User&apos; Waveform Function Type is not supported in STL..
         /// </summary>
         internal static string FGen_UnsupportedWaveFunctionType {
@@ -408,6 +462,15 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         internal static string Scope_VerticalSettingsNull {
             get {
                 return ResourceManager.GetString("Scope_VerticalSettingsNull", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The acquisition failed or did not complete within the specified timeout. This may affect all channels on the same card, including those mapped to other sites. Affected channels: {0}.
+        /// </summary>
+        internal static string Scope_AcquisitionFailedException {
+            get {
+                return ResourceManager.GetString("Scope_AcquisitionFailedException", resourceCulture);
             }
         }
     }
