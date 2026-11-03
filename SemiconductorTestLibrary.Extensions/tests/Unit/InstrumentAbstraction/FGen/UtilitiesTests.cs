@@ -29,7 +29,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
         [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
         public void InitializeBundleWithSinglePinAndSetNonDefaultProperties_Reset_PropertiesRestoredToDefault(string pinmap)
@@ -48,7 +47,6 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Theory]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         [InlineData("FgenSingleInstrumentPerPin.pinmap")]
         [InlineData("FgenSingleInstrumentPerPinPerSite.pinmap")]
         public void InitializeBundleWithSinglePinAndSetNonDefaultProperties_ResetDevice_PropertiesRestoredToDefault(string pinmap)
