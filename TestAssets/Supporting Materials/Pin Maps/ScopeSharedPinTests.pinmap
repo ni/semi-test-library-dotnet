@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PinMap schemaVersion="1.5" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Instruments>
+		<NIScopeInstrument name="SCP_5172_C8_S04" numberOfChannels="8" />
+		<NIScopeInstrument name="SCP_5162_C2_S09" numberOfChannels="4" />
+	</Instruments>
+	<Pins>
+		<DUTPin name="SCP_5172_SharedPin" />
+		<DUTPin name="SCP_5162_SharedPin" />
+	</Pins>
+	<PinGroups></PinGroups>
+	<Sites>
+		<Site siteNumber="0" />
+		<Site siteNumber="1" />
+	</Sites>
+	<Connections>
+		<Connection pin="SCP_5172_SharedPin" siteNumber="0,1" instrument="SCP_5172_C8_S04" channel="2" />
+		<Connection pin="SCP_5162_SharedPin" siteNumber="0,1" instrument="SCP_5162_C2_S09" channel="0" />
+	</Connections>
+</PinMap>
