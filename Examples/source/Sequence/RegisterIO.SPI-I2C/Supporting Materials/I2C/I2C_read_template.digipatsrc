@@ -1,0 +1,41 @@
+//
+
+file_format_version 1.1;
+timeset I2C_Idle, I2C_SourceStartSetup, I2C_Start, I2C_Busy, I2C_Stop;
+
+pattern I2C_read_template (CS, SCK, SDI, SDO)
+{
+set_loop(reg0)						I2C_Idle				1		1		1		1;
+capture_start(I2C_capture_buffer)	-						1		1		1		1;		// Define the read buffer
+source_start(I2C_source_buffer)		-						1		1		1		1;		// Define the register addresses buffer
+									I2C_SourceStartSetup	1		1		1		1;
+repeatRead:
+									I2C_Start				1		1		1		1;		// Start
+									I2C_Busy				1		1		1		1;		// Device address (7-bit) = 0x77
+									-						1		1		1		1;
+									-						1		1		1		1;
+									-						1		1		0		1;
+									-						1		1		1		1;
+									-						1		1		1		1;
+									-						1		1		1		1;
+									-						1		1		0		1;		// Write instruction (SDA = 0)
+									-						1		1		L		1;		// ACK
+repeat(reg1), source				-						1		1		D		1;		// Register address
+									-						1		1		L		1;		// ACK
+									I2C_Start				1		1		1		1;		// Repeat Start
+									I2C_Busy				1		1		1		1;		// Device address (7-bit) = 0x77
+									-						1		1		1		1;
+									-						1		1		1		1;
+									-						1		1		0		1;
+									-						1		1		1		1;
+									-						1		1		1		1;
+									-						1		1		1		1;
+									-						1		1		1		1;		// Read instruction (SDA = 1)
+									-						1		1		L		1;		// ACK
+repeat(reg2), capture				-						1		1		V		1;		// Data
+									-						1		1		H		1;		// NACK
+									I2C_Stop				1		1		0		1;		// Stop
+end_loop(repeatRead)				I2C_Idle				1		1		1		1;
+capture_stop						-						1		1		1		1;
+halt								-						1		1		1		1;
+}
