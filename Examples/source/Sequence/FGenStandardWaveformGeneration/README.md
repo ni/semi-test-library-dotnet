@@ -6,15 +6,13 @@ This example demonstrates how to use the Semiconductor Test Library (STL) extens
 
 The example showcases three different standard waveform types generated on the `AI0` and `AI1` pins, which are mapped to NI-FGEN channels:
 
-1. **Generate Standard Waveform** (Sine): Generates a sine waveform.
-2. **Generate Standard Waveform** (Square): Generates a square waveform.
-3. **Generate Standard Waveform** (Triangle): Generates a triangle waveform.
+1. **Generate Sine Wave**: Generates a 100kHz sine wave with an amplitude of 5, and zero offset and phase.
+2. **Generate Square Wave**: Generates a 100kHz square wave with an amplitude of 5, and zero offset and phase.
+3. **Generate Triangle Wave**: Generates a 100kHz triangle wave with an amplitude of 5, and zero offset and phase.
 
-Each step calls the same `GenerateStandardWaveform` code module, which configures the output mode to Function, configures the standard waveform settings (waveform type, frequency, amplitude, DC offset, and start phase), enables the output, and initiates signal generation. The code module then waits for generation to complete using a 10-second timeout, and aborts generation before returning. If the wait times out because generation is still running, which is expected for continuous waveforms, the timeout exception is caught and the code module continues to abort generation.
+Each step calls the same `GenerateStandardWaveform` code module, which generates the specified waveform type for 10 seconds on the "AI0" and "AI1" pins using the configured standard waveform settings (frequency, amplitude, offset, start phase).
 
-A 3-second Wait step runs between each waveform generation step.
-
-> **NOTE:** To generate continuously, remove the wait and abort calls, and abort generation in a subsequent test step.
+> **NOTE:** To generate continuously, remove the wait and abort calls from the GenerateStandardWaveform code module, and add a new code module to abort generation in a subsequent test step.
 
 The supported waveform types are Sine, Square, Triangle, RampUp, RampDown, DC, and Noise.
 
@@ -28,7 +26,7 @@ The supported waveform types are Sine, Square, Triangle, RampUp, RampDown, DC, a
 
 ### Hardware Requirements
 
-- Three NI Function Generators (PXIe-543x) named `FGEN_5433_C3_S03`, `FGEN_5433_C2_S05`, and `FGEN_5433_C1_S13` (or update the pin map to use the names of the NI Function Generators in your system, as defined in NI MAX)
+- Three NI Function Generators (PXIe-543x) named `FGEN_5433_C1_S03`, `FGEN_5433_C2_S05`, and `FGEN_5433_C2_S07` (or update the pin map to use the names of the NI Function Generators in your system, as defined in NI MAX)
 
 > **NOTE:**
 > You can view the example sequence file in the TestStand Sequence Editor and C# source files in Visual Studio or any text editor without meeting the hardware requirements.
@@ -66,20 +64,18 @@ The supported waveform types are Sine, Square, Triangle, RampUp, RampDown, DC, a
 
 1. In the TestStand Sequence Editor, select the **MainSequence** tab to view the test steps.
 2. Observe the sequence of test steps that demonstrate standard waveform generation:
-   - **Generate Standard Waveform** - Generates a sine waveform on the `AI0` and `AI1` pins.
-   - **Wait** - Waits for 3 seconds.
-   - **Generate Standard Waveform** - Generates a square waveform on the `AI0` and `AI1` pins.
-   - **Wait** - Waits for 3 seconds.
-   - **Generate Standard Waveform** - Generates a triangle waveform on the `AI0` and `AI1` pins.
+   - **Generate Sine Wave** - Generates a sine waveform on the `AI0` and `AI1` pins.
+   - **Generate Square Wave** - Generates a square waveform on the `AI0` and `AI1` pins.
+   - **Generate Triangle Wave** - Generates a triangle waveform on the `AI0` and `AI1` pins.
 3. Select each step and review its settings in the **Step Settings** pane. Each waveform generation step is configured with a frequency of 100000 Hz, an amplitude of 5 V peak-to-peak, a DC offset of 1 V, and a start phase of 0 degrees.
 4. To generate a different waveform type, update the `standardWaveformType` parameter of the step to one of the other supported waveform types ("RampUp", "RampDown", "DC", or "Noise").
 
 ### Step 3: Review the Pin Map
 
 1. From the TestStand Sequence Editor, open the pin map by selecting **Semiconductor Module -> Edit Pin Map File...** from the menu bar, or by clicking the **Edit Pin Map File** button on the TSM toolbar.
-2. Review the instrument definitions and pin assignments. Note that the pin map is configured to use three NI Function Generators (PXIe-543x) named `FGEN_5433_C3_S03`, `FGEN_5433_C2_S05`, and `FGEN_5433_C1_S13`, with the pins `AI0`, `AI1`, and `Clk`, respectively. Each pin is connected to channel 0 of its instrument for site 0, and to channel 1 for site 1. The **Generate Standard Waveform** steps use only the `AI0` and `AI1` pins.
+2. Review the instrument definitions and pin assignments. Note that the pin map is configured to use three NI Function Generators (PXIe-543x) named `FGEN_5433_C1_S03`, `FGEN_5433_C2_S05`, and `FGEN_5433_C2_S07`, with the pins `AI0`, `AI1`, and `Clk`, respectively. Each pin is connected to channel 0 of its instrument for site 0, and to channel 1 for site 1. The **Generate Standard Waveform** steps use only the `AI0` and `AI1` pins.
 3. **If you are using a different function generator:**
-   - Locate the instrument entries for `FGEN_5433_C3_S03`, `FGEN_5433_C2_S05`, and `FGEN_5433_C1_S13` in the Pin Map Editor.
+   - Locate the instrument entries for `FGEN_5433_C1_S03`, `FGEN_5433_C2_S05`, and `FGEN_5433_C2_S07` in the Pin Map Editor.
    - Update the instrument names to match the names of your available instruments as they appear in **NI MAX** (Measurement & Automation Explorer).
    - Update the channel assignments for the `AI0`, `AI1`, and `Clk` pins as needed.
    - Save the pin map file after making changes.
