@@ -549,7 +549,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             void FetchWaveform() => sessionsBundle.FetchWaveform(PrecisionTimeSpan.Zero, numberOfSamples: 1000);
 
             var exception = Assert.Throws<NISemiconductorTestException>(FetchWaveform);
-            Assert.Contains("An exception occurred while processing pins/sites", exception.Message);
+            Assert.Contains("An acquisition has not been initiated", exception.Message);
             Assert.Contains("site0/SCP_5172_Pin_1", exception.Message);
             Assert.Contains("site1/SCP_5172_Pin_1", exception.Message);
         }
