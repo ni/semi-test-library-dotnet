@@ -3,6 +3,7 @@ using NationalInstruments.ModularInstruments.NIFgen;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen;
+using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
@@ -10,6 +11,7 @@ using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMCon
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.Fgen
 {
     [Collection("NonParallelizable")]
+    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
     public sealed class UtilitiesTests : IDisposable
     {
         private ISemiconductorModuleContext _tsmContext;
@@ -70,7 +72,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void InitializeBundleWithMultiplePinsAndSetNonDefaultProperties_Reset_PropertiesRestoredToDefault(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
-            var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B", "SystemPin" });
+            var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
             var outputModeDefault = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo => sessionInfo.Session.Output.OutputMode);
             sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo => sessionInfo.Session.Output.OutputMode = OutputMode.Sequence);
             var outputModeNonDefault = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo => sessionInfo.Session.Output.OutputMode);
@@ -90,7 +92,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void InitializeBundleWithMultiplePinsAndSetNonDefaultProperties_ResetDevice_PropertiesRestoredToDefault(string pinmap)
         {
             var sessionManager = Initialize(pinmap);
-            var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B", "SystemPin" });
+            var sessionsBundle = sessionManager.Fgen(new string[] { "A", "B" });
             var outputModeDefault = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo => sessionInfo.Session.Output.OutputMode);
             sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo => sessionInfo.Session.Output.OutputMode = OutputMode.Sequence);
             var outputModeNonDefault = sessionsBundle.DoAndReturnPerInstrumentPerChannelResults(sessionInfo => sessionInfo.Session.Output.OutputMode);
