@@ -84,7 +84,7 @@ Each test step follows the same general pattern:
    - **Hysteresis Trigger** (`ConfigureTriggerHysteresisInitiateAndFetchScopeAcquisition`) - Configures a hysteresis trigger using the trigger level, hysteresis, slope, coupling, hold-off, and delay step parameters.
    - **Window Trigger** (`ConfigureTriggerWindowInitiateAndFetchScopeAcquisition`) - Configures a window trigger using the window low level, window high level, window mode, coupling, hold-off, and delay step parameters.
 
-   All steps share the common helper methods `ConfigureScope`, which applies the vertical settings and electrical characteristics and commits them, and `InitiateFetchAndPublishScopeAcquisition`, which initiates the acquisition, fetches the waveforms, computes the frequency and amplitude per pin and site, and publishes the results.
+   All steps share the common helper methods `ConfigureScope`, which applies the vertical settings and electrical characteristics and commits them, and `InitiateFetchAndPublishescopeAcquisition`, which initiates the acquisition, fetches the waveforms, computes the frequency and amplitude per pin and site, and publishes the results.
 
 4. Note the order of execution and how the steps are organized. Pay attention to the step properties configured for each step by selecting a step and reviewing its settings in the **Step Settings** pane.
 

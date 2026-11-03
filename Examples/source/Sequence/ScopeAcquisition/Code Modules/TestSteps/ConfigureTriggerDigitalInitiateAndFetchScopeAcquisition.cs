@@ -22,7 +22,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
         /// <item>Fetches the acquired waveform</item>
         /// <item>Calculates the measured frequency and max amplitude of the signal</item>
         /// <item>
-        /// Publishs the frequency value using the "Frequency" published data id,
+        /// Publishes the frequency value using the "Frequency" published data id,
         /// and the amplitude value using the "Amplitude" published data id.
         /// </item>
         /// </list>
@@ -71,7 +71,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
             };
             scopeBundle.ConfigureTriggerDigital(triggerDigitalSettings);
 
-            InitiateFetchAndPublishScopeAcquisition(tsmContext, scopeBundle);
+            InitiateFetchAndPublishescopeAcquisition(tsmContext, scopeBundle);
         }
     }
 }
