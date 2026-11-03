@@ -2,8 +2,8 @@
 <PinMap schemaVersion="1.1" xmlns="http://www.ni.com/TestStand/SemiconductorModule/PinMap.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<Instruments>
 		<NIFGenInstrument name="FGEN_5433_C1_S03" numberOfChannels="2" />
-		<NIFGenInstrument name="FGEN_5433_C2_S05" numberOfChannels="2" />
-		<NIFGenInstrument name="FGEN_5433_C2_S07" numberOfChannels="2" />
+		<NIFGenInstrument name="FGEN_5433_C1_S04" numberOfChannels="2" />
+		<NIFGenInstrument name="FGEN_5433_C1_S05" numberOfChannels="2" />
 	</Instruments>
 	<Pins>
 		<DUTPin name="AI0" />
@@ -18,9 +18,9 @@
 	<Connections>
 		<Connection pin="AI0" siteNumber="0" instrument="FGEN_5433_C1_S03" channel="0" />
 		<Connection pin="AI0" siteNumber="1" instrument="FGEN_5433_C1_S03" channel="1" />
-		<Connection pin="AI1" siteNumber="0" instrument="FGEN_5433_C2_S05" channel="0" />
-		<Connection pin="AI1" siteNumber="1" instrument="FGEN_5433_C2_S05" channel="1" />
-		<Connection pin="Clk" siteNumber="0" instrument="FGEN_5433_C2_S07" channel="0" />
-		<Connection pin="Clk" siteNumber="1" instrument="FGEN_5433_C2_S07" channel="1" />
+		<Connection pin="AI1" siteNumber="0" instrument="FGEN_5433_C1_S04" channel="0" />
+		<Connection pin="AI1" siteNumber="1" instrument="FGEN_5433_C1_S04" channel="1" />
+		<Connection pin="Clk" siteNumber="0" instrument="FGEN_5433_C1_S05" channel="0" />
+		<Connection pin="Clk" siteNumber="1" instrument="FGEN_5433_C1_S05" channel="1" />
 	</Connections>
 </PinMap>
