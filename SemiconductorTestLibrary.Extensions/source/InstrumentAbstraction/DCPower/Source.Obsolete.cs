@@ -17,7 +17,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Gets the current limit value of all pins.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <returns>The per-site per-pin current limits.</returns>
+        /// <returns>The per-site per-pin current limit.</returns>
         [Obsolete("This method is deprecated. Use GetCurrentLimit() instead.")]
         public static PinSiteData<double> GetCurrentLimits(this DCPowerSessionsBundle sessionsBundle)
         {
