@@ -10,7 +10,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
     public static partial class TestSteps
     {
         /// <summary>
-        /// Configures the specified scope pins for edge triggering and initiates a waveform acquisition.
+        /// Configures the specified scope pins to use a edge trigger, initiates acquisition and fetches the acquired waveform.
         /// Then calculates and publishes the measured frequency and amplitude of the acquired waveform.
         /// </summary>
         /// <remarks>

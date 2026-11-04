@@ -1,5 +1,4 @@
-﻿using NationalInstruments.ModularInstruments.NIScope;
-using NationalInstruments.SemiconductorTestLibrary.Common;
+﻿using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope;
@@ -8,8 +7,8 @@ using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
 {
     /// <summary>
-    /// This class provides an example test step method to demonstrate how to acquire a signal on a Scope pin
-    /// using the Scope Instrument Abstraction extensions from the Semiconductor Test Library.
+    /// Configures the specified scope pins to use a immediate trigger, initiates acquisition and fetches the acquired waveform.
+    /// Then calculates and publishes the measured frequency and amplitude of the acquired waveform.
     /// </summary>
     public static partial class TestSteps
     {
