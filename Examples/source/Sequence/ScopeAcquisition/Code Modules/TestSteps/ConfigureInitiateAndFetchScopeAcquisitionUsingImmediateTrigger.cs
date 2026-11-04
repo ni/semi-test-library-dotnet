@@ -13,14 +13,14 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
     public static partial class TestSteps
     {
         /// <summary>
-        /// Configures the specified scope pins for Immediate triggering and initiates  a waveform acquisition.
+        /// Configures the specified scope pins to use an immediate trigger, initiates acquisition and fetches the acquired waveform.
         /// Then calculates and publishes the measured frequency and amplitude of the acquired waveform.
         /// </summary>
         /// <remarks>
         /// This method performs the following operations:
         /// <list type="number">
         /// <item>Configures the scope's vertical and electrical characteristics</item>
-        /// <item>Configures and apply scope trigger settings</item>
+        /// <item>Configures and applies scope trigger settings</item>
         /// <item>Initiates acquisition</item>
         /// <item>Fetches the acquired waveform</item>
         /// <item>Calculates the measured frequency and max amplitude of the signal</item>

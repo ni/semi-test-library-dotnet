@@ -17,7 +17,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
         /// This method performs the following operations:
         /// <list type="number">
         /// <item>Configures the scope's vertical and electrical characteristics</item>
-        /// <item>Configures and apply scope trigger settings</item>
+        /// <item>Configures and applies scope trigger settings</item>
         /// <item>Initiates acquisition</item>
         /// <item>Fetches the acquired waveform</item>
         /// <item>Calculates the measured frequency and max amplitude of the signal</item>
