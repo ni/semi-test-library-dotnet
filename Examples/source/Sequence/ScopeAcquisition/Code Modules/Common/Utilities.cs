@@ -9,20 +9,21 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
     /// Provides helper methods for analyzing sampled scope signals.
     /// </summary>
     /// <remarks>
-    /// Includes zero-crossing-based tone analysis to estimate frequency and peak amplitude from
+    /// Includes zero-crossing-based tone analysis to estimate frequency and peak-to-peak amplitude from
     /// uniformly sampled data.
     /// </remarks>
     public static class Utilities
     {
         /// <summary>
-        /// Calculates the frequency and peak-to-peak amplitude of each waveform in the provided PinSiteData.
+        /// Calculates the frequency and peak-to-peak amplitude of each waveform in the provided <see cref="PinSiteData{T}"/>.
         /// </summary>
-        /// <param name="waveforms">The PinSiteData containing the waveforms to analyze.</param>
+        /// <param name="waveforms">The <see cref="PinSiteData{T}"/> containing the waveforms to analyze.</param>
         /// <param name="frequencies">The calculated frequencies for each pin and site.</param>
         /// <param name="amplitudes">The calculated peak-to-peak amplitudes for each pin and site.</param>
         /// <remarks>
-        /// Uses zero-crossing-based tone analysis to estimate frequency and peak amplitude from uniformly sampled data.
+        /// Uses zero-crossing-based tone analysis to estimate frequency and peak-to-peak amplitude from uniformly sampled data.
         /// </remarks>
+        /// <exception cref="InvalidOperationException">Thrown if there are not enough cycles to estimate frequency.</exception>
         public static void CalculateWaveformFrequencyAndPeakToPeakAmplitude(
             PinSiteData<AnalogWaveform<double>> waveforms,
             out PinSiteData<double> frequencies,
@@ -47,11 +48,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
         }
 
         /// <summary>
-        /// Measures the frequency and peak amplitude of a tone from uniformly sampled data.
+        /// Measures the frequency and peak-to-peak amplitude of a tone from uniformly sampled data.
         /// </summary>
-        /// <param name="samples">The sampled data points.</param>
-        /// <param name="sampleRateHz">The sample rate in Hertz.</param>
-        /// <param name="frequencyHz">The measured frequency in Hertz.</param>
+        /// <param name="samples">The uniformly sampled data points.</param>
+        /// <param name="sampleRateHz">The sample rate, in Hertz.</param>
+        /// <param name="frequencyHz">The measured frequency, in Hertz.</param>
         /// <param name="amplitude">The measured peak-to-peak amplitude.</param>
         /// <exception cref="InvalidOperationException">Thrown if there are not enough cycles to estimate frequency.</exception>
         private static void MeasureTone(
@@ -61,7 +62,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
             out double amplitude)
         {
             double mean = samples.Average();
-            amplitude = (samples.Max() - samples.Min());
+            amplitude = samples.Max() - samples.Min();
 
             var crossingTimes = new List<double>();
             for (int i = 1; i < samples.Length; i++)

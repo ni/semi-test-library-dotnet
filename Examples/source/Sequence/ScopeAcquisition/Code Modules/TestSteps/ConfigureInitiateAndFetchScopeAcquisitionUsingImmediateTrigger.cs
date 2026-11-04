@@ -7,8 +7,8 @@ using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
 {
     /// <summary>
-    /// Configures the specified scope pins to use a immediate trigger, initiates acquisition and fetches the acquired waveform.
-    /// Then calculates and publishes the measured frequency and amplitude of the acquired waveform.
+    /// This class provides an example test step method to demonstrate how to acquire a signal on a Scope pin
+    /// using the Scope Instrument Abstraction extensions from the Semiconductor Test Library.
     /// </summary>
     public static partial class TestSteps
     {
@@ -23,7 +23,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
         /// <item>Configures and applies scope trigger settings</item>
         /// <item>Initiates acquisition</item>
         /// <item>Fetches the acquired waveform</item>
-        /// <item>Calculates the measured frequency and max amplitude of the signal</item>
+        /// <item>Calculates the measured frequency and peak-to-peak amplitude of the signal</item>
         /// <item>
         /// Publishes the frequency value using the "Frequency" published data id,
         /// and the amplitude value using the "Amplitude" published data id.
@@ -46,15 +46,15 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
             double probeAttenuation = 1.0,
             bool enableTimeInterleavedSampling = false,
             double inputImpedance = 1e6,
-            double inputFrequencyMax = 0)
+            double inputFrequencyMax = 0.0)
         {
             TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
             ScopeSessionsBundle scopeBundle = sessionManager.Scope(pinOrPinGroup);
 
             // 1. Configure the scope's vertical and electrical characteristics
-            // Note that each the settings are grouped into specific class objects before passed to the STL method.
+            // Note that the settings are grouped into specific class objects before being passed to the STL method.
             // This ensures the settings are applied as efficiently as possible by the instrument driver.
-            var verticalSettings = new VerticalSettings
+            VerticalSettings verticalSettings = new VerticalSettings
             {
                 Range = range,
                 Offset = offset,

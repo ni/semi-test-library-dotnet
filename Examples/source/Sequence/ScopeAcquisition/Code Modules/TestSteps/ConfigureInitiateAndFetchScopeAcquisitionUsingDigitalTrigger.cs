@@ -20,7 +20,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
         /// <item>Configures and applies scope trigger settings</item>
         /// <item>Initiates acquisition</item>
         /// <item>Fetches the acquired waveform</item>
-        /// <item>Calculates the measured frequency and max amplitude of the signal</item>
+        /// <item>Calculates the measured frequency and peak-to-peak amplitude of the signal</item>
         /// <item>
         /// Publishes the frequency value using the "Frequency" published data id,
         /// and the amplitude value using the "Amplitude" published data id.
@@ -46,7 +46,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
             double probeAttenuation = 1.0,
             bool enableTimeInterleavedSampling = false,
             double inputImpedance = 1e6,
-            double inputFrequencyMax = 0,
+            double inputFrequencyMax = 0.0,
             double holdOff = 0.0,
             double delay = 0.0,
             ScopeTriggerSlope triggerSlope = ScopeTriggerSlope.Positive)
@@ -55,9 +55,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
             ScopeSessionsBundle scopeBundle = sessionManager.Scope(pinOrPinGroup);
 
             // 1. Configure the scope's vertical and electrical characteristics
-            // Note that each the settings are grouped into specific class objects before passed to the STL method.
+            // Note that the settings are grouped into specific class objects before being passed to the STL method.
             // This ensures the settings are applied as efficiently as possible by the instrument driver.
-            var verticalSettings = new VerticalSettings
+            VerticalSettings verticalSettings = new VerticalSettings
             {
                 Range = range,
                 Offset = offset,
@@ -74,13 +74,13 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
             scopeBundle.Commit();
 
             // 2. Configure and apply scope trigger settings
-            var triggerDigitalSettings = new DigitalTriggerSettings
+            DigitalTriggerSettings digitalTriggerSettings = new DigitalTriggerSettings
             {
                 HoldOff = PrecisionTimeSpan.FromSeconds(holdOff),
                 Delay = PrecisionTimeSpan.FromSeconds(delay),
                 TriggerSlope = triggerSlope,
             };
-            scopeBundle.ConfigureTriggerDigital(triggerDigitalSettings);
+            scopeBundle.ConfigureTriggerDigital(digitalTriggerSettings);
 
             // 3. Initiate acquisition
             scopeBundle.Initiate();

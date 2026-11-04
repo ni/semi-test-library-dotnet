@@ -1,7 +1,6 @@
 # Scope Acquisition Sequence Example
 
-This example demonstrates how to use the Semiconductor Test Library (STL) extension methods to acquire a signal with an NI Scope instrument (PXIe-5172).
-
+(PXIe-5172).
 
 ## Overview
 
@@ -17,9 +16,9 @@ Each trigger type is represented by a step in the MainSequence. Each step is con
 
 1. Creates a `TSMSessionManager` and gets the `ScopeSessionsBundle` for the `pinOrPinGroup` parameter.
 2. Configures the vertical settings (`range`, `offset`, `probeAttenuation`, `enableTimeInterleavedSampling`) and the electrical characteristics (`inputImpedance`, `inputFrequencyMax`), then commits the settings to the instrument.
-3. Configures the trigger specific settings to the scope.
+3. Configures the trigger-specific settings to the scope.
 4. Initiates the acquisition and fetches the waveform for each pin and site (1000 samples, 50 second timeout).
-5. Computes the frequency and amplitude of each waveform using `Utilities.MeasureTone`.
+5. Computes the frequency and amplitude of each waveform using `Utilities.CalculateWaveformFrequencyAndPeakToPeakAmplitude`.
 6. Publishes the per-pin, per-site results using the "Frequency" and "Amplitude" Published Data Ids.
 
 ## Prerequisites
@@ -30,13 +29,13 @@ Each trigger type is represented by a step in the MainSequence. Each step is con
 
 ### Hardware Requirements
 
-- Two NI-Scope instruments named `SCOPE_5172_C1_S02` and `SCOPE_5172_C1_S03` (or update the pin map to use the name of the NI Scope cards in your system, as defined in NI MAX).
+- Two NI Scope instruments named
 
 > **NOTE:**
 > You can view the example sequence file in the TestStand Sequence Editor and C# source files in Visual Studio or any text editor without meeting the hardware requirements.
 >
 > You do not need the required instruments physically installed in your system to run the example, as it can be run with simulated instruments using Offline Mode.
-> However, the Scope acquires real signal present on the pin under test. Therefore, to obtain actual measurement results from the test steps, you must have the required hardware installed and feed signal onto the measured pins, with one of the trigger settings based on signal type.
+> However, the Scope acquires a real signal present on the pin under test. Therefore, to obtain actual measurement results from the test steps, you must have the required hardware installed and feed signal onto the measured pins, with one of the trigger settings based on signal type.
 >
 > **To simulate instruments in Offline Mode:**
 >
@@ -55,12 +54,11 @@ Each trigger type is represented by a step in the MainSequence. Each step is con
 
 ### Code Modules
 
-- `Code Modules/TestSteps/ConfigureInitiateAndFetchScopeAcquisitionUsingEdgeTrigger.cs`: Configures the scope for Edge trigger based waveform acquisition on the `pinOrPinGroup` parameter and publishes the computed frequency and amplitude using the "Frequency" and "Amplitude" Published Data Ids.
-- `Code Modules/TestSteps/ConfigureInitiateAndFetchScopeAcquisitionUsingImmediateTrigger.cs`: Configures the scope for Immediate waveform acquisition on the `pinOrPinGroup` parameter and publishes the computed frequency and amplitude using the "Frequency" and "Amplitude" Published Data Ids.
-- `Code Modules/TestSteps/ConfigureInitiateAndFetchScopeAcquisitionUsingDigitalTrigger.cs`: Configures the scope for Digital Triggered waveform acquisition on the `pinOrPinGroup` parameter and publishes the computed frequency and amplitude using the "Frequency" and "Amplitude" Published Data Ids.
-- `Code Modules/TestSteps/ConfigureInitiateAndFetchScopeAcquisitionUsingHysteresisTrigger.cs`: Configures the scope for Hysteresis Triggered waveform acquisition on the `pinOrPinGroup` parameter and publishes the computed frequency and amplitude using the "Frequency" and "Amplitude" Published Data Ids.
-- `Code Modules/TestSteps/ConfigureInitiateAndFetchScopeAcquisitionUsingWindowTrigger.cs`: Configures the scope for Window Triggered waveform acquisition on the `pinOrPinGroup` parameter and publishes the computed frequency and amplitude using the "Frequency" and "Amplitude" Published Data Ids.
-
+- `Code Modules/TestSteps/ConfigureInitiateAndFetchScopeAcquisitionUsingEdgeTrigger.cs`: Configures the scope for edge-triggered waveform
+- `Code Modules/TestSteps/ConfigureInitiateAndFetchScopeAcquisitionUsingImmediateTrigger.cs`: Configures the scope for immediate-triggered waveform
+- `Code Modules/TestSteps/ConfigureInitiateAndFetchScopeAcquisitionUsingDigitalTrigger.cs`: Configures the scope for digital-triggered waveform
+- `Code Modules/TestSteps/ConfigureInitiateAndFetchScopeAcquisitionUsingHysteresisTrigger.cs`: Configures the scope for hysteresis-triggered waveform
+- `Code Modules/TestSteps/ConfigureInitiateAndFetchScopeAcquisitionUsingWindowTrigger.cs`: Configures the scope for window-triggered waveform
 
 ## Using the Example
 
@@ -91,7 +89,7 @@ Each trigger type is represented by a step in the MainSequence. Each step is con
 ### Step 4: Review the Pin Map
 
 1. From the TestStand Sequence Editor, open the pin map by selecting **Semiconductor Module -> Edit Pin Map File...** from the menu bar, or by clicking the **Edit Pin Map File** button on the TSM toolbar.
-2. Review the instrument definitions and pin assignments. Note that the pin map is configured to use an NI Scope Instrument (PXIe-5172) named `SCOPE_5172_C1_S02` and `SCOPE_5172_C1_S03`, with the scope pins `Vsc0`, `Vsc1`, `Vsc2`, and `Vsc3`.
+2. Review the instrument definitions and pin assignments. Note that the pin map is configured to use NI Scope Instruments (PXIe-5172) named `SCOPE_5172_C1_S02` and `SCOPE_5172_C1_S03`, with the scope pins `Vsc0`, `Vsc1`, `Vsc2`, and `Vsc3`.
 3. **If you are using a different scope instrument:**
    - Locate the instrument entry for `SCOPE_5172_C1_S02` and `SCOPE_5172_C1_S03` in the Pin Map Editor.
    - Update the instrument name to match the name of your available instrument as it appears in **NI MAX** (Measurement & Automation Explorer).
@@ -106,7 +104,7 @@ Each trigger type is represented by a step in the MainSequence. Each step is con
 
 ### Step 6: Review the Code Implementation
 
-You can open the C# source code in one of two ways:
+You can open the C# source code in the following ways:
 
 - **From TestStand:** In the MainSequence, **double-click** any test step to open its associated code module directly in Visual Studio.
 - **From disk:** Navigate to the `Code Modules` folder within this example's directory and **double-click** the Visual Studio solution file (`.sln`) to open the full project in Visual Studio. Alternatively, open Visual Studio manually and use **File -> Open -> Project/Solution** to browse to and open the solution file.
@@ -122,4 +120,3 @@ Once the code is open in Visual Studio, review each of the key files listed in t
 3. If you are running the test on STS hardware, update the values in the `ExpectedValues` container under **FileGlobals** to the expected values for the signal on the measured pins, so that the test passes accordingly.
 4. Click the **Start Lot (F5)** or **Single Test (Ctrl + F5)** button on the TSM toolbar to execute the test sequence.
 5. Monitor the execution in the TestStand Sequence Editor and review the results upon completion.
-

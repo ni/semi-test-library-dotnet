@@ -20,7 +20,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
         /// <item>Configures and applies scope trigger settings</item>
         /// <item>Initiates acquisition</item>
         /// <item>Fetches the acquired waveform</item>
-        /// <item>Calculates the measured frequency and max amplitude of the signal</item>
+        /// <item>Calculates the measured frequency and peak-to-peak amplitude of the signal</item>
         /// <item>
         /// Publishes the frequency value using the "Frequency" published data id,
         /// and the amplitude value using the "Amplitude" published data id.
@@ -37,7 +37,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
         /// <param name="inputFrequencyMax">The maximum input frequency of the scope, in Hertz.</param>
         /// <param name="holdOff">The hold-off time for the trigger, in seconds.</param>
         /// <param name="delay">The delay time for the trigger, in seconds.</param>
-        /// <param name="triggerLevel">The trigger level for the scope, in volts.</param>
+        /// <param name="triggerLevel">The trigger level for the scope, in Volts.</param>
         /// <param name="triggerSlope">The trigger slope for the scope.</param>
         /// <param name="triggerCoupling">The trigger coupling for the scope.</param>
         public static void ConfigureInitiateAndFetchScopeAcquisitionUsingEdgeTrigger(
@@ -48,7 +48,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
             double probeAttenuation = 1.0,
             bool enableTimeInterleavedSampling = false,
             double inputImpedance = 1e6,
-            double inputFrequencyMax = 0,
+            double inputFrequencyMax = 0.0,
             double holdOff = 0.0,
             double delay = 0.0,
             double triggerLevel = 0.0,
@@ -59,9 +59,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
             ScopeSessionsBundle scopeBundle = sessionManager.Scope(pinOrPinGroup);
 
             // 1. Configure the scope's vertical and electrical characteristics
-            // Note that each the settings are grouped into specific class objects before passed to the STL method.
+            // Note that the settings are grouped into specific class objects before being passed to the STL method.
             // This ensures the settings are applied as efficiently as possible by the instrument driver.
-            var verticalSettings = new VerticalSettings
+            VerticalSettings verticalSettings = new VerticalSettings
             {
                 Range = range,
                 Offset = offset,
@@ -78,7 +78,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
             scopeBundle.Commit();
 
             // 2. Configure and apply scope trigger settings
-            var edgeTriggerSettings = new EdgeTriggerSettings
+            EdgeTriggerSettings edgeTriggerSettings = new EdgeTriggerSettings
             {
                 HoldOff = PrecisionTimeSpan.FromSeconds(holdOff),
                 Delay = PrecisionTimeSpan.FromSeconds(delay),

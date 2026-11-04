@@ -43,7 +43,7 @@
       <HintPath>..\..\..\..\..\SemiconductorTestLibrary.Abstractions\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
     </Reference>
 	  <Reference Include="NationalInstruments.ModularInstruments.NIScope.Fx40">
-		  <SpecificVersion>False</SpecificVersion>
+		<SpecificVersion>False</SpecificVersion>
 	  </Reference>
     <Reference Include="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI">
       <Private>False</Private>
