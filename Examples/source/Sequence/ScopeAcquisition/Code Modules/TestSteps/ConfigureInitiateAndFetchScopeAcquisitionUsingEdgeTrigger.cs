@@ -40,7 +40,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
         /// <param name="triggerLevel">The trigger level for the scope, in volts.</param>
         /// <param name="triggerSlope">The trigger slope for the scope.</param>
         /// <param name="triggerCoupling">The trigger coupling for the scope.</param>
-        public static void ConfigureEdgeTriggerInitiateAndFetchScopeAcquisition(
+        public static void ConfigureInitiateAndFetchScopeAcquisitionUsingEdgeTrigger(
             ISemiconductorModuleContext tsmContext,
             string pinOrPinGroup,
             double range = 1.0,

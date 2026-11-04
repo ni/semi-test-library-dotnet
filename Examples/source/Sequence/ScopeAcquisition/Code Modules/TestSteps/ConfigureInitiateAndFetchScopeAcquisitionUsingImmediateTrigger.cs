@@ -7,10 +7,14 @@ using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
 {
+    /// <summary>
+    /// This class provides an example test step method to demonstrate how to acquire a signal on a Scope pin
+    /// using the Scope Instrument Abstraction extensions from the Semiconductor Test Library.
+    /// </summary>
     public static partial class TestSteps
     {
         /// <summary>
-        /// Configures the specified scope pins for hysteresis triggering and initiates a waveform acquisition.
+        /// Configures the specified scope pins for Immediate triggering and initiates  a waveform acquisition.
         /// Then calculates and publishes the measured frequency and amplitude of the acquired waveform.
         /// </summary>
         /// <remarks>
@@ -35,13 +39,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
         /// <param name="enableTimeInterleavedSampling">A boolean value indicating whether to enable time-interleaved sampling.</param>
         /// <param name="inputImpedance">The input impedance of the scope, in Ohms.</param>
         /// <param name="inputFrequencyMax">The maximum input frequency of the scope, in Hertz.</param>
-        /// <param name="holdOff">The hold-off time for the trigger, in seconds.</param>
-        /// <param name="delay">The delay time for the trigger, in seconds.</param>
-        /// <param name="triggerLevel">The trigger level for the scope, in volts.</param>
-        /// <param name="triggerHysteresis">The trigger hysteresis for the scope, in volts.</param>
-        /// <param name="triggerSlope">The trigger slope for the scope.</param>
-        /// <param name="triggerCoupling">The trigger coupling for the scope.</param>
-        public static void ConfigureTriggerHysteresisInitiateAndFetchScopeAcquisition(
+        public static void ConfigureInitiateAndFetchScopeAcquisitionUsingImmediateTrigger(
             ISemiconductorModuleContext tsmContext,
             string pinOrPinGroup,
             double range = 1.0,
@@ -49,13 +47,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
             double probeAttenuation = 1.0,
             bool enableTimeInterleavedSampling = false,
             double inputImpedance = 1e6,
-            double inputFrequencyMax = 0,
-            double holdOff = 0.0,
-            double delay = 0.0,
-            double triggerLevel = 0.0,
-            double triggerHysteresis = 0.05,
-            ScopeTriggerSlope triggerSlope = ScopeTriggerSlope.Positive,
-            ScopeTriggerCoupling triggerCoupling = ScopeTriggerCoupling.DC)
+            double inputFrequencyMax = 0)
         {
             TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
             ScopeSessionsBundle scopeBundle = sessionManager.Scope(pinOrPinGroup);
@@ -80,16 +72,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
             scopeBundle.Commit();
 
             // 2. Configure and apply scope trigger settings
-            var triggerHysteresisSettings = new HysteresisTriggerSettings
-            {
-                HoldOff = PrecisionTimeSpan.FromSeconds(holdOff),
-                Delay = PrecisionTimeSpan.FromSeconds(delay),
-                TriggerLevel = triggerLevel,
-                TriggerHysteresis = triggerHysteresis,
-                TriggerSlope = triggerSlope,
-                TriggerCoupling = triggerCoupling,
-            };
-            scopeBundle.ConfigureTriggerHysteresis(triggerHysteresisSettings);
+            scopeBundle.ConfigureTriggerImmediate();
 
             // 3. Initiate acquisition
             scopeBundle.Initiate();

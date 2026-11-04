@@ -38,7 +38,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
         /// <param name="holdOff">The hold-off time for the trigger, in seconds.</param>
         /// <param name="delay">The delay time for the trigger, in seconds.</param>
         /// <param name="triggerSlope">The trigger slope for the scope.</param>
-        public static void ConfigureTriggerDigitalInitiateAndFetchScopeAcquisition(
+        public static void ConfigureInitiateAndFetchScopeAcquisitionUsingDigitalTrigger(
             ISemiconductorModuleContext tsmContext,
             string pinOrPinGroup,
             double range = 1.0,

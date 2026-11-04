@@ -41,7 +41,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
         /// <param name="windowHighLevel">The high level of the trigger window, in volts.</param>
         /// <param name="triggerWindowMode">The window trigger mode for the scope.</param>
         /// <param name="triggerCoupling">The trigger coupling for the scope.</param>
-        public static void ConfigureTriggerWindowInitiateAndFetchScopeAcquisition(
+        public static void ConfigureInitiateAndFetchScopeAcquisitionUsingWindowTrigger(
             ISemiconductorModuleContext tsmContext,
             string pinOrPinGroup,
             double range = 1.0,
