@@ -52,7 +52,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
         /// <param name="samples">The sampled data points.</param>
         /// <param name="sampleRateHz">The sample rate in Hertz.</param>
         /// <param name="frequencyHz">The measured frequency in Hertz.</param>
-        /// <param name="amplitude">The measured peak amplitude.</param>
+        /// <param name="amplitude">The measured peak-to-peak amplitude.</param>
         /// <exception cref="InvalidOperationException">Thrown if there are not enough cycles to estimate frequency.</exception>
         private static void MeasureTone(
             double[] samples,
@@ -61,7 +61,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
             out double amplitude)
         {
             double mean = samples.Average();
-            amplitude = (samples.Max() - samples.Min()) / 2.0;
+            amplitude = (samples.Max() - samples.Min());
 
             var crossingTimes = new List<double>();
             for (int i = 1; i < samples.Length; i++)
