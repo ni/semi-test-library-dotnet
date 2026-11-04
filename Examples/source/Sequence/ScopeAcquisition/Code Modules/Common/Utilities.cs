@@ -7,8 +7,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
     /// <summary>
     /// Provides helper methods for analyzing sampled scope signals.
     /// </summary>
-    /// <remarks>Includes zero-crossing-based tone analysis to estimate frequency and peak amplitude from
-    /// uniformly sampled data.</remarks>
+    /// <remarks>
+    /// Includes zero-crossing-based tone analysis to estimate frequency and peak amplitude from
+    /// uniformly sampled data.
+    /// </remarks>
     public static class Utilities
     {
         /// <summary>

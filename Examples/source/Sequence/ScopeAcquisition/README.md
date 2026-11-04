@@ -91,9 +91,9 @@ Each test step follows the same general pattern:
 ### Step 3: Review the Pin Map
 
 1. From the TestStand Sequence Editor, open the pin map by selecting **Semiconductor Module -> Edit Pin Map File...** from the menu bar, or by clicking the **Edit Pin Map File** button on the TSM toolbar.
-2. Review the instrument definitions and pin assignments. Note that the pin map is configured to use an NI Scope Instrument (PXIe-5172) named `HSD_5172_C1_S02` and `HSD_5172_C1_S03`, with the scope pins `Vsc0`, `Vsc1`, `Vsc2`, and `Vsc3`.
+2. Review the instrument definitions and pin assignments. Note that the pin map is configured to use an NI Scope Instrument (PXIe-5172) named `SCOPE_5172_C1_S02` and `SCOPE_5172_C1_S03`, with the scope pins `Vsc0`, `Vsc1`, `Vsc2`, and `Vsc3`.
 3. **If you are using a different scope instrument:**
-   - Locate the instrument entry for `HSD_5172_C1_S02` and `HSD_5172_C1_S03` in the Pin Map Editor.
+   - Locate the instrument entry for `SCOPE_5172_C1_S02` and `SCOPE_5172_C1_S03` in the Pin Map Editor.
    - Update the instrument name to match the name of your available instrument as it appears in **NI MAX** (Measurement & Automation Explorer).
    - Update the channel assignments for the `Vsc0`, `Vsc1`, `Vsc2`, and `Vsc3` pins as needed.
    - Save the pin map file after making changes.
