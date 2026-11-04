@@ -5124,6 +5124,10 @@
             <summary>
             The <see cref="T:NationalInstruments.ModularInstruments.NIDCPower.NIDCPower"/> session.
             </summary>
+            <remarks>
+            The session can be replaced when <see cref="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.ResetDevice(System.Boolean)"/> reinitializes
+            a channel group whose session was invalidated by a device reset.
+            </remarks>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionInformation.AllChannelsString">
             <summary>
@@ -5331,6 +5335,77 @@
             method validates that the pin configurations for cascaded pin groups are consistent.</param>
             <param name="pinConfigurations">An object containing the pin configurations to validate. The structure and expected contents depend on the
             implementation of the pin configuration retrieval logic.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle.ResetDevice(System.Boolean)">
+            <summary>
+            Performs a hard reset of the instrument(s) that the channels in the bundle belong to, and recovers every other channel on the same instrument(s).
+            </summary>
+            <remarks>
+            <para>
+            The device reset operation is applied to the instrument as a whole, across all channels, not only to the channels in the bundle.
+            </para>
+            <para>
+            When an instrument is split across several channel groups in the pin map, each channel group is a separate driver session, and the reset
+            invalidates every session on the instrument except the one that issued it. This method resets each instrument once, then reinitializes
+            every invalidated session and re-registers them with the TSM session manager.
+            Session references in existing <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerSessionsBundle"/> objects are updated, including bundles that are filtered by site or pin.
+            This allows all bundle objects to continue being used in subsequent operations.
+            </para>
+            <para>
+            When <paramref name="restoreConfiguration"/> is <see langword="true"/> (default), the configuration of every channel that is not present in
+            the bundle is preserved and restored after the reset, including channels that share a channel group with the channels in the bundle.
+            Since the driver configuration can only be applied to the session as a whole, and not to individual channels, the target channels in the
+            bundle are first soft reset to ensure they are in their default state when the driver configuration is applied after the reset device
+            operation is performed. When <paramref name="restoreConfiguration"/> is <see langword="false"/>, every channel on the instrument(s) is left
+            in its default state.
+            </para>
+            <para>
+            Additionally, when an instrument is split across several channel groups and sites are disabled, the channels that map to disabled sites
+            are also recovered, using the channel group information captured when the sessions were first initialized. Their configuration is only
+            restored if it can be read from the active sites; otherwise they are left in their default state.
+            </para>
+            <para>
+            Calls are serialized across threads. When several threads reset the same instrument,
+            the instrument is hard reset once and the other calls only reset the channels in their own bundle.
+            For example, when calling code is parallelized or invoked from a TestStand step configured to execute in one thread per site.
+            </para>
+            <para>
+            The reset clears driver-level channel merging. Merge the merged pin groups in the bundle again after the reset. The secondary channel of
+            a merge cannot be reset on its own, so a secondary channel in the bundle whose primary channel is in another bundle is not reset and
+            keeps following its primary channel. The merged channels of other bundles on the instrument(s) are restored with their configuration
+            when <paramref name="restoreConfiguration"/> is <see langword="true"/>; otherwise unmerge and merge those pin groups again.
+            </para>
+            <para>
+            Avoid calling this method often, as it is expected to take several seconds to execute per session.
+            Use the <c>Reset(string[])</c> method instead to reset specific channels.
+            </para>
+            <para>
+            Throws an <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> when the sessions were not initialized with
+            <see cref="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.InitializeAndClose.Initialize(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean)"/> or mapped with
+            <see cref="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Initialization.MapInitializedInstrumentSessions(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)"/>, or were already closed;
+            when a session in the bundle is not registered with TSM; or when a channel group fails to be prepared before the reset. In these cases,
+            no instrument is reset. Also throws an <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> when one or more channel groups fail to be recovered
+            after the reset, for example when a reinitialized session cannot be registered with TSM. The other channel groups are still recovered,
+            and the error of each channel group that failed is reported.
+            </para>
+            </remarks>
+            <param name="restoreConfiguration">
+            Whether to preserve and restore the configuration of any channels that share the same device as the channels being reset but are not present in the bundle.
+            Where, the channels that are present in the bundle will be reset to their default state.
+            Set to <see langword="true"/> by default.
+            </param>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when the sessions were not initialized with
+            <see cref="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.InitializeAndClose.Initialize(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean)"/> or mapped with
+            <see cref="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Initialization.MapInitializedInstrumentSessions(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)"/>, or were already closed.
+            No instrument is reset.</exception>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when a session in the bundle is not registered with TSM, so its full channel group
+            cannot be determined. No instrument is reset.</exception>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when a channel group fails to be prepared before the reset, for example when its
+            configuration cannot be exported. No instrument is reset.</exception>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when a channel group fails to be recovered after the reset. When several channel groups
+            fail, the exception lists all of them, and its inner <see cref="T:System.AggregateException"/> contains the error of each one.</exception>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when a reinitialized session cannot be registered with TSM because the context used for
+            recovery does not contain the sites of its channel group.</exception>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.InitializeAndClose">
             <summary>
@@ -8474,6 +8549,36 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_DifferentOutputFunctionsDetectedForCascadedPinGroup">
             <summary>
               Looks up a localized string similar to The parameter contains different output functions for Cascaded pins in the &quot;{0}&quot; group. All pins within a Cascaded group must have the same output function..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_ResetDeviceRequiresInitializedSessions">
+            <summary>
+              Looks up a localized string similar to Cannot reset the device because the NI-DCPower sessions were not initialized with the Semiconductor Test Library&apos;s InitializeAndClose.Initialize method, or were already closed..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_ResetDevicePreparationFailed">
+            <summary>
+              Looks up a localized string similar to Failed to prepare the NI-DCPower channel group &quot;{0}&quot; before resetting the device. No device was reset..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_ResetDeviceRecoveryFailed">
+            <summary>
+              Looks up a localized string similar to Failed to recover the NI-DCPower channel group &quot;{0}&quot; after resetting the device..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_ResetDeviceRecoveryFailedForMultipleChannelGroups">
+            <summary>
+              Looks up a localized string similar to Failed to recover the NI-DCPower channel groups {0} after resetting the device. The other channel groups were recovered. See the inner exceptions for the error of each channel group..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_ResetDeviceSessionNotRegistered">
+            <summary>
+              Looks up a localized string similar to Cannot reset the device because the NI-DCPower session for channels &quot;{0}&quot; is not registered with TestStand Semiconductor Module, so its full channel group cannot be determined. No device was reset..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_ResetDeviceSessionRegistrationFailed">
+            <summary>
+              Looks up a localized string similar to Failed to register the reinitialized NI-DCPower session &quot;{0}&quot; after resetting the device. The context used for recovery contains sites [{1}], which do not include this channel group..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_DifferentSequencesDetectedForCascadedPinGroup">
