@@ -51,31 +51,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
         {
             TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
             ScopeSessionsBundle scopeBundle = sessionManager.Scope(pinOrPinGroup);
-            ConfigureScope(
-                scopeBundle,
-                pinOrPinGroup,
-                range,
-                offset,
-                probeAttenuation,
-                enableTimeInterleavedSampling,
-                inputImpedance,
-                inputFrequencyMax);
 
-            scopeBundle.ConfigureTriggerImmediate();
-
-            InitiateFetchAndPublishScopeAcquisition(tsmContext, scopeBundle);
-        }
-
-        private static void ConfigureScope(
-            ScopeSessionsBundle scopeBundle,
-            string pinOrPinGroup,
-            double range,
-            double offset,
-            double probeAttenuation,
-            bool enableTimeInterleavedSampling,
-            double inputImpedance,
-            double inputFrequencyMax)
-        {
+            // 1. Configure the scope's vertical and electrical characteristics
+            // Note that each the settings are grouped into specific class objects before passed to the STL method.
+            // This ensures the settings are applied as efficiently as possible by the instrument driver. 
             var verticalSettings = new VerticalSettings
             {
                 Range = range,
@@ -83,36 +62,28 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
                 ProbeAttenuation = probeAttenuation,
                 EnableTimeInterleavedSampling = enableTimeInterleavedSampling,
             };
+            scopeBundle.ConfigureVertical(verticalSettings);
             ElectricalCharacteristics electricalCharacteristics = new ElectricalCharacteristics
             {
                 InputImpedance = inputImpedance,
                 InputFrequencyMax = inputFrequencyMax,
             };
-            scopeBundle.ConfigureVertical(verticalSettings);
             scopeBundle.ConfigureElectricalCharacteristics(electricalCharacteristics);
             scopeBundle.Commit();
-        }
 
-        private static void InitiateFetchAndPublishScopeAcquisition(ISemiconductorModuleContext tsmContext, ScopeSessionsBundle scopeBundle)
-        {
+            // 2. Configure and apply scope trigger settings
+            scopeBundle.ConfigureTriggerImmediate();
+
+            // 3. Initiate acquisition
             scopeBundle.Initiate();
-            var waveforms = scopeBundle.FetchWaveform(PrecisionTimeSpan.FromSeconds(50.0), 1000);
-            var frequencies = new PinSiteData<double>();
-            var amplitudes = new PinSiteData<double>();
-            foreach (var pin in waveforms.PinNames)
-            {
-                frequencies.AddPin(pin);
-                frequencies.AddSite(waveforms.SiteNumbers);
-                amplitudes.AddPin(pin);
-                amplitudes.AddSite(waveforms.SiteNumbers);
-                foreach (var site in waveforms.SiteNumbers)
-                {
-                    var waveform = waveforms.GetValue(site, pin);
-                    Utilities.MeasureTone(waveform.GetRawData(), 1.0 / waveform.Timing.SampleInterval.TotalSeconds, out double frequencyHz, out double amplitude);
-                    frequencies.SetValue(frequencyHz, pin, site);
-                    amplitudes.SetValue(amplitude, pin, site);
-                }
-            }
+
+            // 4. Fetch the acquired waveform
+            PinSiteData<AnalogWaveform<double>> waveforms = scopeBundle.FetchWaveform(PrecisionTimeSpan.FromSeconds(50.0), 1000);
+
+            // 5. Calculate the measured frequency and peak-to-peak amplitude of the signal
+            Utilities.CalculateWaveformFrequencyAndPeakToPeakAmplitude(waveforms, out PinSiteData<double> frequencies, out PinSiteData<double> amplitudes);
+
+            // 6. Publish the calculated frequency and amplitude values
             tsmContext.PublishResults(frequencies, "Frequency");
             tsmContext.PublishResults(amplitudes, "Amplitude");
         }

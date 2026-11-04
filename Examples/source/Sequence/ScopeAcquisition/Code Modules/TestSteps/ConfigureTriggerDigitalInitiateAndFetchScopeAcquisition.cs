@@ -53,16 +53,27 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
         {
             TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
             ScopeSessionsBundle scopeBundle = sessionManager.Scope(pinOrPinGroup);
-            ConfigureScope(
-                scopeBundle,
-                pinOrPinGroup,
-                range,
-                offset,
-                probeAttenuation,
-                enableTimeInterleavedSampling,
-                inputImpedance,
-                inputFrequencyMax);
 
+            // 1. Configure the scope's vertical and electrical characteristics
+            // Note that each the settings are grouped into specific class objects before passed to the STL method.
+            // This ensures the settings are applied as efficiently as possible by the instrument driver. 
+            var verticalSettings = new VerticalSettings
+            {
+                Range = range,
+                Offset = offset,
+                ProbeAttenuation = probeAttenuation,
+                EnableTimeInterleavedSampling = enableTimeInterleavedSampling,
+            };
+            scopeBundle.ConfigureVertical(verticalSettings);
+            ElectricalCharacteristics electricalCharacteristics = new ElectricalCharacteristics
+            {
+                InputImpedance = inputImpedance,
+                InputFrequencyMax = inputFrequencyMax,
+            };
+            scopeBundle.ConfigureElectricalCharacteristics(electricalCharacteristics);
+            scopeBundle.Commit();
+
+            // 2. Configure and apply scope trigger settings
             var triggerDigitalSettings = new DigitalTriggerSettings
             {
                 HoldOff = PrecisionTimeSpan.FromSeconds(holdOff),
@@ -71,7 +82,18 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
             };
             scopeBundle.ConfigureTriggerDigital(triggerDigitalSettings);
 
-            InitiateFetchAndPublishScopeAcquisition(tsmContext, scopeBundle);
+            // 3. Initiate acquisition
+            scopeBundle.Initiate();
+
+            // 4. Fetch the acquired waveform
+            PinSiteData<AnalogWaveform<double>> waveforms = scopeBundle.FetchWaveform(PrecisionTimeSpan.FromSeconds(50.0), 1000);
+
+            // 5. Calculate the measured frequency and peak-to-peak amplitude of the signal
+            Utilities.CalculateWaveformFrequencyAndPeakToPeakAmplitude(waveforms, out PinSiteData<double> frequencies, out PinSiteData<double> amplitudes);
+
+            // 6. Publish the calculated frequency and amplitude values
+            tsmContext.PublishResults(frequencies, "Frequency");
+            tsmContext.PublishResults(amplitudes, "Amplitude");
         }
     }
 }
