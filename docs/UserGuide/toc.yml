@@ -21,6 +21,8 @@
       href: SMUMergePinGroup.md
     - name: SMU Gang Pin Group
       href: SMUGangPinGroup.md
+    - name: Scope Extension Methods
+      href: ScopeExtensionMethods.md
     - name: Custom Instrument Support
       href: CustomInstrumentSupport.md
 - name: Data Abstraction
