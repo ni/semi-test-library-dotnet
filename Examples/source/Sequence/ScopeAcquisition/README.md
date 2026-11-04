@@ -7,7 +7,7 @@ This example demonstrates how to use the Semiconductor Test Library (STL) extens
 
 The example showcases five different trigger types for waveform acquisition on scope pins:
 
-1. **Immediate Trigger** (`ConfigureTriggerImmediate`): Acquisition starts starts immediately after the acquisition is initiated, without waiting for a trigger condition.
+1. **Immediate Trigger** (`ConfigureTriggerImmediate`): Acquisition starts immediately after the acquisition is initiated, without waiting for a trigger condition.
 2. **Edge Trigger** (`ConfigureEdgeTrigger`): Acquisition starts when the signal crosses the specified `triggerLevel` with the specified `triggerSlope` (positive or negative), using the specified `triggerCoupling`, `holdOff`, and `delay`.
 3. **Digital Trigger** (`ConfigureTriggerDigital`): Acquisition starts when a rising or falling edge (`triggerSlope`) of a digital trigger signal is detected, using the specified `holdOff` and `delay`.
 4. **Hysteresis Trigger** (`ConfigureTriggerHysteresis`): Acquisition starts when the signal crosses the `triggerLevel` with the specified `triggerSlope`, but only after first crossing the hysteresis band defined by `triggerHysteresis`. This rejects noise around the trigger level.
@@ -22,8 +22,7 @@ Each trigger type is represented by a step in the MainSequence. Each step is con
 5. Computes the frequency and amplitude of each waveform using `Utilities.MeasureTone`.
 6. Publishes the per-pin, per-site results using the "Frequency" and "Amplitude" Published Data Ids.
 
-
-### Prerequisites
+## Prerequisites
 
 ### Software Requirements
 
@@ -52,7 +51,7 @@ Each trigger type is represented by a step in the MainSequence. Each step is con
 
 - `STLExample.ScopeAcquisition.seq`: Example TestStand sequence that demonstrates running the sample Scope test steps.
 - `STLExample.ScopeAcquisition.pinmap`: Pin map file containing device and pin information for the Scope instrument.
-- `STLExample.ScopeAcquisition.offlinecfg`: Offline configuration file containing the Instruements used by the example for simulation.
+- `STLExample.ScopeAcquisition.offlinecfg`: Offline configuration file containing the Instruments used by the example for simulation.
 
 ### Code Modules
 
@@ -71,6 +70,7 @@ Each trigger type is represented by a step in the MainSequence. Each step is con
 2. Open the sequence file `STLExample.ScopeAcquisition.seq` located in this example's directory.
 
 ### Step 2: Review ProcessSetup and ProcessCleanup
+
 1. In the TestStand Sequence Editor, select the **ProcessSetup** tab to view the test steps.
 2. In the TestStand Sequence Editor, select the **ProcessCleanup** tab to view the test steps.
 
@@ -78,17 +78,17 @@ Each trigger type is represented by a step in the MainSequence. Each step is con
 
 1. In the TestStand Sequence Editor, select the **MainSequence** tab to view the test steps.
 2. Observe the sequence of test steps that demonstrate the different trigger-based waveform acquisitions. Each step calls a code module in `Code Modules/TestSteps` that configures the scope, initiates the acquisition, fetches the waveform, and publishes the measured "Frequency" and "Amplitude" results:
-   - **Immediate** (`ConfigureInitiateAndFetchScopeAcquisition`) - Configures an immediate trigger, so the waveform is acquired as soon as the acquisition is initiated.
-   - **Edge Trigger** (`ConfigureEdgeTriggerInitiateAndFetchScopeAcquisition`) - Configures an edge trigger using the trigger level, slope, coupling, hold-off, and delay step parameters.
-   - **Digital Trigger** (`ConfigureTriggerDigitalInitiateAndFetchScopeAcquisition`) - Configures a digital trigger using the trigger slope, hold-off, and delay step parameters.
-   - **Hysteresis Trigger** (`ConfigureTriggerHysteresisInitiateAndFetchScopeAcquisition`) - Configures a hysteresis trigger using the trigger level, hysteresis, slope, coupling, hold-off, and delay step parameters.
-   - **Window Trigger** (`ConfigureTriggerWindowInitiateAndFetchScopeAcquisition`) - Configures a window trigger using the window low level, window high level, window mode, coupling, hold-off, and delay step parameters.
+   - **Immediate** (`Scope Acquisition Using Immediate Trigger`) - Configures an immediate trigger, so the waveform is acquired as soon as the acquisition is initiated.
+   - **Edge Trigger** (`Scope Acquisition Using Edge Trigger`) - Configures an edge trigger using the trigger level, slope, coupling, hold-off, and delay step parameters.
+   - **Digital Trigger** (`Scope Acquisition Using Digital Trigger`) - Configures a digital trigger using the trigger slope, hold-off, and delay step parameters.
+   - **Hysteresis Trigger** (`Scope Acquisition Using Hysteresis Trigger`) - Configures a hysteresis trigger using the trigger level, hysteresis, slope, coupling, hold-off, and delay step parameters.
+   - **Window Trigger** (`Scope Acquisition Using Window Trigger`) - Configures a window trigger using the window low level, window high level, window mode, coupling, hold-off, and delay step parameters.
 
-   All steps share the common helper methods `ConfigureScope`, which applies the vertical settings and electrical characteristics and commits them, and `InitiateFetchAndPublishescopeAcquisition`, which initiates the acquisition, fetches the waveforms, computes the frequency and amplitude per pin and site, and publishes the results.
+   All steps share the common helper method `CalculateWaveformFrequencyAndPeakToPeakAmplitude`, which calculates the frequency and peak-to-peak amplitude of the acquired waveform.
 
 3. Note the order of execution and how the steps are organized. Pay attention to the step properties configured for each step by selecting a step and reviewing its settings in the **Step Settings** pane.
 
-### Step 3: Review the Pin Map
+### Step 4: Review the Pin Map
 
 1. From the TestStand Sequence Editor, open the pin map by selecting **Semiconductor Module -> Edit Pin Map File...** from the menu bar, or by clicking the **Edit Pin Map File** button on the TSM toolbar.
 2. Review the instrument definitions and pin assignments. Note that the pin map is configured to use an NI Scope Instrument (PXIe-5172) named `SCOPE_5172_C1_S02` and `SCOPE_5172_C1_S03`, with the scope pins `Vsc0`, `Vsc1`, `Vsc2`, and `Vsc3`.
@@ -98,26 +98,27 @@ Each trigger type is represented by a step in the MainSequence. Each step is con
    - Update the channel assignments for the `Vsc0`, `Vsc1`, `Vsc2`, and `Vsc3` pins as needed.
    - Save the pin map file after making changes.
 
-### Step 4: Review the Offline Configuration
+### Step 5: Review the Offline Configuration
 
 1. Complete the following steps to review the Test Program Configurations that this test program uses.
-   1. Select **Semiconductor Module -> Edit Test Program: ScopeAcquisition.seq** or click the **Edit Test Program: ScopeAcquisition.seq** button on the TSM toolbar.
+   1. Select **Semiconductor Module -> Edit Test Program: STLExample.ScopeAcquisition.seq** or click the **Edit Test Program: STLExample.ScopeAcquisition.seq** button on the TSM toolbar.
    2. Review the Offline Mode section to see which two scope instruments the STS software simulates when you run this example.
 
-### Step 5: Review the Code Implementation
+### Step 6: Review the Code Implementation
 
 You can open the C# source code in one of two ways:
 
 - **From TestStand:** In the MainSequence, **double-click** any test step to open its associated code module directly in Visual Studio.
 - **From disk:** Navigate to the `Code Modules` folder within this example's directory and **double-click** the Visual Studio solution file (`.sln`) to open the full project in Visual Studio. Alternatively, open Visual Studio manually and use **File -> Open -> Project/Solution** to browse to and open the solution file.
-- Once the code is open in Visual Studio, review each of the key files listed in the [code modules section](#code-modules) above.
+
+Once the code is open in Visual Studio, review each of the key files listed in the [code modules section](#code-modules) above.
 
 > **TIP:** In Visual Studio, **hover over** any STL extension method name to view its inline documentation. This provides details on the method's parameters, expected behavior, and return values.
 
-### Step 6: Run the Test Program
+### Step 7: Run the Test Program
 
 1. Return to the **TestStand Sequence Editor**.
-2. Ensure all [Prerequisites](#prerequisites) are met, including having the correct digital pattern hardware installed (or Offline Mode enabled for simulation). A signal must be present on the measured pins to obtain actual measurement results.
+2. Ensure all [Prerequisites](#prerequisites) are met, including having the correct scope hardware installed (or Offline Mode enabled for simulation). A signal must be present on the measured pins to obtain actual measurement results.
 3. If you are running the test on STS hardware, update the values in the `ExpectedValues` container under **FileGlobals** to the expected values for the signal on the measured pins, so that the test passes accordingly.
 4. Click the **Start Lot (F5)** or **Single Test (Ctrl + F5)** button on the TSM toolbar to execute the test sequence.
 5. Monitor the execution in the TestStand Sequence Editor and review the results upon completion.
