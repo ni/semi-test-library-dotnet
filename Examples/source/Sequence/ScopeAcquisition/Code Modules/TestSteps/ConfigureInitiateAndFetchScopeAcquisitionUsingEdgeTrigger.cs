@@ -60,7 +60,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
 
             // 1. Configure the scope's vertical and electrical characteristics
             // Note that each the settings are grouped into specific class objects before passed to the STL method.
-            // This ensures the settings are applied as efficiently as possible by the instrument driver. 
+            // This ensures the settings are applied as efficiently as possible by the instrument driver.
             var verticalSettings = new VerticalSettings
             {
                 Range = range,
