@@ -82,7 +82,7 @@ Each trigger type is represented by a step in the MainSequence. Each step is con
    - **Hysteresis Trigger** (`Scope Acquisition Using Hysteresis Trigger`) - Configures a hysteresis trigger using the trigger level, hysteresis, slope, coupling, hold-off, and delay step parameters.
    - **Window Trigger** (`Scope Acquisition Using Window Trigger`) - Configures a window trigger using the window low level, window high level, window mode, coupling, hold-off, and delay step parameters.
 
-   All steps share the common helper method `CalculateWaveformFrequencyAndPeakToPeakAmplitude`, which calculates the frequency and peak-to-peak amplitude of the acquired waveform.
+   Each code module configures the scope, initiates acquisition, fetches waveforms, and publishes results inline. All modules use `Utilities.CalculateWaveformFrequencyAndPeakToPeakAmplitude` to calculate the frequency and peak-to-peak amplitude per pin and site.
 
 3. Note the order of execution and how the steps are organized. Pay attention to the step properties configured for each step by selecting a step and reviewing its settings in the **Step Settings** pane.
 
