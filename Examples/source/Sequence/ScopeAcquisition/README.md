@@ -7,17 +7,17 @@ This example demonstrates how to use the Semiconductor Test Library (STL) extens
 
 The example showcases five different trigger types for waveform acquisition on scope pins:
 
-1. **Immediate Trigger** (`ConfigureTriggerImmediate`): Waveform acquisition starts immediately after the acquisition is initiated, without waiting for a trigger condition.
+1. **Immediate Trigger** (`ConfigureTriggerImmediate`): Acquisition starts starts immediately after the acquisition is initiated, without waiting for a trigger condition.
 2. **Edge Trigger** (`ConfigureEdgeTrigger`): Acquisition starts when the signal crosses the specified `triggerLevel` with the specified `triggerSlope` (positive or negative), using the specified `triggerCoupling`, `holdOff`, and `delay`.
 3. **Digital Trigger** (`ConfigureTriggerDigital`): Acquisition starts when a rising or falling edge (`triggerSlope`) of a digital trigger signal is detected, using the specified `holdOff` and `delay`.
 4. **Hysteresis Trigger** (`ConfigureTriggerHysteresis`): Acquisition starts when the signal crosses the `triggerLevel` with the specified `triggerSlope`, but only after first crossing the hysteresis band defined by `triggerHysteresis`. This rejects noise around the trigger level.
 5. **Window Trigger** (`ConfigureTriggerWindow`): Acquisition starts when the signal enters or leaves (`triggerWindowMode`) the voltage window defined by `windowLowLevel` and `windowHighLevel`.
 
-Each test step follows the same general pattern:
+Each trigger type is represented by a step in the MainSequence. Each step is configured using parameters defined by sequence variables. The code modules for each step follow the same general pattern:
 
 1. Creates a `TSMSessionManager` and gets the `ScopeSessionsBundle` for the `pinOrPinGroup` parameter.
 2. Configures the vertical settings (`range`, `offset`, `probeAttenuation`, `enableTimeInterleavedSampling`) and the electrical characteristics (`inputImpedance`, `inputFrequencyMax`), then commits the settings to the instrument.
-3. Configures the trigger specific to the step.
+3. Configures the trigger specific settings to the scope.
 4. Initiates the acquisition and fetches the waveform for each pin and site (1000 samples, 50 second timeout).
 5. Computes the frequency and amplitude of each waveform using `Utilities.MeasureTone`.
 6. Publishes the per-pin, per-site results using the "Frequency" and "Amplitude" Published Data Ids.
@@ -56,11 +56,11 @@ Each test step follows the same general pattern:
 
 ### Code Modules
 
-- `Code Modules/TestSteps/ConfigureEdgeTriggerInitiateAndFetchScopeAcquisition.cs`: Configures the scope for Edge trigger based waveform acquisition on the `pinOrPinGroup` parameter and publishes the computed frequency and amplitude using the "Frequency" and "Amplitude" Published Data Ids.
-- `Code Modules/TestSteps/ConfigureInitiateAndFetchScopeAcquisition.cs`: Configures the scope for Immediate waveform acquisition on the `pinOrPinGroup` parameter and publishes the computed frequency and amplitude using the "Frequency" and "Amplitude" Published Data Ids.
-- `Code Modules/TestSteps/ConfigureTriggerDigitalInitiateAndFetchScopeAcquisition.cs`: Configures the scope for Digital Triggered waveform acquisition on the `pinOrPinGroup` parameter and publishes the computed frequency and amplitude using the "Frequency" and "Amplitude" Published Data Ids.
-- `Code Modules/TestSteps/ConfigureTriggerHysteresisInitiateAndFetchScopeAcquisition.cs`: Configures the scope for Hysteresis Triggered waveform acquisition on the `pinOrPinGroup` parameter and publishes the computed frequency and amplitude using the "Frequency" and "Amplitude" Published Data Ids.
-- `Code Modules/TestSteps/ConfigureTriggerWindowInitiateAndFetchScopeAcquisition.cs`: Configures the scope for Window Triggered waveform acquisition on the `pinOrPinGroup` parameter and publishes the computed frequency and amplitude using the "Frequency" and "Amplitude" Published Data Ids.
+- `Code Modules/TestSteps/ConfigureInitiateAndFetchScopeAcquisitionUsingEdgeTrigger.cs`: Configures the scope for Edge trigger based waveform acquisition on the `pinOrPinGroup` parameter and publishes the computed frequency and amplitude using the "Frequency" and "Amplitude" Published Data Ids.
+- `Code Modules/TestSteps/ConfigureInitiateAndFetchScopeAcquisitionUsingImmediateTrigger.cs`: Configures the scope for Immediate waveform acquisition on the `pinOrPinGroup` parameter and publishes the computed frequency and amplitude using the "Frequency" and "Amplitude" Published Data Ids.
+- `Code Modules/TestSteps/ConfigureInitiateAndFetchScopeAcquisitionUsingDigitalTrigger.cs`: Configures the scope for Digital Triggered waveform acquisition on the `pinOrPinGroup` parameter and publishes the computed frequency and amplitude using the "Frequency" and "Amplitude" Published Data Ids.
+- `Code Modules/TestSteps/ConfigureInitiateAndFetchScopeAcquisitionUsingHysteresisTrigger.cs`: Configures the scope for Hysteresis Triggered waveform acquisition on the `pinOrPinGroup` parameter and publishes the computed frequency and amplitude using the "Frequency" and "Amplitude" Published Data Ids.
+- `Code Modules/TestSteps/ConfigureInitiateAndFetchScopeAcquisitionUsingWindowTrigger.cs`: Configures the scope for Window Triggered waveform acquisition on the `pinOrPinGroup` parameter and publishes the computed frequency and amplitude using the "Frequency" and "Amplitude" Published Data Ids.
 
 
 ## Using the Example
