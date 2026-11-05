@@ -1,6 +1,6 @@
 # Scope Acquisition Sequence Example
 
-(PXIe-5172).
+This example demonstrates how to use the Semiconductor Test Library (STL) extension methods to acquire a signal with an NI Scope instrument (PXIe-5172).
 
 ## Overview
 
@@ -29,7 +29,7 @@ Each trigger type is represented by a step in the MainSequence. Each step is con
 
 ### Hardware Requirements
 
-- Two NI Scope instruments named
+- Two NI Scope instruments named SCOPE_5172_C1_S02 and SCOPE_5172_C1_S03 (or update the pin map to use the name of the NI Scope cards in your system, as defined in NI MAX).
 
 > **NOTE:**
 > You can view the example sequence file in the TestStand Sequence Editor and C# source files in Visual Studio or any text editor without meeting the hardware requirements.
@@ -54,11 +54,11 @@ Each trigger type is represented by a step in the MainSequence. Each step is con
 
 ### Code Modules
 
-- `Code Modules/TestSteps/ConfigureInitiateAndFetchScopeAcquisitionUsingEdgeTrigger.cs`: Configures the scope for edge-triggered waveform
-- `Code Modules/TestSteps/ConfigureInitiateAndFetchScopeAcquisitionUsingImmediateTrigger.cs`: Configures the scope for immediate-triggered waveform
-- `Code Modules/TestSteps/ConfigureInitiateAndFetchScopeAcquisitionUsingDigitalTrigger.cs`: Configures the scope for digital-triggered waveform
-- `Code Modules/TestSteps/ConfigureInitiateAndFetchScopeAcquisitionUsingHysteresisTrigger.cs`: Configures the scope for hysteresis-triggered waveform
-- `Code Modules/TestSteps/ConfigureInitiateAndFetchScopeAcquisitionUsingWindowTrigger.cs`: Configures the scope for window-triggered waveform
+- `Code Modules/TestSteps/ConfigureInitiateAndFetchScopeAcquisitionUsingEdgeTrigger.cs`: Configures the specified scope pins to use a edge trigger, initiates acquisition and fetches the acquired waveform. Then calculates and publishes the measured frequency and amplitude of the acquired waveform.
+- `Code Modules/TestSteps/ConfigureInitiateAndFetchScopeAcquisitionUsingImmediateTrigger.cs`:Configures the specified scope pins to use a immediate trigger, initiates acquisition and fetches the acquired waveform. Then calculates and publishes the measured frequency and amplitude of the acquired waveform.
+- `Code Modules/TestSteps/ConfigureInitiateAndFetchScopeAcquisitionUsingDigitalTrigger.cs`: Configures the specified scope pins to use a digital trigger, initiates acquisition and fetches the acquired waveform. Then calculates and publishes the measured frequency and amplitude of the acquired waveform.
+- `Code Modules/TestSteps/ConfigureInitiateAndFetchScopeAcquisitionUsingHysteresisTrigger.cs`: Configures the specified scope pins to use a hysteresis trigger, initiates acquisition and fetches the acquired waveform. Then calculates and publishes the measured frequency and amplitude of the acquired waveform.
+- `Code Modules/TestSteps/ConfigureInitiateAndFetchScopeAcquisitionUsingWindowTrigger.cs`: Configures the specified scope pins to use a window trigger, initiates acquisition and fetches the acquired waveform. Then calculates and publishes the measured frequency and amplitude of the acquired waveform.
 
 ## Using the Example
 
