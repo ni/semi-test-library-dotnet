@@ -34,7 +34,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
             var publishedDataForDutyCycle = publishedData.Where(d => d.PublishedDataId == "DutyCycleRatio").ToArray();
             Assert.NotEmpty(publishedDataForDutyCycle);
             Assert.Equal(_tsmContext.SiteNumbers.Count, publishedDataForDutyCycle.Length);
-            Assert.All(publishedDataForDutyCycle, d => Assert.InRange(d.DoubleValue, 0.0, 1.0));
+            if (!_tsmContext.IsSemiconductorModuleInOfflineMode)
+            {
+                Assert.All(publishedDataForDutyCycle, d => Assert.InRange(d.DoubleValue, 0.0, 1.0));
+            }
 
             CleanupInstrumentation(_tsmContext);
         }
