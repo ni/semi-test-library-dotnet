@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PinLevelsFile xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" schemaVersion="1.0" xmlns="http://www.ni.com/Semiconductor/PinLevels">
+<PinLevelsFile xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" schemaVersion="1.0" xmlns="http://www.ni.com/Semiconductor/PinLevels">
   <PinLevelsSheet>
     <DigitalPinLevelSets>
       <DigitalPinLevelSet pin="DigitalPins">
@@ -13,7 +13,7 @@
         <Vterm>0</Vterm>
         <TerminationMode>HighZ</TerminationMode>
       </DigitalPinLevelSet>
-      <DigitalPinLevelSet pin="SCLK">
+      <DigitalPinLevelSet pin="SDI">
         <Vil>0</Vil>
         <Vih>1.8</Vih>
         <Vol>0.5</Vol>
@@ -24,7 +24,7 @@
         <Vterm>0</Vterm>
         <TerminationMode>HighZ</TerminationMode>
       </DigitalPinLevelSet>
-      <DigitalPinLevelSet pin="SDATA">
+      <DigitalPinLevelSet pin="CLK">
         <Vil>0</Vil>
         <Vih>1.8</Vih>
         <Vol>0.5</Vol>
