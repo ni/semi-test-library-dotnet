@@ -19,15 +19,15 @@
 	</Instruments>
 	<Pins>
 		<DUTPin name="VDD" />
-		<DUTPin name="SDO" />
-		<DUTPin name="SDI" />
+		<DUTPin name="SCLK" />
+		<DUTPin name="SDATA" />
 		<DUTPin name="CLK" />
 		<SystemPin name="DMM" />
 	</Pins>
 	<PinGroups>
 		<PinGroup name="DigitalPins">
-			<PinReference pin="SDO" />
-			<PinReference pin="SDI" />
+			<PinReference pin="SCLK" />
+			<PinReference pin="SDATA" />
 			<PinReference pin="CLK" />
 		</PinGroup>
 	</PinGroups>
@@ -38,10 +38,10 @@
 	<Connections>
 		<Connection pin="CLK" siteNumber="0" instrument="HSD_6571_C1_S02" channel="0" />
 		<Connection pin="CLK" siteNumber="1" instrument="HSD_6571_C1_S02" channel="1" />
-		<Connection pin="SDI" siteNumber="0" instrument="HSD_6571_C1_S02" channel="2" />
-		<Connection pin="SDI" siteNumber="1" instrument="HSD_6571_C1_S02" channel="3" />
-		<Connection pin="SDO" siteNumber="0" instrument="HSD_6571_C1_S02" channel="4" />
-		<Connection pin="SDO" siteNumber="1" instrument="HSD_6571_C1_S02" channel="5" />
+		<Connection pin="SDATA" siteNumber="0" instrument="HSD_6571_C1_S02" channel="2" />
+		<Connection pin="SDATA" siteNumber="1" instrument="HSD_6571_C1_S02" channel="3" />
+		<Connection pin="SCLK" siteNumber="0" instrument="HSD_6571_C1_S02" channel="4" />
+		<Connection pin="SCLK" siteNumber="1" instrument="HSD_6571_C1_S02" channel="5" />
 		<Connection pin="VDD" siteNumber="0" instrument="SMU_4147_C1_S11" channel="0" />
 		<Connection pin="VDD" siteNumber="1" instrument="SMU_4147_C1_S11" channel="1" />
 		<SystemConnection pin="DMM" instrument="DMM_4081_C1_S17" channel="0" />

@@ -13,7 +13,7 @@
         <Vterm>0</Vterm>
         <TerminationMode>HighZ</TerminationMode>
       </DigitalPinLevelSet>
-      <DigitalPinLevelSet pin="SDI">
+      <DigitalPinLevelSet pin="SCLK">
         <Vil>0</Vil>
         <Vih>1.8</Vih>
         <Vol>0.5</Vol>
@@ -24,7 +24,7 @@
         <Vterm>0</Vterm>
         <TerminationMode>HighZ</TerminationMode>
       </DigitalPinLevelSet>
-      <DigitalPinLevelSet pin="CLK">
+      <DigitalPinLevelSet pin="SDATA">
         <Vil>0</Vil>
         <Vih>1.8</Vih>
         <Vol>0.5</Vol>
