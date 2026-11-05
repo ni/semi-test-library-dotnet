@@ -7,7 +7,7 @@ using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
 {
     /// <summary>
-    /// This class provides an example test step method to demonstrate how to acquire a signal on a Scope pin
+    /// This class provides example test step methods to demonstrate how to acquire a signal on a Scope pin
     /// using the Scope Instrument Abstraction extensions from the Semiconductor Test Library.
     /// </summary>
     public static partial class TestSteps
