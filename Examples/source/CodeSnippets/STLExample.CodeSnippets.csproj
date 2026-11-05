@@ -45,6 +45,9 @@
 	  <SpecificVersion>False</SpecificVersion>
 	  <HintPath>C:\Program Files\IVI Foundation\IVI\Microsoft.NET\Framework64\v4.0.30319\NationalInstruments.ModularInstruments.NIDmm 23.8.0\NationalInstruments.ModularInstruments.NIDmm.Fx40.dll</HintPath>
 	</Reference>
+	<Reference Include="NationalInstruments.ModularInstruments.NIFgen.Fx40">
+	  <HintPath>C:\Program Files\IVI Foundation\IVI\Microsoft.NET\Framework64\v4.0.30319\NationalInstruments.ModularInstruments.NIFgen 24.5.0\NationalInstruments.ModularInstruments.NIFgen.Fx40.dll</HintPath>
+	</Reference>
     <Reference Include="NationalInstruments.ModularInstruments.NISwitch.Fx40">
       <SpecificVersion>False</SpecificVersion>
     </Reference>
