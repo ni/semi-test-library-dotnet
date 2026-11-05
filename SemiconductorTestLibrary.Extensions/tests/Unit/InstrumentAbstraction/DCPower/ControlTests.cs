@@ -583,17 +583,15 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         }
 
         [Fact]
-        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
-        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void BundleWithSessionsNotInitializedByInitializeAndClose_ResetDevice_ThrowsException()
         {
-            _tsmContext = CreateTSMContext("DCPowerSessionPerChannel.pinmap");
+            _tsmContext = CreateTSMContext("Mixed Signal Tests.pinmap");
             foreach (var resourceString in _tsmContext.GetNIDCPowerResourceStrings())
             {
                 _tsmContext.SetNIDCPowerSession(resourceString, new NIDCPower(resourceString, false, string.Empty));
             }
             DCPowerSessionInformation.GenerateInstrumentChannelToSitePinDictionary(_tsmContext);
-            var sessionsBundle = new TSMSessionManager(_tsmContext).DCPower(_resetDevicePins).FilterBySite(0);
+            var sessionsBundle = new TSMSessionManager(_tsmContext).DCPower("VDD").FilterBySite(0);
 
             void ResetDevice() => sessionsBundle.ResetDevice();
 
