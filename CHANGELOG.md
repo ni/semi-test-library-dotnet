@@ -514,6 +514,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
       - `ConfigureTimeSetCompareEdgesStrobe(string timeSet, PinSiteData<double> compareEdges, UpdateMode updateMode)`
     - The following `GetCurrentLimits` DCPower method is now marked as obsolete. It remains available for compatibility, but new code should use the singular `GetCurrentLimit` method instead:
       - `GetCurrentLimits(this DCPowerSessionsBundle sessionsBundle)`
+    - Added validation logic to the following `TSMSessionManager` and `FgenSessionsBundle` methods to ensure that all channels of a multichannel FGen instrument are included in the `FgenSessionsBundle`. These methods now throw an exception when a channel associated with a pin and site is missing from the bundle. To avoid this exception, pass all the FGen pins of a multichannel instrument to the `TSMSessionManager.Fgen` method, and do not filter pins or sites in a way that results in a bundle containing only some of the channels of an FGen instrument.
+      - `TSMSessionManager.Fgen(string pin)`
+      - `TSMSessionManager.Fgen(string[] pins)`
+      - `TSMSessionManager.Fgen(string[] pins, bool filterPins)`
+      - `FgenSessionsBundle.FilterBySite(int requestedSite)`
+      - `FgenSessionsBundle.FilterBySite(int[] requestedSites)`
+      - `FgenSessionsBundle.FilterByPin(string requestedPin)`
+      - `FgenSessionsBundle.FilterByPin(string[] requestedPins)`
 
 ## 26.0.0 - 2026-06-26
 
