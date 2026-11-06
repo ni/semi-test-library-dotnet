@@ -1,4 +1,5 @@
 using NationalInstruments.ModularInstruments.NIDCPower;
+using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using Xunit;
 using static NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.PatternTriggeredInstrumentControl;
 using static NationalInstruments.SemiconductorTestLibrary.TestStandSteps.SetupAndCleanupSteps;
@@ -37,6 +38,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         }
 
         [Fact]
+        [Trait(nameof(Platform), nameof(Platform.TesterOnly))]
+        [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
         public void Initialize_RunPatternTriggeredDmmMeasurement_SucceedsAndPublishesData()
         {
             var tsmContext = CreateTSMContext("PatternTriggeredInstrumentControl.pinmap", out var publishedDataReader, "PatternTriggeredInstrumentControl.digiproj");
