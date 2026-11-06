@@ -7842,7 +7842,7 @@
             <summary>
             Constructor with parameters.
             </summary>
-            <param name="triggerSource">The digital trigger source. Default value: "PXI_Trig0"</param>
+            <param name="triggerSource">The digital trigger source.</param>
             <param name="triggerSlope">The trigger slope. Default value: <c>ScopeTriggerSlope.Positive</c>.</param>
             <param name="holdOff">The hold off time. Default value: <c>PrecisionTimeSpan.Zero</c>.</param>
             <param name="delay">The trigger delay time. Default value: <c>PrecisionTimeSpan.Zero</c>.</param>
