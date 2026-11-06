@@ -198,7 +198,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var trigger = sessionInfo.Session.Trigger;
                 Assert.Equal(ScopeTriggerType.DigitalEdge, trigger.Type);
-                Assert.Equal(sessionInfo.AssociatedSitePinList[0].IndividualChannelString, trigger.Source);
+                Assert.Equal("PXITrig0", trigger.Source);
                 Assert.Equal(settings.TriggerSlope, trigger.EdgeTrigger.Slope);
                 Assert.Equal(settings.HoldOff.TotalSeconds, trigger.Holdoff.TotalSeconds, 9);
             });
