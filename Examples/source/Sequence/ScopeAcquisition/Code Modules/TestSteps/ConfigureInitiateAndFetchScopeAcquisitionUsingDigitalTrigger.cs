@@ -35,9 +35,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
         /// <param name="enableTimeInterleavedSampling">A boolean value indicating whether to enable time-interleaved sampling.</param>
         /// <param name="inputImpedance">The input impedance of the scope, in Ohms.</param>
         /// <param name="inputFrequencyMax">The maximum input frequency of the scope, in Hertz.</param>
+        /// <param name="triggerSource">The digital trigger source to start the acquisition</param>
+        /// <param name="triggerSlope">The trigger slope for the scope.</param>
         /// <param name="holdOff">The hold-off time for the trigger, in seconds.</param>
         /// <param name="delay">The delay time for the trigger, in seconds.</param>
-        /// <param name="triggerSlope">The trigger slope for the scope.</param>
         public static void ConfigureInitiateAndFetchScopeAcquisitionUsingDigitalTrigger(
             ISemiconductorModuleContext tsmContext,
             string pinOrPinGroup,
@@ -47,9 +48,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
             bool enableTimeInterleavedSampling = false,
             double inputImpedance = 1e6,
             double inputFrequencyMax = 0.0,
+            string triggerSource = "",
+            ScopeTriggerSlope triggerSlope = ScopeTriggerSlope.Positive,
             double holdOff = 0.0,
-            double delay = 0.0,
-            ScopeTriggerSlope triggerSlope = ScopeTriggerSlope.Positive)
+            double delay = 0.0)
         {
             TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
             ScopeSessionsBundle scopeBundle = sessionManager.Scope(pinOrPinGroup);
@@ -74,11 +76,12 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
             scopeBundle.Commit();
 
             // 2. Configure and apply scope trigger settings
-            DigitalTriggerSettings digitalTriggerSettings = new DigitalTriggerSettings
+            DigitalTriggerSettings digitalTriggerSettings = new DigitalTriggerSettings ()
             {
+                TriggerSource = triggerSource,
+                TriggerSlope = triggerSlope,
                 HoldOff = PrecisionTimeSpan.FromSeconds(holdOff),
                 Delay = PrecisionTimeSpan.FromSeconds(delay),
-                TriggerSlope = triggerSlope,
             };
             scopeBundle.ConfigureTriggerDigital(digitalTriggerSettings);
 
