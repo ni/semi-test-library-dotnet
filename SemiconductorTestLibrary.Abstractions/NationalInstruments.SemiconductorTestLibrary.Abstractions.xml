@@ -7183,6 +7183,13 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation.AssociatedSitePinList">
             <inheritdoc/>
         </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation.#ctor(NationalInstruments.ModularInstruments.NIFgen.NIFgen,System.String)">
+            <summary>
+            Constructs a session information object that associates with a <see cref="T:NationalInstruments.ModularInstruments.NIFgen.NIFgen"/> instrument session.
+            </summary>
+            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIFgen.NIFgen"/> session.</param>
+            <param name="channelList">The channels list associated with the <see cref="T:NationalInstruments.ModularInstruments.NIFgen.NIFgen"/> session.</param>
+        </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen.FgenSessionInformation.#ctor(NationalInstruments.ModularInstruments.NIFgen.NIFgen,System.String,System.String[],System.Int32[])">
             <summary>
             Constructs a session information object that associates with a <see cref="T:NationalInstruments.ModularInstruments.NIFgen.NIFgen"/> instrument session.
@@ -8431,16 +8438,6 @@
               Looks up a localized string similar to The PinSiteData object does not contain any site numbers..
             </summary>
         </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_NullPinName">
-            <summary>
-              Looks up a localized string similar to The pin name provided as input is null and cannot be processed..
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_NullPinNames">
-            <summary>
-              Looks up a localized string similar to The PinNames array provided as input is null. Please provide valid pin name(s)..
-            </summary>
-        </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_NullDictPinSiteData">
             <summary>
               Looks up a localized string similar to The input PinSiteData dictionary cannot be null..
@@ -8449,6 +8446,16 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_NullDictSiteData">
             <summary>
               Looks up a localized string similar to The input SiteData dictionary cannot be null..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_NullPinName">
+            <summary>
+              Looks up a localized string similar to The pin name provided as input is null and cannot be processed..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_NullPinNames">
+            <summary>
+              Looks up a localized string similar to The PinNames array provided as input is null. Please provide valid pin name(s)..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_NullSiteNumbers">
@@ -8499,36 +8506,6 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_DifferentOutputFunctionsDetectedForCascadedPinGroup">
             <summary>
               Looks up a localized string similar to The parameter contains different output functions for Cascaded pins in the &quot;{0}&quot; group. All pins within a Cascaded group must have the same output function..
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_ResetDeviceRequiresInitializedSessions">
-            <summary>
-              Looks up a localized string similar to Cannot reset the device because the NI-DCPower sessions were not initialized with the Semiconductor Test Library&apos;s InitializeAndClose.Initialize method, or were already closed..
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_ResetDevicePreparationFailed">
-            <summary>
-              Looks up a localized string similar to Failed to prepare the NI-DCPower channel group &quot;{0}&quot; before resetting the device. No device was reset..
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_ResetDeviceRecoveryFailed">
-            <summary>
-              Looks up a localized string similar to Failed to recover the NI-DCPower channel group &quot;{0}&quot; after resetting the device..
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_ResetDeviceRecoveryFailedForMultipleChannelGroups">
-            <summary>
-              Looks up a localized string similar to Failed to recover the NI-DCPower channel groups {0} after resetting the device. The other channel groups were recovered. See the inner exceptions for the error of each channel group..
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_ResetDeviceSessionNotRegistered">
-            <summary>
-              Looks up a localized string similar to Cannot reset the device because the NI-DCPower session for channels &quot;{0}&quot; is not registered with TestStand Semiconductor Module, so its full channel group cannot be determined. No device was reset..
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_ResetDeviceSessionRegistrationFailed">
-            <summary>
-              Looks up a localized string similar to Failed to register the reinitialized NI-DCPower session &quot;{0}&quot; after resetting the device. The context used for recovery contains sites [{1}], which do not include this channel group..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_DifferentSequencesDetectedForCascadedPinGroup">
@@ -8584,6 +8561,36 @@
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_PinGroupNotCascaded">
             <summary>
               Looks up a localized string similar to Pins {0} from pin group &quot;{1}&quot; are not cascaded. Uncascade operation is invalid. .
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_ResetDevicePreparationFailed">
+            <summary>
+              Looks up a localized string similar to Failed to prepare the NI-DCPower channel group &quot;{0}&quot; before resetting the device. No device was reset..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_ResetDeviceRecoveryFailed">
+            <summary>
+              Looks up a localized string similar to Failed to recover the NI-DCPower channel group &quot;{0}&quot; after resetting the device..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_ResetDeviceRecoveryFailedForMultipleChannelGroups">
+            <summary>
+              Looks up a localized string similar to Failed to recover the NI-DCPower channel groups {0} after resetting the device. The other channel groups were recovered. See the inner exceptions for the error of each channel group..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_ResetDeviceRequiresInitializedSessions">
+            <summary>
+              Looks up a localized string similar to Cannot reset the device because the NI-DCPower sessions were not initialized with the Semiconductor Test Library&apos;s InitializeAndClose.Initialize method, or were already closed..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_ResetDeviceSessionNotRegistered">
+            <summary>
+              Looks up a localized string similar to Cannot reset the device because the NI-DCPower session for channels &quot;{0}&quot; is not registered with TestStand Semiconductor Module, so its full channel group cannot be determined. No device was reset..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.DCPower_ResetDeviceSessionRegistrationFailed">
+            <summary>
+              Looks up a localized string similar to Failed to register the reinitialized NI-DCPower session &quot;{0}&quot; after resetting the device. The context used for recovery contains sites [{1}], which do not include this channel group..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Digital_MixedUsageOfDUTPinsAndSystemPins">
@@ -8644,9 +8651,19 @@
               Looks up a localized string similar to All channels of a multi-channel FGEN instrument must be part of the &apos;FgenSessionsBundle&apos;. Ensure the appropriate FGEN Pins are passed to the &apos;TSMSessionManager.Fgen&apos; method..
             </summary>
         </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.FGen_InvalidBundleException_RemediationMessageFilterBundle">
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.FGen_InvalidBundleException_RemediationMessageFilterByPin">
             <summary>
-              Looks up a localized string similar to All channels of a multi-channel FGEN instrument must be part of the &apos;FgenSessionsBundle&apos;. Do not filter &apos;Pins&apos; or &apos;Sites&apos; in a way that results in a &apos;FgenSessionsBundle&apos; containing partial channels of an FGen instrument..
+              Looks up a localized string similar to Filtering by &apos;Pins&apos; resulted in a &apos;FgenSessionsBundle&apos; containing only a subset of the channels for a multi-channel FGen instrument. All channels of a multi-channel FGen instrument must be included in the &apos;FgenSessionsBundle&apos;; partial channel sets are not supported. This can occur when the instrument&apos;s channels are mapped to different pin and &apos;FilterByPins&apos; is called with only a subset of those pins..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.FGen_InvalidBundleException_RemediationMessageFilterBySite">
+            <summary>
+              Looks up a localized string similar to Filtering by &apos;Sites&apos; resulted in a &apos;FgenSessionsBundle&apos; containing only a subset of the channels for a multi-channel FGen instrument. All channels of a multi-channel FGen instrument must be included in the &apos;FgenSessionsBundle&apos;; partial channel sets are not supported. This can occur when the instrument&apos;s channels are mapped to different sites and &apos;FilterBySites&apos; is called with only a subset of those sites..
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.FGen_InvalidBundleException_RemediationMessageGeneric">
+            <summary>
+              Looks up a localized string similar to An &apos;FgenSessionInformation&apos; object cannot be created with only a subset of the channels for a multi-channel FGen instrument. All channels of a multi-channel FGen instrument must be included when constructing an &apos;FgenSessionInformation&apos; object; partial channel sets are not supported..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Math_ArrayDimensionMismatch">
