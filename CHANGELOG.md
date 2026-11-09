@@ -522,6 +522,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
       - `FgenSessionsBundle.FilterBySite(int[] requestedSites)`
       - `FgenSessionsBundle.FilterByPin(string requestedPin)`
       - `FgenSessionsBundle.FilterByPin(string[] requestedPins)`
+    - Fixed an issue where the DAQmx `SampleValuesCacher` threw an exception when channels were shared between AO and AOFGen DAQmx tasks.
 
 ## 26.0.0 - 2026-06-26
 
