@@ -44,6 +44,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
       - `SetValue(T value, params string[] pinNames)`
       - `SetValue(T value, string pinName, params int[] siteNumbers)`
       - `SetValue(T value, string[] pinNames, params int[] siteNumbers)`
+    - Added [`DebuggerTypeProxy`](https://learn.microsoft.com/en-us/visualstudio/debugger/using-debuggertypeproxy-attribute?view=visualstudio) support for `SiteData<T>` and `PinSiteData<T>`: pin and site values can now be easily reviewed during a Visual Studio debugging session in the Locals, Autos, and Watch windows, or in a DataTip when hovering over a variable at a breakpoint.
   - **Instrument Abstraction**
     - New Time Measurement Unit (TMU) Digital methods added for timing measurements on digital pins, such as period, pulse width, duty cycle, rise time, fall time, and skew. These methods are supported with NI Digital Pattern Instruments (PXIe-657x) that include TMUs, and require STS Software 26.5.0 or later. TMU resources are limited per instrument module, and the methods automatically assign the available TMU resources to the target pins and sites. Refer to the updated documentation for details.
     - New TMU resource management Digital methods added for assigning, enabling, disabling, and releasing the TMU resources of each pin and site within the `DigitalSessionsBundle`. Refer to the updated documentation for details.
