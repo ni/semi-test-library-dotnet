@@ -759,6 +759,221 @@
             <param name="sitePinResults">The dictionary to update with the result. In this dictionary, the key is the site number and the value is a dictionary that maps pin names or pin group names to results.</param>
             <param name="result">The result to associate with the site pin.</param>
         </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.DebuggerProxyFactory">
+            <summary>
+            Creates debugger expansion proxy objects used to render the "expand" node of a value in the
+            Visual Studio debugger (e.g. a waveform array, or any registered generic expansion proxy type).
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.DebuggerProxyFactory.CreateProjectedJaggedArray(System.Array,System.Type)">
+            <summary>
+            Recursively projects a jagged array (e.g. <c>ComplexDouble[][]</c> or <c>SingleDCPowerFetchResult[][]</c>)
+            into a shadow jagged <c>object[][]</c> array of the same shape. Each nesting level is walked and
+            rebuilt individually (since jagged arrays are arrays-of-arrays, rather than a single rectangular
+            array), until the innermost level is reached - an array whose elements are not themselves arrays
+            (e.g. the inner <c>SingleDCPowerFetchResult[]</c> of a <c>SingleDCPowerFetchResult[][]</c>). That
+            innermost array is wrapped in whichever debugger expansion proxy would normally apply to a
+            standalone array of that element type (see <see cref="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.DebuggerProxyFactory.TryCreateWaveformArrayProxy(System.Object,System.Type,System.Object@)"/>),
+            such as <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.GenericArrayTypeProxy`1"/> for complex numbers or an
+            <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.NICommonTypes.AnalogWaveformArrayTypeProxy`1"/> for an array of waveforms; if no
+            dedicated proxy type applies, it falls back to <see cref="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.DebuggerProxyFactory.CreateFallbackArrayProxy(System.Array,System.Type)"/>
+            instead. This ensures the debugger still renders its native array type (e.g.
+            "SingleDCPowerFetchResult[3]") with each element expandable, rather than degrading to the
+            runtime's default fully-qualified-type-name display for the inner rows. Null sub-arrays are
+            preserved as null rather than being recursed into, since the debugger must never throw when
+            evaluating a sparse/partially-populated jagged array. At most
+            <see cref="F:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.DebuggerProxyFactory.MaxProjectedArrayElementCount"/> innermost arrays (across the whole jagged structure)
+            are wrapped in a proxy; any remaining innermost arrays are left as their raw value so evaluating
+            a very large array can't stall the debugger.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.DebuggerProxyFactory.CreateFallbackArrayProxy(System.Array,System.Type)">
+            <summary>
+            Wraps <paramref name="sourceArray"/> in <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.GenericArrayTypeProxy`1"/> as a last resort,
+            used when no other dedicated array proxy type applies to <paramref name="elementType"/> (see
+            <see cref="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.DebuggerProxyFactory.CreateProjectedJaggedArray(System.Array,System.Type,System.Int32@)"/>). This still gives the debugger a
+            friendly type name display and per-element expansion, since <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.GenericArrayTypeProxy`1"/>
+            only requires <c>IReadOnlyList&lt;T&gt;</c> (which any 1D array satisfies) and isn't actually
+            specific to any particular element type, despite also being used as the dedicated proxy for
+            <see cref="F:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.DebuggerProxyTypeRegistry.DedicatedArrayProxyElementTypes"/>.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.DebuggerProxyFactory.CreateProjectedMultiDimensionalArray(System.Array)">
+            <summary>
+            Projects a rectangular multi-dimensional array of any element type (e.g. <c>ComplexDouble[,]</c>
+            or <c>SingleDCPowerFetchResult[,]</c>) into a shadow <c>object</c> array with the same rank,
+            dimension lengths, and lower bounds, in which every element has been replaced by its debugger
+            expansion proxy (via <see cref="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.DebuggerProxyFactory.GetDebuggerExpansionProxy``1(``0)"/>), or left as its raw value if
+            no proxy applies to that element type. This is needed because no dedicated array proxy type (e.g.
+            <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.GenericArrayTypeProxy`1"/>, which requires <c>IReadOnlyList&lt;T&gt;</c>) can be used
+            for rectangular arrays (rank &gt; 1); projecting a shadow array instead allows the debugger's
+            native multi-dimensional array view to still render each element through its own expansion proxy
+            (e.g. the complex-number proxy's friendly "(real + imaginaryi)" display) rather than falling back
+            to the raw element's default <see cref="M:System.Object.ToString"/>. At most
+            <see cref="F:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.DebuggerProxyFactory.MaxProjectedArrayElementCount"/> elements are wrapped in expansion proxies; any
+            remaining elements are left as their raw value so evaluating a very large array can't stall the
+            debugger.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.DebuggerProxyFactory.CopyProjectedElements(System.Array,System.Array,System.Int32[],System.Int32,System.Int32@)">
+            <summary>
+            Recursively walks every valid index combination of <paramref name="sourceArray"/> (one dimension
+            per recursive call, honoring each dimension's actual lower/upper bounds rather than assuming a
+            zero-based range) and copies each element's debugger expansion proxy into the corresponding
+            position of <paramref name="projectedArray"/>. A manual index-based walk is required here because
+            <see cref="T:System.Array"/> does not expose a generic enumerator that reports multi-dimensional indices,
+            which are needed to set values back into the (same-shaped) projected array via <see cref="M:System.Array.SetValue(System.Object,System.Int32[])"/>.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.DebuggerProxyTypeRegistry">
+            <summary>
+            Centralizes the type information used by <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.Utilities"/> to determine which types are
+            considered scalar, which types have debugger expansion proxies, and which generic type definitions
+            should be rendered with a friendly generic type name. Adding support for a new type only requires
+            adding entries here, rather than updating multiple methods throughout <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.Utilities"/>.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.DebuggerTypeProxyBase`1">
+            <summary>
+            Base class for debugger type proxies that wrap a single value. Centralizes the common
+            storage, display value, and display type name logic so that derived proxies only need to
+            expose their own members and, if needed, override <see cref="P:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.DebuggerTypeProxyBase`1.DisplayValue"/> or
+            <see cref="P:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.DebuggerTypeProxyBase`1.TypeDisplay"/>.
+            </summary>
+            <typeparam name="TValue">The type of the value being wrapped by the proxy.</typeparam>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.DebuggerTypeProxyBase`1.RawValue">
+            <summary>
+            The wrapped value. Named <c>RawValue</c> (rather than <c>Value</c>) so that derived
+            proxies can freely declare their own public <c>Value</c> member (for example, to project
+            or narrow the type) without hiding an inherited member of the same name, which would
+            otherwise prevent the debugger from resolving and displaying that member at all.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.ProxyDisplay">
+            <summary>
+            Shared <see cref="T:System.Diagnostics.DebuggerDisplayAttribute"/> expression strings for proxies deriving from
+            <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.DebuggerTypeProxyBase`1"/>. Using these constants avoids hard-coding
+            member names in each proxy's attribute.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.Formatting.DebuggerSampleCountProvider">
+            <summary>
+            Determines the number of samples represented by a value (e.g. a waveform, array, or collection),
+            used by debugger display strings to surface a "MaxSampleCount" summary for <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1"/>
+            and <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1"/> values.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.Formatting.DebuggerTypeNameFormatter">
+            <summary>
+            Produces friendly and fully-qualified type name strings used by debugger display and type proxy
+            attributes (e.g. turning <c>Int32</c> into <c>int</c>, or <c>ValueTuple&lt;int, double&gt;</c> into
+            <c>(int, double)</c>).
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.Formatting.DebuggerValueFormatter">
+            <summary>
+            Formats values (scalars, arrays, collections, tuples, complex numbers, etc.) into the strings shown
+            by debugger display attributes.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.Formatting.DebuggerValueFormatter.MaxDisplayedCollectionValueCount">
+            <summary>
+            Bounds the number of elements rendered in a single debugger display string for collections
+            (e.g. waveform samples, arrays), so that evaluating the display for a collection with a large
+            number of elements remains fast and does not produce an unbounded string. The full set of
+            elements remains available for inspection via the "Values" expansion node.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.GenericArrayTypeProxy`1">
+            <summary>
+            General-purpose debugger expansion proxy for a 1D array of any element type <typeparamref name="T"/>.
+            Used both for element types that get this treatment as their dedicated array proxy (see
+            <see cref="F:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.DebuggerProxyTypeRegistry.DedicatedArrayProxyElementTypes"/>, e.g. <c>ComplexSingle</c>/
+            <c>ComplexDouble</c>), and as the fallback wrapper for the innermost arrays of a jagged array whose
+            element type has no other dedicated array proxy type registered (see
+            <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.DebuggerProxyFactory"/>), so that array still gets a friendly type name display and
+            per-element expansion in the debugger.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.GenericListTypeProxy`1">
+            <summary>
+            General-purpose debugger expansion proxy for a <see cref="T:System.Collections.Generic.List`1"/> (or other read-only list) of
+            any element type <typeparamref name="T"/>, used to display a property whose declared/projected
+            runtime type would otherwise be a non-generic or loosely-typed collection (e.g. <c>List&lt;object&gt;</c>),
+            which would cause the debugger's Type column to show that loosely-typed name instead of the
+            collection's true friendly element type (e.g. <c>List&lt;DigitalHistoryRamCycleInformation&gt;</c>).
+            Mirrors the native <see cref="T:System.Collections.Generic.List`1"/> debugger display ("Count = N") while still routing each
+            element through its own debugger expansion proxy (see <see cref="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.Utilities.GetDebuggerExpansionProxy``1(``0)"/>).
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.NICommonTypes.ComplexNumberTypeProxyBase`2">
+            <summary>
+            Base class for debugger type proxies that wrap a nullable complex number (for example,
+            <c>ComplexDouble?</c> or <c>ComplexSingle?</c>). Centralizes the common Real/Imaginary/
+            Magnitude/Phase projection logic so derived proxies only need to supply the per-component
+            accessors and, for the non-conjugate proxies, how to construct the conjugate proxy.
+            </summary>
+            <typeparam name="TComplex">The underlying complex number struct (for example, <c>ComplexDouble</c>).</typeparam>
+            <typeparam name="TComponent">The real/imaginary component numeric type (for example, <c>double</c>).</typeparam>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.NICommonTypes.ComplexConjugateTypeProxyBase`2">
+            <summary>
+            Base class for debugger type proxies that display a complex number's conjugate using a
+            parenthesized, culture-invariant display value (for example, <c>(0 - 1i)</c>).
+            </summary>
+            <typeparam name="TComplex">The underlying complex number struct (for example, <c>ComplexDouble</c>).</typeparam>
+            <typeparam name="TComponent">The real/imaginary component numeric type (for example, <c>double</c>).</typeparam>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.NICommonTypes.WaveformArrayTypeProxyBase`2">
+            <summary>
+            Base class for debugger type proxies that wrap an array (or other read-only list) of waveforms.
+            Centralizes the common storage, count, and projection logic so derived proxies only need to
+            supply the per-element proxy type via <see cref="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.NICommonTypes.WaveformArrayTypeProxyBase`2.CreateElementProxy(`0)"/>.
+            </summary>
+            <typeparam name="TWaveform">The waveform type stored in the array (for example, <c>AnalogWaveform&lt;TData&gt;</c>).</typeparam>
+            <typeparam name="TWaveformProxy">The debugger proxy type used to display each waveform element.</typeparam>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.NICommonTypes.ArrayProxyDisplay">
+            <summary>
+            Shared <see cref="T:System.Diagnostics.DebuggerDisplayAttribute"/> expression strings for proxies deriving from
+            <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.NICommonTypes.WaveformArrayTypeProxyBase`2"/>.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.NICommonTypes.WaveformSampleCollectionTypeProxyBase`2">
+            <summary>
+            Base class for debugger type proxies that wrap a collection of waveform samples.
+            Centralizes the common storage, count, projection, and display-value logic so derived proxies
+            only need to supply the per-sample proxy type and how to read the sample's underlying value.
+            </summary>
+            <typeparam name="TSample">The waveform sample type stored in the collection (for example, <c>AnalogWaveformSample&lt;TData&gt;</c>).</typeparam>
+            <typeparam name="TSampleProxy">The debugger proxy type used to display each sample element.</typeparam>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.NICommonTypes.CollectionProxyDisplay">
+            <summary>
+            Shared <see cref="T:System.Diagnostics.DebuggerDisplayAttribute"/> expression strings for proxies deriving from
+            <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.NICommonTypes.WaveformSampleCollectionTypeProxyBase`2"/>.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.NICommonTypes.WaveformTypeProxyBase`2">
+            <summary>
+            Base class for debugger type proxies that wrap a waveform (for example, <c>AnalogWaveform&lt;TData&gt;</c>
+            or <c>ComplexWaveform&lt;TData&gt;</c>). Centralizes the common SampleCount, Samples, ChannelName,
+            UnitDescription, and PrecisionTiming projection logic so derived proxies only need to supply the
+            per-waveform accessors (and any additional members specific to that waveform type, such as
+            <c>Timing</c> on <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.NICommonTypes.AnalogWaveformTypeProxy`1"/>).
+            </summary>
+            <typeparam name="TWaveform">The waveform type being wrapped (for example, <c>AnalogWaveform&lt;TData&gt;</c>).</typeparam>
+            <typeparam name="TSampleCollectionProxy">The debugger proxy type used to display the waveform's samples.</typeparam>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.Utilities">
+            <summary>
+            Thin facade over the debugger support helper classes (<see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.Formatting.DebuggerTypeNameFormatter"/>,
+            <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.Formatting.DebuggerValueFormatter"/>, <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.DebuggerProxyFactory"/>, and
+            <see cref="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.DebuggerTypeProxy.Formatting.DebuggerSampleCountProvider"/>), kept so that existing callers/tests can continue to
+            reference a single entry point.
+            </summary>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.ComparisonType">
             <summary>
             Defines types of comparison results.
@@ -4407,6 +4622,756 @@
             <returns>The global PinSiteData item that is previously stored.</returns>
             <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when the stored PinSiteData object does not contain value for a specific site in <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/>.</exception>
         </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation">
+            <summary>
+            Defines an object that contains an individual <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session and its related information.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.Session">
+            <summary>
+            The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSetString">
+            <summary>
+            The pin set string associated with the <see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.Session"/>.
+            </summary>
+            <remarks>It's a comma-separated string of site-pin pairs, e.g. "site0/A, site0/B".</remarks>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.SiteListString">
+            <summary>
+            The site list string associated with the <see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.Session"/>.
+            </summary>
+            <remarks>It's a comma-separated string of sites, e.g. "site0, site1".</remarks>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSet">
+            <summary>
+            The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.DigitalPinSet"/> according to <see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSetString"/> on the <see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.Session"/>.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.AssociatedSitePinList">
+            <summary>
+            The pin set info corresponding to <see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSetString"/> in a more accessible format.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.AssociatedSiteList">
+            <summary>
+            The site numbers corresponding to <see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.SiteListString"/> in a more accessible format.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.#ctor(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.String)">
+            <summary>
+            Constructs a session information object that associates with a <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> instrument session.
+            </summary>
+            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
+            <param name="pinSetString">The pin set string associated with the <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
+            <param name="siteList">The site list associated with the <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.#ctor(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.String,System.String[],System.Int32[])">
+            <summary>
+            Constructs a session information object that associates with a <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> instrument session.
+            </summary>
+            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
+            <param name="pinSetString">The pin set string associated with the <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
+            <param name="siteList">The site list associated with the <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
+            <param name="pinRange">An array of pin names in the <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
+            <param name="siteRange">An array of sites in the <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.#ctor(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.Collections.Generic.IList{NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo})">
+            <summary>
+            Constructs a session information object.
+            </summary>
+            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
+            <param name="associatedSitePinList">The specified subset of channels associated with the session.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.GetPerSitePinSetStrings">
+            <summary>
+            Gets pin set strings on per-site basis.
+            </summary>
+            <returns>A dictionary that contains per-site pin set strings.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.GenerateInstrumentChannelToSitePinDictionary(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)">
+            <summary>
+            Generates a dictionary that takes a pinset string and returns the list of associated site-pin pair information.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle">
+            <summary>
+            Defines an object that contains one or more <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/> objects.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.TSMContext">
+            <inheritdoc/>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.Pins">
+            <inheritdoc/>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.InstrumentSessions">
+            <summary>
+            An enumerable of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/>s.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.AggregateSitePinList">
+            <inheritdoc/>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.#ctor(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation})">
+            <summary>
+            Constructs a sessions bundle object that represents a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/>s.
+            </summary>
+            <param name="tsmContext">The associated <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/>.</param>
+            <param name="pins">The pins associated with this sessions bundle.</param>
+            <param name="allSessionInfo">An enumerable of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/>s.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.FilterBySite(System.Int32)">
+            <summary>
+            Filters current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/> and returns a new one with the requested site.
+            </summary>
+            <param name="requestedSite">The requested site.</param>
+            <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/> object with the requested site.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.FilterBySite(System.Int32[])">
+            <summary>
+            Filters current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/> and returns a new one with requested sites.
+            </summary>
+            <param name="requestedSites">The requested sites.</param>
+            <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/> object with requested sites.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.FilterByPin(System.String)">
+            <summary>
+            Filters current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/> and returns a new one with the requested pin.
+            </summary>
+            <param name="requestedPin">The requested pin.</param>
+            <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/> object with the requested pin.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.FilterByPin(System.String[])">
+            <summary>
+            Filters current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/> and returns a new one with requested pins.
+            </summary>
+            <param name="requestedPins">The requested pins.</param>
+            <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/> object with requested pins.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.Do``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0},System.Action{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation,``0[]},System.String)">
+            <summary>
+            Does an operation on each <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/> in parallel with the given per-site data.
+            </summary>
+            <typeparam name="T">The element type of the per-site data.</typeparam>
+            <param name="data">The per-site data the action relies on.</param>
+            <param name="action">The operation to do. This operation takes <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/> and per-site data as inputs.</param>
+            <param name="caseDescription">An optional description of the action being performed.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.DoAndReturnPerSiteResults``1(System.Func{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation,``0[]},System.String)">
+            <summary>
+            Does an operation on each <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/> in parallel and returns per-site results.
+            </summary>
+            <typeparam name="T">The element type of the per-site result.</typeparam>
+            <param name="function">The operation to do. This operation takes <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/> as input and returns per-site array result.</param>
+            <param name="caseDescription">An optional description of the function being performed.</param>
+            <returns>The results for all sites.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.DoAndReturnPerSiteResults``1(System.Func{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0}},System.String)">
+            <summary>
+            Does an operation on each <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/> in parallel and returns per-site results.
+            </summary>
+            <typeparam name="T">The element type of the per-site result.</typeparam>
+            <param name="function">The operation to do. This operation takes <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/> as input and returns per-site dictionary result.</param>
+            <param name="caseDescription">An optional description of the action being performed.</param>
+            <returns>The results for all sites.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.PerInstrumentPerSiteResultsToPerSiteResults``1(``0[][])">
+            <summary>
+            Converts per-instrument per-site results to per-site results.
+            </summary>
+            <typeparam name="T">The type of the per-instrument per-site result.</typeparam>
+            <param name="perInstrumentPerSiteResults">The per-instrument per-site results to convert.</param>
+            <returns>The converted per-site results.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.PublishPatternResults(System.Boolean[][],System.String)">
+            <summary>
+            Publishes measurement results.
+            </summary>
+            <param name="results">The pattern result data from multiple pins connected to multiple NI-Digital Pattern instruments.
+            Each element in the burst results array is an array that contains pattern results for the sites of a single instrument
+            session.</param>
+            <param name="publishedDataId">The unique data id to use when publishing.</param>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.InitializeAndClose">
+            <summary>
+            Defines <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> sessions initialize and close APIs.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.InitializeAndClose.Initialize(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.String,System.Boolean,System.Boolean)">
+            <summary>
+            Initializes <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> sessions in the test system.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="levelsSheetToApply">The name of the levels sheet to apply.</param>
+            <param name="timingSheetToApply">The name of the timing sheet to apply.</param>
+            <param name="resetDevice">Whether to reset device during initialization.</param>
+            <param name="applySourceWaveformData">Whether to apply the data in waveform files to source waveforms.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.InitializeAndClose.Close(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean)">
+            <summary>
+            Closes all <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> sessions.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="reset">Whether to reset the device sessions before closing.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.InitializeAndClose.Reset(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean)">
+            <summary>
+            Resets all <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> sessions.
+            </summary>
+            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
+            <param name="resetDevice">Whether to perform a hard reset on the device.</param>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu">
+            <summary>
+            Provides access to the configuration and operation of a single TMU (Time Measurement Unit) context within an <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu.Enabled">
+            <summary>
+            Gets or sets a value indicating whether the TMU is enabled.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu.SamplesToAcquire">
+            <summary>
+            Gets or sets the number of samples to acquire.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu.SampleTimeout">
+            <summary>
+            Gets or sets the maximum time, in seconds, to wait for the start and stop events.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu.ArmType">
+            <summary>
+            Gets or sets the type of signal used to arm the TMU measurement.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu.Start">
+            <summary>
+            Gets the configuration for the TMU start source.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu.Stop">
+            <summary>
+            Gets the configuration for the TMU stop source.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu.EdgeArm">
+            <summary>
+            Gets the configuration for the TMU edge-sensitive arm source.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu.Initiate">
+            <summary>
+            Initiates the TMU measurement.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu.Abort">
+            <summary>
+            Aborts the TMU measurement.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu.FetchAveragedMeasurement(System.Double)">
+            <summary>
+            Fetches the averaged measurement result.
+            </summary>
+            <remarks>
+            This method takes the session-level lock for the full duration of the fetch.<br/>
+            Because the fetch blocks until the measurement completes or <paramref name="timeout"/> elapses,
+            TMU configuration and resource allocation for every other site sharing this session are stalled for that duration.
+            </remarks>
+            <param name="timeout">The maximum time, in seconds, to wait for the measurement to complete.</param>
+            <returns>The averaged measurement value.</returns>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuCollection">
+            <summary>
+            Provides session-level access to all TMU resources available across all instruments in an <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.
+            Acts as the entry point for discovering and obtaining <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu"/> objects by TMU context string.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuCollection.#ctor(NationalInstruments.ModularInstruments.NIDigital.NIDigital)">
+            <summary>
+            Initializes a new instance of the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuCollection"/> class with the specified <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.
+            </summary>
+            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuCollection.TmuCount">
+            <summary>
+            Gets the total number of TMU resources available across all modules in the session.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuCollection.GetDisabledTmuContexts">
+            <summary>
+            Gets a list of all disabled TMU context strings available within the session.
+            </summary>
+            <returns>A list of disabled TMU context strings.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuCollection.GetTmu(System.String)">
+            <summary>
+            Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu"/> object for the specified TMU context string.
+            </summary>
+            <param name="tmuContext">The TMU context string (e.g., "PXI1Slot2/tmu0").</param>
+            <returns>The <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu"/> object associated with the specified context.</returns>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuEdgeArm">
+            <summary>
+            Provides access to the configuration of the TMU edge-sensitive arm source for a TMU context.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuEdgeArm.Source">
+            <summary>
+            Gets or sets the arm source terminal.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuEdgeArm.SourceEvent">
+            <summary>
+            Gets or sets the digital event used to arm the TMU.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuEdgeArm.Polarity">
+            <summary>
+            Gets or sets the edge polarity of the arm input.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuSource">
+            <summary>
+            Provides access to the configuration of a single TMU source (start or stop) for a TMU context.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuSource.Source">
+            <summary>
+            Gets or sets the source terminal for this TMU source.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuSource.SourceEvent">
+            <summary>
+            Gets or sets the digital event used by this TMU source.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuSource.SourceEventPolarity">
+            <summary>
+            Gets or sets the edge polarity of the event used by this TMU source.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuSource.InputDebounceTime">
+            <summary>
+            Gets or sets the input debounce time, in seconds, for this TMU source.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NativeMethods">
+            <summary>
+            Provides methods to wrap native niDigital C API functions that are imported into C# using platform invoke (P/Invoke).
+            For more details on P/Invoke, refer to: https://learn.microsoft.com/en-us/dotnet/standard/native-interop/pinvoke.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions">
+            <summary>
+            Provides extension methods for <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> to manage and perform Time Measurement Unit (TMU) operations.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.GetAllDisabledTMUContexts(NationalInstruments.ModularInstruments.NIDigital.NIDigital)">
+            <summary>
+            Gets the TMU contexts of all disabled TMU resources available within the <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.
+            </summary>
+            <remarks>
+            Calling this will cause attribute verification for all TMU attributes if they are not already verified. Ensure the attribute configuration for all TMUs is valid before calling.
+            </remarks>
+            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
+            <returns>
+            Returns a comma-separated list of the TMU context strings of all disabled TMUs.  Returns an empty string if all TMUs are enabled.
+            </returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.TMUInitiate(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String)">
+            <summary>
+            Initiates the TMU measurement for the specified TMU context.
+            </summary>
+            <remarks>
+            <para>
+            This method validates TMU configuration, clears the measurement buffers for the specified TMU,
+            and prepares the hardware for making a TMU measurement.
+            </para>
+            <para>
+            All TMU configuration attributes must be set before calling this method.
+            The driver validates and commits TMU configuration parameters when this method is called,
+            not when <c>niDigital_Commit()</c> is called.
+            </para>
+            <para>
+            This method returns immediately; it does not wait for the measurement to complete.
+            Once a measurement is initiated, any attempt to modify TMU configuration will fail
+            until the measurement completes or is aborted.
+            </para>
+            <para><b>Error Conditions:</b></para>
+            <list type="bullet">
+            <item><description>Returns an error if the specified TMU is enabled but has invalid configuration (such as missing or incompatible start/stop sources).</description></item>
+            <item><description>Returns an error if the specified TMU is not enabled.</description></item>
+            <item><description>Returns an error if a measurement is already in progress on the specified TMU.</description></item>
+            <item><description>Returns an error if resource conflicts exist (e.g., hysteresis conflicts on adjacent TMUs).</description></item>
+            </list>
+            </remarks>
+            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
+            <param name="tmuContext">A single TMU repeated capability context (e.g., "PXI1Slot2/tmu0").</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.TMUAbort(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String)">
+            <summary>
+            Aborts any in-progress TMU measurement(s) on the specified TMUs.
+            </summary>
+            <remarks>
+            If no measurement is in progress on the specified TMU, this function has no effect for that TMU.
+            This function does not affect TMU configuration or reservation state.
+            </remarks>
+            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
+            <param name="tmuContext">A single TMU repeated capability context (e.g., "PXI1Slot2/tmu0").</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.TMUFetchAveragedMeasurement(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.Double)">
+            <summary>
+            Fetches averaged measurement from the specified TMU. Optionally retrieves minimum and maximum sample values if the corresponding output parameters are not NULL. The function waits up to timeout seconds for the measurement to complete.
+            </summary>
+            <remarks>
+            This function is only allowed if the measurement format for the specified TMU is set to NIDIGITAL_VAL_TMU_AVERAGED_MEASUREMENT(default value).<br/>
+            If a TMU arm or sample timeout occurs during measurement, or if the measurement was aborted before it completed, an error is returned and no measurement values are provided.
+            </remarks>
+            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
+            <param name="tmuContext">A single TMU repeated capability context (e.g., "PXI1Slot2/tmu0").</param>
+            <param name="timeout">Maximum time (in seconds) to wait for the measurement to complete.</param>
+            <returns>
+            The averaged measurement value from the specified TMU.
+            </returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.SetTMUAttribute(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.Int32,System.Int32)">
+            <summary>
+            Sets the specified TMU attribute.
+            </summary>
+            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
+            <param name="channelName">
+            List of channel names or list of pins.
+            Do not pass a mix of channel names and pin names.
+            An empty string denotes all digital pattern instrument channels.
+            <br/>
+            Pin names and pin groups apply to all enabled sites, unless the pin name explicitly specifies the site.
+            You can specify a pin in a specific site using the form siteN/pinName, where N is the site number.
+            This function ignores pins that are not mapped to the digital pattern instrument.
+            <br/>
+            Specify channel names using the form PXI1Slot3/0,2-3 or PXI1Slot3/0,PXI1Slot3/2-3, where PXI1Slot3 is the instrument resource name and 0, 2, 3 are channel names.
+            To specify channels from multiple instruments, use the form PXI1Slot3/0,PXI1Slot3/2-3,PXI1Slot4/2-3.
+            The instruments must be in the same chassis.
+            </param>
+            <param name="attribute">The ID of an attribute.</param>
+            <param name="value">The value to which you want to set the attribute; some of the values might not be valid depending on the current settings of the instrument session.</param>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.SetTMUAttribute(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.Int32,System.Int64)">
+            <inheritdoc cref="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.SetTMUAttribute(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.Int32,System.Int32)"/>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.SetTMUAttribute(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.Int32,System.Boolean)">
+            <inheritdoc cref="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.SetTMUAttribute(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.Int32,System.Int32)"/>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.SetTMUAttribute(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.Int32,System.String)">
+            <inheritdoc cref="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.SetTMUAttribute(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.Int32,System.Int32)"/>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.SetTMUAttribute(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.Int32,System.Double)">
+            <inheritdoc cref="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.SetTMUAttribute(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.Int32,System.Int32)"/>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.GetTMUAttributeString(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.Int32)">
+            <summary>
+            Gets the value of the specified TMU string attribute.
+            </summary>
+            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
+            <param name="channelName">The TMU context string or channel name.</param>
+            <param name="attribute">The ID of an attribute.</param>
+            <returns>The current string value of the attribute.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.GetTMUAttributeInt32(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.Int32)">
+            <summary>
+            Gets the value of the specified TMU 32-bit integer attribute.
+            </summary>
+            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
+            <param name="channelName">The TMU context string or channel name.</param>
+            <param name="attribute">The ID of an attribute.</param>
+            <returns>The current 32-bit integer value of the attribute.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.GetTMUAttributeInt64(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.Int32)">
+            <summary>
+            Gets the value of the specified TMU 64-bit integer attribute.
+            </summary>
+            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
+            <param name="channelName">The TMU context string or channel name.</param>
+            <param name="attribute">The ID of an attribute.</param>
+            <returns>The current 64-bit integer value of the attribute.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.GetTMUAttributeBoolean(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.Int32)">
+            <summary>
+            Gets the value of the specified TMU boolean attribute.
+            </summary>
+            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
+            <param name="channelName">The TMU context string or channel name.</param>
+            <param name="attribute">The ID of an attribute.</param>
+            <returns>The current boolean value of the attribute.</returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.GetTMUAttributeReal64(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.Int32)">
+            <summary>
+            Gets the value of the specified TMU floating-point attribute.
+            </summary>
+            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
+            <param name="channelName">The TMU context string or channel name.</param>
+            <param name="attribute">The ID of an attribute.</param>
+            <returns>The current floating-point value of the attribute.</returns>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TMUContextManager">
+            <summary>
+            TMU Context Manager, ensures safe and consistent assignment and release of TMU resources, preventing conflicts and partial allocations.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TMUContextManager.Instance">
+            <summary>
+            Global Access point for the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TMUContextManager"/>
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TMUContextManager.TryAssignTMUContext(System.String,System.String)">
+            <summary>
+            Soft assign the tmu.
+            </summary>
+            <param name="deviceName">The device for which the tmu belong to.</param>
+            <param name="tmuContext">TMU Context to be assigned</param>
+            <returns>
+            <see langword="true"/> if the TMU context was newly soft assigned to the specified device;
+            <see langword="false"/> if it was already assigned to that device, or if either
+            <paramref name="deviceName"/> or <paramref name="tmuContext"/> is <see langword="null"/> or empty.
+            </returns>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TMUContextManager.UnAssignTMUContext(System.String,System.String)">
+            <summary>
+            Unassign the soft assignment of the given device and tmu.
+            </summary>
+            <param name="deviceName">The device for which the tmu belong to.</param>
+            <param name="tmuContext">TMU Context to be unassigned</param>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuErrorMessages">
+            <summary>
+            Provides a self-contained mapping from niDigital TMU driver status codes to their descriptive error messages.
+            </summary>
+            <remarks>
+            <para>
+            <b>TEMPORARY BRIDGE CODE.</b> This type exists only because the driver C# APIs that surface descriptive
+            TMU error messages are not available until the 27.5 driver release. Until the migration to the driver C# APIs,
+            TMU operations are invoked directly via P/Invoke (see <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NativeMethods"/>), which returns only a numeric
+            status code. This class maps the known TMU status codes to the descriptive messages the driver would otherwise
+            provide.
+            </para>
+            <para>
+            This entire file, along with the rest of the <c>InstrumentAbstraction.Digital.TMU</c> folder, should be removed
+            once the library migrates to the driver C# APIs in 27.5.
+            </para>
+            </remarks>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuErrorMessages.MessagesByStatusCode">
+            <summary>
+            Maps a niDigital TMU driver status code to its descriptive error message.
+            </summary>
+            <remarks>
+            Keyed by the driver status code.
+            The message text mirrors the driver error XML.
+            </remarks>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuErrorMessages.TryGetMessage(System.Int32,System.String@)">
+            <summary>
+            Attempts to get the descriptive error message associated with the specified TMU driver status code.
+            </summary>
+            <param name="status">The niDigital TMU driver status code.</param>
+            <param name="message">
+            When this method returns, contains the descriptive error message if a specific message exists for
+            <paramref name="status"/>; otherwise, an empty string.
+            </param>
+            <returns><see langword="true"/> if a specific message exists for the status code; otherwise, <see langword="false"/>.</returns>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes">
+            <summary>
+            TMU attribute constants for configuring TMU operations.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes.TmuEnabled">
+            <summary>Enables or disables the TMU.</summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes.TmuStartSource">
+            <summary>Specifies the start source for the TMU measurement.</summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes.TmuStopSource">
+            <summary>Specifies the stop source for the TMU measurement.</summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes.TmuStartSourceEvent">
+            <summary>Specifies which start source digital event to use.</summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes.TmuStopSourceEvent">
+            <summary>Specifies which stop source digital event to use.</summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes.TmuStartSourceEventPolarity">
+            <summary>Specifies the edge polarity for the TMU start source event.</summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes.TmuStopSourceEventPolarity">
+            <summary>Specifies the edge polarity for the TMU stop source event.</summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes.TmuSamplesToAcquire">
+            <summary>Specifies the number of samples to acquire.</summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes.TmuSampleTimeout">
+            <summary>Specifies the maximum time to wait for start and stop events.</summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes.TmuArmType">
+            <summary>Specifies the type of signal used to arm the TMU measurement.</summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes.TmuEdgeArmSource">
+            <summary>Specifies the arm source when using edge-sensitive arming.</summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes.TmuEdgeArmSourceEvent">
+            <summary>Specifies event source arms.</summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes.TmuEdgeArmPolarity">
+            <summary>Specifies the edge polarity for the TMU arm input.</summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes.TmuCount">
+            <summary>Indicates the total number of TMUs available across all modules in the session.</summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes.TmuStartInputDebounceTime">
+            <summary>Specifies the input debounce time for the TMU start source.</summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes.TmuStopInputDebounceTime">
+            <summary>Specifies the input debounce time for the TMU stop source.</summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuSourceEvent">
+            <summary>
+            TMU source event values.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuSourceEvent.Vol">
+            <summary>VOL event.</summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuSourceEvent.Voh">
+            <summary>VOH event.</summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuPolarity">
+            <summary>
+            TMU source polarity values.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuPolarity.RisingEdge">
+            <summary>Rising edge.</summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuPolarity.FallingEdge">
+            <summary>Falling edge.</summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuPolarity.EitherEdge">
+            <summary>Either edge.</summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuArmType">
+            <summary>
+            TMU arm type values.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuArmType.Immediate">
+            <summary>Arm each sample immediately.</summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuArmType.Edge">
+            <summary>Arm each sample on the rising or falling edge of a signal.</summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuDutyCycle">
+            <summary>
+            TMU Duty Cycle measurement type values.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuDutyCycle.High">
+            <summary>
+            Measure duty cycle high (time at VOH level between rising and falling edges).
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuDutyCycle.Low">
+            <summary>
+            Measure duty cycle low (time at VOL level between falling and rising edges).
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuPulseWidth">
+            <summary>
+            TMU Pulse Width measurement type values.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuPulseWidth.High">
+            <summary>
+            Measure pulse width high (time at VOH level between rising and falling edges).
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuPulseWidth.Low">
+            <summary>
+            Measure pulse width low (time at VOL level between falling and rising edges).
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuArmSetting">
+            <summary>
+            TMU Arm Setting values.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuArmSetting.Immediate">
+            <summary>
+            Arm each sample immediately.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuArmSetting.StartEdge">
+            <summary>
+            Arm each sample on the rising or falling edge of a signal with the same properties as the Start Source.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuArmSetting.StopEdge">
+            <summary>
+            Arm each sample on the rising or falling edge of a signal with the same properties as the Stop Source.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.UpdateMode">
+            <summary>
+            Specifies the type of update operation to perform when Digital session properties are updated.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.UpdateMode.Deferred">
+            <summary>
+            Default (existing) behavior.
+            The session will be aborted and the driver property will be set.
+            The property update will be deferred until the next commit or initiate operation,
+            but the result may not be reflected in the output of the device until the session has been initiated.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.UpdateMode.Immediate">
+            <summary>
+            The session will be aborted and the driver property will be set.
+            Additionally, the session will be initiated.
+            </summary>
+        </member>
+        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.UpdateMode.Commit">
+            <summary>
+            The session will be aborted and the driver property will be set.
+            The property update will be committed to the instrument,
+            but the result may not be reflected in the output of the device until the session has been initiated.
+            </summary>
+        </member>
+        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults">
+            <summary>
+            Defines History RAM results type.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.CycleInformation">
+            <summary>
+            The per-site cycle information.
+            </summary>
+        </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.ScanCycleNumbers">
+            <summary>
+            The per-site scan cycle numbers.
+            </summary>
+        </member>
+        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.HistoryRAMResults.#ctor(System.Collections.Generic.List{NationalInstruments.ModularInstruments.NIDigital.DigitalHistoryRamCycleInformation},System.Collections.Generic.List{System.Int64})">
+            <summary>
+            Constructs a History RAM results object.
+            </summary>
+            <param name="cycleInformation">The cycle information.</param>
+            <param name="scanCycleNumbers">The scan cycle numbers.</param>
+        </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.CustomInstrumentSessionInformation">
             <summary>
             Defines an object that contains an individual <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.CustomInstrument.ICustomInstrument"/> session and its related information.
@@ -6316,734 +7281,6 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.Utilities.CreateDCPowerAdvancedSequencePropertyMappingsCache">
             <summary>
             Initializes the cache for the DC power advanced sequence property mappings. This method is called in the SetupNIDCPowerInstrumentation method to reduce the first-call latency when the cache is needed later.
-            </summary>
-        </member>
-        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation">
-            <summary>
-            Defines an object that contains an individual <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session and its related information.
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.Session">
-            <summary>
-            The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSetString">
-            <summary>
-            The pin set string associated with the <see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.Session"/>.
-            </summary>
-            <remarks>It's a comma-separated string of site-pin pairs, e.g. "site0/A, site0/B".</remarks>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.SiteListString">
-            <summary>
-            The site list string associated with the <see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.Session"/>.
-            </summary>
-            <remarks>It's a comma-separated string of sites, e.g. "site0, site1".</remarks>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSet">
-            <summary>
-            The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.DigitalPinSet"/> according to <see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSetString"/> on the <see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.Session"/>.
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.AssociatedSitePinList">
-            <summary>
-            The pin set info corresponding to <see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.PinSetString"/> in a more accessible format.
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.AssociatedSiteList">
-            <summary>
-            The site numbers corresponding to <see cref="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.SiteListString"/> in a more accessible format.
-            </summary>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.#ctor(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.String)">
-            <summary>
-            Constructs a session information object that associates with a <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> instrument session.
-            </summary>
-            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
-            <param name="pinSetString">The pin set string associated with the <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
-            <param name="siteList">The site list associated with the <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.#ctor(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.String,System.String[],System.Int32[])">
-            <summary>
-            Constructs a session information object that associates with a <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> instrument session.
-            </summary>
-            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
-            <param name="pinSetString">The pin set string associated with the <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
-            <param name="siteList">The site list associated with the <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
-            <param name="pinRange">An array of pin names in the <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
-            <param name="siteRange">An array of sites in the <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.#ctor(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.Collections.Generic.IList{NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo})">
-            <summary>
-            Constructs a session information object.
-            </summary>
-            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
-            <param name="associatedSitePinList">The specified subset of channels associated with the session.</param>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.GetPerSitePinSetStrings">
-            <summary>
-            Gets pin set strings on per-site basis.
-            </summary>
-            <returns>A dictionary that contains per-site pin set strings.</returns>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation.GenerateInstrumentChannelToSitePinDictionary(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext)">
-            <summary>
-            Generates a dictionary that takes a pinset string and returns the list of associated site-pin pair information.
-            </summary>
-            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
-        </member>
-        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle">
-            <summary>
-            Defines an object that contains one or more <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/> objects.
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.TSMContext">
-            <inheritdoc/>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.Pins">
-            <inheritdoc/>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.InstrumentSessions">
-            <summary>
-            An enumerable of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/>s.
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.AggregateSitePinList">
-            <inheritdoc/>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.#ctor(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Collections.Generic.IEnumerable{System.String},System.Collections.Generic.IEnumerable{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation})">
-            <summary>
-            Constructs a sessions bundle object that represents a bunch of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/>s.
-            </summary>
-            <param name="tsmContext">The associated <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/>.</param>
-            <param name="pins">The pins associated with this sessions bundle.</param>
-            <param name="allSessionInfo">An enumerable of <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/>s.</param>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.FilterBySite(System.Int32)">
-            <summary>
-            Filters current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/> and returns a new one with the requested site.
-            </summary>
-            <param name="requestedSite">The requested site.</param>
-            <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/> object with the requested site.</returns>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.FilterBySite(System.Int32[])">
-            <summary>
-            Filters current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/> and returns a new one with requested sites.
-            </summary>
-            <param name="requestedSites">The requested sites.</param>
-            <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/> object with requested sites.</returns>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.FilterByPin(System.String)">
-            <summary>
-            Filters current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/> and returns a new one with the requested pin.
-            </summary>
-            <param name="requestedPin">The requested pin.</param>
-            <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/> object with the requested pin.</returns>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.FilterByPin(System.String[])">
-            <summary>
-            Filters current <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/> and returns a new one with requested pins.
-            </summary>
-            <param name="requestedPins">The requested pins.</param>
-            <returns>A new <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle"/> object with requested pins.</returns>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.Do``1(NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0},System.Action{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation,``0[]},System.String)">
-            <summary>
-            Does an operation on each <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/> in parallel with the given per-site data.
-            </summary>
-            <typeparam name="T">The element type of the per-site data.</typeparam>
-            <param name="data">The per-site data the action relies on.</param>
-            <param name="action">The operation to do. This operation takes <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/> and per-site data as inputs.</param>
-            <param name="caseDescription">An optional description of the action being performed.</param>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.DoAndReturnPerSiteResults``1(System.Func{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation,``0[]},System.String)">
-            <summary>
-            Does an operation on each <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/> in parallel and returns per-site results.
-            </summary>
-            <typeparam name="T">The element type of the per-site result.</typeparam>
-            <param name="function">The operation to do. This operation takes <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/> as input and returns per-site array result.</param>
-            <param name="caseDescription">An optional description of the function being performed.</param>
-            <returns>The results for all sites.</returns>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.DoAndReturnPerSiteResults``1(System.Func{NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation,NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{``0}},System.String)">
-            <summary>
-            Does an operation on each <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/> in parallel and returns per-site results.
-            </summary>
-            <typeparam name="T">The element type of the per-site result.</typeparam>
-            <param name="function">The operation to do. This operation takes <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionInformation"/> as input and returns per-site dictionary result.</param>
-            <param name="caseDescription">An optional description of the action being performed.</param>
-            <returns>The results for all sites.</returns>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.PerInstrumentPerSiteResultsToPerSiteResults``1(``0[][])">
-            <summary>
-            Converts per-instrument per-site results to per-site results.
-            </summary>
-            <typeparam name="T">The type of the per-instrument per-site result.</typeparam>
-            <param name="perInstrumentPerSiteResults">The per-instrument per-site results to convert.</param>
-            <returns>The converted per-site results.</returns>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.DigitalSessionsBundle.PublishPatternResults(System.Boolean[][],System.String)">
-            <summary>
-            Publishes measurement results.
-            </summary>
-            <param name="results">The pattern result data from multiple pins connected to multiple NI-Digital Pattern instruments.
-            Each element in the burst results array is an array that contains pattern results for the sites of a single instrument
-            session.</param>
-            <param name="publishedDataId">The unique data id to use when publishing.</param>
-        </member>
-        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.InitializeAndClose">
-            <summary>
-            Defines <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> sessions initialize and close APIs.
-            </summary>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.InitializeAndClose.Initialize(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.String,System.String,System.Boolean,System.Boolean)">
-            <summary>
-            Initializes <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> sessions in the test system.
-            </summary>
-            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
-            <param name="levelsSheetToApply">The name of the levels sheet to apply.</param>
-            <param name="timingSheetToApply">The name of the timing sheet to apply.</param>
-            <param name="resetDevice">Whether to reset device during initialization.</param>
-            <param name="applySourceWaveformData">Whether to apply the data in waveform files to source waveforms.</param>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.InitializeAndClose.Close(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean)">
-            <summary>
-            Closes all <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> sessions.
-            </summary>
-            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
-            <param name="reset">Whether to reset the device sessions before closing.</param>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.InitializeAndClose.Reset(NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext,System.Boolean)">
-            <summary>
-            Resets all <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> sessions.
-            </summary>
-            <param name="tsmContext">The <see cref="T:NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.ISemiconductorModuleContext"/> object.</param>
-            <param name="resetDevice">Whether to perform a hard reset on the device.</param>
-        </member>
-        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu">
-            <summary>
-            Provides access to the configuration and operation of a single TMU (Time Measurement Unit) context within an <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu.Enabled">
-            <summary>
-            Gets or sets a value indicating whether the TMU is enabled.
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu.SamplesToAcquire">
-            <summary>
-            Gets or sets the number of samples to acquire.
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu.SampleTimeout">
-            <summary>
-            Gets or sets the maximum time, in seconds, to wait for the start and stop events.
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu.ArmType">
-            <summary>
-            Gets or sets the type of signal used to arm the TMU measurement.
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu.Start">
-            <summary>
-            Gets the configuration for the TMU start source.
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu.Stop">
-            <summary>
-            Gets the configuration for the TMU stop source.
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu.EdgeArm">
-            <summary>
-            Gets the configuration for the TMU edge-sensitive arm source.
-            </summary>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu.Initiate">
-            <summary>
-            Initiates the TMU measurement.
-            </summary>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu.Abort">
-            <summary>
-            Aborts the TMU measurement.
-            </summary>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu.FetchAveragedMeasurement(System.Double)">
-            <summary>
-            Fetches the averaged measurement result.
-            </summary>
-            <remarks>
-            This method takes the session-level lock for the full duration of the fetch.<br/>
-            Because the fetch blocks until the measurement completes or <paramref name="timeout"/> elapses,
-            TMU configuration and resource allocation for every other site sharing this session are stalled for that duration.
-            </remarks>
-            <param name="timeout">The maximum time, in seconds, to wait for the measurement to complete.</param>
-            <returns>The averaged measurement value.</returns>
-        </member>
-        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuCollection">
-            <summary>
-            Provides session-level access to all TMU resources available across all instruments in an <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.
-            Acts as the entry point for discovering and obtaining <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu"/> objects by TMU context string.
-            </summary>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuCollection.#ctor(NationalInstruments.ModularInstruments.NIDigital.NIDigital)">
-            <summary>
-            Initializes a new instance of the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuCollection"/> class with the specified <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.
-            </summary>
-            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuCollection.TmuCount">
-            <summary>
-            Gets the total number of TMU resources available across all modules in the session.
-            </summary>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuCollection.GetDisabledTmuContexts">
-            <summary>
-            Gets a list of all disabled TMU context strings available within the session.
-            </summary>
-            <returns>A list of disabled TMU context strings.</returns>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuCollection.GetTmu(System.String)">
-            <summary>
-            Gets the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu"/> object for the specified TMU context string.
-            </summary>
-            <param name="tmuContext">The TMU context string (e.g., "PXI1Slot2/tmu0").</param>
-            <returns>The <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu"/> object associated with the specified context.</returns>
-        </member>
-        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuEdgeArm">
-            <summary>
-            Provides access to the configuration of the TMU edge-sensitive arm source for a TMU context.
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuEdgeArm.Source">
-            <summary>
-            Gets or sets the arm source terminal.
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuEdgeArm.SourceEvent">
-            <summary>
-            Gets or sets the digital event used to arm the TMU.
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuEdgeArm.Polarity">
-            <summary>
-            Gets or sets the edge polarity of the arm input.
-            </summary>
-        </member>
-        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuSource">
-            <summary>
-            Provides access to the configuration of a single TMU source (start or stop) for a TMU context.
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuSource.Source">
-            <summary>
-            Gets or sets the source terminal for this TMU source.
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuSource.SourceEvent">
-            <summary>
-            Gets or sets the digital event used by this TMU source.
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuSource.SourceEventPolarity">
-            <summary>
-            Gets or sets the edge polarity of the event used by this TMU source.
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuSource.InputDebounceTime">
-            <summary>
-            Gets or sets the input debounce time, in seconds, for this TMU source.
-            </summary>
-        </member>
-        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NativeMethods">
-            <summary>
-            Provides methods to wrap native niDigital C API functions that are imported into C# using platform invoke (P/Invoke).
-            For more details on P/Invoke, refer to: https://learn.microsoft.com/en-us/dotnet/standard/native-interop/pinvoke.
-            </summary>
-        </member>
-        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions">
-            <summary>
-            Provides extension methods for <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> to manage and perform Time Measurement Unit (TMU) operations.
-            </summary>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.GetAllDisabledTMUContexts(NationalInstruments.ModularInstruments.NIDigital.NIDigital)">
-            <summary>
-            Gets the TMU contexts of all disabled TMU resources available within the <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.
-            </summary>
-            <remarks>
-            Calling this will cause attribute verification for all TMU attributes if they are not already verified. Ensure the attribute configuration for all TMUs is valid before calling.
-            </remarks>
-            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
-            <returns>
-            Returns a comma-separated list of the TMU context strings of all disabled TMUs.  Returns an empty string if all TMUs are enabled.
-            </returns>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.TMUInitiate(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String)">
-            <summary>
-            Initiates the TMU measurement for the specified TMU context.
-            </summary>
-            <remarks>
-            <para>
-            This method validates TMU configuration, clears the measurement buffers for the specified TMU,
-            and prepares the hardware for making a TMU measurement.
-            </para>
-            <para>
-            All TMU configuration attributes must be set before calling this method.
-            The driver validates and commits TMU configuration parameters when this method is called,
-            not when <c>niDigital_Commit()</c> is called.
-            </para>
-            <para>
-            This method returns immediately; it does not wait for the measurement to complete.
-            Once a measurement is initiated, any attempt to modify TMU configuration will fail
-            until the measurement completes or is aborted.
-            </para>
-            <para><b>Error Conditions:</b></para>
-            <list type="bullet">
-            <item><description>Returns an error if the specified TMU is enabled but has invalid configuration (such as missing or incompatible start/stop sources).</description></item>
-            <item><description>Returns an error if the specified TMU is not enabled.</description></item>
-            <item><description>Returns an error if a measurement is already in progress on the specified TMU.</description></item>
-            <item><description>Returns an error if resource conflicts exist (e.g., hysteresis conflicts on adjacent TMUs).</description></item>
-            </list>
-            </remarks>
-            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
-            <param name="tmuContext">A single TMU repeated capability context (e.g., "PXI1Slot2/tmu0").</param>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.TMUAbort(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String)">
-            <summary>
-            Aborts any in-progress TMU measurement(s) on the specified TMUs.
-            </summary>
-            <remarks>
-            If no measurement is in progress on the specified TMU, this function has no effect for that TMU.
-            This function does not affect TMU configuration or reservation state.
-            </remarks>
-            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
-            <param name="tmuContext">A single TMU repeated capability context (e.g., "PXI1Slot2/tmu0").</param>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.TMUFetchAveragedMeasurement(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.Double)">
-            <summary>
-            Fetches averaged measurement from the specified TMU. Optionally retrieves minimum and maximum sample values if the corresponding output parameters are not NULL. The function waits up to timeout seconds for the measurement to complete.
-            </summary>
-            <remarks>
-            This function is only allowed if the measurement format for the specified TMU is set to NIDIGITAL_VAL_TMU_AVERAGED_MEASUREMENT(default value).<br/>
-            If a TMU arm or sample timeout occurs during measurement, or if the measurement was aborted before it completed, an error is returned and no measurement values are provided.
-            </remarks>
-            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
-            <param name="tmuContext">A single TMU repeated capability context (e.g., "PXI1Slot2/tmu0").</param>
-            <param name="timeout">Maximum time (in seconds) to wait for the measurement to complete.</param>
-            <returns>
-            The averaged measurement value from the specified TMU.
-            </returns>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.SetTMUAttribute(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.Int32,System.Int32)">
-            <summary>
-            Sets the specified TMU attribute.
-            </summary>
-            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
-            <param name="channelName">
-            List of channel names or list of pins.
-            Do not pass a mix of channel names and pin names.
-            An empty string denotes all digital pattern instrument channels.
-            <br/>
-            Pin names and pin groups apply to all enabled sites, unless the pin name explicitly specifies the site.
-            You can specify a pin in a specific site using the form siteN/pinName, where N is the site number.
-            This function ignores pins that are not mapped to the digital pattern instrument.
-            <br/>
-            Specify channel names using the form PXI1Slot3/0,2-3 or PXI1Slot3/0,PXI1Slot3/2-3, where PXI1Slot3 is the instrument resource name and 0, 2, 3 are channel names.
-            To specify channels from multiple instruments, use the form PXI1Slot3/0,PXI1Slot3/2-3,PXI1Slot4/2-3.
-            The instruments must be in the same chassis.
-            </param>
-            <param name="attribute">The ID of an attribute.</param>
-            <param name="value">The value to which you want to set the attribute; some of the values might not be valid depending on the current settings of the instrument session.</param>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.SetTMUAttribute(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.Int32,System.Int64)">
-            <inheritdoc cref="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.SetTMUAttribute(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.Int32,System.Int32)"/>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.SetTMUAttribute(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.Int32,System.Boolean)">
-            <inheritdoc cref="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.SetTMUAttribute(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.Int32,System.Int32)"/>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.SetTMUAttribute(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.Int32,System.String)">
-            <inheritdoc cref="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.SetTMUAttribute(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.Int32,System.Int32)"/>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.SetTMUAttribute(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.Int32,System.Double)">
-            <inheritdoc cref="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.SetTMUAttribute(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.Int32,System.Int32)"/>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.GetTMUAttributeString(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.Int32)">
-            <summary>
-            Gets the value of the specified TMU string attribute.
-            </summary>
-            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
-            <param name="channelName">The TMU context string or channel name.</param>
-            <param name="attribute">The ID of an attribute.</param>
-            <returns>The current string value of the attribute.</returns>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.GetTMUAttributeInt32(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.Int32)">
-            <summary>
-            Gets the value of the specified TMU 32-bit integer attribute.
-            </summary>
-            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
-            <param name="channelName">The TMU context string or channel name.</param>
-            <param name="attribute">The ID of an attribute.</param>
-            <returns>The current 32-bit integer value of the attribute.</returns>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.GetTMUAttributeInt64(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.Int32)">
-            <summary>
-            Gets the value of the specified TMU 64-bit integer attribute.
-            </summary>
-            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
-            <param name="channelName">The TMU context string or channel name.</param>
-            <param name="attribute">The ID of an attribute.</param>
-            <returns>The current 64-bit integer value of the attribute.</returns>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.GetTMUAttributeBoolean(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.Int32)">
-            <summary>
-            Gets the value of the specified TMU boolean attribute.
-            </summary>
-            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
-            <param name="channelName">The TMU context string or channel name.</param>
-            <param name="attribute">The ID of an attribute.</param>
-            <returns>The current boolean value of the attribute.</returns>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.GetTMUAttributeReal64(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.Int32)">
-            <summary>
-            Gets the value of the specified TMU floating-point attribute.
-            </summary>
-            <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
-            <param name="channelName">The TMU context string or channel name.</param>
-            <param name="attribute">The ID of an attribute.</param>
-            <returns>The current floating-point value of the attribute.</returns>
-        </member>
-        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TMUContextManager">
-            <summary>
-            TMU Context Manager, ensures safe and consistent assignment and release of TMU resources, preventing conflicts and partial allocations.
-            </summary>
-        </member>
-        <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TMUContextManager.Instance">
-            <summary>
-            Global Access point for the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TMUContextManager"/>
-            </summary>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TMUContextManager.TryAssignTMUContext(System.String,System.String)">
-            <summary>
-            Soft assign the tmu.
-            </summary>
-            <param name="deviceName">The device for which the tmu belong to.</param>
-            <param name="tmuContext">TMU Context to be assigned</param>
-            <returns>
-            <see langword="true"/> if the TMU context was newly soft assigned to the specified device;
-            <see langword="false"/> if it was already assigned to that device, or if either
-            <paramref name="deviceName"/> or <paramref name="tmuContext"/> is <see langword="null"/> or empty.
-            </returns>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TMUContextManager.UnAssignTMUContext(System.String,System.String)">
-            <summary>
-            Unassign the soft assignment of the given device and tmu.
-            </summary>
-            <param name="deviceName">The device for which the tmu belong to.</param>
-            <param name="tmuContext">TMU Context to be unassigned</param>
-        </member>
-        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuErrorMessages">
-            <summary>
-            Provides a self-contained mapping from niDigital TMU driver status codes to their descriptive error messages.
-            </summary>
-            <remarks>
-            <para>
-            <b>TEMPORARY BRIDGE CODE.</b> This type exists only because the driver C# APIs that surface descriptive
-            TMU error messages are not available until the 27.5 driver release. Until the migration to the driver C# APIs,
-            TMU operations are invoked directly via P/Invoke (see <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NativeMethods"/>), which returns only a numeric
-            status code. This class maps the known TMU status codes to the descriptive messages the driver would otherwise
-            provide.
-            </para>
-            <para>
-            This entire file, along with the rest of the <c>InstrumentAbstraction.Digital.TMU</c> folder, should be removed
-            once the library migrates to the driver C# APIs in 27.5.
-            </para>
-            </remarks>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuErrorMessages.MessagesByStatusCode">
-            <summary>
-            Maps a niDigital TMU driver status code to its descriptive error message.
-            </summary>
-            <remarks>
-            Keyed by the driver status code.
-            The message text mirrors the driver error XML.
-            </remarks>
-        </member>
-        <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuErrorMessages.TryGetMessage(System.Int32,System.String@)">
-            <summary>
-            Attempts to get the descriptive error message associated with the specified TMU driver status code.
-            </summary>
-            <param name="status">The niDigital TMU driver status code.</param>
-            <param name="message">
-            When this method returns, contains the descriptive error message if a specific message exists for
-            <paramref name="status"/>; otherwise, an empty string.
-            </param>
-            <returns><see langword="true"/> if a specific message exists for the status code; otherwise, <see langword="false"/>.</returns>
-        </member>
-        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes">
-            <summary>
-            TMU attribute constants for configuring TMU operations.
-            </summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes.TmuEnabled">
-            <summary>Enables or disables the TMU.</summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes.TmuStartSource">
-            <summary>Specifies the start source for the TMU measurement.</summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes.TmuStopSource">
-            <summary>Specifies the stop source for the TMU measurement.</summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes.TmuStartSourceEvent">
-            <summary>Specifies which start source digital event to use.</summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes.TmuStopSourceEvent">
-            <summary>Specifies which stop source digital event to use.</summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes.TmuStartSourceEventPolarity">
-            <summary>Specifies the edge polarity for the TMU start source event.</summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes.TmuStopSourceEventPolarity">
-            <summary>Specifies the edge polarity for the TMU stop source event.</summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes.TmuSamplesToAcquire">
-            <summary>Specifies the number of samples to acquire.</summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes.TmuSampleTimeout">
-            <summary>Specifies the maximum time to wait for start and stop events.</summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes.TmuArmType">
-            <summary>Specifies the type of signal used to arm the TMU measurement.</summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes.TmuEdgeArmSource">
-            <summary>Specifies the arm source when using edge-sensitive arming.</summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes.TmuEdgeArmSourceEvent">
-            <summary>Specifies event source arms.</summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes.TmuEdgeArmPolarity">
-            <summary>Specifies the edge polarity for the TMU arm input.</summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes.TmuCount">
-            <summary>Indicates the total number of TMUs available across all modules in the session.</summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes.TmuStartInputDebounceTime">
-            <summary>Specifies the input debounce time for the TMU start source.</summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuAttributes.TmuStopInputDebounceTime">
-            <summary>Specifies the input debounce time for the TMU stop source.</summary>
-        </member>
-        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuSourceEvent">
-            <summary>
-            TMU source event values.
-            </summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuSourceEvent.Vol">
-            <summary>VOL event.</summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuSourceEvent.Voh">
-            <summary>VOH event.</summary>
-        </member>
-        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuPolarity">
-            <summary>
-            TMU source polarity values.
-            </summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuPolarity.RisingEdge">
-            <summary>Rising edge.</summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuPolarity.FallingEdge">
-            <summary>Falling edge.</summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuPolarity.EitherEdge">
-            <summary>Either edge.</summary>
-        </member>
-        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuArmType">
-            <summary>
-            TMU arm type values.
-            </summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuArmType.Immediate">
-            <summary>Arm each sample immediately.</summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuArmType.Edge">
-            <summary>Arm each sample on the rising or falling edge of a signal.</summary>
-        </member>
-        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuDutyCycle">
-            <summary>
-            TMU Duty Cycle measurement type values.
-            </summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuDutyCycle.High">
-            <summary>
-            Measure duty cycle high (time at VOH level between rising and falling edges).
-            </summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuDutyCycle.Low">
-            <summary>
-            Measure duty cycle low (time at VOL level between falling and rising edges).
-            </summary>
-        </member>
-        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuPulseWidth">
-            <summary>
-            TMU Pulse Width measurement type values.
-            </summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuPulseWidth.High">
-            <summary>
-            Measure pulse width high (time at VOH level between rising and falling edges).
-            </summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuPulseWidth.Low">
-            <summary>
-            Measure pulse width low (time at VOL level between falling and rising edges).
-            </summary>
-        </member>
-        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuArmSetting">
-            <summary>
-            TMU Arm Setting values.
-            </summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuArmSetting.Immediate">
-            <summary>
-            Arm each sample immediately.
-            </summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuArmSetting.StartEdge">
-            <summary>
-            Arm each sample on the rising or falling edge of a signal with the same properties as the Start Source.
-            </summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuArmSetting.StopEdge">
-            <summary>
-            Arm each sample on the rising or falling edge of a signal with the same properties as the Stop Source.
-            </summary>
-        </member>
-        <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.UpdateMode">
-            <summary>
-            Specifies the type of update operation to perform when Digital session properties are updated.
-            </summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.UpdateMode.Deferred">
-            <summary>
-            Default (existing) behavior.
-            The session will be aborted and the driver property will be set.
-            The property update will be deferred until the next commit or initiate operation,
-            but the result may not be reflected in the output of the device until the session has been initiated.
-            </summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.UpdateMode.Immediate">
-            <summary>
-            The session will be aborted and the driver property will be set.
-            Additionally, the session will be initiated.
-            </summary>
-        </member>
-        <member name="F:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.UpdateMode.Commit">
-            <summary>
-            The session will be aborted and the driver property will be set.
-            The property update will be committed to the instrument,
-            but the result may not be reflected in the output of the device until the session has been initiated.
             </summary>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DMM.DMMSessionInformation">
