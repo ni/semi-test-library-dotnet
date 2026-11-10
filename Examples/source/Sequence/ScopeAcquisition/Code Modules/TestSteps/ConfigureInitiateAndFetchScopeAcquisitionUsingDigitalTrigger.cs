@@ -77,10 +77,10 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.ScopeAcquisition
 
             // 2. Configure and apply scope trigger settings
             DigitalTriggerSettings digitalTriggerSettings = new DigitalTriggerSettings(
-                triggerSource,
-                triggerSlope,
-                PrecisionTimeSpan.FromSeconds(holdOff),
-                PrecisionTimeSpan.FromSeconds(delay));
+                triggerSource: triggerSource,
+                triggerSlope: triggerSlope,
+                holdOff: PrecisionTimeSpan.FromSeconds(holdOff),
+                delay: PrecisionTimeSpan.FromSeconds(delay));
             scopeBundle.ConfigureTriggerDigital(digitalTriggerSettings);
 
             // 3. Initiate acquisition
