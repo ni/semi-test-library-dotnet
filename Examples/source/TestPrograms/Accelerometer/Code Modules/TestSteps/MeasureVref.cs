@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Threading;
 using NationalInstruments;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
@@ -28,19 +27,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.Accelerometer
             var sessionManger = new TSMSessionManager(semiconductorModuleContext);
             ScopeSessionsBundle vref = sessionManger.Scope(scopePinName);
 
-            PinSiteData<double[]> vrefMeasurements = vref.DoAndReturnPerSitePerPinResults((sessionInfo, pinSiteInfo) =>
-            {
-                AnalogWaveformCollection<double> waveforms;
-                string channel = pinSiteInfo.IndividualChannelString;
-                waveforms = sessionInfo.Session.Channels[channel].Measurement.Read(
-                    timeout: PrecisionTimeSpan.FromSeconds(5),
-                    numberOfSamples: -1,
-                    waveforms: null);
-                // Waveforms are returned as a collection of multiple records and channels.
-                // Indexing the first waveform, as only one record and one channel being read at a time.
-                double[] singleChannelSamples = waveforms[0].Samples.Select(sample => sample.Value).ToArray();
-                return singleChannelSamples;
-            });
+            PinSiteData<double[]> vrefMeasurements = vref.Read(timeout: PrecisionTimeSpan.FromSeconds(5), numberOfSamples: -1);
 
             PinSiteData<double> average = vrefMeasurements.Select(x => x.Average());
             PinSiteData<double> min = vrefMeasurements.Select(x => x.Min());
@@ -48,7 +35,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.Accelerometer
 
             semiconductorModuleContext.PublishResults(average, "DCValue");
             semiconductorModuleContext.PublishResults(min, "Min");
-            semiconductorModuleContext.PublishResults(average, "Max");
+            semiconductorModuleContext.PublishResults(max, "Max");
         }
     }
 }
