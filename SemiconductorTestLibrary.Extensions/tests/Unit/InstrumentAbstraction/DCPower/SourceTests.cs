@@ -4402,7 +4402,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin");
             sessionsBundle.MergePinGroup("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin");
 
-            var currentLimits = sessionsBundle.GetCurrentLimits();
+            var currentLimits = sessionsBundle.GetCurrentLimit();
 
             Assert.Single(currentLimits.PinNames);
             Assert.Equal("VCCPrimary", currentLimits.PinNames[0]);
@@ -4416,7 +4416,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
             sessionsBundle.GangPinGroup("AllPinsGangedGroup");
 
-            var currentLimits = sessionsBundle.GetCurrentLimits();
+            var currentLimits = sessionsBundle.GetCurrentLimit();
 
             Assert.Equal(5, currentLimits.PinNames.Length);
             Assert.DoesNotContain("AllPinsGangedGroup", currentLimits.PinNames);
@@ -4431,7 +4431,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower("VCC");
             sessionsBundle.ConfigureCurrentLimit(0.1);
 
-            var values = sessionsBundle.GetCurrentLimits();
+            var values = sessionsBundle.GetCurrentLimit();
 
             Assert.Equal(0.1, values.ExtractSite(0)["VCC"]);
             Assert.Equal(0.1, values.ExtractSite(1)["VCC"]);
@@ -4453,7 +4453,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 ["VCC"] = 1
             });
 
-            var values = sessionsBundle.GetCurrentLimits();
+            var values = sessionsBundle.GetCurrentLimit();
 
             Assert.Equal(1, values.ExtractSite(0)["VCC"]);
             Assert.Equal(0.1, values.ExtractSite(1)["VDD"]);
