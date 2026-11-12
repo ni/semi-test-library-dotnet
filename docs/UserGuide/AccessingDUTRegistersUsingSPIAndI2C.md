@@ -20,7 +20,7 @@ The example implementation has the following layers:
 
 | Layer                       | Type                                              | Responsibility                                                                                                                                                 |
 | --------------------------- | ------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Test steps                  | `TestStep` methods                                | Calls the register access operations and publishes the results. The `CommunicationProtocol` parameter selects SPI or I2C at runtime.                        |
+| Test steps                  | `TestStep` methods                                | Calls the register access operations and publishes the results. The `CommunicationProtocol` parameter selects SPI or I2C at runtime.                           |
 | Protocol selection          | `SemiconductorModuleContextExtensions.DutControl` | Gets the protocol instance for the selected `CommunicationProtocol`, creates a `DigitalSessionsBundle` for the protocol pins, and binds it to the instance.    |
 | Protocol-agnostic interface | `IDigitalProtocol`                                | Defines the register access operations and the protocol settings.                                                                                              |
 | Core register access logic  | `DigitalProtocol` (abstract base class)           | Converts addresses and values into waveform samples, writes the sequencer registers and source waveform, bursts the pattern, and decodes the capture waveform. |
@@ -49,7 +49,7 @@ The example uses the following STL methods to program the instrument:
 | `TSMSessionManager.Digital`                           | Creates a `DigitalSessionsBundle` for the protocol pins.                                     |
 | `DigitalSessionsBundle.WriteSequencerRegister`        | Writes the transaction count, address bit width, and value bit width to sequencer registers. |
 | `DigitalSessionsBundle.WriteSourceWaveformSiteUnique` | Writes the address and value samples to the source waveform for each site.                   |
-| `DigitalSessionsBundle.BurstPattern`                  | Bursts the read or write template pattern and waits until it is done.                        |
+| `DigitalSessionsBundle.BurstPattern`                  | Bursts the read or write template pattern and waits until the burst is done.                 |
 | `DigitalSessionsBundle.FetchCaptureWaveform`          | Fetches the captured register value samples for each site.                                   |
 | `DigitalSessionsBundle.Do`                            | Creates the serial source and capture waveforms with low-level NI-Digital driver calls.      |
 
@@ -99,10 +99,10 @@ Each pattern repeats the following transaction `reg0` times:
 | `I2C_write_template` | START, device address with the write bit, register address, value, STOP. The DUT acknowledges each byte.                                  |
 | `I2C_read_template`  | START, device address with the write bit, register address, repeated START, device address with the read bit, captured value, NACK, STOP. |
 
-The patterns generate or check the following protocol framing bits:
+The patterns generate or check the protocol framing bits, such as the following:
 
 - The SPI read or write bit
-- The I2C device address
+- The I2C device address and read or write bit
 - The I2C ACK and NACK bits
 
 Therefore, the source waveform contains only the register address and value bits. Because the I2C device address is part of the pattern, update the I2C patterns to match the device address of your DUT.
@@ -133,7 +133,7 @@ The address bit width is the number of register address bits that the source wav
 - **SPI**: If the DUT combines the read or write bit and the register address in the same command word, the pattern sends the read or write bit. The address bit width is the number of remaining address bits in that command word.
 - **I2C**: The read or write bit is part of the device address byte, which the patterns send. Therefore, the address bit width is the full width of the register address.
 
-Pass only the address bits that the source waveform supplies to the register access methods.
+When you call the register access methods, pass register addresses that contain only these address bits. Do not include the framing bits, such as the read or write bit, in the address.
 
 > [!NOTE]
 > The example I2C patterns expect an ACK after every 8 bits, so use an 8-bit address and an 8-bit value with these patterns.
@@ -149,10 +149,12 @@ Each register access operation performs a single pattern burst. For example, the
 
 The `ReadRegister` method involves the following actions:
 
-1. Sourcing only the address samples.
-2. Bursting the read pattern.
-3. Fetching the capture waveform.
-4. Converting the samples into a single value for each site.
+1. Converting the address into waveform samples.
+2. Writing the transaction count, address bit width, and value bit width to the sequencer registers.
+3. Writing only the address samples to the source waveform.
+4. Bursting the read pattern with a 10-second timeout.
+5. Fetching the capture waveform.
+6. Converting the captured samples into a single value for each site.
 
 The multiple-register methods set the transaction count to the number of registers so that the pattern loops once per register within a single burst:
 
@@ -286,7 +288,7 @@ public static void WriteUniqueValuesToMultipleRegistersAndCompareReadbackValues(
 ```
 
 > [!NOTE]
-> A single burst can access up to 32 registers (`DigitalProtocol.MaxRegistersPerBurst`).
+> A single burst can access up to 32 registers (as specified in `DigitalProtocol.MaxRegistersPerBurst`).
 
 ### Overriding the Bit Widths for a Single Operation (Test Method)
 
