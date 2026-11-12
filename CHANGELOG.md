@@ -46,8 +46,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
       - `SetValue(T value, string[] pinNames, params int[] siteNumbers)`
     - Added [`DebuggerTypeProxy`](https://learn.microsoft.com/en-us/visualstudio/debugger/using-debuggertypeproxy-attribute?view=visualstudio) support for `SiteData<T>` and `PinSiteData<T>`: pin and site values can now be easily reviewed during a Visual Studio debugging session in the Locals, Autos, and Watch windows, or in a DataTip when hovering over a variable at a breakpoint.
   - **Instrument Abstraction**
-    - New Time Measurement Unit (TMU) Digital methods added for timing measurements on digital pins, such as period, pulse width, duty cycle, rise time, fall time, and skew. These methods are supported with NI Digital Pattern Instruments (PXIe-657x) that include TMUs, and require STS Software 26.5.0 or later. TMU resources are limited per instrument module, and the methods automatically assign the available TMU resources to the target pins and sites. Refer to the updated documentation for details.
-    - New TMU resource management Digital methods added for assigning, enabling, disabling, and releasing the TMU resources of each pin and site within the `DigitalSessionsBundle`. Refer to the updated documentation for details.
+    - New Time Measurement Unit (TMU) Digital methods added for timing measurements on digital pins, such as period, pulse width, duty cycle, rise time, fall time, and skew. These methods require NI Digital Pattern Instruments (PXIe-657x) that include TMUs, and STS Software 26.5.0 or later. TMU resources are limited per instrument module, and the methods automatically assign the available TMU resources to the target pins and sites. Refer to the updated documentation for details.
+    - New Digital methods added to manage TMU resources for each pin and site in the `DigitalSessionsBundle`. This includes assigning, enabling, disabling, and releasing resources. Refer to the updated documentation for details.
       - `AssignTMUResources(string[] pinNames)`
       - `AssignTMUResources(string pinName)`
       - `EnableTMU(string[] pinNames)`
@@ -57,7 +57,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
       - `ClearTMUAssignment(string[] pinNames)`
       - `ClearTMUAssignment(string pinName)`
       - `GetTMUCount()`
-    - New TMU measurement configuration Digital methods added for configuring and enabling the assigned TMU resources to perform common timing measurements. These methods support immediate and edge arming using the `TmuArmSetting` enum. Refer to the updated documentation for details.
+    - New Digital methods added to configure assigned TMU resources and enable them for common timing measurements. These methods support immediate and edge arming through the `TmuArmSetting` enum. Refer to the updated documentation for details.
       - `ConfigurePeriodMeasurement(TmuPolarity edgeType, long samplesToAcquire, TmuArmSetting armSetting, string[] pinNames)`
       - `ConfigurePeriodMeasurement(TmuPolarity edgeType, long samplesToAcquire, string pinName, TmuArmSetting armSetting)`
       - `ConfigureTMUPulseWidthMeasurement(TmuPulseWidth pulseWidthType, long samplesToAcquire, TmuArmSetting armSetting, string[] pinNames)`
@@ -70,14 +70,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
       - `ConfigureTMUFallTimeMeasurement(long samplesToAcquire, string pinName, TmuArmSetting armSetting)`
       - `ConfigureTMUSkewMeasurement(string[] referencePinNames, string[] targetPinNames, TmuPolarity edgeType, long samplesToAcquire, TmuArmSetting armSetting)`
       - `ConfigureTMUSkewMeasurement(string referencePinName, string targetPinName, TmuPolarity edgeType, long samplesToAcquire, TmuArmSetting armSetting)`
-    - New TMU measurement execution Digital methods added for initiating, fetching, and aborting TMU measurements. The `FetchAveragedTMUMeasurement` methods return the averaged result, in seconds, for each pin and site. Refer to the updated documentation for details.
+    - New Digital methods added to initiate, fetch, and abort TMU measurements. The `FetchAveragedTMUMeasurement` methods return the average measurement result, in seconds, for each pin and site. Refer to the updated documentation for details.
       - `TMUInitiate(string[] pinNames)`
       - `TMUInitiate(string pinName)`
       - `FetchAveragedTMUMeasurement(double timeoutInSeconds, string[] pinNames)`
       - `FetchAveragedTMUMeasurement(string pinName, double timeoutInSeconds)`
       - `TMUAbort(string[] pinNames)`
       - `TMUAbort(string pinName)`
-    - New TMU configuration Digital methods added for configuring individual TMU settings of the assigned TMU resources. Refer to the updated documentation for details.
+    - New Digital methods added to configure individual settings for assigned TMU resources. Refer to the updated documentation for details.
       - `ConfigureTMUStartSource(string[] pinNames)`
       - `ConfigureTMUStartSource(string pinName)`
       - `ConfigureTMUStopSource(string[] pinNames)`
@@ -102,7 +102,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
       - `ConfigureTMUSamplesToAcquire(long samplesToAcquire, string pinName)`
       - `ConfigureTMUSampleTimeout(double timeoutInSeconds, string[] pinNames)`
       - `ConfigureTMUSampleTimeout(double timeoutInSeconds, string pinName)`
-    - New TMU query Digital methods added for returning the current TMU settings of the assigned TMU resources for each pin and site. Refer to the updated documentation for details.
+    - New Digital methods added to query the current settings of assigned TMU resources for each pin and site. Refer to the updated documentation for details.
       - `GetTMUStartSource()`
       - `GetTMUStopSource()`
       - `GetTMUStartSourceEvent()`
@@ -297,7 +297,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
     - Added documentation for how to take TMU measurements, including TMU resource management, arming, scaling with sites, and lower-level programming with the NI-Digital Pattern Driver TMU .NET APIs.
     - Added Code Snippet style examples: `MeasurePeriodTMU`, `MeasurePulseWidthTMU`, `MeasureDutyCycleTMU`, `MeasureRiseTimeTMU`, `MeasureFallTimeTMU`, and `MeasureSkewTMU`, for how to perform the different TMU measurements on digital pins.
     - Added a Sequence style example: `TMU`, for how to use the Semiconductor Test Library (STL) extension methods for the Time Measurement Unit (TMU) to perform different timing measurements with an NI Digital Pattern Instrument (PXIe-657x).
-    - Added GitHub documentation for new constructors and methods in SiteData and PinSiteData (Yet to be added).
+    - Added documentation for the new constructors and methods in `SiteData` and `PinSiteData`.
     - Added a Code Snippet style example: `SiteDataExamples.BuildWithArray`, for how to build a `SiteData` object from a data array, where the array index represents the site number, by using the `AddSite` and `SetValue` methods.
     - Added a Code Snippet style example: `SiteDataExamples.BuildWithPerSiteDataDictionary`, for how to build a `SiteData` object from a dictionary of site-unique data by using the `SetValue` method.
     - Added a Code Snippet style example: `SiteDataExamples.BuildWithDictionaryWithSystemData`, for how to build a `SiteData` object from a dictionary of site-unique data that includes site-agnostic data (site `-1`) by using the `SetValue` method.
