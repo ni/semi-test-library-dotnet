@@ -1,6 +1,6 @@
 # Accessing DUT Registers Using SPI and I2C
 
-Many DUTs expose configuration and status registers over serial protocols such as SPI and I2C. You can access these registers with an NI Digital Pattern instrument by combining the Semiconductor Test Library (STL) Digital Pattern Instrument Abstraction methods with generic template patterns. The template patterns use sequencer registers, source waveforms, and capture waveforms so that a single pattern can serve any register address, register value, and number of registers.
+Many DUTs expose configuration and status registers over serial protocols such as SPI and I2C. You can access these registers with an NI Digital Pattern instrument, by combining the Semiconductor Test Library (STL) Digital Pattern Instrument Abstraction methods with generic template patterns. The template patterns use sequencer registers, source waveforms, and capture waveforms. This ensures that a single pattern can serve any register address, register value, and number of registers.
 
 The [Register IO (SPI and I2C) Sequence Example](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/RegisterIO.SPI-I2C/README.md) provides a reusable, protocol-agnostic implementation of this approach. The example encapsulates the following protocol-specific details behind a single `IDigitalProtocol` interface, so the same test code works with either protocol:
 
@@ -10,22 +10,22 @@ The [Register IO (SPI and I2C) Sequence Example](https://github.com/ni/semi-test
 
 > [!NOTE]
 >
-> - The `IDigitalProtocol` interface and the `DigitalProtocol`, `SPI`, and `I2C` classes are part of the example code, not the STL NuGet package. Copy the `DutControl` folder of the example into your test program and adapt it to your DUT.
-> - The example is supported from Semiconductor Test Library 24.5.1 NuGet package or later.
+> - The `IDigitalProtocol` interface as well as the `DigitalProtocol`, `SPI`, and `I2C` classes are part of the example code, not of the STL NuGet package. Copy the `DutControl` folder of the example into your test program and adapt it to your DUT.
+> - The Semiconductor Test Library 24.5.1 NuGet package or later supports the example.
 > - The register addresses, values, patterns, and timing in the example sequences target a specific DUT. Adapt them to your DUT as described in [Adapting the Example to Your DUT](#adapting-the-example-to-your-dut).
 
 ## Architecture
 
-The example implementation is organized into the following layers:
+The example implementation has the following layers:
 
 | Layer                       | Type                                              | Responsibility                                                                                                                                                 |
 | --------------------------- | ------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Test steps                  | `TestStep` methods                                | Call the register access operations and publish the results. The `CommunicationProtocol` parameter selects SPI or I2C at runtime.                              |
+| Test steps                  | `TestStep` methods                                | Calls the register access operations and publishes the results. The `CommunicationProtocol` parameter selects SPI or I2C at runtime.                        |
 | Protocol selection          | `SemiconductorModuleContextExtensions.DutControl` | Gets the protocol instance for the selected `CommunicationProtocol`, creates a `DigitalSessionsBundle` for the protocol pins, and binds it to the instance.    |
 | Protocol-agnostic interface | `IDigitalProtocol`                                | Defines the register access operations and the protocol settings.                                                                                              |
 | Core register access logic  | `DigitalProtocol` (abstract base class)           | Converts addresses and values into waveform samples, writes the sequencer registers and source waveform, bursts the pattern, and decodes the capture waveform. |
-| Protocol-specific settings  | `SPI` and `I2C` (singleton classes)               | Define the default pattern names, waveform names, pins, and bit widths of each protocol.                                                                       |
-| Instrument Abstraction      | `DigitalSessionsBundle` STL extension methods     | Program the NI Digital Pattern instrument.                                                                                                                     |
+| Protocol-specific settings  | `SPI` and `I2C` (singleton classes)               | Defines the default pattern names, waveform names, pins, and bit widths of each protocol.                                                                      |
+| Instrument abstraction      | `DigitalSessionsBundle` STL extension methods     | Programs the NI Digital Pattern instrument.                                                                                                                    |
 
 `IDigitalProtocol` defines the following register access operations:
 
@@ -38,9 +38,9 @@ The example implementation is organized into the following layers:
 | `WriteRegisters(uint[] addresses, long[] values)`           | Writes register-specific values to multiple registers in a single burst.              |
 | `WriteRegisters(uint[] addresses, SiteData<long>[] values)` | Writes register-specific, site-unique values to multiple registers in a single burst. |
 
-The `DigitalProtocol` class also provides overloads of each method that accept `addressBitWidth` and `valueBitWidth` parameters to override the default bit widths for a single operation.
+The `DigitalProtocol` class also provides overloads of each method that accept `addressBitWidth` and `valueBitWidth` parameters. The parameters override the default bit widths for a single operation.
 
-### STL Methods Used
+### STL Methods
 
 The example uses the following STL methods to program the instrument:
 
@@ -64,19 +64,21 @@ The template patterns, waveforms, and pin map must match the settings of the pro
 
 ### Pin Map
 
-The protocol pins must be DUT pins in the pin map, and must be connected to an NI Digital Pattern instrument for each site. The example uses the following pins:
+The protocol pins must be DUT pins in the pin map, and they must be connected to an NI Digital Pattern instrument for each site. The example uses the following pins:
 
 | Pin   | SPI Use                    | I2C Use                                                                                      |
 | ----- | -------------------------- | -------------------------------------------------------------------------------------------- |
 | `CS`  | Chip select (active low)   | Not part of the I2C bus. The patterns can hold it at a static level if your DUT requires it. |
-| `SDI` | Serial data into the DUT   | Serial data line (SDA) for both writing and reading                                          |
+| `SDI` | Serial data into the DUT   | Serial data line (SDA) for both writing and reading.                                         |
 | `SDO` | Serial data out of the DUT | Not part of the I2C bus. The patterns can hold it at a static level if your DUT requires it. |
-| `SCK` | Serial clock               | Serial clock line (SCL)                                                                      |
+| `SCK` | Serial clock               | Serial clock line (SCL).                                                                     |
 
 > [!NOTE]
 >
 > - The bundle that `DutControl` creates must contain all the pins in `PinNames`, as well as the source pin and the capture pin. Otherwise, `SetBundle` throws an exception.
-> - For I2C, the SDA pin requires a pull-up resistor, unless your DUT board already provides one, because the patterns release the pin to check the ACK and NACK bits and to capture the register data.
+> - For I2C, the SDA pin requires a pull-up resistor, unless your DUT board already provides one. The SDA pin requires a pull-up resistor because the patterns release the pin for the following purposes:
+>   - Checking the ACK and NACK bits
+>   - Capturing the register data
 
 ### Template Patterns
 
@@ -97,7 +99,13 @@ Each pattern repeats the following transaction `reg0` times:
 | `I2C_write_template` | START, device address with the write bit, register address, value, STOP. The DUT acknowledges each byte.                                  |
 | `I2C_read_template`  | START, device address with the write bit, register address, repeated START, device address with the read bit, captured value, NACK, STOP. |
 
-The patterns generate or check the protocol framing bits, such as the SPI read or write bit, the I2C device address, and the I2C ACK and NACK bits. Therefore, the source waveform contains only the register address and value bits. Because the I2C device address is part of the pattern, update the I2C patterns to match the device address of your DUT.
+The patterns generate or check the following protocol framing bits:
+
+- The SPI read or write bit
+- The I2C device address
+- The I2C ACK and NACK bits
+
+Therefore, the source waveform contains only the register address and value bits. Because the I2C device address is part of the pattern, update the I2C patterns to match the device address of your DUT.
 
 ### Source and Capture Waveforms
 
@@ -112,17 +120,17 @@ The waveforms must meet the following requirements:
 
 - **Serial waveforms**: The waveforms are serial waveforms with the sample width and bit order configured on the protocol instance. The example uses a sample width of 1 bit and the most significant bit first.
 - **Site-unique source data mapping**: The source waveform must always be site-unique so that the same waveform supports both broadcast and site-unique writes.
-- **Unique waveform names per protocol**: Each protocol uses its own waveform names because both protocols share the same instrument session.
+- **Unique waveform names per protocol**: Each protocol must use its own waveform names because both protocols share the same instrument session.
 - **Do not apply the waveform file data**: The NI-Digital driver fixes the size of a source waveform on its first write in a session. `DigitalProtocol` pads every write to the same size, so the instrument setup must not apply the source waveform data from the waveform files. Keep the `applySourceWaveformData` parameter of the `SetupNIDigitalPatternInstrumentation` step at its default value, `False`.
 
 > [!NOTE]
-> Waveform settings cannot change after the waveform is created on a session. If you change the sample width, bit order, or pin of a protocol after its waveforms are created, use different waveform names.
+> Waveform settings cannot change after the waveform is created in a session. If you change the sample width, bit order, or pin of a protocol after its waveforms are created, use different waveform names.
 
 ### Address Bit Width
 
 The address bit width is the number of register address bits that the source waveform supplies. It does not include the framing bits that the patterns send, so set it based on how your DUT frames each transaction:
 
-- **SPI**: If the DUT combines the read or write bit and the register address in the same command word, the pattern sends the read or write bit, and the address bit width is the number of remaining address bits in that command word.
+- **SPI**: If the DUT combines the read or write bit and the register address in the same command word, the pattern sends the read or write bit. The address bit width is the number of remaining address bits in that command word.
 - **I2C**: The read or write bit is part of the device address byte, which the patterns send. Therefore, the address bit width is the full width of the register address.
 
 Pass only the address bits that the source waveform supplies to the register access methods.
@@ -132,14 +140,19 @@ Pass only the address bits that the source waveform supplies to the register acc
 
 ## Theory of Operation
 
-Each register access operation performs a single pattern burst. For example, the `WriteRegister` method performs the following actions:
+Each register access operation performs a single pattern burst. For example, the `WriteRegister` method involves the following actions:
 
-1. Converts the address and value into waveform samples, based on the bit widths, sample width, and bit order.
-2. Writes the transaction count (`reg0`), address bit width (`reg1`), and value bit width (`reg2`) to the sequencer registers.
-3. Writes the samples to the site-unique source waveform. For a broadcast write, every site receives the same samples.
-4. Bursts the write pattern with a 10-second timeout.
+1. Converting the address and value into waveform samples, based on the bit widths, sample width, and bit order.
+2. Writing the transaction count (`reg0`), address bit width (`reg1`), and value bit width (`reg2`) to the sequencer registers.
+3. Writing the samples to the site-unique source waveform. For a broadcast write, every site receives the same samples.
+4. Bursting the write pattern with a 10-second timeout.
 
-The `ReadRegister` method sources only the address samples, bursts the read pattern, and then fetches the capture waveform and converts the samples into a single value for each site.
+The `ReadRegister` method involves the following actions:
+
+1. Sourcing only the address samples.
+2. Bursting the read pattern.
+3. Fetching the capture waveform.
+4. Converting the samples into a single value for each site.
 
 The multiple-register methods set the transaction count to the number of registers so that the pattern loops once per register within a single burst:
 
@@ -153,7 +166,7 @@ The multiple-register methods set the transaction count to the number of registe
 Complete the following steps in the `ProcessSetup` sequence of the test program:
 
 1. **Initialize the NI Digital Pattern instrument sessions** with the `SetupAndCleanupSteps.SetupNIDigitalPatternInstrumentation` step. This step loads the files in the digital project and applies the levels and timing sheets that you specify. In the example sequences, the **Setup NI Digital Instrumentation** step applies the `STLExample.RegisterIO.SPIAndI2C` levels and timing sheets.
-2. **Configure the protocol** with the `ConfigureDigitalProtocol` test step. Call it once per test program before you use any protocol instance. This step is required only if you need to change a default setting of the protocol, such as the bit widths, sample width, or pin names.
+2. If you need to change a default setting of the protocol, such as the bit widths, sample width, or pin names, **configure the protocol** with the `ConfigureDigitalProtocol` test step. Call it once per test program before you use any protocol instance.
 
 > [!NOTE]
 > The default sample width of the `DigitalProtocol` class is 8 bits, which does not match the 1-bit sample width of the waveform files in the example digital project. Therefore, the example sequences call `ConfigureDigitalProtocol` to set the sample width to 1 bit.
@@ -174,7 +187,7 @@ Complete the following steps in the `ProcessSetup` sequence of the test program:
 Complete the following steps in the `ProcessCleanup` sequence of the test program:
 
 1. **Clear the bundle reference** of each protocol instance that you used with the `CleanupDigitalProtocol` test step. Without this step, TestStand reports unreleased object references when it shuts down.
-2. **Close the instrument sessions** with the **Cleanup Instrumentation** step.
+2. **Close the instrument sessions** with the `SetupAndCleanupSteps.CleanupInstrumentation` step.
 
 ## Example Usage
 
@@ -298,10 +311,10 @@ TestStep.CleanupDigitalProtocol(CommunicationProtocol.I2C);
 Review the following items when you adapt the example to your DUT:
 
 - **Pins**: Update the pin map and the `pinNames` parameter of `ConfigureDigitalProtocol` to match the pins of your DUT.
-- **Patterns**: Update the template patterns for the framing that your DUT requires, such as the I2C device address or the SPI chip select polarity. Keep the sequencer register loop and the source and capture opcodes so that the code modules continue to work.
+- **Patterns**: Update the template patterns for the framing that your DUT requires, such as the I2C device address or the SPI chip select polarity. Keep the sequencer register loop, as well as the source and capture opcodes so that the code modules continue to work.
 - **Levels and timing**: Update the specifications, levels, and time sets to match the voltage levels and clock rate of your DUT.
 - **Bit widths**: Set the address and value bit widths to match the registers of your DUT. The address and value bit widths must be between 1 and 64, and each address and value must fit in its bit width.
-- **Register addresses and test limits**: Update the register addresses, the values to write, and the expected readback values that the sequence passes to each step. If you change the register addresses of a multiple-register step, also update the measurement IDs of its test evaluations because the published data IDs contain the register addresses.
+- **Register addresses and test limits**: Update the register addresses, the values to write, and the expected readback values that the sequence passes to each step. The published data IDs contain the register addresses. Therefore, if you change the register addresses of a multiple-register step, also update the measurement IDs of its test evaluations.
 
 > [!NOTE]
 > A simulated instrument has no DUT to respond, so you cannot verify the register readback values in Offline Mode.
