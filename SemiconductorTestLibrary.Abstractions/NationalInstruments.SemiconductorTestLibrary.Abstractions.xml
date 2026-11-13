@@ -1054,7 +1054,7 @@
             If the <paramref name="siteNumbers"/> parameter is not provided, an empty SiteData object is associated with the pin name.<br/>
             Throws <see cref="T:System.ArgumentNullException"/> if the <paramref name="pinName"/> parameter is null.<br/>
             Throws <see cref="T:System.ArgumentException"/> if the <paramref name="pinName"/> parameter is an empty string.<br/>
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if sites in the <paramref name="siteNumbers"/> parameter are not unique.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the specified <paramref name="siteNumbers"/> are not unique.
             </remarks>
             <param name="pinName">The pin name to be included in the PinSiteData object.</param>
             <param name="siteNumbers">The site numbers array to be included in the SiteData object that is associated with the pin name.</param>
@@ -1065,7 +1065,7 @@
             Thrown when the <paramref name="pinName"/> parameter is an empty string.
             </exception>
             <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
-            Thrown when sites in the <paramref name="siteNumbers"/> parameter are not unique.
+            Thrown when the specified <paramref name="siteNumbers"/> are not unique.
             </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor(System.String[],System.Int32[])">
@@ -1078,7 +1078,7 @@
             or if any of the specified pin names are null.<br/>
             Throws <see cref="T:System.ArgumentException"/> if the <paramref name="pinNames"/> parameter is an empty array,
             or if any of the specified pin names is an empty string.<br/>
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if pins in the <paramref name="pinNames"/> parameter or sites in the <paramref name="siteNumbers"/> parameter are not unique.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the specified <paramref name="pinNames"/> or <paramref name="siteNumbers"/> are not unique.
             </remarks>
             <param name="pinNames">The pin names to be included in the PinSiteData object.</param>
             <param name="siteNumbers">The site numbers array to be included in the SiteData object that is associated with each pin name.</param>
@@ -1090,7 +1090,7 @@
             or when any of the specified pin names is an empty string.
             </exception>
             <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
-            Thrown when pins in the <paramref name="pinNames"/> parameter or sites in the <paramref name="siteNumbers"/> parameter  are not unique.
+            Thrown when the specified <paramref name="pinNames"/> or <paramref name="siteNumbers"/>  are not unique.
             </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor(System.String[],NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData{`0}[])">
@@ -1098,15 +1098,25 @@
             Initializes a PinSiteData object with pin names and associated SiteData object array.
             </summary>
             <remarks>
-            The lengths of the <paramref name="pinNames"/> and <paramref name="perPinSiteData"/> inputs must be equal,
-            otherwise an exception is thrown.<br/>
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the specified pin names are not unique.
+            Throws <see cref="T:System.ArgumentNullException"/> if the <paramref name="pinNames"/> parameter or the <paramref name="perPinSiteData"/>,
+            parameter is null, or if any of the specified pin names are null.<br/>
+            Throws <see cref="T:System.ArgumentException"/> if the <paramref name="pinNames"/> parameter is an empty array,
+            or if any of the specified pin names is an empty string.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the specified <paramref name="pinNames"/> are not unique,
+            or if lengths of the <paramref name="pinNames"/> and <paramref name="perPinSiteData"/> are not equal.
             </remarks>
             <param name="pinNames">The pin names array.</param>
             <param name="perPinSiteData">The per-pin SiteData object array.</param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when the <paramref name="pinNames"/> parameter or <paramref name="perPinSiteData"/> parameter is null or any of the specified pin names are null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            Thrown when the <paramref name="pinNames"/> parameter is an empty array,
+            or when any of the specified pin names is an empty string.
+            </exception>
             <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
-            Thrown when the specified pin names are not unique,
-            or when the length of <paramref name="perPinSiteData"/> does not match the length of <paramref name="pinNames"/>.
+            Thrown when the specified <paramref name="pinNames"/> are not unique,
+            or when the length of <paramref name="pinNames"/> does not match the length of <paramref name="perPinSiteData"/>.
             </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor(System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.IDictionary{System.Int32,`0}})">
@@ -1115,9 +1125,15 @@
             </summary>
             <remarks>
             Throws <see cref="T:System.ArgumentNullException"/> if the <paramref name="pinSiteData"/> parameter is null.<br/>
+            Throws <see cref="T:System.ArgumentException"/> if the pin name in the <paramref name="pinSiteData"/> parameter is an empty string.<br/>
             </remarks>
             <param name="pinSiteData">Pin and site specific data values.</param>
-            <exception cref="T:System.ArgumentNullException">Thrown when the <paramref name="pinSiteData"/> parameter is null.</exception>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when the <paramref name="pinSiteData"/> parameter is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            Thrown when the pin name in the <paramref name="pinSiteData"/> parameter is an empty string.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor(System.Int32[],System.Collections.Generic.Dictionary{System.String,`0})">
             <summary>
@@ -1125,23 +1141,47 @@
             </summary>
             <remarks>
             The specified pin unique data value is repeated across all sites.<br/>
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the specified site numbers are not unique.
+            Throws <see cref="T:System.ArgumentNullException"/> if the <paramref name="siteNumbers"/> parameter or <paramref name="pinData"/> is null.<br/>
+            Throws <see cref="T:System.ArgumentException"/> if <paramref name="siteNumbers"/> is empty or pin name in the <paramref name="pinData"/> parameter is an empty string.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the specified <paramref name="siteNumbers"/> are not unique.
             </remarks>
             <param name="siteNumbers">Site numbers to associate with the data.</param>
             <param name="pinData">Pin specific data values.</param>
-            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when the specified site numbers are not unique.</exception>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when the <paramref name="siteNumbers"/> parameter or <paramref name="pinData"/> is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            Thrown when <paramref name="siteNumbers"/> is empty or pin name in the <paramref name="pinData"/> parameter is an empty string.
+            </exception>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the specified <paramref name="siteNumbers"/> are not unique.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor(System.String[],System.Int32[],`0)">
             <summary>
             Initializes a PinSiteData object with the same data value across all pins and sites.
             </summary>
             <remarks>
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the specified pin names or site numbers are not unique.
+            Throws <see cref="T:System.ArgumentNullException"/> if the <paramref name="pinNames"/> parameter or <paramref name="siteNumbers"/> parameter is null,
+            or if any of the specified pin names are null.<br/>
+            Throws <see cref="T:System.ArgumentException"/> if the <paramref name="pinNames"/> parameter or <paramref name="siteNumbers"/> parameter is an empty array,
+            or if any of the specified pin names is an empty string.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the specified <paramref name="pinNames"/> or <paramref name="siteNumbers"/> are not unique.
             </remarks>
             <param name="pinNames">Array of unique pin names.</param>
             <param name="siteNumbers">Site numbers to associate with the data.</param>
             <param name="data">Data to be repeated across all pins and active sites.</param>
-            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">Thrown when the specified pin names or site numbers are not unique.</exception>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when the <paramref name="pinNames"/> parameter or <paramref name="siteNumbers"/> parameter is null,
+            or if any of the specified pin names are null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            Thrown when the <paramref name="pinNames"/> parameter or <paramref name="siteNumbers"/> parameter is an empty array,
+            or when any of the specified pin names is an empty string.
+            </exception>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the specified <paramref name="pinNames"/> or <paramref name="siteNumbers"/> are not unique.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor(System.String[],System.Int32[],`0[])">
             <summary>
@@ -1149,8 +1189,12 @@
             </summary>
             <remarks>
             The specified pin unique data is repeated across all sites.<br/>
-            The lengths of the pinNames and perPinData inputs must be equal, otherwise an exception is thrown.<br/>
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the specified pin names or site numbers are not unique.
+            Throws <see cref="T:System.ArgumentNullException"/> if the <paramref name="pinNames"/> parameter, <paramref name="siteNumbers"/> parameter or <paramref name="perPinData"/> parameter is null,
+            or if any of the specified pin names are null.<br/>
+            Throws <see cref="T:System.ArgumentException"/> if the <paramref name="pinNames"/> parameter or <paramref name="siteNumbers"/> parameter is an empty array,
+            or if any of the specified pin names is an empty string.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the specified <paramref name="pinNames"/> or <paramref name="siteNumbers"/> are not unique,
+            or if the lengths of <paramref name="pinNames"/> and <paramref name="perPinData"/> inputs are not equal.
             </remarks>
             <param name="pinNames">Array of unique pin names.</param>
             <param name="siteNumbers">Site numbers to associate with the data.</param>
@@ -1158,9 +1202,17 @@
             Array of pin unique data, where each element represents the data for the specific pin,
             located at the same index within the pinNames array.
             </param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when the <paramref name="pinNames"/> parameter, <paramref name="siteNumbers"/> parameter or <paramref name="perPinData"/> is null,
+            or if any of the specified pin names are null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            Thrown when the <paramref name="pinNames"/> parameter or <paramref name="siteNumbers"/> parameter is an empty array,
+            or when any of the specified pin names is an empty string.
+            </exception>
             <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
-            Thrown when the specified pin names or site numbers are not unique,
-            or when the length of <paramref name="perPinData"/> does not match the length of <paramref name="pinNames"/>.
+            Thrown when the specified <paramref name="pinNames"/> or <paramref name="siteNumbers"/> are not unique,
+            or when the length of <paramref name="pinNames"/> does not match the length of <paramref name="perPinData"/>.
             </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor(System.Int32[],System.String[],`0[])">
@@ -1169,8 +1221,12 @@
             </summary>
             <remarks>
             The specified site unique data is repeated across all pins.<br/>
-            The lengths of the siteNumbers and perSiteData inputs must be equal, otherwise an exception is thrown.<br/>
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the specified pin names or site numbers are not unique.
+            Throws <see cref="T:System.ArgumentNullException"/> if the <paramref name="pinNames"/> parameter, <paramref name="siteNumbers"/> parameter or <paramref name="perSiteData"/> parameter is null,
+            or if any of the specified pin names are null.<br/>
+            Throws <see cref="T:System.ArgumentException"/> if the <paramref name="pinNames"/> parameter or <paramref name="siteNumbers"/> parameter is an empty array,
+            or if any of the specified pin names is an empty string.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the specified <paramref name="pinNames"/> or <paramref name="siteNumbers"/> are not unique,
+            or if the lengths of <paramref name="perSiteData"/> and <paramref name="siteNumbers"/> are not equal.
             </remarks>
             <param name="siteNumbers">Site numbers to associate with the data.</param>
             <param name="pinNames">Array of unique pin names.</param>
@@ -1178,9 +1234,16 @@
             Array of site unique data, where each element represents the data for the specific site,
             located at the same index within the siteNumbers array.
             </param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when the <paramref name="pinNames"/> parameter, <paramref name="siteNumbers"/> parameter or <paramref name="perSiteData"/> parameter is null or any of the specified pin names are null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            Thrown when the <paramref name="pinNames"/> parameter or <paramref name="siteNumbers"/> parameter is an empty array,
+            or when any of the specified pin names is an empty string.
+            </exception>
             <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
-            Thrown when the specified pin names or site numbers are not unique,
-            or when the length of <paramref name="perSiteData"/> does not match the length of <paramref name="siteNumbers"/>.
+            Thrown when the specified <paramref name="pinNames"/> or <paramref name="siteNumbers"/> are not unique,
+            or if the lengths of <paramref name="siteNumbers"/> and <paramref name="perSiteData"/> are not equal.
             </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor(System.String[],System.Int32[],`0[][])">
@@ -1189,19 +1252,30 @@
             </summary>
             <remarks>
             The specified data value is unique for each pin and each site.<br/>
-            The length of pinNames must be equal to the length of the first dimension of perPinPerSiteData.
-            Similarly, the length of siteNumbers must be equal to the length of the second dimension of perPinPerSiteData.
-            Otherwise, an exception is thrown.<br/>
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the specified pin names or site numbers are not unique.
+            Throws <see cref="T:System.ArgumentNullException"/> if the <paramref name="pinNames"/> parameter, <paramref name="siteNumbers"/> parameter or <paramref name="perPinPerSiteData"/> parameter is null,
+            or if any of the specified pin names are null.<br/>
+            Throws <see cref="T:System.ArgumentException"/> if the <paramref name="pinNames"/> parameter or <paramref name="siteNumbers"/> parameter is an empty array,
+            or if any of the specified pin names is an empty string.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the specified <paramref name="pinNames"/> or <paramref name="siteNumbers"/> are not unique,
+            or when the length of <paramref name="pinNames"/> is not equal to the length of the first dimension of <paramref name="perPinPerSiteData"/>,
+            or when the length of <paramref name="siteNumbers"/> is not equal to the length of the second dimension of <paramref name="perPinPerSiteData"/>.
             </remarks>
             <param name="pinNames">Array of unique pin names.</param>
             <param name="siteNumbers">Site numbers to associate with the data.</param>
             <param name="perPinPerSiteData">
             2D jagged array of pin and site unique data, where the first dimension represents pins and the second dimension represents sites.
             </param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when the <paramref name="pinNames"/> parameter, <paramref name="siteNumbers"/> parameter or <paramref name="perPinPerSiteData"/> parameter is null or any of the specified pin names are null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            Thrown when the <paramref name="pinNames"/> parameter or <paramref name="siteNumbers"/> parameter is an empty array,
+            or when any of the specified pin names is an empty string.
+            </exception>
             <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
-            Thrown when the specified pin names or site numbers are not unique,
-            or when the dimensions of <paramref name="perPinPerSiteData"/> do not match the lengths of <paramref name="pinNames"/> and <paramref name="siteNumbers"/>.
+            Thrown when the specified <paramref name="pinNames"/> or <paramref name="siteNumbers"/> are not unique,
+            or when the length of <paramref name="pinNames"/> is not equal to the length of the first dimension of <paramref name="perPinPerSiteData"/>,
+            or when the length of <paramref name="siteNumbers"/> is not equal to the length of the second dimension of <paramref name="perPinPerSiteData"/>.
             </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor(System.Int32[],System.String[],`0[][])">
@@ -1210,19 +1284,29 @@
             </summary>
             <remarks>
             The specified data value is unique for each pin and each site.<br/>
-            The length of siteNumbers must be equal to the length of the first dimension of perSitePerPinData.
-            Similarly, the length of pinNames must be equal to the length of the second dimension of perSitePerPinData.
-            Otherwise, an exception is thrown.<br/>
-            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the specified pin names or site numbers are not unique.
+            Throws <see cref="T:System.ArgumentNullException"/> if the <paramref name="siteNumbers"/> parameter, <paramref name="pinNames"/> parameter or <paramref name="perSitePerPinData"/> parameter is null,
+            or if any of the specified pin names are null.<br/>
+            Throws <see cref="T:System.ArgumentException"/> if the <paramref name="pinNames"/> parameter or <paramref name="siteNumbers"/>is an empty array, or if any of the specified pin names is an empty string.<br/>
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the specified <paramref name="pinNames"/> or <paramref name="siteNumbers"/> are not unique,
+            or when the length of <paramref name="siteNumbers"/> is not equal to the length of the first dimension of <paramref name="perSitePerPinData"/>,
+            or when the length of <paramref name="pinNames"/> is not equal to the length of the second dimension of <paramref name="perSitePerPinData"/>.
             </remarks>
             <param name="siteNumbers">Site numbers to associate with the data.</param>
             <param name="pinNames">Array of unique pin names.</param>
             <param name="perSitePerPinData">
             2D jagged array of pin and site unique data, where the first dimension represents sites and the second dimension represents pins.
             </param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when the <paramref name="siteNumbers"/> parameter, <paramref name="pinNames"/> parameter or <paramref name="perSitePerPinData"/> parameter is null or any of the specified pin names are null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            Thrown when the <paramref name="pinNames"/> parameter or <paramref name="siteNumbers"/> is an empty array,
+            or when any of the specified pin names is an empty string.
+            </exception>
             <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
-            Thrown when the specified pin names or site numbers are not unique,
-            or when the dimensions of <paramref name="perSitePerPinData"/> do not match the lengths of <paramref name="siteNumbers"/> and <paramref name="pinNames"/>.
+            Thrown when the specified <paramref name="pinNames"/> or <paramref name="siteNumbers"/> are not unique,
+            or when the length of <paramref name="siteNumbers"/> is not equal to the length of the first dimension of <paramref name="perSitePerPinData"/>,
+            or when the length of <paramref name="pinNames"/> is not equal to the length of the second dimension of <paramref name="perSitePerPinData"/>.
             </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.AddPin(System.String[])">
@@ -3313,7 +3397,13 @@
             <summary>
             Initializes a SiteData object with multiple sites data array. The array index represents site number.
             </summary>
+            <remarks>
+            Throws <see cref="T:System.ArgumentNullException"/> if the <paramref name="data"/> parameter is null.
+            </remarks>
             <param name="data">The data array.</param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when the <paramref name="data"/> parameter is null.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.#ctor(System.Collections.Generic.IDictionary{System.Int32,`0})">
             <summary>
@@ -3332,8 +3422,18 @@
             Initializes a SiteData object with the same data value across all sites.
             Each element in the siteNumbers array represents a unique site number/value.
             </summary>
-            <param name="siteNumbers">Site numbers to associate with the data./</param>
+            <remarks>
+            Throws <see cref="T:System.ArgumentNullException"/> if the <paramref name="siteNumbers"/> parameter is null,
+            Throws <see cref="T:System.ArgumentException"/> if the <paramref name="siteNumbers"/> parameter is an empty array.
+            </remarks>
+            <param name="siteNumbers">Site numbers to associate with the data.</param>
             <param name="data">The data to be repeated across all sites.</param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when the <paramref name="siteNumbers"/> parameter is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            Thrown when the <paramref name="siteNumbers"/> parameter is an empty array.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.#ctor(System.Int32[],`0[])">
             <summary>
@@ -3343,14 +3443,26 @@
             located at the same index within the siteNumbers array.
             </summary>
             <remarks>
-            The lengths of the array inputs must be equal,
-            otherwise an exception will be thrown.
+            Throws <see cref="T:System.ArgumentNullException"/> if the <paramref name="siteNumbers"/> parameter or <paramref name="perSiteData"/> parameter is null.
+            Throws <see cref="T:System.ArgumentException"/> if the <paramref name="siteNumbers"/> parameter is an empty array.
+            Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the lengths of <paramref name="siteNumbers"/> and
+            <paramref name="perSiteData"/> are not equal, or when the specified <paramref name="siteNumbers"/> are not unique.
             </remarks>
             <param name="siteNumbers">Site numbers to associate with the data.</param>
             <param name="perSiteData">
             Array of site unique data, where each element represents the data for the specific site,
             located at the same index within the siteNumbers array.
             </param>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when the <paramref name="siteNumbers"/> parameter or <paramref name="perSiteData"/> parameter is null.
+            </exception>
+            <exception cref="T:System.ArgumentException">
+            Thrown when the <paramref name="siteNumbers"/> parameter is an empty array.
+            </exception>
+            <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
+            Thrown when the lengths of <paramref name="siteNumbers"/> and <paramref name="perSiteData"/> are not equal,
+            or when the specified <paramref name="siteNumbers"/> are not unique.
+            </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.AddSite(System.Int32[])">
             <summary>
@@ -8670,6 +8782,11 @@
               Looks up a localized string similar to The SiteNumbers array provided as input is empty. Please provide valid site number(s)..
             </summary>
         </member>
+        <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_InputDataNull">
+            <summary>
+              Looks up a localized string similar to The input array passed to the constructor cannot be null..
+            </summary>
+        </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_NoSitesPresent">
             <summary>
               Looks up a localized string similar to The PinSiteData object does not contain any site numbers..
@@ -8677,7 +8794,7 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_NullDictPinSiteData">
             <summary>
-              Looks up a localized string similar to The input PinSiteData dictionary cannot be null..
+              Looks up a localized string similar to The input dictionary passed to the constructor cannot be null..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_NullDictSiteData">
