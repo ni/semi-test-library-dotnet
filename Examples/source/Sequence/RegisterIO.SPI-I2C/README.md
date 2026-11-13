@@ -192,7 +192,7 @@ The `DutControl` folder contains the protocol abstraction.
   - Bit order
 
 - `DigitalProtocol` is an abstract base class that implements the core logic of the `IDigitalProtocol` interface:
-  1. It converts the address and value into waveform samples. By default, it uses a sample width of 8 bits with the most significant bit first, a 16-bit address, and a 16-bit value. You can override these defaults with the `ConfigureDigitalProtocol` test step or with the register access overloads that accept the address and value bit widths.
+  1. It masks the address and value to the address and value bit widths, and then converts them into waveform samples. The bit widths are the configured defaults, or the bit widths passed to the register access overloads that accept them. Only the lowest bits are sent, and any higher bits are ignored. For example, with a 7-bit address width, address `0xF4` is sent as `0x74`, and with an 8-bit value width, value `0x1FF` is sent as `0xFF`. The write operations throw an `ArgumentOutOfRangeException` if a value is negative. By default, it uses a sample width of 8 bits with the most significant bit first, a 16-bit address, and a 16-bit value. You can override these defaults with the `ConfigureDigitalProtocol` test step or with the register access overloads that accept the address and value bit widths.
   2. It writes `reg0`, `reg1`, and `reg2` on the sequencer.
   3. It writes the source waveform, either with the same samples for all sites or with unique samples per site.
   4. It bursts the read or write pattern with a 10-second timeout.
@@ -238,7 +238,7 @@ The `TestSteps` folder contains the test step methods that the sequences call:
 4. `WriteUniqueValuesToMultipleRegistersAndCompareReadbackValues` writes register-specific values to multiple registers in a single burst.
    - Parameters: `tsmContext`, `protocol`, `registerAddresses`, and `valuesToWrite`.
    - It reads all the registers back in a second burst and compares the value read back from each register with the value written to it.
-   - It publishes `Register_0x<address>_Readback` and `Register_0x<address>_Comparison` for each register, where `<address>` is the register address in hexadecimal, for example, `Register_0x74_Readback`.
+   - It publishes `Register_0x<address>_Readback` and `Register_0x<address>_Comparison` for each register, where `<address>` is the register address in hexadecimal, for example, `Register_0xF4_Readback`.
    - A single burst can access up to 32 registers.
 5. `CleanupDigitalProtocol` clears the reference of the protocol instance to the instrument sessions.
    - Parameters: `communicationProtocol`.
@@ -265,10 +265,24 @@ The **Configure Communication Protocol** step uses the following settings. The o
 | `sampleWidth`           | 1                         | 1                         |
 | `pinNames`              | `CS`, `SCK`, `SDI`, `SDO` | `CS`, `SCK`, `SDI`, `SDO` |
 
-The sample width of 1 bit matches the waveform files in the digital project. The address bit width is the number of register address bits in the source waveform. It differs between the protocols because each protocol places the read or write bit differently:
+The sample width of 1 bit matches the waveform files in the digital project. The address bit width is the number of register address bits in the source waveform. It differs between the protocols because each protocol places the read or write bit differently. In both sequences, you pass the register address from the DUT datasheet, such as `0xF4`. The code modules source only the lowest address bits, and the patterns drive the remaining framing bits:
 
-- **SPI**: The read or write bit and the register address share one byte. The pattern sends the read or write bit, and the source waveform supplies the remaining 7 bits.
-- **I2C**: The read or write bit shares a byte with the 7-bit device address of the DUT (`0x77`), which the patterns send. The register address follows in its own byte, so the source waveform supplies all 8 bits, and you pass `0xF4` to access register `0xF4`.
+- **SPI**: The read or write bit and the register address share one byte. The pattern sends the read or write bit in place of the most significant address bit, and the source waveform supplies the lowest 7 bits of the register address. For example, when you pass `0xF4`, the source waveform supplies `1110100`.
+- **I2C**: The read or write bit shares a byte with the 7-bit device address of the DUT (`0x77`), which the patterns send. The register address follows in its own byte, so the source waveform supplies all 8 bits.
+
+The register address is masked to the configured address bit width, and any higher bits are ignored. For example, with a 7-bit address width, `0xF4` is sent as `0x74`. With a 6-bit address width, it is sent as `0x34`, and with an 8-bit address width, it is sent as `0xF4`. Similarly, the value to write is masked to the configured value bit width. A negative value to write causes an `ArgumentOutOfRangeException`. Because the value is masked, a value wider than the value bit width is not fully written, and its readback comparison fails.
+
+#### Adapting the Patterns to a Different DUT
+
+The code modules do not contain any DUT-specific address conversion. The patterns drive all the DUT-specific framing bits, such as the position and polarity of the read or write bit, and the address bit width sets how many register address bits the source waveform supplies. To use a DUT with different SPI framing, update the SPI patterns and the `addressBitWidth` setting of the **Configure Communication Protocol** step, and keep passing the register addresses from the DUT datasheet. For example:
+
+| SPI Framing of the DUT                                          | Pattern Change                                                                 | `addressBitWidth` |
+| --------------------------------------------------------------- | ------------------------------------------------------------------------------ | ----------------- |
+| Read or write bit (`1` for read), then a 7-bit address (BME280) | None                                                                           | 7                 |
+| Read or write bit with the opposite polarity (`0` for read)     | Swap the `1` and `0` pin states of the read or write bit vectors               | 7                 |
+| Read or write bit after the address                             | Move the read or write bit vector after the register address vector            | 7                 |
+| Read or write bit, an auto-increment bit, then a 6-bit address  | Add a vector that drives the auto-increment bit after the read or write bit    | 6                 |
+| Read or write bit, then a 15-bit address                        | None                                                                           | 15                |
 
 The register addresses, the values to write, and the expected readback values are `MainSequence` locals, such as:
 
@@ -288,6 +302,6 @@ Complete the following steps to use this example:
 4. Open `STLExample.RegisterIO.SPI.seq` or `STLExample.RegisterIO.I2C.seq` in the TestStand Sequence Editor. When the sequence file loads, the **About This Example** dialog box describes the example. Click **Help** in the dialog box to open this README.
 5. Select **Semiconductor Module -> Edit Pin Map File** or click the **Edit Pin Map File** button on the TSM toolbar to open `STLExample.RegisterIO.SPIAndI2C.pinmap` in the Pin Map Editor. If you are using physical hardware, update the instrument name, DUT pins, and site connections as needed to match your system setup.
 6. Review the `ProcessSetup`, `MainSequence`, and `ProcessCleanup` sequences, as described in [Sequence Files](#sequence-files).
-7. If you are using the BME280 or a similar DUT, ensure that the appropriate physical connections exist between the NI Digital Pattern instrument and the DUT pins, as defined by the pin map. Additionally, when you are not using the BME280, verify that the register addresses, values, and bit widths passed to each step are appropriate for your DUT. Note that the default address and value bit width is 16 bits, which the **Configure Communication Protocol** step overrides. If you change the register addresses of the multiple-register step, also update the measurement IDs of its test evaluations because the published data IDs contain the register addresses.
+7. If you are using the BME280 or a similar DUT, ensure that the appropriate physical connections exist between the NI Digital Pattern instrument and the DUT pins, as defined by the pin map. Additionally, when you are not using the BME280, verify that the register addresses, values, and bit widths passed to each step are appropriate for your DUT, and update the SPI patterns if your DUT uses different SPI framing, as described in [Adapting the Patterns to a Different DUT](#adapting-the-patterns-to-a-different-dut). Note that the default address and value bit width is 16 bits, which the **Configure Communication Protocol** step overrides. If you change the register addresses of the multiple-register step, also update the measurement IDs of its test evaluations because the published data IDs contain the register addresses.
 8. Run the test program by clicking the **Start/Resume Lot** button on the TSM toolbar.
 9. Set a breakpoint, launch the TSM Runtime Data Viewer, or open the TSM data logs at the end of the lot to review the test results.
