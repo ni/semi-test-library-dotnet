@@ -160,7 +160,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Dat
             var pinSiteData = new PinSiteData<double>(pinNames, perPinSiteData);
         }
 
-        internal static void BuildWithWithArraysAndSetValueWithPerPinData()
+        internal static void BuildWithArraysAndSetValueWithPerPinData()
         {
             // Pin names to associate with the data.
             var pinNames = new string[] { "VCC1", "VCC2" };
