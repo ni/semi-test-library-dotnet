@@ -23,7 +23,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="protocol">The digital communication protocol to use.</param>
         /// <param name="registerAddress">The address of the register to write and read back.</param>
-        /// <param name="valueToWrite">The value to write to the register and expect on readback.</param>
+        /// <param name="valueToWrite">The value to write to the register and expect on readback. The value must not be negative, and it is masked to the value bit width before it is written, so it must fit in the value bit width for the comparison to pass.</param>
         public static void WriteValueToRegisterAndCompareReadbackValue(
             ISemiconductorModuleContext tsmContext,
             CommunicationProtocol protocol,

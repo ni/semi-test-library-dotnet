@@ -68,10 +68,17 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// </summary>
         string CapturePinName { get; set; }
 
-        /// <summary>Gets or sets the default number of bits the register address is. The value must be between 1 and 64.</summary>
+        /// <summary>
+        /// Gets or sets the default number of register address bits sent on the bus. The value must be between 1 and 64.
+        /// Any register address can be passed, such as the datasheet address, and it is masked to this bit width.
+        /// For example, with a 7-bit address width, 0xF4 is sent as 0x74.
+        /// </summary>
         uint DefaultAddressBitWidth { get; set; }
 
-        /// <summary>Gets or sets the default number of bits the register value holds. The value must be between 1 and 64.</summary>
+        /// <summary>
+        /// Gets or sets the default number of register value bits sent or captured on the bus. The value must be between 1 and 64.
+        /// Values written to a register are masked to this bit width. For example, with an 8-bit value width, 0x1FF is sent as 0xFF.
+        /// </summary>
         uint DefaultValueBitWidth { get; set; }
 
         /// <summary>Gets or sets the bit ordering used when packing and unpacking waveform samples.</summary>
@@ -97,43 +104,56 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// <summary>
         /// Reads the value at the specified DUT register address.
         /// </summary>
-        /// <param name="address">The address of the register to read.</param>
+        /// <param name="address">The address of the register to read. The address is masked to the address bit width.</param>
         /// <returns>The per-site value read from the register.</returns>
         SiteData<long> ReadRegister(uint address);
 
         /// <summary>
         /// Writes the specified broadcast value to the specified DUT register address.
         /// </summary>
-        /// <param name="address">The address of the register to write the value to.</param>
-        /// <param name="value">The value to write to the register.</param>
+        /// <param name="address">The address of the register to write the value to. The address is masked to the address bit width.</param>
+        /// <param name="value">The value to write to the register. The value is masked to the value bit width.</param>
+        /// <exception cref="System.ArgumentOutOfRangeException">The <paramref name="value"/> is negative.</exception>
         void WriteRegister(uint address, long value);
 
         /// <summary>
         /// Writes the specified site-unique value to the specified DUT register address.
         /// </summary>
-        /// <param name="address">The address of the register to write the value to.</param>
-        /// <param name="value">The per-site value to write to the register.</param>
+        /// <param name="address">The address of the register to write the value to. The address is masked to the address bit width.</param>
+        /// <param name="value">The per-site value to write to the register. Each value is masked to the value bit width.</param>
+        /// <exception cref="System.ArgumentOutOfRangeException">The value of any site is negative.</exception>
         void WriteRegister(uint address, SiteData<long> value);
 
         /// <summary>
         /// Reads the values from the specified DUT register addresses.
         /// </summary>
-        /// <param name="addresses">The addresses of the registers to read. At most <see cref="DigitalProtocol.MaxRegistersPerBurst"/> addresses are allowed.</param>
+        /// <param name="addresses">
+        /// The addresses of the registers to read. At most <see cref="DigitalProtocol.MaxRegistersPerBurst"/> addresses are allowed.
+        /// Each address is masked to the address bit width.
+        /// </param>
         /// <returns>The per-site values read from the registers.</returns>
         SiteData<long[]> ReadRegisters(uint[] addresses);
 
         /// <summary>
         /// Writes the specified register-unique values to the specified register addresses.
         /// </summary>
-        /// <param name="addresses">The addresses of each register to write the values to. At most <see cref="DigitalProtocol.MaxRegistersPerBurst"/> addresses are allowed.</param>
-        /// <param name="values">The register-unique values to write to each register.</param>
+        /// <param name="addresses">
+        /// The addresses of each register to write the values to. At most <see cref="DigitalProtocol.MaxRegistersPerBurst"/> addresses are allowed.
+        /// Each address is masked to the address bit width.
+        /// </param>
+        /// <param name="values">The register-unique values to write to each register. Each value is masked to the value bit width.</param>
+        /// <exception cref="System.ArgumentOutOfRangeException">Any of the <paramref name="values"/> is negative.</exception>
         void WriteRegisters(uint[] addresses, long[] values);
 
         /// <summary>
         /// Writes the specified site-unique values to the specified register addresses.
         /// </summary>
-        /// <param name="addresses">The addresses of each register to write the values to. At most <see cref="DigitalProtocol.MaxRegistersPerBurst"/> addresses are allowed.</param>
-        /// <param name="values">The per-site values to write to each register.</param>
+        /// <param name="addresses">
+        /// The addresses of each register to write the values to. At most <see cref="DigitalProtocol.MaxRegistersPerBurst"/> addresses are allowed.
+        /// Each address is masked to the address bit width.
+        /// </param>
+        /// <param name="values">The per-site values to write to each register. Each value is masked to the value bit width.</param>
+        /// <exception cref="System.ArgumentOutOfRangeException">The value of any site for any register is negative.</exception>
         void WriteRegisters(uint[] addresses, SiteData<long>[] values);
     }
 }

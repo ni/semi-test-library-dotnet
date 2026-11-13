@@ -141,17 +141,17 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
 
         /// <inheritdoc cref="IDigitalProtocol.ReadRegister(uint)"/>
         /// <param name="address"/>
-        /// <param name="addressBitWidth">The bit width for the register address.</param>
-        /// <param name="valueBitWidth">The bit width for the register value.</param>
+        /// <param name="addressBitWidth">The number of register address bits sent on the bus. The address is masked to this bit width.</param>
+        /// <param name="valueBitWidth">The number of register value bits captured from the bus.</param>
         public SiteData<long> ReadRegister(uint address, uint addressBitWidth, uint valueBitWidth)
         {
-            ValidateRegisterAccess(address, addressBitWidth, valueBitWidth);
+            ValidateRegisterAccess(addressBitWidth, valueBitWidth);
 
             // The driver defines a source waveform as a buffer of U32 samples, where each sample holds only as many
             // bits as the sample width the waveform was created with. The address must therefore be unpacked into
             // as many samples as are needed to send all of its bits. Only the address is sourced, because the read
             // pattern captures the register value from the DUT.
-            uint[] srcWfmSamples = LongToU32Samples(address, addressBitWidth, SampleWidth, BitOrder);
+            uint[] srcWfmSamples = LongToU32Samples(MaskAddress(address, addressBitWidth), addressBitWidth, SampleWidth, BitOrder);
 
             Bundle.WriteSequencerRegister(ReadWriteCountSequenceRegister, 1);
             Bundle.WriteSequencerRegister(AddressBitWidthSequenceRegister, (int)addressBitWidth);
@@ -179,19 +179,19 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// <inheritdoc cref="IDigitalProtocol.WriteRegister(uint, long)"/>
         /// <param name="address"/>
         /// <param name="value"/>
-        /// <param name="addressBitWidth">The bit width for the register address.</param>
-        /// <param name="valueBitWidth">The bit width for the register value.</param>
+        /// <param name="addressBitWidth">The number of register address bits sent on the bus. The address is masked to this bit width.</param>
+        /// <param name="valueBitWidth">The number of register value bits sent on the bus. The value is masked to this bit width.</param>
         public void WriteRegister(uint address, long value, uint addressBitWidth, uint valueBitWidth)
         {
-            ValidateRegisterAccess(address, addressBitWidth, valueBitWidth);
-            ValidateValue(value, valueBitWidth);
+            ValidateRegisterAccess(addressBitWidth, valueBitWidth);
+            ValidateValue(value);
 
             // The driver defines a source waveform as a buffer of U32 samples, where each sample holds only as many
             // bits as the sample width the waveform was created with. Both the address and the value must therefore
             // be unpacked into as many samples as are needed to send all of their bits. They are concatenated
             // because the write pattern sources the address and then the value from the same waveform.
-            uint[] addressSamples = LongToU32Samples(address, addressBitWidth, SampleWidth, BitOrder);
-            uint[] valueSamples = LongToU32Samples(value, valueBitWidth, SampleWidth, BitOrder);
+            uint[] addressSamples = LongToU32Samples(MaskAddress(address, addressBitWidth), addressBitWidth, SampleWidth, BitOrder);
+            uint[] valueSamples = LongToU32Samples(MaskValue(value, valueBitWidth), valueBitWidth, SampleWidth, BitOrder);
             uint[] srcWfmSamples = ConcatArrays(addressSamples, valueSamples);
 
             Bundle.WriteSequencerRegister(ReadWriteCountSequenceRegister, 1);
@@ -210,28 +210,28 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// <inheritdoc cref="IDigitalProtocol.WriteRegister(uint, SiteData{long})"/>
         /// <param name="address"/>
         /// <param name="value"/>
-        /// <param name="addressBitWidth">The bit width for the register address.</param>
-        /// <param name="valueBitWidth">The bit width for the register value.</param>
+        /// <param name="addressBitWidth">The number of register address bits sent on the bus. The address is masked to this bit width.</param>
+        /// <param name="valueBitWidth">The number of register value bits sent on the bus. The value is masked to this bit width.</param>
         public void WriteRegister(uint address, SiteData<long> value, uint addressBitWidth, uint valueBitWidth)
         {
             if (value == null)
             {
                 throw new ArgumentNullException(nameof(value));
             }
-            ValidateRegisterAccess(address, addressBitWidth, valueBitWidth);
+            ValidateRegisterAccess(addressBitWidth, valueBitWidth);
 
             int[] siteNumbers = value.SiteNumbers;
 
             // The address and value must be unpacked into U32 samples for the same reason as the overload above.
             // Because the value can differ per site, a separate source waveform must be built for each site and
             // written site-unique.
-            uint[] addressSamples = LongToU32Samples(address, addressBitWidth, SampleWidth, BitOrder);
+            uint[] addressSamples = LongToU32Samples(MaskAddress(address, addressBitWidth), addressBitWidth, SampleWidth, BitOrder);
             uint[][] perSiteWfmSamples = new uint[siteNumbers.Length][];
             for (int i = 0; i < siteNumbers.Length; i++)
             {
                 long siteValue = value.GetValue(siteNumbers[i]);
-                ValidateValue(siteValue, valueBitWidth);
-                uint[] valueSamples = LongToU32Samples(siteValue, valueBitWidth, SampleWidth, BitOrder);
+                ValidateValue(siteValue);
+                uint[] valueSamples = LongToU32Samples(MaskValue(siteValue, valueBitWidth), valueBitWidth, SampleWidth, BitOrder);
                 perSiteWfmSamples[i] = ConcatArrays(addressSamples, valueSamples);
             }
             SiteData<uint[]> sourceWaveforms = new SiteData<uint[]>(siteNumbers, perSiteWfmSamples);
@@ -255,8 +255,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
 
         /// <inheritdoc cref="IDigitalProtocol.ReadRegisters(uint[])"/>
         /// <param name="addresses"/>
-        /// <param name="addressBitWidth">The bit width for each register address.</param>
-        /// <param name="valueBitWidth">The bit width for each register value.</param>
+        /// <param name="addressBitWidth">The number of register address bits sent on the bus. Each address is masked to this bit width.</param>
+        /// <param name="valueBitWidth">The number of register value bits captured from the bus for each register.</param>
         public SiteData<long[]> ReadRegisters(uint[] addresses, uint addressBitWidth, uint valueBitWidth)
         {
             ValidateMultiRegisterAccess(addresses, addressBitWidth, valueBitWidth);
@@ -266,7 +266,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             // samples as are needed to send all of its bits. The addresses are placed back to back because the read
             // pattern loops once per register within a single burst, sourcing the next address on each iteration.
             uint[] srcWfmSamples = LongArrayToU32Samples(
-                addresses.Select(address => (long)address).ToArray(), addressBitWidth, SampleWidth, BitOrder);
+                addresses.Select(address => MaskAddress(address, addressBitWidth)).ToArray(), addressBitWidth, SampleWidth, BitOrder);
 
             Bundle.WriteSequencerRegister(ReadWriteCountSequenceRegister, addresses.Length);
             Bundle.WriteSequencerRegister(AddressBitWidthSequenceRegister, (int)addressBitWidth);
@@ -298,8 +298,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// <inheritdoc cref="IDigitalProtocol.WriteRegisters(uint[], long[])"/>
         /// <param name="addresses"/>
         /// <param name="values"/>
-        /// <param name="addressBitWidth">The bit width for each register address.</param>
-        /// <param name="valueBitWidth">The bit width for each register value.</param>
+        /// <param name="addressBitWidth">The number of register address bits sent on the bus. Each address is masked to this bit width.</param>
+        /// <param name="valueBitWidth">The number of register value bits sent on the bus. Each value is masked to this bit width.</param>
         public void WriteRegisters(uint[] addresses, long[] values, uint addressBitWidth, uint valueBitWidth)
         {
             ValidateMultiRegisterAccess(addresses, addressBitWidth, valueBitWidth);
@@ -328,8 +328,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// <inheritdoc cref="IDigitalProtocol.WriteRegisters(uint[], SiteData{long}[])"/>
         /// <param name="addresses"/>
         /// <param name="values"/>
-        /// <param name="addressBitWidth">The bit width for each register address.</param>
-        /// <param name="valueBitWidth">The bit width for each register value.</param>
+        /// <param name="addressBitWidth">The number of register address bits sent on the bus. Each address is masked to this bit width.</param>
+        /// <param name="valueBitWidth">The number of register value bits sent on the bus. Each value is masked to this bit width.</param>
         public void WriteRegisters(uint[] addresses, SiteData<long>[] values, uint addressBitWidth, uint valueBitWidth)
         {
             ValidateMultiRegisterAccess(addresses, addressBitWidth, valueBitWidth);
@@ -402,11 +402,31 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             var allSamples = new List<uint>();
             for (int i = 0; i < addresses.Length; i++)
             {
-                ValidateValue(values[i], valueBitWidth);
-                allSamples.AddRange(LongToU32Samples(addresses[i], addressBitWidth, SampleWidth, BitOrder));
-                allSamples.AddRange(LongToU32Samples(values[i], valueBitWidth, SampleWidth, BitOrder));
+                ValidateValue(values[i]);
+                allSamples.AddRange(LongToU32Samples(MaskAddress(addresses[i], addressBitWidth), addressBitWidth, SampleWidth, BitOrder));
+                allSamples.AddRange(LongToU32Samples(MaskValue(values[i], valueBitWidth), valueBitWidth, SampleWidth, BitOrder));
             }
             return allSamples.ToArray();
+        }
+
+        /// <summary>
+        /// Masks the register address to the address bit width. Any address can be passed, such as the
+        /// datasheet address, and only its lowest <paramref name="addressBitWidth"/> bits are sent on the bus.
+        /// For example, with a 7-bit address width, 0xF4 is sent as 0x74.
+        /// </summary>
+        internal static long MaskAddress(uint address, uint addressBitWidth)
+        {
+            return addressBitWidth >= 32 ? address : address & ((1u << (int)addressBitWidth) - 1);
+        }
+
+        /// <summary>
+        /// Masks the register value to the value bit width, so only its lowest <paramref name="valueBitWidth"/> bits
+        /// are sent on the bus. For example, with an 8-bit value width, 0x1FF is sent as 0xFF.
+        /// The value must not be negative.
+        /// </summary>
+        internal static long MaskValue(long value, uint valueBitWidth)
+        {
+            return valueBitWidth >= 63 ? value : value & ((1L << (int)valueBitWidth) - 1);
         }
 
         internal static uint[] LongToU32Samples(long value, uint valueBitWidth, uint sampleBitWidth, BitOrder bitOrder = BitOrder.MsbFirst)
@@ -498,21 +518,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             }
         }
 
-        internal static void ValidateAddress(uint address, uint addressBitWidth)
+        internal static void ValidateValue(long value)
         {
-            // Addresses are 32 bits wide, so any wider field always fits.
-            if (addressBitWidth < 32 && (address >> (int)addressBitWidth) != 0)
+            if (value < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(address), address, $"The address 0x{address:X} does not fit in {addressBitWidth} bits.");
-            }
-        }
-
-        internal static void ValidateValue(long value, uint valueBitWidth)
-        {
-            // Negative values are rejected unless the field spans all 64 bits.
-            if (valueBitWidth < MaxBitWidth && ((ulong)value >> (int)valueBitWidth) != 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(value), value, $"The value {value} does not fit in {valueBitWidth} bits.");
+                throw new ArgumentOutOfRangeException(nameof(value), value, $"The value {value} must not be negative.");
             }
         }
 
@@ -561,22 +571,16 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             }
         }
 
-        private static void ValidateRegisterAccess(uint address, uint addressBitWidth, uint valueBitWidth)
+        private static void ValidateRegisterAccess(uint addressBitWidth, uint valueBitWidth)
         {
             ValidateBitWidth(addressBitWidth, nameof(addressBitWidth));
             ValidateBitWidth(valueBitWidth, nameof(valueBitWidth));
-            ValidateAddress(address, addressBitWidth);
         }
 
         private static void ValidateMultiRegisterAccess(uint[] addresses, uint addressBitWidth, uint valueBitWidth)
         {
-            ValidateBitWidth(addressBitWidth, nameof(addressBitWidth));
-            ValidateBitWidth(valueBitWidth, nameof(valueBitWidth));
+            ValidateRegisterAccess(addressBitWidth, valueBitWidth);
             ValidateAddresses(addresses);
-            foreach (uint address in addresses)
-            {
-                ValidateAddress(address, addressBitWidth);
-            }
         }
 
         #endregion Validation Helpers
