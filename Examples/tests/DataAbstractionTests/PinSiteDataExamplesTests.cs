@@ -24,9 +24,9 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.DataAbstractionTest
         }
 
         [Fact]
-        public void BuildWithWithArraysAndSetValueWithPerPinData_Succeeds()
+        public void BuildWithArraysAndSetValueWithPerPinData_Succeeds()
         {
-            BuildWithWithArraysAndSetValueWithPerPinData();
+            BuildWithArraysAndSetValueWithPerPinData();
         }
 
         [Fact]
