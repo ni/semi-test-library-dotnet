@@ -13,19 +13,27 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NI.CSharp.Analyzers" Version="1.2.8" />
-    <Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions">
-      <HintPath>..\..\SemiconductorTestLibrary.Abstractions\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
-    </Reference>
-    <Reference Include="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(TestStand64)\API\DotNET\Assemblies\CurrentVersion\NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.dll</HintPath>
-    </Reference>
-    <Reference Include="NationalInstruments.TestStand.SemiconductorModule.SemiconductorModuleInterfaces">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>$(TestStand64)\Bin\NationalInstruments.TestStand.SemiconductorModule.SemiconductorModuleInterfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="StandaloneSemiconductorModuleContext">
-      <HintPath>$(TestStand64)\Components\Modules\NI_SemiconductorModule\StandaloneSemiconductorModuleContext\StandaloneSemiconductorModuleContext.dll</HintPath>
-    </Reference>
+	  <Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions">
+		  <HintPath>..\..\SemiconductorTestLibrary.Abstractions\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
+	  </Reference>
+	  <Reference Include="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI, Version=21.1.0.0, Culture=neutral, PublicKeyToken=060817a57c0f1a42, processorArchitecture=MSIL">
+		  <SpecificVersion>False</SpecificVersion>
+		  <Private>True</Private>
+		  <HintPath Condition="Exists('..\objects\codegen\MSBS.g.pre.targets')">$(TSMCore_DEP_DIR)\targets\win64U\$(PROC)\dotnet-4.6.2\$(BUILD_TYPE)\NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.dll</HintPath>
+		  <HintPath Condition="!Exists('..\objects\codegen\MSBS.g.pre.targets')">$(TestStand64)\API\DotNET\Assemblies\CurrentVersion\NI_SemiconductorModule\NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.dll</HintPath>
+		  <!-- <HintPath Condition="!Exists('..\objects\codegen\MSBS.g.pre.targets')">C:\Users\Administrator\Desktop\TSMCore\prototype\export\26.9.0\26.9.0d32\targets\win64U\allproc\dotnet-4.6.2\release\NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.dll</HintPath> -->
+	  </Reference>
+     <Reference Include="NationalInstruments.TestStand.SemiconductorModule.SemiconductorModuleInterfaces">
+		  <SpecificVersion>False</SpecificVersion>
+		  <Private>True</Private>
+		  <HintPath Condition="!Exists('..\objects\codegen\MSBS.g.pre.targets')">$(TestStand64)\Bin\NationalInstruments.TestStand.SemiconductorModule.SemiconductorModuleInterfaces.dll</HintPath>
+		  <!-- <HintPath Condition="!Exists('..\objects\codegen\MSBS.g.pre.targets')">C:\Users\Administrator\Desktop\TSMCore\prototype\export\26.9.0\26.9.0d32\targets\win64U\allproc\dotnet-4.6.2\release\NationalInstruments.TestStand.SemiconductorModule.SemiconductorModuleInterfaces.dll</HintPath> -->
+	  </Reference>
+	  <Reference Include="StandaloneSemiconductorModuleContext">
+		  <SpecificVersion>False</SpecificVersion>
+		  <Private>True</Private>
+		  <HintPath>$(TestStand64)\Components\Modules\NI_SemiconductorModule\StandaloneSemiconductorModuleContext\StandaloneSemiconductorModuleContext.dll</HintPath>
+		  <!-- <HintPath>C:\Users\Administrator\Desktop\TSMCore\prototype\export\26.9.0\26.9.0d32\targets\win64U\allproc\dotnet-4.6.2\release\StandaloneSemiconductorModuleContext.dll</HintPath> -->
+	  </Reference>
   </ItemGroup>
 </Project>
