@@ -18,14 +18,14 @@ The [Register IO (SPI and I2C) Sequence Example](https://github.com/ni/semi-test
 
 The example implementation has the following layers:
 
-| Layer                       | Type                                              | Responsibility                                                                                                                                                 |
-| --------------------------- | ------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Test steps                  | `TestStep` methods                                | Calls the register access operations and publishes the results. The `CommunicationProtocol` parameter selects SPI or I2C at runtime.                           |
-| Protocol selection          | `SemiconductorModuleContextExtensions.DutControl` | Gets the protocol instance for the selected `CommunicationProtocol`, creates a `DigitalSessionsBundle` for the protocol pins, and binds it to the instance.    |
-| Protocol-agnostic interface | `IDigitalProtocol`                                | Defines the register access operations and the protocol settings.                                                                                              |
-| Core register access logic  | `DigitalProtocol` (abstract base class)           | Converts addresses and values into waveform samples, writes the sequencer registers and source waveform, bursts the pattern, and decodes the capture waveform. |
-| Protocol-specific settings  | `SPI` and `I2C` (singleton classes)               | Defines the default pattern names, waveform names, pins, and bit widths of each protocol.                                                                      |
-| Instrument abstraction      | `DigitalSessionsBundle` STL extension methods     | Programs the NI Digital Pattern instrument.                                                                                                                    |
+| Layer                       | Type                                              | Responsibility                                                                                                                                                                               |
+| --------------------------- | ------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Test steps                  | `TestStep` methods                                | Calls the register access operations and publishes the results. The `CommunicationProtocol` parameter selects SPI or I2C at runtime.                                                         |
+| Protocol selection          | `SemiconductorModuleContextExtensions.DutControl` | Gets the protocol instance for the selected `CommunicationProtocol`, creates a `DigitalSessionsBundle` for the protocol pins, and binds it to the instance.                                  |
+| Protocol-agnostic interface | `IDigitalProtocol`                                | Defines the register access operations and the protocol settings.                                                                                                                            |
+| Core register access logic  | `DigitalProtocol` (abstract base class)           | Masks addresses and values to the bit widths, converts them into waveform samples, writes the sequencer registers and source waveform, bursts the pattern, and decodes the capture waveform. |
+| Protocol-specific settings  | `SPI` and `I2C` (singleton classes)               | Defines the default pattern names, waveform names, pins, and bit widths of each protocol.                                                                                                    |
+| Instrument abstraction      | `DigitalSessionsBundle` STL extension methods     | Programs the NI Digital Pattern instrument.                                                                                                                                                  |
 
 `IDigitalProtocol` defines the following register access operations:
 
@@ -39,6 +39,18 @@ The example implementation has the following layers:
 | `WriteRegisters(uint[] addresses, SiteData<long>[] values)` | Writes register-specific, site-unique values to multiple registers in a single burst. |
 
 The `DigitalProtocol` class also provides overloads of each method that accept `addressBitWidth` and `valueBitWidth` parameters. The parameters override the default bit widths for a single operation.
+
+The register access operations mask each address and each value to write to the address and value bit widths. The bit widths are the defaults of the protocol instance, or the bit widths passed to the `DigitalProtocol` overloads. Only the lowest bits are sent, and any higher bits are ignored. Therefore, you can pass the register address from the datasheet of the DUT, even if the protocol sends fewer address bits. For example:
+
+| Address or Value | Bit Width | Bits Sent             |
+| ---------------- | --------- | --------------------- |
+| Address `0xF4`   | 7         | `1110100` (`0x74`)    |
+| Address `0xF4`   | 6         | `110100` (`0x34`)     |
+| Address `0xF4`   | 8         | `11110100` (`0xF4`)   |
+| Value `0x1FF`    | 8         | `11111111` (`0xFF`)   |
+
+> [!NOTE]
+> The write operations throw an `ArgumentOutOfRangeException` if a value to write is negative. Addresses and values are not otherwise validated against the bit widths.
 
 ### STL Methods
 
@@ -133,7 +145,7 @@ The address bit width is the number of register address bits that the source wav
 - **SPI**: If the DUT combines the read or write bit and the register address in the same command word, the pattern sends the read or write bit. The address bit width is the number of remaining address bits in that command word.
 - **I2C**: The read or write bit is part of the device address byte, which the patterns send. Therefore, the address bit width is the full width of the register address.
 
-When you call the register access methods, pass register addresses that contain only these address bits. Do not include the framing bits, such as the read or write bit, in the address.
+When you call the register access methods, you can pass the full register address from the datasheet of the DUT. The address is masked to the address bit width, so the bits that the patterns send in its place, such as the read or write bit, are ignored. For example, for the BME280 over SPI, with a 7-bit address width, you pass `0xF4`, and `0x74` is sent after the read or write bit.
 
 > [!NOTE]
 > The example I2C patterns expect an ACK after every 8 bits, so use an 8-bit address and an 8-bit value with these patterns.
@@ -142,14 +154,14 @@ When you call the register access methods, pass register addresses that contain 
 
 Each register access operation performs a single pattern burst. For example, the `WriteRegister` method involves the following actions:
 
-1. Converting the address and value into waveform samples, based on the bit widths, sample width, and bit order.
+1. Masking the address and value to the address and value bit widths, and converting them into waveform samples, based on the bit widths, sample width, and bit order.
 2. Writing the transaction count (`reg0`), address bit width (`reg1`), and value bit width (`reg2`) to the sequencer registers.
 3. Writing the samples to the site-unique source waveform. For a broadcast write, every site receives the same samples.
 4. Bursting the write pattern with a 10-second timeout.
 
 The `ReadRegister` method involves the following actions:
 
-1. Converting the address into waveform samples.
+1. Masking the address to the address bit width, and converting it into waveform samples.
 2. Writing the transaction count, address bit width, and value bit width to the sequencer registers.
 3. Writing only the address samples to the source waveform.
 4. Bursting the read pattern with a 10-second timeout.
@@ -189,7 +201,7 @@ Complete the following steps in the `ProcessSetup` sequence of the test program:
 Complete the following steps in the `ProcessCleanup` sequence of the test program:
 
 1. **Clear the bundle reference** of each protocol instance that you used with the `CleanupDigitalProtocol` test step. Without this step, TestStand reports unreleased object references when it shuts down.
-2. **Close the instrument sessions** with the `SetupAndCleanupSteps.CleanupInstrumentation` step.
+2. **Close the instrument sessions** with the `SetupAndCleanupSteps.CleanupInstrumentation` step. Set its `resetDevice` parameter to `True` so that the instruments are reset before the sessions are closed and the NI Digital Pattern instrument stops driving the DUT pins.
 
 ## Example Usage
 
@@ -315,7 +327,7 @@ Review the following items when you adapt the example to your DUT:
 - **Pins**: Update the pin map and the `pinNames` parameter of `ConfigureDigitalProtocol` to match the pins of your DUT.
 - **Patterns**: Update the template patterns for the framing that your DUT requires, such as the I2C device address or the SPI chip select polarity. Keep the sequencer register loop, as well as the source and capture opcodes so that the code modules continue to work.
 - **Levels and timing**: Update the specifications, levels, and time sets to match the voltage levels and clock rate of your DUT.
-- **Bit widths**: Set the address and value bit widths to match the registers of your DUT. The address and value bit widths must be between 1 and 64, and each address and value must fit in its bit width.
+- **Bit widths**: Set the address and value bit widths to match the registers of your DUT. The address and value bit widths must be between 1 and 64. Addresses and values are masked to their bit widths, and negative values to write throw an exception. For SPI, set the address bit width to the number of address bits that your DUT expects after the bits that the patterns drive, such as the read or write bit.
 - **Register addresses and test limits**: Update the register addresses, the values to write, and the expected readback values that the sequence passes to each step. The published data IDs contain the register addresses. Therefore, if you change the register addresses of a multiple-register step, also update the measurement IDs of its test evaluations.
 
 > [!NOTE]
