@@ -1041,7 +1041,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sites = GetActiveSites(sessionsBundle);
 
             CreateDCPowerAdvancedSequencePropertyMappingsCache();
-            var sequence = new PinSiteData<DCPowerSourceSettings[]>(Array.Empty<string>(), Array.Empty<int>(), data: null);
+            var sequence = new PinSiteData<DCPowerSourceSettings[]>();
             void ForceAdvancedSequenceSynchronizedTest() => sessionsBundle.ForceAdvancedSequenceSynchronized(sequence, sequenceLoopCount: 1, sequenceTimeoutInSeconds: 10.0);
 
             var exception = Assert.Throws<NISemiconductorTestException>(ForceAdvancedSequenceSynchronizedTest);
@@ -1103,7 +1103,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sites = GetActiveSites(sessionsBundle);
 
             CreateDCPowerAdvancedSequencePropertyMappingsCache();
-            var sequence = new PinSiteData<DCPowerSourceSettings[]>(Array.Empty<string>(), Array.Empty<int>(), data: null);
+            var sequence = new PinSiteData<DCPowerSourceSettings[]>();
             void ForceAdvancedSequenceSynchronizedAndFetchTest() => sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
                 sequence,
                 sequenceLoopCount: 1,
