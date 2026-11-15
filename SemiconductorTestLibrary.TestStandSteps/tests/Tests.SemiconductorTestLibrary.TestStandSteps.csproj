@@ -63,6 +63,6 @@
     <ProjectReference Include="..\..\TestAssets\Tests.SemiconductorTestLibrary.Utilities\Tests.SemiconductorTestLibrary.Utilities.csproj" />
     <ProjectReference Include="..\source\SemiconductorTestLibrary.TestStandSteps.csproj" />
     <ProjectReference Include="..\..\SemiconductorTestLibrary.Extensions\source\SemiconductorTestLibrary.Extensions.csproj" />
-    <ProjectReference Include="C:\Dotnet_repo\srd-sebu-mixed-signal-apt\SemiconductorTestLibraryDotNET\Scripts\..\..\SemiconductorTestLibraryDotNET\SemiconductorTestLibraryAbstractions\source\SemiconductorTestLibrary.Abstractions.csproj" />
+    <Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions" />
   </ItemGroup>
 </Project>

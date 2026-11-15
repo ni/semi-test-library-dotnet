@@ -32,6 +32,6 @@
       <HintPath>$(TestStand64)\Components\Modules\NI_SemiconductorModule\StandaloneSemiconductorModuleContext\StandaloneSemiconductorModuleContext.dll</HintPath>
       <!-- <HintPath>C:\Users\Administrator\Desktop\TSMCore\prototype\export\26.9.0\26.9.0d32\targets\win64U\allproc\dotnet-4.6.2\release\StandaloneSemiconductorModuleContext.dll</HintPath> -->
     </Reference>
-    <ProjectReference Include="C:\Dotnet_repo\srd-sebu-mixed-signal-apt\SemiconductorTestLibraryDotNET\Scripts\..\..\SemiconductorTestLibraryDotNET\SemiconductorTestLibraryAbstractions\source\SemiconductorTestLibrary.Abstractions.csproj" />
+    <Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions" />
   </ItemGroup>
 </Project>

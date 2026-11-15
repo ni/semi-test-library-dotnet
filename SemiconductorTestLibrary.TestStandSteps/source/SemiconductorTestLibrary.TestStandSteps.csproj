@@ -67,6 +67,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ResourceStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <ProjectReference Include="C:\Dotnet_repo\srd-sebu-mixed-signal-apt\SemiconductorTestLibraryDotNET\Scripts\..\..\SemiconductorTestLibraryDotNET\SemiconductorTestLibraryAbstractions\source\SemiconductorTestLibrary.Abstractions.csproj" />
+    <Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions" />
   </ItemGroup>
 </Project>
