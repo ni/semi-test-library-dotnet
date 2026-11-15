@@ -433,3 +433,7 @@ FodyWeavers.xsd
 
 # Docfx
 */_site
+/SemiconductorTestLibrary.Extensions/source/net8.0
+/SemiconductorTestLibrary.Extensions/source/net8.0-windows
+/SemiconductorTestLibrary.TestStandSteps/source/net8.0
+/SemiconductorTestLibrary.TestStandSteps/source/net8.0-windows
