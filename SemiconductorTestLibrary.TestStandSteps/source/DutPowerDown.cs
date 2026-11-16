@@ -89,7 +89,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.TestStandSteps
             var containsPinMappedToPowerSupply = dcPower.ContainsPinMappedToPowerSupplyInstrument(forceLowestCurrentLimit, out var dcPowerSourceSettings);
             if (forceLowestCurrentLimit)
             {
-                var originalCurrentLimit = dcPower.GetCurrentLimits();
+                var originalCurrentLimit = dcPower.GetCurrentLimit();
                 if (containsPinMappedToPowerSupply)
                 {
                     dcPower.ForceVoltage(dcPowerSourceSettings);

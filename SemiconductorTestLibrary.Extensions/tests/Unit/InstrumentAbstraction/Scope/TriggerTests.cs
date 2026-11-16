@@ -171,7 +171,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void SessionsBundle_ConfigureTriggerDigitalWithNegativeHoldOff_ThrowsException()
         {
             var sessionsBundle = GetSessionsBundle(_SCP_5186_Pin);
-            var settings = new DigitalTriggerSettings { HoldOff = PrecisionTimeSpan.FromSeconds(-1.0) };
+            var settings = new DigitalTriggerSettings("PXITrig0", holdOff: PrecisionTimeSpan.FromSeconds(-1.0));
 
             void ConfigureAndCommit()
             {
@@ -187,11 +187,10 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
         public void SessionsBundle_ConfigureTriggerDigitalWithSlope_ValuesApplied()
         {
             var sessionsBundle = GetSessionsBundle("SCP_5172_Pin_1");
-            var settings = new DigitalTriggerSettings
-            {
-                TriggerSlope = ScopeTriggerSlope.Negative,
-                HoldOff = PrecisionTimeSpan.FromSeconds(1e-6)
-            };
+            var settings = new DigitalTriggerSettings(
+                                "PXITrig0",
+                                triggerSlope: ScopeTriggerSlope.Negative,
+                                holdOff: PrecisionTimeSpan.FromSeconds(1e-6));
 
             sessionsBundle.ConfigureTriggerDigital(settings);
 
@@ -199,7 +198,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             {
                 var trigger = sessionInfo.Session.Trigger;
                 Assert.Equal(ScopeTriggerType.DigitalEdge, trigger.Type);
-                Assert.Equal(sessionInfo.AssociatedSitePinList[0].IndividualChannelString, trigger.Source);
+                Assert.Equal("PXITrig0", trigger.Source);
                 Assert.Equal(settings.TriggerSlope, trigger.EdgeTrigger.Slope);
                 Assert.Equal(settings.HoldOff.TotalSeconds, trigger.Holdoff.TotalSeconds, 9);
             });

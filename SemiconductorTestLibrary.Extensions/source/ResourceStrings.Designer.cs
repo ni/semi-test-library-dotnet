@@ -160,6 +160,33 @@ namespace NationalInstruments.SemiconductorTestLibrary {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The {0} parameter cannot be null or empty, and cannot contain null or empty pin names..
+        /// </summary>
+        internal static string DCPower_PinNamesNullOrEmpty {
+            get {
+                return ResourceManager.GetString("DCPower_PinNamesNullOrEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The pins or pin groups {0} are not part of the sessions bundle..
+        /// </summary>
+        internal static string DCPower_PinsNotInSessionsBundle {
+            get {
+                return ResourceManager.GetString("DCPower_PinsNotInSessionsBundle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The pins {0} are secondary pins of a merged pin group whose primary pin is not specified. Specify the merged pin group or its primary pin to reset a merged pin group..
+        /// </summary>
+        internal static string DCPower_ResetSecondaryPinsOfMergedPinGroup {
+            get {
+                return ResourceManager.GetString("DCPower_ResetSecondaryPinsOfMergedPinGroup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Inconsistent advanced sequence properties. The following properties must be specified or omitted for all steps in the sequence: {0}.
         /// </summary>
         internal static string DCPower_InconsistentAdvancedSequenceProperties {

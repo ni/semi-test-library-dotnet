@@ -1041,7 +1041,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sites = GetActiveSites(sessionsBundle);
 
             CreateDCPowerAdvancedSequencePropertyMappingsCache();
-            var sequence = new PinSiteData<DCPowerSourceSettings[]>(Array.Empty<string>(), Array.Empty<int>(), data: null);
+            var sequence = new PinSiteData<DCPowerSourceSettings[]>();
             void ForceAdvancedSequenceSynchronizedTest() => sessionsBundle.ForceAdvancedSequenceSynchronized(sequence, sequenceLoopCount: 1, sequenceTimeoutInSeconds: 10.0);
 
             var exception = Assert.Throws<NISemiconductorTestException>(ForceAdvancedSequenceSynchronizedTest);
@@ -1103,7 +1103,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sites = GetActiveSites(sessionsBundle);
 
             CreateDCPowerAdvancedSequencePropertyMappingsCache();
-            var sequence = new PinSiteData<DCPowerSourceSettings[]>(Array.Empty<string>(), Array.Empty<int>(), data: null);
+            var sequence = new PinSiteData<DCPowerSourceSettings[]>();
             void ForceAdvancedSequenceSynchronizedAndFetchTest() => sessionsBundle.ForceAdvancedSequenceSynchronizedAndFetch(
                 sequence,
                 sequenceLoopCount: 1,
@@ -4402,7 +4402,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin");
             sessionsBundle.MergePinGroup("AllPinsMergedGroupWithVCCPrimaryAsPrimaryPin");
 
-            var currentLimits = sessionsBundle.GetCurrentLimits();
+            var currentLimits = sessionsBundle.GetCurrentLimit();
 
             Assert.Single(currentLimits.PinNames);
             Assert.Equal("VCCPrimary", currentLimits.PinNames[0]);
@@ -4416,7 +4416,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower("AllPinsGangedGroup");
             sessionsBundle.GangPinGroup("AllPinsGangedGroup");
 
-            var currentLimits = sessionsBundle.GetCurrentLimits();
+            var currentLimits = sessionsBundle.GetCurrentLimit();
 
             Assert.Equal(5, currentLimits.PinNames.Length);
             Assert.DoesNotContain("AllPinsGangedGroup", currentLimits.PinNames);
@@ -4431,7 +4431,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var sessionsBundle = sessionManager.DCPower("VCC");
             sessionsBundle.ConfigureCurrentLimit(0.1);
 
-            var values = sessionsBundle.GetCurrentLimits();
+            var values = sessionsBundle.GetCurrentLimit();
 
             Assert.Equal(0.1, values.ExtractSite(0)["VCC"]);
             Assert.Equal(0.1, values.ExtractSite(1)["VCC"]);
@@ -4453,7 +4453,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
                 ["VCC"] = 1
             });
 
-            var values = sessionsBundle.GetCurrentLimits();
+            var values = sessionsBundle.GetCurrentLimit();
 
             Assert.Equal(1, values.ExtractSite(0)["VCC"]);
             Assert.Equal(0.1, values.ExtractSite(1)["VDD"]);
