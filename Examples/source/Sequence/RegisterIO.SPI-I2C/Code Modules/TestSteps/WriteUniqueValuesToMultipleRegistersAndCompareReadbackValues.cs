@@ -25,7 +25,7 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// <param name="tsmContext">The <see cref="ISemiconductorModuleContext"/> object.</param>
         /// <param name="protocol">The digital communication protocol to use.</param>
         /// <param name="registerAddresses">The addresses of the registers to write and read back.</param>
-        /// <param name="valuesToWrite">The values to write, one per register in <paramref name="registerAddresses"/> order.</param>
+        /// <param name="valuesToWrite">The values to write, one per register in <paramref name="registerAddresses"/> order. The values must not be negative, and they are masked to the value bit width before they are written, so they must fit in the value bit width for the comparison to pass.</param>
         public static void WriteUniqueValuesToMultipleRegistersAndCompareReadbackValues(
             ISemiconductorModuleContext tsmContext,
             CommunicationProtocol protocol,

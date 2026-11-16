@@ -196,34 +196,63 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             DigitalProtocol.ValidateBitWidth(bitWidth, "bitWidth");
         }
 
-        [Fact]
-        public void ValidateAddress_ExceedsBitWidth_ThrowsArgumentOutOfRangeException()
+        [Theory]
+        [InlineData(0xF4u, 7u, 0x74L)]
+        [InlineData(0xF5u, 7u, 0x75L)]
+        [InlineData(0xF4u, 6u, 0x34L)]
+        [InlineData(0xF4u, 8u, 0xF4L)]
+        [InlineData(0x1F4u, 7u, 0x74L)]
+        [InlineData(0x1F4u, 8u, 0xF4L)]
+        [InlineData(0xFFFFu, 15u, 0x7FFFL)]
+        [InlineData(uint.MaxValue, 32u, 0xFFFFFFFFL)]
+        [InlineData(uint.MaxValue, 64u, 0xFFFFFFFFL)]
+        public void MaskAddress_ReturnsLowestAddressBitWidthBits(uint address, uint addressBitWidth, long expected)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => DigitalProtocol.ValidateAddress(0x100, addressBitWidth: 8));
-        }
-
-        [Fact]
-        public void ValidateAddress_FitsBitWidth_DoesNotThrow()
-        {
-            DigitalProtocol.ValidateAddress(0xFF, addressBitWidth: 8);
-            DigitalProtocol.ValidateAddress(uint.MaxValue, addressBitWidth: 32);
-            DigitalProtocol.ValidateAddress(uint.MaxValue, addressBitWidth: 64);
+            Assert.Equal(expected, DigitalProtocol.MaskAddress(address, addressBitWidth));
         }
 
         [Theory]
-        [InlineData(0x100L)]
-        [InlineData(-1L)]
-        public void ValidateValue_ExceedsBitWidth_ThrowsArgumentOutOfRangeException(long value)
+        [InlineData(0xF4u, 7u)]
+        [InlineData(0xF4u, 6u)]
+        [InlineData(0xF4u, 8u)]
+        public void MaskAddressThenLongToU32Samples_1BitSamples_SendsOnlyAddressBitWidthBits(uint address, uint addressBitWidth)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => DigitalProtocol.ValidateValue(value, valueBitWidth: 8));
+            uint[] samples = DigitalProtocol.LongToU32Samples(DigitalProtocol.MaskAddress(address, addressBitWidth), addressBitWidth, sampleBitWidth: 1);
+
+            Assert.Equal((int)addressBitWidth, samples.Length);
+            Assert.Equal(DigitalProtocol.MaskAddress(address, addressBitWidth), DigitalProtocol.U32SamplesToLong(samples, sampleBitWidth: 1));
         }
 
-        [Fact]
-        public void ValidateValue_FitsBitWidth_DoesNotThrow()
+        [Theory]
+        [InlineData(0xFFL, 8u, 0xFFL)]
+        [InlineData(0x1FFL, 8u, 0xFFL)]
+        [InlineData(0x1234L, 8u, 0x34L)]
+        [InlineData(0x1234L, 16u, 0x1234L)]
+        [InlineData(0x0L, 1u, 0x0L)]
+        [InlineData(0x3L, 1u, 0x1L)]
+        [InlineData(long.MaxValue, 62u, 0x3FFFFFFFFFFFFFFFL)]
+        [InlineData(long.MaxValue, 63u, long.MaxValue)]
+        [InlineData(long.MaxValue, 64u, long.MaxValue)]
+        public void MaskValue_ReturnsLowestValueBitWidthBits(long value, uint valueBitWidth, long expected)
         {
-            DigitalProtocol.ValidateValue(0xFF, valueBitWidth: 8);
-            DigitalProtocol.ValidateValue(long.MaxValue, valueBitWidth: 63);
-            DigitalProtocol.ValidateValue(-1L, valueBitWidth: 64);
+            Assert.Equal(expected, DigitalProtocol.MaskValue(value, valueBitWidth));
+        }
+
+        [Theory]
+        [InlineData(-1L)]
+        [InlineData(long.MinValue)]
+        public void ValidateValue_Negative_ThrowsArgumentOutOfRangeException(long value)
+        {
+            Assert.Throws<ArgumentOutOfRangeException>(() => DigitalProtocol.ValidateValue(value));
+        }
+
+        [Theory]
+        [InlineData(0L)]
+        [InlineData(0x1FFL)]
+        [InlineData(long.MaxValue)]
+        public void ValidateValue_NotNegative_DoesNotThrow(long value)
+        {
+            DigitalProtocol.ValidateValue(value);
         }
 
         [Fact]
@@ -251,14 +280,31 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         }
 
         [Fact]
-        public void MultiRegisterOperations_AddressExceedsBitWidth_ThrowArgumentOutOfRangeExceptionBeforeAccessingBundle()
+        public void WriteOperations_NegativeValue_ThrowArgumentOutOfRangeExceptionBeforeAccessingBundle()
         {
-            uint[] addresses = { 0x10, 0x100 };
+            uint[] addresses = { 0x10, 0x11 };
+            var negativeSiteValue = new SiteData<long>(new[] { 0 }, new[] { -1L });
             var siteValue = new SiteData<long>(new[] { 0 }, new[] { 1L });
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => _spi.ReadRegisters(addresses, addressBitWidth: 8, valueBitWidth: 8));
-            Assert.Throws<ArgumentOutOfRangeException>(() => _spi.WriteRegisters(addresses, new[] { 1L, 2L }, addressBitWidth: 8, valueBitWidth: 8));
-            Assert.Throws<ArgumentOutOfRangeException>(() => _spi.WriteRegisters(addresses, new[] { siteValue, siteValue }, addressBitWidth: 8, valueBitWidth: 8));
+            Assert.Throws<ArgumentOutOfRangeException>(() => _spi.WriteRegister(0x10, -1L, addressBitWidth: 8, valueBitWidth: 8));
+            Assert.Throws<ArgumentOutOfRangeException>(() => _spi.WriteRegister(0x10, negativeSiteValue, addressBitWidth: 8, valueBitWidth: 8));
+            Assert.Throws<ArgumentOutOfRangeException>(() => _spi.WriteRegisters(addresses, new[] { 1L, -1L }, addressBitWidth: 8, valueBitWidth: 8));
+            Assert.Throws<ArgumentOutOfRangeException>(() => _spi.WriteRegisters(addresses, new[] { siteValue, negativeSiteValue }, addressBitWidth: 8, valueBitWidth: 8));
+        }
+
+        [Fact]
+        public void RegisterOperations_AddressAndValueWiderThanBitWidth_DoNotThrowArgumentOutOfRangeException()
+        {
+            uint[] addresses = { 0x10, 0x1F4 };
+            var siteValue = new SiteData<long>(new[] { 0 }, new[] { 0x1FFL });
+
+            // The address and value are masked instead of validated, so the operations only fail because no bundle is set.
+            Assert.Throws<InvalidOperationException>(() => _spi.ReadRegister(0x1F4, addressBitWidth: 7, valueBitWidth: 8));
+            Assert.Throws<InvalidOperationException>(() => _spi.WriteRegister(0x1F4, 0x1FFL, addressBitWidth: 7, valueBitWidth: 8));
+            Assert.Throws<InvalidOperationException>(() => _spi.WriteRegister(0x1F4, siteValue, addressBitWidth: 7, valueBitWidth: 8));
+            Assert.Throws<InvalidOperationException>(() => _spi.ReadRegisters(addresses, addressBitWidth: 7, valueBitWidth: 8));
+            Assert.Throws<InvalidOperationException>(() => _spi.WriteRegisters(addresses, new[] { 0x1FFL, 0x100L }, addressBitWidth: 7, valueBitWidth: 8));
+            Assert.Throws<InvalidOperationException>(() => _spi.WriteRegisters(addresses, new[] { siteValue, siteValue }, addressBitWidth: 7, valueBitWidth: 8));
         }
 
         [Theory]
