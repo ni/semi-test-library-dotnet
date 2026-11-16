@@ -1,17 +1,30 @@
 # Time Measurement Unit (TMU)
 
-The Digital Instrument Abstraction allows you to use the Time Measurement Unit (TMU) of an NI Digital Pattern Instrument to make timing measurements on digital pins, such as period, pulse width, duty cycle, rise time, fall time, and skew.
+Digital Instrument Abstraction allows you to use the Time Measurement Unit (TMU) of an NI Digital Pattern Instrument to make timing measurements on digital pins, such as:
+
+- Period measurements
+- Pulse width measurements
+- Duty cycle measurements
+- Rise time measurements
+- Fall time measurements
+- Skew measurements
 
 The TMU measures the time between digital events. These events can occur on the same pin or on different pins. The Semiconductor Test Library handles the pin and site awareness for TMU operations. It assigns the limited TMU resources of each instrument to the target pins and sites. It returns the measurement results as `PinSiteData`.
 
 > [!NOTE]
-> Supported in Semiconductor Test Library 26.5 NuGet package or later.
+> Supported in the Semiconductor Test Library 26.5 NuGet package or later.
 >
 > TMU measurements require STS Software 26.5.0 or later. The Semiconductor Test Library remains compatible with earlier versions of STS Software, but TMU measurements are not available with them.
 
 ## TMU Overview
 
-Each TMU has three primary inputs: arm, start, and stop. After the arm condition is satisfied, the TMU records the time of the digital transitions at the start and stop inputs. It uses these times to produce a single sample, which is the time difference between the stop event and the start event.
+Each TMU has three primary inputs:
+
+- Arm
+- Start
+- Stop
+
+After the arm condition is satisfied, the TMU records the time of the digital transitions at the start and stop inputs. It uses these times to produce a single sample, which is the time difference between the stop event and the start event.
 
 ```mermaid
 flowchart LR
@@ -21,42 +34,42 @@ flowchart LR
     tmu --> sample["Sample = t(stop) - t(start)"]
 ```
 
-The following terms are used throughout this document:
+This document uses the following terms:
 
 - **Timestamp**: The recorded time value of a detected digital event, such as a transition on a pin.
 - **Sample**: A single data point that represents the time difference between two events. A sample is calculated from a pair of timestamps (start and stop).
 - **Measurement**: A collection of one or more samples acquired during a TMU measurement.
 
-Each start and stop input is defined by the following settings:
+The following settings define each start and stop input:
 
 - **Source**: The pin that the event is detected on.
 - **Source event**: The comparator threshold used to detect the event, either `Voh` or `Vol`.
 - **Source event polarity**: The edge used to detect the event, either rising or falling.
 
-Because the TMU detects edges using the `Voh` and `Vol` comparator thresholds, the pin levels must be configured to match the amplitude of the signal being measured.
+Because the TMU detects edges using the `Voh` and `Vol` comparator thresholds, you must configure the pin levels to match the amplitude of the signal being measured.
 
 For more details about TMU hardware concepts, refer to the NI-Digital Pattern Driver documentation.
 <!-- TODO: Add the link to the NI-Digital Pattern Driver TMU documentation. -->
 
 ## TMU Resources
 
-TMU resources are limited per instrument module. Each 32-channel PXIe-657x Digital Pattern Instrument has **2 TMUs**, which are shared by all channels of that module.
+TMU resources are limited per instrument module. Each 32-channel PXIe-657x Digital Pattern Instrument has **two TMUs**. All channels of that module share the two TMUs.
 
-You need one TMU for each pin, on each site, that you want to measure at the same time. A TMU can only measure pins on the module that contains the TMU. The number of measurements that can run at the same time on a given module is limited by the number of TMUs on that module, not by the number of channels.
+You need one TMU for each pin on each site that you want to measure at the same time. A TMU can only measure pins on the module that contains the TMU. The number of measurements that can run at the same time on a given module is limited by the number of TMUs on that module, not by the number of channels.
 
 > [!NOTE]
-> Not all digital pattern instruments support the TMU. Refer to the NI Digital Pattern Instruments (PXIe-657x) documentation for details.
+> Not all Digital Pattern Instruments support the TMU. Refer to the documentation of the NI Digital Pattern Instruments (PXIe-657x) for more details.
 
 You can use the `GetTMUCount` method to query the total number of TMU resources available. The method returns one value for each instrument session in the `DigitalSessionsBundle` object. Each value is the total across all modules in that session.
 
 ### Assigning, Reserving, and Releasing TMU Resources
 
-The library manages TMU resources in two stages: assignment and reservation.
+The library manages TMU resources in the following stages:
 
 - **Assignment**: The `AssignTMUResources` method assigns an available TMU on the associated module to each target pin and site in the bundle. Assignment happens only in software. It does not reserve the TMU in hardware. The library records each assignment in two places:
   - The bundle object records which TMU is assigned to each of its pins and sites. All other TMU methods use this record to find the TMU to operate on.
-  - A list shared by the whole process records which TMUs are in use. It does not record which bundle object, pin, or site a TMU is assigned to. `AssignTMUResources` uses this list so that a TMU in use cannot be assigned to another bundle object until it is released.
-- **Reservation**: The assigned TMU is reserved in hardware when it is enabled. All the measurement configuration methods, such as `ConfigurePeriodMeasurement`, enable the assigned TMU, so you don't need to call `EnableTMU` separately. The `DisableTMU` method disables the assigned TMU and unreserves it in hardware. The TMU configuration remains unchanged.
+  - A list shared by the whole process records which TMUs are in use. It does not record which bundle object, pin, or site a TMU is assigned to. `AssignTMUResources` uses this list so that a TMU in use   cannot be assigned to another bundle object until the TMU is released.
+  - **Reservation**: The assigned TMU is reserved in hardware when the TMU is enabled. All the measurement configuration methods, such as `ConfigurePeriodMeasurement`, enable the assigned TMU, so you don't need to call `EnableTMU` separately. The `DisableTMU` method disables the assigned TMU and unreserves it in hardware. The TMU configuration remains unchanged.
 - **Release**: The `ClearTMUAssignment` method clears the assignment and returns the TMU to the resource pool. You must disable the TMU before you clear the assignment. If any assigned TMU is still enabled, this method throws an exception.
 
 The following list shows the lifecycle of a TMU resource:
@@ -69,21 +82,21 @@ The following list shows the lifecycle of a TMU resource:
 
 Keep the following caveats in mind when working with TMU resources:
 
-- **Always release the resources.** Call `DisableTMU` and then `ClearTMUAssignment` at the end of every code module that assigns TMU resources. Only `ClearTMUAssignment`, or the automatic cleanup after a failure, returns a TMU to the resource pool. Closing the instrument sessions does not release TMU assignments.
-  - If you skip `DisableTMU`, the TMU remains enabled and reserved in hardware. `ClearTMUAssignment` throws an exception for an enabled TMU, so the assignment cannot be cleared.
-  - If you skip `ClearTMUAssignment`, the TMU remains assigned for the lifetime of the process, even though it is disabled.
+- **Always release the resources.** Call `DisableTMU` and then `ClearTMUAssignment` at the end of every code module that assigns TMU resources. Only `ClearTMUAssignment` or the automatic cleanup after a failure returns a TMU to the resource pool. Closing the instrument sessions does not release TMU assignments.
+  - If you skip `DisableTMU`, the TMU remains enabled and reserved in hardware. `ClearTMUAssignment` throws an exception for an enabled TMU, so you cannot clear the assignment.
+  - If you skip `ClearTMUAssignment`, the TMU remains assigned for the lifecycle of the process, even though it is disabled.
 
   In either case, that TMU cannot be assigned to any other bundle object, for any pin or site. Later calls to `AssignTMUResources` on a new bundle object throw an exception when the module has no other free TMUs. Calling `AssignTMUResources` again on the same bundle object does not fail, because it reuses the TMUs already assigned to that bundle object.
-- **Use the same bundle object.** The record of which TMU is assigned to each pin and site is stored in the `DigitalSessionsBundle` object that `AssignTMUResources` was called on, not in the pin or the instrument session. Use that same bundle object for all subsequent TMU operations. A new bundle object queried from `TSMSessionManager` has no assigned TMUs, even for the same pin and site. Calling `AssignTMUResources` on it assigns a different, additional TMU from the same module. If no other TMU is free on that module, the method throws an exception. Methods that operate on the assigned TMU, such as the configure, enable, initiate, fetch, and `GetTMU...` setting query methods (but not `GetTMUCount`), throw an exception when called on a bundle object that has no assigned TMUs.
-- **Filtered bundles copy the current assignment.** `FilterBySite` and `FilterByPin` copy the bundle object's record of assigned TMUs at the time the filter is applied. If you filter a bundle object after assigning TMU resources, both bundle objects refer to the same TMUs. Clearing the assignment on one of them returns the TMUs to the pool, but the other bundle object still refers to them and can operate on them after they are assigned elsewhere. Filter the bundle object first, and then assign, use, and release the TMU resources on the filtered bundle object.
+- **Use the same bundle object.** The record of which TMU is assigned to each pin and site is stored in the `DigitalSessionsBundle` object that `AssignTMUResources` was called on, not in the pin or the instrument session. Use that same bundle object for all subsequent TMU operations. A new bundle object queried from `TSMSessionManager` has no assigned TMUs, even for the same pin and site. Calling `AssignTMUResources` on the new bundle object assigns a different, additional TMU from the same module. If no other TMU is free on that module, the method throws an exception. Methods that operate on the assigned TMU throw an exception when called on a bundle object that has no assigned TMUs. This includes the configure, enable, initiate, fetch, and `GetTMU...` setting query methods, but not `GetTMUCount`.
+- **Filtered bundles.** `FilterBySite` and `FilterByPin` copy the bundle object's record of assigned TMUs at the time the filter is applied. If you filter a bundle object after assigning TMU resources, both bundle objects refer to the same TMUs. Clearing the assignment on one of them returns the TMUs to the pool, but the other bundle object still refers to them and can operate on them after they are assigned elsewhere. Filter the bundle object first. Then assign, use, and release the TMU resources on the filtered bundle object.
 - **Failure cleanup.** If any TMU extension method throws an exception, the library aborts, disables, and releases the TMUs assigned to every pin in the bundle, not only the targeted pins. This prevents TMU resources from being stranded. If you want to retry, you must call `AssignTMUResources` again.
 - **Insufficient resources.** If there are not enough TMUs available on a module for all the targeted pins and sites, `AssignTMUResources` throws an exception and rolls back any partial assignment.
 
 ### Scaling with Sites
 
-Each site-pin pair needs its own TMU. As a result, the number of sites you can measure at the same time is limited by the number of TMUs on the module that the pins are mapped to.
+Each site-pin pair needs its own TMU. As a result, the number of TMUs on the module that the pins are mapped to limits the number of sites you can measure at the same time.
 
-For example, assume a pin is mapped to the same 32-channel PXIe-657x module across 4 sites. The module has only 2 TMUs, so only 2 of the 4 sites can be measured at the same time. If you call `AssignTMUResources` for all 4 sites at once, the method throws an exception.
+For example, assume a pin is mapped to the same 32-channel PXIe-657x module across four sites. The module has only two TMUs, so only two of the four sites can be measured at the same time. If you call `AssignTMUResources` for all four sites at once, the method throws an exception.
 
 Use one or more of the following approaches to work within this limit:
 
@@ -96,7 +109,7 @@ Use one or more of the following approaches to work within this limit:
 
 ## Arming
 
-The arm input of the TMU frames, or selects, the start and stop events of interest for each sample. The measurement configuration methods expose this through the `armSetting` parameter, which accepts a `TmuArmSetting` value:
+The arm input of the TMU selects the start and stop events of interest for each sample. The measurement configuration methods expose this through the `armSetting` parameter, which accepts a `TmuArmSetting` value:
 
 - `TmuArmSetting.Immediate` (default): Arms each sample immediately. The TMU begins looking for start and stop events as soon as the measurement is initiated.
 - `TmuArmSetting.StartEdge`: Arms each sample on an edge that has the same source, event, and polarity as the start source.
@@ -109,17 +122,17 @@ TMU samples are signed time intervals, so the measurement result can be negative
 
 ## Taking a TMU Measurement
 
-The following steps show how to take a TMU measurement:
+To take a TMU measurement, perform the following steps:
 
 1. Query the `DigitalSessionsBundle` object for the target pins.
 2. Assign TMU resources using the `AssignTMUResources` method.
 3. Configure the measurement using one of the measurement configuration methods. This also enables and reserves the assigned TMU.
 4. Initiate the measurement using the `TMUInitiate` method. This method returns immediately. It doesn't wait for the measurement to complete.
-5. Fetch the averaged result using the `FetchAveragedTMUMeasurement` method. This method waits for the measurement to complete, up to the specified timeout, and returns a `PinSiteData<double>` that contains the averaged time, in seconds, for each pin and site.
+5. Fetch the averaged result using the `FetchAveragedTMUMeasurement` method. This method waits up to the specified timeout for the measurement to complete. The method returns a `PinSiteData<double>` that contains the averaged time expressed in seconds for each pin and site.
 6. Disable the TMU using the `DisableTMU` method, and release the assignment using the `ClearTMUAssignment` method.
 
 > [!NOTE]
-> Before initiating, `TMUInitiate` sets the selected function of the target pins to `Digital` and the termination mode to `HighZ`. The driver validates and commits the TMU configuration when `TMUInitiate` is called. Once a measurement is initiated, the TMU configuration cannot be modified until the measurement completes or is aborted using the `TMUAbort` method.
+> Before initiating, `TMUInitiate` sets the selected function of the target pins to `Digital` and the termination mode to `HighZ`. The driver validates and commits the TMU configuration when `TMUInitiate` is called. Once you initiate a measurement, you cannot modify the TMU configuration until the measurement completes or is aborted using the `TMUAbort` method.
 
 ### Example Usage
 
@@ -175,19 +188,19 @@ digitalPins.ClearTMUAssignment(pinNames: referencePins);
 
 Code snippets for each measurement type are available in the [CodeSnippets/InstrumentAbstraction](https://github.com/ni/semi-test-library-dotnet/tree/main/Examples/source/CodeSnippets/InstrumentAbstraction) directory of the repository.
 
-There is also a sequence style example available that showcases a complete working example of each TMU measurement type.
+A sequence style example is also available that showcases a complete working example of each TMU measurement type.
 Refer to the [TMU Example README](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/TMU/README.md) for more details.
 
 ## API Overview
 
-The TMU methods are extension methods of the `DigitalSessionsBundle` class. Most methods accept an optional `pinNames` parameter, or have an overload that accepts a single `pinName`, so that you can target a subset of the pins in the bundle. If you don't specify any pins, all pins in the bundle are targeted.
+The TMU methods are extension methods of the `DigitalSessionsBundle` class. Most methods accept an optional `pinNames` parameter, or have an overload that accepts a single `pinName`. This allows you to target a subset of the pins in the bundle. If you don't specify any pins, all pins in the bundle are targeted.
 
 > [!NOTE]
 > Class: `TmuExtensions` \
 > Namespace: `NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital` \
 > Assembly: `NationalInstruments.SemiconductorTestLibrary.Extensions.dll`
 >
-> The TMU enumeration types, such as `TmuPolarity` and `TmuArmSetting`, are defined in the `NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU` namespace.
+> The `NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU` namespace defines the TMU enumeration types, such as `TmuPolarity` and `TmuArmSetting`.
 >
 > Refer to the API Reference for more details regarding the `TmuExtensions` class.
 
@@ -218,7 +231,7 @@ These methods configure the start and stop sources, the number of samples, and t
 | `ConfigureTMUSkewMeasurement` | Selected edge on the reference pin (rising edge at `Voh` or falling edge at `Vol`) | Same edge on the target pin |
 
 > [!NOTE]
-> The duty cycle measurement returns the time, in seconds, that the signal spends in the high or low state, not a percentage. To express the result as a ratio, divide it by the period of the signal.
+> The duty cycle measurement returns the time that the signal spends in the high or low state expressed in seconds. The measurement does not return a percentage. To express the result as a ratio, divide it by the period of the signal.
 
 For skew measurements, a positive result means the target edge occurs after the reference edge, and a negative result means it occurs before.
 
@@ -227,12 +240,25 @@ For skew measurements, a positive result means the target edge occurs after the 
 | Method | Description |
 | --- | --- |
 | `TMUInitiate` | Validates the configuration and starts the measurement. Returns immediately. |
-| `FetchAveragedTMUMeasurement` | Waits for the measurement to complete and returns the averaged result, in seconds, as `PinSiteData<double>`. |
+| `FetchAveragedTMUMeasurement` | Waits for the measurement to complete and returns the averaged result expressed in seconds as `PinSiteData<double>`. |
 | `TMUAbort` | Aborts any in-progress measurement. Does not affect the configuration or reservation state. |
 
 ### Individual Setting Configuration and Queries
 
-For use cases that the measurement configuration methods don't cover, you can configure each TMU setting individually, and then enable the TMU using `EnableTMU`. These methods include `ConfigureTMUStartSource`, `ConfigureTMUStopSource`, `ConfigureTMUStartSourceEvent`, `ConfigureTMUStopSourceEvent`, `ConfigureTMUStartSourceEventPolarity`, `ConfigureTMUStopSourceEventPolarity`, `ConfigureTMUArmType`, `ConfigureTMUEdgeArmSource`, `ConfigureTMUEdgeArmSourceEvent`, `ConfigureTMUEdgeArmPolarity`, `ConfigureTMUSamplesToAcquire`, and `ConfigureTMUSampleTimeout`.
+For use cases that the measurement configuration methods don't cover, you can configure each TMU setting individually, and then enable the TMU using `EnableTMU`. These methods include:
+
+- `ConfigureTMUStartSource`
+- `ConfigureTMUStopSource`
+- `ConfigureTMUStartSourceEvent`
+- `ConfigureTMUStopSourceEvent`
+- `ConfigureTMUStartSourceEventPolarity`
+- `ConfigureTMUStopSourceEventPolarity`
+- `ConfigureTMUArmType`
+- `ConfigureTMUEdgeArmSource`
+- `ConfigureTMUEdgeArmSourceEvent`
+- `ConfigureTMUEdgeArmPolarity`
+- `ConfigureTMUSamplesToAcquire`
+- `ConfigureTMUSampleTimeout`
 
 Each setting has a corresponding `GetTMU...` method that returns the current value of the setting for each pin and site as `PinSiteData`. For example, `GetTMUStartSource`, `GetTMUEnabled`, and `GetTMUSampleTimeout`.
 
@@ -252,7 +278,7 @@ The NI-Digital Pattern Driver provides the following TMU classes:
 | Class | Description |
 | --- | --- |
 | `DigitalTmuCollection` | Provides access to the TMUs of an NI-Digital session through the `NIDigital.Tmu` property. Use the `GetTmu` method to get the `DigitalTmu` object for a TMU context, such as `"PXI1Slot2/tmu0"`. |
-| `DigitalTmu` | Configures and operates a single TMU. Provides the `Enabled`, `SamplesToAcquire`, `SampleTimeout`, and `ArmType` properties, the `Start`, `Stop`, and `EdgeArm` configuration objects, and the `Initiate`, `Abort`, and `FetchAveragedMeasurement` methods. |
+| `DigitalTmu` | Configures and operates a single TMU. Provides the `Enabled`, `SamplesToAcquire`, `SampleTimeout`, and `ArmType` properties. Provides the `Start`, `Stop`, and `EdgeArm` configuration objects. Provides the `Initiate`, `Abort`, and `FetchAveragedMeasurement` methods. |
 | `DigitalTmuSource` | Configures the start or stop source of a TMU: `Source`, `SourceEvent`, `SourceEventPolarity`, and `InputDebounceTime`. |
 | `DigitalTmuEdgeArm` | Configures the edge arm source of a TMU: `Source`, `SourceEvent`, and `Polarity`. |
 
