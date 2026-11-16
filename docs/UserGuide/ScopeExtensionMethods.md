@@ -26,7 +26,7 @@ ScopeSessionsBundle scopeBundle = sessionManager.Scope(pinOrPinGroup);
 
 | Method | Settings Type | Description |
 | --- | --- | --- |
-probe attenuation, channel enable state, and time-interleaved sampling.
+| `ConfigureVertical` | `VerticalSettings` | probe attenuation, channel enable state, and time-interleaved sampling.
 | `ConfigureElectricalCharacteristics` | `ElectricalCharacteristics` | Configures the input impedance and maximum input frequency. Overloads accept the same settings for all pins, per-site settings (`SiteData<ElectricalCharacteristics>`), or per-pin, per-site settings (`PinSiteData<ElectricalCharacteristics>`). |
 | `ConfigureTiming` | `TimingSettings` | Configures the minimum sample rate, minimum number of points, reference position, number of records, and real-time enforcement. |
 | `ConfigureClock` | `ClockSettings` | Configures the input clock source, output clock source, clock synchronization pulse source, and whether the instrument is the master. |
