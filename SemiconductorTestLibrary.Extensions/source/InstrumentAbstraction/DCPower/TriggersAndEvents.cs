@@ -298,34 +298,17 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
             });
         }
 
-                /// <summary>
+        /// <summary>
         /// Configures a digital edge trigger for one of the following selected TriggerTypes: MeasureTrigger, PulseTrigger, SequenceAdvanceTrigger, SourceTrigger, and StartTrigger.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="triggerType">One of the following trigger types: MeasureTrigger, PulseTrigger, SequenceAdvanceTrigger, SourceTrigger, StartTrigger.</param>>
-        /// <param name="tiggerTerminal">The input terminal to configure the trigger to look for a digital edge.
-        /// <para>
-        /// This is the fully qualified terminal string, which must be in the form of <code>"/Dev1/PXI_Trig0"</code>,
-        /// where Dev1 is the instrument generating the trigger and PXI_Trig0 is the trigger line the trigger is being sent on.
-        /// </para>
-        /// <para>Note that the input terminal can also be a terminal from another instrument or channel.</para>
-        /// <para>
-        /// For example, you can set the input terminal on Dev1 to be /Dev2/Engine0/SourceCompleteEvent, where Engine0 is channel 0.
-        /// </para>
-        /// </param>
+        /// <param name="tiggerTerminal">The input terminal to configure the trigger to look for a digital edge.</param>
         /// <param name="triggerEdge">The digital edge to look for, either <see cref="DCPowerTriggerEdge.Rising"/> or <see cref="DCPowerTriggerEdge.Falling"/>.</param>
-        public static void ConfigureTriggerDigitalEdge(this DCPowerSessionsBundle sessionsBundle, TriggerType triggerType, string tiggerTerminal, DCPowerTriggerEdge triggerEdge = DCPowerTriggerEdge.Rising)
+        [Obsolete("This method is deprecated. Use ConfigureTriggerDigitalEdge(TriggerType triggerType, string triggerTerminal, DCPowerTriggerEdge triggerEdge = DCPowerTriggerEdge.Rising) instead.")]
+        public static void ConfigureTriggerDigitalEdge(this DCPowerSessionsBundle sessionsBundle, string tiggerTerminal, TriggerType triggerType, DCPowerTriggerEdge triggerEdge = DCPowerTriggerEdge.Rising)
         {
-            // Need to loop over each channel because not all channels in the sessionInfo.ChannelString are guaranteed to be
-            // mapped to the same model, and therefore not all channels in the sessionInfo.ChannelString may support this operation.
-            // Hence, need the ability to check the operation against each channel when configuring triggers.
-            sessionsBundle.Do((sessionInfo, pinSiteInfo) =>
-            {
-                if (!IsFollowerOfGangedChannels(pinSiteInfo.CascadingInfo))
-                {
-                    ConfigureTriggerDigitalEdge(sessionInfo, pinSiteInfo, triggerType, tiggerTerminal, triggerEdge);
-                }
-            });
+            sessionsBundle.ConfigureTriggerDigitalEdge(triggerType, tiggerTerminal, triggerEdge);
         }
 
         /// <summary>
@@ -334,7 +317,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="triggerType">One of the following trigger types: MeasureTrigger, PulseTrigger, SequenceAdvanceTrigger, SourceTrigger, StartTrigger.</param>>
         /// <param name="triggerTerminal">The input terminal to configure the trigger to look for a Digital Edge.
->>>>>>> ac1de16ce8358129bc46f045aa689d97bda0788f
         /// <para>
         /// This is the fully qualified terminal string, which must be in the form of <code>"/Dev1/PXI_Trig0"</code>,
         /// where Dev1 is the instrument generating the trigger and PXI_Trig0 is the trigger line the trigger is being sent on.
