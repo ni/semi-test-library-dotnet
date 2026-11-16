@@ -409,21 +409,11 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
             return allSamples.ToArray();
         }
 
-        /// <summary>
-        /// Masks the register address to the address bit width. Any address can be passed, such as the
-        /// datasheet address, and only its lowest <paramref name="addressBitWidth"/> bits are sent on the bus.
-        /// For example, with a 7-bit address width, 0xF4 is sent as 0x74.
-        /// </summary>
         internal static long MaskAddress(uint address, uint addressBitWidth)
         {
             return addressBitWidth >= 32 ? address : address & ((1u << (int)addressBitWidth) - 1);
         }
 
-        /// <summary>
-        /// Masks the register value to the value bit width, so only its lowest <paramref name="valueBitWidth"/> bits
-        /// are sent on the bus. For example, with an 8-bit value width, 0x1FF is sent as 0xFF.
-        /// The value must not be negative.
-        /// </summary>
         internal static long MaskValue(long value, uint valueBitWidth)
         {
             return valueBitWidth >= 63 ? value : value & ((1L << (int)valueBitWidth) - 1);
