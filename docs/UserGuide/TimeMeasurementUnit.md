@@ -68,8 +68,8 @@ The library manages TMU resources in the following stages:
 
 - **Assignment**: The `AssignTMUResources` method assigns an available TMU on the associated module to each target pin and site in the bundle. Assignment happens only in software. It does not reserve the TMU in hardware. The library records each assignment in two places:
   - The bundle object records which TMU is assigned to each of its pins and sites. All other TMU methods use this record to find the TMU to operate on.
-  - A list shared by the whole process records which TMUs are in use. It does not record which bundle object, pin, or site a TMU is assigned to. `AssignTMUResources` uses this list so that a TMU in use   cannot be assigned to another bundle object until the TMU is released.
-  - **Reservation**: The assigned TMU is reserved in hardware when the TMU is enabled. All the measurement configuration methods, such as `ConfigurePeriodMeasurement`, enable the assigned TMU, so you don't need to call `EnableTMU` separately. The `DisableTMU` method disables the assigned TMU and unreserves it in hardware. The TMU configuration remains unchanged.
+  - A list shared by the whole process records which TMUs are in use. It does not record which bundle object, pin, or site a TMU is assigned to. `AssignTMUResources` uses this list so that a TMU in use cannot be assigned to another bundle object until the TMU is released.
+- **Reservation**: Enabling the assigned TMU reserves the TMU in hardware. All the measurement configuration methods, such as `ConfigurePeriodMeasurement`, enable the assigned TMU, so you don't need to call `EnableTMU` separately. The `DisableTMU` method disables the assigned TMU and unreserves the TMU in hardware. The TMU configuration remains unchanged.
 - **Release**: The `ClearTMUAssignment` method clears the assignment and returns the TMU to the resource pool. You must disable the TMU before you clear the assignment. If any assigned TMU is still enabled, this method throws an exception.
 
 The following list shows the lifecycle of a TMU resource:
