@@ -102,7 +102,6 @@ Use one or more of the following approaches to work within this limit:
 
 - **Measure in batches.** Use the `FilterBySite` or `FilterByPin` methods of the `DigitalSessionsBundle` object to create a bundle that needs no more TMUs than are available. Filter before you assign TMU resources. Then complete the full assign, configure, initiate, fetch, disable, and clear sequence on the filtered bundle before you move to the next batch. Alternatively, target a subset of pins by passing the `pinNames` parameter to the TMU methods.
 - **Distribute pins across modules.** TMUs are allocated per module. When you design the pin map, mapping the measured pins for different sites to different modules increases the number of measurements that can run at the same time.
-- **Account for concurrent execution.** All code that runs in the same process draws from the same pool of TMU resources. If code modules for different sites run at the same time on separate threads, they compete for the same TMUs. Release resources as soon as the measurement is complete. In addition, `FetchAveragedTMUMeasurement` locks the NI-Digital session until the measurement completes or times out. During that time, TMU operations for other sites that use the same session must wait.
 
 > [!TIP]
 > For a skew measurement, only the reference pin needs a TMU. The target pin is used as the stop source of the reference pin's TMU, so you don't need to assign a TMU to it.
@@ -117,9 +116,6 @@ The arm input of the TMU selects the start and stop events of interest for each 
 
 TMU samples are signed time intervals, so the measurement result can be negative. With `TmuArmSetting.Immediate`, if the signal is free-running, the TMU might detect the stop event before the start event. If you need a positive time interval, use `TmuArmSetting.StartEdge` to set the order of the events.
 
-> [!NOTE]
-> If you configure arming using the lower-level methods (`ConfigureTMUArmType`, `ConfigureTMUEdgeArmSource`, `ConfigureTMUEdgeArmSourceEvent`, and `ConfigureTMUEdgeArmPolarity`), the edge arm source, event, and polarity must match those of the corresponding start source or stop source. Otherwise, the driver returns an error when the measurement is initiated.
-
 ## Taking a TMU Measurement
 
 To take a TMU measurement, perform the following steps:
@@ -128,7 +124,7 @@ To take a TMU measurement, perform the following steps:
 2. Assign TMU resources using the `AssignTMUResources` method.
 3. Configure the measurement using one of the measurement configuration methods. This also enables and reserves the assigned TMU.
 4. Initiate the measurement using the `TMUInitiate` method. This method returns immediately. It doesn't wait for the measurement to complete.
-5. Fetch the averaged result using the `FetchAveragedTMUMeasurement` method. This method waits up to the specified timeout for the measurement to complete. The method returns a `PinSiteData<double>` that contains the averaged time expressed in seconds for each pin and site.
+5. Fetch the averaged result using the `FetchAveragedTMUMeasurement` method. The method returns a `PinSiteData<double>` that contains the averaged time expressed in seconds for each pin and site.
 6. Disable the TMU using the `DisableTMU` method, and release the assignment using the `ClearTMUAssignment` method.
 
 > [!NOTE]
@@ -159,31 +155,6 @@ tsmContext.PublishResults(period, publishedDataId: "Period");
 // Disable the TMU resources and release them back to the resource pool.
 digitalPins.DisableTMU();
 digitalPins.ClearTMUAssignment();
-```
-
-The following C#/.NET code snippet shows how to measure the skew between a reference pin, `C0`, and a target pin, `C1`. The bundle must contain both pins, but only the reference pin needs a TMU.
-
-```C#
-string[] referencePins = new[] { "C0" };
-string[] targetPins = new[] { "C1" };
-
-var sessionManager = new TSMSessionManager(tsmContext);
-var digitalPins = sessionManager.Digital(new[] { "C0", "C1" });
-
-digitalPins.AssignTMUResources(pinNames: referencePins);
-digitalPins.ConfigureTMUSkewMeasurement(
-    referencePinNames: referencePins,
-    targetPinNames: targetPins,
-    edgeType: TmuPolarity.RisingEdge,
-    samplesToAcquire: 100,
-    armSetting: TmuArmSetting.StartEdge);
-
-digitalPins.TMUInitiate(pinNames: referencePins);
-PinSiteData<double> skew = digitalPins.FetchAveragedTMUMeasurement(timeoutInSeconds: 5.0, pinNames: referencePins);
-tsmContext.PublishResults(skew, publishedDataId: "Skew");
-
-digitalPins.DisableTMU(pinNames: referencePins);
-digitalPins.ClearTMUAssignment(pinNames: referencePins);
 ```
 
 Code snippets for each measurement type are available in the [CodeSnippets/InstrumentAbstraction](https://github.com/ni/semi-test-library-dotnet/tree/main/Examples/source/CodeSnippets/InstrumentAbstraction) directory of the repository.
@@ -240,7 +211,7 @@ For skew measurements, a positive result means the target edge occurs after the 
 | Method | Description |
 | --- | --- |
 | `TMUInitiate` | Validates the configuration and starts the measurement. Returns immediately. |
-| `FetchAveragedTMUMeasurement` | Waits for the measurement to complete and returns the averaged result expressed in seconds as `PinSiteData<double>`. |
+| `FetchAveragedTMUMeasurement` | Returns the averaged result expressed in seconds as `PinSiteData<double>`. |
 | `TMUAbort` | Aborts any in-progress measurement. Does not affect the configuration or reservation state. |
 
 ### Individual Setting Configuration and Queries
@@ -264,7 +235,7 @@ Each setting has a corresponding `GetTMU...` method that returns the current val
 
 ## Low-Level TMU Programming
 
-If you need TMU capabilities that the `TmuExtensions` methods don't expose, you can program the TMU directly using the TMU .NET APIs of the NI-Digital Pattern Driver. You can call these APIs on the underlying NI-Digital session by using the `Do` methods of the `ParallelExecution` class, in the same way as other low-level driver calls. For more information, refer to [Making Low-Level Driver Calls](advanced/MakingLowLevelDriverCalls.md).
+If you need TMU capabilities that the `TmuExtensions` methods don't expose, you can program the TMU directly using the TMU .NET APIs of the NI-Digital Pattern Driver. You can call these APIs on the underlying NI-Digital session by using the `Do` methods of the `ParallelExecution` class, in the same way as other low-level driver calls.
 
 > [!NOTE]
 > Low-level TMU programming requires STS Software 26.5.0 or later, which includes the TMU .NET APIs of the NI-Digital Pattern Driver.
@@ -318,7 +289,7 @@ digitalPins.ConfigurePeriodMeasurement(StlTmu.TmuPolarity.RisingEdge, samplesToA
 
 Use the `AssignTMUResources` and `ClearTMUAssignment` extension methods to manage TMU resources, even when you program the TMU using the driver APIs. This keeps the resources used by your code consistent with the resources used by the extension methods. After you call `AssignTMUResources`, you can read the TMU context assigned to each pin and site from the `AssignedTmuContext` property of the `DigitalSitePinInfo` class, and then pass the TMU context to the `NIDigital.Tmu.GetTmu` method.
 
-Don't select a TMU yourself from the list returned by the `GetDisabledTmuContexts` method. A disabled TMU can still be assigned to another bundle object. If you must manage TMU contexts yourself, use the `TryAssignTMUContext` and `UnAssignTMUContext` methods of `TMUContextManager.Instance`.
+Don't select a TMU yourself from the list returned by the `GetDisabledTmuContexts` method.
 
 Keep the following differences from the extension methods in mind:
 
