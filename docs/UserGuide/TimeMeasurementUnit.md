@@ -300,7 +300,7 @@ The `TmuSourceEvent`, `TmuPolarity`, and `TmuArmType` enumerations of the Semico
 The `NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU` namespace contains types with the same names as the driver TMU types, such as `DigitalTmu`, `TmuPolarity`, and `TmuSourceEvent`. If your code file includes using directives for both this namespace and the `NationalInstruments.ModularInstruments.NIDigital` namespace, the compiler reports an ambiguous reference error.
 
 > [!NOTE]
-> The `DigitalTmuCollection`, `DigitalTmu`, `DigitalTmuSource`, and `DigitalTmuEdgeArm` classes in the Semiconductor Test Library namespace are used internally by the `TmuExtensions` methods. They are not intended for use in your code, and they will be removed in a future release. Use the driver TMU classes instead.
+> The `TmuExtensions` methods use the `DigitalTmuCollection`, `DigitalTmu`, `DigitalTmuSource`, and `DigitalTmuEdgeArm` classes in the Semiconductor Test Library namespace internally. They are not intended for use in your code, and they will be removed in a future release. Use the driver TMU classes instead.
 
 To avoid the conflict, use one of the following approaches:
 
@@ -316,14 +316,14 @@ digitalPins.ConfigurePeriodMeasurement(StlTmu.TmuPolarity.RisingEdge, samplesToA
 
 ### Managing TMU Resources in Low-Level Code
 
-Use the `AssignTMUResources` and `ClearTMUAssignment` extension methods to manage TMU resources, even when you program the TMU using the driver APIs. This keeps the resources used by your code consistent with the resources used by the extension methods. After you call `AssignTMUResources`, you can read the TMU context assigned to each pin and site from the `AssignedTmuContext` property of the `DigitalSitePinInfo` class, and then pass it to the `NIDigital.Tmu.GetTmu` method.
+Use the `AssignTMUResources` and `ClearTMUAssignment` extension methods to manage TMU resources, even when you program the TMU using the driver APIs. This keeps the resources used by your code consistent with the resources used by the extension methods. After you call `AssignTMUResources`, you can read the TMU context assigned to each pin and site from the `AssignedTmuContext` property of the `DigitalSitePinInfo` class, and then pass the TMU context to the `NIDigital.Tmu.GetTmu` method.
 
 Don't select a TMU yourself from the list returned by the `GetDisabledTmuContexts` method. A disabled TMU can still be assigned to another bundle object. If you must manage TMU contexts yourself, use the `TryAssignTMUContext` and `UnAssignTMUContext` methods of `TMUContextManager.Instance`.
 
 Keep the following differences from the extension methods in mind:
 
 - **No automatic cleanup.** If a driver call throws an exception, the library does not abort, disable, or release the TMU. Handle the exception and release the TMU resources yourself.
-- **Pin state before initiating.** The `TMUInitiate` extension method sets the selected function of the target pins to `Digital` and the termination mode to `HighZ` before it initiates the measurement. The driver `DigitalTmu.Initiate` method does not.
+- **No pin state set before initiating.** The `TMUInitiate` extension method sets the selected function of the target pins to `Digital` and the termination mode to `HighZ` before it initiates the measurement. The driver `DigitalTmu.Initiate` method does not.
 
 ### Low-Level Example
 
