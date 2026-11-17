@@ -127,9 +127,6 @@ To take a TMU measurement, perform the following steps:
 5. Fetch the averaged result using the `FetchAveragedTMUMeasurement` method. The method returns a `PinSiteData<double>` that contains the averaged time expressed in seconds for each pin and site.
 6. Disable the TMU using the `DisableTMU` method, and release the assignment using the `ClearTMUAssignment` method.
 
-> [!NOTE]
-> Before initiating, `TMUInitiate` sets the selected function of the target pins to `Digital` and the termination mode to `HighZ`. The driver validates and commits the TMU configuration when `TMUInitiate` is called. Once you initiate a measurement, you cannot modify the TMU configuration until the measurement completes or is aborted using the `TMUAbort` method.
-
 ### Example Usage
 
 The following C#/.NET code snippet shows how to measure the period of a signal on the `C0` pin.
@@ -181,7 +178,7 @@ The TMU methods are extension methods of the `DigitalSessionsBundle` class. Most
 | --- | --- |
 | `AssignTMUResources` | Assigns an available TMU to each target pin and site in software. |
 | `EnableTMU` | Enables and reserves the assigned TMU in hardware. |
-| `DisableTMU` | Disables and unreserves the assigned TMU in hardware. The TMU configuration remains unchanged. |
+| `DisableTMU` | Disables and unreserve the assigned TMU in hardware. The TMU configuration remains unchanged. |
 | `ClearTMUAssignment` | Clears the assignment and releases the TMU back to the resource pool. |
 | `GetTMUCount` | Returns the total number of TMU resources for each instrument session in the bundle. |
 
@@ -291,10 +288,7 @@ Use the `AssignTMUResources` and `ClearTMUAssignment` extension methods to manag
 
 Don't select a TMU yourself from the list returned by the `GetDisabledTmuContexts` method.
 
-Keep the following differences from the extension methods in mind:
-
-- **No automatic cleanup.** If a driver call throws an exception, the library does not abort, disable, or release the TMU. Handle the exception and release the TMU resources yourself.
-- **No pin state set before initiating.** The `TMUInitiate` extension method sets the selected function of the target pins to `Digital` and the termination mode to `HighZ` before it initiates the measurement. The driver `DigitalTmu.Initiate` method does not.
+Unlike the extension methods, the driver APIs do not provide automatic cleanup. If a driver call throws an exception, the library does not abort, disable, or release the TMU. You must handle the exception and release the TMU resources yourself.
 
 ### Low-Level Example
 
@@ -352,8 +346,8 @@ tsmContext.PublishResults(period, publishedDataId: "Period");
 digitalPins.DisableTMU();
 digitalPins.ClearTMUAssignment();
 ```
+
 **Related information**:
 
 - [TMU Sequence Example README](https://github.com/ni/semi-test-library-dotnet/blob/main/Examples/source/Sequence/TMU/README.md)
 - [NI-Digital Pattern Driver C#.NET API Reference: DigitalTmu Class](https://www.ni.com/docs/en-US/bundle/ni-digital-pattern-csharp-api-ref/page/nationalinstruments-modularinstruments-nidigital-digitaltmu.html)
-- NI-Digital Pattern Driver: Time Measurement Unit <!-- TODO: Add the link to the NI-Digital Pattern Driver TMU documentation. -->
