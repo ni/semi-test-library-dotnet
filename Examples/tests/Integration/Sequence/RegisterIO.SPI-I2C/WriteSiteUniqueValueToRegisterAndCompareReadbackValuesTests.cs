@@ -16,7 +16,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
         private const string DigitalPatternProjectName = "STLExample.RegisterIO.SPIAndI2C.digiproj";
 
         [Theory(Skip = "Requires a physical digital pattern instrument connected to a DUT. Not supported in offline mode.")]
-        [InlineData(CommunicationProtocol.SPI, 7, "SPI_write_template", "SPI_read_template", "SPI_source_buffer", "SPI_capture_buffer", 0x74)]
+        [InlineData(CommunicationProtocol.SPI, 7, "SPI_write_template", "SPI_read_template", "SPI_source_buffer", "SPI_capture_buffer", 0xF4)]
         [InlineData(CommunicationProtocol.I2C, 8, "I2C_write_template", "I2C_read_template", "I2C_source_buffer", "I2C_capture_buffer", 0xF4)]
         public void WriteSiteUniqueValueToRegisterAndCompareReadbackValues_SiteUniqueValues_ReadbackMatchesPerSite(CommunicationProtocol protocol, int addressBitWidth, string writePatternName, string readPatternName, string sourceWaveformName, string captureWaveformName, uint registerAddress)
         {
@@ -45,8 +45,8 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Integration
                     valueBitWidthSequenceRegister: "reg2",
                     pinNames: new[] { "CS", "SCK", "SDI", "SDO" });
 
-                // SPI sends the read/write bit followed by a 7-bit register address, so BME280 register 0xF4
-                // is addressed as 0x74. I2C sends the full 8-bit register address.
+                // Both protocols use the datasheet register address. For SPI, the pattern drives the read/write bit
+                // and only the lowest 7 address bits are sourced.
                 TestStep.WriteSiteUniqueValueToRegisterAndCompareReadbackValues(
                     tsmContext,
                     protocol,

@@ -20,6 +20,7 @@
 		<PXI Name="FGEN_5433_C1_S13" Model="NI PXIe-5433 (2CH)" Slot="13" NeedsIvi="false" />
 		<PXI Name="VST_3622_C1_S14" Model="NI PXIe-3622" Slot="14" NeedsIvi="false" />
 		<PXI Name="VST_5820_C1_S16" Model="NI PXIe-5820" Slot="16" NeedsIvi="false" />
+        <PXI Name="DMM_4081_C1_S17" Model="NI PXIe-4081" Slot="17" />
 	</PXIChassis>
 	<PXIChassis Number="2" Model="NI PXIe-1095">
 		<PXI Name="HSD_6571_C2_S02" Model="NI PXIe-6571" Slot="2" NeedsIvi="false" />

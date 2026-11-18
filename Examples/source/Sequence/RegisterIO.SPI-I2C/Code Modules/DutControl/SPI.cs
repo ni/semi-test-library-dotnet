@@ -9,7 +9,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
     /// <remarks>
     /// The default address bit width is 7 bits and the default value bit width is 8 bits. In SPI, the read/write bit replaces
     /// the most significant bit of the register address and is driven by the pattern, so only the lower 7 bits of the
-    /// register address are sent (for example, 0x74 to access register 0xF4).
+    /// register address are sourced. Pass the datasheet register address (for example, 0xF4 to access register 0xF4).
+    /// To support a DUT with different SPI framing, update the patterns and the address bit width instead of the code.
     /// <br/><br/>
     /// Obtain the singleton instance via <see cref="Instance"/>, then call
     /// <see cref="DigitalProtocol.SetBundle"/> once per code module before performing

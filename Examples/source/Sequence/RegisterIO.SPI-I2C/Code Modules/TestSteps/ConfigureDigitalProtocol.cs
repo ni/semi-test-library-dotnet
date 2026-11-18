@@ -20,8 +20,8 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.RegisterIO.SPIAn
         /// -1 for numbers, or an empty array or null for pin names) uses the protocol's default value for that setting.
         /// </summary>
         /// <param name="communicationProtocol">The protocol whose parameters to configure.</param>
-        /// <param name="addressBitWidth">The number of bits the register address is. If specified as -1, the protocol's default address bit width is used.</param>
-        /// <param name="valueBitWidth">The number of bits the register value holds. If specified as -1, the protocol's default value bit width is used.</param>
+        /// <param name="addressBitWidth">The number of register address bits sent on the bus. Register addresses are masked to this bit width, so you can pass the datasheet register address. If specified as -1, the protocol's default address bit width is used.</param>
+        /// <param name="valueBitWidth">The number of register value bits sent or captured on the bus. Written register values are masked to this bit width, and negative values are rejected. If specified as -1, the protocol's default value bit width is used.</param>
         /// <param name="writePatternName">The digital pattern name used to write a register value. If specified as an empty string (""), the protocol's default write pattern name is used.</param>
         /// <param name="readPatternName">The digital pattern name used to read a register value. If specified as an empty string (""), the protocol's default read pattern name is used.</param>
         /// <param name="sourceWaveformName">The digital source waveform name. If specified as an empty string (""), the protocol's default source waveform name is used.</param>
