@@ -134,7 +134,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
         - `DigitalTmu`
         - `DigitalTmuSource`
         - `DigitalTmuEdgeArm`
-    - New `Commit`, `Initiate`, `ConfigurePattern`, and `GetPatternStartLabel` Digital methods added for applying the configuration, starting pattern execution, selecting a pattern start label, and reading the configured start labels at the bundle level. `ConfigurePattern` applies to the sites represented by the sessions bundle. To target a subset of sites, filter the bundle by site and call `ConfigurePattern` on the filtered bundle. Refer to the updated documentation for details.
+    - New `Commit`, `Initiate`, `ConfigurePattern`, and `GetPatternStartLabel` Digital methods added for applying the configuration, starting pattern execution, selecting a pattern start label, and reading the configured start labels at the bundle level. `ConfigurePattern` applies to the sites represented by the sessions bundle. To target a subset of sites, filter the bundle by site and call `ConfigurePattern` on the filtered bundle.
       - `Commit()`
       - `Initiate()`
       - `ConfigurePattern(string startLabel)`
