@@ -40,10 +40,10 @@ The following table outlines the constructors available for `PinSiteData<T>`.
 When creating `PinSiteData` objects you should consider the following:
 
 1. If all the pin names, site numbers, and values are known upfront, passing them to a constructor is the most concise approach.
-2. If the pin names and site numbers are known upfront but the values are not, use the `PinSiteData(string[] pinNames, params int[] siteNumbers)` constructor. Then, set the values with the `SetValue` method.
-3. If the pin names or site numbers are determined at runtime, such as inside a loop or based on a condition, create the object with the `PinSiteData()` constructor. Then, populate the object with the `AddPin`, `AddSite`, and `SetValue` methods.
-4. If the `siteNumbers` input of the `PinSiteData(string pinName, params int[] siteNumbers)` or `PinSiteData(string[] pinNames, params int[] siteNumbers)` constructor is not provided, `null`, or an empty array, each pin is created with no sites. Add sites later with the `AddSite` or `SetValue` methods.
-5. Pin names must not be `null` or empty strings. An `ArgumentNullException` is thrown if the `pinName` or `pinNames` input, or any of the specified pin names, is `null`. An `ArgumentException` is thrown if the `pinNames` input is an empty array, or if any of the specified pin names is an empty string.
+2. If the pin names and site numbers are known upfront but the values are not, use the `PinSiteData(string[] pinNames, params int[] siteNumbers)` constructor. Then, set the values with the `SetValue` method. This is applicable to release 26.5.0 or later.
+3. If the pin names or site numbers are determined at runtime, such as inside a loop or based on a condition, create the object with the `PinSiteData()` constructor. Then, populate the object with the `AddPin`, `AddSite`, and `SetValue` methods. This is only applicable to release 26.5.0 or later.
+4. If the `siteNumbers` input of the `PinSiteData(string pinName, params int[] siteNumbers)` or `PinSiteData(string[] pinNames, params int[] siteNumbers)` constructor is not provided, `null`, or an empty array, each pin is created with no sites. Add sites later with the `AddSite` or `SetValue` methods. This is only applicable to release 26.5.0 or later.
+5. Pin names must not be `null` or empty strings. An `ArgumentNullException` is thrown if the `pinName` or `pinNames` input, or any of the specified pin names, is `null`. An `ArgumentException` is thrown if the `pinNames` input is an empty array, or if any of the specified pin names is an empty string. This is only applicable to release 26.5.0 or later.
 6. The `pinNames` and `siteNumbers` arrays passed to a constructor must each contain unique values. Otherwise, an `NISemiconductorTestException` is thrown.
 7. The lengths of the data arrays must match the lengths of the corresponding `pinNames` and `siteNumbers` arrays. Otherwise, an `NISemiconductorTestException` is thrown.
 8. The `PinSiteData(string[] pinNames, SiteData<T>[] perPinSiteData)` constructor copies each `SiteData` object. Changes made later to the original `SiteData` objects do not affect the `PinSiteData` object.
@@ -117,6 +117,9 @@ pinSiteData.SetValue(value: 3.3, pinNames: "VCC1");
 
 The following table outlines the methods available for adding and removing pins from a `PinSiteData<T>` object.
 
+>[!NOTE]
+> Adding and removing pins is applicable only to release 26.5.0 or later.
+
 **Table of Methods for Adding and Removing Pins:**
 
 |Method|Description|
@@ -176,7 +179,12 @@ pinSiteData.AddPin("VCC2");
 
 ## Adding and Removing Sites from PinSiteData
 
+
+
 The following table outlines the methods available for adding and removing sites from a `PinSiteData<T>` object.
+
+>[!NOTE]
+> Adding and removing sites is applicable only to release 26.5.0 or later.
 
 **Table of Methods for Adding and Removing Sites:**
 
@@ -275,6 +283,9 @@ pinSiteData.AddSite("SystemSupply", -1);
 ## Setting Data Values in PinSiteData
 
 The following table outlines the methods available for setting values in a `PinSiteData<T>` object.
+
+>[!NOTE]
+> Setting data values is applicable only to release 26.5.0 or later.
 
 **Table of Methods for Setting Data Values:**
 
@@ -383,20 +394,89 @@ pinSiteData.SetValue(value: -22.5, pinName: "SystemSupply", siteNumbers: -1);
 
 ## Working with PinSiteData in Loops
 
-You can add pins, add sites, and set values inside a loop. This is useful when the pin names, site numbers, or values come from another data structure, or are computed at runtime.
+You can use loops to build a `PinSiteData` object when the pin names, site numbers, or values come from another data structure, or are computed at runtime. How you do this depends on the release you use:
 
-### Usage Considerations for Working with PinSiteData in Loops
+- Prior to release 26.5.0, the `PinSiteData` class does not provide methods to add pins, add sites, or set values. Collect the values in a .NET collection inside the loop, and then create the `PinSiteData` object after the loop.
+- In release 26.5.0 or later, you can add pins, add sites, and set values on a `PinSiteData` object inside the loop.
 
-When adding pins and sites and setting values inside loops you should consider the following:
+When working with `PinSiteData` in loops in any release you should consider the following:
+
+1. The order of the `PinNames` property is not guaranteed to match the order in which the pins were passed to the constructor or added. When you index into a data array by pin, iterate over the same `pinNames` array that is used to arrange the data.
+2. To transform every value of an existing `PinSiteData` object into a new `PinSiteData` object, the `Select` method can be more concise than a loop.
+
+### Working with PinSiteData in Loops Prior to Release 26.5.0
+
+#### Usage Considerations Prior to Release 26.5.0
+
+When working with `PinSiteData` in loops prior to release 26.5.0 you should consider the following:
+
+1. If the pin names or site numbers are determined at runtime, or if different pins contain different sites, collect the values in a `Dictionary<string, IDictionary<int, T>>` inside the loop. Then, pass the dictionary to the `PinSiteData(Dictionary<string, IDictionary<int, T>> pinSiteData)` constructor after the loop.
+2. If all the pin names and site numbers are known before the loop, collect the values in an array inside the loop. Then, pass the array to the matching constructor after the loop, such as the `PinSiteData(string[] pinNames, int[] siteNumbers, T[][] perPinPerSiteData)` constructor.
+3. To iterate over the sites of each pin in an existing `PinSiteData` object, iterate over the `PinNames` property and use the `ExtractPin` method to get the `SiteData` object of each pin. Then, iterate over the `SiteNumbers` property of that `SiteData` object. This approach also works when different pins contain different sites.
+
+#### Examples Prior to Release 26.5.0
+
+Example of calculating a pin- and site-unique value inside nested loops, and creating the `PinSiteData` object after the loops:
+
+```csharp
+var pinNames = new string[] { "VDET", "VCC1" };
+var siteNumbers = new int[] { 2, 4, 3 };
+// The first dimension represents pins and the second dimension represents sites,
+// in the same order as the pinNames and siteNumbers arrays.
+var perPinPerSiteData = new double[pinNames.Length][];
+for (int pinIndex = 0; pinIndex < pinNames.Length; pinIndex++)
+{
+    perPinPerSiteData[pinIndex] = new double[siteNumbers.Length];
+    for (int siteIndex = 0; siteIndex < siteNumbers.Length; siteIndex++)
+    {
+        // CalculateValue represents your own calculation.
+        perPinPerSiteData[pinIndex][siteIndex] = CalculateValue(pinNames[pinIndex], siteNumbers[siteIndex]);
+    }
+}
+
+// Creates the PinSiteData object after the loops.
+var pinSiteData = new PinSiteData<double>(pinNames, siteNumbers, perPinPerSiteData);
+```
+
+Example of iterating over the sites of each pin in an existing `PinSiteData` object to build a new `PinSiteData` object:
+
+```csharp
+PinSiteData<double> measurement = dcPowerPins.MeasureVoltage();
+double upperLimit = 1.2;
+
+var isAboveLimitData = new Dictionary<string, IDictionary<int, bool>>();
+foreach (string pinName in measurement.PinNames)
+{
+    SiteData<double> perPinMeasurement = measurement.ExtractPin(pinName);
+    var perSiteResults = new Dictionary<int, bool>();
+    foreach (int siteNumber in perPinMeasurement.SiteNumbers)
+    {
+        perSiteResults.Add(siteNumber, perPinMeasurement.GetValue(siteNumber) > upperLimit);
+    }
+    isAboveLimitData.Add(pinName, perSiteResults);
+}
+
+// Creates the PinSiteData object after the loops.
+var isAboveLimit = new PinSiteData<bool>(isAboveLimitData);
+```
+
+### Working with PinSiteData in Loops in Release 26.5.0 or Later
+
+#### Usage Considerations for Release 26.5.0 or Later
+
+When adding pins and sites and setting values inside loops in release 26.5.0 or later you should consider the following:
 
 1. If all the pin names and site numbers are known before the loop, pass them to a constructor, or add them with a single call to the `AddPin` and `AddSite` methods. Then, set only the values inside the loop.
 2. Calling `SetValue(T value, string pinName, params int[] siteNumbers)` inside a loop adds each pin and site the first time it is encountered. You do not need to call the `AddPin` or `AddSite` methods separately.
 3. The `PinNames`, `SiteNumbers`, and `SiteNumbersByPin` properties return a new array or dictionary each time they are accessed. Therefore, you can add or remove pins and sites while iterating over the returned values. Store the returned value in a local variable before the loop instead of accessing the property in every iteration.
-4. The order of the `PinNames` property is not guaranteed to match the order in which the pins were added. When you index into a data array by pin, iterate over the same `pinNames` array that is used to arrange the data.
-5. To iterate over a jagged `PinSiteData` object, use the `SiteNumbersByPin` property to get the sites of each pin. The `SiteNumbers` property returns the union of the sites across all pins, so not every pin contains every site in it.
-6. To transform every value of an existing `PinSiteData` object into a new `PinSiteData` object, the `Select` method can be more concise than a loop.
+4. To iterate over a jagged `PinSiteData` object, use the `SiteNumbersByPin` property to get the sites of each pin. The `SiteNumbers` property returns the union of the sites across all pins, so not every pin contains every site in it.
 
-### Examples for Working with PinSiteData in Loops
+>[!CAUTION]
+> `PinSiteData` objects are not thread-safe. Do not call the `AddPin`, `RemovePin`, `AddSite`, `RemoveSite`, or `SetValue` methods on the same `PinSiteData` object from multiple threads at the same time, such as inside a `Parallel.For` or `Parallel.ForEach` loop, or in the actions passed to the `InvokeInParallel` method. This applies even when each thread accesses a different pin or site. Concurrent modifications can corrupt the object or lose values without throwing an exception. Reading values from multiple threads is safe only when no thread modifies the object at the same time.
+>
+> Instead, store the result of each parallel iteration in its own element of a preallocated array. After the parallel loop completes, populate the `PinSiteData` object from the array, either by passing the array to a constructor or by calling the `SetValue` method in a sequential loop.
+
+#### Examples for Release 26.5.0 or Later
 
 Example of adding pins and sites before the loop, and setting a pin-unique value inside the loop:
 
@@ -502,6 +582,29 @@ foreach (var pinAndSites in siteNumbersByPin)
         bool value = measurement.GetValue(siteNumber, pinName) > upperLimit;
         isAboveLimit.SetValue(value, pinName, siteNumber);
     }
+}
+```
+
+Example of calculating values inside a `Parallel.For` loop, and setting the values after the parallel loop completes:
+
+```csharp
+var pinNames = new string[] { "VDET", "VCC1" };
+var siteNumbers = new int[] { 2, 4, 3 };
+var perSiteData = new double[siteNumbers.Length];
+
+// Each iteration writes only to its own element of the perSiteData array.
+// Do not call the SetValue method on a shared PinSiteData object inside the parallel loop.
+Parallel.For(0, siteNumbers.Length, i =>
+{
+    // CalculateValue represents your own calculation.
+    perSiteData[i] = CalculateValue(siteNumbers[i]);
+});
+
+var pinSiteData = new PinSiteData<double>(pinNames, siteNumbers);
+// Sets the values sequentially, after the parallel loop completes.
+for (int i = 0; i < siteNumbers.Length; i++)
+{
+    pinSiteData.SetValue(value: perSiteData[i], siteNumbers: siteNumbers[i]);
 }
 ```
 

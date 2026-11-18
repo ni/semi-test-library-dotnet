@@ -34,10 +34,10 @@ The following table outlines the constructors available for `SiteData<T>`.
 When creating `SiteData` objects you should consider the following:
 
 1. If all the site numbers and values are known upfront, passing them to a constructor is the most concise approach.
-2. If the site numbers or values are determined at runtime, such as inside a loop or based on a condition, create the object with the `SiteData()` or `SiteData(int siteNumber)` constructor. Then, populate the object with the `AddSite` and `SetValue` methods.
-3. Use the `SiteData(T[] data)` constructor only for niche scenarios. The active site numbers do not always start at 0 and are not always sequential. For example, the active sites can be 4, 9, 12, and 32.
+2. If the site numbers or values are determined at runtime, such as inside a loop or based on a condition, create the object with the `SiteData()` or `SiteData(int siteNumber)` constructor. Then, populate the object with the `AddSite` and `SetValue` methods. This is only applicable to release 26.5.0 or later.
+3. Use the `SiteData(T[] data)` constructor only for niche scenarios. The active site numbers do not always start at 0 and are not always sequential. For example, the active sites can be 4, 9 and 12.
 4. The `siteNumbers` array passed to a constructor must contain unique values. Otherwise, an `NISemiconductorTestException` is thrown.
-5. An `ArgumentNullException` is thrown if the `siteNumbers` array passed to a constructor is `null`. An `ArgumentException` is thrown if the array is empty.
+5. An `ArgumentNullException` is thrown if the `siteNumbers` array passed to a constructor is `null`. An `ArgumentException` is thrown if the array is empty. This is only applicable to release 26.5.0 or later.
 6. The `siteNumbers` and `perSiteData` arrays must have equal lengths. Otherwise, an `NISemiconductorTestException` is thrown.
 7. The site numbers do not need to be in sequential order. The `SiteNumbers` property always returns the site numbers in ascending order.
 8. Use `-1` as the site number to represent site-agnostic data, such as data associated with a system resource. A `SiteData` object can contain only one site-agnostic value.
@@ -95,6 +95,9 @@ siteData.AddSite(0, 1, 2);
 
 The following table outlines the methods available for adding and removing sites from a `SiteData<T>` object.
 
+>[!NOTE]
+> Adding and removing sites is applicable only to release 26.5.0 or later.
+
 **Table of Methods for Adding and Removing Sites:**
 
 |Method|Description|
@@ -143,6 +146,9 @@ siteData.RemoveSite(0, 1, 5);
 ## Setting Data Values in SiteData
 
 The following table outlines the methods available for setting values in a `SiteData<T>` object.
+
+>[!NOTE]
+> Setting data values is applicable only to release 26.5.0 or later.
 
 **Table of Methods for Setting Data Values:**
 
@@ -198,18 +204,78 @@ siteData.SetValue(value: 33, siteNumbers: -1);
 
 ## Working with SiteData in Loops
 
-You can add sites and set values inside a loop. This is useful when the site numbers or values come from another data structure, or are computed at runtime.
+You can use loops to build a `SiteData` object when the site numbers or values come from another data structure, or are computed at runtime. How you do this depends on the release you use:
 
-### Usage Considerations for Working with SiteData in Loops
+- Prior to release 26.5.0, the `SiteData` class does not provide methods to add sites or set values. Collect the values in a .NET collection inside the loop, and then create the `SiteData` object after the loop.
+- In release 26.5.0 or later, you can add sites and set values on a `SiteData` object inside the loop.
 
-When adding sites and setting values inside loops you should consider the following:
+When working with `SiteData` in loops in any release you should consider the following:
+
+1. The `SiteNumbers` property returns the site numbers in ascending order, which might not match the order of the data you are iterating over. When you index into a data array by site, iterate over the same `siteNumbers` array that is used to arrange the data.
+2. To transform every value of an existing `SiteData` object into a new `SiteData` object, the `Select` method can be more concise than a loop.
+
+### Working with SiteData in Loops Prior to Release 26.5.0
+
+#### Usage Considerations Prior to Release 26.5.0
+
+When working with `SiteData` in loops prior to release 26.5.0 you should consider the following:
+
+1. If the site numbers are determined at runtime, such as based on a condition, collect the values in a `Dictionary<int, T>` inside the loop. Then, pass the dictionary to the `SiteData(IDictionary<int, T> data)` constructor after the loop.
+2. If all the site numbers are known before the loop, collect the values in an array inside the loop. Then, pass the site numbers and the array to the `SiteData(int[] siteNumbers, T[] perSiteData)` constructor after the loop.
+
+#### Examples Prior to Release 26.5.0
+
+Example of calculating a unique value for each site inside the loop, and creating the `SiteData` object after the loop:
+
+```csharp
+var siteNumbers = new int[] { 2, 4, 5 };
+var perSiteData = new double[siteNumbers.Length];
+for (int i = 0; i < siteNumbers.Length; i++)
+{
+    // CalculateValue represents your own calculation.
+    perSiteData[i] = CalculateValue(siteNumbers[i]);
+}
+
+// Creates the SiteData object after the loop.
+var siteData = new SiteData<double>(siteNumbers, perSiteData);
+```
+
+Example of building a new `SiteData` object that contains only the sites where a measurement exceeds a limit:
+
+```csharp
+SiteData<double> measurement = dcPowerPin.MeasureVoltage().ExtractPin("VDD");
+double upperLimit = 1.2;
+
+var sitesAboveLimitData = new Dictionary<int, double>();
+foreach (int siteNumber in measurement.SiteNumbers)
+{
+    double value = measurement.GetValue(siteNumber);
+    if (value > upperLimit)
+    {
+        sitesAboveLimitData.Add(siteNumber, value);
+    }
+}
+
+// Creates the SiteData object after the loop.
+var sitesAboveLimit = new SiteData<double>(sitesAboveLimitData);
+```
+
+### Working with SiteData in Loops in Release 26.5.0 or Later
+
+#### Usage Considerations for Release 26.5.0 or Later
+
+When adding sites and setting values inside loops in release 26.5.0 or later you should consider the following:
 
 1. If all the site numbers are known before the loop, add them in a single call to the `AddSite` method, or pass them to a constructor. Then, set only the values inside the loop.
 2. Calling `SetValue(T value, params int[] siteNumbers)` inside a loop adds each site the first time it is encountered. You do not need to call `AddSite` separately.
 3. The `SiteNumbers` property returns a new array each time it is accessed. Therefore, you can add or remove sites while iterating over that array. Store the array in a local variable before the loop instead of accessing the property in every iteration.
-4. To transform every value of an existing `SiteData` object into a new `SiteData` object, the `Select` method can be more concise than a loop.
 
-### Examples for Working with SiteData in Loops
+>[!CAUTION]
+> `SiteData` objects are not thread-safe. Do not call the `AddSite`, `RemoveSite`, or `SetValue` methods on the same `SiteData` object from multiple threads at the same time, such as inside a `Parallel.For` or `Parallel.ForEach` loop, or in the actions passed to the `InvokeInParallel` method. This applies even when each thread accesses a different site. Concurrent modifications can corrupt the object or lose values without throwing an exception. Reading values from multiple threads is safe only when no thread modifies the object at the same time.
+>
+> Instead, store the result of each parallel iteration in its own element of a preallocated array. After the parallel loop completes, populate the `SiteData` object from the array, either by passing the array to a constructor or by calling the `SetValue` method in a sequential loop.
+
+#### Examples for Release 26.5.0 or Later
 
 Example of adding sites and setting a unique value for each site from a data array, where the array index represents the site number:
 
@@ -259,4 +325,22 @@ foreach (int siteNumber in siteNumbers)
         sitesAboveLimit.SetValue(value, siteNumber);
     }
 }
+```
+
+Example of calculating values inside a `Parallel.For` loop, and creating the `SiteData` object after the parallel loop completes:
+
+```csharp
+var siteNumbers = new int[] { 2, 4, 5 };
+var perSiteData = new double[siteNumbers.Length];
+
+// Each iteration writes only to its own element of the perSiteData array.
+// Do not call the SetValue method on a shared SiteData object inside the parallel loop.
+Parallel.For(0, siteNumbers.Length, i =>
+{
+    // CalculateValue represents your own calculation.
+    perSiteData[i] = CalculateValue(siteNumbers[i]);
+});
+
+// Creates the SiteData object after the parallel loop completes.
+var siteData = new SiteData<double>(siteNumbers, perSiteData);
 ```
