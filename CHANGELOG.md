@@ -296,7 +296,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   - **Documentation & Examples**
     - Added documentation for how to take TMU measurements, including TMU resource management, arming, scaling with sites, and lower-level programming with the NI-Digital Pattern Driver TMU .NET APIs.
     - Added Code Snippet style examples to demonstrate how to perform the different TMU measurements on digital pins: `MeasurePeriodTMU`, `MeasurePulseWidthTMU`, `MeasureDutyCycleTMU`, `MeasureRiseTimeTMU`, `MeasureFallTimeTMU`, and `MeasureSkewTMU`.
-    - Added a Sequence style example and documentation for performing timing measurements using the Time Measurement Unit (TMU) of NI Digital Pattern Instruments (PXIe-657x): `TMU`
+    - Added a Sequence style example and documentation for performing timing measurements using the Time Measurement Unit (TMU) of NI Digital Pattern Instruments (PXIe-657x): `TMU`.
     - Added documentation for the new constructors and methods in `SiteData` and `PinSiteData`.
     - Added several Code Snippet style examples for `DataAbstraction`:
       - `SiteDataExamples.BuildWithArray`: Demonstrates how to build a `SiteData` object from a data array, where the array index represents the site number, by using the `AddSite` and `SetValue` methods.
@@ -320,10 +320,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
       - `PinSiteDataExamples.ConstructWithDefaultConstructor`: Demonstrates how to create an empty `PinSiteData` object and use the `AddPin`, `AddSite`, `SetValue`, `RemoveSite`, and `RemovePin` methods to modify it.
       - `PinSiteDataExamples.ConstructWithSinglePinNameAndSiteNumbers`: Demonstrates how to create a `PinSiteData` object with a single pin and use the pin-specific overloads of the `AddSite`, `SetValue`, and `RemoveSite` methods to create jagged data, where each pin can contain a different set of sites.
       - `PinSiteDataExamples.ConstructWithPinNamesAndSiteNumbers`: Demonstrates how to create a `PinSiteData` object with multiple pins and sites and use the `AddSite`, `SetValue`, `RemoveSite`, and `RemovePin` methods to modify all pins or a subset of pins.
-    - Added a Sequence style example and documentation for using NI Digital Pattern instruments with the Semiconductor Test Library (STL) to access DUT registers over the SPI and I2C protocols: `RegisterIO.SPI-I2C`
-    - Added a Sequence style example and documentation for performing waveform acquisition using NI Oscilloscopes (NI-SCOPE): `ScopeAcquisition`
-    - Added a Sequence style example and documentation for generating standard waveforms with an NI Function Generator (PXIe-543x, NI-FGEN): `FGenStandardWaveformGeneration`
-    - Added Code Snippet style examples for generating standard waveforms with an NI Function Generator (PXIe-543x, NI-FGEN): `GenerateStandardWaveformFGen`
+    - Added a Sequence style example and documentation for using NI Digital Pattern instruments with the Semiconductor Test Library (STL) to access DUT registers over the SPI and I2C protocols: `RegisterIO.SPI-I2C`.
+    - Added a Sequence style example and documentation for performing waveform acquisition using NI Oscilloscopes (NI-SCOPE): `ScopeAcquisition`.
+    - Added a Sequence style example and documentation for generating standard waveforms with an NI Function Generator (PXIe-543x, NI-FGEN): `FGenStandardWaveformGeneration`.
+    - Added Code Snippet style examples for generating standard waveforms with an NI Function Generator (PXIe-543x, NI-FGEN): `GenerateStandardWaveformFGen`.
       - `GenerateStandardWaveformFGen.SameWaveformAcrossAllPinsAndSites`: Configures and initiates the same waveform across all specified pins and sites.
       - `GenerateStandardWaveformFGen.DifferentWaveformsPerSite`: Configures and initiates site-unique waveform settings across all specified pins.
       - `GenerateStandardWaveformFGen.DifferentWaveformsPerPinPerSite`: Configures and initiates pin- and site-unique waveform settings.
@@ -611,12 +611,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
     - Reintroduced the original method signature for `ResetInstrumentation` as a deprecated overload to maintain backwards compatibility. This overload is marked as `[Obsolete]` and `[EditorBrowsable(EditorBrowsableState.Never)]` to discourage new usage.
       - `ResetInstrumentation(ISemiconductorModuleContext tsmContext, bool resetDevice = false, TestStandSteps.NIInstrumentType instrumentType = TestStandSteps.NIInstrumentType.All)`
   - **Documentation & Examples**
-    - Added a Sequence style example and documentation for how to work with per-site multiplexed connections.
-    - Added a Sequence style example and documentation for how to use ganging and unganging channels in pin groups.
+    - Added a Sequence style example and documentation for working with per-site multiplexed connections: `MultiplexedConnection`.
+    - Added a Sequence style example and documentation for ganging and unganging of channels in pin groups: `SMUGangPinGroup`.
     - Added a Code Snippet style example: `ForceVoltageSequence`, for how to use hardware-timed sequencing to force a series of voltage values on targeted SMU pins.
     - Added a Code Snippet style example:  `ConfigureSMUAdvancedSequencesAndInitiate`, for how to configure and initiate advanced sequences with per-step property control.
-    - Added a Sequence style example: `SMUHardwareLevelSequence`, for how to use the Semiconductor Test Library (STL) extension methods for Hardware Level Sequencing (HLS) to run different force voltage sequences with an NI Source Measure Unit (SMU).
-    - Added a Sequence style example: `CustomInstrument.RSeries`, for how to use the Custom Instrument feature of the Semiconductor Test Library (STL) to interact with an R Series device.
+    - Added a Sequence style example for running different force voltage sequences with an NI Source Measure Unit (SMU) using Hardware Level Sequencing (HLS): `SMUHardwareLevelSequence`.
+    - Added a Sequence style example for using the Custom Instrument feature of the Semiconductor Test Library (STL) to interact with an R Series device: `CustomInstrument.RSeries`.
 
 - ### Changed
 
