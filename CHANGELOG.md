@@ -295,44 +295,38 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
       - `ResetDevice()`
   - **Documentation & Examples**
     - Added documentation for how to take TMU measurements, including TMU resource management, arming, scaling with sites, and lower-level programming with the NI-Digital Pattern Driver TMU .NET APIs.
-    - Added Code Snippet style examples: `MeasurePeriodTMU`, `MeasurePulseWidthTMU`, `MeasureDutyCycleTMU`, `MeasureRiseTimeTMU`, `MeasureFallTimeTMU`, and `MeasureSkewTMU`, for how to perform the different TMU measurements on digital pins.
-    - Added a Sequence style example: `TMU`, for how to use the Semiconductor Test Library (STL) extension methods for the Time Measurement Unit (TMU) to perform different timing measurements with an NI Digital Pattern Instrument (PXIe-657x).
+    - Added Code Snippet style examples to demonstrate how to perform the different TMU measurements on digital pins: `MeasurePeriodTMU`, `MeasurePulseWidthTMU`, `MeasureDutyCycleTMU`, `MeasureRiseTimeTMU`, `MeasureFallTimeTMU`, and `MeasureSkewTMU`.
+    - Added a Sequence style example and documentation for performing timing measurements using the Time Measurement Unit (TMU) of NI Digital Pattern Instruments (PXIe-657x): `TMU`
     - Added documentation for the new constructors and methods in `SiteData` and `PinSiteData`.
-    - Added several new Code Snippet style examples for `DataAbstraction`:
-      - `SiteDataExamples.BuildWithArray`, for how to build a `SiteData` object from a data array, where the array index represents the site number, by using the `AddSite` and `SetValue` methods.
-      - `SiteDataExamples.BuildWithPerSiteDataDictionary`, for how to build a `SiteData` object from a dictionary of site-unique data by using the `SetValue` method.
-      - `SiteDataExamples.BuildWithDictionaryWithSystemData`, for how to build a `SiteData` object from a dictionary of site-unique data that includes site-agnostic data (site `-1`) by using the `SetValue` method.
-      - `SiteDataExamples.BuildWithSingleValue`, for how to build a `SiteData` object with the same value for all sites by using the `AddSite` and `SetValue` methods.
-      - `SiteDataExamples.BuildWithSiteUniqueDataArray`, for how to build a `SiteData` object from arrays of site numbers and site-unique data by using the single-site constructor and the `SetValue` method.
-      - `SiteDataExamples.ConstructWithDefaultConstructor`, for how to create an empty `SiteData` object and use the `AddSite`, `SetValue`, and `RemoveSite` methods to add sites, set values, and remove sites.
-      - `SiteDataExamples.ConstructWithSingleSiteNumber`, for how to create a `SiteData` object with a single site and use the `AddSite`, `SetValue`, and `RemoveSite` methods to modify it.
-      - `PinSiteDataExamples.BuildWithArraysAndSetValueWithPerPinData`, for how to create a `PinSiteData` object from arrays of pin names and site numbers and set pin-unique data by using the `SetValue` method.
-      - `PinSiteDataExamples.BuildWithArraysAndSetValueWithPerPinPerSiteData`, for how to build an empty `PinSiteData` object with pin- and site-unique data by using the `SetValue` method.
-      - `PinSiteDataExamples.BuildWithArraysWithSystemPin`, for how to build a `PinSiteData` object that contains both DUT pin data and site-agnostic system pin data (site `-1`) by using the `AddSite` and `SetValue` methods.
-      - `PinSiteDataExamples.BuildWithDictionaryWithSystemPin`, for how to build a `PinSiteData` object from a dictionary of pin- and site-unique data that includes system pin data by using the `SetValue` method.
-      - `PinSiteDataExamples.BuildWithPinDataDictionaryAndSiteNumbersArray`, for how to build a `PinSiteData` object from a dictionary of pin-unique data and an array of site numbers by using the `AddPin`, `AddSite`, and `SetValue` methods.
-      - `PinSiteDataExamples.BuildWithPinDataDictionaryAndSiteNumbersArrayWithSystemPin`, for how to build a `PinSiteData` object from dictionaries of DUT pin and system pin data by using the `SetValue` method to add pins and sites automatically.
-      - `PinSiteDataExamples.BuildWithArraysForCommonDataValue`, for how to build a `PinSiteData` object with the same value for all pins and sites by using the `SetValue` method.
-      - `PinSiteDataExamples.BuildWithPinUniqueDataArray`, for how to build a `PinSiteData` object from an array of pin-unique data by using the `AddPin`, `AddSite`, and `SetValue` methods.
-      - `PinSiteDataExamples.BuildWithSiteUniqueDataArray`, for how to build a `PinSiteData` object from an array of site-unique data by using the `SetValue` method.
-      - `PinSiteDataExamples.BuildWithPinAndSiteUniqueDataArray`, for how to build a `PinSiteData` object from a jagged array of pin- and site-unique data, formatted as `[pins][sites]`, by using the `AddSite` and `SetValue` methods.
-      - `PinSiteDataExamples.BuildWithSiteAndPinUniqueDataArray`, for how to build a `PinSiteData` object from a jagged array of site- and pin-unique data, formatted as `[sites][pins]`, by using the `SetValue` method.
-      - `PinSiteDataExamples.ConstructWithDefaultConstructor`, for how to create an empty `PinSiteData` object and use the `AddPin`, `AddSite`, `SetValue`, `RemoveSite`, and `RemovePin` methods to modify it.
-      - `PinSiteDataExamples.ConstructWithSinglePinNameAndSiteNumbers`, for how to create a `PinSiteData` object with a single pin and use the pin-specific overloads of the `AddSite`, `SetValue`, and `RemoveSite` methods to create jagged data, where each pin can contain a different set of sites.
-      - `PinSiteDataExamples.ConstructWithPinNamesAndSiteNumbers`, for how to create a `PinSiteData` object with multiple pins and sites and use the `AddSite`, `SetValue`, `RemoveSite`, and `RemovePin` methods to modify all pins or a subset of pins.
-    - Added a Sequence style example, `RegisterIO.SPI-I2C`, and accompanying user guide documentation for using NI Digital Pattern instruments with the Semiconductor Test Library (STL) to access DUT registers over the SPI and I2C protocols. The example hides the protocol-specific pattern bursting, source and capture waveforms, and bit packing behind a protocol-agnostic interface, so the same test steps work with either protocol. It covers writing and reading back a site-agnostic value to a single register, a site-unique value to a single register, and register-specific values to multiple registers.
-    - Added a Sequence style example: `ScopeAcquisition`, for how to use the Semiconductor Test Library (STL) to configure, initiate, and fetch waveform acquisitions with an NI Oscilloscope (NI-SCOPE) using different trigger types. The example includes the following code modules:
-      - `ConfigureInitiateAndFetchScopeAcquisitionUsingImmediateTrigger`: Acquires waveforms using an immediate (software) trigger.
-      - `ConfigureInitiateAndFetchScopeAcquisitionUsingEdgeTrigger`: Acquires waveforms using an analog edge trigger.
-      - `ConfigureInitiateAndFetchScopeAcquisitionUsingDigitalTrigger`: Acquires waveforms using a digital trigger.
-      - `ConfigureInitiateAndFetchScopeAcquisitionUsingHysteresisTrigger`: Acquires waveforms using a hysteresis trigger.
-      - `ConfigureInitiateAndFetchScopeAcquisitionUsingWindowTrigger`: Acquires waveforms using a window trigger.
-      - `Utilities.CalculateWaveformFrequencyAndPeakToPeakAmplitude`: Helper method that uses zero-crossing analysis to estimate the frequency and peak-to-peak amplitude of each fetched waveform for each pin and site.
-    - Added a Sequence style example: `FGenStandardWaveformGeneration`, and accompanying documentation, for how to use the Semiconductor Test Library (STL) extension methods for the Function Generator (NI-FGEN) to generate standard waveforms with an NI Function Generator (PXIe-543x).
-    - Added a Code Snippet style example: `GenerateStandardWaveformFGen`, for how to configure and initiate NI-FGEN standard waveforms by using the different `ConfigureStandardWaveform` overloads. The example includes the following methods:
-      - `SameWaveformAcrossAllPinsAndSites`: Configures and initiates the same waveform across all specified pins and sites.
-      - `DifferentWaveformsPerSite`: Configures and initiates site-unique waveform settings across all specified pins.
-      - `DifferentWaveformsPerPinPerSite`: Configures and initiates pin- and site-unique waveform settings.
+    - Added several Code Snippet style examples for `DataAbstraction`:
+      - `SiteDataExamples.BuildWithArray`: Demonstrates how to build a `SiteData` object from a data array, where the array index represents the site number, by using the `AddSite` and `SetValue` methods.
+      - `SiteDataExamples.BuildWithPerSiteDataDictionary`: Demonstrates how to build a `SiteData` object from a dictionary of site-unique data by using the `SetValue` method.
+      - `SiteDataExamples.BuildWithDictionaryWithSystemData`: Demonstrates how to build a `SiteData` object from a dictionary of site-unique data that includes site-agnostic data (site `-1`) by using the `SetValue` method.
+      - `SiteDataExamples.BuildWithSingleValue`: Demonstrates how to build a `SiteData` object with the same value for all sites by using the `AddSite` and `SetValue` methods.
+      - `SiteDataExamples.BuildWithSiteUniqueDataArray`: Demonstrates how to build a `SiteData` object from arrays of site numbers and site-unique data by using the single-site constructor and the `SetValue` method.
+      - `SiteDataExamples.ConstructWithDefaultConstructor`: Demonstrates how to create an empty `SiteData` object and use the `AddSite`, `SetValue`, and `RemoveSite` methods to add sites, set values, and remove sites.
+      - `SiteDataExamples.ConstructWithSingleSiteNumber`: Demonstrates how to create a `SiteData` object with a single site and use the `AddSite`, `SetValue`, and `RemoveSite` methods to modify it.
+      - `PinSiteDataExamples.BuildWithArraysAndSetValueWithPerPinData`: Demonstrates how to create a `PinSiteData` object from arrays of pin names and site numbers and set pin-unique data by using the `SetValue` method.
+      - `PinSiteDataExamples.BuildWithArraysAndSetValueWithPerPinPerSiteData`: Demonstrates how to build an empty `PinSiteData` object with pin- and site-unique data by using the `SetValue` method.
+      - `PinSiteDataExamples.BuildWithArraysWithSystemPin`: Demonstrates how to build a `PinSiteData` object that contains both DUT pin data and site-agnostic system pin data (site `-1`) by using the `AddSite` and `SetValue` methods.
+      - `PinSiteDataExamples.BuildWithDictionaryWithSystemPin`: Demonstrates how to build a `PinSiteData` object from a dictionary of pin- and site-unique data that includes system pin data by using the `SetValue` method.
+      - `PinSiteDataExamples.BuildWithPinDataDictionaryAndSiteNumbersArray`: Demonstrates how to build a `PinSiteData` object from a dictionary of pin-unique data and an array of site numbers by using the `AddPin`, `AddSite`, and `SetValue` methods.
+      - `PinSiteDataExamples.BuildWithPinDataDictionaryAndSiteNumbersArrayWithSystemPin`: Demonstrates how to build a `PinSiteData` object from dictionaries of DUT pin and system pin data by using the `SetValue` method to add pins and sites automatically.
+      - `PinSiteDataExamples.BuildWithArraysForCommonDataValue`: Demonstrates how to build a `PinSiteData` object with the same value for all pins and sites by using the `SetValue` method.
+      - `PinSiteDataExamples.BuildWithPinUniqueDataArray`: Demonstrates how to build a `PinSiteData` object from an array of pin-unique data by using the `AddPin`, `AddSite`, and `SetValue` methods.
+      - `PinSiteDataExamples.BuildWithSiteUniqueDataArray`: Demonstrates how to build a `PinSiteData` object from an array of site-unique data by using the `SetValue` method.
+      - `PinSiteDataExamples.BuildWithPinAndSiteUniqueDataArray`: Demonstrates how to build a `PinSiteData` object from a jagged array of pin- and site-unique data, formatted as `[pins][sites]`, by using the `AddSite` and `SetValue` methods.
+      - `PinSiteDataExamples.BuildWithSiteAndPinUniqueDataArray`: Demonstrates how to build a `PinSiteData` object from a jagged array of site- and pin-unique data, formatted as `[sites][pins]`, by using the `SetValue` method.
+      - `PinSiteDataExamples.ConstructWithDefaultConstructor`: Demonstrates how to create an empty `PinSiteData` object and use the `AddPin`, `AddSite`, `SetValue`, `RemoveSite`, and `RemovePin` methods to modify it.
+      - `PinSiteDataExamples.ConstructWithSinglePinNameAndSiteNumbers`: Demonstrates how to create a `PinSiteData` object with a single pin and use the pin-specific overloads of the `AddSite`, `SetValue`, and `RemoveSite` methods to create jagged data, where each pin can contain a different set of sites.
+      - `PinSiteDataExamples.ConstructWithPinNamesAndSiteNumbers`: Demonstrates how to create a `PinSiteData` object with multiple pins and sites and use the `AddSite`, `SetValue`, `RemoveSite`, and `RemovePin` methods to modify all pins or a subset of pins.
+    - Added a Sequence style example and documentation for using NI Digital Pattern instruments with the Semiconductor Test Library (STL) to access DUT registers over the SPI and I2C protocols: `RegisterIO.SPI-I2C`
+    - Added a Sequence style example and documentation for performing waveform acquisition using NI Oscilloscopes (NI-SCOPE): `ScopeAcquisition`
+    - Added a Sequence style example and documentation for generating standard waveforms with an NI Function Generator (PXIe-543x, NI-FGEN): `FGenStandardWaveformGeneration`
+    - Added Code Snippet style examples for generating standard waveforms with an NI Function Generator (PXIe-543x, NI-FGEN): `GenerateStandardWaveformFGen`
+      - `GenerateStandardWaveformFGen.SameWaveformAcrossAllPinsAndSites`: Configures and initiates the same waveform across all specified pins and sites.
+      - `GenerateStandardWaveformFGen.DifferentWaveformsPerSite`: Configures and initiates site-unique waveform settings across all specified pins.
+      - `GenerateStandardWaveformFGen.DifferentWaveformsPerPinPerSite`: Configures and initiates pin- and site-unique waveform settings.
 
 - ### Changed
 
