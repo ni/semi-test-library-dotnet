@@ -19,7 +19,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
     - New constructors added to `SiteData<T>` for creating an empty `SiteData` object or a `SiteData` object with a single site. The single site is initialized with the default value of `T`.
       - `SiteData()`
       - `SiteData(int siteNumber)`
-    - New methods added to `SiteData<T>` for adding and removing sites and for setting values. `AddSite` initializes new sites with the default value of `T` and skips sites that already exist. `RemoveSite` skips sites that do not exist. `SetValue` adds any specified sites that do not exist. Refer to the updated documentation for details.
+    - New methods added to `SiteData<T>` for adding and removing sites and for setting values. `AddSite` initializes new sites with the default value of `T` and skips sites that already exist. `RemoveSite` skips sites that do not exist. `SetValue` adds any specified sites that do not exist.
       - `AddSite(params int[] siteNumbers)`
       - `RemoveSite(params int[] siteNumbers)`
       - `SetValue(T value)`
