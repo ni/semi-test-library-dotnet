@@ -42,7 +42,7 @@ When creating `SiteData` objects you should consider the following:
 7. The site numbers do not need to be in sequential order. The `SiteNumbers` property always returns the site numbers in ascending order.
 8. Use `-1` as the site number to represent site-agnostic data, such as data associated with a system resource. A `SiteData` object can contain only one site-agnostic value.
 
-### Examples for Creating SiteData
+### Example Usage for Creating SiteData
 
 Example of creating a `SiteData` object with all sites and values defined upfront:
 
@@ -55,7 +55,7 @@ var siteData = new SiteData<double>(siteNumbers, 567);
 // Value | 567.0 | 567.0 | 567.0 | 567.0
 ```
 
-Example of creating an empty `SiteData` object and populating it afterwards:
+Example of creating an empty `SiteData` object and populating it afterwards (applicable only to release 26.5.0 or later):
 
 ```csharp
 var siteNumbers = new int[] { 2, 4, 5, 6 };
@@ -75,7 +75,7 @@ siteData.SetValue(567);
 // Value | 567.0 | 567.0 | 567.0 | 567.0
 ```
 
-Example of creating a `SiteData` object with a single site and extending it afterwards:
+Example of creating a `SiteData` object with a single site and extending it afterwards (applicable only to release 26.5.0 or later):
 
 ```csharp
 // Creates a SiteData object with site 0. The site is initialized with the default value of double (0.0).
@@ -116,7 +116,9 @@ When adding and removing sites from `SiteData` objects you should consider the f
 5. An `ArgumentNullException` is thrown if the `siteNumbers` input is `null`. An `ArgumentException` is thrown if the `siteNumbers` input is an empty array or if no site number is provided.
 6. Removing all sites leaves the `SiteData` object empty. Methods such as `GetValue` and the [math operations](../MathOperations/MathOperationsWithSiteData.md) throw an `NISemiconductorTestException` when called on an empty `SiteData` object.
 
-### Examples for Adding and Removing Sites
+### Example Usage for Adding and Removing Sites
+
+Example of adding and removing sites (applicable only to release 26.5.0 or later):
 
 ```csharp
 var siteData = new SiteData<double>();
@@ -167,7 +169,9 @@ When setting values in `SiteData` objects you should consider the following:
 4. If the `siteNumbers` input is `null` or an empty array, the `SetValue(T value, params int[] siteNumbers)` method sets the value for all existing sites. In this case, an `NISemiconductorTestException` is thrown if the `SiteData` object contains no sites.
 5. When `T` is a reference type, such as an array, the `SetValue` method assigns the same instance to every affected site. Modifying that instance later changes the value for all of those sites. Assign a separate instance to each site if the values must be independent.
 
-### Examples for Setting Data Values
+### Example Usage for Setting Data Values
+
+Example of setting a value for all sites and for specific sites (applicable only to release 26.5.0 or later):
 
 ```csharp
 var siteData = new SiteData<double>();
@@ -191,7 +195,7 @@ siteData.SetValue(value: 5.0, siteNumbers: new int[] { 3, 4 });
 // Value |  3.3  |  1.8  |  3.3  |  5.0  |  5.0
 ```
 
-Example of setting a site-agnostic value. Site `-1` is added because it does not exist:
+Example of setting a site-agnostic value, where site `-1` is added because it does not exist (applicable only to release 26.5.0 or later):
 
 ```csharp
 var siteData = new SiteData<double>(new int[] { 0, 1 }, 11);
@@ -223,7 +227,7 @@ When working with `SiteData` in loops prior to release 26.5.0 you should conside
 1. If the site numbers are determined at runtime, such as based on a condition, collect the values in a `Dictionary<int, T>` inside the loop. Then, pass the dictionary to the `SiteData(IDictionary<int, T> data)` constructor after the loop.
 2. If all the site numbers are known before the loop, collect the values in an array inside the loop. Then, pass the site numbers and the array to the `SiteData(int[] siteNumbers, T[] perSiteData)` constructor after the loop.
 
-#### Examples Prior to Release 26.5.0
+#### Example Usage Prior to Release 26.5.0
 
 Example of calculating a unique value for each site inside the loop, and creating the `SiteData` object after the loop:
 
@@ -275,7 +279,7 @@ When adding sites and setting values inside loops in release 26.5.0 or later you
 >
 > Instead, store the result of each parallel iteration in its own element of a preallocated array. After the parallel loop completes, populate the `SiteData` object from the array, either by passing the array to a constructor or by calling the `SetValue` method in a sequential loop.
 
-#### Examples for Release 26.5.0 or Later
+#### Example Usage for Release 26.5.0 or Later
 
 Example of adding sites and setting a unique value for each site from a data array, where the array index represents the site number:
 
