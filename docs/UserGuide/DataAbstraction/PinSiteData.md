@@ -402,7 +402,7 @@ The following table outlines the properties available for getting the pins and s
 | :- | :- |
 |[`PinNames`](../../SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.PinNames.html)|Returns the pin names in the `PinSiteData` object.|
 |[`SiteNumbers`](../../SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.SiteNumbers.html)|Returns the union of the site numbers across all pins, in ascending order.|
-|[`SiteNumbersByPin`](../../SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.SiteNumbersByPin.html)|Returns a read-only dictionary where each key is a pin name and each value is the list of site numbers for that pin, in ascending order.|This property is available only in release 26.5.0 or later.
+|[`SiteNumbersByPin`](../../SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.SiteNumbersByPin.html)|Returns a read-only dictionary where each key is a pin name and each value is the list of site numbers for that pin, in ascending order. This property is available only in release 26.5.0 or later.|
 
 ---
 
