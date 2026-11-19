@@ -1,7 +1,7 @@
 # Scope Extension Methods
 
 The Semiconductor Test Library (STL) provides high-level extension methods for the `ScopeSessionsBundle` class to configure, control, and acquire waveforms from NI-SCOPE instruments.
-These methods operate in parallel across all instrument sessions, pins, and sites in the bundle, and they accept and return pin- and site-aware data types, such as `SiteData` and `PinSiteData`.
+These methods operate in parallel across all instrument sessions, pins, and sites in the bundle. And they accept and return pin- and site-aware data types, such as `SiteData` and `PinSiteData`.
 
 The extension methods are defined in the `NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope` namespace.
 
@@ -64,7 +64,12 @@ All trigger settings types inherit the `HoldOff` and `Delay` properties from the
 | `Read` | `PinSiteData<double[]>` | Initiates an acquisition, waits for it to complete, and returns the acquired raw samples. |
 
 > [!NOTE]
-> If an acquisition fails or does not complete within the specified timeout, the resulting `NISemiconductorTestException` includes the site, pin, and channel details for every channel on the affected card, because a single site losing its trigger signal prevents the entire card from acquiring data.
+> If an acquisition fails or does not complete within the specified timeout, the resulting `NISemiconductorTestException` includes the following details for every channel on the affected card:
+>  - site, 
+>  - pin, 
+>  - channel
+> 
+> This is because a single site losing its trigger signal prevents the entire card from acquiring data.
 
 ## Query Methods
 
