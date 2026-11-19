@@ -11,7 +11,7 @@ This topic describes how to create, populate, and modify `PinSiteData` objects.
 > - The `AddPin`, `RemovePin`, `AddSite`, `RemoveSite`, and `SetValue` methods.
 > - The `SiteNumbersByPin` property.
 >
-> Find examples for using the `PinSiteData` object [here on GitHub](https://github.com/ni/semi-test-library-dotnet/tree/main/Examples/source/CodeSnippets/DataAbstraction).
+> Find examples of using the `PinSiteData` object [in STL DataAbstraction Examples](https://github.com/ni/semi-test-library-dotnet/tree/main/Examples/source/CodeSnippets/DataAbstraction).
 
 ---
 
@@ -37,10 +37,10 @@ The following table outlines the constructors available for `PinSiteData<T>`.
 
 ### Usage Considerations for Creating PinSiteData
 
-When creating `PinSiteData` objects you should consider the following:
+When creating `PinSiteData` objects, you should consider the following:
 
 1. If all the pin names, site numbers, and values are known upfront, passing them to a constructor is the most concise approach.
-2. If the pin names and site numbers are known upfront but the values are not, use the `PinSiteData(string[] pinNames, params int[] siteNumbers)` constructor. Then, set the values with the `SetValue` method. This is applicable to release 26.5.0 or later.
+2. If the pin names and site numbers are known upfront but the values are not, use the `PinSiteData(string[] pinNames, params int[] siteNumbers)` constructor. Then, set the values with the `SetValue` method. This is only applicable to release 26.5.0 or later.
 3. If the pin names or site numbers are determined at runtime, such as inside a loop or based on a condition, create the object with the `PinSiteData()` constructor. Then, populate the object with the `AddPin`, `AddSite`, and `SetValue` methods. This is only applicable to release 26.5.0 or later.
 4. If the `siteNumbers` input of the `PinSiteData(string pinName, params int[] siteNumbers)` or `PinSiteData(string[] pinNames, params int[] siteNumbers)` constructor is not provided, `null`, or an empty array, each pin is created with no sites. Add sites later with the `AddSite` or `SetValue` methods. This is only applicable to release 26.5.0 or later.
 5. Pin names must not be `null` or empty strings. An `ArgumentNullException` is thrown if the `pinName` or `pinNames` input, or any of the specified pin names, is `null`. An `ArgumentException` is thrown if the `pinNames` input is an empty array, or if any of the specified pin names is an empty string. This is only applicable to release 26.5.0 or later.
@@ -65,7 +65,7 @@ var pinSiteData = new PinSiteData<double>(pinNames, siteNumbers, perPinData);
 // VCC1   | 105.0  | 105.0  | 105.0
 ```
 
-Example of creating a `PinSiteData` object with known pins and sites, and setting the values afterwards (applicable only to release 26.5.0 or later):
+Example of creating a `PinSiteData` object with known pins and sites, and setting the values afterwards (only applicable to release 26.5.0 or later):
 
 ```csharp
 var pinNames = new string[] { "VDET", "VCC1" };
@@ -84,7 +84,7 @@ pinSiteData.SetValue(55);
 // VCC1   |  55.0  |  55.0  |  55.0
 ```
 
-Example of creating an empty `PinSiteData` object and populating it afterwards (applicable only to release 26.5.0 or later):
+Example of creating an empty `PinSiteData` object and populating it afterwards (only applicable to release 26.5.0 or later):
 
 ```csharp
 // Creates an empty PinSiteData object.
@@ -118,7 +118,7 @@ pinSiteData.SetValue(value: 3.3, pinNames: "VCC1");
 The following table outlines the methods available for adding and removing pins from a `PinSiteData<T>` object.
 
 >[!NOTE]
-> Adding and removing pins is applicable only to release 26.5.0 or later.
+> Adding and removing pins is only applicable to release 26.5.0 or later.
 
 **Table of Methods for Adding and Removing Pins:**
 
@@ -129,7 +129,7 @@ The following table outlines the methods available for adding and removing pins 
 
 ### Usage Considerations for Adding and Removing Pins
 
-When adding and removing pins from `PinSiteData` objects you should consider the following:
+When adding and removing pins from `PinSiteData` objects, you should consider the following:
 
 1. You can pass the pin names either as an array, for example `pinSiteData.AddPin(pinNames)`, or as separate arguments, for example `pinSiteData.AddPin("VCC1", "VCC2")`.
 2. Each new pin contains all the site numbers returned by the `SiteNumbers` property, which is the union of the sites across all existing pins. If different pins contain different sites, the new pin contains every site that exists in any pin.
@@ -142,7 +142,7 @@ When adding and removing pins from `PinSiteData` objects you should consider the
 
 ### Example Usage for Adding and Removing Pins
 
-Example of adding and removing pins (applicable only to release 26.5.0 or later):
+Example of adding and removing pins (only applicable to release 26.5.0 or later):
 
 ```csharp
 var pinSiteData = new PinSiteData<double>("VDET", 0, 1, 2);
@@ -162,7 +162,7 @@ pinSiteData.RemovePin("VCC1", "VCC2");
 // VDET   |  0.0   |  0.0   |  0.0
 ```
 
-Example of adding a pin to a `PinSiteData` object where pins contain different sites (applicable only to release 26.5.0 or later):
+Example of adding a pin to a `PinSiteData` object where pins contain different sites (only applicable to release 26.5.0 or later):
 
 ```csharp
 // Pin    | Site 0 | Site 1 | Site 2
@@ -186,7 +186,7 @@ pinSiteData.AddPin("VCC2");
 The following table outlines the methods available for adding and removing sites from a `PinSiteData<T>` object.
 
 >[!NOTE]
-> Adding and removing sites is applicable only to release 26.5.0 or later.
+> Adding and removing sites is only applicable to release 26.5.0 or later.
 
 **Table of Methods for Adding and Removing Sites:**
 
@@ -201,7 +201,7 @@ The following table outlines the methods available for adding and removing sites
 
 ### Usage Considerations for Adding and Removing Sites
 
-When adding and removing sites from `PinSiteData` objects you should consider the following:
+When adding and removing sites from `PinSiteData` objects, you should consider the following:
 
 1. New sites are initialized with the default value of `T`. The `AddSite` methods skip sites that already exist for a pin. The values of existing sites are not changed.
 2. The `AddSite(params int[] siteNumbers)` method requires at least one pin. If the `PinSiteData` object contains no pins, an `NISemiconductorTestException` is thrown. Call the `AddPin` method first when you create the object with the `PinSiteData()` constructor, or after you remove all pins with the `RemovePin` method.
@@ -215,7 +215,7 @@ When adding and removing sites from `PinSiteData` objects you should consider th
 
 ### Example Usage for Adding and Removing Sites
 
-Example of adding and removing sites across all pins (applicable only to release 26.5.0 or later):
+Example of adding and removing sites across all pins (only applicable to release 26.5.0 or later):
 
 ```csharp
 var pinSiteData = new PinSiteData<double>(new string[] { "VDET", "VCC1" }, 0, 1);
@@ -236,7 +236,7 @@ pinSiteData.RemoveSite(2, 3);
 // VCC1   |  0.0   |  0.0
 ```
 
-Example of adding and removing sites for specific pins, which results in a jagged `PinSiteData` object (applicable only to release 26.5.0 or later):
+Example of adding and removing sites for specific pins, which results in a jagged `PinSiteData` object (only applicable to release 26.5.0 or later):
 
 ```csharp
 var pinSiteData = new PinSiteData<double>(new string[] { "VDET", "VCC1", "VCC2" }, 0, 1);
@@ -267,7 +267,7 @@ int[] allSiteNumbers = pinSiteData.SiteNumbers;
 IReadOnlyDictionary<string, IReadOnlyList<int>> siteNumbersByPin = pinSiteData.SiteNumbersByPin;
 ```
 
-Example of adding a site-agnostic site for a system pin (applicable only to release 26.5.0 or later):
+Example of adding a site-agnostic site for a system pin (only applicable to release 26.5.0 or later):
 
 ```csharp
 var pinSiteData = new PinSiteData<double>(new string[] { "VCC1", "VCC2" }, 0, 1);
@@ -287,7 +287,7 @@ pinSiteData.AddSite("SystemSupply", -1);
 The following table outlines the methods available for setting values in a `PinSiteData<T>` object.
 
 >[!NOTE]
-> Setting data values is applicable only to release 26.5.0 or later.
+> Setting data values is only applicable to release 26.5.0 or later.
 
 **Table of Methods for Setting Data Values:**
 
@@ -301,7 +301,7 @@ The following table outlines the methods available for setting values in a `PinS
 
 ### Usage Considerations for Setting Data Values
 
-When setting values in `PinSiteData` objects you should consider the following:
+When setting values in `PinSiteData` objects, you should consider the following:
 
 1. The `SetValue` methods overwrite any existing value for the affected pin and site combinations. Pins that are not specified are not changed.
 2. To set the same value for a pin across all its sites, use `SetValue(T value, params string[] pinNames)`. To set a site-specific value, use `SetValue(T value, string pinName, params int[] siteNumbers)` or `SetValue(T value, string[] pinNames, params int[] siteNumbers)`.
@@ -332,7 +332,7 @@ When setting values in `PinSiteData` objects you should consider the following:
 
 ### Example Usage for Setting Data Values
 
-Example of setting a value for all sites of a pin, and setting site-specific values (applicable only to release 26.5.0 or later):
+Example of setting a value for all sites of a pin, and setting site-specific values (only applicable to release 26.5.0 or later):
 
 ```csharp
 var pinSiteData = new PinSiteData<double>(new string[] { "VDET", "VCC1", "VCC2" }, 0, 1, 2);
@@ -377,7 +377,7 @@ pinSiteData.SetValue(value: 2.2, pinNames: new string[] { "VCC1", "VCC2" }, site
 // VCC2   |  1.5   |  3.3   |  2.2   |  2.2
 ```
 
-Example of building a `PinSiteData` object only with `SetValue`, including a system pin (applicable only to release 26.5.0 or later):
+Example of building a `PinSiteData` object only with `SetValue`, including a system pin (only applicable to release 26.5.0 or later):
 
 ```csharp
 var siteNumbers = new int[] { 0, 1 };
@@ -402,7 +402,7 @@ The following table outlines the properties available for getting the pins and s
 | :- | :- |
 |[`PinNames`](../../SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.PinNames.html)|Returns the pin names in the `PinSiteData` object.|
 |[`SiteNumbers`](../../SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.SiteNumbers.html)|Returns the union of the site numbers across all pins, in ascending order.|
-|[`SiteNumbersByPin`](../../SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.SiteNumbersByPin.html)|Returns a read-only dictionary where each key is a pin name and each value is the list of site numbers for that pin, in ascending order. This property is available only in release 26.5.0 or later.|
+|[`SiteNumbersByPin`](../../SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.SiteNumbersByPin.html)|Returns a read-only dictionary where each key is a pin name and each value is the list of site numbers for that pin, in ascending order. This property is available only in release 26.5.0 or later.
 
 ---
 
@@ -413,7 +413,7 @@ You can use loops to build a `PinSiteData` object when the pin names, site numbe
 - Prior to release 26.5.0, the `PinSiteData` class does not provide methods to add pins, add sites, or set values. Collect the values in a .NET collection inside the loop, and then create the `PinSiteData` object after the loop.
 - In release 26.5.0 or later, you can add pins, add sites, and set values on a `PinSiteData` object inside the loop.
 
-When working with `PinSiteData` in loops in any release you should consider the following:
+When working with `PinSiteData` in loops in any release, you should consider the following:
 
 1. The order of the `PinNames` property is not guaranteed to match the order in which the pins were passed to the constructor or added. When you index into a data array by pin, iterate over the same `pinNames` array that is used to arrange the data.
 2. To transform every value of an existing `PinSiteData` object into a new `PinSiteData` object, the `Select` method can be more concise than a loop.
@@ -422,7 +422,7 @@ When working with `PinSiteData` in loops in any release you should consider the 
 
 #### Usage Considerations Prior to Release 26.5.0
 
-When working with `PinSiteData` in loops prior to release 26.5.0 you should consider the following:
+When working with `PinSiteData` in loops prior to release 26.5.0, you should consider the following:
 
 1. If the pin names or site numbers are determined at runtime, or if different pins contain different sites, collect the values in a `Dictionary<string, IDictionary<int, T>>` inside the loop. Then, pass the dictionary to the `PinSiteData(Dictionary<string, IDictionary<int, T>> pinSiteData)` constructor after the loop.
 2. If all the pin names and site numbers are known before the loop, collect the values in an array inside the loop. Then, pass the array to the matching constructor after the loop, such as the `PinSiteData(string[] pinNames, int[] siteNumbers, T[][] perPinPerSiteData)` constructor.
@@ -474,11 +474,11 @@ foreach (string pinName in measurement.PinNames)
 var isAboveLimit = new PinSiteData<bool>(isAboveLimitData);
 ```
 
-### Working with PinSiteData in Loops in Release 26.5.0 or Later
+### Working with PinSiteData in Loops with Release 26.5.0 or Later
 
 #### Usage Considerations for Release 26.5.0 or Later
 
-When adding pins and sites and setting values inside loops in release 26.5.0 or later you should consider the following:
+When adding pins and sites and setting values inside loops in release 26.5.0 or later, you should consider the following:
 
 1. If all the pin names and site numbers are known before the loop, pass them to a constructor, or add them with a single call to the `AddPin` and `AddSite` methods. Then, set only the values inside the loop.
 2. Calling `SetValue(T value, string pinName, params int[] siteNumbers)` inside a loop adds each pin and site the first time it is encountered. You do not need to call the `AddPin` or `AddSite` methods separately.
@@ -486,7 +486,7 @@ When adding pins and sites and setting values inside loops in release 26.5.0 or 
 4. To iterate over a jagged `PinSiteData` object, use the `SiteNumbersByPin` property to get the sites of each pin. The `SiteNumbers` property returns the union of the sites across all pins, so not every pin contains every site in it.
 
 >[!CAUTION]
-> `PinSiteData` objects are not thread-safe. Do not call the `AddPin`, `RemovePin`, `AddSite`, `RemoveSite`, or `SetValue` methods on the same `PinSiteData` object from multiple threads at the same time, such as inside a `Parallel.For` or `Parallel.ForEach` loop, or in the actions passed to the `InvokeInParallel` method. This applies even when each thread accesses a different pin or site. Concurrent modifications can corrupt the object or lose values without throwing an exception. Reading values from multiple threads is safe only when no thread modifies the object at the same time.
+> Similar to native C# dictionaries, `PinSiteData` objects are not thread-safe. Do not call the `AddPin`, `RemovePin`, `AddSite`, `RemoveSite`, or `SetValue` methods on the same PinSiteData object from multiple threads at the same time. For example, invoking these methods from inside a `Parallel.For` or `Parallel.ForEach` loop, or in the actions passed to the `Parallel.Invoke` or `InvokeInParallel` methods. This applies even when each thread accesses a different pin or site. Concurrent modifications can lead to race conditions and other unexpected behaviors. Reading values from multiple threads is safe only when a single thread modifies the object at a given time.
 >
 > Instead, store the result of each parallel iteration in its own element of a preallocated array. After the parallel loop completes, populate the `PinSiteData` object from the array, either by passing the array to a constructor or by calling the `SetValue` method in a sequential loop.
 

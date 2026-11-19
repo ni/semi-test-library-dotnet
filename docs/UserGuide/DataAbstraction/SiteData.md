@@ -10,7 +10,7 @@ This topic describes how to create, populate, and modify `SiteData` objects.
 > - The `SiteData()` and `SiteData(int siteNumber)` constructors.
 > - The `AddSite`, `RemoveSite`, and `SetValue` methods.
 >
-> Find examples for using the `SiteData` object [here on GitHub](https://github.com/ni/semi-test-library-dotnet/tree/main/Examples/source/CodeSnippets/DataAbstraction).
+> Find examples of using the `SiteData` object [in STL DataAbstraction Examples](https://github.com/ni/semi-test-library-dotnet/tree/main/Examples/source/CodeSnippets/DataAbstraction).
 
 ---
 
@@ -31,7 +31,7 @@ The following table outlines the constructors available for `SiteData<T>`.
 
 ### Usage Considerations for Creating SiteData
 
-When creating `SiteData` objects you should consider the following:
+When creating `SiteData` objects, you should consider the following:
 
 1. If all the site numbers and values are known upfront, passing them to a constructor is the most concise approach.
 2. If the site numbers or values are determined at runtime, such as inside a loop or based on a condition, create the object with the `SiteData()` or `SiteData(int siteNumber)` constructor. Then, populate the object with the `AddSite` and `SetValue` methods. This is only applicable to release 26.5.0 or later.
@@ -55,7 +55,7 @@ var siteData = new SiteData<double>(siteNumbers, 567);
 // Value | 567.0 | 567.0 | 567.0 | 567.0
 ```
 
-Example of creating an empty `SiteData` object and populating it afterwards (applicable only to release 26.5.0 or later):
+Example of creating an empty `SiteData` object and populating it afterwards (only applicable to release 26.5.0 or later):
 
 ```csharp
 var siteNumbers = new int[] { 2, 4, 5, 6 };
@@ -75,7 +75,7 @@ siteData.SetValue(567);
 // Value | 567.0 | 567.0 | 567.0 | 567.0
 ```
 
-Example of creating a `SiteData` object with a single site and extending it afterwards (applicable only to release 26.5.0 or later):
+Example of creating a `SiteData` object with a single site and extending it afterwards (only applicable to release 26.5.0 or later):
 
 ```csharp
 // Creates a SiteData object with site 0. The site is initialized with the default value of double (0.0).
@@ -96,7 +96,7 @@ siteData.AddSite(0, 1, 2);
 The following table outlines the methods available for adding and removing sites from a `SiteData<T>` object.
 
 >[!NOTE]
-> Adding and removing sites is applicable only to release 26.5.0 or later.
+> Adding and removing sites is only applicable to release 26.5.0 or later.
 
 **Table of Methods for Adding and Removing Sites:**
 
@@ -107,7 +107,7 @@ The following table outlines the methods available for adding and removing sites
 
 ### Usage Considerations for Adding and Removing Sites
 
-When adding and removing sites from `SiteData` objects you should consider the following:
+When adding and removing sites from `SiteData` objects, you should consider the following:
 
 1. You can pass the site numbers either as an array, for example `siteData.AddSite(siteNumbers)`, or as separate arguments, for example `siteData.AddSite(0, 1, 2)`.
 2. New sites are initialized with the default value of `T`. For example, the default value is `0` for `int`, `0.0` for `double`, `false` for `bool`, and `null` for reference types, such as arrays and strings.
@@ -118,7 +118,7 @@ When adding and removing sites from `SiteData` objects you should consider the f
 
 ### Example Usage for Adding and Removing Sites
 
-Example of adding and removing sites (applicable only to release 26.5.0 or later):
+Example of adding and removing sites (only applicable to release 26.5.0 or later):
 
 ```csharp
 var siteData = new SiteData<double>();
@@ -150,7 +150,7 @@ siteData.RemoveSite(0, 1, 5);
 The following table outlines the methods available for setting values in a `SiteData<T>` object.
 
 >[!NOTE]
-> Setting data values is applicable only to release 26.5.0 or later.
+> Setting data values is only applicable to release 26.5.0 or later.
 
 **Table of Methods for Setting Data Values:**
 
@@ -161,7 +161,7 @@ The following table outlines the methods available for setting values in a `Site
 
 ### Usage Considerations for Setting Data Values
 
-When setting values in `SiteData` objects you should consider the following:
+When setting values in `SiteData` objects, you should consider the following:
 
 1. The `SetValue` method overwrites any existing value for the affected sites.
 2. The `SetValue(T value)` method throws an `NISemiconductorTestException` if the `SiteData` object contains no sites.
@@ -171,7 +171,7 @@ When setting values in `SiteData` objects you should consider the following:
 
 ### Example Usage for Setting Data Values
 
-Example of setting a value for all sites and for specific sites (applicable only to release 26.5.0 or later):
+Example of setting a value for all sites and for specific sites (only applicable to release 26.5.0 or later):
 
 ```csharp
 var siteData = new SiteData<double>();
@@ -195,7 +195,7 @@ siteData.SetValue(value: 5.0, siteNumbers: new int[] { 3, 4 });
 // Value |  3.3  |  1.8  |  3.3  |  5.0  |  5.0
 ```
 
-Example of setting a site-agnostic value, where site `-1` is added because it does not exist (applicable only to release 26.5.0 or later):
+Example of setting a site-agnostic value, where site `-1` is added because it does not exist (only applicable to release 26.5.0 or later):
 
 ```csharp
 var siteData = new SiteData<double>(new int[] { 0, 1 }, 11);
@@ -213,7 +213,7 @@ You can use loops to build a `SiteData` object when the site numbers or values c
 - Prior to release 26.5.0, the `SiteData` class does not provide methods to add sites or set values. Collect the values in a .NET collection inside the loop, and then create the `SiteData` object after the loop.
 - In release 26.5.0 or later, you can add sites and set values on a `SiteData` object inside the loop.
 
-When working with `SiteData` in loops in any release you should consider the following:
+When working with `SiteData` in loops in any release, you should consider the following:
 
 1. The `SiteNumbers` property returns the site numbers in ascending order, which might not match the order of the data you are iterating over. When you index into a data array by site, iterate over the same `siteNumbers` array that is used to arrange the data.
 2. To transform every value of an existing `SiteData` object into a new `SiteData` object, the `Select` method can be more concise than a loop.
@@ -222,7 +222,7 @@ When working with `SiteData` in loops in any release you should consider the fol
 
 #### Usage Considerations Prior to Release 26.5.0
 
-When working with `SiteData` in loops prior to release 26.5.0 you should consider the following:
+When working with `SiteData` in loops prior to release 26.5.0, you should consider the following:
 
 1. If the site numbers are determined at runtime, such as based on a condition, collect the values in a `Dictionary<int, T>` inside the loop. Then, pass the dictionary to the `SiteData(IDictionary<int, T> data)` constructor after the loop.
 2. If all the site numbers are known before the loop, collect the values in an array inside the loop. Then, pass the site numbers and the array to the `SiteData(int[] siteNumbers, T[] perSiteData)` constructor after the loop.
@@ -264,18 +264,18 @@ foreach (int siteNumber in measurement.SiteNumbers)
 var sitesAboveLimit = new SiteData<double>(sitesAboveLimitData);
 ```
 
-### Working with SiteData in Loops in Release 26.5.0 or Later
+### Working with SiteData in Loops with Release 26.5.0 or Later
 
 #### Usage Considerations for Release 26.5.0 or Later
 
-When adding sites and setting values inside loops in release 26.5.0 or later you should consider the following:
+When adding sites and setting values inside loops in release 26.5.0 or later, you should consider the following:
 
 1. If all the site numbers are known before the loop, add them in a single call to the `AddSite` method, or pass them to a constructor. Then, set only the values inside the loop.
 2. Calling `SetValue(T value, params int[] siteNumbers)` inside a loop adds each site the first time it is encountered. You do not need to call `AddSite` separately.
 3. The `SiteNumbers` property returns a new array each time it is accessed. Therefore, you can add or remove sites while iterating over that array. Store the array in a local variable before the loop instead of accessing the property in every iteration.
 
 >[!CAUTION]
-> `SiteData` objects are not thread-safe. Do not call the `AddSite`, `RemoveSite`, or `SetValue` methods on the same `SiteData` object from multiple threads at the same time, such as inside a `Parallel.For` or `Parallel.ForEach` loop, or in the actions passed to the `InvokeInParallel` method. This applies even when each thread accesses a different site. Concurrent modifications can corrupt the object or lose values without throwing an exception. Reading values from multiple threads is safe only when no thread modifies the object at the same time.
+>Similar to native C# dictionaries, `SiteData` objects are not thread-safe. Do not call the `AddSite`, `RemoveSite`, or `SetValue` methods on the same SiteData object from multiple threads at the same time. For example, invoking these methods from inside a `Parallel.For` or `Parallel.ForEach` loop, or in the actions passed to the `Parallel.Invoke` or `InvokeInParallel` methods. This applies even when each thread accesses a different site. Concurrent modifications can lead to race conditions and other unexpected behaviors. Reading values from multiple threads is safe only when a single thread modifies the object at a given time.
 >
 > Instead, store the result of each parallel iteration in its own element of a preallocated array. After the parallel loop completes, populate the `SiteData` object from the array, either by passing the array to a constructor or by calling the `SetValue` method in a sequential loop.
 
