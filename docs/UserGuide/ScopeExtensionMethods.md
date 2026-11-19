@@ -1,9 +1,9 @@
 # Scope Extension Methods
 
 The Semiconductor Test Library (STL) provides high-level extension methods for the `ScopeSessionsBundle` class to configure, control, and acquire waveforms from NI-SCOPE instruments.
-These methods operate in parallel across all instrument sessions, pins, and sites in the bundle. And they accept and return pin- and site-aware data types, such as `SiteData` and `PinSiteData`.
+These methods operate in parallel across all instrument sessions, pins, and sites in the bundle. The methods accept and return pin- and site-aware data types, such as `SiteData` and `PinSiteData`.
 
-The extension methods are defined in the `NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope` namespace.
+The `NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope` namespace defines the extension methods.
 
 ```C#
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
@@ -26,13 +26,13 @@ ScopeSessionsBundle scopeBundle = sessionManager.Scope(pinOrPinGroup);
 
 | Method | Settings Type | Description |
 | --- | --- | --- |
-| `ConfigureVertical` | `VerticalSettings` | probe attenuation, channel enable state, and time-interleaved sampling.
+| `ConfigureVertical` | `VerticalSettings` | Configures the probe attenuation, channel enable state, and time-interleaved sampling.
 | `ConfigureElectricalCharacteristics` | `ElectricalCharacteristics` | Configures the input impedance and maximum input frequency. Overloads accept the same settings for all pins, per-site settings (`SiteData<ElectricalCharacteristics>`), or per-pin, per-site settings (`PinSiteData<ElectricalCharacteristics>`). |
 | `ConfigureTiming` | `TimingSettings` | Configures the minimum sample rate, minimum number of points, reference position, number of records, and real-time enforcement. |
 | `ConfigureClock` | `ClockSettings` | Configures the input clock source, output clock source, clock synchronization pulse source, and whether the instrument is the master. |
 
 > [!TIP]
-> Settings are grouped into class objects before they are passed to the STL method. This ensures the settings are applied as efficiently as possible by the instrument driver.
+> Settings are grouped into class objects before they are passed to the STL method. This ensure that the settings are applied as efficiently as possible by the instrument driver.
 
 ## Trigger Methods
 
@@ -44,7 +44,7 @@ ScopeSessionsBundle scopeBundle = sessionManager.Scope(pinOrPinGroup);
 | `ConfigureTriggerWindow` | `WindowTriggerSettings` | Configures a window trigger with low and high window levels, window mode, and coupling. |
 | `ConfigureTriggerImmediate` | None | Configures the instrument to trigger immediately after it is initiated. |
 
-All trigger settings types inherit the `HoldOff` and `Delay` properties from the `TriggerSettings` base class.
+All trigger setting types inherit the `HoldOff` and `Delay` properties from the `TriggerSettings` base class.
 
 ## Control Methods
 
@@ -52,7 +52,7 @@ All trigger settings types inherit the `HoldOff` and `Delay` properties from the
 | --- | --- |
 | `Initiate` | Initiates a waveform acquisition. |
 | `Abort` | Aborts an in-progress acquisition. |
-| `Commit` | Commits all configured settings to hardware so that parameter changes are immediately reflected. |
+| `Commit` | Commits all configured settings to the hardware so that parameter changes are immediately reflected. |
 | `AutoSetup` | Automatically configures the instrument settings, such as the vertical range, based on the detected input signal. |
 
 ## Acquisition Methods
@@ -65,8 +65,8 @@ All trigger settings types inherit the `HoldOff` and `Delay` properties from the
 
 > [!NOTE]
 > If an acquisition fails or does not complete within the specified timeout, the resulting `NISemiconductorTestException` includes the following details for every channel on the affected card:
->  - site, 
->  - pin, 
+>  - site
+>  - pin
 >  - channel
 > 
 > This is because a single site losing its trigger signal prevents the entire card from acquiring data.
