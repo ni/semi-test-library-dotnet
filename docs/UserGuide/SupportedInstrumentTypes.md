@@ -41,7 +41,7 @@ For unsupported instrument types, it is possible to implement low-level programm
 >
 > \* \* \* \* \
 > Supported Devices: All FGen devices supported in STS (PXIe-5433, PXIe-5451) \
-> Supported Functionality: Standard Waveform Generation along with basic triggers and clock configurations. Refer to [FGen Extension Methods](FgenExtensionMethods.md) for more details.
+> Supported Functionality: Standard waveform generation along with basic triggers and clock configurations. Refer to [FGen Extension Methods](FgenExtensionMethods.md) for more details.
 >
 > \* \* \* \* \* \
 > Supported Devices: All Scope devices supported in STS (PXI-5922, PXIe-5162, PXIe-5172, PXIe-5122, PXIe-5164) \
