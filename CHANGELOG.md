@@ -1,6 +1,6 @@
 # Changelog
 
-- [26.5.0 - YYYY-MM-DD](#2650---TBD)
+- [26.5.0 - TBD](#2650---TBD)
 - [26.0.0 - 2026-06-26](#2600---2026-06-26)
 - [25.5.0 - 2025-09-30](#2550---2025-09-30)
 - [25.0.0 - 2025-04-11](#2500---2025-04-11)
@@ -11,7 +11,7 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-## 26.5.0 - YYYY-MM-DD
+## 26.5.0 - TBD
 
 - ### Added
 
