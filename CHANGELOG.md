@@ -1,5 +1,6 @@
 # Changelog
 
+- [26.5.0 - YYYY-MM-DD](#2650---TBD)
 - [26.0.0 - 2026-06-26](#2600---2026-06-26)
 - [25.5.0 - 2025-09-30](#2550---2025-09-30)
 - [25.0.0 - 2025-04-11](#2500---2025-04-11)
@@ -10,74 +11,584 @@ All notable changes to this project are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
+## 26.5.0 - YYYY-MM-DD
+
+- ### Added
+
+  - **Data Abstraction**
+    - New constructors added to `SiteData<T>` for creating an empty `SiteData` object or a `SiteData` object with a single site. The single site is initialized with the default value of `T`.
+      - `SiteData()`
+      - `SiteData(int siteNumber)`
+    - New methods added to `SiteData<T>` for adding and removing sites and for setting values. `AddSite` initializes new sites with the default value of `T` and skips sites that already exist. `RemoveSite` skips sites that do not exist. `SetValue` adds any specified sites that do not exist.
+      - `AddSite(params int[] siteNumbers)`
+      - `RemoveSite(params int[] siteNumbers)`
+      - `SetValue(T value)`
+      - `SetValue(T value, params int[] siteNumbers)`
+    - New `SiteNumbersByPin` property added to `PinSiteData<T>` for getting the site numbers associated with each pin.
+      - `IReadOnlyDictionary<string, IReadOnlyList<int>> SiteNumbersByPin`
+    - New constructors added to `PinSiteData<T>` for creating an empty `PinSiteData` object or a `PinSiteData` object with the specified pins and sites. Each pin-site pair is initialized with the default value of `T`.
+      - `PinSiteData()`
+      - `PinSiteData(string pinName, params int[] siteNumbers)`
+      - `PinSiteData(string[] pinNames, params int[] siteNumbers)`
+    - New methods added to `PinSiteData<T>` for adding and removing pins and sites and for setting values. The pin-specific overloads support jagged data, where each pin can contain a different set of sites. `AddPin` adds new pins with all existing sites. `SetValue` adds any specified pins or sites that do not exist.
+      - `AddPin(params string[] pinNames)`
+      - `RemovePin(params string[] pinNames)`
+      - `AddSite(params int[] siteNumbers)`
+      - `AddSite(string pinName, params int[] siteNumbers)`
+      - `AddSite(string[] pinNames, params int[] siteNumbers)`
+      - `RemoveSite(params int[] siteNumbers)`
+      - `RemoveSite(string pinName, params int[] siteNumbers)`
+      - `RemoveSite(string[] pinNames, params int[] siteNumbers)`
+      - `SetValue(T value)`
+      - `SetValue(T value, params int[] siteNumbers)`
+      - `SetValue(T value, params string[] pinNames)`
+      - `SetValue(T value, string pinName, params int[] siteNumbers)`
+      - `SetValue(T value, string[] pinNames, params int[] siteNumbers)`
+    - Added [`DebuggerTypeProxy`](https://learn.microsoft.com/en-us/visualstudio/debugger/using-debuggertypeproxy-attribute?view=visualstudio) support for `SiteData<T>` and `PinSiteData<T>`: pin and site values can now be easily reviewed during a Visual Studio debugging session in the Locals, Autos, and Watch windows, or in a DataTip when hovering over a variable at a breakpoint.
+  - **Instrument Abstraction**
+    - New Time Measurement Unit (TMU) Digital methods added for timing measurements on digital pins, such as period, pulse width, duty cycle, rise time, fall time, and skew. These methods are supported on NI Digital Pattern Instruments (PXIe-657x) that include TMUs and require STS Software 26.5.0 or later. TMU resources are limited per instrument module, and the methods automatically assign the available TMU resources to the target pins and sites.
+      - New Digital methods added to manage TMU resources for each pin and site in the `DigitalSessionsBundle`. This includes assigning, enabling, disabling, and releasing resources.
+        - `AssignTMUResources(string[] pinNames)`
+        - `AssignTMUResources(string pinName)`
+        - `EnableTMU(string[] pinNames)`
+        - `EnableTMU(string pinName)`
+        - `DisableTMU(string[] pinNames)`
+        - `DisableTMU(string pinName)`
+        - `ClearTMUAssignment(string[] pinNames)`
+        - `ClearTMUAssignment(string pinName)`
+        - `GetTMUCount()`
+      - New Digital methods added to configure assigned TMU resources and enable them for common timing measurements. These methods support immediate and edge arming through the `TmuArmSetting` enum.
+        - `ConfigurePeriodMeasurement(TmuPolarity edgeType, long samplesToAcquire, TmuArmSetting armSetting, string[] pinNames)`
+        - `ConfigurePeriodMeasurement(TmuPolarity edgeType, long samplesToAcquire, string pinName, TmuArmSetting armSetting)`
+        - `ConfigureTMUPulseWidthMeasurement(TmuPulseWidth pulseWidthType, long samplesToAcquire, TmuArmSetting armSetting, string[] pinNames)`
+        - `ConfigureTMUPulseWidthMeasurement(TmuPulseWidth pulseWidthType, long samplesToAcquire, string pinName, TmuArmSetting armSetting)`
+        - `ConfigureTMUDutyCycleMeasurement(TmuDutyCycle dutyCycleType, long samplesToAcquire, TmuArmSetting armSetting, string[] pinNames)`
+        - `ConfigureTMUDutyCycleMeasurement(TmuDutyCycle dutyCycleType, long samplesToAcquire, string pinName, TmuArmSetting armSetting)`
+        - `ConfigureTMURiseTimeMeasurement(long samplesToAcquire, TmuArmSetting armSetting, string[] pinNames)`
+        - `ConfigureTMURiseTimeMeasurement(long samplesToAcquire, string pinName, TmuArmSetting armSetting)`
+        - `ConfigureTMUFallTimeMeasurement(long samplesToAcquire, TmuArmSetting armSetting, string[] pinNames)`
+        - `ConfigureTMUFallTimeMeasurement(long samplesToAcquire, string pinName, TmuArmSetting armSetting)`
+        - `ConfigureTMUSkewMeasurement(string[] referencePinNames, string[] targetPinNames, TmuPolarity edgeType, long samplesToAcquire, TmuArmSetting armSetting)`
+        - `ConfigureTMUSkewMeasurement(string referencePinName, string targetPinName, TmuPolarity edgeType, long samplesToAcquire, TmuArmSetting armSetting)`
+      - New Digital methods added to initiate, fetch, and abort TMU measurements. The `FetchAveragedTMUMeasurement` methods return the average measurement result, in seconds, for each pin and site.
+        - `TMUInitiate(string[] pinNames)`
+        - `TMUInitiate(string pinName)`
+        - `FetchAveragedTMUMeasurement(double timeoutInSeconds, string[] pinNames)`
+        - `FetchAveragedTMUMeasurement(string pinName, double timeoutInSeconds)`
+        - `TMUAbort(string[] pinNames)`
+        - `TMUAbort(string pinName)`
+      - New Digital methods added to configure individual settings for assigned TMU resources.
+        - `ConfigureTMUStartSource(string[] pinNames)`
+        - `ConfigureTMUStartSource(string pinName)`
+        - `ConfigureTMUStopSource(string[] pinNames)`
+        - `ConfigureTMUStopSource(string pinName)`
+        - `ConfigureTMUStartSourceEvent(TmuSourceEvent sourceEvent, string[] pinNames)`
+        - `ConfigureTMUStartSourceEvent(TmuSourceEvent sourceEvent, string pinName)`
+        - `ConfigureTMUStopSourceEvent(TmuSourceEvent sourceEvent, string[] pinNames)`
+        - `ConfigureTMUStopSourceEvent(TmuSourceEvent sourceEvent, string pinName)`
+        - `ConfigureTMUStartSourceEventPolarity(TmuPolarity polarity, string[] pinNames)`
+        - `ConfigureTMUStartSourceEventPolarity(TmuPolarity polarity, string pinName)`
+        - `ConfigureTMUStopSourceEventPolarity(TmuPolarity polarity, string[] pinNames)`
+        - `ConfigureTMUStopSourceEventPolarity(TmuPolarity polarity, string pinName)`
+        - `ConfigureTMUArmType(TmuArmType armType, string[] pinNames)`
+        - `ConfigureTMUArmType(TmuArmType armType, string pinName)`
+        - `ConfigureTMUEdgeArmSource(string[] pinNames)`
+        - `ConfigureTMUEdgeArmSource(string pinName)`
+        - `ConfigureTMUEdgeArmSourceEvent(TmuSourceEvent sourceEvent, string[] pinNames)`
+        - `ConfigureTMUEdgeArmSourceEvent(TmuSourceEvent sourceEvent, string pinName)`
+        - `ConfigureTMUEdgeArmPolarity(TmuPolarity polarity, string[] pinNames)`
+        - `ConfigureTMUEdgeArmPolarity(TmuPolarity polarity, string pinName)`
+        - `ConfigureTMUSamplesToAcquire(long samplesToAcquire, string[] pinNames)`
+        - `ConfigureTMUSamplesToAcquire(long samplesToAcquire, string pinName)`
+        - `ConfigureTMUSampleTimeout(double timeoutInSeconds, string[] pinNames)`
+        - `ConfigureTMUSampleTimeout(double timeoutInSeconds, string pinName)`
+      - New Digital methods added to query the current settings of assigned TMU resources for each pin and site.
+        - `GetTMUStartSource()`
+        - `GetTMUStopSource()`
+        - `GetTMUStartSourceEvent()`
+        - `GetTMUStopSourceEvent()`
+        - `GetTMUStartSourceEventPolarity()`
+        - `GetTMUStopSourceEventPolarity()`
+        - `GetTMUEnabled()`
+        - `GetTMUArmType()`
+        - `GetTMUEdgeArmSource()`
+        - `GetTMUEdgeArmSourceEvent()`
+        - `GetTMUEdgeArmPolarity()`
+        - `GetTMUSamplesToAcquire()`
+        - `GetTMUSampleTimeout()`
+        - `GetTMUStartInputDebounceTime()`
+        - `GetTMUStopInputDebounceTime()`
+      - New TMU enums added to the `NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU` namespace. The `TmuSourceEvent`, `TmuPolarity`, and `TmuArmType` enums use the same names and values as the corresponding NI-Digital Pattern Driver enums. The `TmuArmSetting`, `TmuDutyCycle`, and `TmuPulseWidth` enums are specific to the Semiconductor Test Library TMU Digital methods.
+        - `TmuSourceEvent` (`Vol`, `Voh`)
+        - `TmuPolarity` (`RisingEdge`, `FallingEdge`, `EitherEdge`)
+        - `TmuArmType` (`Immediate`, `Edge`)
+        - `TmuArmSetting` (`Immediate`, `StartEdge`, `StopEdge`)
+        - `TmuDutyCycle` (`High`, `Low`)
+        - `TmuPulseWidth` (`High`, `Low`)
+      - New class `TMUContextManager` added that tracks which TMU resources are in use across the process, to prevent the same TMU resource from being assigned more than once.
+        - `Instance`
+        - `TryAssignTMUContext(string deviceName, string tmuContext)`
+        - `UnAssignTMUContext(string deviceName, string tmuContext)`
+      - New TMU classes added to the `NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU` namespace for internal use by the TMU Digital methods. These classes are not intended for direct use, and will be removed in a future release. For lower-level TMU programming, use the TMU .NET APIs of the NI-Digital Pattern Driver, available with STS Software 26.5.0 or later. When using the driver TMU .NET APIs, the `TmuArmSetting`, `TmuDutyCycle`, and `TmuPulseWidth` values used by the TMU Digital methods must be translated into the corresponding driver settings, and a using alias might be required to resolve type names shared with the driver.
+        - `DigitalTmuCollection`
+        - `DigitalTmu`
+        - `DigitalTmuSource`
+        - `DigitalTmuEdgeArm`
+    - New `Commit`, `Initiate`, `ConfigurePattern`, and `GetPatternStartLabel` Digital methods added for applying the configuration, starting pattern execution, selecting a pattern start label, and reading the configured start labels at the bundle level. `ConfigurePattern` applies to the sites represented by the sessions bundle. To target a subset of sites, filter the bundle by site and call `ConfigurePattern` on the filtered bundle.
+      - `Commit()`
+      - `Initiate()`
+      - `ConfigurePattern(string startLabel)`
+      - `GetPatternStartLabel()`
+    - New `ExportSignal` DCPower method overloads added for exporting a signal from specific channels in the bundle. These overloads export the signal only from the channels mapped to the specified site-pin pairs, and each site-pin pair requires its own unique output terminal.
+      - `ExportSignal(DCPowerSignalSource signalSource, PinSiteData<string> outputTerminals)`
+      - `ExportSignal(DCPowerSignalSource signalSource, string pinName, int siteNumber, string outputTerminal)`
+    - New `ConfigureCurrentLevel` DCPower methods added for configuring the current level. These methods support per-session, per-site, and per-site-per-pin data, and accept an optional `UpdateMode` to defer, commit, or immediately apply the configured value.
+      - `ConfigureCurrentLevel(double currentLevel, UpdateMode updateMode)`
+      - `ConfigureCurrentLevel(SiteData<double> currentLevel, UpdateMode updateMode)`
+      - `ConfigureCurrentLevel(PinSiteData<double> currentLevel, UpdateMode updateMode)`
+    - New `ConfigureCurrentLevelRange` DCPower methods added for configuring the current level range. These methods support per-session, per-site, and per-site-per-pin data, and accept an optional `UpdateMode` to defer, commit, or immediately apply the configured value.
+      - `ConfigureCurrentLevelRange(double currentLevelRange, UpdateMode updateMode)`
+      - `ConfigureCurrentLevelRange(SiteData<double> currentLevelRange, UpdateMode updateMode)`
+      - `ConfigureCurrentLevelRange(PinSiteData<double> currentLevelRange, UpdateMode updateMode)`
+    - New `ConfigureCurrentLimitHigh` DCPower methods added for configuring the upper current limit when sourcing with asymmetric limits. These methods support per-session, per-site, and per-site-per-pin data, and accept an optional `UpdateMode` to defer, commit, or immediately apply the configured value.
+      - `ConfigureCurrentLimitHigh(double currentLimitHigh, UpdateMode updateMode)`
+      - `ConfigureCurrentLimitHigh(SiteData<double> currentLimitHigh, UpdateMode updateMode)`
+      - `ConfigureCurrentLimitHigh(PinSiteData<double> currentLimitHigh, UpdateMode updateMode)`
+    - New `ConfigureCurrentLimitLow` DCPower methods added for configuring the lower current limit when sourcing with asymmetric limits. These methods support per-session, per-site, and per-site-per-pin data, and accept an optional `UpdateMode` to defer, commit, or immediately apply the configured value.
+      - `ConfigureCurrentLimitLow(double currentLimitLow, UpdateMode updateMode)`
+      - `ConfigureCurrentLimitLow(SiteData<double> currentLimitLow, UpdateMode updateMode)`
+      - `ConfigureCurrentLimitLow(PinSiteData<double> currentLimitLow, UpdateMode updateMode)`
+    - New `ConfigureCurrentLimitRange` DCPower methods added for configuring the current limit range. These methods support per-session, per-site, and per-site-per-pin data, and accept an optional `UpdateMode` to defer, commit, or immediately apply the configured value.
+      - `ConfigureCurrentLimitRange(double currentLimitRange, UpdateMode updateMode)`
+      - `ConfigureCurrentLimitRange(SiteData<double> currentLimitRange, UpdateMode updateMode)`
+      - `ConfigureCurrentLimitRange(PinSiteData<double> currentLimitRange, UpdateMode updateMode)`
+    - New `ConfigureLimitSymmetry` DCPower methods added for configuring the compliance limit symmetry as either symmetric or asymmetric. These methods support per-session, per-site, and per-site-per-pin data, and accept an optional `UpdateMode` to defer, commit, or immediately apply the configured value.
+      - `ConfigureLimitSymmetry(DCPowerComplianceLimitSymmetry complianceLimitSymmetry, UpdateMode updateMode)`
+      - `ConfigureLimitSymmetry(SiteData<DCPowerComplianceLimitSymmetry> complianceLimitSymmetry, UpdateMode updateMode)`
+      - `ConfigureLimitSymmetry(PinSiteData<DCPowerComplianceLimitSymmetry> complianceLimitSymmetry, UpdateMode updateMode)`
+    - New `ConfigureVoltageLevel` DCPower methods added for configuring the voltage level. These methods support per-session, per-site, and per-site-per-pin data, and accept an optional `UpdateMode` to defer, commit, or immediately apply the configured value.
+      - `ConfigureVoltageLevel(double voltageLevel, UpdateMode updateMode)`
+      - `ConfigureVoltageLevel(SiteData<double> voltageLevel, UpdateMode updateMode)`
+      - `ConfigureVoltageLevel(PinSiteData<double> voltageLevel, UpdateMode updateMode)`
+    - New `ConfigureVoltageLevelRange` DCPower methods added for configuring the voltage level range. These methods support per-session, per-site, and per-site-per-pin data, and accept an optional `UpdateMode` to defer, commit, or immediately apply the configured value.
+      - `ConfigureVoltageLevelRange(double voltageLevelRange, UpdateMode updateMode)`
+      - `ConfigureVoltageLevelRange(SiteData<double> voltageLevelRange, UpdateMode updateMode)`
+      - `ConfigureVoltageLevelRange(PinSiteData<double> voltageLevelRange, UpdateMode updateMode)`
+    - New `ConfigureVoltageLimit` DCPower methods added for configuring the voltage limit. These methods support per-session, per-site, and per-site-per-pin data, and accept an optional `UpdateMode` to defer, commit, or immediately apply the configured value.
+      - `ConfigureVoltageLimit(double voltageLimit, UpdateMode updateMode)`
+      - `ConfigureVoltageLimit(SiteData<double> voltageLimit, UpdateMode updateMode)`
+      - `ConfigureVoltageLimit(PinSiteData<double> voltageLimit, UpdateMode updateMode)`
+    - New `ConfigureVoltageLimitHigh` DCPower methods added for configuring the upper voltage limit when sourcing with asymmetric limits. These methods support per-session, per-site, and per-site-per-pin data, and accept an optional `UpdateMode` to defer, commit, or immediately apply the configured value.
+      - `ConfigureVoltageLimitHigh(double voltageLimitHigh, UpdateMode updateMode)`
+      - `ConfigureVoltageLimitHigh(SiteData<double> voltageLimitHigh, UpdateMode updateMode)`
+      - `ConfigureVoltageLimitHigh(PinSiteData<double> voltageLimitHigh, UpdateMode updateMode)`
+    - New `ConfigureVoltageLimitLow` DCPower methods added for configuring the lower voltage limit when sourcing with asymmetric limits. These methods support per-session, per-site, and per-site-per-pin data, and accept an optional `UpdateMode` to defer, commit, or immediately apply the configured value.
+      - `ConfigureVoltageLimitLow(double voltageLimitLow, UpdateMode updateMode)`
+      - `ConfigureVoltageLimitLow(SiteData<double> voltageLimitLow, UpdateMode updateMode)`
+      - `ConfigureVoltageLimitLow(PinSiteData<double> voltageLimitLow, UpdateMode updateMode)`
+    - New `ConfigureVoltageLimitRange` DCPower methods added for configuring the voltage limit range. These methods support per-session, per-site, and per-site-per-pin data, and accept an optional `UpdateMode` to defer, commit, or immediately apply the configured value.
+      - `ConfigureVoltageLimitRange(double voltageLimitRange, UpdateMode updateMode)`
+      - `ConfigureVoltageLimitRange(SiteData<double> voltageLimitRange, UpdateMode updateMode)`
+      - `ConfigureVoltageLimitRange(PinSiteData<double> voltageLimitRange, UpdateMode updateMode)`
+    - New `GetCurrentLevel` DCPower method added for getting the configured current level.
+      - `PinSiteData<double> GetCurrentLevel()`
+    - New `GetCurrentLevelRange` DCPower method added for getting the configured current level range.
+      - `PinSiteData<double> GetCurrentLevelRange()`
+    - New `GetCurrentLimit` DCPower method added for getting the configured current limit. This method replaces the `GetCurrentLimits` method, which is now obsolete.
+      - `PinSiteData<double> GetCurrentLimit()`
+    - New `GetCurrentLimitHigh` DCPower method added for getting the configured upper current limit when sourcing with asymmetric limits.
+      - `PinSiteData<double> GetCurrentLimitHigh()`
+    - New `GetCurrentLimitLow` DCPower method added for getting the configured lower current limit when sourcing with asymmetric limits.
+      - `PinSiteData<double> GetCurrentLimitLow()`
+    - New `GetCurrentLimitRange` DCPower method added for getting the configured current limit range.
+      - `PinSiteData<double> GetCurrentLimitRange()`
+    - New `GetLimitSymmetry` DCPower method added for getting the configured compliance limit symmetry.
+      - `PinSiteData<DCPowerComplianceLimitSymmetry> GetLimitSymmetry()`
+    - New `GetTransientResponse` DCPower method added for getting the configured transient response.
+      - `PinSiteData<DCPowerSourceTransientResponse> GetTransientResponse()`
+    - New `GetVoltageLevel` DCPower method added for getting the configured voltage level.
+      - `PinSiteData<double> GetVoltageLevel()`
+    - New `GetVoltageLevelRange` DCPower method added for getting the configured voltage level range.
+      - `PinSiteData<double> GetVoltageLevelRange()`
+    - New `GetVoltageLimit` DCPower method added for getting the configured voltage limit.
+      - `PinSiteData<double> GetVoltageLimit()`
+    - New `GetVoltageLimitHigh` DCPower method added for getting the configured upper voltage limit when sourcing with asymmetric limits.
+      - `PinSiteData<double> GetVoltageLimitHigh()`
+    - New `GetVoltageLimitLow` DCPower method added for getting the configured lower voltage limit when sourcing with asymmetric limits.
+      - `PinSiteData<double> GetVoltageLimitLow()`
+    - New `GetVoltageLimitRange` DCPower method added for getting the configured voltage limit range.
+      - `PinSiteData<double> GetVoltageLimitRange()`
+    - New `ConfigureApertureTimeInSeconds` DCPower methods added for configuring the measurement aperture time in seconds. For the PXI-4110, PXI-4130, and PXIe-4154 devices, the aperture time is converted to samples to average based on the fixed sample rate of the device. These methods support per-session, per-site, and per-site-per-pin data, and accept an optional `UpdateMode` to defer, commit, or immediately apply the configured value.
+      - `ConfigureApertureTimeInSeconds(double apertureTime, UpdateMode updateMode)`
+      - `ConfigureApertureTimeInSeconds(SiteData<double> apertureTime, UpdateMode updateMode)`
+      - `ConfigureApertureTimeInSeconds(PinSiteData<double> apertureTime, UpdateMode updateMode)`
+    - New `GetApertureTimeUnits` DCPower method added for getting the configured aperture time units.
+      - `PinSiteData<DCPowerMeasureApertureTimeUnits> GetApertureTimeUnits()`
+    - New `GetMeasurementSense` DCPower method added for getting the configured measurement sense.
+      - `PinSiteData<DCPowerMeasurementSense> GetMeasurementSense()`
+    - New `GetMeasureWhen` DCPower method added for getting the configured `MeasureWhen` property.
+      - `PinSiteData<DCPowerMeasurementWhen> GetMeasureWhen()`
+    - New `ClearFetchBacklog` DCPower method added for fetching and discarding any pending measurements in the fetch backlog for all channels in the bundle. This method skips channels configured to measure on demand.
+      - `ClearFetchBacklog()`
+    - New `FetchAndPublishVoltage` DCPower method added for fetching multiple voltage measurements in a single fetch and publishing each sample individually. Each published data ID is generated from a composite format string containing `{0}`, which is replaced with the zero-based sample index. This method cannot be used when `MeasureWhen` is configured to `OnDemand`.
+      - `FetchAndPublishVoltage(string publishDataIdFormatter, int pointsToFetch, double timeoutInSeconds)`
+    - New `FetchAndPublishCurrent` DCPower method added for fetching multiple current measurements in a single fetch and publishing each sample individually. Each published data ID is generated from a composite format string containing `{0}`, which is replaced with the zero-based sample index. This method cannot be used when `MeasureWhen` is configured to `OnDemand`.
+      - `FetchAndPublishCurrent(string publishDataIdFormatter, int pointsToFetch, double timeoutInSeconds)`
+    - New `MeasureVoltageAndInCompliance` DCPower method added for measuring the voltage and returning both the voltage measurements and the in-compliance results. This method optionally returns a single result per ganged or merged pin group.
+      - `MeasureVoltageAndInCompliance(bool gangedPinsAsGroup)`
+    - New `MeasureCurrentAndInCompliance` DCPower method added for measuring the current and returning both the current measurements and the in-compliance results. This method optionally returns a single result per ganged or merged pin group.
+      - `MeasureCurrentAndInCompliance(bool gangedPinsAsGroup)`
+    - New `QueryInCompliance` DCPower method added for querying whether the target pins are in compliance. This method optionally returns a single result per ganged or merged pin group.
+      - `QueryInCompliance(bool gangedPinsAsGroup)`
+    - New `Reset` DCPower method added for resetting the channels of the specified pins or pin groups to their default state, across all sites in the bundle. Other channels on the same instrument keep their configuration.
+      - `Reset(params string[] pinNames)`
+    - New `ResetDevice` DCPower method added for resetting the instruments that the channels in the bundle belong to. Sessions invalidated by the reset are reinitialized, and existing `DCPowerSessionsBundle` objects remain valid. Optionally, the configuration of channels that are not in the bundle is preserved and restored.
+      - `ResetDevice(bool restoreConfiguration)`
+    - New `Abort`, `AutoSetup`, `Commit`, and `Initiate` Scope methods added for controlling acquisitions at the bundle level, including aborting, automatically setting up, committing, and initiating acquisitions on all sessions in the bundle.
+      - `Abort()`
+      - `AutoSetup()`
+      - `Commit()`
+      - `Initiate()`
+    - New `ConfigureVertical` Scope methods added for configuring the vertical settings of all channels in the bundle. These methods support per-session, per-site, and per-site-per-pin data.
+      - `ConfigureVertical(VerticalSettings verticalSettings)`
+      - `ConfigureVertical(SiteData<VerticalSettings> verticalSettings)`
+      - `ConfigureVertical(PinSiteData<VerticalSettings> verticalSettings)`
+    - New `ConfigureElectricalCharacteristics` Scope methods added for configuring the electrical characteristics of all channels in the bundle. These methods support per-session, per-site, and per-site-per-pin data.
+      - `ConfigureElectricalCharacteristics(ElectricalCharacteristics electricalCharacteristics)`
+      - `ConfigureElectricalCharacteristics(SiteData<ElectricalCharacteristics> electricalCharacteristics)`
+      - `ConfigureElectricalCharacteristics(PinSiteData<ElectricalCharacteristics> electricalCharacteristics)`
+    - New `ConfigureTiming` and `ConfigureClock` Scope methods added for configuring the timing and clock settings of all sessions in the bundle.
+      - `ConfigureTiming(TimingSettings settings)`
+      - `ConfigureClock(ClockSettings settings)`
+    - New `GetNumberOfRecordsToAcquire` Scope method added for getting the number of records to acquire for each session in the bundle.
+      - `GetNumberOfRecordsToAcquire()`
+    - New `ConfigureOutputEnabled` and `ConfigureOutputMode` FGen output configuration methods added for configuring whether the signal generators in the bundle produce a signal at the output connector, and for configuring the output mode of the signal generators. The `ConfigureOutputEnabled` methods support per-session, per-site, and per-site-per-pin data. Output mode configuration is limited to `OutputMode.Function` for current STL support. Configuring any other output mode throws an exception.
+      - `ConfigureOutputEnabled(bool outputEnable)`
+      - `ConfigureOutputEnabled(SiteData<bool> outputEnable)`
+      - `ConfigureOutputEnabled(PinSiteData<bool> outputEnable)`
+      - `ConfigureOutputMode(OutputMode outputMode)`
+    - New `ConfigureStandardWaveform` FGen standard waveform configuration methods added for configuring the waveform, amplitude, DC offset, frequency, and start phase used for standard waveform generation. These methods support per-session, per-site, and per-site-per-pin data.
+      - `ConfigureStandardWaveform(StandardWaveformSettings standardWaveformSettings)`
+      - `ConfigureStandardWaveform(SiteData<StandardWaveformSettings> standardWaveformSettings)`
+      - `ConfigureStandardWaveform(PinSiteData<StandardWaveformSettings> standardWaveformSettings)`
+    - New `StandardWaveformSettings` FGen type added for specifying the waveform, frequency, amplitude, DC offset, and start phase used for standard waveform generation.
+      - `StandardWaveformSettings(StandardWaveform waveformFunctionType, double frequency, double amplitude, double dcOffset = 0, double startPhase = 0)`
+    - New `ConfigureClockMode`, `ConfigureSampleSource`, and `ConfigureReferenceClock` FGen clock configuration methods added for configuring the sample clock mode, the sample clock source, and the reference clock source and frequency used to phase-lock the sample clock timebase.
+      - `ConfigureClockMode(ClockMode clockMode)`
+      - `ConfigureSampleSource(string source)`
+      - `ConfigureReferenceClock(string source, double frequency)`
+    - New `ConfigureStartTriggerDigitalEdge`, `ConfigureStartTriggerSoftwareEdge`, `SendSoftwareEdgeTrigger`, `ExportSignal`, `DisableStartTrigger`, and `ConfigureTriggerMode` FGen triggers and events configuration methods added for configuring and disabling the Start Trigger, sending a software edge trigger, exporting signals to output terminals, and configuring the trigger mode.
+      - `ConfigureStartTriggerDigitalEdge(string source, DigitalEdge digitalEdge)`
+      - `ConfigureStartTriggerSoftwareEdge()`
+      - `SendSoftwareEdgeTrigger()`
+      - `ExportSignal(SignalSource signalSource, string outputTerminal)`
+      - `DisableStartTrigger()`
+      - `ConfigureTriggerMode(TriggerMode triggerMode)`
+    - New `Commit`, `Initiate`, `IsDone`, `WaitUntilDone`, and `Abort` FGen waveform control methods added for committing the configuration, initiating signal generation, checking whether generation is complete, waiting until generation is complete, and aborting generation. The `IsDone` method returns a `bool[]` with one generation status value per device in the bundle.
+      - `Commit()`
+      - `Initiate()`
+      - `IsDone()`
+      - `WaitUntilDone(int timeout = 10000)`
+      - `Abort()`
+    - New `Reset` and `ResetDevice` FGen utility methods added for resetting the signal generators to a known state and for performing a hard reset on the devices.
+      - `Reset()`
+      - `ResetDevice()`
+  - **Documentation & Examples**
+    - Added documentation for how to take TMU measurements, including TMU resource management, arming, scaling with sites, and lower-level programming with the NI-Digital Pattern Driver TMU .NET APIs.
+    - Added Code Snippet style examples to demonstrate how to perform the different TMU measurements on digital pins: `MeasurePeriodTMU`, `MeasurePulseWidthTMU`, `MeasureDutyCycleTMU`, `MeasureRiseTimeTMU`, `MeasureFallTimeTMU`, and `MeasureSkewTMU`.
+    - Added a Sequence style example and documentation for performing timing measurements using the Time Measurement Unit (TMU) of NI Digital Pattern Instruments (PXIe-657x): `TMU`.
+    - Added documentation for the new constructors and methods in `SiteData` and `PinSiteData`.
+    - Added several Code Snippet style examples for `DataAbstraction`:
+      - `SiteDataExamples.BuildWithArray`: Demonstrates how to build a `SiteData` object from a data array, where the array index represents the site number, by using the `AddSite` and `SetValue` methods.
+      - `SiteDataExamples.BuildWithPerSiteDataDictionary`: Demonstrates how to build a `SiteData` object from a dictionary of site-unique data by using the `SetValue` method.
+      - `SiteDataExamples.BuildWithDictionaryWithSystemData`: Demonstrates how to build a `SiteData` object from a dictionary of site-unique data that includes site-agnostic data (site `-1`) by using the `SetValue` method.
+      - `SiteDataExamples.BuildWithSingleValue`: Demonstrates how to build a `SiteData` object with the same value for all sites by using the `AddSite` and `SetValue` methods.
+      - `SiteDataExamples.BuildWithSiteUniqueDataArray`: Demonstrates how to build a `SiteData` object from arrays of site numbers and site-unique data by using the single-site constructor and the `SetValue` method.
+      - `SiteDataExamples.ConstructWithDefaultConstructor`: Demonstrates how to create an empty `SiteData` object and use the `AddSite`, `SetValue`, and `RemoveSite` methods to add sites, set values, and remove sites.
+      - `SiteDataExamples.ConstructWithSingleSiteNumber`: Demonstrates how to create a `SiteData` object with a single site and use the `AddSite`, `SetValue`, and `RemoveSite` methods to modify it.
+      - `PinSiteDataExamples.BuildWithArraysAndSetValueWithPerPinData`: Demonstrates how to create a `PinSiteData` object from arrays of pin names and site numbers and set pin-unique data by using the `SetValue` method.
+      - `PinSiteDataExamples.BuildWithArraysAndSetValueWithPerPinPerSiteData`: Demonstrates how to build an empty `PinSiteData` object with pin- and site-unique data by using the `SetValue` method.
+      - `PinSiteDataExamples.BuildWithArraysWithSystemPin`: Demonstrates how to build a `PinSiteData` object that contains both DUT pin data and site-agnostic system pin data (site `-1`) by using the `AddSite` and `SetValue` methods.
+      - `PinSiteDataExamples.BuildWithDictionaryWithSystemPin`: Demonstrates how to build a `PinSiteData` object from a dictionary of pin- and site-unique data that includes system pin data by using the `SetValue` method.
+      - `PinSiteDataExamples.BuildWithPinDataDictionaryAndSiteNumbersArray`: Demonstrates how to build a `PinSiteData` object from a dictionary of pin-unique data and an array of site numbers by using the `AddPin`, `AddSite`, and `SetValue` methods.
+      - `PinSiteDataExamples.BuildWithPinDataDictionaryAndSiteNumbersArrayWithSystemPin`: Demonstrates how to build a `PinSiteData` object from dictionaries of DUT pin and system pin data by using the `SetValue` method to add pins and sites automatically.
+      - `PinSiteDataExamples.BuildWithArraysForCommonDataValue`: Demonstrates how to build a `PinSiteData` object with the same value for all pins and sites by using the `SetValue` method.
+      - `PinSiteDataExamples.BuildWithPinUniqueDataArray`: Demonstrates how to build a `PinSiteData` object from an array of pin-unique data by using the `AddPin`, `AddSite`, and `SetValue` methods.
+      - `PinSiteDataExamples.BuildWithSiteUniqueDataArray`: Demonstrates how to build a `PinSiteData` object from an array of site-unique data by using the `SetValue` method.
+      - `PinSiteDataExamples.BuildWithPinAndSiteUniqueDataArray`: Demonstrates how to build a `PinSiteData` object from a jagged array of pin- and site-unique data, formatted as `[pins][sites]`, by using the `AddSite` and `SetValue` methods.
+      - `PinSiteDataExamples.BuildWithSiteAndPinUniqueDataArray`: Demonstrates how to build a `PinSiteData` object from a jagged array of site- and pin-unique data, formatted as `[sites][pins]`, by using the `SetValue` method.
+      - `PinSiteDataExamples.ConstructWithDefaultConstructor`: Demonstrates how to create an empty `PinSiteData` object and use the `AddPin`, `AddSite`, `SetValue`, `RemoveSite`, and `RemovePin` methods to modify it.
+      - `PinSiteDataExamples.ConstructWithSinglePinNameAndSiteNumbers`: Demonstrates how to create a `PinSiteData` object with a single pin and use the pin-specific overloads of the `AddSite`, `SetValue`, and `RemoveSite` methods to create jagged data, where each pin can contain a different set of sites.
+      - `PinSiteDataExamples.ConstructWithPinNamesAndSiteNumbers`: Demonstrates how to create a `PinSiteData` object with multiple pins and sites and use the `AddSite`, `SetValue`, `RemoveSite`, and `RemovePin` methods to modify all pins or a subset of pins.
+    - Added a Sequence style example and documentation for using NI Digital Pattern instruments with the Semiconductor Test Library (STL) to access DUT registers over the SPI and I2C protocols: `RegisterIO.SPI-I2C`.
+    - Added a Sequence style example and documentation for performing waveform acquisition using NI Oscilloscopes (NI-SCOPE): `ScopeAcquisition`.
+    - Added a Sequence style example and documentation for generating standard waveforms with an NI Function Generator (PXIe-543x, NI-FGEN): `FGenStandardWaveformGeneration`.
+    - Added Code Snippet style examples for generating standard waveforms with an NI Function Generator (PXIe-543x, NI-FGEN): `GenerateStandardWaveformFGen`.
+      - `GenerateStandardWaveformFGen.SameWaveformAcrossAllPinsAndSites`: Configures and initiates the same waveform across all specified pins and sites.
+      - `GenerateStandardWaveformFGen.DifferentWaveformsPerSite`: Configures and initiates site-unique waveform settings across all specified pins.
+      - `GenerateStandardWaveformFGen.DifferentWaveformsPerPinPerSite`: Configures and initiates pin- and site-unique waveform settings.
+
+- ### Changed
+
+  - **Data Abstraction**
+    - The following `SiteData<T>` constructor now throws an `ArgumentNullException` when the input dictionary is null. The constructor also copies the input dictionary instead of storing a reference to it, so later changes to the input dictionary no longer modify the `SiteData` object.
+      - `SiteData(IDictionary<int, T> data)`
+    - The following `SiteData<T>` methods now throw a `NISemiconductorTestException` when the `SiteData` object is empty. Previously, some of these methods returned an empty result or threw a different exception.
+      - `GetValue(int siteNumber)`
+      - `ExtractSites(int[] siteNumbers)`
+      - `Max()`
+      - `Max(out int[] siteNumbers)`
+      - `Min()`
+      - `Min(out int[] siteNumbers)`
+      - `Mean()`
+      - `Select<TResult>(Func<T, TResult> operation)`
+      - `Abs()`
+      - `Invert()`
+      - `Invert<TResult>()`
+      - `Log10()`
+      - `Log10<TResult>()`
+      - `Negate()`
+      - `SquareRoot()`
+      - `SquareRoot<TResult>()`
+      - `Truncate()`
+      - `BitwiseComplement()`
+      - `Add<TOther>(TOther value)`
+      - `Compare(ComparisonType comparisonType, T value)`
+      - `Compare<TOther, TResult>(ComparisonType comparisonType, TOther value)`
+      - `Divide(T value)`
+      - `Divide<TOther, TResult>(TOther value)`
+      - `Maximum<TOther>(TOther value)`
+      - `Minimum<TOther>(TOther value)`
+      - `Multiply<TOther>(TOther value)`
+      - `Power<TOther>(TOther value)`
+      - `Subtract<TOther>(TOther value)`
+      - `ShiftLeft(int count)`
+      - `ShiftRight(int count)`
+      - `BitwiseAnd<TOther>(TOther value)`
+      - `BitwiseOr<TOther>(TOther value)`
+      - `BitwiseXor<TOther>(TOther value)`
+    - The following `SiteData<T>` methods now throw a `NISemiconductorTestException` when either the current `SiteData` object or the input `SiteData` object is empty. The existing requirement that both objects contain the same site numbers is unchanged.
+      - `Add<TOther>(SiteData<TOther> other)`
+      - `Compare(ComparisonType comparisonType, SiteData<T> other)`
+      - `Compare<TOther, TResult>(ComparisonType comparisonType, SiteData<TOther> other)`
+      - `Divide(SiteData<T> other)`
+      - `Divide<TOther, TResult>(SiteData<TOther> other)`
+      - `Maximum<TOther>(SiteData<TOther> other)`
+      - `Minimum<TOther>(SiteData<TOther> other)`
+      - `Multiply<TOther>(SiteData<TOther> other)`
+      - `Power<TOther>(SiteData<TOther> other)`
+      - `Subtract<TOther>(SiteData<TOther> other)`
+      - `BitwiseAnd<TOther>(SiteData<TOther> other)`
+      - `BitwiseOr<TOther>(SiteData<TOther> other)`
+      - `BitwiseXor<TOther>(SiteData<TOther> other)`
+    - The `SiteData<T>` math operators (`+`, `-`, `*`, `/`, `<<`, `>>`, `&`, `|`, `^`, `~`) call the methods listed above and now throw a `NISemiconductorTestException` in the same cases.
+    - The `PinNames` and `SiteNumbers` properties of `PinSiteData<T>` are now calculated from the current pin and site data, so they reflect changes made by the new methods that add or remove pins and sites. Both properties now return a copy of the array, so modifying the returned array no longer modifies the `PinSiteData` object.
+      - `string[] PinNames`
+      - `int[] SiteNumbers`
+    - The following `PinSiteData<T>` constructor now throws an `ArgumentNullException` when the input dictionary is null.
+      - `PinSiteData(Dictionary<string, IDictionary<int, T>> pinSiteData)`
+    - The following `PinSiteData<T>` constructor now copies each input `SiteData` object instead of storing a reference to it, so later changes to the input objects no longer modify the `PinSiteData` object.
+      - `PinSiteData(string[] pinNames, SiteData<T>[] perPinSiteData)`
+    - The following `PinSiteData<T>` constructors now validate the input pin names. These constructors throw an `ArgumentNullException` when the pin names array or any pin name is null, and an `ArgumentException` when the pin names array or any pin name is empty.
+      - `PinSiteData(string[] pinNames, SiteData<T>[] perPinSiteData)`
+      - `PinSiteData(string[] pinNames, int[] siteNumbers, T data)`
+      - `PinSiteData(string[] pinNames, int[] siteNumbers, T[] perPinData)`
+      - `PinSiteData(int[] siteNumbers, string[] pinNames, T[] perSiteData)`
+      - `PinSiteData(string[] pinNames, int[] siteNumbers, T[][] perPinPerSiteData)`
+      - `PinSiteData(int[] siteNumbers, string[] pinNames, T[][] perSitePerPinData)`
+    - The following `PinSiteData<T>` methods now return copies of the per-pin `SiteData` objects instead of references to them, so modifying the returned object no longer modifies the source `PinSiteData` object.
+      - `ExtractPin(string pinName)`
+      - `ExtractPins(string[] pinNames)`
+    - The following `PinSiteData<T>` methods now throw a `NISemiconductorTestException` when the `PinSiteData` object contains no pins. Previously, some of these methods returned an empty result or threw a different exception.
+      - `ExtractPin(string pinName)`
+      - `ExtractPins(string[] pinNames)`
+      - `ExtractSite(int siteNumber)`
+      - `ExtractSites(int[] siteNumbers)`
+      - `GetValue(int siteNumber, string pinName)`
+      - `Max()`
+      - `MaxByPin()`
+      - `MaxBySite()`
+      - `Min()`
+      - `MinByPin()`
+      - `MinBySite()`
+      - `Mean()`
+      - `MeanBySite()`
+    - The following `PinSiteData<T>` methods now throw a `NISemiconductorTestException` when the `PinSiteData` object contains pins but no sites.
+      - `ExtractSites(int[] siteNumbers)`
+      - `Max()`
+      - `MaxByPin()`
+      - `Min()`
+      - `MinByPin()`
+      - `Mean()`
+    - The following `PinSiteData<T>` methods now throw a `NISemiconductorTestException` when the `SiteData` object associated with a pin is empty. `TryGetValue` previously returned `false` in this case.
+      - `ExtractSite(int siteNumber)`
+      - `GetValue(int siteNumber, string pinName)`
+      - `GetValue(SitePinInfo sitePinInfo)`
+      - `GetValue(SitePinInfo sitePinInfo, out bool valueAssociatedWithPinGroupName)`
+      - `TryGetValue(int siteNumber, string pinName, out T value)`
+      - `MaxBySite()`
+      - `MinBySite()`
+      - `MeanBySite()`
+    - The following `PinSiteData<T>` methods now throw a `NISemiconductorTestException` when the `PinSiteData` object contains no pins or when the `SiteData` object associated with any pin is empty. Previously, these methods returned an empty result for a `PinSiteData` object with no pins.
+      - `Select<TResult>(Func<T, TResult> operation)`
+      - `Abs()`
+      - `Invert()`
+      - `Invert<TResult>()`
+      - `Log10()`
+      - `Log10<TResult>()`
+      - `Negate()`
+      - `SquareRoot()`
+      - `SquareRoot<TResult>()`
+      - `Truncate()`
+      - `BitwiseComplement()`
+      - `Add<TOther>(TOther value)`
+      - `Add<TOther>(SiteData<TOther> other)`
+      - `Add<TOther>(PinSiteData<TOther> other)`
+      - `Compare(ComparisonType comparisonType, T value)`
+      - `Compare(ComparisonType comparisonType, SiteData<T> other)`
+      - `Compare(ComparisonType comparisonType, PinSiteData<T> other)`
+      - `Compare<TOther, TResult>(ComparisonType comparisonType, TOther value)`
+      - `Compare<TOther, TResult>(ComparisonType comparisonType, SiteData<TOther> other)`
+      - `Compare<TOther, TResult>(ComparisonType comparisonType, PinSiteData<TOther> other)`
+      - `Divide(T value)`
+      - `Divide(SiteData<T> other)`
+      - `Divide(PinSiteData<T> other)`
+      - `Divide<TOther, TResult>(TOther value)`
+      - `Divide<TOther, TResult>(SiteData<TOther> other)`
+      - `Divide<TOther, TResult>(PinSiteData<TOther> other)`
+      - `Maximum<TOther>(TOther value)`
+      - `Maximum<TOther>(SiteData<TOther> other)`
+      - `Maximum<TOther>(PinSiteData<TOther> other)`
+      - `Minimum<TOther>(TOther value)`
+      - `Minimum<TOther>(SiteData<TOther> other)`
+      - `Minimum<TOther>(PinSiteData<TOther> other)`
+      - `Multiply<TOther>(TOther value)`
+      - `Multiply<TOther>(SiteData<TOther> other)`
+      - `Multiply<TOther>(PinSiteData<TOther> other)`
+      - `Power<TOther>(TOther value)`
+      - `Power<TOther>(SiteData<TOther> other)`
+      - `Power<TOther>(PinSiteData<TOther> other)`
+      - `Subtract<TOther>(TOther value)`
+      - `Subtract<TOther>(SiteData<TOther> other)`
+      - `Subtract<TOther>(PinSiteData<TOther> other)`
+      - `ShiftLeft(int count)`
+      - `ShiftRight(int count)`
+      - `BitwiseAnd<TOther>(TOther value)`
+      - `BitwiseAnd<TOther>(SiteData<TOther> other)`
+      - `BitwiseAnd<TOther>(PinSiteData<TOther> other)`
+      - `BitwiseOr<TOther>(TOther value)`
+      - `BitwiseOr<TOther>(SiteData<TOther> other)`
+      - `BitwiseOr<TOther>(PinSiteData<TOther> other)`
+      - `BitwiseXor<TOther>(TOther value)`
+      - `BitwiseXor<TOther>(SiteData<TOther> other)`
+      - `BitwiseXor<TOther>(PinSiteData<TOther> other)`
+    - The `PinSiteData<T>` math operators (`+`, `-`, `*`, `/`, `<<`, `>>`, `&`, `|`, `^`, `~`) call the methods listed above and now throw a `NISemiconductorTestException` in the same cases.
+  - **Instrument Abstraction**
+    - Resolved an issue where the `ExportSignal` DCPower method threw an exception when the `DCPowerSessionsBundle` contained more than one instrument channel. This occurred because an output terminal is reserved by the first channel that exports a signal to it, so exporting the same output terminal from every channel in the bundle fails.
+      - The following `ExportSignal` DCPower method is now marked as obsolete:
+        - `ExportSignal(this DCPowerSessionsBundle sessionsBundle, DCPowerSignalSource signalSource, string outputTerminal)`
+      - Use one of the two new `ExportSignal` overloads to export the signal using a unique output terminal for each site-pin pair.
+    - The following DCPower source settings and current limit configuration methods now accept an optional `UpdateMode` parameter for specifying when the configured settings are applied. `Deferred` (the default) defers applying the settings, `Commit` commits them, and `Immediate` initiates the instrument after configuration. Existing calls that omit the `UpdateMode` parameter retain the deferred behavior through the default value, `UpdateMode.Deferred`.
+      - `ConfigureSourceSettings(DCPowerSourceSettings settings, UpdateMode updateMode)`
+      - `ConfigureSourceSettings(SiteData<DCPowerSourceSettings> settings, UpdateMode updateMode)`
+      - `ConfigureSourceSettings(PinSiteData<DCPowerSourceSettings> settings, UpdateMode updateMode)`
+      - `ConfigureSourceSettings(IDictionary<string, DCPowerSourceSettings> settings, UpdateMode updateMode)`
+      - `ConfigureCurrentLimit(double currentLimit, double? currentLimitRange, UpdateMode updateMode)`
+      - `ConfigureCurrentLimits(IDictionary<string, double> currentLimits, IDictionary<string, double> currentLimitRanges, UpdateMode updateMode)`
+    - The following Digital level and timing configuration methods now accept an optional `UpdateMode` parameter for specifying when the configured settings are applied. `Deferred` (the default) defers applying the settings, `Commit` commits them, and `Immediate` initiates the instrument after configuration. Existing calls that omit the `UpdateMode` parameter retain the deferred behavior through the default value, `UpdateMode.Deferred`.
+      - `ConfigureSingleLevel(LevelType levelType, double levelValue, UpdateMode updateMode)`
+      - `ConfigureSingleLevel(LevelType levelType, SiteData<double> perSiteLevelValues, UpdateMode updateMode)`
+      - `ConfigureVoltageLevels(double vil, double vih, double vol, double voh, double vterm, UpdateMode updateMode)`
+      - `ConfigureTerminationMode(TerminationMode terminationMode, UpdateMode updateMode)`
+      - `ConfigureTimeSetPeriod(string timeSet, double period, UpdateMode updateMode)`
+      - `ConfigureTimeSetDriveEdges(string timeSet, DriveFormat format, double driveOn, double driveData, double driveReturn, double driveOff, UpdateMode updateMode)`
+      - `ConfigureTimeSetDriveEdges(string timeSet, DriveFormat format, double driveOn, double driveData, double driveReturn, double driveOff, double driveData2, double driveReturn2, UpdateMode updateMode)`
+      - `ConfigureTimeSetEdge(string timeSet, TimeSetEdge edge, double time, UpdateMode updateMode)`
+      - `ConfigureTimeSetEdge(string timeSet, TimeSetEdge edge, SiteData<double> time, UpdateMode updateMode)`
+      - `ConfigureTimeSetEdge(string timeSet, TimeSetEdge edge, PinSiteData<double> time, UpdateMode updateMode)`
+      - `ConfigureTimeSetCompareEdgesStrobe(string timeSet, double compareEdge, UpdateMode updateMode)`
+      - `ConfigureTimeSetCompareEdgesStrobe(string timeSet, SiteData<double> compareEdges, UpdateMode updateMode)`
+      - `ConfigureTimeSetCompareEdgesStrobe(string timeSet, PinSiteData<double> compareEdges, UpdateMode updateMode)`
+    - The following `GetCurrentLimits` DCPower method is now marked as obsolete. It remains available for compatibility, but new code should use the singular `GetCurrentLimit` method instead:
+      - `GetCurrentLimits(this DCPowerSessionsBundle sessionsBundle)`
+    - Added validation logic to the following `TSMSessionManager` and `FgenSessionsBundle` methods to ensure that all channels of a multichannel FGen instrument are included in the `FgenSessionsBundle`. These methods now throw an exception when a channel associated with a pin and site is missing from the bundle. To avoid this exception, pass all the FGen pins of a multichannel instrument to the `TSMSessionManager.Fgen` method, and do not filter pins or sites in a way that results in a bundle containing only some of the channels of an FGen instrument.
+      - `TSMSessionManager.Fgen(string pin)`
+      - `TSMSessionManager.Fgen(string[] pins)`
+      - `TSMSessionManager.Fgen(string[] pins, bool filterPins)`
+      - `FgenSessionsBundle.FilterBySite(int requestedSite)`
+      - `FgenSessionsBundle.FilterBySite(int[] requestedSites)`
+      - `FgenSessionsBundle.FilterByPin(string requestedPin)`
+      - `FgenSessionsBundle.FilterByPin(string[] requestedPins)`
+    - Fixed an issue where the DAQmx `SampleValuesCacher` threw an exception when channels were shared between AO and AOFGen DAQmx tasks.
+
 ## 26.0.0 - 2026-06-26
 
 - ### Added
 
   - **Instrument Abstraction**
-    - New `GangPinGroup` and `UngangPinGroup` DCPower methods added for ganging and unganging channels within a pin group. These methods allow for increased output current. The methods support single-channel (for example, PXIe-4137 and PXIe-4139) and multi-channel (PXIe-4147, PXIe-4162, PXIe-4163) SMUs. Refer to the updated documentation for details.
+    - New `GangPinGroup` and `UngangPinGroup` DCPower methods added for ganging and unganging channels within a pin group. These methods allow for increased output current. The methods support single-channel (for example, PXIe-4137 and PXIe-4139) and multi-channel (PXIe-4147, PXIe-4162, PXIe-4163) SMUs.
       - `GangPinGroup(string PinGroupName)`
       - `GangPinGroup(string[] PinGroupNames)`
       - `UngangPinGroup(string PinGroupName)`
       - `UngangPinGroup(string[] PinGroupNames)`
-    - New `ConfigureVoltageSequence` DCPower methods added for configuring hardware-timed voltage sequences using advanced sequencing. These methods support per-session, per-site, and per-site-per-pin sequence data. Refer to the updated documentation for details.
+    - New `ConfigureVoltageSequence` DCPower methods added for configuring hardware-timed voltage sequences using advanced sequencing. These methods support per-session, per-site, and per-site-per-pin sequence data.
       - `ConfigureVoltageSequence(string sequenceName, double[] sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds, bool setAsActiveSequence)`
       - `ConfigureVoltageSequence(string sequenceName, SiteData<double[]> sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds, bool setAsActiveSequence)`
       - `ConfigureVoltageSequence(string sequenceName, PinSiteData<double[]> sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds, bool setAsActiveSequence)`
-    - New `ConfigureCurrentSequence` DCPower methods added for configuring hardware-timed current sequences using advanced sequencing. These methods support per-session, per-site, and per-site-per-pin sequence data. Refer to the updated documentation for details.
+    - New `ConfigureCurrentSequence` DCPower methods added for configuring hardware-timed current sequences using advanced sequencing. These methods support per-session, per-site, and per-site-per-pin sequence data.
       - `ConfigureCurrentSequence(string sequenceName, double[] sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds, bool setAsActiveSequence)`
       - `ConfigureCurrentSequence(string sequenceName, SiteData<double[]> sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds, bool setAsActiveSequence)`
       - `ConfigureCurrentSequence(string sequenceName, PinSiteData<double[]> sequence, int sequenceLoopCount, double? sequenceStepDeltaTimeInSeconds, bool setAsActiveSequence)`
-    - New `ConfigureVoltageSequenceWithSourceDelays` DCPower methods added for configuring hardware-timed voltage sequences with per-step source delays. Refer to the updated documentation for details.
+    - New `ConfigureVoltageSequenceWithSourceDelays` DCPower methods added for configuring hardware-timed voltage sequences with per-step source delays.
       - `ConfigureVoltageSequenceWithSourceDelays(string sequenceName, double[] sequence, double[] sourceDelaysInSeconds, int sequenceLoopCount, bool setAsActiveSequence)`
       - `ConfigureVoltageSequenceWithSourceDelays(string sequenceName, SiteData<double[]> sequence, SiteData<double[]> sourceDelaysInSeconds, int sequenceLoopCount, bool setAsActiveSequence)`
       - `ConfigureVoltageSequenceWithSourceDelays(string sequenceName, PinSiteData<double[]> sequence, PinSiteData<double[]> sourceDelaysInSeconds, int sequenceLoopCount, bool setAsActiveSequence)`
-    - New `ConfigureCurrentSequenceWithSourceDelays` DCPower methods added for configuring hardware-timed current sequences with per-step source delays. Refer to the updated documentation for details.
+    - New `ConfigureCurrentSequenceWithSourceDelays` DCPower methods added for configuring hardware-timed current sequences with per-step source delays.
       - `ConfigureCurrentSequenceWithSourceDelays(string sequenceName, double[] sequence, double[] sourceDelaysInSeconds, int sequenceLoopCount, bool setAsActiveSequence)`
       - `ConfigureCurrentSequenceWithSourceDelays(string sequenceName, SiteData<double[]> sequence, SiteData<double[]> sourceDelaysInSeconds, int sequenceLoopCount, bool setAsActiveSequence)`
       - `ConfigureCurrentSequenceWithSourceDelays(string sequenceName, PinSiteData<double[]> sequence, PinSiteData<double[]> sourceDelaysInSeconds, int sequenceLoopCount, bool setAsActiveSequence)`
-    - New `ConfigureAdvancedSequence` DCPower methods added for creating and configuring advanced sequences with per-step property configurations. Refer to the updated documentation for details.
+    - New `ConfigureAdvancedSequence` DCPower methods added for creating and configuring advanced sequences with per-step property configurations.
       - `ConfigureAdvancedSequence(string sequenceName, IList<DCPowerAdvancedSequenceStepProperties> perStepProperties, bool setAsActiveSequence, bool commitFirstElementAsInitialState)`
       - `ConfigureAdvancedSequence(string sequenceName, SiteData<IList<DCPowerAdvancedSequenceStepProperties>> perStepProperties, bool setAsActiveSequence, bool commitFirstElementAsInitialState)`
       - `ConfigureAdvancedSequence(string sequenceName, PinSiteData<IList<DCPowerAdvancedSequenceStepProperties>> perStepProperties, bool setAsActiveSequence, bool commitFirstElementAsInitialState)`
-    - New `ForceVoltageSequence` DCPower methods added for forcing a hardware-timed sequence of voltage values on targeted pins. The methods use automatic sequence lifecycle management and support scalar, per-site, and per-site-per-pin sequence data. Refer to the updated documentation for details.
+    - New `ForceVoltageSequence` DCPower methods added for forcing a hardware-timed sequence of voltage values on targeted pins. The methods use automatic sequence lifecycle management and support scalar, per-site, and per-site-per-pin sequence data.
       - `ForceVoltageSequence(double[] voltageSequence, double? currentLimit, double? voltageLevelRange, double? currentLimitRange, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
       - `ForceVoltageSequence(SiteData<double[]> voltageSequence, double? currentLimit, double? voltageLevelRange, double? currentLimitRange, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
       - `ForceVoltageSequence(PinSiteData<double[]> voltageSequence, double? currentLimit, double? voltageLevelRange, double? currentLimitRange, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
-    - New `ForceCurrentSequence` DCPower methods added for forcing a hardware-timed sequence of current values on targeted pins. The methods use automatic sequence lifecycle management and support scalar, per-site, and per-site-per-pin sequence data. Refer to the updated documentation for details.
+    - New `ForceCurrentSequence` DCPower methods added for forcing a hardware-timed sequence of current values on targeted pins. The methods use automatic sequence lifecycle management and support scalar, per-site, and per-site-per-pin sequence data.
       - `ForceCurrentSequence(double[] currentSequence, double? voltageLimit, double? currentLevelRange, double? voltageLimitRange, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
       - `ForceCurrentSequence(SiteData<double[]> currentSequence, double? voltageLimit, double? currentLevelRange, double? voltageLimitRange, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
       - `ForceCurrentSequence(PinSiteData<double[]> currentSequence, double? voltageLimit, double? currentLevelRange, double? voltageLimitRange, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
-    - New `ForceVoltageSequenceSynchronized` DCPower methods added for forcing a hardware-timed sequence of voltage outputs with synchronized output across all specified target pins. The methods use start trigger synchronization and support scalar, per-site, and per-site-per-pin sequence and limit data. Refer to the updated documentation for details.
+    - New `ForceVoltageSequenceSynchronized` DCPower methods added for forcing a hardware-timed sequence of voltage outputs with synchronized output across all specified target pins. The methods use start trigger synchronization and support scalar, per-site, and per-site-per-pin sequence and limit data.
       - `ForceVoltageSequenceSynchronized(double[] voltageSequence, double? currentLimit, double? voltageLevelRange, double? currentLimitRange, double? sourceDelayInSeconds, DCPowerSourceTransientResponse? transientResponse, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
       - `ForceVoltageSequenceSynchronized(SiteData<double[]> voltageSequence, SiteData<double> currentLimit, SiteData<double> voltageLevelRange, SiteData<double> currentLimitRange, double? sourceDelayInSeconds, DCPowerSourceTransientResponse? transientResponse, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
       - `ForceVoltageSequenceSynchronized(PinSiteData<double[]> voltageSequence, PinSiteData<double> currentLimit, PinSiteData<double> voltageLevelRange, PinSiteData<double> currentLimitRange, double? sourceDelayInSeconds, DCPowerSourceTransientResponse? transientResponse, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
-    - New `ForceCurrentSequenceSynchronized` DCPower methods added for forcing a hardware-timed sequence of current outputs with synchronized output across all specified target pins. The methods use start trigger synchronization and support scalar, per-site, and per-site-per-pin sequence and limit data. Refer to the updated documentation for details.
+    - New `ForceCurrentSequenceSynchronized` DCPower methods added for forcing a hardware-timed sequence of current outputs with synchronized output across all specified target pins. The methods use start trigger synchronization and support scalar, per-site, and per-site-per-pin sequence and limit data.
       - `ForceCurrentSequenceSynchronized(double[] currentSequence, double? voltageLimit, double? currentLevelRange, double? voltageLimitRange, double? sourceDelayInSeconds, DCPowerSourceTransientResponse? transientResponse, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
       - `ForceCurrentSequenceSynchronized(SiteData<double[]> currentSequence, SiteData<double> voltageLimit, SiteData<double> currentLevelRange, SiteData<double> voltageLimitRange, double? sourceDelayInSeconds, DCPowerSourceTransientResponse? transientResponse, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
       - `ForceCurrentSequenceSynchronized(PinSiteData<double[]> currentSequence, PinSiteData<double> voltageLimit, PinSiteData<double> currentLevelRange, PinSiteData<double> voltageLimitRange, double? sourceDelayInSeconds, DCPowerSourceTransientResponse? transientResponse, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
-    - New `ForceAdvancedSequenceSynchronized` DCPower methods added for synchronizing and forcing an advanced sequence across all sessions in the bundle. The methods support `DCPowerSourceSettings` and `DCPowerAdvancedSequenceStepProperties` sequence types with scalar, per-site, and per-site-per-pin sequence data. Refer to the updated documentation for details.
+    - New `ForceAdvancedSequenceSynchronized` DCPower methods added for synchronizing and forcing an advanced sequence across all sessions in the bundle. The methods support `DCPowerSourceSettings` and `DCPowerAdvancedSequenceStepProperties` sequence types with scalar, per-site, and per-site-per-pin sequence data.
       - `ForceAdvancedSequenceSynchronized(DCPowerSourceSettings[] sequence, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
       - `ForceAdvancedSequenceSynchronized(SiteData<DCPowerSourceSettings[]> sequence, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
       - `ForceAdvancedSequenceSynchronized(PinSiteData<DCPowerSourceSettings[]> sequence, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
       - `ForceAdvancedSequenceSynchronized(DCPowerAdvancedSequenceStepProperties[] sequence, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
       - `ForceAdvancedSequenceSynchronized(SiteData<DCPowerAdvancedSequenceStepProperties[]> sequence, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
       - `ForceAdvancedSequenceSynchronized(PinSiteData<DCPowerAdvancedSequenceStepProperties[]> sequence, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
-    - New `ForceAdvancedSequenceSynchronizedAndFetch` DCPower methods added for synchronizing and forcing an advanced sequence and returning per-site-per-pin measurement results. The methods support `DCPowerSourceSettings` and `DCPowerAdvancedSequenceStepProperties` sequence types with scalar, per-site, and per-site-per-pin data. Refer to the updated documentation for details.
+    - New `ForceAdvancedSequenceSynchronizedAndFetch` DCPower methods added for synchronizing and forcing an advanced sequence and returning per-site-per-pin measurement results. The methods support `DCPowerSourceSettings` and `DCPowerAdvancedSequenceStepProperties` sequence types with scalar, per-site, and per-site-per-pin data.
       - `ForceAdvancedSequenceSynchronizedAndFetch(DCPowerSourceSettings[] sequence, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds, int? pointsToFetch, double measurementTimeoutInSeconds)`
       - `ForceAdvancedSequenceSynchronizedAndFetch(SiteData<DCPowerSourceSettings[]> sequence, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds, int? pointsToFetch, double measurementTimeoutInSeconds)`
       - `ForceAdvancedSequenceSynchronizedAndFetch(PinSiteData<DCPowerSourceSettings[]> sequence, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds, int? pointsToFetch, double measurementTimeoutInSeconds)`
       - `ForceAdvancedSequenceSynchronizedAndFetch(DCPowerAdvancedSequenceStepProperties[] sequence, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds, int? pointsToFetch, double measurementTimeoutInSeconds)`
       - `ForceAdvancedSequenceSynchronizedAndFetch(SiteData<DCPowerAdvancedSequenceStepProperties[]> sequence, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds, int? pointsToFetch, double measurementTimeoutInSeconds)`
       - `ForceAdvancedSequenceSynchronizedAndFetch(PinSiteData<DCPowerAdvancedSequenceStepProperties[]> sequence, int sequenceLoopCount, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds, int? pointsToFetch, double measurementTimeoutInSeconds)`
-    - New `InitiateAdvancedSequence` DCPower method added for initiating a named advanced sequence on all sessions in the bundle. This method includes optional blocking until the sequence completes. Refer to the updated documentation for details.
+    - New `InitiateAdvancedSequence` DCPower method added for initiating a named advanced sequence on all sessions in the bundle. This method includes optional blocking until the sequence completes.
       - `InitiateAdvancedSequence(string sequenceName, bool waitForSequenceCompletion, double sequenceTimeoutInSeconds)`
-    - New `ClearActiveAdvancedSequence` DCPower method added for clearing the active advanced sequence for all channels in the sessions bundle. Refer to the updated documentation for details.
+    - New `ClearActiveAdvancedSequence` DCPower method added for clearing the active advanced sequence for all channels in the sessions bundle.
       - `ClearActiveAdvancedSequence()`
-    - New `DeleteAdvancedSequence` DCPower method added for deleting one or more advanced sequences by name from all sessions. This method frees up to 100 available sequence slots for each session and switches the Source Mode to SinglePoint. Refer to the updated documentation for details.
+    - New `DeleteAdvancedSequence` DCPower method added for deleting one or more advanced sequences by name from all sessions. This method frees up to 100 available sequence slots for each session and switches the Source Mode to SinglePoint.
       - `DeleteAdvancedSequence(params string[] sequenceNames)`
   - **Common**
-    - New `CreateRampSequence` methods added for generating linear ramp sequences of double values using linear interpolation. These methods support scalar output, per-site (`SiteData`), per-site-per-pin (`PinSiteData`), and unique per-site and per-pin parameterization. Refer to the updated documentation for details.
+    - New `CreateRampSequence` methods added for generating linear ramp sequences of double values using linear interpolation. These methods support scalar output, per-site (`SiteData`), per-site-per-pin (`PinSiteData`), and unique per-site and per-pin parameterization.
       - `CreateRampSequence(double outputStart, double outputStop, int numberOfPoints)`
       - `CreateRampSequence(int[] siteNumbers, double outputStart, double outputStop, int numberOfPoints)`
       - `CreateRampSequence(string[] pinNames, int[] siteNumbers, double outputStart, double outputStop, int numberOfPoints)`
@@ -100,12 +611,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
     - Reintroduced the original method signature for `ResetInstrumentation` as a deprecated overload to maintain backwards compatibility. This overload is marked as `[Obsolete]` and `[EditorBrowsable(EditorBrowsableState.Never)]` to discourage new usage.
       - `ResetInstrumentation(ISemiconductorModuleContext tsmContext, bool resetDevice = false, TestStandSteps.NIInstrumentType instrumentType = TestStandSteps.NIInstrumentType.All)`
   - **Documentation & Examples**
-    - Added a Sequence style example and documentation for how to work with per-site multiplexed connections.
-    - Added a Sequence style example and documentation for how to use ganging and unganging channels in pin groups.
+    - Added a Sequence style example and documentation for working with per-site multiplexed connections: `MultiplexedConnection`.
+    - Added a Sequence style example and documentation for ganging and unganging of channels in pin groups: `SMUGangPinGroup`.
     - Added a Code Snippet style example: `ForceVoltageSequence`, for how to use hardware-timed sequencing to force a series of voltage values on targeted SMU pins.
     - Added a Code Snippet style example:  `ConfigureSMUAdvancedSequencesAndInitiate`, for how to configure and initiate advanced sequences with per-step property control.
-    - Added a Sequence style example: `SMUHardwareLevelSequence`, for how to use the Semiconductor Test Library (STL) extension methods for Hardware Level Sequencing (HLS) to run different force voltage sequences with an NI Source Measure Unit (SMU).
-    - Added a Sequence style example: `CustomInstrument.RSeries`, for how to use the Custom Instrument feature of the Semiconductor Test Library (STL) to interact with an R Series device.
+    - Added a Sequence style example for running different force voltage sequences with an NI Source Measure Unit (SMU) using Hardware Level Sequencing (HLS): `SMUHardwareLevelSequence`.
+    - Added a Sequence style example for using the Custom Instrument feature of the Semiconductor Test Library (STL) to interact with an R Series device: `CustomInstrument.RSeries`.
 
 - ### Changed
 
@@ -146,12 +657,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - ### Added
 
   - **Instrument Abstraction**
-    - New `MergePinGroup` and `UnmergePinGroup` DCPower methods added for merging and unmerging channels within a pin group to output higher current. Only supported with multichannel SMUs that support the NI-DCPower Merged Channels driver feature, such as the [PXIe-4147](https://www.ni.com/docs/en-US/bundle/pxie-4147/page/merged-channels.html), [PXIe-4162](https://www.ni.com/docs/en-US/bundle/pxie-4162/page/merged-channels.html), and [PXIe-4163](https://www.ni.com/docs/en-US/bundle/pxie-4163/page/merged-channels.html) devices. Refer to the updated documentation for details.
+    - New `MergePinGroup` and `UnmergePinGroup` DCPower methods added for merging and unmerging channels within a pin group to output higher current. Only supported with multichannel SMUs that support the NI-DCPower Merged Channels driver feature, such as the [PXIe-4147](https://www.ni.com/docs/en-US/bundle/pxie-4147/page/merged-channels.html), [PXIe-4162](https://www.ni.com/docs/en-US/bundle/pxie-4162/page/merged-channels.html), and [PXIe-4163](https://www.ni.com/docs/en-US/bundle/pxie-4163/page/merged-channels.html) devices.
       - `MergePinGroup(string mergedChannelsPinGroupName)`
       - `MergePinGroup(string[] mergedChannelsPinGroupNames)`
       - `UnmergePinGroup(string mergedChannelsPinGroupName)`
       - `UnmergePinGroup(string[] mergedChannelsPinGroupNames)`
-    - New interfaces and classes added to support Custom Instruments defined in the Pin Map, including extension methods in `TSMSessionManager` to create a new `CustomInstrumentSessionsBundle` object for Custom Instruments. Refer to the updated documentation for details.
+    - New interfaces and classes added to support Custom Instruments defined in the Pin Map, including extension methods in `TSMSessionManager` to create a new `CustomInstrumentSessionsBundle` object for Custom Instruments.
       - `ICustomInstrument`
       - `ICustomInstrumentFactory`
       - `InitializeAndClose`
