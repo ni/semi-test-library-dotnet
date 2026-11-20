@@ -19,7 +19,7 @@ When using the `Select` method you should consider the following:
 2. The operation can be a lambda expression, a method, or a local function that accepts a value of type `T` and returns a value of type `TResult`. `TResult` can be any data type.
 3. The underlying data type of the original object, `T`, must be one of the following types, or an array type:
     `double`, `decimal`, `float`, `int`, `uint`, `long`, `ulong`, `byte`, `sbyte`, `short`, `ushort`.
-    Otherwise, an `NISemiconductorTestException` is thrown with the message `Math operations not supported on the {type} type data.` For example, the `Select` method cannot be called on a `SiteData<bool>` or `SiteData<string>` object. For these types, iterate over the sites and set the values in a new object instead. For more information, refer to [Working with SiteData in Loops](SiteData.md#working-with-sitedata-in-loops).
+    Otherwise, an `NISemiconductorTestException` is thrown with the message `Math operations not supported on the {type} type data.` For example, the `Select` method cannot be called on a `SiteData<bool>` or `SiteData<string>` object. For these types, iterate over the sites and create a new object from the results instead. For more information, refer to [Working with SiteData in Loops](SiteData.md#working-with-sitedata-in-loops).
 4. The `Select` method of `SiteData` throws an `NISemiconductorTestException` if the `SiteData` object is empty.
 5. The `Select` method of `PinSiteData` throws an `NISemiconductorTestException` if the `PinSiteData` object contains no pins, or if any pin contains no sites. Jagged `PinSiteData` objects are supported, and the returned object has the same jagged structure.
 6. If the operation throws an exception for any value, the `Select` method stops and throws an `NISemiconductorTestException`. The exception message includes the site, and for `PinSiteData` objects, the pin where the exception occurred, along with the original exception details.
@@ -86,7 +86,7 @@ var passFailAsInt = passFail.Select(value => value ? 1 : 0);
 ```
 
 >[!NOTE]
-> The `SetValue` method used in the following example is available only in release 26.5.0 or later.
+> The following example uses the parameterless `SiteData` constructor and the `SetValue` method. This is only applicable to release 26.5.0 or later.
 
 The same transform can be performed by iterating over the sites instead:
 

@@ -9,7 +9,7 @@ The following table outlines the methods and properties available for extracting
 |Member|Description|
 | :- | :- |
 |[`PinNames`](../../SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.PinNames.html)|Returns the pin names in the `PinSiteData` object.|
-|[`SiteNumbersByPin`](../../SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.SiteNumbersByPin.html)|Returns a read-only dictionary where each key is a pin name and each value is the list of site numbers for that pin, in ascending order. This property is applicable only to release 26.5.0 or later.|
+|[`SiteNumbersByPin`](../../SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.SiteNumbersByPin.html)|Returns a read-only dictionary where each key is a pin name and each value is the list of site numbers for that pin, in ascending order. This is only applicable to release 26.5.0 or later.|
 |[`GetValue(int siteNumber, string pinName)`](../../SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.GetValue.html)|Returns the value of the specified pin and site.|
 |[`TryGetValue(int siteNumber, string pinName, out T value)`](../../SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.TryGetValue.html)|Gets the value of the specified pin and site, if it exists. Returns `true` if the pin and site exist, and `false` otherwise.|
 |[`ExtractPin(string pinName)`](../../SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.ExtractPin.html)|Returns a new `SiteData` object that contains the data of the specified pin.|
@@ -26,10 +26,14 @@ When extracting pin data from `PinSiteData` objects you should consider the foll
 5. The `TryGetValue` method returns `false` if the specified pin or site does not exist. However, it throws an `NISemiconductorTestException` if the specified pin exists but contains no sites.
 6. The `ExtractPin` method returns an empty `SiteData` object if the specified pin contains no sites. For a jagged `PinSiteData` object, the returned `SiteData` object contains only the sites of that pin.
 7. The `pinNames` input of the `ExtractPins` method must contain unique values. Otherwise, an `NISemiconductorTestException` is thrown. An `ArgumentException` is thrown if the `pinNames` input is an empty array.
-8. The `PinNames` and `SiteNumbersByPin` properties return a new array or dictionary each time they are accessed. Store the returned value in a local variable instead of accessing the property repeatedly. The `SiteNumbersByPin` property is applicable only to release 26.5.0 or later.
-9. The order of the `PinNames` property is not guaranteed to match the order in which the pins were added.
+8. The `PinNames` property returns a new array each time it is accessed. Store the array in a local variable instead of accessing the property repeatedly.
+9. The `SiteNumbersByPin` property returns a new dictionary each time it is accessed. Store the dictionary in a local variable instead of accessing the property repeatedly. This is only applicable to release 26.5.0 or later.
+10. The order of the `PinNames` property is not guaranteed to match the order in which the pins were added.
 
 ## Example Usage for Extracting a Pin Subset
+
+>[!NOTE]
+> The following example uses the `SiteNumbersByPin` property. This is only applicable to release 26.5.0 or later.
 
 Example of extracting pin data from a `PinSiteData` object:
 

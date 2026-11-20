@@ -68,7 +68,7 @@ tsmContext.PublishResults(maxValue, publishedDataId: "MaxMultiPointValue");
 ```
 
 >[!NOTE]
-> The `SetValue` method used in the following example is available only in release 26.5.0 or later.
+> The following example uses the parameterless `PinSiteData` constructor and the `SetValue` method. This is only applicable to release 26.5.0 or later.
 
 Example of publishing a site-agnostic value for all active sites:
 
