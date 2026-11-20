@@ -26,6 +26,10 @@
 - name: Data Abstraction
   href: DataAbstraction.md
   items:
+  - name: Working with SiteData
+    href: DataAbstraction/SiteData.md
+  - name: Working with PinSiteData
+    href: DataAbstraction/PinSiteData.md
   - name: Math Operations
     items:
       - name: Math Operations with SiteData
