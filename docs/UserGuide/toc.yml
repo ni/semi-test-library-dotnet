@@ -44,6 +44,8 @@
   href: CommonUtilityMethods.md
 - name: Working With Multiplexed Connections
   href: WorkingWithMultiplexedConnections.md
+- name: Accessing DUT Registers Using SPI and I2C
+  href: AccessingDUTRegistersUsingSPIAndI2C.md
 
 - name: Best Practices
 - name: NuGet Package Management For STS Projects
