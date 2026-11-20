@@ -13,6 +13,7 @@ Refer to the [STS Software Version Compatibility](Overview.md#sts-software-versi
 > [!NOTE]
 > You must build the code solutions for examples downloaded from GitHub before you can run them.
 > The installed examples are pre-compiled and ready to run.
+> However, to debug or step into the example code while running the TestStand sequence, you must first rebuild the example on your system.
 
 There are different styles of examples, each organized within their own sub-directory.
 Refer to the sections below to learn more about each style of example.
