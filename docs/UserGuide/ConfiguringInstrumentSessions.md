@@ -5,7 +5,7 @@ The Semiconductor Test Library can help you efficiently configure instruments by
 > [!NOTE]
 > Extension methods that configure driver properties will always abort the driver session before updating a property.
 >
-> By default, extension methods that configure driver properties do not re-initiate or perform a commit of the driver session. Such operations are expected to be applied in proceeding code. If you want to force the driver properties to be applied immediately, either pass the optional `updateMode` parameter to the configuration method, or subsequently call the high-level `Commit` or `Initiate` extension method. Refer to [Controlling When Settings Are Applied](#controlling-when-settings-are-applied) for more details.
+> By default, extension methods that configure driver properties do not re-initiate or perform a commit of the driver session. Such operations are expected to be applied in proceeding code. If you want to force the driver properties to be applied immediately, either pass the optional `updateMode` parameter to the configuration method, or call the high-level `Commit` or `Initiate` extension method. Refer to [Controlling When Settings Are Applied](#controlling-when-settings-are-applied) for more details.
 
 **Related Concepts:**
 
@@ -121,7 +121,7 @@ ppmuPins.ForceVoltage(ppmuSettings);
 
 Most NI instrument drivers cache property values and only apply them to the hardware when the session is committed or initiated. This can make it difficult to debug hardware configuration changes, and invalid configurations may only raise an exception at a later stage in the test code.
 
-To address this, many DCPower and Digital configuration extension methods accept an optional `UpdateMode` parameter that specifies when the configured settings take effect:
+To address this, many DCPower and Digital configuration extension methods accept an optional `updateMode` parameter that specifies when the configured settings take effect:
 
 | Value | Behavior |
 | -- | -- |
@@ -153,10 +153,40 @@ digitalPins.ConfigureVoltageLevels(vil: 0, vih: 3.3, vol: 1.6, voh: 1.7, vterm: 
 > `NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.UpdateMode` \
 > `NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.UpdateMode`
 
-The following methods support the `UpdateMode` parameter:
+The following **DCPower** methods support the `UpdateMode` parameter:
 
-- **DCPower:** `ConfigureSourceSettings`, `ConfigureCurrentLimit`, `ConfigureCurrentLimits`, `ConfigureOutputConnected`, `ConfigureOutputEnabled`, `ConfigureSourceDelay`, `ConfigureMeasureSettings`, `ConfigureMeasureWhen`, `ConfigureMeasurementSense`, `ConfigureCurrentLevel`, `ConfigureCurrentLevelRange`, `ConfigureCurrentLimitHigh`, `ConfigureCurrentLimitLow`, `ConfigureCurrentLimitRange`, `ConfigureLimitSymmetry`, `ConfigureVoltageLevel`, `ConfigureVoltageLevelRange`, `ConfigureVoltageLimit`, `ConfigureVoltageLimitHigh`, `ConfigureVoltageLimitLow`, `ConfigureVoltageLimitRange`, and `ConfigureApertureTimeInSeconds`.
-- **Digital:** `ConfigureSingleLevel`, `ConfigureVoltageLevels`, `ConfigureTerminationMode`, `ConfigureTimeSetPeriod`, `ConfigureTimeSetDriveEdges`, `ConfigureTimeSetEdge`, and `ConfigureTimeSetCompareEdgesStrobe`.
+- `ConfigureSourceSettings`
+- `ConfigureCurrentLimit`
+- `ConfigureCurrentLimits`
+- `ConfigureOutputConnected`
+- `ConfigureOutputEnabled`
+- `ConfigureSourceDelay`
+- `ConfigureMeasureSettings`
+- `ConfigureMeasureWhen`
+- `ConfigureMeasurementSense`
+- `ConfigureCurrentLevel`
+- `ConfigureCurrentLevelRange`
+- `ConfigureCurrentLimitHigh`
+- `ConfigureCurrentLimitLow`
+- `ConfigureCurrentLimitRange`
+- `ConfigureLimitSymmetry`
+- `ConfigureVoltageLevel`
+- `ConfigureVoltageLevelRange`
+- `ConfigureVoltageLimit`
+- `ConfigureVoltageLimitHigh`
+- `ConfigureVoltageLimitLow`
+- `ConfigureVoltageLimitRange`
+- `ConfigureApertureTimeInSeconds`
+
+The following **Digital** methods support the `UpdateMode` parameter:
+
+- `ConfigureSingleLevel`
+- `ConfigureVoltageLevels`
+- `ConfigureTerminationMode`
+- `ConfigureTimeSetPeriod`
+- `ConfigureTimeSetDriveEdges`
+- `ConfigureTimeSetEdge`
+- `ConfigureTimeSetCompareEdgesStrobe`
 
 ### Digital Commit, Initiate, and Pattern Start Label
 
@@ -176,7 +206,7 @@ digitalPins.Initiate();
 ```
 
 ### [!NOTE]
-> `ConfigurePattern` method does not contain the sites to configure. By default, it operates on all the sites in the bundle. If the user wants this API to operate on specific sites, then as part of the workflow, the user has to filter the bundle with the desired sites and then call this method on the resulting bundle to achieve the same. 
+> The `ConfigurePattern` method does not contain the sites to configure. By default, it operates on all the sites in the bundle. If the user wants this API to operate on specific sites, then as part of the workflow, the user has to filter the bundle with the desired sites and then call this method on the resulting bundle. 
 
 ```C#
 var digitalPins = sessionManager.Digital(digitalPinNames);
@@ -186,4 +216,3 @@ filteredDigitalPins.Commit();
 var startLabels = filteredDigitalPins.GetPatternStartLabel();
 filteredDigitalPins.Initiate();
 ```
-
