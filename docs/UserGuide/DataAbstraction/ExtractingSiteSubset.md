@@ -18,7 +18,7 @@ The following table outlines the methods and properties available for extracting
 
 ## Usage Considerations for Extracting a Site Subset
 
-When extracting site data from `SiteData` and `PinSiteData` objects you should consider the following:
+When extracting site data from `SiteData` and `PinSiteData` objects, you should consider the following:
 
 1. The `ExtractSites` methods return a new object. Modifying the returned object does not modify the original object, and vice versa. However, when `T` is a reference type, such as an array, both objects refer to the same value instances.
 2. Every specified site must exist. Otherwise, an `NISemiconductorTestException` is thrown with the message `The site number {siteNumber} does not exist.` Use the `TryGetValue` method or check the `SiteNumbers` property first if a site might not exist.
