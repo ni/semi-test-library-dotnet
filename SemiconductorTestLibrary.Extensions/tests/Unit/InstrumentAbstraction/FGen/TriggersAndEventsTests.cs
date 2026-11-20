@@ -182,13 +182,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             }
 
             var exception = Assert.Throws<ArgumentNullException>(ConfigureStartTriggerDigitalEdge);
-            Assert.Contains("Trigger source passed as input is either null or an empty string. Please provide valid trigger source.", exception.Message);
+            Assert.Contains("The trigger source passed as input is either null or an empty string. Please provide a valid trigger source.", exception.Message);
 
             // Test with empty trigger source
             triggerLine = string.Empty;
 
             var argumentException = Assert.Throws<ArgumentException>(ConfigureStartTriggerDigitalEdge);
-            Assert.Contains("Trigger source passed as input is either null or an empty string. Please provide valid trigger source.", argumentException.Message);
+            Assert.Contains("The trigger source passed as input is either null or an empty string. Please provide a valid trigger source.", argumentException.Message);
         }
 
         [Theory]
@@ -381,13 +381,13 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             void ExportSignal() => sessionsBundle.ExportSignal(signalSource, outputTerminal);
 
             var exception = Assert.Throws<ArgumentNullException>(ExportSignal);
-            Assert.Contains("Output terminal passed as input is either null or an empty string. Please provide valid output terminal.", exception.Message);
+            Assert.Contains("The output terminal passed as input is either null or an empty string. Please provide a valid output terminal.", exception.Message);
 
             // Test with empty output terminal
             outputTerminal = string.Empty;
 
             var argumentException = Assert.Throws<ArgumentException>(ExportSignal);
-            Assert.Contains("Output terminal passed as input is either null or an empty string. Please provide valid output terminal.", argumentException.Message);
+            Assert.Contains("The output terminal passed as input is either null or an empty string. Please provide a valid output terminal.", argumentException.Message);
         }
 
         #endregion

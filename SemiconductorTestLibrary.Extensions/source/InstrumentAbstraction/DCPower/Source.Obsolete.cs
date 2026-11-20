@@ -453,7 +453,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Synchronizes and forces an advanced sequence across all sessions in the bundle and return measurements.
+        /// Synchronizes and forces an advanced sequence across all sessions in the bundle and returns measurements.
         /// </summary>
         /// <remarks>
         /// This method will set the Source Mode back to SinglePoint mode upon returning.
@@ -524,7 +524,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Synchronizes and forces an advanced sequence across all sessions in the bundle and return measurements.
+        /// Synchronizes and forces an advanced sequence across all sessions in the bundle and returns measurements.
         /// </summary>
         /// <remarks>
         /// This function will switch the Source Mode back to SinglePoint.

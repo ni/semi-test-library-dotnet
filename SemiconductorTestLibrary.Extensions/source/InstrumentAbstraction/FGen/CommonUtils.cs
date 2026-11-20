@@ -5,7 +5,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
     internal static class CommonUtils
     {
         /// <summary>
-        /// Provides channel name from individual channel string.
+        /// Provides the channel name from an individual channel string.
         /// </summary>
         /// <param name="individualChannelString">IndividualChannelString</param>
         /// <returns>Channel name</returns>
