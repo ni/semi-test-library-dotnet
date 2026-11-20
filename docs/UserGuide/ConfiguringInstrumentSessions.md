@@ -174,3 +174,16 @@ digitalPins.Commit();
 var startLabels = digitalPins.GetPatternStartLabel();
 digitalPins.Initiate();
 ```
+
+### [!NOTE]
+> `ConfigurePattern` method does not contain the sites to configure. By default, it operates on all the sites in the bundle. If the user wants this API to operate on specific sites, then as part of the workflow, the user has to filter the bundle with the desired sites and then call this method on the resulting bundle to achieve the same. 
+
+```C#
+var digitalPins = sessionManager.Digital(digitalPinNames);
+var filteredDigitalPins = digitalPins.FilterBySites(new int[] { 1, 2 });
+filteredDigitalPins.ConfigurePattern("StartLabel");
+filteredDigitalPins.Commit();
+var startLabels = filteredDigitalPins.GetPatternStartLabel();
+filteredDigitalPins.Initiate();
+```
+
