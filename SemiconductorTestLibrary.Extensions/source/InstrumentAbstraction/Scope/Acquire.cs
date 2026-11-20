@@ -4,7 +4,7 @@ using static NationalInstruments.SemiconductorTestLibrary.Common.ParallelExecuti
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope
 {
     /// <summary>
-    /// Defines methods for acquisition related operations on the NI-Scope session.
+    /// Defines methods for acquisition-related operations on the NI-Scope session.
     /// </summary>
     public static class Acquire
     {
