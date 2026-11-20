@@ -66,7 +66,6 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
         /// Configures a digital trigger for all sessions in the bundle.
         /// </summary>
         /// <remarks>
-        /// Only the first channel associated with each session is used as the trigger source.<br/>
         /// Throws <see cref="ArgumentNullException"/> if the <paramref name="triggerSettings"/> parameter is null.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
@@ -78,7 +77,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
             sessionsBundle.Do(sessionInfo =>
             {
                 sessionInfo.Session.Trigger.ConfigureTriggerDigital(
-                    GetTriggerSource(sessionInfo),
+                    triggerSettings.TriggerSource,
                     triggerSettings.TriggerSlope,
                     triggerSettings.HoldOff,
                     triggerSettings.Delay);

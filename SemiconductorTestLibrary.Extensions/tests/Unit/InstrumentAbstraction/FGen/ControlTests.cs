@@ -12,6 +12,7 @@ using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMCon
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.Fgen
 {
     [Collection("NonParallelizable")]
+    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
     public sealed class ControlTests : IDisposable
     {
         private ISemiconductorModuleContext _tsmContext;
@@ -73,7 +74,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var exception = Record.Exception(() => sessionsBundle.Initiate());
 
             Assert.IsType<NISemiconductorTestException>(exception);
-            Assert.Contains("Operation cannot be completed because the output mode is not configured to Function", exception.Message); // Ensure that correct exception message is thrown.
+            Assert.Contains("The operation cannot be completed because the output mode is not configured to Function", exception.Message);
         }
         #endregion
 

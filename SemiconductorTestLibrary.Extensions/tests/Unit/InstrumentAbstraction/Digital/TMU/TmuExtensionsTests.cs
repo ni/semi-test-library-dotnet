@@ -1069,7 +1069,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var exception = Record.Exception(() => sessionsBundle.GetTMUStartSource());
 
             Assert.IsType<NISemiconductorTestException>(exception);
-            Assert.Contains("No TMU resource has been assigned to one or more pins.", exception.Message);
+            Assert.Contains("No TMU resource was assigned to one or more pins.", exception.Message);
         }
 
         #endregion
@@ -1110,7 +1110,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var exception = Record.Exception(() => sessionsBundle.GetTMUStopSource());
 
             Assert.IsType<NISemiconductorTestException>(exception);
-            Assert.Contains("No TMU resource has been assigned to one or more pins.", exception.Message);
+            Assert.Contains("No TMU resource was assigned to one or more pins.", exception.Message);
         }
 
         #endregion
@@ -1150,7 +1150,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var exception = Record.Exception(() => sessionsBundle.GetTMUStartSourceEvent());
 
             Assert.IsType<NISemiconductorTestException>(exception);
-            Assert.Contains("No TMU resource has been assigned to one or more pins.", exception.Message);
+            Assert.Contains("No TMU resource was assigned to one or more pins.", exception.Message);
         }
 
         #endregion
@@ -1190,7 +1190,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var exception = Record.Exception(() => sessionsBundle.GetTMUStopSourceEvent());
 
             Assert.IsType<NISemiconductorTestException>(exception);
-            Assert.Contains("No TMU resource has been assigned to one or more pins.", exception.Message);
+            Assert.Contains("No TMU resource was assigned to one or more pins.", exception.Message);
         }
 
         #endregion
@@ -1230,7 +1230,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var exception = Record.Exception(() => sessionsBundle.GetTMUStartSourceEventPolarity());
 
             Assert.IsType<NISemiconductorTestException>(exception);
-            Assert.Contains("No TMU resource has been assigned to one or more pins.", exception.Message);
+            Assert.Contains("No TMU resource was assigned to one or more pins.", exception.Message);
         }
 
         #endregion
@@ -1270,7 +1270,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var exception = Record.Exception(() => sessionsBundle.GetTMUStopSourceEventPolarity());
 
             Assert.IsType<NISemiconductorTestException>(exception);
-            Assert.Contains("No TMU resource has been assigned to one or more pins.", exception.Message);
+            Assert.Contains("No TMU resource was assigned to one or more pins.", exception.Message);
         }
 
         #endregion
@@ -1327,7 +1327,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var exception = Record.Exception(() => sessionsBundle.GetTMUEnabled());
 
             Assert.IsType<NISemiconductorTestException>(exception);
-            Assert.Contains("No TMU resource has been assigned to one or more pins.", exception.Message);
+            Assert.Contains("No TMU resource was assigned to one or more pins.", exception.Message);
         }
 
         #endregion
@@ -1370,7 +1370,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var exception = Record.Exception(() => sessionsBundle.GetTMUArmType());
 
             Assert.IsType<NISemiconductorTestException>(exception);
-            Assert.Contains("No TMU resource has been assigned to one or more pins.", exception.Message);
+            Assert.Contains("No TMU resource was assigned to one or more pins.", exception.Message);
         }
 
         #endregion
@@ -1411,7 +1411,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var exception = Record.Exception(() => sessionsBundle.GetTMUEdgeArmSource());
 
             Assert.IsType<NISemiconductorTestException>(exception);
-            Assert.Contains("No TMU resource has been assigned to one or more pins.", exception.Message);
+            Assert.Contains("No TMU resource was assigned to one or more pins.", exception.Message);
         }
 
         #endregion
@@ -1451,7 +1451,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var exception = Record.Exception(() => sessionsBundle.GetTMUEdgeArmSourceEvent());
 
             Assert.IsType<NISemiconductorTestException>(exception);
-            Assert.Contains("No TMU resource has been assigned to one or more pins.", exception.Message);
+            Assert.Contains("No TMU resource was assigned to one or more pins.", exception.Message);
         }
 
         #endregion
@@ -1491,7 +1491,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var exception = Record.Exception(() => sessionsBundle.GetTMUEdgeArmPolarity());
 
             Assert.IsType<NISemiconductorTestException>(exception);
-            Assert.Contains("No TMU resource has been assigned to one or more pins.", exception.Message);
+            Assert.Contains("No TMU resource was assigned to one or more pins.", exception.Message);
         }
 
         #endregion
@@ -1532,7 +1532,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var exception = Record.Exception(() => sessionsBundle.GetTMUSamplesToAcquire());
 
             Assert.IsType<NISemiconductorTestException>(exception);
-            Assert.Contains("No TMU resource has been assigned to one or more pins.", exception.Message);
+            Assert.Contains("No TMU resource was assigned to one or more pins.", exception.Message);
         }
 
         #endregion
@@ -1573,7 +1573,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var exception = Record.Exception(() => sessionsBundle.GetTMUSampleTimeout());
 
             Assert.IsType<NISemiconductorTestException>(exception);
-            Assert.Contains("No TMU resource has been assigned to one or more pins.", exception.Message);
+            Assert.Contains("No TMU resource was assigned to one or more pins.", exception.Message);
         }
 
         #endregion
@@ -1610,7 +1610,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var exception = Record.Exception(() => sessionsBundle.GetTMUStartInputDebounceTime());
 
             Assert.IsType<NISemiconductorTestException>(exception);
-            Assert.Contains("No TMU resource has been assigned to one or more pins.", exception.Message);
+            Assert.Contains("No TMU resource was assigned to one or more pins.", exception.Message);
         }
 
         #endregion
@@ -1647,7 +1647,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             var exception = Record.Exception(() => sessionsBundle.GetTMUStopInputDebounceTime());
 
             Assert.IsType<NISemiconductorTestException>(exception);
-            Assert.Contains("No TMU resource has been assigned to one or more pins.", exception.Message);
+            Assert.Contains("No TMU resource was assigned to one or more pins.", exception.Message);
         }
 
         #endregion

@@ -9,7 +9,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
     public class StandardWaveformSettings
     {
         /// <summary>
-        /// The standard waveform that you want the signal generator to produce (Sine, Square, Triangle, Ramp Up, Ramp Down, DC, Noise, User ).
+        /// The standard waveform that you want the signal generator to produce (Sine, Square, Triangle, Ramp Up, Ramp Down, DC, Noise, User).
         /// </summary>
         public StandardWaveform WaveformFunctionType { get; set; }
 

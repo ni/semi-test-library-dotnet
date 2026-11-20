@@ -5,6 +5,7 @@ using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fgen;
+using NationalInstruments.Tests.SemiconductorTestLibrary.Utilities;
 using NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI;
 using Xunit;
 using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.TSMContext;
@@ -13,6 +14,7 @@ using static NationalInstruments.Tests.SemiconductorTestLibrary.Utilities.Utilit
 namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbstraction.Fgen
 {
     [Collection("NonParallelizable")]
+    [Trait(nameof(HardwareConfiguration), nameof(HardwareConfiguration.STSNIBCauvery))]
     public sealed class StandardWaveformGenerationTests : IDisposable
     {
         private const double Tolerance = 0.001;
@@ -121,7 +123,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
 
             Assert.IsType<NISemiconductorTestException>(exception);
-            Assert.Contains("The 'StandardWaveform.User' Waveform Function Type is not supported in STL", exception.Message); // Ensure correct error message is reported in the exception message.
+            Assert.Contains("The 'StandardWaveform.User' Waveform Function Type is not supported", exception.Message); // Ensure correct error message is reported in the exception message.
         }
 
         [Fact]
@@ -221,7 +223,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
 
             Assert.IsType<NISemiconductorTestException>(exception);
-            Assert.Contains("The 'StandardWaveform.User' Waveform Function Type is not supported in STL", exception.Message); // Ensure correct error message is reported in the exception message.
+            Assert.Contains("The 'StandardWaveform.User' Waveform Function Type is not supported", exception.Message); // Ensure correct error message is reported in the exception message.
         }
 
         [Fact]
@@ -298,7 +300,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
 
             Assert.IsType<NISemiconductorTestException>(exception);
-            Assert.Contains("The 'StandardWaveform.User' Waveform Function Type is not supported in STL", exception.Message); // Ensure correct error message is reported in the exception message.
+            Assert.Contains("The 'StandardWaveform.User' Waveform Function Type is not supported", exception.Message); // Ensure correct error message is reported in the exception message.
         }
 
         #endregion

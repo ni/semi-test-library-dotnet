@@ -1126,7 +1126,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Synchronizes and forces an advanced sequence across all sessions in the bundle and return measurements.
+        /// Synchronizes and forces an advanced sequence across all sessions in the bundle and returns measurements.
         /// </summary>
         /// <remarks>
         /// This method will set the Source Mode back to SinglePoint mode upon returning.
@@ -1273,7 +1273,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Synchronizes and forces an advanced sequence across all sessions in the bundle and return measurements.
+        /// Synchronizes and forces an advanced sequence across all sessions in the bundle and returns measurements.
         /// </summary>
         /// <remarks>
         /// This function will switch the Source Mode back to SinglePoint.
@@ -1693,7 +1693,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Configures the current level range.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="currentLevelRange">The current level range to set, in Amps.</param>
+        /// <param name="currentLevelRange">The current level range to set, in amperes.</param>
         /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureCurrentLevelRange(this DCPowerSessionsBundle sessionsBundle, double currentLevelRange, UpdateMode updateMode = UpdateMode.Deferred)
         {
@@ -1743,7 +1743,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Configures the current limit low.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="currentLimitLow">The current limit low to set, in Amps.</param>
+        /// <param name="currentLimitLow">The current limit low to set, in amperes.</param>
         /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureCurrentLimitLow(this DCPowerSessionsBundle sessionsBundle, double currentLimitLow, UpdateMode updateMode = UpdateMode.Deferred)
         {
@@ -1793,7 +1793,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Configures the current limit high.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="currentLimitHigh">The current limit high to set, in Amps.</param>
+        /// <param name="currentLimitHigh">The current limit high to set, in amperes.</param>
         /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureCurrentLimitHigh(this DCPowerSessionsBundle sessionsBundle, double currentLimitHigh, UpdateMode updateMode = UpdateMode.Deferred)
         {
@@ -1824,7 +1824,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         /// <inheritdoc cref="ConfigureCurrentLimitHigh(DCPowerSessionsBundle, double, UpdateMode)"/>
         /// <remarks>
-        /// When the session bundle contains a ganged pin group and the <paramref name="currentLimitHigh"/> value is applied to the entire pin group.
+        /// When the session bundle contains a ganged pin group and the <paramref name="currentLimitHigh"/> value is associated with the ganged pin group name,
         /// the current limit high for each pin in the group is set to the specified value divided by the number of pins in the group.
         /// Otherwise, when the value is associated with individual pin names, the current limit high for each pin is set to the specified value.
         /// </remarks>
@@ -1843,7 +1843,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Configures the current limit range.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="currentLimitRange">The current limit range to set, in Amps.</param>
+        /// <param name="currentLimitRange">The current limit range to set, in amperes.</param>
         /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureCurrentLimitRange(this DCPowerSessionsBundle sessionsBundle, double currentLimitRange, UpdateMode updateMode = UpdateMode.Deferred)
         {
@@ -1939,7 +1939,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Configures the current level.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="currentLevel">The current level to set, in Amps.</param>
+        /// <param name="currentLevel">The current level to set, in amperes.</param>
         /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureCurrentLevel(this DCPowerSessionsBundle sessionsBundle, double currentLevel, UpdateMode updateMode = UpdateMode.Deferred)
         {
@@ -1989,7 +1989,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Configures the voltage limit range.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="voltageLimitRange">The voltage limit range to set, in Volts.</param>
+        /// <param name="voltageLimitRange">The voltage limit range to set, in volts.</param>
         /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureVoltageLimitRange(this DCPowerSessionsBundle sessionsBundle, double voltageLimitRange, UpdateMode updateMode = UpdateMode.Deferred)
         {
@@ -2042,7 +2042,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Configures the voltage level.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="voltageLevel">The voltage level to set, in Volts.</param>
+        /// <param name="voltageLevel">The voltage level to set, in volts.</param>
         /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureVoltageLevel(this DCPowerSessionsBundle sessionsBundle, double voltageLevel, UpdateMode updateMode = UpdateMode.Deferred)
         {
@@ -2073,7 +2073,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
 
         /// <inheritdoc cref="ConfigureVoltageLevel(DCPowerSessionsBundle, double, UpdateMode)"/>
         /// <remarks>
-        /// When the session bundle contains a ganged pin group, the <paramref name="voltageLevel"/> value is associated with the ganged pin group name, the voltage level is applied to all channels in the pin group.
+        /// When the session bundle contains a ganged pin group and the <paramref name="voltageLevel"/> value is associated with the ganged pin group name, the voltage level is applied to all channels in the pin group.
         /// When ganged pins are configured using individual pin names, all pins in the ganged group must have the same value; otherwise an exception is thrown.
         /// Otherwise, when the value is associated with individual pin names, the voltage level for each pin is set to the specified value.
         /// </remarks>
@@ -2094,7 +2094,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Configures the voltage limit high.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="voltageLimitHigh">The voltage limit high to set, in Volts.</param>
+        /// <param name="voltageLimitHigh">The voltage limit high to set, in volts.</param>
         /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureVoltageLimitHigh(this DCPowerSessionsBundle sessionsBundle, double voltageLimitHigh, UpdateMode updateMode = UpdateMode.Deferred)
         {
@@ -2146,7 +2146,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Configures the voltage limit low.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="voltageLimitLow">The voltage limit low to set, in Volts.</param>
+        /// <param name="voltageLimitLow">The voltage limit low to set, in volts.</param>
         /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureVoltageLimitLow(this DCPowerSessionsBundle sessionsBundle, double voltageLimitLow, UpdateMode updateMode = UpdateMode.Deferred)
         {
@@ -2198,7 +2198,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Configures the voltage limit.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="voltageLimit">The voltage limit to set, in Volts.</param>
+        /// <param name="voltageLimit">The voltage limit to set, in volts.</param>
         /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureVoltageLimit(this DCPowerSessionsBundle sessionsBundle, double voltageLimit, UpdateMode updateMode = UpdateMode.Deferred)
         {
@@ -2250,7 +2250,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Configures the voltage level range.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <param name="voltageLevelRange">The voltage level range to set, in Volts.</param>
+        /// <param name="voltageLevelRange">The voltage level range to set, in volts.</param>
         /// <param name="updateMode">Specifies when the configured settings are applied.</param>
         public static void ConfigureVoltageLevelRange(this DCPowerSessionsBundle sessionsBundle, double voltageLevelRange, UpdateMode updateMode = UpdateMode.Deferred)
         {
@@ -2568,7 +2568,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Gets the current limit high.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <returns>The per-site per-pin upper current limit, in Amps.</returns>
+        /// <returns>The per-site per-pin upper current limit, in amperes.</returns>
         public static PinSiteData<double> GetCurrentLimitHigh(this DCPowerSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults(
@@ -2581,11 +2581,11 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         }
 
         /// <summary>
-        /// Gets the current limits.
+        /// Gets the current limit of all pins.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <returns>The per-site per-pin current limits.</returns>
-        public static PinSiteData<double> GetCurrentLimits(this DCPowerSessionsBundle sessionsBundle)
+        /// <returns>The per-site per-pin current limit.</returns>
+        public static PinSiteData<double> GetCurrentLimit(this DCPowerSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults((sessionInfo, sitePinInfo) =>
             {
@@ -2597,7 +2597,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Gets the current limit low.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <returns>The per-site per-pin lower current limit, in Amps.</returns>
+        /// <returns>The per-site per-pin lower current limit, in amperes.</returns>
         public static PinSiteData<double> GetCurrentLimitLow(this DCPowerSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults(
@@ -2613,7 +2613,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Gets the current level.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <returns>The per-site per-pin current level, in Amps.</returns>
+        /// <returns>The per-site per-pin current level, in amperes.</returns>
         public static PinSiteData<double> GetCurrentLevel(this DCPowerSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults(
@@ -2629,7 +2629,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Gets the current level range.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <returns>The per-site per-pin current level range, in Amps.</returns>
+        /// <returns>The per-site per-pin current level range, in amperes.</returns>
         public static PinSiteData<double> GetCurrentLevelRange(this DCPowerSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults(
@@ -2645,7 +2645,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Gets the current limit range.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
-        /// <returns>The per-site per-pin current limit range, in Amps.</returns>
+        /// <returns>The per-site per-pin current limit range, in amperes.</returns>
         public static PinSiteData<double> GetCurrentLimitRange(this DCPowerSessionsBundle sessionsBundle)
         {
             return sessionsBundle.DoAndReturnPerSitePerPinResults(
