@@ -601,6 +601,8 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Iterates over each filtered channel, checks the <see cref="DCPowerMeasurement.FetchBacklog"/> property,
         /// and if greater than zero, fetches and discards the backlog data. Continues fetching until the backlog is zero
         /// to handle any potential race conditions between reading the backlog and fetching the data.
+        /// Pins whose channels are configured with <see cref="DCPowerMeasurement.MeasureWhen"/> set to <see cref="DCPowerMeasurementWhen.OnDemand"/> are skipped,
+        /// as reading the fetch backlog or fetching measurements is an invalid operation when the instrument channel operates in the OnDemand mode.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         public static void ClearFetchBacklog(this DCPowerSessionsBundle sessionsBundle)
