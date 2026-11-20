@@ -26,6 +26,14 @@
 - name: Data Abstraction
   href: DataAbstraction.md
   items:
+  - name: Publishing SiteData/PinSiteData Results
+    href: DataAbstraction/PublishingSiteDataAndPinSiteDataResults.md
+  - name: Extracting a Site Subset from SiteData/PinSiteData
+    href: DataAbstraction/ExtractingSiteSubset.md
+  - name: Extracting a Pin Subset from PinSiteData
+    href: DataAbstraction/ExtractingPinSubset.md
+  - name: Data Transforms Using Select Method
+    href: DataAbstraction/DataTransformsUsingSelectMethod.md
   - name: Math Operations
     items:
       - name: Math Operations with SiteData
