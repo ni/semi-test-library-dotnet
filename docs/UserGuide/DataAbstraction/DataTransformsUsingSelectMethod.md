@@ -8,12 +8,12 @@ The following table outlines the `Select` methods.
 
 |Method|Description|
 | :- | :- |
-|[`SiteData<T>.Select<TResult>(Func<T, TResult> operation)`](../../SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Select.html)|Performs the operation on the value of each site and returns a new `SiteData<TResult>` object.|
+|[`SiteData<T>.Select<TResult>(Func<T, TResult> operation)`](../../SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData-1.Select.html)|Performs the operation on the value of each site, and returns a new `SiteData<TResult>` object.|
 |[`PinSiteData<T>.Select<TResult>(Func<T, TResult> operation)`](../../SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData-1.Select.html)|Performs the operation on the value of each pin and site, and returns a new `PinSiteData<TResult>` object.|
 
 ## Usage Considerations for the Select Method
 
-When using the `Select` method you should consider the following:
+When using the `Select` method, you should consider the following:
 
 1. The `Select` method does not modify the original object.
 2. The operation can be a lambda expression, a method, or a local function that accepts a value of type `T` and returns a value of type `TResult`. `TResult` can be any data type.
@@ -86,7 +86,7 @@ var passFailAsInt = passFail.Select(value => value ? 1 : 0);
 ```
 
 >[!NOTE]
-> The following example uses the parameterless `SiteData` constructor and the `SetValue` method. This is only applicable to release 26.5.0 or later.
+> The following example uses the parameterless `SiteData` constructor and the `SetValue` method. Both are only applicable to release 26.5.0 or later.
 
 The same transform can be performed by iterating over the sites instead:
 
