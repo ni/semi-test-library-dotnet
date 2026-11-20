@@ -278,6 +278,8 @@ When adding sites and setting values inside loops in release 26.5.0 or later, yo
 >Similar to native C# dictionaries, `SiteData` objects are not thread-safe. Do not call the `AddSite`, `RemoveSite`, or `SetValue` methods on the same SiteData object from multiple threads at the same time. For example, invoking these methods from inside a `Parallel.For` or `Parallel.ForEach` loop, or in the actions passed to the `Parallel.Invoke` or `InvokeInParallel` methods. This applies even when each thread accesses a different site. Concurrent modifications can lead to race conditions and other unexpected behaviors. Reading values from multiple threads is safe only when a single thread modifies the object at a given time.
 >
 > Instead, store the result of each parallel iteration in its own element of a preallocated array. After the parallel loop completes, populate the `SiteData` object from the array, either by passing the array to a constructor or by calling the `SetValue` method in a sequential loop.
+>
+> Alternatively, if the site numbers are determined inside the parallel loop, wrap each call that accesses the `SiteData` object in a `lock` statement on a private object that is used only for this purpose. Keep the calculation outside the `lock` statement so that it still runs in parallel. Because the `lock` statement allows only one thread at a time to access the `SiteData` object, it adds synchronization overhead. Prefer the preallocated array approach when the site numbers are known before the loop.
 
 #### Example Usage for Release 26.5.0 or Later
 
@@ -347,4 +349,25 @@ Parallel.For(0, siteNumbers.Length, i =>
 
 // Creates the SiteData object after the parallel loop completes.
 var siteData = new SiteData<double>(siteNumbers, perSiteData);
+```
+
+Example of calculating values inside a `Parallel.For` loop, and setting the values inside the parallel loop with a `lock` statement:
+
+```csharp
+var siteNumbers = new int[] { 2, 4, 5 };
+
+var siteData = new SiteData<double>();
+// A private object that is used only to synchronize access to the siteData object.
+var siteDataLock = new object();
+
+Parallel.For(0, siteNumbers.Length, i =>
+{
+    // CalculateValue represents your own calculation. It runs outside the lock, in parallel.
+    double value = CalculateValue(siteNumbers[i]);
+    // Only one thread at a time can access the siteData object.
+    lock (siteDataLock)
+    {
+        siteData.SetValue(value, siteNumbers[i]);
+    }
+});
 ```

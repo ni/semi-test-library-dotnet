@@ -489,6 +489,8 @@ When adding pins and sites and setting values inside loops in release 26.5.0 or 
 > Similar to native C# dictionaries, `PinSiteData` objects are not thread-safe. Do not call the `AddPin`, `RemovePin`, `AddSite`, `RemoveSite`, or `SetValue` methods on the same PinSiteData object from multiple threads at the same time. For example, invoking these methods from inside a `Parallel.For` or `Parallel.ForEach` loop, or in the actions passed to the `Parallel.Invoke` or `InvokeInParallel` methods. This applies even when each thread accesses a different pin or site. Concurrent modifications can lead to race conditions and other unexpected behaviors. Reading values from multiple threads is safe only when a single thread modifies the object at a given time.
 >
 > Instead, store the result of each parallel iteration in its own element of a preallocated array. After the parallel loop completes, populate the `PinSiteData` object from the array, either by passing the array to a constructor or by calling the `SetValue` method in a sequential loop.
+>
+> Alternatively, if the pin names or site numbers are determined inside the parallel loop, wrap each call that accesses the `PinSiteData` object in a `lock` statement on a private object that is used only for this purpose. Keep the calculation outside the `lock` statement so that it still runs in parallel. Because the `lock` statement allows only one thread at a time to access the `PinSiteData` object, it adds synchronization overhead. Prefer the preallocated array approach when the pin names and site numbers are known before the loop.
 
 #### Example Usage for Release 26.5.0 or Later
 
@@ -620,4 +622,29 @@ for (int i = 0; i < siteNumbers.Length; i++)
 {
     pinSiteData.SetValue(value: perSiteData[i], siteNumbers: siteNumbers[i]);
 }
+```
+
+Example of calculating values inside a `Parallel.For` loop, and setting the values inside the parallel loop with a `lock` statement:
+
+```csharp
+var pinNames = new string[] { "VDET", "VCC1" };
+var siteNumbers = new int[] { 2, 4, 3 };
+
+var pinSiteData = new PinSiteData<double>();
+// A private object that is used only to synchronize access to the pinSiteData object.
+var pinSiteDataLock = new object();
+
+Parallel.For(0, siteNumbers.Length, i =>
+{
+    foreach (string pinName in pinNames)
+    {
+        // CalculateValue represents your own calculation. It runs outside the lock, in parallel.
+        double value = CalculateValue(pinName, siteNumbers[i]);
+        // Only one thread at a time can access the pinSiteData object.
+        lock (pinSiteDataLock)
+        {
+            pinSiteData.SetValue(value, pinName, siteNumbers[i]);
+        }
+    }
+});
 ```
