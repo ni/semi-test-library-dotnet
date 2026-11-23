@@ -288,7 +288,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
 
             var exception = Assert.Throws<NISemiconductorTestException>(Reset);
             Assert.Contains("pinNames", exception.Message);
-            Assert.Contains("cannot be null or empty", exception.Message);
+            Assert.Contains("cannot be null, nor empty", exception.Message);
             AssertVoltageLevels(sessionsBundle, _configuredVoltageLevel);
         }
 

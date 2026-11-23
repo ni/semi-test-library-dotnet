@@ -123,7 +123,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
 
             Assert.IsType<NISemiconductorTestException>(exception);
-            Assert.Contains("The 'StandardWaveform.User' Waveform Function Type is not supported in STL", exception.Message); // Ensure correct error message is reported in the exception message.
+            Assert.Contains("The 'StandardWaveform.User' Waveform Function Type is not supported", exception.Message); // Ensure correct error message is reported in the exception message.
         }
 
         [Fact]
@@ -223,7 +223,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
 
             Assert.IsType<NISemiconductorTestException>(exception);
-            Assert.Contains("The 'StandardWaveform.User' Waveform Function Type is not supported in STL", exception.Message); // Ensure correct error message is reported in the exception message.
+            Assert.Contains("The 'StandardWaveform.User' Waveform Function Type is not supported", exception.Message); // Ensure correct error message is reported in the exception message.
         }
 
         [Fact]
@@ -300,7 +300,7 @@ namespace NationalInstruments.Tests.SemiconductorTestLibrary.Unit.InstrumentAbst
             });
 
             Assert.IsType<NISemiconductorTestException>(exception);
-            Assert.Contains("The 'StandardWaveform.User' Waveform Function Type is not supported in STL", exception.Message); // Ensure correct error message is reported in the exception message.
+            Assert.Contains("The 'StandardWaveform.User' Waveform Function Type is not supported", exception.Message); // Ensure correct error message is reported in the exception message.
         }
 
         #endregion

@@ -23,7 +23,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
 
         /// <summary>
         /// Automatically configures all the oscilloscope sessions in the bundle.
-        /// <remarks> Oscilloscope senses the input signal and automatically
+        /// <remarks>The oscilloscope senses the input signal and automatically
         /// configures many of the instrument settings. If a signal is detected on a pin,
         /// the driver chooses the smallest available vertical range that is larger than the signal range.
         /// For example, if the signal is a 1.2 Vpk-pk sine wave, and the device supports 1 V and 2 V
@@ -44,7 +44,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Sco
 
         /// <summary>
         /// Commits to hardware all the parameter settings associated with the bundle.
-        /// Use this Method if you want a parameter change to be immediately reflected in the hardware.
+        /// Use this method if you want a parameter change to be immediately reflected in the hardware.
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="ScopeSessionsBundle"/> object.</param>
         public static void Commit(this ScopeSessionsBundle sessionsBundle)

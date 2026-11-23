@@ -36,7 +36,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="FgenSessionsBundle"/> object.</param>
         /// <remarks>
-        /// Configure the output mode to <c>Function</c> and configure the standard waveform settings before calling Initiate method.
+        /// Configure the output mode to <c>Function</c> and configure the standard waveform settings before calling the Initiate method.
         /// Other output modes are not currently supported.
         /// <para>
         /// If you want to abort signal generation, call <see cref="Abort"/>.
@@ -45,7 +45,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Fge
         /// </remarks>
         /// <exception cref="NISemiconductorTestException">
         /// Operation cannot be completed because the output mode is not configured to <c>Function</c>,
-        /// or the operation cannot be completed because the underlying device(s) are not configurable while it is generating a signal.
+        /// or the operation cannot be completed because the underlying device is not configurable while it is generating a signal.
         /// </exception>
         public static void Initiate(this FgenSessionsBundle sessionsBundle)
         {
