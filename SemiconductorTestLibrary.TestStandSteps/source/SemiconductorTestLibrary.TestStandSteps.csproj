@@ -4,7 +4,6 @@
     <OutputType>Library</OutputType>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <OutputPath>.\</OutputPath>
-    <AssemblySearchPaths>$(AssemblySearchPaths)</AssemblySearchPaths>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <PlatformTarget>x64</PlatformTarget>
@@ -49,7 +48,6 @@
       <Private>True</Private>
       <HintPath Condition="Exists('..\objects\codegen\MSBS.g.pre.targets')">$(TSMCore_DEP_DIR)\targets\win64U\$(PROC)\dotnet-4.6.2\$(BUILD_TYPE)\NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.dll</HintPath>
       <HintPath Condition="!Exists('..\objects\codegen\MSBS.g.pre.targets')">$(TestStand64)\API\DotNET\Assemblies\CurrentVersion\NI_SemiconductorModule\NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.dll</HintPath>
-      <!-- <HintPath Condition="!Exists('..\objects\codegen\MSBS.g.pre.targets')">C:\Users\Administrator\Desktop\TSMCore\prototype\export\26.9.0\26.9.0d32\targets\win64U\allproc\dotnet-4.6.2\release\NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.dll</HintPath> -->
     </Reference>
   </ItemGroup>
   <ItemGroup>
