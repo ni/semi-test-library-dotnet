@@ -10,7 +10,7 @@ This topic describes how to create, populate, and modify `SiteData` objects.
 > - The `SiteData()` and `SiteData(int siteNumber)` constructors.
 > - The `AddSite`, `RemoveSite`, and `SetValue` methods.
 >
-> Find examples of using the `SiteData` object [in STL DataAbstraction Examples](https://github.com/ni/semi-test-library-dotnet/tree/main/Examples/source/CodeSnippets/DataAbstraction).
+> Find examples of using the `SiteData` object in [STL DataAbstraction Examples](https://github.com/ni/semi-test-library-dotnet/tree/main/Examples/source/CodeSnippets/DataAbstraction).
 
 ---
 
@@ -275,7 +275,7 @@ When adding sites and setting values inside loops in release 26.5.0 or later, yo
 3. The `SiteNumbers` property returns a new array each time it is accessed. Therefore, you can add or remove sites while iterating over that array. Store the array in a local variable before the loop instead of accessing the property in every iteration.
 
 >[!CAUTION]
->Similar to native C# dictionaries, `SiteData` objects are not thread-safe. Do not call the `AddSite`, `RemoveSite`, or `SetValue` methods on the same SiteData object from multiple threads at the same time. For example, invoking these methods from inside a `Parallel.For` or `Parallel.ForEach` loop, or in the actions passed to the `Parallel.Invoke` or `InvokeInParallel` methods. This applies even when each thread accesses a different site. Concurrent modifications can lead to race conditions and other unexpected behaviors. Reading values from multiple threads is safe only when a single thread modifies the object at a given time.
+>Similar to native C# dictionaries, `SiteData` objects are not thread-safe. Do not call the `AddSite`, `RemoveSite`, or `SetValue` methods on the same `SiteData` object from multiple threads at the same time. For example, invoking these methods from inside a `Parallel.For` or `Parallel.ForEach` loop, or in the actions passed to the `Parallel.Invoke` or `InvokeInParallel` methods. This applies even when each thread accesses a different site. Concurrent modifications can lead to race conditions and other unexpected behaviors. Reading values from multiple threads is safe only when a single thread modifies the object at a given time.
 >
 > Instead, store the result of each parallel iteration in its own element of a preallocated array. After the parallel loop completes, populate the `SiteData` object from the array, either by passing the array to a constructor or by calling the `SetValue` method in a sequential loop.
 >
@@ -349,6 +349,30 @@ Parallel.For(0, siteNumbers.Length, i =>
 
 // Creates the SiteData object after the parallel loop completes.
 var siteData = new SiteData<double>(siteNumbers, perSiteData);
+```
+
+Example of calculating values inside a `Parallel.For` loop, and updating an existing `SiteData` object after the parallel loop completes:
+
+```csharp
+// An existing SiteData object, such as one extracted from a measurement.
+SiteData<double> siteData = dcPowerPin.MeasureVoltage().ExtractPin("VDD");
+// All the sites are already known, so get them once, before the parallel loop.
+int[] siteNumbers = siteData.SiteNumbers;
+var perSiteData = new double[siteNumbers.Length];
+
+// Each iteration writes only to its own element of the perSiteData array.
+// Reading from the siteData object is safe, because no thread modifies it inside the parallel loop.
+Parallel.For(0, siteNumbers.Length, i =>
+{
+    // CalculateValue represents your own calculation.
+    perSiteData[i] = CalculateValue(siteData.GetValue(siteNumbers[i]));
+});
+
+// Updates the existing SiteData object sequentially, after the parallel loop completes.
+for (int i = 0; i < siteNumbers.Length; i++)
+{
+    siteData.SetValue(perSiteData[i], siteNumbers[i]);
+}
 ```
 
 Example of calculating values inside a `Parallel.For` loop, and setting the values inside the parallel loop with a `lock` statement:

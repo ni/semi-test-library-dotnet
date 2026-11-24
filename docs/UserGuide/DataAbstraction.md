@@ -20,7 +20,7 @@ The `SiteData` object exposes basic methods for extracting a single site value o
 > [!NOTE]
 > - The ability to add and remove sites and to set values after object creation is supported in STL 26.5.0 or later.
 > - Refer to the API Reference for more details regarding the properties and methods exposed by the `SiteData` class.
-> - Find examples of using the `SiteData` object [in STL DataAbstraction Examples](https://github.com/ni/semi-test-library-dotnet/tree/main/Examples/source/CodeSnippets/DataAbstraction).
+> - Find examples of using the `SiteData` object in [STL DataAbstraction Examples](https://github.com/ni/semi-test-library-dotnet/tree/main/Examples/source/CodeSnippets/DataAbstraction).
 
 A `SiteData` object is a dictionary of key-value pairs, where each key corresponds to a unique site number, and each value represents site-specific data for that site. This is also the observable structure when debugging a `SiteData` object at runtime in Visual Studio, as shown in the examples below.
 
@@ -48,7 +48,7 @@ The `PinSiteData` object exposes basic methods for extracting a single site valu
 > [!NOTE]
 > - The ability to add and remove pins and sites and to set values after object creation is supported in STL 26.5.0 or later.
 > - Refer to the API Reference for more details regarding the properties and methods exposed by the `PinSiteData` class.
-> - Find examples of using the `PinSiteData` object [in STL DataAbstraction Examples](https://github.com/ni/semi-test-library-dotnet/tree/main/Examples/source/CodeSnippets/DataAbstraction).
+> - Find examples of using the `PinSiteData` object in [STL DataAbstraction Examples](https://github.com/ni/semi-test-library-dotnet/tree/main/Examples/source/CodeSnippets/DataAbstraction).
 
 A `PinSiteData` object is a dictionary of key-value pairs, where each key corresponds to a unique pin name, and each value is a `SiteData` object containing site-unique data for the given pin. This is also the observable structure when debugging a `PinSiteData` object at runtime in Visual Studio, as shown in the examples below.
 

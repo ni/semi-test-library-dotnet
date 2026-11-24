@@ -11,7 +11,7 @@ This topic describes how to create, populate, and modify `PinSiteData` objects.
 > - The `AddPin`, `RemovePin`, `AddSite`, `RemoveSite`, and `SetValue` methods.
 > - The `SiteNumbersByPin` property.
 >
-> Find examples of using the `PinSiteData` object [in STL DataAbstraction Examples](https://github.com/ni/semi-test-library-dotnet/tree/main/Examples/source/CodeSnippets/DataAbstraction).
+> Find examples of using the `PinSiteData` object in [STL DataAbstraction Examples](https://github.com/ni/semi-test-library-dotnet/tree/main/Examples/source/CodeSnippets/DataAbstraction).
 
 ---
 
@@ -486,7 +486,7 @@ When adding pins and sites and setting values inside loops in release 26.5.0 or 
 4. To iterate over a jagged `PinSiteData` object, use the `SiteNumbersByPin` property to get the sites of each pin. The `SiteNumbers` property returns the union of the sites across all pins, so not every pin contains every site in it.
 
 >[!CAUTION]
-> Similar to native C# dictionaries, `PinSiteData` objects are not thread-safe. Do not call the `AddPin`, `RemovePin`, `AddSite`, `RemoveSite`, or `SetValue` methods on the same PinSiteData object from multiple threads at the same time. For example, invoking these methods from inside a `Parallel.For` or `Parallel.ForEach` loop, or in the actions passed to the `Parallel.Invoke` or `InvokeInParallel` methods. This applies even when each thread accesses a different pin or site. Concurrent modifications can lead to race conditions and other unexpected behaviors. Reading values from multiple threads is safe only when a single thread modifies the object at a given time.
+> Similar to native C# dictionaries, `PinSiteData` objects are not thread-safe. Do not call the `AddPin`, `RemovePin`, `AddSite`, `RemoveSite`, or `SetValue` methods on the same `PinSiteData` object from multiple threads at the same time. For example, invoking these methods from inside a `Parallel.For` or `Parallel.ForEach` loop, or in the actions passed to the `Parallel.Invoke` or `InvokeInParallel` methods. This applies even when each thread accesses a different pin or site. Concurrent modifications can lead to race conditions and other unexpected behaviors. Reading values from multiple threads is safe only when a single thread modifies the object at a given time.
 >
 > Instead, store the result of each parallel iteration in its own element of a preallocated array. After the parallel loop completes, populate the `PinSiteData` object from the array, either by passing the array to a constructor or by calling the `SetValue` method in a sequential loop.
 >
@@ -621,6 +621,39 @@ var pinSiteData = new PinSiteData<double>(pinNames, siteNumbers);
 for (int i = 0; i < siteNumbers.Length; i++)
 {
     pinSiteData.SetValue(value: perSiteData[i], siteNumbers: siteNumbers[i]);
+}
+```
+
+Example of calculating values inside a `Parallel.For` loop, and updating an existing `PinSiteData` object after the parallel loop completes:
+
+```csharp
+// An existing PinSiteData object, such as one returned from a measurement.
+// This example assumes that every pin contains every site.
+PinSiteData<double> pinSiteData = dcPowerPins.MeasureVoltage();
+// All the pins and sites are already known, so get them once, before the parallel loop.
+string[] pinNames = pinSiteData.PinNames;
+int[] siteNumbers = pinSiteData.SiteNumbers;
+var perPinPerSiteData = new double[pinNames.Length, siteNumbers.Length];
+
+// Each iteration writes only to its own elements of the perPinPerSiteData array.
+// Reading from the pinSiteData object is safe, because no thread modifies it inside the parallel loop.
+Parallel.For(0, siteNumbers.Length, siteIndex =>
+{
+    for (int pinIndex = 0; pinIndex < pinNames.Length; pinIndex++)
+    {
+        // CalculateValue represents your own calculation.
+        double currentValue = pinSiteData.GetValue(siteNumbers[siteIndex], pinNames[pinIndex]);
+        perPinPerSiteData[pinIndex, siteIndex] = CalculateValue(currentValue);
+    }
+});
+
+// Updates the existing PinSiteData object sequentially, after the parallel loop completes.
+for (int pinIndex = 0; pinIndex < pinNames.Length; pinIndex++)
+{
+    for (int siteIndex = 0; siteIndex < siteNumbers.Length; siteIndex++)
+    {
+        pinSiteData.SetValue(perPinPerSiteData[pinIndex, siteIndex], pinNames[pinIndex], siteNumbers[siteIndex]);
+    }
 }
 ```
 
