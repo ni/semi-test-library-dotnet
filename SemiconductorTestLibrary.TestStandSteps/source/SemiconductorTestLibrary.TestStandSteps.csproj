@@ -49,6 +49,11 @@
       <HintPath Condition="Exists('..\objects\codegen\MSBS.g.pre.targets')">$(TSMCore_DEP_DIR)\targets\win64U\$(PROC)\dotnet-4.6.2\$(BUILD_TYPE)\NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.dll</HintPath>
       <HintPath Condition="!Exists('..\objects\codegen\MSBS.g.pre.targets')">$(TestStand64)\API\DotNET\Assemblies\CurrentVersion\NI_SemiconductorModule\NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.dll</HintPath>
     </Reference>
+	<Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions">
+	  <HintPath>..\..\SemiconductorTestLibrary.Abstractions\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+	  <Private>True</Private>
+	</Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\SemiconductorTestLibrary.Extensions\source\SemiconductorTestLibrary.Extensions.csproj" />
@@ -65,6 +70,5 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ResourceStrings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions" />
   </ItemGroup>
 </Project>

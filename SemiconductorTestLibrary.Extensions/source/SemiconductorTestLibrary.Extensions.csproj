@@ -63,12 +63,16 @@
       <Private>True</Private>
       <HintPath>C:\Program Files\IVI Foundation\IVI\Microsoft.NET\Framework64\v4.0.30319\NationalInstruments.ModularInstruments.NISwitch 26.5.0\NationalInstruments.ModularInstruments.NISwitch.Fx40.dll</HintPath>
     </Reference>
+	<Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions">
+	   <HintPath>..\..\SemiconductorTestLibrary.Abstractions\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
+	   <SpecificVersion>False</SpecificVersion>
+	   <Private>True</Private>
+	</Reference>
     <Reference Include="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI, Version=21.1.0.0, Culture=neutral, PublicKeyToken=060817a57c0f1a42, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
       <HintPath Condition="Exists('..\objects\codegen\MSBS.g.pre.targets')">$(TSMCore_DEP_DIR)\targets\win64U\$(PROC)\dotnet-4.6.2\$(BUILD_TYPE)\NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.dll</HintPath>
       <HintPath Condition="!Exists('..\objects\codegen\MSBS.g.pre.targets')">$(TestStand64)\API\DotNET\Assemblies\CurrentVersion\NI_SemiconductorModule\NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.dll</HintPath>
-      <!-- <HintPath Condition="!Exists('..\objects\codegen\MSBS.g.pre.targets')">C:\Users\Administrator\Desktop\TSMCore\prototype\export\26.9.0\26.9.0d32\targets\win64U\allproc\dotnet-4.6.2\release\NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.dll</HintPath> -->
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -84,6 +88,5 @@
       <LastGenOutput>ResourceStrings.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
-    <Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions" />
   </ItemGroup>
 </Project>

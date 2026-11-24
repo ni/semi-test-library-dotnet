@@ -1,16 +1,16 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <OutputType>Library</OutputType>
-	<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
     <OutputPath>bin</OutputPath>
-    <AssemblySearchPaths>$(AssemblySearchPaths)</AssemblySearchPaths>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <PlatformTarget>x64</PlatformTarget>
     <RootNamespace>NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets</RootNamespace>
     <AssemblyName>STLExample.CodeSnippets</AssemblyName>
-	<AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
+    <AutoGenerateBindingRedirects>True</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="NationalInstruments.SemiconductorTestLibrary.Analyzers" Version="1.1.0" />
@@ -24,47 +24,74 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Ivi.Driver">
+      <Private>True</Private>
       <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\IVI Foundation\IVI\Microsoft.NET\Framework64\v2.0.50727\IviFoundationSharedComponents 1.4.1\Ivi.Driver.dll</HintPath>
     </Reference>
     <Reference Include="NationalInstruments.Common">
+      <Private>True</Private>
       <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\National Instruments\Measurement Studio\DotNET\v4.0\AnyCPU\NationalInstruments.Common 19.1.40\NationalInstruments.Common.dll</HintPath>
     </Reference>
     <Reference Include="NationalInstruments.DAQmx">
-	  <SpecificVersion>False</SpecificVersion>
-	  <Private>False</Private>
-	  <HintPath>C:\Program Files (x86)\National Instruments\MeasurementStudioVS2010\DotNET\Assemblies (64-bit)\Current\NationalInstruments.DAQmx.dll</HintPath>
+      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\National Instruments\MeasurementStudioVS2010\DotNET\Assemblies (64-bit)\Current\NationalInstruments.DAQmx.dll</HintPath>
     </Reference>
     <Reference Include="NationalInstruments.ModularInstruments.NIDCPower.Fx40">
+      <Private>True</Private>
       <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\IVI Foundation\IVI\Microsoft.NET\Framework64\v4.0.30319\NationalInstruments.ModularInstruments.NIDCPower 26.8.0\NationalInstruments.ModularInstruments.NIDCPower.Fx40.dll</HintPath>
     </Reference>
-	<Reference Include="NationalInstruments.ModularInstruments.NIDigital.Fx40">
-	  <SpecificVersion>False</SpecificVersion>
-	  <HintPath>C:\Program Files\IVI Foundation\IVI\Microsoft.NET\Framework64\v4.0.30319\NationalInstruments.ModularInstruments.NIDigital 24.5.0\NationalInstruments.ModularInstruments.NIDigital.Fx40.dll</HintPath>
-	</Reference>
-	<Reference Include="NationalInstruments.ModularInstruments.NIDmm.Fx40">
-	  <SpecificVersion>False</SpecificVersion>
-	  <HintPath>C:\Program Files\IVI Foundation\IVI\Microsoft.NET\Framework64\v4.0.30319\NationalInstruments.ModularInstruments.NIDmm 23.8.0\NationalInstruments.ModularInstruments.NIDmm.Fx40.dll</HintPath>
-	</Reference>
-    <Reference Include="NationalInstruments.ModularInstruments.NISwitch.Fx40">
+    <Reference Include="NationalInstruments.ModularInstruments.NIDigital.Fx40">
+      <Private>True</Private>
       <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\IVI Foundation\IVI\Microsoft.NET\Framework64\v4.0.30319\NationalInstruments.ModularInstruments.NIDigital 26.8.0\NationalInstruments.ModularInstruments.NIDigital.Fx40.dll</HintPath>
+    </Reference>
+    <Reference Include="NationalInstruments.ModularInstruments.NIDmm.Fx40">
+      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\IVI Foundation\IVI\Microsoft.NET\Framework64\v4.0.30319\NationalInstruments.ModularInstruments.NIDmm 26.5.0\NationalInstruments.ModularInstruments.NIDmm.Fx40.dll</HintPath>
+    </Reference>
+    <Reference Include="NationalInstruments.ModularInstruments.NIFgen.Fx40">
+      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\IVI Foundation\IVI\Microsoft.NET\Framework64\v4.0.30319\NationalInstruments.ModularInstruments.NIFgen 26.5.0\NationalInstruments.ModularInstruments.NIFgen.Fx40.dll</HintPath>
+    </Reference>
+    <Reference Include="NationalInstruments.ModularInstruments.NIScope.Fx40">
+      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\IVI Foundation\IVI\Microsoft.NET\Framework64\v4.0.30319\NationalInstruments.ModularInstruments.NIScope 26.5.0\NationalInstruments.ModularInstruments.NIScope.Fx40.dll</HintPath>
+    </Reference>
+    <Reference Include="NationalInstruments.ModularInstruments.NISwitch.Fx40">
+      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\IVI Foundation\IVI\Microsoft.NET\Framework64\v4.0.30319\NationalInstruments.ModularInstruments.NISwitch 26.5.0\NationalInstruments.ModularInstruments.NISwitch.Fx40.dll</HintPath>
     </Reference>
     <Reference Include="NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI">
+      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\National Instruments\TestStand 2026\API\DotNET\Assemblies\CurrentVersion\NI_SemiconductorModule\NationalInstruments.TestStand.SemiconductorModule.CodeModuleAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions">
+      <Private>True</Private>
+      <HintPath>..\..\..\SemiconductorTestLibrary.Abstractions\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-	<Reference Include="NationalInstruments.SemiconductorTestLibrary.Abstractions">
-	  <HintPath>..\..\..\SemiconductorTestLibrary.Abstractions\NationalInstruments.SemiconductorTestLibrary.Abstractions.dll</HintPath>
-	  <SpecificVersion>False</SpecificVersion>
-	</Reference>
-	<Reference Include="NationalInstruments.Visa">
-	  <SpecificVersion>False</SpecificVersion>
-	  <HintPath>C:\Program Files (x86)\IVI Foundation\VISA\Microsoft.NET\Framework32\v4.0.30319\NI VISA.NET 24.5\NationalInstruments.Visa.dll</HintPath>
-	</Reference>
-	<Reference Include="Ivi.Visa">
-	  <SpecificVersion>False</SpecificVersion>
-	  <HintPath>C:\Program Files (x86)\IVI Foundation\VISA\Microsoft.NET\Framework32\v4.0.30319\NI VISA.NET 24.5\Ivi.Visa.dll</HintPath>
-	</Reference>
-	<Reference Include="NationalInstruments.ModularInstruments.ModularInstrumentsSystem">
+    <Reference Include="NationalInstruments.Visa">
+      <Private>True</Private>
       <SpecificVersion>False</SpecificVersion>
-	</Reference>
+      <HintPath>C:\Program Files (x86)\IVI Foundation\VISA\Microsoft.NET\Framework32\v4.0.30319\NI VISA.NET 26.5\NationalInstruments.Visa.dll</HintPath>
+    </Reference>
+    <Reference Include="Ivi.Visa">
+      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\IVI Foundation\VISA\Microsoft.NET\Framework32\v4.0.30319\VISA.NET Shared Components 8.0.2\Ivi.Visa.dll</HintPath>
+    </Reference>
+    <Reference Include="NationalInstruments.ModularInstruments.ModularInstrumentsSystem">
+      <Private>True</Private>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files\IVI Foundation\IVI\Microsoft.NET\Framework64\v4.5.50709\NationalInstruments.ModularInstruments.ModularInstrumentsSystem 26.8.45\NationalInstruments.ModularInstruments.ModularInstrumentsSystem.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>
