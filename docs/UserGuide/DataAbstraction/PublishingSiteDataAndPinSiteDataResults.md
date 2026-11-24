@@ -18,16 +18,16 @@ The following table outlines the methods available for publishing results.
 
 ## Usage Considerations for Publishing Results
 
-When publishing `SiteData` and `PinSiteData` objects you should consider the following:
+When publishing `SiteData` and `PinSiteData` objects, you should consider the following:
 
 1. The `publishedDataId` input must match a published data ID that is defined for the test step in TestStand.
-2. Results are published only for the active sites of the `ISemiconductorModuleContext` object. Values for sites that are not active are ignored.
+2. Results are published only for the active sites of the `ISemiconductorModuleContext` object. Values for inactive sites are ignored.
 3. Each active site must have a value. If the object does not contain a value for an active site, the value of the site-agnostic site `-1` is published for that site instead. If neither exists, an `NISemiconductorTestException` is thrown with the message `Measurement data for site {siteNumber} is missing.`
 4. The `PublishResults<T>(PinSiteData<T> results, string publishedDataId)` method publishes each pin separately. Therefore, each pin must have a value for every active site, or a value for site `-1`. This applies to jagged `PinSiteData` objects as well.
 5. The `PublishResults<T>(PinSiteData<T> results, string publishedDataId)` method associates each result with its pin name. If the pin name is a pin group, the results are associated with the first pin in the pin group.
 6. If a `PinSiteData` object contains no pins, nothing is published and no exception is thrown.
 7. The `PublishResults<T>(SiteData<T> results, string publishedDataId, string pin = "")` method does not associate the results with a pin by default. Specify the `pin` input when the results must be associated with a specific pin.
-8. Only the following data types are supported for publishing: `double`, `int`, `uint`, `long`, `bool`, and `string`. Any other data type, including arrays, causes an `NISemiconductorTestException` to be thrown with the message `Cannot publish measurement data. The {type} data type is invalid.` Use the [`Select`](DataTransformsUsingSelectMethod.md) method to convert the data to a supported type before publishing.
+8. Only the following data types are supported for publishing: `double`, `int`, `uint`, `long`, `bool`, and `string`. Any other data type, including arrays, throws an `NISemiconductorTestException` with the message `Cannot publish measurement data. The {type} data type is invalid.` Use the [`Select`](DataTransformsUsingSelectMethod.md) method to convert the data to a supported type before publishing.
 9. Results are published one site at a time. If an exception is thrown for a site, the results already published for the preceding sites and pins remain published.
 10. Many instrument abstraction methods also provide variants that measure and publish in a single call, such as `MeasureAndPublishCurrent` and `BurstPatternAndPublishResults`.
 
@@ -61,14 +61,14 @@ Example of converting the data to a supported type before publishing:
 
 ```csharp
 // Arrays cannot be published directly.
-// Select the maximum value of the multi-point measurement for each pin and site, and then publish it.
+// Select the maximum value of the multi-point measurement for each pin and site, then publish it.
 PinSiteData<double[]> multiPointMeasurement = dmmPins.ReadMultiPoint(sampleCount, maximumTimeInMilliseconds: 5000);
 PinSiteData<double> maxValue = multiPointMeasurement.Select(samples => samples.Max());
 tsmContext.PublishResults(maxValue, publishedDataId: "MaxMultiPointValue");
 ```
 
 >[!NOTE]
-> The following example uses the parameterless `PinSiteData` constructor and the `SetValue` method. This is only applicable to release 26.5.0 or later.
+> The following example uses the parameterless `PinSiteData` constructor and the `SetValue` method. Both are only availabe in release 26.5.0 or later.
 
 Example of publishing a site-agnostic value for all active sites:
 
