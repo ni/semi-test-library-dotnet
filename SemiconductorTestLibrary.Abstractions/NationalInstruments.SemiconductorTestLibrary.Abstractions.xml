@@ -730,8 +730,8 @@
         <member name="M:NationalInstruments.SemiconductorTestLibrary.Common.Utilities.InCompliancePinSiteResultsFilling(NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.IDictionary{System.Int32,System.Boolean}},System.Boolean)">
             <summary>
             Associates an incompliance result with a pin name or pin group name in the provided pin site results dictionary.
-            Incompliance result of the primary pin is returned with the pin group name in case of merging.
-            Incompliance results of individual pins are combined with a logical OR and returned with the pin group name in case of ganging (in compliance if any ganged channel is in compliance).
+            The incompliance result of the primary pin is returned with the pin group name in case of merging.
+            The incompliance results of individual pins are combined with a logical OR and returned with the pin group name in case of ganging (in compliance if any ganged channel is in compliance).
             </summary>
             <param name="sitePinInfo">The <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.SitePinInfo"/> object containing pin and site information.</param>
             <param name="pinSiteResults">The dictionary to update with the result. In the dictionary, the key is the pin name or the pin group name and the value is a dictionary that maps site numbers to results.</param>
@@ -1038,12 +1038,12 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.SiteNumbersByPin">
             <summary>
-            Returns a dictionary where the key is pin name and the value is a list of site numbers associated with that pin.
+            Returns a dictionary where the key is the pin name and the value is a list of site numbers associated with that pin.
             </summary>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor">
             <summary>
-            Initializes an empty PinSiteData object. Pins and sites must be added using <see cref="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.AddPin(System.String[])"/> and <see cref="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.AddSite(System.Int32[])"/> methods respectively.
+            Initializes an empty PinSiteData object. Pins and sites must be added using the <see cref="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.AddPin(System.String[])"/> and <see cref="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.AddSite(System.Int32[])"/> methods respectively.
             </summary>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.#ctor(System.String,System.Int32[])">
@@ -1382,7 +1382,7 @@
             <remarks>
             If the specified pin doesn't exist, the pin is first added to the PinSiteData object.<br/>
             If the specified pin exists and any of the specified sites also exists in the SiteData object associated with the specified pin, that site is skipped while adding.<br/>
-            Otherwise the specified sites are added to the SiteData object associated with the pin with the default value of the specified data type, T.
+            Otherwise, the specified sites are added to the SiteData object associated with the pin with the default value of the specified data type, T.
             For example, if T is of type int, the site value would be initialized to default(int) which is 0.<br/>
             Using this method can result in a jagged PinSiteData object where different pins can have different number of sites.<br/>
             Throws <see cref="T:System.ArgumentNullException"/> if either the <paramref name="pinName"/> parameter or <paramref name="siteNumbers"/> parameter is null.<br/>
@@ -1406,7 +1406,7 @@
             <remarks>
             If any of the specified pins doesn't exist, the pin is first added to the PinSiteData object.<br/>
             If any of the specified pins exists and any of the specified sites also exists in the SiteData object associated with that pin, that site is skipped while adding.<br/>
-            Otherwise the specified sites are added to the PinSiteData object with the default value of the specified data type, T.
+            Otherwise, the specified sites are added to the PinSiteData object with the default value of the specified data type, T.
             For example, if T is of type int, the site value would be initialized to default(int) which is 0.<br/>
             Using this method can result in a jagged PinSiteData object where different pins can have different number of sites.<br/>
             Throws <see cref="T:System.ArgumentNullException"/> if the <paramref name="pinNames"/> parameter is null, if any of the specified pin names are null,
@@ -1506,7 +1506,7 @@
             </remarks>
             <param name="value">The value to be set.</param>
             <exception cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException">
-            Thrown when the PinSiteData object doesn't contain any pin or when any pin contains an empty SiteData object.
+            Thrown when the PinSiteData object doesn't contain any pins or when any pin contains an empty SiteData object.
             </exception>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.SetValue(`0,System.Int32[])">
@@ -1764,7 +1764,7 @@
             Gets the maximum value across pins for each site.
             </summary>
             <remarks>
-            Note that the maximum value may be repeated across multiple pins, use the <see cref="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.MaxByPin"/> method if this level of detail is required.
+            Note that the maximum value may be repeated across multiple pins. Use the <see cref="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.MaxByPin"/> method if this level of detail is required.
             Alternatively, you can use the <see cref="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.MaxBySite"/> method to calculate the maximum value across sites for each pin.<br/>
             This method is supported only when the underlying data type of the PinSiteData object, T, is a numeric type.<br/>
             Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty, if it doesn't contain any site,
@@ -1815,7 +1815,7 @@
             Gets the minimum value across pins for each site.
             </summary>
             <remarks>
-            Note that the minimum value may be repeated across multiple pins, use the <see cref="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.MinByPin"/> method if this level of detail is required.
+            Note that the minimum value may be repeated across multiple pins. Use the <see cref="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.MinByPin"/> method if this level of detail is required.
             Alternatively, you can use the <see cref="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.PinSiteData`1.MinBySite"/> method to calculate the minimum value across sites for each pin.<br/>
             This method is supported only when the underlying data type of the PinSiteData object, T, is a numeric type.<br/>
             Throws <see cref="T:NationalInstruments.SemiconductorTestLibrary.Common.NISemiconductorTestException"/> if the PinSiteData object is empty, if it doesn't contain any site,
@@ -3383,7 +3383,7 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.#ctor">
             <summary>
-            Initializes an empty SiteData object. Sites and their corresponding values should be added using <see cref="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.AddSite(System.Int32[])"/> and <see cref="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.SetValue(`0)"/> methods respectively.
+            Initializes an empty SiteData object. Sites and their corresponding values should be added using the <see cref="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.AddSite(System.Int32[])"/> and <see cref="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.SetValue(`0)"/> methods respectively.
             </summary>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.DataAbstraction.SiteData`1.#ctor(System.Int32)">
@@ -5093,7 +5093,7 @@
             </remarks>
             <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
             <returns>
-            Returns a comma-separated list of the TMU context strings of all disabled TMUs.  Returns an empty string if all TMUs are enabled.
+            Returns a comma-separated list of the TMU context strings of all disabled TMUs. Returns an empty string if all TMUs are enabled.
             </returns>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.TMUInitiate(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String)">
@@ -5128,7 +5128,7 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.TMUAbort(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String)">
             <summary>
-            Aborts any in-progress TMU measurement(s) on the specified TMUs.
+            Aborts any in-progress TMU measurement(s) on the specified TMU.
             </summary>
             <remarks>
             If no measurement is in progress on the specified TMU, this function has no effect for that TMU.
@@ -5139,10 +5139,10 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.NIDigitalTmuExtensions.TMUFetchAveragedMeasurement(NationalInstruments.ModularInstruments.NIDigital.NIDigital,System.String,System.Double)">
             <summary>
-            Fetches averaged measurement from the specified TMU. Optionally retrieves minimum and maximum sample values if the corresponding output parameters are not NULL. The function waits up to timeout seconds for the measurement to complete.
+            Fetches the averaged measurement from the specified TMU. Optionally retrieves the minimum and maximum sample values if the corresponding output parameters are not null. The function waits up to the timeout specified in seconds for the measurement to complete.
             </summary>
             <remarks>
-            This function is only allowed if the measurement format for the specified TMU is set to NIDIGITAL_VAL_TMU_AVERAGED_MEASUREMENT(default value).<br/>
+            This function is only allowed if the measurement format for the specified TMU is set to NIDIGITAL_VAL_TMU_AVERAGED_MEASUREMENT (default value).<br/>
             If a TMU arm or sample timeout occurs during measurement, or if the measurement was aborted before it completed, an error is returned and no measurement values are provided.
             </remarks>
             <param name="session">The <see cref="T:NationalInstruments.ModularInstruments.NIDigital.NIDigital"/> session.</param>
@@ -5232,20 +5232,20 @@
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TMUContextManager">
             <summary>
-            TMU Context Manager, ensures safe and consistent assignment and release of TMU resources, preventing conflicts and partial allocations.
+            TMU Context Manager ensures safe and consistent assignment and release of TMU resources, preventing conflicts and partial allocations.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TMUContextManager.Instance">
             <summary>
-            Global Access point for the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TMUContextManager"/>
+            Global access point for the <see cref="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TMUContextManager"/>
             </summary>
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TMUContextManager.TryAssignTMUContext(System.String,System.String)">
             <summary>
-            Soft assign the tmu.
+            Soft-assigns the TMU.
             </summary>
-            <param name="deviceName">The device for which the tmu belong to.</param>
-            <param name="tmuContext">TMU Context to be assigned</param>
+            <param name="deviceName">The device to which the TMU belongs.</param>
+            <param name="tmuContext">The TMU context to be assigned.</param>
             <returns>
             <see langword="true"/> if the TMU context was newly soft assigned to the specified device;
             <see langword="false"/> if it was already assigned to that device, or if either
@@ -5254,10 +5254,10 @@
         </member>
         <member name="M:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TMUContextManager.UnAssignTMUContext(System.String,System.String)">
             <summary>
-            Unassign the soft assignment of the given device and tmu.
+            Removes the soft assignment of the given device and TMU.
             </summary>
-            <param name="deviceName">The device for which the tmu belong to.</param>
-            <param name="tmuContext">TMU Context to be unassigned</param>
+            <param name="deviceName">The device to which the TMU belongs.</param>
+            <param name="tmuContext">The TMU context to be unassigned.</param>
         </member>
         <member name="T:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuErrorMessages">
             <summary>
@@ -7027,7 +7027,7 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrCurrentAmplitude">
             <summary>
-            Specifies the amplitude, in amps (A RMS), of the AC current test signal applied to the DUT for LCR measurements.
+            Specifies the amplitude, in amperes (A RMS), of the AC current test signal applied to the DUT for LCR measurements.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrVoltageAmplitude">
@@ -7042,7 +7042,7 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrDcBiasCurrentLevel">
             <summary>
-            Specifies the bias current level in LCR mode in amps when DCBiasSource is set to Current.
+            Specifies the bias current level in LCR mode in amperes when DCBiasSource is set to Current.
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCPower.DCPowerAdvancedSequenceStepProperties.LcrDcBiasVoltageLevel">
@@ -8774,12 +8774,12 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_EmptyPinNames">
             <summary>
-              Looks up a localized string similar to The PinNames array provided as input is empty. Please provide valid pin name(s)..
+              Looks up a localized string similar to The PinNames array provided as input is empty. Please provide valid pin names..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_EmptySiteNumbers">
             <summary>
-              Looks up a localized string similar to The SiteNumbers array provided as input is empty. Please provide valid site number(s)..
+              Looks up a localized string similar to The SiteNumbers array provided as input is empty. Please provide valid site numbers..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_InputDataNull">
@@ -8809,12 +8809,12 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_NullPinNames">
             <summary>
-              Looks up a localized string similar to The PinNames array provided as input is null. Please provide valid pin name(s)..
+              Looks up a localized string similar to The PinNames array provided as input is null. Please provide valid pin names..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_NullSiteNumbers">
             <summary>
-              Looks up a localized string similar to The SiteNumbers array provided as input is null. Please provide valid site number(s)..
+              Looks up a localized string similar to The SiteNumbers array provided as input is null. Please provide valid site numbers..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Data_PinNamesNotUnique">
@@ -8959,7 +8959,7 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Digital_TMUEmptyOrNullTMUContext">
             <summary>
-              Looks up a localized string similar to No TMU resource has been assigned to one or more pins. Call AssignTMUResources() before invoking this method..
+              Looks up a localized string similar to No TMU resource was assigned to one or more pins. Call AssignTMUResources() before invoking this method..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.Digital_TMUKnownError">
@@ -8997,12 +8997,12 @@
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.FGen_InvalidBundleException">
             <summary>
-              Looks up a localized string similar to The channel &apos;{0}&apos; associated with the Pin &apos;{1}&apos;/Site &apos;{2}&apos; is missing from the &apos;FgenSessionsBundle&apos;..
+              Looks up a localized string similar to The channel &apos;{0}&apos; associated with pin &apos;{1}&apos; at site &apos;{2}&apos; is missing from the &apos;FgenSessionsBundle&apos;..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.FGen_InvalidBundleException_RemediationMessageBundleCreation">
             <summary>
-              Looks up a localized string similar to All channels of a multi-channel FGEN instrument must be part of the &apos;FgenSessionsBundle&apos;. Ensure the appropriate FGEN Pins are passed to the &apos;TSMSessionManager.Fgen&apos; method..
+              Looks up a localized string similar to All channels of a multi-channel NI-FGEN instrument must be part of the &apos;FgenSessionsBundle&apos;. Ensure the appropriate NI-FGEN pins are passed to the &apos;TSMSessionManager.Fgen&apos; method..
             </summary>
         </member>
         <member name="P:NationalInstruments.SemiconductorTestLibrary.ResourceStrings.FGen_InvalidBundleException_RemediationMessageFilterByPin">
