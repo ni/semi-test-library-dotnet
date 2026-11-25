@@ -33,7 +33,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// This function validates TMU configuration, clears the measurement buffers for the specified TMU(s), and prepares the hardware for making a TMU measurement.<br/>
         /// All TMU configuration attributes must be set before calling this function.<br/>
         /// The driver validates and commits TMU configuration parameters when this function is called, not when Commit() is called.<br/>
-        /// This function returns immediately, it does not wait for the measurement to complete.<br/>
+        /// This function returns immediately; it does not wait for the measurement to complete.<br/>
         /// Once a measurement is initiated, any attempt to modify TMU configuration will fail until the measurement completes or is aborted.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
@@ -117,7 +117,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool, regardless of the pins targeted by this method. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.<br/>
         /// Invoking this method creates a clear separation between TMU configuration and resource reservation.<br/>
         /// The assigned TMU resource is unreserved when this method is called.<br/>
-        /// The TMU configuration (start/stop sources, event polarities, etc.) remain intact when this method is called.<br/>
+        /// The TMU configuration (start/stop sources, event polarities, etc.) remains intact when this method is called.<br/>
         /// This method does not validate the TMU configuration.
         /// </remarks>
         /// <param name="sessionsBundle">The <see cref="DigitalSessionsBundle"/> object.</param>
@@ -163,7 +163,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// </summary>
         /// <remarks>
         /// If this method throws, the TMU resources assigned to every pin within the bundle are disabled and released back to the TMU resource pool, regardless of the pins targeted by this method. <see cref="AssignTMUResources(DigitalSessionsBundle, string[])"/> must be invoked again before retrying.<br/>
-        /// If no measurement is in progress on the TMU resource associated with any of the pin within the <see cref="DigitalSessionsBundle"/>,
+        /// If no measurement is in progress on the TMU resource associated with any of the pins within the <see cref="DigitalSessionsBundle"/>,
         /// then this function has no effect for that TMU resource.
         /// This function does not affect TMU configuration or reservation state.
         /// </remarks>
@@ -240,7 +240,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle"/>
         /// <param name="pinName">The pin to assign a TMU resource to.</param>
         /// <exception cref="NISemiconductorTestException">
-        /// Thrown when the requested <paramref name="pinName"/> is <c>null</c>, empty, or not present in the sessions bundle.,
+        /// Thrown when the requested <paramref name="pinName"/> is <c>null</c>, empty, or not present in the sessions bundle,
         /// or when there are not enough TMU resources available to assign to the targeted pin.
         /// </exception>
         public static void AssignTMUResources(this DigitalSessionsBundle sessionsBundle, string pinName)
@@ -286,7 +286,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="sessionsBundle"/>
         /// <param name="pinName">The pin for which the assigned TMU should be cleared.</param>
         /// <exception cref="NISemiconductorTestException">
-        /// Thrown when the requested <paramref name="pinName"/> is <c>null</c>, empty, or not present in the sessions bundle.,
+        /// Thrown when the requested <paramref name="pinName"/> is <c>null</c>, empty, or not present in the sessions bundle,
         /// or when the assigned TMU resource is still reserved at the driver level.
         /// </exception>
         public static void ClearTMUAssignment(this DigitalSessionsBundle sessionsBundle, string pinName)
@@ -303,7 +303,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// This method will set the necessary attributes to configure period measurement
         /// for each of the assigned TMU resources.<br/>
         /// This method will also enable the assigned TMU resources.
-        /// The specific attributes values set depends on the value of the <paramref name="edgeType"/> parameter.<br/>
+        /// The specific attribute values set depend on the value of the <paramref name="edgeType"/> parameter.<br/>
         /// </para>
         /// <para>
         /// For rising edge period (<see cref="TmuPolarity.RisingEdge"/>):<br/>
@@ -388,7 +388,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="pinName">The specific pin to configure the TMU for.</param>
         /// <param name="armSetting"/>
         /// <exception cref="NISemiconductorTestException">
-        /// Thrown when the requested <paramref name="pinName"/> is <c>null</c>, empty, or not present in the sessions bundle.,
+        /// Thrown when the requested <paramref name="pinName"/> is <c>null</c>, empty, or not present in the sessions bundle,
         /// when <paramref name="armSetting"/> is an unsupported value,
         /// or when the <paramref name="edgeType"/> is <see cref="TmuPolarity.EitherEdge"/> (an unsupported polarity).
         /// </exception>
@@ -602,7 +602,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="pinName">The specific pin to configure the TMU for.</param>
         /// <param name="armSetting"/>
         /// <exception cref="NISemiconductorTestException">
-        /// Thrown when the requested <paramref name="pinName"/> is <c>null</c>, empty, or not present in the sessions bundle.,
+        /// Thrown when the requested <paramref name="pinName"/> is <c>null</c>, empty, or not present in the sessions bundle,
         /// or when <paramref name="armSetting"/> is an unsupported value.
         /// </exception>
         public static void ConfigureTMURiseTimeMeasurement(this DigitalSessionsBundle sessionsBundle, long samplesToAcquire, string pinName, TmuArmSetting armSetting = TmuArmSetting.Immediate)
@@ -684,7 +684,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="pinName">The specific pin to configure the TMU for.</param>
         /// <param name="armSetting"/>
         /// <exception cref="NISemiconductorTestException">
-        /// Thrown when the requested <paramref name="pinName"/> is <c>null</c>, empty, or not present in the sessions bundle.,
+        /// Thrown when the requested <paramref name="pinName"/> is <c>null</c>, empty, or not present in the sessions bundle,
         /// or when <paramref name="armSetting"/> is an unsupported value.
         /// </exception>
         public static void ConfigureTMUFallTimeMeasurement(this DigitalSessionsBundle sessionsBundle, long samplesToAcquire, string pinName, TmuArmSetting armSetting = TmuArmSetting.Immediate)
@@ -801,7 +801,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="pinName">The specific pin to configure the TMU for.</param>
         /// <param name="armSetting"/>
         /// <exception cref="NISemiconductorTestException">
-        /// Thrown when the requested <paramref name="pinName"/> is <c>null</c>, empty, or not present in the sessions bundle.,
+        /// Thrown when the requested <paramref name="pinName"/> is <c>null</c>, empty, or not present in the sessions bundle,
         /// when <paramref name="armSetting"/> is an unsupported value,
         /// or when <paramref name="dutyCycleType"/> is not <see cref="TmuDutyCycle.High"/> or <see cref="TmuDutyCycle.Low"/>.
         /// </exception>
@@ -914,7 +914,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="pinName">The specific pin to configure the TMU for.</param>
         /// <param name="armSetting"/>
         /// <exception cref="NISemiconductorTestException">
-        /// Thrown when the requested <paramref name="pinName"/> is <c>null</c>, empty, or not present in the sessions bundle.,
+        /// Thrown when the requested <paramref name="pinName"/> is <c>null</c>, empty, or not present in the sessions bundle,
         /// when <paramref name="armSetting"/> is an unsupported value,
         /// or when <paramref name="pulseWidthType"/> is not <see cref="TmuPulseWidth.High"/> or <see cref="TmuPulseWidth.Low"/>.
         /// </exception>
@@ -1263,7 +1263,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
         /// <param name="armType"/>
         /// <param name="pinName">The pin name to configure.</param>
         /// <exception cref="NISemiconductorTestException">
-        /// Thrown when the requested <paramref name="pinName"/> is <c>null</c>, empty, or not present in the sessions bundle.,
+        /// Thrown when the requested <paramref name="pinName"/> is <c>null</c>, empty, or not present in the sessions bundle,
         /// or when <paramref name="armType"/> is an unsupported value.
         /// </exception>
         public static void ConfigureTMUArmType(this DigitalSessionsBundle sessionsBundle, TmuArmType armType, string pinName)
