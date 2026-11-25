@@ -32,9 +32,9 @@ namespace NationalInstruments.Examples.SemiconductorTestLibrary.CodeSnippets.Ins
         /// </list>
         /// </para>
         /// <para>
-        /// The <see cref="TmuExtensions.ConfigureTMUDutyCycleMeasurement"/> method returns a time duration in seconds,
+        /// The <see cref="TmuExtensions.ConfigureTMUDutyCycleMeasurement(DigitalSessionsBundle, TmuDutyCycle, long, TmuArmSetting, string[])"/> method returns a time duration in seconds,
         /// not a ratio or percentage. The duty cycle ratio is computed by dividing that duration by the signal period,
-        /// which is measured separately using <see cref="TmuExtensions.ConfigurePeriodMeasurement"/>.
+        /// which is measured separately using <see cref="TmuExtensions.ConfigurePeriodMeasurement(DigitalSessionsBundle, TmuPolarity, long, TmuArmSetting, string[])"/>.
         /// </para>
         /// <para>
         /// Ensure that the pin map includes "C0" and that the hardware
