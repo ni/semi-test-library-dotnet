@@ -44,7 +44,8 @@ ScopeSessionsBundle scopeBundle = sessionManager.Scope(pinOrPinGroup);
 | `ConfigureTriggerWindow` | `WindowTriggerSettings` | Configures a window trigger with low and high window levels, window mode, and coupling. |
 | `ConfigureTriggerImmediate` | None | Configures the instrument to trigger immediately after it is initiated. |
 
-All trigger setting types inherit the `HoldOff` and `Delay` properties from the `TriggerSettings` base class.
+> [!NOTE]
+> All trigger setting types inherit the `HoldOff` and `Delay` properties from the `TriggerSettings` base class.
 
 ## Control Methods
 
@@ -121,4 +122,4 @@ public static void ConfigureEdgeTriggerInitiateAndFetch(ISemiconductorModuleCont
 ```
 
 > [!NOTE]
-> Refer to the `ScopeAcquisition` sequence example for complete examples using edge, hysteresis, digital, window, and immediate triggers.
+> Refer to the [ScopeAcquisition](https://github.com/ni/semi-test-library-dotnet/tree/main/Examples/source/Sequence/ScopeAcquisition) sequence example for complete examples using edge, hysteresis, digital, window, and immediate triggers.
