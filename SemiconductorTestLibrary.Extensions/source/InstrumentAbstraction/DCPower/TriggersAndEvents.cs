@@ -37,7 +37,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// Exports the selected DCPowerSignalSource to the output terminal specified for each site-pin pair.
         /// </summary>
         /// <remarks>
-        /// An output terminal is reserved by the channel that exports a signal to it, therefore each site-pin pair requires its own unique output terminal.
+        /// An output terminal is reserved by the channel that exports a signal to it; therefore, each site-pin pair requires its own unique output terminal.
         /// Since a PXIe chassis provides only eight common backplane trigger lines, keep the number of site-pin pairs in <paramref name="outputTerminals"/> within that limit.<br/>
         /// The signal is exported only for the site-pin pairs specified in <paramref name="outputTerminals"/>.
         /// Site-pin pairs in the <paramref name="sessionsBundle"/> that are not present in <paramref name="outputTerminals"/> are not exported.<br/>
@@ -303,7 +303,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.DCP
         /// </summary>
         /// <param name="sessionsBundle">The <see cref="DCPowerSessionsBundle"/> object.</param>
         /// <param name="triggerType">One of the following trigger types: MeasureTrigger, PulseTrigger, SequenceAdvanceTrigger, SourceTrigger, StartTrigger.</param>>
-        /// <param name="tiggerTerminal">The input terminal to configure the trigger to look for a Digital Edge.</param>
+        /// <param name="tiggerTerminal">The input terminal to configure the trigger to look for a digital edge.</param>
         /// <param name="triggerEdge">The digital edge to look for, either <see cref="DCPowerTriggerEdge.Rising"/> or <see cref="DCPowerTriggerEdge.Falling"/>.</param>
         [Obsolete("This method is deprecated. Use ConfigureTriggerDigitalEdge(TriggerType triggerType, string triggerTerminal, DCPowerTriggerEdge triggerEdge = DCPowerTriggerEdge.Rising) instead.")]
         public static void ConfigureTriggerDigitalEdge(this DCPowerSessionsBundle sessionsBundle, string tiggerTerminal, TriggerType triggerType, DCPowerTriggerEdge triggerEdge = DCPowerTriggerEdge.Rising)
