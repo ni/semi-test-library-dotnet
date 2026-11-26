@@ -26,10 +26,10 @@ ScopeSessionsBundle scopeBundle = sessionManager.Scope(pinOrPinGroup);
 
 | Method | Settings Type | Description |
 | --- | --- | --- |
-| `ConfigureVertical` | `VerticalSettings` | Configures the probe attenuation, channel enable state, and time-interleaved sampling.
+| `ConfigureVertical` | `VerticalSettings` | Configures properties of the digitizer vertical subsystem, such as the range, offset, coupling, probe attenuation. |
 | `ConfigureElectricalCharacteristics` | `ElectricalCharacteristics` | Configures the input impedance and maximum input frequency. Overloads accept the same settings for all pins, per-site settings (`SiteData<ElectricalCharacteristics>`), or per-pin, per-site settings (`PinSiteData<ElectricalCharacteristics>`). |
-| `ConfigureTiming` | `TimingSettings` | Configures the minimum sample rate, minimum number of points, reference position, number of records, and real-time enforcement. |
-| `ConfigureClock` | `ClockSettings` | Configures the input clock source, output clock source, clock synchronization pulse source, and whether the instrument is the master. |
+| `ConfigureTiming` | `TimingSettings` | Configures properties of the digitizer horizontal subsystem for a single record or multi-record acquisition, such as minimum sample rate and acquisition size. |
+| `ConfigureClock` | `ClockSettings` | Configures properties for synchronizing the digitizer to an external clock or sending the instrument's clock output to be used as a synchronizing clock for other devices. |
 
 > [!TIP]
 > Settings are grouped into class objects before they are passed to the STL method. This ensure that the settings are applied as efficiently as possible by the instrument driver.
@@ -84,7 +84,7 @@ The following methods return one value per instrument session in the bundle.
 | `GetSampleRate` | `double[]` | Gets the effective sample rate, in samples per second. |
 | `GetNumberOfRecordsToAcquire` | `long[]` | Gets the number of records to acquire. |
 
-## Example
+## Example Usage
 
 The following example configures the vertical and electrical characteristics, configures an edge trigger, initiates an acquisition, and fetches the acquired waveforms.
 
