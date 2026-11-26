@@ -45,32 +45,32 @@ While channel-specific configuration is supported, channel-specific control is n
 
 |Case | Scenario                                                                           | SessionsBundle Contains                   | Number of Instruments                                  | Number of Sites | Support Status                              | Supported Multisite Option in TestStand|
 |-----|------------------------------------------------------------------------------------|-------------------------------------------|--------------------------------------------------------|-----------------|---------------------------------------------|----------------------------------------|
-|1    | Only one channel is mapped in the PinMap                                           | N/A                                       | Single or Multiple Instruments                         | Multiple Sites  |  <font color="Green">**Supported**</font>   | Any of the option                      |
-|2    | Multiple channels are mapped to the same pin across sites                          | All channels of a given instrument        | Single or Multiple Instruments                         | Multiple Sites  |  <font color="Green">**Supported**</font>   | **One-thread only**                    |
-|3    | Multiple channels are mapped to the same pin across sites                          | Subset of channels (split across bundles) | Single or Multiple Instruments                         | Multiple Sites  |  <font color="Red">**Not Supported**</font> | NA                                     |
-|4    | Multiple channels are mapped to different pins                                     | All channels of a given instrument        | Single Instrument                                      | Single Site     |  <font color="Green">**Supported**</font>   | Any of the option                      |
-|5    | Multiple channels are mapped to different pins                                     | Subset of channels (split across bundles) | Single Instrument                                      | Single Site     |  <font color="Red">**Not Supported**</font> | NA                                     |
-|6    | Multiple channels are mapped to different pins                                     | All channels of a given instrument        | Multiple Instruments (one per site)                    | Multiple Sites  |  <font color="Green">**Supported**</font>   | Any of the option                      |
-|7    | Multiple channels are mapped to different pins                                     | Subset of channels (split across bundles) | Multiple Instruments (one per site)                    | Multiple Sites  |  <font color="Red">**Not Supported**</font> | NA                                     |
-|8    | Multiple channels are mapped to different pins and different sites across a module | All channels of a given instrument        | Multiple Instruments (channels straddled across sites) | Multiple Sites  |  <font color="Green">**Supported**</font>   | **One-thread only**                    |
-|9    | Multiple channels are mapped to different pins and different sites across a module | Subset of channels (split across bundles) | Multiple Instruments (channels straddled across sites) | Multiple Sites  |  <font color="Red">**Not Supported**</font> | NA                                     |
+|1    | Only one channel is mapped in the PinMap                                           | N/A                                       | Single or Multiple Instruments                         | Multiple sites  |  <font color="Green">**Supported**</font>   | Any of the options                     |
+|2    | Multiple channels are mapped to the same pin across sites                          | All channels of a given instrument        | Single or Multiple Instruments                         | Multiple sites  |  <font color="Green">**Supported**</font>   | **One-thread only**                    |
+|3    | Multiple channels are mapped to the same pin across sites                          | A subset of channels (split across bundles) | Single or Multiple Instruments                         | Multiple sites  |  <font color="Red">**Not supported**</font> | NA                                     |
+|4    | Multiple channels are mapped to different pins                                     | All channels of a given instrument        | Single Instrument                                      | Single site     |  <font color="Green">**Supported**</font>   | Any of the options                     |
+|5    | Multiple channels are mapped to different pins                                     | A subset of channels (split across bundles) | Single Instrument                                      | Single site     |  <font color="Red">**Not supported**</font> | NA                                     |
+|6    | Multiple channels are mapped to different pins                                     | All channels of a given instrument        | Multiple Instruments (one per site)                    | Multiple sites  |  <font color="Green">**Supported**</font>   | Any of the options                     |
+|7    | Multiple channels are mapped to different pins                                     | A subset of channels (split across bundles) | Multiple Instruments (one per site)                    | Multiple sites  |  <font color="Red">**Not supported**</font> | NA                                     |
+|8    | Multiple channels are mapped to different pins and different sites across a module | All channels of a given instrument        | Multiple Instruments (channels straddled across sites) | Multiple sites  |  <font color="Green">**Supported**</font>   | **One-thread only**                    |
+|9    | Multiple channels are mapped to different pins and different sites across a module | A subset of channels (split across bundles) | Multiple Instruments (channels straddled across sites) | Multiple sites  |  <font color="Red">**Not supported**</font> | NA                                     |
 
 > **NOTE:**
-> When the scenarios involved channels from same instrument being shared across different sites, then the code has to be executed in single thread. So, if code module is called from an TestStand sequence, we need to ensure that Multisite Option in TestStand step is set to **One-thread only**.
+> When the scenarios involve channels from same instrument being shared across different sites, the code has to be executed in a single thread. So, if a code module is called from a TestStand sequence, ensure that the Multisite Option in the TestStand step is set to **One-thread only**.
 
 ### User Recommendations
 
 - When creating the PinMap
-  - Do not include channel-pin/site connection that are not being used.
-  - Spread channels from same instrument to different pins that are likely to have common operations performed on it.
+  - Do not include channel-pin/site connections that are not being used.
+  - Spread channels from the same instrument to different pins that are likely to be operated on together.
   - If you are only using one channel of a multi-channel FGen instrument, ensure the 2nd channel of the instrument is not mistakenly mapped to unused pins in connection list.
-  - Avoid using the second channel whenever possible. If additional FGen instruments are available and currently unused, prefer using the first channel of an unused instrument rather than the second channel of an instrument that is already in use.
+  - Avoid using the second channel whenever possible. If additional FGen instruments are available and currently unused, prefer using the first channel of an unused instrument over the second channel of an instrument that is already in use.
 
 - When creating the bundle
-  - Avoid creating multiple separate bundles for different sites, this case is not supported.
-  - Avoid calling `FilterBySite` when operating on an `FgenSessionsBundle` object, unless absolutely certain that none of the pins in the bundle map their respective sites across channels of the same FGEN instrument. For example, if the site0 connection for PinA maps to channel0, and the site1 connection for PinA maps to channel1 of the same FGEN instrument, then this is not allowed and the `FilterBySite` method will throw an exception.
+  - Avoid creating multiple separate bundles for different sites. This case is not supported.
+  - Avoid calling `FilterBySite` when operating on an `FgenSessionsBundle` object, unless you are absolutely certain that none of the pins in the bundle map their respective sites across channels of the same FGEN instrument. For example, if the site0 connection for PinA maps to channel0, and the site1 connection for PinA maps to channel1 of the same FGEN instrument, then calling the `FilterBySite` method will throw an exception.
   - Avoid calling `ISemiconductorModuleContext.GetSiteSemiconductorModuleContexts()` or `ISemiconductorModuleContext.GetSemiconductorModuleContextWithSites(int[])` in your code module to obtain per-site or subset-site instances of `ISemiconductorModuleContext`. Creating an `FgenSessionsBundle` object from these derived tsmContext instances can result in unsupported bundle configurations and may cause exceptions during FGen bundle creation.
-  - Ensure pins that are connected to the channels of same instrument are part of the same bundle.
+  - Ensure that the pins that are connected to the channels of same instrument are part of the same bundle.
   - Avoid creating multiple bundles with shared pins.
 
 ## Extension Methods
@@ -88,7 +88,7 @@ While channel-specific configuration is supported, channel-specific control is n
 | --- | --- | --- |
 | `ConfigureStandardWaveform` | `StandardWaveformSettings`, `SiteData<StandardWaveformSettings>`, or `PinSiteData<StandardWaveformSettings>` | Configures the standard waveform type, frequency, amplitude, DC offset, and start phase of each channel. |
 
-`StandardWaveformSettings` has the following constructor. The `dcOffset` and `startPhase` parameters are optional and default to `0`.
+The `StandardWaveformSettings` has the following constructor. The `dcOffset` and `startPhase` parameters are optional and default to `0`.
 
 ```C#
 new StandardWaveformSettings(StandardWaveform waveformFunctionType, double frequency, double amplitude, double dcOffset = 0, double startPhase = 0)
@@ -128,7 +128,7 @@ new StandardWaveformSettings(StandardWaveform waveformFunctionType, double frequ
 
 | Method | Return Type | Description |
 | --- | --- | --- |
-| `Commit` | `void` | Commits all configured settings to hardware so that parameter changes are immediately reflected. |
+| `Commit` | `void` | Commits all configured settings to the hardware so that parameter changes are immediately reflected. |
 | `Initiate` | `void` | Starts waveform generation. This method does not wait for generation to complete. |
 | `IsDone` | `bool[]` | Gets whether generation is complete, for each session in the bundle. |
 | `WaitUntilDone` | `void` | Waits until generation is complete or the timeout expires. The default timeout is 10000 ms. |
@@ -146,7 +146,13 @@ new StandardWaveformSettings(StandardWaveform waveformFunctionType, double frequ
 
 ## Example
 
-The following example configures a standard sine waveform on all channels of the bundle, enables the output, generates the waveform for 10 seconds, and then aborts generation.
+The following example demonstrates:
+
+1. Setting the output mode to function generation
+2. Configuring a standard sine waveform on all channels of the bundle
+3. Enabling the output
+4. Generating the waveform for 10 seconds
+5. Aborting generation
 
 ```C#
 public static void GenerateSineWaveform(ISemiconductorModuleContext tsmContext, string[] pinsOrPinGroups)
