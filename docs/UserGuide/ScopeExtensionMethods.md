@@ -3,7 +3,7 @@
 The Semiconductor Test Library (STL) provides high-level extension methods for the `ScopeSessionsBundle` class to configure, control, and acquire waveforms from NI-SCOPE instruments.
 These methods operate in parallel across all instrument sessions, pins, and sites in the bundle. The methods accept and return pin- and site-aware data types, such as `SiteData` and `PinSiteData`.
 
-The `NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope` namespace defines the extension methods.
+The `NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction` namespace contains the `TSMSessionManager`. The `NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope` namespace defines the extension methods.
 
 ```C#
 using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
