@@ -90,7 +90,7 @@ The following methods return one value per instrument session in the bundle.
 The following example configures the vertical and electrical characteristics, configures an edge trigger, initiates an acquisition, and fetches the acquired waveforms.
 
 ```C#
-public static void ConfigureEdgeTriggerInitiateAndFetch(ISemiconductorModuleContext tsmContext, string pinOrPinGroup)
+public static void ConfigureInitiateAndFetchScopeAcquisitionUsingEdgeTrigger(ISemiconductorModuleContext tsmContext, string pinOrPinGroup)
 {
 	TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
 	ScopeSessionsBundle scopeBundle = sessionManager.Scope(pinOrPinGroup);
@@ -115,9 +115,11 @@ public static void ConfigureEdgeTriggerInitiateAndFetch(ISemiconductorModuleCont
 		TriggerSlope = ScopeTriggerSlope.Positive,
 		TriggerCoupling = ScopeTriggerCoupling.DC,
 	});
+	// `PrecisionTimeSpan` is from `NationalInstruments` namespace.  
+    scopeBundle.ConfigureEdgeTrigger(edgeTriggerSettings);
 
 	scopeBundle.Initiate();
-	PinSiteData<AnalogWaveform<double>> waveforms = scopeBundle.FetchWaveform(PrecisionTimeSpan.FromSeconds(5.0), 1000);
+	PinSiteData<AnalogWaveform<double>> waveforms = scopeBundle.FetchWaveform(PrecisionTimeSpan.FromSeconds(50.0), 1000);
 }
 ```
 
