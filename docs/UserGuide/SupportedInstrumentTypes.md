@@ -6,19 +6,19 @@ For unsupported instrument types, it is possible to implement low-level programm
 
 **Table 1:** Supported Instrument Types
 
-| Instrument Type                              | Driver    | Abstractions       | Extensions         |
-| :-----------------------------------------   | :-------- | :----------------- | :----------------- |
-| NI Source Measurement Unit (SMU)             | niDCPower | :heavy_check_mark: | :heavy_check_mark: |
-| NI Programmable Power Supply (PPS)           | niDCPower | :heavy_check_mark: | :heavy_check_mark: |
-| NI Multifunction I/O (DAQ) \*                | niDAQmx   | :warning:          | :warning:          |
-| NI Sound and Vibration Module (DSA) \* \*    | niDAQmx   | :warning:          | :warning:          |
-| NI Analog Input Module (DAQ) \* \* \*        | niDAQmx   | :warning:          | :warning:          |
-| NI Digital Pattern Instrument (DPI/HSD)      | niDigital | :heavy_check_mark: | :heavy_check_mark: |
-| NI Digital Multimeter (DMM)                  | niDmm     | :heavy_check_mark: | :heavy_check_mark: |
-| NI Relay Module (RELAY)                      | niSwitch  | :heavy_check_mark: | :heavy_check_mark: |
-| NI Function Generator (FGEN) \* \* \* \*     | niFgen    | :heavy_check_mark: | :warning:          |
-| NI Digitizer/Oscilloscope (SCOPE) \* \* \* \*| niScope   | :heavy_check_mark: | :warning:          |
-| NI Timing Synchronization Module (SYNC)      | niSync    | :heavy_check_mark: | :x:                |
+| Instrument Type                                  | Driver    | Abstractions       | Extensions         |
+| :---------------------------------------------   | :-------- | :----------------- | :----------------- |
+| NI Source Measurement Unit (SMU)                 | niDCPower | :heavy_check_mark: | :heavy_check_mark: |
+| NI Programmable Power Supply (PPS)               | niDCPower | :heavy_check_mark: | :heavy_check_mark: |
+| NI Multifunction I/O (DAQ) \*                    | niDAQmx   | :warning:          | :warning:          |
+| NI Sound and Vibration Module (DSA) \* \*        | niDAQmx   | :warning:          | :warning:          |
+| NI Analog Input Module (DAQ) \* \* \*            | niDAQmx   | :warning:          | :warning:          |
+| NI Digital Pattern Instrument (DPI/HSD)          | niDigital | :heavy_check_mark: | :heavy_check_mark: |
+| NI Digital Multimeter (DMM)                      | niDmm     | :heavy_check_mark: | :heavy_check_mark: |
+| NI Relay Module (RELAY)                          | niSwitch  | :heavy_check_mark: | :heavy_check_mark: |
+| NI Function Generator (FGEN) \* \* \* \*         | niFgen    | :heavy_check_mark: | :warning:          |
+| NI Digitizer/Oscilloscope (SCOPE) \* \* \* \* \* | niScope   | :heavy_check_mark: | :warning:          |
+| NI Timing Synchronization Module (SYNC)          | niSync    | :heavy_check_mark: | :x:                |
 
 > [!NOTE]
 > :heavy_check_mark: Supported
