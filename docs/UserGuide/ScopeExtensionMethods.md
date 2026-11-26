@@ -11,7 +11,7 @@ using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope;
 ```
 
 > [!NOTE]
-> Refer to the [API Reference](../SemiconductorTestLibrary/) for the complete list of method overloads and parameter details.
+> Refer to the [API Reference](https://ni.github.io/semi-test-library-dotnet/SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.html) for the complete list of method overloads and parameter details.
 
 ## Creating a Scope Sessions Bundle
 
