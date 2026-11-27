@@ -5,17 +5,6 @@ using System.Linq;
 using NationalInstruments.ModularInstruments.NIDigital;
 using NationalInstruments.SemiconductorTestLibrary.Common;
 using NationalInstruments.SemiconductorTestLibrary.DataAbstraction;
-// Following namespaces are required for 26.5
-using DigitalTmu = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmu;
-using DigitalTmuCollection = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuCollection;
-using DigitalTmuSource = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.DigitalTmuSource;
-using TMUContextManager = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TMUContextManager;
-using TmuArmType = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuArmType;
-using TmuArmSetting = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuArmSetting;
-using TmuDutyCycle = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuDutyCycle;
-using TmuPolarity = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuPolarity;
-using TmuPulseWidth = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuPulseWidth;
-using TmuSourceEvent = NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital.TMU.TmuSourceEvent;
 
 namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Digital
 {
@@ -2208,7 +2197,7 @@ namespace NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Dig
 
         private static DigitalTmuCollection GetDigitalTmus(NIDigital session)
         {
-            return new DigitalTmuCollection(session);
+            return session.Tmu;
         }
 
         private static void ValidateTmuArmType(TmuArmType armType)
