@@ -1,0 +1,127 @@
+# Scope Extension Methods
+
+The Semiconductor Test Library (STL) provides high-level extension methods for the `ScopeSessionsBundle` class to configure, control, and acquire waveforms from NI-SCOPE instruments.
+These methods operate in parallel across all instrument sessions, pins, and sites in the bundle. The methods accept and return pin- and site-aware data types, such as `SiteData` and `PinSiteData`.
+
+The `NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction` namespace contains the `TSMSessionManager`. The `NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope` namespace defines the extension methods.
+
+```C#
+using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction;
+using NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope;
+```
+
+> [!NOTE]
+> Refer to the [API Reference](../../SemiconductorTestLibrary/NationalInstruments.SemiconductorTestLibrary.InstrumentAbstraction.Scope.html) for the complete list of method overloads and parameter details.
+
+## Creating a Scope Sessions Bundle
+
+Use the `Scope` method of the `TSMSessionManager` to create a `ScopeSessionsBundle` object for the required pins or pin groups.
+
+```C#
+TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
+ScopeSessionsBundle scopeBundle = sessionManager.Scope(pinOrPinGroup);
+```
+
+## Configuration Methods
+
+| Method | Parameter Type | Description |
+| --- | --- | --- |
+| `ConfigureVertical` | `VerticalSettings` | Configures properties of the digitizer vertical subsystem, such as the range, offset, coupling, probe attenuation. |
+| `ConfigureElectricalCharacteristics` | `ElectricalCharacteristics` | Configures the input impedance and maximum input frequency. Overloads accept the same settings for all pins, per-site settings (`SiteData<ElectricalCharacteristics>`), or per-pin, per-site settings (`PinSiteData<ElectricalCharacteristics>`). |
+| `ConfigureTiming` | `TimingSettings` | Configures properties of the digitizer horizontal subsystem for a single record or multi-record acquisition, such as minimum sample rate and acquisition size. |
+| `ConfigureClock` | `ClockSettings` | Configures properties for synchronizing the digitizer to an external clock or sending the instrument's clock output to be used as a synchronizing clock for other devices. |
+
+> [!TIP]
+> Settings are grouped into class objects before they are passed to the STL method. This ensure that the settings are applied as efficiently as possible by the instrument driver.
+
+## Trigger Methods
+
+| Method | Parameter Type | Description |
+| --- | --- | --- |
+| `ConfigureEdgeTrigger` | `EdgeTriggerSettings` | Configures an edge trigger with a trigger level, slope, and coupling. |
+| `ConfigureTriggerHysteresis` | `HysteresisTriggerSettings` | Configures a hysteresis trigger with a trigger level, hysteresis, slope, and coupling. |
+| `ConfigureTriggerDigital` | `DigitalTriggerSettings` | Configures a digital trigger with a trigger slope. |
+| `ConfigureTriggerWindow` | `WindowTriggerSettings` | Configures a window trigger with low and high window levels, window mode, and coupling. |
+| `ConfigureTriggerImmediate` | None | Configures the instrument to trigger immediately after it is initiated. |
+
+> [!NOTE]
+> All trigger setting types inherit the `HoldOff` and `Delay` properties from the `TriggerSettings` base class.
+
+## Control Methods
+
+| Method | Description |
+| --- | --- |
+| `Initiate` | Initiates a waveform acquisition. |
+| `Abort` | Aborts an in-progress acquisition. |
+| `Commit` | Commits all configured settings to the hardware so that parameter changes are immediately reflected. |
+| `AutoSetup` | Automatically configures the instrument settings, such as the vertical range, based on the detected input signal. |
+
+## Acquisition Methods
+
+| Method | Return Type | Description |
+| --- | --- | --- |
+| `FetchWaveform` | `PinSiteData<AnalogWaveform<double>>` | Fetches the acquired waveform from a previously initiated acquisition. |
+| `ReadWaveform` | `PinSiteData<AnalogWaveform<double>>` | Initiates an acquisition, waits for it to complete, and returns the acquired waveform. |
+| `Read` | `PinSiteData<double[]>` | Initiates an acquisition, waits for it to complete, and returns the acquired raw samples. |
+
+> [!NOTE]
+> If an acquisition fails or does not complete within the specified timeout, the resulting `NISemiconductorTestException` includes the following details for every channel on the affected card:
+>  - site
+>  - pin
+>  - channel
+> 
+> This is because a single site losing its trigger signal prevents the entire card from acquiring data.
+
+## Query Methods
+
+The following methods return one value per instrument session in the bundle.
+
+| Method | Return Type | Description |
+| --- | --- | --- |
+| `GetAcquisitionStatus` | `ScopeAcquisitionStatus[]` | Gets the acquisition status. |
+| `GetRecordLength` | `long[]` | Gets the record length. |
+| `GetResolution` | `long[]` | Gets the resolution, in bits. |
+| `GetSampleMode` | `ScopeSampleMode[]` | Gets the sample mode. |
+| `GetSampleRate` | `double[]` | Gets the effective sample rate, in samples per second. |
+| `GetNumberOfRecordsToAcquire` | `long[]` | Gets the number of records to acquire. |
+
+## Example Usage
+
+The following example configures the vertical and electrical characteristics, configures an edge trigger, initiates an acquisition, and fetches the acquired waveforms.
+
+```C#
+public static void ConfigureInitiateAndFetchScopeAcquisitionUsingEdgeTrigger(ISemiconductorModuleContext tsmContext, string pinOrPinGroup)
+{
+	TSMSessionManager sessionManager = new TSMSessionManager(tsmContext);
+	ScopeSessionsBundle scopeBundle = sessionManager.Scope(pinOrPinGroup);
+
+	scopeBundle.ConfigureVertical(new VerticalSettings
+	{
+		Range = 1.0,
+		Offset = 0.0,
+		ProbeAttenuation = 1.0,
+	});
+	scopeBundle.ConfigureElectricalCharacteristics(new ElectricalCharacteristics
+	{
+		InputImpedance = 1e6,
+	});
+	scopeBundle.Commit();
+	
+	// PrecisionTimeSpan is from the NationalInstruments namespace.
+	// This code assumes the source file has a using directive for this name space.
+	scopeBundle.ConfigureEdgeTrigger(new EdgeTriggerSettings
+	{
+		HoldOff = PrecisionTimeSpan.FromSeconds(0.0),
+		Delay = PrecisionTimeSpan.FromSeconds(0.0),
+		TriggerLevel = 0.0,
+		TriggerSlope = ScopeTriggerSlope.Positive,
+		TriggerCoupling = ScopeTriggerCoupling.DC,
+	});
+	scopeBundle.ConfigureEdgeTrigger(edgeTriggerSettings);
+
+	scopeBundle.Initiate();
+	PinSiteData<AnalogWaveform<double>> waveforms = scopeBundle.FetchWaveform(PrecisionTimeSpan.FromSeconds(50.0), 1000);
+}
+```
+
+A complete, sequence-style example demonstrates the Scope abstraction extensions, with each step using a different trigger: edge, hysteresis, digital, window, or immediate. Refer to the [ScopeAcquisition](https://github.com/ni/semi-test-library-dotnet/tree/main/Examples/source/Sequence/ScopeAcquisition) for more details.  This example is also installed on any system using STS Software 26.0 or later, under the following directory, C:\Users\Public\Documents\National Instruments\NI_SemiconductorTestLibrary\Examples\Sequence\ScopeAcquisition.
