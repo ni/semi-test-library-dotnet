@@ -61,7 +61,7 @@ While channel-specific configuration is supported, channel-specific control is n
 ### User Recommendations
 
 - When creating the PinMap
-  - Do not include channel-pin/site connections that are not being used.
+  - Do not include channel-pin/site connections that you are not planning to use.
   - Spread channels from the same instrument to different pins that are likely to be operated on together.
   - If you are only using one channel of a multi-channel FGen instrument, ensure the 2nd channel of the instrument is not mistakenly mapped to unused pins in connection list.
   - Avoid using the second channel whenever possible. If additional FGen instruments are available and currently unused, prefer using the first channel of an unused instrument over the second channel of an instrument that is already in use.
