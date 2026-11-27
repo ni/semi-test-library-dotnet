@@ -24,7 +24,7 @@ ScopeSessionsBundle scopeBundle = sessionManager.Scope(pinOrPinGroup);
 
 ## Configuration Methods
 
-| Method | Settings Type | Description |
+| Method | Parameter Type | Description |
 | --- | --- | --- |
 | `ConfigureVertical` | `VerticalSettings` | Configures properties of the digitizer vertical subsystem, such as the range, offset, coupling, probe attenuation. |
 | `ConfigureElectricalCharacteristics` | `ElectricalCharacteristics` | Configures the input impedance and maximum input frequency. Overloads accept the same settings for all pins, per-site settings (`SiteData<ElectricalCharacteristics>`), or per-pin, per-site settings (`PinSiteData<ElectricalCharacteristics>`). |
@@ -36,7 +36,7 @@ ScopeSessionsBundle scopeBundle = sessionManager.Scope(pinOrPinGroup);
 
 ## Trigger Methods
 
-| Method | Settings Type | Description |
+| Method | Parameter Type | Description |
 | --- | --- | --- |
 | `ConfigureEdgeTrigger` | `EdgeTriggerSettings` | Configures an edge trigger with a trigger level, slope, and coupling. |
 | `ConfigureTriggerHysteresis` | `HysteresisTriggerSettings` | Configures a hysteresis trigger with a trigger level, hysteresis, slope, and coupling. |
@@ -106,7 +106,9 @@ public static void ConfigureInitiateAndFetchScopeAcquisitionUsingEdgeTrigger(ISe
 		InputImpedance = 1e6,
 	});
 	scopeBundle.Commit();
-
+	
+	// PrecisionTimeSpan is from the NationalInstruments namespace.
+	// This code assumes the source file has a using directive for this name space.
 	scopeBundle.ConfigureEdgeTrigger(new EdgeTriggerSettings
 	{
 		HoldOff = PrecisionTimeSpan.FromSeconds(0.0),
@@ -115,13 +117,11 @@ public static void ConfigureInitiateAndFetchScopeAcquisitionUsingEdgeTrigger(ISe
 		TriggerSlope = ScopeTriggerSlope.Positive,
 		TriggerCoupling = ScopeTriggerCoupling.DC,
 	});
-	// `PrecisionTimeSpan` is from `NationalInstruments` namespace.  
-    scopeBundle.ConfigureEdgeTrigger(edgeTriggerSettings);
+	scopeBundle.ConfigureEdgeTrigger(edgeTriggerSettings);
 
 	scopeBundle.Initiate();
 	PinSiteData<AnalogWaveform<double>> waveforms = scopeBundle.FetchWaveform(PrecisionTimeSpan.FromSeconds(50.0), 1000);
 }
 ```
 
-> [!NOTE]
-> Refer to the [ScopeAcquisition](https://github.com/ni/semi-test-library-dotnet/tree/main/Examples/source/Sequence/ScopeAcquisition) sequence example for complete examples using edge, hysteresis, digital, window, and immediate triggers.
+There is also a sequence style example available that showcases a complete working example of Scope abstraction extensions. Refer to the [ScopeAcquisition](https://github.com/ni/semi-test-library-dotnet/tree/main/Examples/source/Sequence/ScopeAcquisition) for more details. This example for contains different steps each using different (edge, hysteresis, digital, window, and immediate) triggers. This example is also installed on any system using STS Software 26.0 or later, under the following directory, C:\Users\Public\Documents\National Instruments\NI_SemiconductorTestLibrary\Examples\Sequence\ScopeAcquisition.
